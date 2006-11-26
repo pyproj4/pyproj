@@ -330,7 +330,7 @@ cdef class Proj:
         elif islist:
             return outx.tolist(),outy.tolist()
         elif istuple:
-            return tuple(outx.tolist()),tuple(outy.tolist())
+            return tuple(outx),tuple(outy)
         else:
             return outx,outy
 
@@ -460,15 +460,16 @@ def transform(Proj p1, Proj p2, x, y, z=None, radians=False):
         elif islist:
             return inx.tolist(),iny.tolist(),inz.tolist()
         elif istuple:
-            return tuple(inx.tolist()),tuple(iny.tolist()),tuple(inz.tolist())
+            return tuple(inx),tuple(iny),tuple(inz)
         else:
             return inx,iny,inz
     else:
         if isfloat:
             return inx[0],iny[0]
         elif islist:
-            # note: if input was a tuple, output will be a list.
             return inx.tolist(),iny.tolist()
+        elif istuple:
+            return tuple(inx),tuple(iny)
         else:
             return inx,iny
 
