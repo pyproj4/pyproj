@@ -1,17 +1,14 @@
-import os, glob, sys
+import os
 from distutils.core import setup, Extension
-
 proj_dir = os.environ.get('PROJ_DIR')
 if not proj_dir:
     raise KeyError('please set the environment variable PROJ_DIR to point to the location of your proj.4 installation')
-# use existing PROJ.4 installation.
 extensions = [Extension("pyproj",
                         ["pyproj.c",],
                         libraries = ['proj'],
                         library_dirs = [os.path.join(proj_dir,'lib')],
                         runtime_library_dirs = [os.path.join(proj_dir,'lib')],
                         include_dirs = [os.path.join(proj_dir,'include')])]
-
 setup(name = "pyproj",
   version = "1.8.1",
   description = "Pyrex generated python interface to PROJ.4 library",
