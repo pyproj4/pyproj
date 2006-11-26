@@ -1,0 +1,112 @@
+output of test.py
+=================
+
+proj4 library version =  4.49
+4 crnrs of AWIPS grid 221:
+-145.5 0.99999999999
+-68.3182659527 0.896932791646
+-2.5660073938 46.352013053
+148.638612551 46.6347160116
+from GRIB docs
+(see http://www.nco.ncep.noaa.gov/pmb/docs/on388/tableb.html)
+   -145.5  1.0
+   -68.318 0.897
+   -2.566 46.352
+   148.639 46.635
+data in lists:
+compute lats/lons for all points on AWIPS 221 grid (349x277)
+max/min lons
+-179.998717833 179.99098295
+max/min lats
+0.896932791646 85.3340424275
+took 0.19 secs
+data in python arrays:
+compute lats/lons for all points on AWIPS 221 grid (349x277)
+max/min lons
+-179.998715866 179.990981756
+max/min lats
+0.896931758891 85.3340414374
+took 0.14 secs
+data in a Numeric/numarray array:
+compute lats/lons for all points on AWIPS 221 grid (349x277)
+max/min lons
+-179.998717833 179.99098295
+max/min lats
+0.896932791646 85.3340424275
+took 0.07 secs
+max abs error for x
+6.78119249642e-09
+max abs error for y
+6.78119249642e-09
+took 0.07 secs
+compare output with sample.out
+now run test2.py to test pickling
+
+output of test2.py
+==================
+
+do it again, from pickled instance ...
+compute lats/lons for all points on AWIPS 221 grid (349x277)
+max/min lons in radians
+-3.14157024122 3.14143525553
+max/min lats in radians
+0.0156544123584 1.48935998712
+took 0.08 secs
+max abs error for x
+6.83576217853e-09
+max abs error for y
+9.31322574615e-09
+took 0.06 secs
+
+output of test_transform.py
+===========================
+
+proj4 library version =  4.49
+(-4.9489738955799112e-06, 4.5528711254405607e-06) (should be close to zero)
+(-3.203692330089325e-06, 1.8227847107255002e-06) (should close to zero)
+max/min x and y for awips218 grid
+0.0 7472825.54
+0.0 5205377.66
+max/min x and y for awips218 grid in awips221 coordinates
+2224130.9457 10705426.2541
+673840.639255 6706800.54439
+error for reverse transformation back to awips218 coords
+(should be close to zero)
+-4.88944351673e-09 5.58793544769e-09
+-9.72067937255e-09 1.04773789644e-08
+
+output of datum_shift.py
+========================
+
+proj4 library version =  4.49
+
+WGS84-->UTM
+Trieste, Molo Sartorio WGS84: 13.759554722 45.647188611 52.799999999999997
+Trieste, Molo Sartorio UTM33 (from IGM): 403340.97 5055597.17
+Trieste, Molo Sartorio UTM33 (converted): 403340.96723675972 5055597.1755538993 52.799999999999997
+Difference (meters): -0.0027632402488961816 0.0055538993328809738 0.0
+
+WGS84-->Gauss-Boaga
+Trieste, Molo Sartorio Gauss-Boaga (from IGM): 2423346.99 5055619.87
+Trieste, Molo Sartorio Gauss-Boaga (converted): 2423346.9950080249 5055619.899023423
+Difference (meters): 0.0050080246292054653 0.029023422859609127
+
+UTM-->WGS84
+Trieste, Molo Sartorio UTM33 (converted): 403340.96723675972 5055597.1755538993 52.799999999999997
+Trieste, Molo Sartorio WGS84 (converted back): 13.759554722 45.647188611 52.799999999999997
+Difference (seconds): -1.18305365504e-09 -1.20223830891e-09 0.0 (m)
+
+Gauss-Boaga-->WGS84
+Trieste, Molo Sartorio Gauss-Boaga (converted): 2423346.9950080249 5055619.899023423 0.1668358146915066
+Trieste, Molo Sartorio WGS84 (converted back): 13.7595547 45.6471886096 0.0012277923978516671
+Difference (seconds): -7.91165149394e-05 -4.8976630751e-06 -52.798772207602148 (m)
+
+UTM (from IGM) --> WGS84
+Trieste, Molo Sartorio UTM33 (from IGM): 403340.97 5055597.17
+Trieste, Molo Sartorio WGS84 (converted): 13.7595547586 45.6471885614 52.799999999999997
+Difference (seconds): 0.000131600918962 -0.000178537351303 0.0 (m)
+
+Gauss-Boaga (from IGM) --> WGS84
+Trieste, Molo Sartorio Gauss-Boaga (from IGM): 2423346.99 5055619.87
+Trieste, Molo Sartorio WGS84 (converted): 13.7595546415 45.6471883478
+Difference (seconds): -0.000289702808942 -0.00094763802565

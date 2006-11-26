@@ -1,0 +1,51 @@
+Howto install pyproj on Windows under GCC/MinGW  
+November 2005
+---------------------------------------------------------
+
+First you need to set up your MinGW environment to build python 
+extensions. This is straightforward and the instructions for doing it can 
+be found here:
+
+        http://www.mingw.org/MinGWiki/index.php/Python%20extensions
+        
+Next, download proj-4.4.X.zip from ftp.remotesensing.com/pub/proj. I have 
+only tested with version 4.4.6
+
+Compile PROJ4. If you are running MSYS like me you can just do
+        ./configure
+        make install
+
+You should now have include and library files for PROJ under 
+{MSYS_HOMEDIR}/local/include and {MSYS_HOMEDIR}/local/lib on your 
+harddrive.
+
+Next thing is to build pyproj, linking to your newly compiled PROJ 
+installation
+
+- Extract pyproj-1.X.tar.gz to a temporary directory, for example 
+  c:\temp\pyproj-1.6
+
+- Start a command window and "chdir c:\temp\pyproj-1.6"
+
+- Set the environment variable PROJ_DIR to the directory where you 
+  installed PROJ. For example:
+  set PROJ_DIR=C:\MSYS\1.0\LOCAL
+
+- Build the pyproj module :
+  python setup.py build --compiler=mingw32
+  (Note that the C:\MinGW\bin directory must be in your PATH)
+
+- Now install the pyproj module like this :
+  python setup.py install --skip-build
+
+Note that you can not do install directly since disutils expects to find 
+MSVC when you're on Windows, which will generate an error when you run 
+install.  The last step above copies the file "pyproj.pyd" into your 
+Python installation directory, under site-packages. This file is basically 
+the same as a DLL file and is all you need to import and use pyproj.
+
+
+Erik Brenn
+Senior Consultant 
+Project Management and Mapping AS, Norway
+erik[at]fastmail.fm

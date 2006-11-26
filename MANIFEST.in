@@ -1,0 +1,10 @@
+include README
+include README.mingw
+include MANIFEST.in
+include Changelog
+include pyproj.pyx
+include test/test.py
+include test/test2.py
+include test/sample.out
+include test/datum_shift.py
+include test/test_transform.py

@@ -1,0 +1,4 @@
+1.8.0: Better error handling Proj.__init__.
+       Added optional keyword 'errcheck' to __call__ method. 
+       If True, an exception is raised if the transformation is invalid.
+1.7.3: python 2.5 support.
