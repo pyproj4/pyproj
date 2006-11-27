@@ -1,5 +1,4 @@
 from pyproj import Proj, transform
-import time, cPickle, array
 import numpy as N
 
 # convert awips221 grid to awips218 coordinate system
