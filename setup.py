@@ -1,27 +1,33 @@
 import os
 from distutils.core import setup, Extension
+
+# check to make sure PROJ_DIR env var set.
 proj_dir = os.environ.get('PROJ_DIR')
 if proj_dir is None:
     raise KeyError('please set the environment variable PROJ_DIR to point to the location of your proj.4 installation')
-use_pyrex = os.environ.get('USE_PYREX')
+
 lib_dirs = [os.path.join(proj_dir,'lib')]
 inc_dirs = [os.path.join(proj_dir,'include')]
 libs = ['proj']
+
 # build directly from .pyx file if USE_PYREX env var set.
+use_pyrex = os.environ.get('USE_PYREX')
 if use_pyrex:
     try:
         from Pyrex.Distutils import build_ext
     except:
         raise ImportError("Pyrex not installed - please unset USE_PYREX environment variable")
     srcs = ["pyproj.pyx"]
-    cmdclass          = {'build_ext': build_ext}
+    cmdclass = {'build_ext': build_ext}
 # or else use pre-generated C source file.
 else:
     srcs = ["pyproj.c"]
     cmdclass = {}
+
 extensions = [Extension("pyproj",srcs,
               libraries=libs,library_dirs=lib_dirs,
               runtime_library_dirs=lib_dirs,include_dirs=inc_dirs)]
+
 setup(name = "pyproj",
   version = "1.8.1",
   description = "Pyrex generated python interface to PROJ.4 library",
