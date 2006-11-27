@@ -276,16 +276,16 @@ cdef class Proj:
         if hasattr(lon,'shape') and lon.shape == (): lon = float(lon)
         if hasattr(lat,'shape') and lat.shape == (): lat = float(lat)
         try:
-            # typecast Numeric/numarray arrays to double.
+            # typecast numpy arrays to double.
             # (this makes a copy)
-            lon.typecode()
-            lat.typecode()
+            lon.dtype.char
+            lat.dtype.char
             inx = lon.astype('d')
             iny = lat.astype('d')
         except:
-            try: # perhaps they are numpy arrays?
-                lon.dtype.char
-                lat.dtype.char
+            try: # perhaps they are Numeric/numarray arrays?
+                lon.typecode()
+                lat.typecode()
                 inx = lon.astype('d')
                 iny = lat.astype('d')
             except:
@@ -394,20 +394,20 @@ def transform(Proj p1, Proj p2, x, y, z=None, radians=False):
     if hasattr(y,'shape') and y.shape == (): y = float(y)
     if hasattr(z,'shape') and z.shape == (): z = float(z)
     try:
-        # typecast Numeric/numarray arrays to double.
+        # typecast numpy arrays to double.
         # (this makes a copy)
-        x.typecode()
-        y.typecode()
-        if z is not None: z.typecode()
+        x.dtype.char
+        y.dtype.char
+        if z is not None: z.dtype.char
         inx = x.astype('d')
         iny = y.astype('d')
         if z is not None:
             inz = z.astype('d')
     except:
-        try: # perhaps they are numpy arrays?
-            x.dtype.char
-            y.dtype.char
-            if z is not None: z.dtype.char
+        try: # perhaps they are Numeric/numarray arrays?
+            x.typecode()
+            y.typecode()
+            if z is not None: z.typecode()
             inx = x.astype('d')
             iny = y.astype('d')
             if z is not None:
