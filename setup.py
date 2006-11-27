@@ -1,14 +1,27 @@
 import os
 from distutils.core import setup, Extension
 proj_dir = os.environ.get('PROJ_DIR')
-if not proj_dir:
+if proj_dir is None:
     raise KeyError('please set the environment variable PROJ_DIR to point to the location of your proj.4 installation')
-extensions = [Extension("pyproj",
-                        ["pyproj.c",],
-                        libraries = ['proj'],
-                        library_dirs = [os.path.join(proj_dir,'lib')],
-                        runtime_library_dirs = [os.path.join(proj_dir,'lib')],
-                        include_dirs = [os.path.join(proj_dir,'include')])]
+use_pyrex = os.environ.get('USE_PYREX')
+lib_dirs = [os.path.join(proj_dir,'lib')]
+inc_dirs = [os.path.join(proj_dir,'include')]
+libs = ['proj']
+# build directly from .pyx file if USE_PYREX env var set.
+if use_pyrex:
+    try:
+        from Pyrex.Distutils import build_ext
+    except:
+        raise ImportError("Pyrex not installed - please unset USE_PYREX environment variable")
+    srcs = ["pyproj.pyx"]
+    cmdclass          = {'build_ext': build_ext}
+# or else use pre-generated C source file.
+else:
+    srcs = ["pyproj.c"]
+    cmdclass = {}
+extensions = [Extension("pyproj",srcs,
+              libraries=libs,library_dirs=lib_dirs,
+              runtime_library_dirs=lib_dirs,include_dirs=inc_dirs)]
 setup(name = "pyproj",
   version = "1.8.1",
   description = "Pyrex generated python interface to PROJ.4 library",
@@ -24,6 +37,7 @@ Optimized for numpy arrays.""",
   author_email      = "jeffrey.s.whitaker@noaa.gov",
   platforms         = ["any"],
   license           = ["OSI Approved"],
+  cmdclass          = cmdclass,
   keywords          = ["python","map projections","GIS","mapping","maps"],
   classifiers       = ["Development Status :: 4 - Beta",
 			           "Intended Audience :: Science/Research", 
