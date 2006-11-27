@@ -1,4 +1,6 @@
 1.8.1: if given tuples, returns tuples (instead of lists).
+       test for numpy arrays first.
+	   build directly from .pyx file is USE_PYREX set and Pyrex installed.
 1.8.0: Better error handling Proj.__init__.
        Added optional keyword 'errcheck' to __call__ method. 
        If True, an exception is raised if the transformation is invalid.
