@@ -277,7 +277,8 @@ cdef class Proj:
         if hasattr(lat,'shape') and lat.shape == (): lat = float(lat)
         try:
             # typecast numpy arrays to double.
-            # (this makes a copy)
+            # (this makes a copy - which is crucial
+            #  since buffer is modified in place)
             lon.dtype.char
             lat.dtype.char
             inx = lon.astype('d')
@@ -395,7 +396,8 @@ def transform(Proj p1, Proj p2, x, y, z=None, radians=False):
     if hasattr(z,'shape') and z.shape == (): z = float(z)
     try:
         # typecast numpy arrays to double.
-        # (this makes a copy)
+        # (this makes a copy - which is crucial
+        #  since buffer is modified in place)
         x.dtype.char
         y.dtype.char
         if z is not None: z.dtype.char
