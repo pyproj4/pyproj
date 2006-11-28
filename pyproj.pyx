@@ -53,8 +53,8 @@ PERFORMANCE OF THIS SOFTWARE.
 import math, array
 from types import TupleType, ListType
 
-cdef double _rad2dg, _dg2rad
 cdef int _doublesize
+cdef double _dg2rad, _rad2dg
 _dg2rad = math.radians(1.)
 _rad2dg = math.degrees(1.)
 _doublesize = sizeof(double)
@@ -182,24 +182,18 @@ cdef class Proj:
         ndim = buflenx/_doublesize
         lonsdata = <double *>londata
         latsdata = <double *>latdata
-        if radians:
-            for i from 0 <= i < ndim:
+        for i from 0 <= i < ndim:
+            if radians:
                 projlonlatin.u = lonsdata[i]
                 projlonlatin.v = latsdata[i]
-                projxyout = pj_fwd(projlonlatin,self.projpj)
-                if errcheck and pj_errno != 0:
-                    raise RuntimeError(pj_strerrno(pj_errno))
-                lonsdata[i] = projxyout.u
-                latsdata[i] = projxyout.v
-        else:
-            for i from 0 <= i < ndim:
+            else:
                 projlonlatin.u = _dg2rad*lonsdata[i]
                 projlonlatin.v = _dg2rad*latsdata[i]
-                projxyout = pj_fwd(projlonlatin,self.projpj)
-                if errcheck and pj_errno != 0:
-                    raise RuntimeError(pj_strerrno(pj_errno))
-                lonsdata[i] = projxyout.u
-                latsdata[i] = projxyout.v
+            projxyout = pj_fwd(projlonlatin,self.projpj)
+            if errcheck and pj_errno != 0:
+                raise RuntimeError(pj_strerrno(pj_errno))
+            lonsdata[i] = projxyout.u
+            latsdata[i] = projxyout.v
         return lons, lats
 
     def _inv(self, object x, object y, radians=False, errcheck=False):
@@ -228,25 +222,19 @@ cdef class Proj:
         ndim = buflenx/_doublesize
         xdatab = <double *>xdata
         ydatab = <double *>ydata
-        if radians:
-            for i from 0 <= i < ndim:
-                projxyin.u = xdatab[i]
-                projxyin.v = ydatab[i]
-                projlonlatout = pj_inv(projxyin,self.projpj)
-                if errcheck and pj_errno != 0:
-                    raise RuntimeError(pj_strerrno(pj_errno))
+        for i from 0 <= i < ndim:
+            projxyin.u = xdatab[i]
+            projxyin.v = ydatab[i]
+            projlonlatout = pj_inv(projxyin,self.projpj)
+            if errcheck and pj_errno != 0:
+                raise RuntimeError(pj_strerrno(pj_errno))
+            if radians:
                 xdatab[i] = projlonlatout.u
                 ydatab[i] = projlonlatout.v
-        else:
-            for i from 0 <= i < ndim:
-                projxyin.u = xdatab[i]
-                projxyin.v = ydatab[i]
-                projlonlatout = pj_inv(projxyin,self.projpj)
-                if errcheck and pj_errno != 0:
-                    raise RuntimeError(pj_strerrno(pj_errno))
+            else:
                 xdatab[i] = _rad2dg*projlonlatout.u
                 ydatab[i] = _rad2dg*projlonlatout.v
-        return x,y
+        return x, y 
 
     def __call__(self,lon,lat,inverse=False,radians=False,errcheck=False):
         """
