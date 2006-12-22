@@ -9,7 +9,7 @@ one map projection coordinate system directly to another).
 Example usage:
 
 >>> from pyproj import Proj
->>> p = Proj(proj='utm',zone=10)
+>>> p = Proj(proj='utm',zone=10,ellps='WGS84')
 >>> x,y = p(-120.108, 34.36116666)
 >>> print x,y
 >>> print p(x,y,inverse=True)
