@@ -1,0 +1,194 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pyproj_docstrings</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pyproj_docstrings</strong></big></big> (version 1.8.1)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Volumes/User/jsw/python/pyproj/pyproj_docstrings.py">/Volumes/User/jsw/python/pyproj/pyproj_docstrings.py</a></font></td></tr></table>
+    <p><tt>Pyrex&nbsp;wrapper&nbsp;to&nbsp;provide&nbsp;python&nbsp;interfaces&nbsp;to&nbsp;<br>
+PROJ.4&nbsp;(<a href="http://proj.maptools.org">http://proj.maptools.org</a>)&nbsp;functions.<br>
+&nbsp;<br>
+Performs&nbsp;cartographic&nbsp;transformations&nbsp;(converts&nbsp;from&nbsp;longitude,latitude<br>
+to&nbsp;native&nbsp;map&nbsp;projection&nbsp;x,y&nbsp;coordinates&nbsp;and&nbsp;vice&nbsp;versa,&nbsp;or&nbsp;from<br>
+one&nbsp;map&nbsp;projection&nbsp;coordinate&nbsp;system&nbsp;directly&nbsp;to&nbsp;another).<br>
+&nbsp;<br>
+Example&nbsp;usage:<br>
+&nbsp;<br>
+&gt;&gt;&gt;&nbsp;from&nbsp;pyproj&nbsp;import&nbsp;<a href="#Proj">Proj</a><br>
+&gt;&gt;&gt;&nbsp;p&nbsp;=&nbsp;<a href="#Proj">Proj</a>(proj='utm',zone=10,ellps='WGS84')<br>
+&gt;&gt;&gt;&nbsp;x,y&nbsp;=&nbsp;p(-120.108,&nbsp;34.36116666)<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;x,y<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;p(x,y,inverse=True)<br>
+765975.641091&nbsp;3805993.13406<br>
+(-120.10799999995851,&nbsp;34.361166659972767)<br>
+&nbsp;<br>
+Input&nbsp;coordinates&nbsp;can&nbsp;be&nbsp;given&nbsp;as&nbsp;python&nbsp;arrays,&nbsp;lists/tuples,&nbsp;scalars<br>
+or&nbsp;numpy/Numeric/numarray&nbsp;arrays.&nbsp;Optimized&nbsp;for&nbsp;objects&nbsp;that&nbsp;support<br>
+the&nbsp;Python&nbsp;buffer&nbsp;protocol&nbsp;(regular&nbsp;python&nbsp;and&nbsp;numpy&nbsp;array&nbsp;objects).<br>
+&nbsp;<br>
+Download:&nbsp;<a href="http://python.org/pypi/pyproj">http://python.org/pypi/pyproj</a><br>
+&nbsp;<br>
+Requirements:&nbsp;PROJ.4&nbsp;library&nbsp;(<a href="http://proj.maptools.org">http://proj.maptools.org</a>).<br>
+&nbsp;<br>
+Install:&nbsp;&nbsp;Set&nbsp;the&nbsp;PROJ_DIR&nbsp;environment&nbsp;variable&nbsp;to&nbsp;point&nbsp;to&nbsp;the&nbsp;location&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;your&nbsp;proj.4&nbsp;installation,&nbsp;then&nbsp;run&nbsp;'python&nbsp;setup.py&nbsp;install'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;you're&nbsp;using&nbsp;Windows&nbsp;with&nbsp;mingw,&nbsp;see&nbsp;README.mingw.<br>
+&nbsp;<br>
+Example&nbsp;scripts&nbsp;are&nbsp;in&nbsp;'test'&nbsp;subdirectory&nbsp;of&nbsp;source&nbsp;distribution.<br>
+&nbsp;<br>
+Contact:&nbsp;&nbsp;Jeffrey&nbsp;Whitaker&nbsp;&lt;jeffrey.s.whitaker@noaa.gov<br>
+&nbsp;<br>
+copyright&nbsp;(c)&nbsp;2006&nbsp;by&nbsp;Jeffrey&nbsp;Whitaker.<br>
+&nbsp;<br>
+Permission&nbsp;to&nbsp;use,&nbsp;copy,&nbsp;modify,&nbsp;and&nbsp;distribute&nbsp;this&nbsp;software&nbsp;and&nbsp;its<br>
+documentation&nbsp;for&nbsp;any&nbsp;purpose&nbsp;and&nbsp;without&nbsp;fee&nbsp;is&nbsp;hereby&nbsp;granted,<br>
+provided&nbsp;that&nbsp;the&nbsp;above&nbsp;copyright&nbsp;notice&nbsp;appear&nbsp;in&nbsp;all&nbsp;copies&nbsp;and&nbsp;that<br>
+both&nbsp;the&nbsp;copyright&nbsp;notice&nbsp;and&nbsp;this&nbsp;permission&nbsp;notice&nbsp;appear&nbsp;in<br>
+supporting&nbsp;documentation.<br>
+THE&nbsp;AUTHOR&nbsp;DISCLAIMS&nbsp;ALL&nbsp;WARRANTIES&nbsp;WITH&nbsp;REGARD&nbsp;TO&nbsp;THIS&nbsp;SOFTWARE,<br>
+INCLUDING&nbsp;ALL&nbsp;IMPLIED&nbsp;WARRANTIES&nbsp;OF&nbsp;MERCHANTABILITY&nbsp;AND&nbsp;FITNESS.&nbsp;IN&nbsp;NO<br>
+EVENT&nbsp;SHALL&nbsp;THE&nbsp;AUTHOR&nbsp;BE&nbsp;LIABLE&nbsp;FOR&nbsp;ANY&nbsp;SPECIAL,&nbsp;INDIRECT&nbsp;OR<br>
+CONSEQUENTIAL&nbsp;DAMAGES&nbsp;OR&nbsp;ANY&nbsp;DAMAGES&nbsp;WHATSOEVER&nbsp;RESULTING&nbsp;FROM&nbsp;LOSS&nbsp;OF<br>
+USE,&nbsp;DATA&nbsp;OR&nbsp;PROFITS,&nbsp;WHETHER&nbsp;IN&nbsp;AN&nbsp;ACTION&nbsp;OF&nbsp;CONTRACT,&nbsp;NEGLIGENCE&nbsp;OR<br>
+OTHER&nbsp;TORTIOUS&nbsp;ACTION,&nbsp;ARISING&nbsp;OUT&nbsp;OF&nbsp;OR&nbsp;IN&nbsp;CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR<br>
+PERFORMANCE&nbsp;OF&nbsp;THIS&nbsp;SOFTWARE.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="pyproj_docstrings.html#Proj">Proj</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Proj">class <strong>Proj</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>performs&nbsp;cartographic&nbsp;transformations&nbsp;(converts&nbsp;from&nbsp;longitude,latitude<br>
+to&nbsp;native&nbsp;map&nbsp;projection&nbsp;x,y&nbsp;coordinates&nbsp;and&nbsp;vice&nbsp;versa)&nbsp;using&nbsp;proj&nbsp;<br>
+(<a href="http://proj.maptools.org/">http://proj.maptools.org/</a>)<br>
+&nbsp;<br>
+A&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance&nbsp;is&nbsp;initialized&nbsp;with&nbsp;<br>
+proj&nbsp;map&nbsp;projection&nbsp;control&nbsp;parameter&nbsp;key/value&nbsp;pairs.<br>
+The&nbsp;key/value&nbsp;pairs&nbsp;can&nbsp;either&nbsp;be&nbsp;passed&nbsp;in&nbsp;a&nbsp;dictionary,<br>
+or&nbsp;as&nbsp;keyword&nbsp;arguments.<br>
+See&nbsp;<a href="http://www.remotesensing.org/geotiff/proj_list">http://www.remotesensing.org/geotiff/proj_list</a>&nbsp;for<br>
+examples&nbsp;of&nbsp;key/value&nbsp;pairs&nbsp;defining&nbsp;different&nbsp;map&nbsp;projections.<br>
+&nbsp;<br>
+Calling&nbsp;a&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance&nbsp;with&nbsp;the&nbsp;arguments&nbsp;lon,&nbsp;lat&nbsp;will<br>
+convert&nbsp;lon/lat&nbsp;(in&nbsp;degrees)&nbsp;to&nbsp;x/y&nbsp;native&nbsp;map&nbsp;projection&nbsp;<br>
+coordinates&nbsp;(in&nbsp;meters).&nbsp;&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'inverse'&nbsp;is<br>
+True&nbsp;(default&nbsp;is&nbsp;False),&nbsp;the&nbsp;inverse&nbsp;transformation&nbsp;from&nbsp;x/y<br>
+to&nbsp;lon/lat&nbsp;is&nbsp;performed.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'radians'&nbsp;is&nbsp;True<br>
+(default&nbsp;is&nbsp;False)&nbsp;lon/lat&nbsp;are&nbsp;interpreted&nbsp;as&nbsp;radians&nbsp;instead<br>
+of&nbsp;degrees.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'errcheck'&nbsp;is&nbsp;True&nbsp;(default&nbsp;is&nbsp;<br>
+False)&nbsp;an&nbsp;exception&nbsp;is&nbsp;raised&nbsp;if&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid.<br>
+If&nbsp;errcheck=False&nbsp;and&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid,&nbsp;no&nbsp;execption<br>
+is&nbsp;raised&nbsp;and&nbsp;the&nbsp;platform&nbsp;dependent&nbsp;value&nbsp;HUGE_VAL&nbsp;is&nbsp;returned.<br>
+Works&nbsp;with&nbsp;numpy&nbsp;and&nbsp;regular&nbsp;python&nbsp;array&nbsp;objects,&nbsp;python&nbsp;sequences<br>
+and&nbsp;scalars,&nbsp;but&nbsp;is&nbsp;fastest&nbsp;for&nbsp;array&nbsp;objects.&nbsp;lon&nbsp;and<br>
+lat&nbsp;must&nbsp;be&nbsp;of&nbsp;same&nbsp;type&nbsp;(array,&nbsp;list/tuple&nbsp;or&nbsp;scalar)&nbsp;and&nbsp;have&nbsp;the<br>
+same&nbsp;length&nbsp;(if&nbsp;array,&nbsp;list&nbsp;or&nbsp;tuple).<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Proj-__call__"><strong>__call__</strong></a>(self, lon, lat, inverse<font color="#909090">=False</font>, radians<font color="#909090">=False</font>, errcheck<font color="#909090">=False</font>)</dt><dd><tt>Calling&nbsp;a&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance&nbsp;with&nbsp;the&nbsp;arguments&nbsp;lon,&nbsp;lat&nbsp;will<br>
+convert&nbsp;lon/lat&nbsp;(in&nbsp;degrees)&nbsp;to&nbsp;x/y&nbsp;native&nbsp;map&nbsp;projection&nbsp;<br>
+coordinates&nbsp;(in&nbsp;meters).&nbsp;&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'inverse'&nbsp;is<br>
+True&nbsp;(default&nbsp;is&nbsp;False),&nbsp;the&nbsp;inverse&nbsp;transformation&nbsp;from&nbsp;x/y<br>
+to&nbsp;lon/lat&nbsp;is&nbsp;performed.&nbsp;&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'radians'&nbsp;is<br>
+True&nbsp;(default&nbsp;is&nbsp;False)&nbsp;the&nbsp;units&nbsp;of&nbsp;lon/lat&nbsp;are&nbsp;radians&nbsp;instead<br>
+of&nbsp;degrees.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'errcheck'&nbsp;is&nbsp;True&nbsp;(default&nbsp;is&nbsp;<br>
+False)&nbsp;an&nbsp;exception&nbsp;is&nbsp;raised&nbsp;if&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid.<br>
+If&nbsp;errcheck=False&nbsp;and&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid,&nbsp;no&nbsp;execption<br>
+is&nbsp;raised&nbsp;and&nbsp;the&nbsp;platform&nbsp;dependent&nbsp;value&nbsp;HUGE_VAL&nbsp;is&nbsp;returned.<br>
+&nbsp;<br>
+Inputs&nbsp;should&nbsp;be&nbsp;doubles&nbsp;(they&nbsp;will&nbsp;be&nbsp;cast&nbsp;to&nbsp;doubles<br>
+if&nbsp;they&nbsp;are&nbsp;not,&nbsp;causing&nbsp;a&nbsp;slight&nbsp;performance&nbsp;hit).<br>
+&nbsp;<br>
+Works&nbsp;with&nbsp;numpy&nbsp;and&nbsp;regular&nbsp;python&nbsp;array&nbsp;objects,&nbsp;python&nbsp;sequences<br>
+and&nbsp;scalars,&nbsp;but&nbsp;is&nbsp;fastest&nbsp;for&nbsp;array&nbsp;objects.&nbsp;lon&nbsp;and<br>
+lat&nbsp;must&nbsp;be&nbsp;of&nbsp;same&nbsp;type&nbsp;(array,&nbsp;list/tuple&nbsp;or&nbsp;scalar)&nbsp;and&nbsp;have&nbsp;the<br>
+same&nbsp;length&nbsp;(if&nbsp;array,&nbsp;list&nbsp;or&nbsp;tuple).</tt></dd></dl>
+
+<dl><dt><a name="Proj-is_geocent"><strong>is_geocent</strong></a>(self)</dt><dd><tt>returns&nbsp;True&nbsp;if&nbsp;projection&nbsp;in&nbsp;geocentric&nbsp;(x/y)&nbsp;coordinates</tt></dd></dl>
+
+<dl><dt><a name="Proj-is_latlong"><strong>is_latlong</strong></a>(self)</dt><dd><tt>returns&nbsp;True&nbsp;if&nbsp;projection&nbsp;in&nbsp;geographic&nbsp;(lon/lat)&nbsp;coordinates</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="Proj-__new__"><strong>__new__</strong></a>(self, projparams<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>initialize&nbsp;a&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance.<br>
+&nbsp;<br>
+Proj4&nbsp;projection&nbsp;control&nbsp;parameters&nbsp;must&nbsp;either&nbsp;be<br>
+given&nbsp;in&nbsp;a&nbsp;dictionary&nbsp;'projparams'&nbsp;or&nbsp;as&nbsp;keyword&nbsp;arguments.<br>
+See&nbsp;the&nbsp;proj&nbsp;documentation&nbsp;(<a href="http://proj.maptools.org">http://proj.maptools.org</a>)&nbsp;for&nbsp;more<br>
+information&nbsp;about&nbsp;specifying&nbsp;projection&nbsp;parameters.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-transform"><strong>transform</strong></a>(p1, p2, x, y, z<font color="#909090">=None</font>, radians<font color="#909090">=False</font>)</dt><dd><tt>x2,&nbsp;y2,&nbsp;z2&nbsp;=&nbsp;<a href="#-transform">transform</a>(p1,&nbsp;p2,&nbsp;x1,&nbsp;y1,&nbsp;z1,&nbsp;radians=False)<br>
+&nbsp;<br>
+Transform&nbsp;points&nbsp;between&nbsp;two&nbsp;coordinate&nbsp;systems&nbsp;defined<br>
+by&nbsp;the&nbsp;<a href="#Proj">Proj</a>&nbsp;instances&nbsp;p1&nbsp;and&nbsp;p2.<br>
+&nbsp;<br>
+The&nbsp;points&nbsp;x1,y1,z1&nbsp;in&nbsp;the&nbsp;coordinate&nbsp;system&nbsp;defined&nbsp;by&nbsp;p1<br>
+are&nbsp;transformed&nbsp;to&nbsp;x2,y2,z2&nbsp;in&nbsp;the&nbsp;coordinate&nbsp;system&nbsp;defined&nbsp;by&nbsp;p2.<br>
+&nbsp;<br>
+z1&nbsp;is&nbsp;optional,&nbsp;if&nbsp;it&nbsp;is&nbsp;not&nbsp;set&nbsp;it&nbsp;is&nbsp;assumed&nbsp;to&nbsp;be&nbsp;zero&nbsp;(and&nbsp;<br>
+only&nbsp;x2&nbsp;and&nbsp;y2&nbsp;are&nbsp;returned).<br>
+&nbsp;<br>
+In&nbsp;addition&nbsp;to&nbsp;converting&nbsp;between&nbsp;cartographic&nbsp;and&nbsp;geographic<br>
+projection&nbsp;coordinates,&nbsp;this&nbsp;function&nbsp;can&nbsp;take&nbsp;care&nbsp;of&nbsp;datum&nbsp;shifts<br>
+(which&nbsp;cannot&nbsp;be&nbsp;done&nbsp;using&nbsp;the&nbsp;__call__&nbsp;method&nbsp;of&nbsp;the&nbsp;<a href="#Proj">Proj</a>&nbsp;instances).<br>
+It&nbsp;also&nbsp;allows&nbsp;for&nbsp;one&nbsp;of&nbsp;the&nbsp;coordinate&nbsp;systems&nbsp;to&nbsp;be&nbsp;geographic&nbsp;<br>
+(proj&nbsp;=&nbsp;'latlong').&nbsp;<br>
+&nbsp;<br>
+If&nbsp;optional&nbsp;keyword&nbsp;'radians'&nbsp;is&nbsp;True&nbsp;(default&nbsp;is&nbsp;False)&nbsp;and<br>
+p1&nbsp;is&nbsp;defined&nbsp;in&nbsp;geographic&nbsp;coordinate&nbsp;(pj.is_latlong()&nbsp;is&nbsp;True),<br>
+x1,y1&nbsp;is&nbsp;interpreted&nbsp;as&nbsp;radians&nbsp;instead&nbsp;of&nbsp;the&nbsp;default&nbsp;degrees.<br>
+Similarly,&nbsp;if&nbsp;p2&nbsp;is&nbsp;defined&nbsp;in&nbsp;geographic&nbsp;coordinates&nbsp;<br>
+and&nbsp;radians=True,&nbsp;x2,&nbsp;y2&nbsp;are&nbsp;returned&nbsp;in&nbsp;radians&nbsp;instead&nbsp;of&nbsp;degrees.<br>
+if&nbsp;p1.is_latlong()&nbsp;and&nbsp;p2.is_latlong()&nbsp;both&nbsp;are&nbsp;False,&nbsp;the<br>
+radians&nbsp;keyword&nbsp;has&nbsp;no&nbsp;effect.<br>
+&nbsp;<br>
+x,y&nbsp;and&nbsp;z&nbsp;can&nbsp;be&nbsp;numpy&nbsp;or&nbsp;regular&nbsp;python&nbsp;arrays,<br>
+python&nbsp;lists/tuples&nbsp;or&nbsp;scalars.&nbsp;Arrays&nbsp;are&nbsp;fastest.&nbsp;x,y&nbsp;and&nbsp;z&nbsp;must&nbsp;be<br>
+all&nbsp;of&nbsp;the&nbsp;same&nbsp;type&nbsp;(array,&nbsp;list/tuple&nbsp;or&nbsp;scalar),&nbsp;and&nbsp;have&nbsp;the&nbsp;<br>
+same&nbsp;length&nbsp;(if&nbsp;arrays,&nbsp;lists&nbsp;or&nbsp;tuples).<br>
+For&nbsp;projections&nbsp;in&nbsp;geocentric&nbsp;coordinates,&nbsp;values&nbsp;of<br>
+x&nbsp;and&nbsp;y&nbsp;are&nbsp;given&nbsp;in&nbsp;meters.&nbsp;&nbsp;z&nbsp;is&nbsp;always&nbsp;meters.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__version__</strong> = '1.8.1'</td></tr></table>
+</body></html>
