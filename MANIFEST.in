@@ -1,8 +1,10 @@
 include README
+include README.html
 include README.mingw
 include MANIFEST.in
 include Changelog
 include pyproj.pyx
+include pyproj.c
 include test/test.py
 include test/test2.py
 include test/sample.out
