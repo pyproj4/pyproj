@@ -14,7 +14,7 @@ DESCRIPTION
     Example usage:
     
     >>> from pyproj import Proj
-    >>> p = Proj(proj='utm',zone=10)
+    >>> p = Proj(proj='utm',zone=10,ellps='WGS84')
     >>> x,y = p(-120.108, 34.36116666)
     >>> print x,y
     >>> print p(x,y,inverse=True)
@@ -85,33 +85,54 @@ CLASSES
      |  
      |  Methods defined here:
      |  
-     |  __call__(...)
-     |      x.__call__(...) <==> x(...)
+     |  __call__(self, lon, lat, inverse=False, radians=False, errcheck=False)
+     |      Calling a Proj class instance with the arguments lon, lat will
+     |      convert lon/lat (in degrees) to x/y native map projection 
+     |      coordinates (in meters).  If optional keyword 'inverse' is
+     |      True (default is False), the inverse transformation from x/y
+     |      to lon/lat is performed.  If optional keyword 'radians' is
+     |      True (default is False) the units of lon/lat are radians instead
+     |      of degrees. If optional keyword 'errcheck' is True (default is 
+     |      False) an exception is raised if the transformation is invalid.
+     |      If errcheck=False and the transformation is invalid, no execption
+     |      is raised and the platform dependent value HUGE_VAL is returned.
+     |      
+     |      Inputs should be doubles (they will be cast to doubles
+     |      if they are not, causing a slight performance hit).
+     |      
+     |      Works with numpy and regular python array objects, python sequences
+     |      and scalars, but is fastest for array objects. lon and
+     |      lat must be of same type (array, list/tuple or scalar) and have the
+     |      same length (if array, list or tuple).
      |  
-     |  __reduce__(...)
-     |      special method that allows pyproj.Proj instance to be pickled
-     |  
-     |  is_geocent(...)
+     |  is_geocent(self)
      |      returns True if projection in geocentric (x/y) coordinates
      |  
-     |  is_latlong(...)
+     |  is_latlong(self)
      |      returns True if projection in geographic (lon/lat) coordinates
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(self, projparams=None, **kwargs)
+     |      initialize a Proj class instance.
+     |      
+     |      Proj4 projection control parameters must either be
+     |      given in a dictionary 'projparams' or as keyword arguments.
+     |      See the proj documentation (http://proj.maptools.org) for more
+     |      information about specifying projection parameters.
      |  
      |  ----------------------------------------------------------------------
      |  Data descriptors defined here:
      |  
-     |  proj_version
+     |  __dict__
+     |      dictionary for instance variables (if defined)
      |  
-     |  projparams
-     |  
-     |  ----------------------------------------------------------------------
-     |  Data and other attributes defined here:
-     |  
-     |  __new__ = <built-in method __new__ of type object at 0x5de004>
-     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+     |  __weakref__
+     |      list of weak references to the object (if defined)
 
 FUNCTIONS
-    transform(...)
+    transform(p1, p2, x, y, z=None, radians=False)
         x2, y2, z2 = transform(p1, p2, x1, y1, z1, radians=False)
         
         Transform points between two coordinate systems defined
@@ -144,10 +165,5 @@ FUNCTIONS
         For projections in geocentric coordinates, values of
         x and y are given in meters.  z is always meters.
 
-DATA
-    __version__ = '1.8.0'
-
 VERSION
-    1.8.0
-
-
+    1.8.1
