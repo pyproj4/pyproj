@@ -60,7 +60,7 @@ cdef class Proj:
 
     def _fwd(self, object lons, object lats, radians=False, errcheck=False):
         """
- forward transformation - lons,lats to x,y.
+ forward transformation - lons,lats to x,y (done in place).
  if radians=True, lons/lats are radians instead of degrees.
  if errcheck=True, an exception is raised if the forward transformation is invalid.
  if errcheck=False and the forward transformation is invalid, no exception is
@@ -95,11 +95,10 @@ cdef class Proj:
                 raise RuntimeError(pj_strerrno(pj_errno))
             lonsdata[i] = projxyout.u
             latsdata[i] = projxyout.v
-        return lons, lats
 
     def _inv(self, object x, object y, radians=False, errcheck=False):
         """
- inverse transformation - x,y to lons,lats.
+ inverse transformation - x,y to lons,lats (done in place).
  if radians=True, lons/lats are radians instead of degrees.
  if errcheck=True, an exception is raised if the inverse transformation is invalid.
  if errcheck=False and the inverse transformation is invalid, no exception is
@@ -135,7 +134,6 @@ cdef class Proj:
             else:
                 xdatab[i] = _rad2dg*projlonlatout.u
                 ydatab[i] = _rad2dg*projlonlatout.v
-        return x, y 
 
     def is_latlong(self):
         # returns True if projection in geographic (lon/lat) coordinates
