@@ -218,6 +218,7 @@ cdef class Proj:
             return outx,outy
 
     def is_latlong(self):
+        # returns True if projection in geographic (lon/lat) coordinates
         cdef int i
         i = pj_is_latlong(self.projpj)
         if i:
@@ -226,6 +227,7 @@ cdef class Proj:
             return False
 
     def is_geocent(self):
+        # returns True if projection in geocentric (x/y) coordinates
         cdef int i
         i = pj_is_geocent(self.projpj)
         if i:
