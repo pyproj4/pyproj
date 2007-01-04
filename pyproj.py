@@ -129,7 +129,7 @@ class Proj(_Proj):
  same length (if array, list or tuple).
         """
         # process inputs, making copies that support buffer API.
-        inx, iny, inz, isfloat, islist, istuple = _typecheck(lon, lat)
+        inx, iny, inz, isfloat, islist, istuple = _copytobuffer(lon, lat)
         # call proj4 functions. inx and iny modified in place.
         if inverse:
             _Proj._inv(self, inx, iny, radians=radians, errcheck=errcheck)
@@ -206,7 +206,7 @@ def transform(p1, p2, x, y, z=None, radians=False):
  -105.000 40.000
     """
     # process inputs, making copies that support buffer API.
-    inx, iny, inz, isfloat, islist, istuple = _typecheck(x,y,z)
+    inx, iny, inz, isfloat, islist, istuple = _copytobuffer(x,y,z)
     # call pj_transform.  inx,iny,inz buffers modified in place.
     _transform(p1,p2,inx,iny,inz,radians)
     # if inputs were lists, tuples or floats, convert back.
@@ -229,7 +229,17 @@ def transform(p1, p2, x, y, z=None, radians=False):
         else:
             return inx,iny
 
-def _typecheck(x,y,z=None):
+def _copytobuffer(x,y,z=None):
+    """ 
+ return copies of x,y (and z, if z is not None) as objects
+ that support python Buffer API (python array if input is
+ float, list or tuple, numpy array if input is a numpy array).
+ returns copyofx, copyofy, copyofz, isfloat, islist, istuple
+ (islist is True if inputs are lists, ituple is true if
+  inputs are tuples, isfloat is true if inputs are floats).
+ An exception is raised if all inputs (except z if z=None)
+ are not of the same type.
+    """
     # make sure x,y,z support Buffer API and contain doubles.
     isfloat = False; islist = False; istuple = False
     # first, if it's a numpy array scalar convert to float
@@ -295,7 +305,7 @@ def _typecheck(x,y,z=None):
                         if z is not None: inz = array.array('d',(z,))
                         isfloat = True
                     except:
-                        print type(x),type(y),type(z)
+                        print 'x is',type(x),'y is',type(y),'z is',type(z)
                         raise TypeError, 'inputs must be arrays, lists/tuples or scalars (and they must all be of the same type)'
     return inx,iny,inz,isfloat,islist,istuple
 
