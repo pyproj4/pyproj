@@ -16,10 +16,10 @@ DESCRIPTION
     >>> from pyproj import Proj
     >>> p = Proj(proj='utm',zone=10,ellps='WGS84')
     >>> x,y = p(-120.108, 34.36116666)
-    >>> print x,y
-    >>> print p(x,y,inverse=True)
-    765975.641091 3805993.13406
-    (-120.10799999995851, 34.361166659972767)
+    >>> print 'x=%9.3f y=%11.3f' % (x,y)
+    x=765975.641 y=3805993.134
+    >>> print 'lon=%8.3f lat=%5.3f' % p(x,y,inverse=True)
+    lon=-120.108 lat=34.361
     
     Input coordinates can be given as python arrays, lists/tuples, scalars
     or numpy/Numeric/numarray arrays. Optimized for objects that support
@@ -34,6 +34,7 @@ DESCRIPTION
               If you're using Windows with mingw, see README.mingw.
     
     Example scripts are in 'test' subdirectory of source distribution.
+    The 'test()' function will run the examples in the docstrings.
     
     Contact:  Jeffrey Whitaker <jeffrey.s.whitaker@noaa.gov
     
@@ -53,10 +54,10 @@ DESCRIPTION
     PERFORMANCE OF THIS SOFTWARE.
 
 CLASSES
-    __builtin__.object
+    _pyproj.Proj(__builtin__.object)
         Proj
     
-    class Proj(__builtin__.object)
+    class Proj(_pyproj.Proj)
      |  performs cartographic transformations (converts from longitude,latitude
      |  to native map projection x,y coordinates and vice versa) using proj 
      |  (http://proj.maptools.org/)
@@ -82,6 +83,11 @@ CLASSES
      |  and scalars, but is fastest for array objects. lon and
      |  lat must be of same type (array, list/tuple or scalar) and have the
      |  same length (if array, list or tuple).
+     |  
+     |  Method resolution order:
+     |      Proj
+     |      _pyproj.Proj
+     |      __builtin__.object
      |  
      |  Methods defined here:
      |  
@@ -130,8 +136,24 @@ CLASSES
      |  
      |  __weakref__
      |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _pyproj.Proj:
+     |  
+     |  __reduce__(...)
+     |      special method that allows pyproj.Proj instance to be pickled
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _pyproj.Proj:
+     |  
+     |  proj_version
+     |  
+     |  projparams
 
 FUNCTIONS
+    test()
+        run the examples in the docstrings using the doctest module
+    
     transform(p1, p2, x, y, z=None, radians=False)
         x2, y2, z2 = transform(p1, p2, x1, y1, z1, radians=False)
         
@@ -164,6 +186,25 @@ FUNCTIONS
         same length (if arrays, lists or tuples).
         For projections in geocentric coordinates, values of
         x and y are given in meters.  z is always meters.
+        
+        Example usage:
+        
+        >>> # projection 1: north polar stereographic
+        >>> p1 = Proj(proj='stere',lat_0=90,lat_ts=90,lon_0=270)
+        >>> # projection 2: lambert conformal conic, 2 standard parallels.
+        >>> p2 = Proj(proj='lcc',lat_1=33,lat_2=45,lon_0=270,lat_0=30)
+        >>> # find x,y of Boulder, CO in projection 1
+        >>> x1, y1 = p1(-105,40)
+        >>> # transform this point to projection 2 coordinates.
+        >>> x2, y2 = transform(p1,p2,x1,y1)
+        >>> print '%9.3f %11.3f' % (x1,y1)
+        -1541018.485 -5751159.282
+        >>> print '%9.3f %11.3f' % (x2,y2)
+        -1268297.854 1212356.336
+        >>> print '%8.3f %5.3f' % p2(x2,y2,inverse=True)
+        -105.000 40.000
 
 VERSION
     1.8.1
+
+
