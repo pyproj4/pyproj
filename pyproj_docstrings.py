@@ -1,3 +1,6 @@
+# this is just a container for the docstrings (to make
+# pydoc generated docs, since Pyrex hides docstrings for special
+# methods like __call__).
 """
 Pyrex wrapper to provide python interfaces to 
 PROJ.4 (http://proj.maptools.org) functions.
