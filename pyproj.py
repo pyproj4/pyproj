@@ -49,9 +49,9 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 """ 
 
-__version__ = "1.8.1"
 from _pyproj import Proj as _Proj
 from _pyproj import transform as _transform
+from _pyproj import __version__
 
 class Proj(_Proj):
     """
