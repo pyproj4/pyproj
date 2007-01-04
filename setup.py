@@ -17,14 +17,14 @@ if use_pyrex:
         from Pyrex.Distutils import build_ext
     except:
         raise ImportError("Pyrex not installed - please unset USE_PYREX environment variable")
-    srcs = ["pyproj.pyx"]
+    srcs = ["_pyproj.pyx"]
     cmdclass = {'build_ext': build_ext}
 # or else use pre-generated C source file.
 else:
-    srcs = ["pyproj.c"]
+    srcs = ["_pyproj.c"]
     cmdclass = {}
 
-extensions = [Extension("pyproj",srcs,
+extensions = [Extension("_pyproj",srcs,
               libraries=libs,library_dirs=lib_dirs,
               runtime_library_dirs=lib_dirs,include_dirs=inc_dirs)]
 
@@ -52,4 +52,5 @@ Optimized for numpy arrays.""",
                        "Topic :: Scientific/Engineering :: GIS",
                        "Topic :: Scientific/Engineering :: Mathematics",
 			           "Operating System :: OS Independent"],
+  py_modules        = ['pyproj'],
   ext_modules = extensions)
