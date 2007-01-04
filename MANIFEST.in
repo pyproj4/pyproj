@@ -3,8 +3,9 @@ include README.html
 include README.mingw
 include MANIFEST.in
 include Changelog
-include pyproj.pyx
-include pyproj.c
+include _pyproj.pyx
+include _pyproj.c
+include pyproj.py
 include test/test.py
 include test/test2.py
 include test/sample.out
