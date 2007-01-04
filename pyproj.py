@@ -17,7 +17,7 @@ x=765975.641 y=3805993.134
 lon=-120.108 lat=34.361
 
 Input coordinates can be given as python arrays, lists/tuples, scalars
-or numpy/Numeric/numarray arrays. Optimized for objects that support
+or numpy/Numeric/numarrays. Optimized for objects that support
 the Python buffer protocol (regular python and numpy array objects).
 
 Download: http://python.org/pypi/pyproj
@@ -52,7 +52,7 @@ PERFORMANCE OF THIS SOFTWARE.
 from _pyproj import Proj as _Proj
 from _pyproj import _transform
 from _pyproj import __version__
-import array
+from array import array
 from types import TupleType, ListType, NoneType
 
 class Proj(_Proj):
@@ -235,7 +235,7 @@ def _copytobuffer(x,y,z=None):
         if z is not None:
             inz = z.astype('d')
     except:
-        try: # perhaps they are Numeric/numarray arrays?
+        try: # perhaps they are Numeric/numarrays?
             x.typecode()
             y.typecode()
             if z is not None: z.typecode()
@@ -249,25 +249,25 @@ def _copytobuffer(x,y,z=None):
                 x.typecode
                 y.typecode
                 if z is not None: z.typecode
-                inx = array.array('d',x)
-                iny = array.array('d',y)
+                inx = array('d',x)
+                iny = array('d',y)
                 if z is not None:
-                    inz = array.array('d',z)
+                    inz = array('d',z)
             except: 
                 # try to convert to python array
                 # a list.
                 if type(x) is ListType and type(y) is ListType and (type(z) is NoneType or type(z) is ListType):
-                    inx = array.array('d',x)
-                    iny = array.array('d',y)
+                    inx = array('d',x)
+                    iny = array('d',y)
                     if z is not None:
-                        inz = array.array('d',z)
+                        inz = array('d',z)
                     islist = True
                 # a tuple.
                 elif type(x) is TupleType and type(y) is TupleType and (type(z) is NoneType or type(z) is TupleType):
-                    inx = array.array('d',x)
-                    iny = array.array('d',y)
+                    inx = array('d',x)
+                    iny = array('d',y)
                     if z is not None:
-                        inz = array.array('d',z)
+                        inz = array('d',z)
                     istuple = True
                 # a scalar?
                 else:
@@ -275,9 +275,9 @@ def _copytobuffer(x,y,z=None):
                         x = float(x)
                         y = float(y)
                         if z is not None: z = float(z)
-                        inx = array.array('d',(x,))
-                        iny = array.array('d',(y,))
-                        if z is not None: inz = array.array('d',(z,))
+                        inx = array('d',(x,))
+                        iny = array('d',(y,))
+                        if z is not None: inz = array('d',(z,))
                         isfloat = True
                     except:
                         print 'x is',type(x),'y is',type(y),'z is',type(z)
