@@ -135,16 +135,8 @@ class Proj(_Proj):
             _Proj._inv(self, inx, iny, radians=radians, errcheck=errcheck)
         else:
             _Proj._fwd(self, inx, iny, radians=radians, errcheck=errcheck)
-        # all done.
         # if inputs were lists, tuples or floats, convert back.
-        if isfloat:
-            return inx[0],iny[0]
-        elif islist:
-            return inx.tolist(),iny.tolist()
-        elif istuple:
-            return tuple(inx),tuple(iny)
-        else:
-            return inx,iny
+        return _convertback(isfloat,islist,istuple,inx,iny,inz=None)
 
     def is_latlong(self):
         """returns True if projection in geographic (lon/lat) coordinates"""
@@ -210,24 +202,7 @@ def transform(p1, p2, x, y, z=None, radians=False):
     # call pj_transform.  inx,iny,inz buffers modified in place.
     _transform(p1,p2,inx,iny,inz,radians)
     # if inputs were lists, tuples or floats, convert back.
-    if inz is not None:
-        if isfloat:
-            return inx[0],iny[0],inz[0]
-        elif islist:
-            return inx.tolist(),iny.tolist(),inz.tolist()
-        elif istuple:
-            return tuple(inx),tuple(iny),tuple(inz)
-        else:
-            return inx,iny,inz
-    else:
-        if isfloat:
-            return inx[0],iny[0]
-        elif islist:
-            return inx.tolist(),iny.tolist()
-        elif istuple:
-            return tuple(inx),tuple(iny)
-        else:
-            return inx,iny
+    return _convertback(isfloat,islist,istuple,inx,iny,inz)
 
 def _copytobuffer(x,y,z=None):
     """ 
@@ -308,6 +283,27 @@ def _copytobuffer(x,y,z=None):
                         print 'x is',type(x),'y is',type(y),'z is',type(z)
                         raise TypeError, 'inputs must be arrays, lists/tuples or scalars (and they must all be of the same type)'
     return inx,iny,inz,isfloat,islist,istuple
+
+def _convertback(isfloat,islist,istuple,inx,iny,inz=None):
+    # if inputs were lists, tuples or floats, convert back to original type.
+    if inz is not None:
+        if isfloat:
+            return inx[0],iny[0],inz[0]
+        elif islist:
+            return inx.tolist(),iny.tolist(),inz.tolist()
+        elif istuple:
+            return tuple(inx),tuple(iny),tuple(inz)
+        else:
+            return inx,iny,inz
+    else:
+        if isfloat:
+            return inx[0],iny[0]
+        elif islist:
+            return inx.tolist(),iny.tolist()
+        elif istuple:
+            return tuple(inx),tuple(iny)
+        else:
+            return inx,iny
 
 def test():
     """run the examples in the docstrings using the doctest module"""
