@@ -50,8 +50,10 @@ PERFORMANCE OF THIS SOFTWARE.
 """ 
 
 from _pyproj import Proj as _Proj
-from _pyproj import transform as _transform
+from _pyproj import _transform
 from _pyproj import __version__
+import array
+from types import TupleType, ListType
 
 class Proj(_Proj):
     """
@@ -91,7 +93,19 @@ class Proj(_Proj):
  See the proj documentation (http://proj.maptools.org) for more
  information about specifying projection parameters.
         """
-        return _Proj.__new__(self, projparams=projparams, **kwargs)
+        # if projparams is None, use kwargs.
+        if projparams is None:
+            if len(kwargs) == 0:
+                raise RuntimeError('no projection control parameters specified')
+            else:
+                projparams = kwargs
+        # set units to meters.
+        if not projparams.has_key('units'):
+            projparams['units']='m'
+        elif projparams['units'] != 'm':
+            print 'resetting units to meters ...'
+            projparams['units']='m'
+        return _Proj.__new__(self, projparams)
 
     def __call__(self,lon,lat,inverse=False,radians=False,errcheck=False):
         """
@@ -114,7 +128,71 @@ class Proj(_Proj):
  lat must be of same type (array, list/tuple or scalar) and have the
  same length (if array, list or tuple).
         """
-        return _Proj.__call__(self,lon,lat,inverse=inverse,radians=radians,errcheck=errcheck)
+        # if lon,lat support BufferAPI, must make sure they contain doubles.
+        isfloat = False; islist = False; istuple = False
+        # first, if it's a numpy array scalar convert to float
+        # (array scalars don't support buffer API)
+        if hasattr(lon,'shape') and lon.shape == (): lon = float(lon)
+        if hasattr(lat,'shape') and lat.shape == (): lat = float(lat)
+        try:
+            # typecast numpy arrays to double.
+            # (this makes a copy - which is crucial
+            #  since buffer is modified in place)
+            lon.dtype.char
+            lat.dtype.char
+            inx = lon.astype('d')
+            iny = lat.astype('d')
+        except:
+            try: # perhaps they are Numeric/numarray arrays?
+                lon.typecode()
+                lat.typecode()
+                inx = lon.astype('d')
+                iny = lat.astype('d')
+            except:
+                # perhaps they are regular python arrays?
+                try:
+                    lon.typecode
+                    lat.typecode
+                    inx = array.array('d',lon)
+                    iny = array.array('d',lat)
+                except: 
+                    # none of the above
+                    # try to convert to python array
+                    # a list.
+                    if type(lon) is ListType and type(lon) is ListType:
+                        inx = array.array('d',lon)
+                        iny = array.array('d',lat)
+                        islist = True
+                    # a tuple.
+                    elif type(lon) is TupleType and type(lon) is TupleType:
+                        inx = array.array('d',lon)
+                        iny = array.array('d',lat)
+                        istuple = True
+                    # a float.
+                    else:
+                        try:
+                            lon = float(lon)
+                            lat = float(lat)
+                            inx = array.array('d',(lon,))
+                            iny = array.array('d',(lat,))
+                            isfloat = True
+                        except:
+                            raise TypeError, 'lon and lat must be arrays, lists/tuples or scalars (and they must all be of the same type)'
+        # call proj4 functions.
+        if inverse:
+            outx, outy = _Proj._inv(self, inx, iny, radians=radians, errcheck=errcheck)
+        else:
+            outx, outy = _Proj._fwd(self, inx, iny, radians=radians, errcheck=errcheck)
+        # all done.
+        # if inputs were lists, tuples or floats, convert back.
+        if isfloat:
+            return outx[0],outy[0]
+        elif islist:
+            return outx.tolist(),outy.tolist()
+        elif istuple:
+            return tuple(outx),tuple(outy)
+        else:
+            return outx,outy
 
     def is_latlong(self):
         """returns True if projection in geographic (lon/lat) coordinates"""
@@ -175,7 +253,92 @@ def transform(p1, p2, x, y, z=None, radians=False):
  >>> print '%8.3f %5.3f' % p2(x2,y2,inverse=True)
  -105.000 40.000
     """
-    return _transform(p1, p2, x, y, z=z, radians=radians)
+    # make sure x,y,z support Buffer API and contain doubles.
+    isfloat = False; islist = False; istuple = False
+    # first, if it's a numpy array scalar convert to float
+    # (array scalars don't support buffer API)
+    if hasattr(x,'shape') and x.shape == (): x = float(x)
+    if hasattr(y,'shape') and y.shape == (): y = float(y)
+    if hasattr(z,'shape') and z.shape == (): z = float(z)
+    inz = None
+    try:
+        # typecast numpy arrays to double.
+        # (this makes a copy - which is crucial
+        #  since buffer is modified in place)
+        x.dtype.char
+        y.dtype.char
+        if z is not None: z.dtype.char
+        inx = x.astype('d')
+        iny = y.astype('d')
+        if z is not None:
+            inz = z.astype('d')
+    except:
+        try: # perhaps they are Numeric/numarray arrays?
+            x.typecode()
+            y.typecode()
+            if z is not None: z.typecode()
+            inx = x.astype('d')
+            iny = y.astype('d')
+            if z is not None:
+                inz = z.astype('d')
+        except:
+            # perhaps they are regular python arrays?
+            try:
+                x.typecode
+                y.typecode
+                if z is not None: z.typecode
+                inx = array.array('d',x)
+                iny = array.array('d',y)
+                if z is not None:
+                    inz = array.array('d',z)
+            except: 
+                # try to convert to python array
+                # a list.
+                if type(x) is ListType and type(y) is ListType and (type(z) is None or type(z) is ListType):
+                    inx = array.array('d',x)
+                    iny = array.array('d',y)
+                    if z is not None:
+                        inz = array.array('d',z)
+                    islist = True
+                # a tuple.
+                elif type(x) is TupleType and type(y) is TupleType and (type(z) is None or type(z) is TupleType):
+                    inx = array.array('d',x)
+                    iny = array.array('d',y)
+                    if z is not None:
+                        inz = array.array('d',z)
+                    istuple = True
+                # a scalar?
+                else:
+                    try:
+                        x = float(x)
+                        y = float(y)
+                        if z is not None: z = float(z)
+                        inx = array.array('d',(x,))
+                        iny = array.array('d',(y,))
+                        if z is not None: inz = array.array('d',(z,))
+                        isfloat = True
+                    except:
+                        raise TypeError, 'x, y and z must be arrays, lists/tuples or scalars (and they must all be of the same type)'
+    _transform(p1,p2,inx,iny,inz,radians)
+    # if inputs were lists, tuples or floats, convert back.
+    if inz is not None:
+        if isfloat:
+            return inx[0],iny[0],inz[0]
+        elif islist:
+            return inx.tolist(),iny.tolist(),inz.tolist()
+        elif istuple:
+            return tuple(inx),tuple(iny),tuple(inz)
+        else:
+            return inx,iny,inz
+    else:
+        if isfloat:
+            return inx[0],iny[0]
+        elif islist:
+            return inx.tolist(),iny.tolist()
+        elif istuple:
+            return tuple(inx),tuple(iny)
+        else:
+            return inx,iny
 
 def test():
     """run the examples in the docstrings using the doctest module"""
