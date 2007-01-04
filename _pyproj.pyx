@@ -156,7 +156,7 @@ cdef class Proj:
             return False
 
 def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
-    """private function to call pj_transform"""
+    # private function to call pj_transform
     cdef void *xdata, *ydata, *zdata
     cdef double *xx, *yy, *zz
     cdef Py_ssize_t buflenx, bufleny, buflenz
