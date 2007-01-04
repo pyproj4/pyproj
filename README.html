@@ -7,8 +7,7 @@
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pyproj</strong></big></big> (version 1.8.1)</font></td
-><td align=right valign=bottom
-></td></tr></table>
+></table>
     <p><tt>Pyrex&nbsp;wrapper&nbsp;to&nbsp;provide&nbsp;python&nbsp;interfaces&nbsp;to&nbsp;<br>
 PROJ.4&nbsp;(<a href="http://proj.maptools.org">http://proj.maptools.org</a>)&nbsp;functions.<br>
 &nbsp;<br>
@@ -21,10 +20,10 @@ Example&nbsp;usage:<br>
 &gt;&gt;&gt;&nbsp;from&nbsp;pyproj&nbsp;import&nbsp;<a href="#Proj">Proj</a><br>
 &gt;&gt;&gt;&nbsp;p&nbsp;=&nbsp;<a href="#Proj">Proj</a>(proj='utm',zone=10,ellps='WGS84')<br>
 &gt;&gt;&gt;&nbsp;x,y&nbsp;=&nbsp;p(-120.108,&nbsp;34.36116666)<br>
-&gt;&gt;&gt;&nbsp;print&nbsp;x,y<br>
-&gt;&gt;&gt;&nbsp;print&nbsp;p(x,y,inverse=True)<br>
-765975.641091&nbsp;3805993.13406<br>
-(-120.10799999995851,&nbsp;34.361166659972767)<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;'x=%9.3f&nbsp;y=%11.3f'&nbsp;%&nbsp;(x,y)<br>
+x=765975.641&nbsp;y=3805993.134<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;'lon=%8.3f&nbsp;lat=%5.3f'&nbsp;%&nbsp;p(x,y,inverse=True)<br>
+lon=-120.108&nbsp;lat=34.361<br>
 &nbsp;<br>
 Input&nbsp;coordinates&nbsp;can&nbsp;be&nbsp;given&nbsp;as&nbsp;python&nbsp;arrays,&nbsp;lists/tuples,&nbsp;scalars<br>
 or&nbsp;numpy/Numeric/numarray&nbsp;arrays.&nbsp;Optimized&nbsp;for&nbsp;objects&nbsp;that&nbsp;support<br>
@@ -39,6 +38,7 @@ Install:&nbsp;&nbsp;Set&nbsp;the&nbsp;PROJ_DIR&nbsp;environment&nbsp;variable&nb
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;you're&nbsp;using&nbsp;Windows&nbsp;with&nbsp;mingw,&nbsp;see&nbsp;README.mingw.<br>
 &nbsp;<br>
 Example&nbsp;scripts&nbsp;are&nbsp;in&nbsp;'test'&nbsp;subdirectory&nbsp;of&nbsp;source&nbsp;distribution.<br>
+The&nbsp;'<a href="#-test">test</a>()'&nbsp;function&nbsp;will&nbsp;run&nbsp;the&nbsp;examples&nbsp;in&nbsp;the&nbsp;docstrings.<br>
 &nbsp;<br>
 Contact:&nbsp;&nbsp;Jeffrey&nbsp;Whitaker&nbsp;&lt;jeffrey.s.whitaker@noaa.gov<br>
 &nbsp;<br>
@@ -64,10 +64,10 @@ PERFORMANCE&nbsp;OF&nbsp;THIS&nbsp;SOFTWARE.</tt></p>
     
 <tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl>
-<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+<dt><font face="helvetica, arial"><a href="_pyproj.html#Proj">_pyproj.Proj</a>(<a href="__builtin__.html#object">__builtin__.object</a>)
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial"><a href="pyproj_docstrings.html#Proj">Proj</a>
+<dt><font face="helvetica, arial"><a href="pyproj.html#Proj">Proj</a>
 </font></dt></dl>
 </dd>
 </dl>
@@ -75,7 +75,7 @@ PERFORMANCE&nbsp;OF&nbsp;THIS&nbsp;SOFTWARE.</tt></p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="Proj">class <strong>Proj</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="Proj">class <strong>Proj</strong></a>(<a href="_pyproj.html#Proj">_pyproj.Proj</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>performs&nbsp;cartographic&nbsp;transformations&nbsp;(converts&nbsp;from&nbsp;longitude,latitude<br>
@@ -104,7 +104,13 @@ and&nbsp;scalars,&nbsp;but&nbsp;is&nbsp;fastest&nbsp;for&nbsp;array&nbsp;objects
 lat&nbsp;must&nbsp;be&nbsp;of&nbsp;same&nbsp;type&nbsp;(array,&nbsp;list/tuple&nbsp;or&nbsp;scalar)&nbsp;and&nbsp;have&nbsp;the<br>
 same&nbsp;length&nbsp;(if&nbsp;array,&nbsp;list&nbsp;or&nbsp;tuple).<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
-<td width="100%">Methods defined here:<br>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="pyproj.html#Proj">Proj</a></dd>
+<dd><a href="_pyproj.html#Proj">_pyproj.Proj</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
 <dl><dt><a name="Proj-__call__"><strong>__call__</strong></a>(self, lon, lat, inverse<font color="#909090">=False</font>, radians<font color="#909090">=False</font>, errcheck<font color="#909090">=False</font>)</dt><dd><tt>Calling&nbsp;a&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance&nbsp;with&nbsp;the&nbsp;arguments&nbsp;lon,&nbsp;lat&nbsp;will<br>
 convert&nbsp;lon/lat&nbsp;(in&nbsp;degrees)&nbsp;to&nbsp;x/y&nbsp;native&nbsp;map&nbsp;projection&nbsp;<br>
 coordinates&nbsp;(in&nbsp;meters).&nbsp;&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'inverse'&nbsp;is<br>
@@ -145,6 +151,16 @@ Data descriptors defined here:<br>
 <dl><dt><strong>__weakref__</strong></dt>
 <dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
 </dl>
+<hr>
+Methods inherited from <a href="_pyproj.html#Proj">_pyproj.Proj</a>:<br>
+<dl><dt><a name="Proj-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt>special&nbsp;method&nbsp;that&nbsp;allows&nbsp;pyproj.<a href="#Proj">Proj</a>&nbsp;instance&nbsp;to&nbsp;be&nbsp;pickled</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="_pyproj.html#Proj">_pyproj.Proj</a>:<br>
+<dl><dt><strong>proj_version</strong></dt>
+</dl>
+<dl><dt><strong>projparams</strong></dt>
+</dl>
 </td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
@@ -152,7 +168,8 @@ Data descriptors defined here:<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-transform"><strong>transform</strong></a>(p1, p2, x, y, z<font color="#909090">=None</font>, radians<font color="#909090">=False</font>)</dt><dd><tt>x2,&nbsp;y2,&nbsp;z2&nbsp;=&nbsp;<a href="#-transform">transform</a>(p1,&nbsp;p2,&nbsp;x1,&nbsp;y1,&nbsp;z1,&nbsp;radians=False)<br>
+<td width="100%"><dl><dt><a name="-test"><strong>test</strong></a>()</dt><dd><tt>run&nbsp;the&nbsp;examples&nbsp;in&nbsp;the&nbsp;docstrings&nbsp;using&nbsp;the&nbsp;doctest&nbsp;module</tt></dd></dl>
+ <dl><dt><a name="-transform"><strong>transform</strong></a>(p1, p2, x, y, z<font color="#909090">=None</font>, radians<font color="#909090">=False</font>)</dt><dd><tt>x2,&nbsp;y2,&nbsp;z2&nbsp;=&nbsp;<a href="#-transform">transform</a>(p1,&nbsp;p2,&nbsp;x1,&nbsp;y1,&nbsp;z1,&nbsp;radians=False)<br>
 &nbsp;<br>
 Transform&nbsp;points&nbsp;between&nbsp;two&nbsp;coordinate&nbsp;systems&nbsp;defined<br>
 by&nbsp;the&nbsp;<a href="#Proj">Proj</a>&nbsp;instances&nbsp;p1&nbsp;and&nbsp;p2.<br>
@@ -182,7 +199,24 @@ python&nbsp;lists/tuples&nbsp;or&nbsp;scalars.&nbsp;Arrays&nbsp;are&nbsp;fastest
 all&nbsp;of&nbsp;the&nbsp;same&nbsp;type&nbsp;(array,&nbsp;list/tuple&nbsp;or&nbsp;scalar),&nbsp;and&nbsp;have&nbsp;the&nbsp;<br>
 same&nbsp;length&nbsp;(if&nbsp;arrays,&nbsp;lists&nbsp;or&nbsp;tuples).<br>
 For&nbsp;projections&nbsp;in&nbsp;geocentric&nbsp;coordinates,&nbsp;values&nbsp;of<br>
-x&nbsp;and&nbsp;y&nbsp;are&nbsp;given&nbsp;in&nbsp;meters.&nbsp;&nbsp;z&nbsp;is&nbsp;always&nbsp;meters.</tt></dd></dl>
+x&nbsp;and&nbsp;y&nbsp;are&nbsp;given&nbsp;in&nbsp;meters.&nbsp;&nbsp;z&nbsp;is&nbsp;always&nbsp;meters.<br>
+&nbsp;<br>
+Example&nbsp;usage:<br>
+&nbsp;<br>
+&gt;&gt;&gt;&nbsp;#&nbsp;projection&nbsp;1:&nbsp;north&nbsp;polar&nbsp;stereographic<br>
+&gt;&gt;&gt;&nbsp;p1&nbsp;=&nbsp;<a href="#Proj">Proj</a>(proj='stere',lat_0=90,lat_ts=90,lon_0=270)<br>
+&gt;&gt;&gt;&nbsp;#&nbsp;projection&nbsp;2:&nbsp;lambert&nbsp;conformal&nbsp;conic,&nbsp;2&nbsp;standard&nbsp;parallels.<br>
+&gt;&gt;&gt;&nbsp;p2&nbsp;=&nbsp;<a href="#Proj">Proj</a>(proj='lcc',lat_1=33,lat_2=45,lon_0=270,lat_0=30)<br>
+&gt;&gt;&gt;&nbsp;#&nbsp;find&nbsp;x,y&nbsp;of&nbsp;Boulder,&nbsp;CO&nbsp;in&nbsp;projection&nbsp;1<br>
+&gt;&gt;&gt;&nbsp;x1,&nbsp;y1&nbsp;=&nbsp;p1(-105,40)<br>
+&gt;&gt;&gt;&nbsp;#&nbsp;transform&nbsp;this&nbsp;point&nbsp;to&nbsp;projection&nbsp;2&nbsp;coordinates.<br>
+&gt;&gt;&gt;&nbsp;x2,&nbsp;y2&nbsp;=&nbsp;<a href="#-transform">transform</a>(p1,p2,x1,y1)<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;'%9.3f&nbsp;%11.3f'&nbsp;%&nbsp;(x1,y1)<br>
+-1541018.485&nbsp;-5751159.282<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;'%9.3f&nbsp;%11.3f'&nbsp;%&nbsp;(x2,y2)<br>
+-1268297.854&nbsp;1212356.336<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;'%8.3f&nbsp;%5.3f'&nbsp;%&nbsp;p2(x2,y2,inverse=True)<br>
+-105.000&nbsp;40.000</tt></dd></dl>
 </td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#55aa55">
