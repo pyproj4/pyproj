@@ -8,7 +8,7 @@ one map projection coordinate system directly to another).
 
 Example usage:
 
->>> from pyproj import Proj
+>>> from pyproj_numpy import Proj
 >>> p = Proj(proj='utm',zone=10,ellps='WGS84')
 >>> x,y = p(-120.108, 34.36116666)
 >>> print 'x=%9.3f y=%11.3f' % (x,y)
@@ -16,8 +16,7 @@ x=765975.641 y=3805993.134
 >>> print 'lon=%8.3f lat=%5.3f' % p(x,y,inverse=True)
 lon=-120.108 lat=34.361
 
-Inputs may be an iterable object (floats, lists, tuples, arrays)
-that can be converted to float64 numpy arrays.
+Inputs may anything that can be converted to float64 numpy arrays.
 Outputs are float64 numpy arrays.
 
 Download: http://python.org/pypi/pyproj
@@ -77,10 +76,9 @@ class Proj(_Proj):
  False) an exception is raised if the transformation is invalid.
  If errcheck=False and the transformation is invalid, no execption
  is raised and the platform dependent value HUGE_VAL is returned.
- Works with numpy and regular python array objects, python sequences
- and scalars, but is fastest for array objects. lon and
- lat must be of same type (array, list/tuple or scalar) and have the
- same length (if array, list or tuple).
+ Inputs coordinates can be anything that can be converted to 
+ a float64 numpy array using numpy.asarray, outputs are float64 numpy arrays.
+ If inputs are arrays or sequences, they must have the same length.
     """
 
     def __new__(self, projparams=None, **kwargs):
@@ -122,10 +120,9 @@ class Proj(_Proj):
  Inputs should be doubles (they will be cast to doubles
  if they are not, causing a slight performance hit).
 
- Works with numpy and regular python array objects, python sequences
- and scalars, but is fastest for array objects. lon and
- lat must be of same type (array, list/tuple or scalar) and have the
- same length (if array, list or tuple).
+ Inputs coordinates can be anything that can be converted to 
+ a float64 numpy array using numpy.asarray, outputs are float64 numpy arrays.
+ If inputs are arrays or sequences, they must have the same length.
         """
         lon = numpy.asarray(lon,dtype=numpy.float64)
         lat = numpy.asarray(lat,dtype=numpy.float64)
@@ -171,10 +168,10 @@ def transform(p1, p2, x, y, z=None, radians=False):
  if p1.is_latlong() and p2.is_latlong() both are False, the
  radians keyword has no effect.
 
- x,y and z can be numpy or regular python arrays,
- python lists/tuples or scalars. Arrays are fastest. x,y and z must be
- all of the same type (array, list/tuple or scalar), and have the 
- same length (if arrays, lists or tuples).
+ Inputs coordinates can be anything that can be converted to 
+ a float64 numpy array using numpy.asarray, outputs are float64 numpy arrays.
+ If inputs are arrays or sequences, they must have the same length.
+
  For projections in geocentric coordinates, values of
  x and y are given in meters.  z is always meters.
 
@@ -215,7 +212,7 @@ def transform(p1, p2, x, y, z=None, radians=False):
 
 def test():
     """run the examples out the docstrings using the doctest module"""
-    import doctest, pyproj
-    doctest.testmod(pyproj,verbose=True)
+    import doctest, pyproj_numpy
+    doctest.testmod(pyproj_numpy,verbose=True)
 
 if __name__ == "__main__": test()
