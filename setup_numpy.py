@@ -17,13 +17,12 @@ extensions = [Extension("_pyproj_numpy",srcs,
 
 setup(name = "pyproj_numpy",
   version = "1.8.1",
-  description = "Pyrex generated python interface to PROJ.4 library",
+  description = "Pyrex generated python interface to PROJ.4 library (numpy version)",
   long_description  = """
 Performs cartographic transformations between geographic (lat/lon)
 and map projection (x/y) coordinates. Can also transform directly
 from one map projection coordinate system to another.
-Coordinates can be given as umpy arrays, python arrays, lists or scalars.
-Optimized for numpy arrays.""",
+Designed for use with numpy arrays""",
   url               = "http://code.google.com/p/pyproj",
   download_url      = "http://python.org/pypi/pyproj",
   author            = "Jeff Whitaker",
