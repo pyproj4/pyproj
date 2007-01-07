@@ -9,18 +9,9 @@ _dg2rad = math.radians(1.)
 _rad2dg = math.degrees(1.)
 __version__ = "1.8.1"
 
-# taken from numpy.pxi in numpy 1.0rc2.
 cdef extern from "numpy/arrayobject.h":
-    ctypedef int npy_intp 
     ctypedef extern class numpy.ndarray [object PyArrayObject]:
         cdef char *data
-        cdef int nd
-        cdef npy_intp *dimensions
-        cdef npy_intp *strides
-        cdef object base
-        cdef int flags
-    npy_intp PyArray_SIZE(ndarray arr)
-    npy_intp PyArray_ISCONTIGUOUS(ndarray arr)
     void import_array()
 
 cdef extern from "proj_api.h":
@@ -68,7 +59,7 @@ cdef class Proj:
         pj_free(self.projpj)
 
     def __reduce__(self):
-        """special method that allows pyproj.Proj instance to be pickled"""
+        """special method that allows Proj instance to be pickled"""
         return (self.__class__,(self.projparams,))
 
     def _fwd(self, ndarray lons, ndarray lats, radians=False, errcheck=False):
@@ -80,17 +71,18 @@ cdef class Proj:
  raised and the platform dependent value HUGE_VAL is returned.
         """
         cdef projUV projxyout, projlonlatin
-        cdef int ndim, i
+        cdef int i
+        cdef Py_ssize_t ndim
         cdef double u, v
         cdef double *lonsdata, *latsdata, *xdata, *ydata
         cdef ndarray x,y
         # make sure data is contiguous.
         # if not, make a local copy.
-        if not PyArray_ISCONTIGUOUS(lons):
+        if not lons.flags['C_CONTIGUOUS']:
             lons = lons.copy()
-        if not PyArray_ISCONTIGUOUS(lats):
+        if not lats.flags['C_CONTIGUOUS']:
             lats = lats.copy()
-        ndim = PyArray_SIZE(lons)
+        ndim = lons.size
         lonsdata = <double *>lons.data
         latsdata = <double *>lats.data
         x = numpy.empty(lons.shape,numpy.float64)
@@ -120,17 +112,18 @@ cdef class Proj:
  raised and the platform dependent value HUGE_VAL is returned.
         """
         cdef projUV projxyin, projlonlatout
-        cdef int ndim, i
+        cdef int i
+        cdef Py_ssize_t ndim
         cdef double u, v
         cdef double *xdata, *ydata, *lonsdata, *latsdata
         cdef ndarray lons, lats
         # make sure data is contiguous.
         # if not, make a local copy.
-        if not PyArray_ISCONTIGUOUS(x):
+        if not x.flags['C_CONTIGUOUS']:
             x = x.copy()
-        if not PyArray_ISCONTIGUOUS(y):
+        if not y.flags['C_CONTIGUOUS']:
             y = y.copy()
-        ndim = PyArray_SIZE(x)
+        ndim = x.size
         xdata = <double *>x.data
         ydata = <double *>y.data
         lons = numpy.empty(x.shape,numpy.float64)
@@ -172,8 +165,9 @@ cdef class Proj:
 def _transform(Proj p1, Proj p2, ndarray inx, ndarray iny, ndarray inz, radians):
     # private function to call pj_transform
     cdef double *xx, *yy, *zz
-    cdef int npts, i
-    npts = PyArray_SIZE(inx)
+    cdef int i
+    cdef Py_ssize_t npts
+    npts = inx.size
     xx = <double *>inx.data
     yy = <double *>iny.data
     if inz.dtype != numpy.dtype('bool'):
