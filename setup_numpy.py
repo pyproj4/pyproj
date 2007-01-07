@@ -37,5 +37,5 @@ Designed for use with numpy arrays""",
                        "Topic :: Scientific/Engineering :: GIS",
                        "Topic :: Scientific/Engineering :: Mathematics",
 			           "Operating System :: OS Independent"],
-  py_modules        = ['pyproj'],
+  py_modules        = ['pyproj_numpy'],
   ext_modules = extensions)
