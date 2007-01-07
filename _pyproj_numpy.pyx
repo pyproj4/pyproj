@@ -72,7 +72,7 @@ cdef class Proj:
         """
         cdef projUV projxyout, projlonlatin
         cdef int i
-        cdef Py_ssize_t ndim
+        cdef Py_ssize_t npts
         cdef double u, v
         cdef double *lonsdata, *latsdata, *xdata, *ydata
         cdef ndarray x,y
@@ -82,14 +82,14 @@ cdef class Proj:
             lons = lons.copy()
         if not lats.flags['C_CONTIGUOUS']:
             lats = lats.copy()
-        ndim = lons.size
+        npts = lons.size
         lonsdata = <double *>lons.data
         latsdata = <double *>lats.data
         x = numpy.empty(lons.shape,numpy.float64)
         y = numpy.empty(lats.shape,numpy.float64)
         xdata = <double *>x.data
         ydata = <double *>y.data
-        for i from 0 <= i < ndim:
+        for i from 0 <= i < npts:
             if radians:
                 projlonlatin.u = lonsdata[i]
                 projlonlatin.v = latsdata[i]
@@ -113,7 +113,7 @@ cdef class Proj:
         """
         cdef projUV projxyin, projlonlatout
         cdef int i
-        cdef Py_ssize_t ndim
+        cdef Py_ssize_t npts
         cdef double u, v
         cdef double *xdata, *ydata, *lonsdata, *latsdata
         cdef ndarray lons, lats
@@ -123,14 +123,14 @@ cdef class Proj:
             x = x.copy()
         if not y.flags['C_CONTIGUOUS']:
             y = y.copy()
-        ndim = x.size
+        npts = x.size
         xdata = <double *>x.data
         ydata = <double *>y.data
         lons = numpy.empty(x.shape,numpy.float64)
         lats = numpy.empty(y.shape,numpy.float64)
         lonsdata = <double *>lons.data
         latsdata = <double *>lats.data
-        for i from 0 <= i < ndim:
+        for i from 0 <= i < npts:
             projxyin.u = xdata[i]
             projxyin.v = ydata[i]
             projlonlatout = pj_inv(projxyin,self.projpj)
