@@ -76,12 +76,6 @@ cdef class Proj:
         cdef double u, v
         cdef double *lonsdata, *latsdata, *xdata, *ydata
         cdef ndarray x,y
-        # make sure data is contiguous.
-        # if not, make a local copy.
-        if not lons.flags['C_CONTIGUOUS']:
-            lons = lons.copy()
-        if not lats.flags['C_CONTIGUOUS']:
-            lats = lats.copy()
         npts = lons.size
         lonsdata = <double *>lons.data
         latsdata = <double *>lats.data
@@ -117,12 +111,6 @@ cdef class Proj:
         cdef double u, v
         cdef double *xdata, *ydata, *lonsdata, *latsdata
         cdef ndarray lons, lats
-        # make sure data is contiguous.
-        # if not, make a local copy.
-        if not x.flags['C_CONTIGUOUS']:
-            x = x.copy()
-        if not y.flags['C_CONTIGUOUS']:
-            y = y.copy()
         npts = x.size
         xdata = <double *>x.data
         ydata = <double *>y.data

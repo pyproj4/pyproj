@@ -126,8 +126,14 @@ class Proj(_Proj):
         """
         lon = numpy.asarray(lon,dtype=numpy.float64)
         lat = numpy.asarray(lat,dtype=numpy.float64)
+        # make sure sizes are the same.
         if lon.size != lat.size:
             raise ValueError,'inputs must have the same size'
+        # make sure data is contiguous, if not make a copy.
+        if not lon.flags['C_CONTIGUOUS']:
+           lon = lon.copy()     
+        if not lat.flags['C_CONTIGUOUS']:
+           lat = lat.copy()     
         # call proj4 functions.
         if inverse:
             return _Proj._inv(self, lon, lat, radians=radians, errcheck=errcheck)
@@ -198,7 +204,7 @@ def transform(p1, p2, x, y, z=None, radians=False):
     if outx.size != outy.size:
         raise ValueError,'inputs must have the same size'
     if z is not None:
-        outz = numpy.asarray(z,dtype=numpy.float64)
+        outz = numpy.array(z,dtype=numpy.float64)
         if outx.size != outz.size:
             raise ValueError,'inputs must have the same size'
     else:
