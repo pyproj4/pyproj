@@ -28,6 +28,7 @@ cdef extern from "proj_api.h":
         PJ_VERSION
 
 cdef extern from "Python.h":
+    ctypedef int Py_ssize_t
     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
     char *PyString_AsString(object)
 
