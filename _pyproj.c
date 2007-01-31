@@ -5,13 +5,8 @@
 #ifndef PY_LONG_LONG
   #define PY_LONG_LONG LONG_LONG
 #endif
-#define PY_SSIZE_T_CLEAN
 #if PY_VERSION_HEX < 0x02050000
   typedef int Py_ssize_t;
-  #define PY_SSIZE_T_MAX INT_MAX
-  #define PY_SSIZE_T_MIN INT_MIN
-  #define PyInt_FromSsize_t(z) PyInt_FromLong(z)
-  #define PyInt_AsSsize_t(o)   PyInt_AsLong(o)
 #endif
 #ifdef __cplusplus
 #define __PYX_EXTERN_C extern "C"
