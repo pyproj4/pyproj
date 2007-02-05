@@ -17,7 +17,7 @@ x=765975.641 y=3805993.134
 lon=-120.108 lat=34.361
 
 Input coordinates can be given as python arrays, lists/tuples, scalars
-or numpy/Numeric/numarrays. Optimized for objects that support
+or numpy/Numeric/numarray arrays. Optimized for objects that support
 the Python buffer protocol (regular python and numpy array objects).
 
 Download: http://python.org/pypi/pyproj
