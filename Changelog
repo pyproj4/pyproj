@@ -7,7 +7,7 @@
  * Renamed pyproj.so to _pyproj.so, created a new python module
    called pyproj.py.  Moved as code as possible from _pyproj.so to
    pyproj.py.
- * docstring examples now executed to doctest when 'pyproj.test()' is run.
+ * docstring examples now executed by doctest when 'pyproj.test()' is run.
 1.8.0: 
  * Better error handling Proj.__init__.
  * Added optional keyword 'errcheck' to __call__ method. 
