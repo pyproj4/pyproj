@@ -8,6 +8,8 @@
    called pyproj.py.  Moved as code as possible from _pyproj.so to
    pyproj.py.
  * docstring examples now executed by doctest when 'pyproj.test()' is run.
+ * added test to _pyproj.c which defines Py_ssize_t for python < 2.5. 
+   This is necessary when pyrex 0.9.5 is used.
 1.8.0: 
  * Better error handling Proj.__init__.
  * Added optional keyword 'errcheck' to __call__ method. 

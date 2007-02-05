@@ -10,21 +10,7 @@ lib_dirs = [os.path.join(proj_dir,'lib')]
 inc_dirs = [os.path.join(proj_dir,'include')]
 libs = ['proj']
 
-# build directly from .pyx file if USE_PYREX env var set.
-use_pyrex = os.environ.get('USE_PYREX')
-if use_pyrex:
-    try:
-        from Pyrex.Distutils import build_ext
-    except:
-        raise ImportError("Pyrex not installed - please unset USE_PYREX environment variable")
-    srcs = ["_pyproj.pyx"]
-    cmdclass = {'build_ext': build_ext}
-# or else use pre-generated C source file.
-else:
-    srcs = ["_pyproj.c"]
-    cmdclass = {}
-
-extensions = [Extension("_pyproj",srcs,
+extensions = [Extension("_pyproj",["_pyproj.c"],
               libraries=libs,library_dirs=lib_dirs,
               runtime_library_dirs=lib_dirs,include_dirs=inc_dirs)]
 
@@ -43,7 +29,6 @@ Optimized for numpy arrays.""",
   author_email      = "jeffrey.s.whitaker@noaa.gov",
   platforms         = ["any"],
   license           = ["OSI Approved"],
-  cmdclass          = cmdclass,
   keywords          = ["python","map projections","GIS","mapping","maps"],
   classifiers       = ["Development Status :: 4 - Beta",
 			           "Intended Audience :: Science/Research", 
