@@ -1,3 +1,5 @@
+ * python 2.4 compatibility patch (suggested by Andrew Straw) from M. v. Loewis
+   http://mail.python.org/pipermail/python-dev/2006-March/062561.html 
 1.8.1: 
  * if given tuples, returns tuples (instead of lists).
  * test for numpy arrays first.
