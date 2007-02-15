@@ -27,7 +27,7 @@ cdef extern from "proj_api.h":
     cdef enum:
         PJ_VERSION
 
-cdef extern from "basemap_pycompat.h":
+cdef extern from "pycompat.h":
     ctypedef int Py_ssize_t
 
 cdef extern from "Python.h":
