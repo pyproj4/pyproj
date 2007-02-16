@@ -5,6 +5,7 @@ include MANIFEST.in
 include Changelog
 include _pyproj.pyx
 include _pyproj.c
+include pycompat.h
 include pyproj.py
 include test/test.py
 include test/test2.py
