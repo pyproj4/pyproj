@@ -1,3 +1,8 @@
+#ifndef __GEODESIC_H__
+#define __GEODESIC_H__
+
+#include "projects.h"
+
 #ifndef lint
 static char GEODESIC_H_ID[] = "@(#)geodesic.h	4.3	95/08/19	GIE	REL";
 #endif
@@ -12,40 +17,37 @@ extern "C" {
 #  define GEOD_EXTERN
 #endif
 
-GEOD_EXTERN struct geodesic {
+typedef struct geodesic {
 	double	A;
-	double	LAM1, PHI1, ALPHA12;
-	double	LAM2, PHI2, ALPHA21;
+
+  projUV p1, p2;
+
+  double	ALPHA12;
+	double	ALPHA21;
+  
 	double	DIST;
 	double	ONEF, FLAT, FLAT2, FLAT4, FLAT64;
 	int	ELLIPSE;
-} GEODESIC;
+  double FR_METER, TO_METER, del_alpha;
+  int n_alpha, n_S;
 
-# define geod_a	GEODESIC.A
-# define lam1	GEODESIC.LAM1
-# define phi1	GEODESIC.PHI1
-# define al12	GEODESIC.ALPHA12
-# define lam2	GEODESIC.LAM2
-# define phi2	GEODESIC.PHI2
-# define al21	GEODESIC.ALPHA21
-# define geod_S	GEODESIC.DIST
-# define geod_f	GEODESIC.FLAT
-# define onef	GEODESIC.ONEF
-# define f2	GEODESIC.FLAT2
-# define f4	GEODESIC.FLAT4
-# define ff2	GEODESIC.FLAT4
-# define f64	GEODESIC.FLAT64
-# define ellipse GEODESIC.ELLIPSE
 
-    
-GEOD_EXTERN int n_alpha, n_S;
-GEOD_EXTERN double to_meter, fr_meter, del_alpha;
+  double th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,D,P,s1;
+  int merid, signS;
+} GEODESIC_T;
+
 	
-void geod_set(int, char **);
-void geod_for(void);
-void geod_pre(void);
-void geod_inv(void);
+  GEODESIC_T *GEOD_init(int, char **, GEODESIC_T *g);
+  GEODESIC_T *GEOD_init_plus(const char *args, GEODESIC_T *g);
+  void geod_for(GEODESIC_T *g);
+  void  geod_pre(GEODESIC_T *g);
+  int geod_inv(GEODESIC_T *g);
 
+  
+  
 #ifdef __cplusplus
 }
 #endif
+
+#endif // __GEODESIC_H__
+
