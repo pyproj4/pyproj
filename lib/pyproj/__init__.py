@@ -20,7 +20,7 @@ Input coordinates can be given as python arrays, lists/tuples, scalars
 or numpy/Numeric/numarray arrays. Optimized for objects that support
 the Python buffer protocol (regular python and numpy array objects).
 
-Download: http://python.org/pypi/pyproj
+Download: http://code.google.com/p/pyproj/downloads/list
 
 Requirements: python 2.4 or higher.
 
@@ -55,7 +55,6 @@ import os
 
 pyproj_datadir = os.sep.join([os.path.dirname(__file__), 'data'])
 set_datapath(pyproj_datadir)
-
 
 class Proj(_Proj):
     """
