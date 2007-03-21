@@ -22,11 +22,7 @@ the Python buffer protocol (regular python and numpy array objects).
 
 Download: http://python.org/pypi/pyproj
 
-Requirements: PROJ.4 library (http://proj.maptools.org).
-
-Install:  Set the PROJ_DIR environment variable to point to the location 
-          of your proj.4 installation, then run 'python setup.py install'.
-          If you're using Windows with mingw, see README.mingw.
+Requirements: python 2.4 or higher.
 
 Example scripts are in 'test' subdirectory of source distribution.
 The 'test()' function will run the examples in the docstrings.
