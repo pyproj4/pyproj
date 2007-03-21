@@ -7,7 +7,7 @@ cdef double _dg2rad, _rad2dg
 _dg2rad = math.radians(1.)
 _rad2dg = math.degrees(1.)
 _doublesize = sizeof(double)
-__version__ = "1.8.1"
+__version__ = "1.8.2"
 
 cdef extern from "proj_api.h":
     ctypedef double *projPJ
@@ -23,6 +23,7 @@ cdef extern from "proj_api.h":
     int pj_is_geocent(projPJ)
     char *pj_strerrno(int)
     void pj_free(projPJ)
+    void pj_set_searchpath ( int count, char **path )
     cdef extern int pj_errno
     cdef enum:
         PJ_VERSION
@@ -34,6 +35,11 @@ cdef extern from "Python.h":
     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
     char *PyString_AsString(object)
 
+def set_datapath(datapath):
+    cdef char *searchpath
+    searchpath = PyString_AsString(datapath)
+    pj_set_searchpath(1, &searchpath)
+    
 cdef class Proj:
     cdef projPJ projpj
     cdef public object projparams
