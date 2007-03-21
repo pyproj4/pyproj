@@ -1,21 +1,18 @@
-import os
+import os, glob
 from distutils.core import setup, Extension
 
-# check to make sure PROJ_DIR env var set.
-proj_dir = os.environ.get('PROJ_DIR')
-if proj_dir is None:
-    raise KeyError('please set the environment variable PROJ_DIR to point to the location of your proj.4 installation')
+deps = glob.glob('src/*.c')
+deps.append('_pyproj.c')
+extensions = [Extension("pyproj/_pyproj",deps,include_dirs = ['src'])]
 
-lib_dirs = [os.path.join(proj_dir,'lib')]
-inc_dirs = [os.path.join(proj_dir,'include')]
-libs = ['proj']
+packages          = ['pyproj']
+package_dirs       = {'':'lib'}
 
-extensions = [Extension("_pyproj",["_pyproj.c"],
-              libraries=libs,library_dirs=lib_dirs,
-              runtime_library_dirs=lib_dirs,include_dirs=inc_dirs)]
+datafiles = ['data/epsg', 'data/esri', 'data/esri.extra', 'data/GL27', 'data/nad.lst', 'data/nad27', 'data/nad83', 'data/ntv2_out.dist', 'data/other.extra', 'data/pj_out27.dist', 'data/pj_out83.dist', 'data/proj_def.dat', 'data/README', 'data/td_out.dist', 'data/test27', 'data/test83', 'data/testntv2', 'data/testvarious', 'data/world']
+package_data = {'pyproj':datafiles}
 
 setup(name = "pyproj",
-  version = "1.8.1",
+  version = "1.8.2",
   description = "Pyrex generated python interface to PROJ.4 library",
   long_description  = """
 Performs cartographic transformations between geographic (lat/lon)
@@ -37,5 +34,8 @@ Optimized for numpy arrays.""",
                        "Topic :: Scientific/Engineering :: GIS",
                        "Topic :: Scientific/Engineering :: Mathematics",
 			           "Operating System :: OS Independent"],
-  py_modules        = ['pyproj'],
-  ext_modules = extensions)
+  packages          = packages,
+  package_dir       = package_dirs,
+  ext_modules = extensions,
+  package_data = package_data
+  )
