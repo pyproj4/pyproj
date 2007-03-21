@@ -1,4 +1,4 @@
-Help on module pyproj:
+Help on package pyproj:
 
 NAME
     pyproj
@@ -27,10 +27,9 @@ DESCRIPTION
     
     Download: http://python.org/pypi/pyproj
     
-    Requirements: PROJ.4 library (http://proj.maptools.org).
+    Requirements: python 2.4 or higher.
     
-    Install:  Set the PROJ_DIR environment variable to point to the location 
-              of your proj.4 installation, then run 'python setup.py install'.
+    Install:  'python setup.py install'
               If you're using Windows with mingw, see README.mingw.
     
     Example scripts are in 'test' subdirectory of source distribution.
@@ -52,6 +51,9 @@ DESCRIPTION
     USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
     OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
     PERFORMANCE OF THIS SOFTWARE.
+
+PACKAGE CONTENTS
+    _pyproj
 
 CLASSES
     _pyproj.Proj(__builtin__.object)
@@ -151,6 +153,8 @@ CLASSES
      |  projparams
 
 FUNCTIONS
+    set_datapath(...)
+    
     test()
         run the examples in the docstrings using the doctest module
     
@@ -205,6 +209,4 @@ FUNCTIONS
         -105.000 40.000
 
 VERSION
-    1.8.1
-
-
+    1.8.2
