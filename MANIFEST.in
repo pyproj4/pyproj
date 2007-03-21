@@ -2,11 +2,14 @@ include README
 include README.html
 include README.mingw
 include MANIFEST.in
+include LICENSE_proj4
 include Changelog
 include _pyproj.pyx
 include _pyproj.c
-include pycompat.h
-include pyproj.py
+include src/*.c
+include src/*.h
+include lib/pyproj/*py
+include lib/pyproj/data/*
 include test/test.py
 include test/test2.py
 include test/sample.out
