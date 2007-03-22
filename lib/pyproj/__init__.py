@@ -183,20 +183,21 @@ def transform(p1, p2, x, y, z=None, radians=False):
 
  Example usage:
 
- >>> # projection 1: north polar stereographic
- >>> p1 = Proj(proj='stere',lat_0=90,lat_ts=90,lon_0=270)
- >>> # projection 2: lambert conformal conic, 2 standard parallels.
- >>> p2 = Proj(proj='lcc',lat_1=33,lat_2=45,lon_0=270,lat_0=30)
- >>> # find x,y of Boulder, CO in projection 1
- >>> x1, y1 = p1(-105,40)
+ >>> # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum
+ >>> # (defined by epsg code 26915)
+ >>> p1 = Proj(init='epsg:26915')
+ >>> # projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum
+ >>> p2 = Proj(init='epsg:26715')
+ >>> # find x,y of Jefferson City, MO.
+ >>> x1, y1 = p1(-92.199881,38.56694)
  >>> # transform this point to projection 2 coordinates.
  >>> x2, y2 = transform(p1,p2,x1,y1)
  >>> print '%9.3f %11.3f' % (x1,y1)
- -1541018.485 -5751159.282
+ 569704.566 4269024.671
  >>> print '%9.3f %11.3f' % (x2,y2)
- -1268297.854 1212356.336
+ 569706.333 4268817.680
  >>> print '%8.3f %5.3f' % p2(x2,y2,inverse=True)
- -105.000 40.000
+  -92.200 38.567
     """
     # process inputs, making copies that support buffer API.
     inx, iny, inz, isfloat, islist, istuple = _copytobuffer(x,y,z)
