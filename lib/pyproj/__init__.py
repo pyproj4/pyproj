@@ -198,6 +198,21 @@ def transform(p1, p2, x, y, z=None, radians=False):
  569706.333 4268817.680
  >>> print '%8.3f %5.3f' % p2(x2,y2,inverse=True)
   -92.200 38.567
+ >>> # process 3 points at a time in a tuple
+ >>> lats = (38.83,39.32,38.75) # Columbia, KC and StL Missouri
+ >>> lons = (-92.22,-94.72,-90.37)
+ >>> x1, y1 = p1(lons,lats)
+ >>> x2, y2 = transform(p1,p2,x1,y1)
+ >>> xy = x1+y1
+ >>> print '%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f' % xy
+ 567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005
+ >>> xy = x2+y2
+ >>> print '%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f' % xy
+ 567705.072 351727.113 728558.917 4297993.157 4353490.111 4292111.678
+ >>> lons, lats = p2(x2,y2,inverse=True)
+ >>> xy = lons+lats
+ >>> print '%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f' % xy
+  -92.220  -94.720  -90.370 38.830 39.320 38.750
     """
     # process inputs, making copies that support buffer API.
     inx, iny, inz, isfloat, islist, istuple = _copytobuffer(x,y,z)
