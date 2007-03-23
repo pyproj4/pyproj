@@ -9,16 +9,33 @@ _rad2dg = math.degrees(1.)
 _doublesize = sizeof(double)
 __version__ = "1.8.2"
 
-cdef extern from "proj_api.h":
-    ctypedef double *projPJ
+cdef extern from "geodesic.h":
     ctypedef struct projUV:
         double u
         double v
+    ctypedef struct GEODESIC_T:
+        double A
+        projUV p1, p2
+        double ALPHA12
+        double ALPHA21
+        double DIST
+        double ONEF, FLAT, FLAT2, FLAT4, FLAT64
+        int ELLIPSE
+        double FR_METER, TO_METER, del_alpha
+        int n_alpha, n_S
+        double th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,D,P,s1
+        int merid, signS
+    GEODESIC_T *GEOD_init_plus(char *args, GEODESIC_T *g)
+    void geod_for(GEODESIC_T *g)
+    int geod_inv(GEODESIC_T *g)
+
+cdef extern from "proj_api.h":
+    ctypedef double *projPJ
     projPJ pj_init_plus(char *)
     projUV pj_fwd(projUV, projPJ)
     projUV pj_inv(projUV, projPJ)
     int pj_transform(projPJ src, projPJ dst, long point_count, int point_offset,
-                  double *x, double *y, double *z)
+                     double *x, double *y, double *z)
     int pj_is_latlong(projPJ)
     int pj_is_geocent(projPJ)
     char *pj_strerrno(int)
@@ -198,3 +215,26 @@ def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
         for i from 0 <= i < npts:
             xx[i] = xx[i]*_rad2dg
             yy[i] = yy[i]*_rad2dg
+
+cdef class Geod:
+    cdef GEODESIC_T GEOD_T
+    cdef public object geodparams
+    cdef object proj_version
+    cdef char *geodinitstring
+
+    def __new__(self, geodparams):
+        self.geodparams = geodparams
+        # setup proj initialization string.
+        geodargs = []
+        for key,value in geodparams.iteritems():
+            geodargs.append('+'+key+"="+str(value)+' ')
+        self.geodinitstring = PyString_AsString(''.join(geodargs))
+        # initialize projection
+        self.geodesic_t = geod_init_plus(self.geodinitstring, GEOD_T)
+        if pj_errno != 0:
+            raise RuntimeError(pj_strerrno(pj_errno))
+        self.proj_version = PJ_VERSION/100.
+
+    def __reduce__(self):
+        """special method that allows pyproj.Geod instance to be pickled"""
+        return (self.__class__,(self.projparams,))
