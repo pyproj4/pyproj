@@ -94,8 +94,7 @@ cdef class Proj:
  raised and the platform dependent value HUGE_VAL is returned.
         """
         cdef projUV projxyout, projlonlatin
-        cdef Py_ssize_t buflenx, bufleny
-        cdef int ndim, i
+        cdef Py_ssize_t buflenx, bufleny, ndim, i
         cdef double u, v
         cdef double *lonsdata, *latsdata
         cdef void *londata, *latdata
@@ -132,8 +131,7 @@ cdef class Proj:
  raised and the platform dependent value HUGE_VAL is returned.
         """
         cdef projUV projxyin, projlonlatout
-        cdef Py_ssize_t buflenx, bufleny
-        cdef int ndim, i
+        cdef Py_ssize_t buflenx, bufleny, ndim, i
         cdef double u, v
         cdef void *xdata, *ydata
         cdef double *xdatab, *ydatab
@@ -184,8 +182,7 @@ def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
     # private function to call pj_transform
     cdef void *xdata, *ydata, *zdata
     cdef double *xx, *yy, *zz
-    cdef Py_ssize_t buflenx, bufleny, buflenz
-    cdef int npts, i
+    cdef Py_ssize_t buflenx, bufleny, buflenz, npts, i
     if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
         raise RuntimeError
     if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:
@@ -248,9 +245,7 @@ cdef class Geod:
  forward azimuth and distance.
  if radians=True, lons/lats are radians instead of degrees.
         """
-        cdef projUV p1, p2
-        cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend
-        cdef int ndim, i
+        cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
         cdef double *lonsdata, *latsdata, *azdata, *distdata
         cdef void *londata, *latdata, *azdat, *distdat
         # if buffer api is supported, get pointer to data buffers.
@@ -272,13 +267,13 @@ cdef class Geod:
         distdata = <double *>distdat
         for i from 0 <= i < ndim:
             if radians:
-                self.geodesic_t.p1.u = lonsdata[i]
-                self.geodesic_t.p1.v = latsdata[i]
+                self.geodesic_t.p1.v = lonsdata[i]
+                self.geodesic_t.p1.u = latsdata[i]
                 self.geodesic_t.ALPHA12 = azdata[i]
                 self.geodesic_t.DIST = distdata[i]
             else:
-                self.geodesic_t.p1.u = _dg2rad*lonsdata[i]
-                self.geodesic_t.p1.v = _dg2rad*latsdata[i]
+                self.geodesic_t.p1.v = _dg2rad*lonsdata[i]
+                self.geodesic_t.p1.u = _dg2rad*latsdata[i]
                 self.geodesic_t.ALPHA12 = _dg2rad*azdata[i]
                 self.geodesic_t.DIST = distdata[i]
             geod_pre(&self.geodesic_t)
@@ -288,12 +283,12 @@ cdef class Geod:
             if pj_errno != 0:
                 raise RuntimeError(pj_strerrno(pj_errno))
             if radians:
-                lonsdata[i] = self.geodesic_t.p2.u
-                latsdata[i] = self.geodesic_t.p2.v
+                lonsdata[i] = self.geodesic_t.p2.v
+                latsdata[i] = self.geodesic_t.p2.u
                 azdata[i] = self.geodesic_t.ALPHA21
             else:
-                lonsdata[i] = _rad2dg*self.geodesic_t.p2.u
-                latsdata[i] = _rad2dg*self.geodesic_t.p2.v
+                lonsdata[i] = _rad2dg*self.geodesic_t.p2.v
+                latsdata[i] = _rad2dg*self.geodesic_t.p2.u
                 azdata[i] = _rad2dg*self.geodesic_t.ALPHA21
 
     def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):
@@ -302,8 +297,7 @@ cdef class Geod:
  between an initial and terminus lat/lon pair.
  if radians=True, lons/lats are radians instead of degrees.
         """
-        cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend
-        cdef int ndim, i
+        cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
         cdef double *lonsdata, *latsdata, *azdata, *distdata
         cdef void *londata, *latdata, *azdat, *distdat
         # if buffer api is supported, get pointer to data buffers.
