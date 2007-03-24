@@ -343,7 +343,8 @@ cdef class Geod:
         cdef int i
         cdef double del_s
         del_s = self.geodesic_t.DIST/npts
-        lats = [lat1]; lons = [lon1]
+        lats = (lat1,)
+        lons = (lon1,)
         if radians:
             self.geodesic_t.p1.v = lon1
             self.geodesic_t.p1.u = lat1
@@ -358,10 +359,11 @@ cdef class Geod:
             self.geodesic_t.DIST = i*del_s
             geod_for(&self.geodesic_t)
             if radians:
-                lats.append(self.geodesic_t.p2.u)
-                lons.append(self.geodesic_t.p2.v)
+                lats = lats + (self.geodesic_t.p2.u,)
+                lons = lons + (self.geodesic_t.p2.v,)
             else:
-                lats.append(_rad2dg*self.geodesic_t.p2.u)
-                lons.append(_rad2dg*self.geodesic_t.p2.v)
-        lons.append(lon2); lats.append(lat2)
+                lats = lats + (_rad2dg*self.geodesic_t.p2.u,)
+                lons = lons + (_rad2dg*self.geodesic_t.p2.v,)
+        lats = lats + (lat2,)
+        lons = lons + (lon2,)
         return lons, lats   
