@@ -354,11 +354,16 @@ cdef class Geod:
             self.geodesic_t.p1.u = _dg2rad*lat1
             self.geodesic_t.p2.v = _dg2rad*lon2
             self.geodesic_t.p2.u = _dg2rad*lat2
+        # do inverse computation to set azimuths, distance.
         geod_inv(&self.geodesic_t)
+        # set up some constants needed for forward computation.
         geod_pre(&self.geodesic_t)
+        # distance increment.
         del_s = self.geodesic_t.DIST/npts
+        # initialize output tuples.
         lats = ()
         lons = ()
+        # loop over intermediate points, compute lat/lons.
         for i from 1 <= i < npts:
             self.geodesic_t.DIST = i*del_s
             geod_for(&self.geodesic_t)
