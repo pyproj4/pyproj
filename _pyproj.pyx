@@ -340,11 +340,13 @@ cdef class Geod:
             azdata[i] = self.geodesic_t.DIST
 
     def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, radians=False):
+        """
+ given initial and terminus lat/lon, find npts intermediate
+ points.  Those points, plus the end points, are returned in tuples"""
         cdef int i
         cdef double del_s
-        del_s = self.geodesic_t.DIST/npts
-        lats = (lat1,)
-        lons = (lon1,)
+        lats = ()
+        lons = ()
         if radians:
             self.geodesic_t.p1.v = lon1
             self.geodesic_t.p1.u = lat1
@@ -355,6 +357,9 @@ cdef class Geod:
             self.geodesic_t.p1.u = _dg2rad*lat1
             self.geodesic_t.p2.v = _dg2rad*lon2
             self.geodesic_t.p2.u = _dg2rad*lat2
+        geod_inv(&self.geodesic_t)
+        geod_pre(&self.geodesic_t)
+        del_s = self.geodesic_t.DIST/npts
         for i from 1 <= i < npts:
             self.geodesic_t.DIST = i*del_s
             geod_for(&self.geodesic_t)
@@ -364,6 +369,4 @@ cdef class Geod:
             else:
                 lats = lats + (_rad2dg*self.geodesic_t.p2.u,)
                 lons = lons + (_rad2dg*self.geodesic_t.p2.v,)
-        lats = lats + (lat2,)
-        lons = lons + (lon2,)
         return lons, lats   
