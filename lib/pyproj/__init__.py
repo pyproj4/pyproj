@@ -390,6 +390,37 @@ longitudes of an initial and terminus point.
  See the proj documentation (http://proj.maptools.org) for more
  information about specifying ellipsoid parameters (specifically, the
  chapter 'Specifying the Earth's figure' in the main Proj users manual).
+
+ Example usage:
+
+ >>> from pyproj import Geod
+ >>> g = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
+ >>> # specify the lat/lons of some cities.
+ >>> boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
+ >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
+ >>> newyork_lat = 40.+(47./60.); newyork_lon = -73.-(58./60.)
+ >>> london_lat = 51.+(32./60.); london_lon = -(5./60.)
+ >>> # compute forward and back azimuths, plus distance
+ >>> # between Boston and Portland.
+ >>> az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+ >>> print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
+ -66.531 75.654  4164192.708
+ >>> # compute latitude, longitude and back azimuth of Portland, 
+ >>> # given Boston lat/lon, forward azimuth and distance to Portland.
+ >>> endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)
+ >>> print "%6.3f  %6.3f %13.3f" % (endlat,endlon,backaz)
+ 45.517  -123.683        75.654
+ >>> # compute the azimuths, distances from New York to several
+ >>> # cities (pass a list)
+ >>> lons1 = 3*[newyork_lon]; lats1 = 3*[newyork_lat]
+ >>> lons2 = [boston_lon, portland_lon, london_lon]
+ >>> lats2 = [boston_lat, portland_lat, london_lat]
+ >>> az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)
+ >>> for faz,baz,d in zip(az12,az21,dist): print "%7.3f %7.3f %9.3f" % (faz,baz,d)
+  54.663 -123.448 288303.720
+ -65.463  79.342 4013037.318
+  51.254 -71.576 5579916.649
+
         """
         # if projparams is None, use kwargs.
         if initparams is None:
@@ -417,25 +448,6 @@ longitudes of an initial and terminus point.
 
  if radians=True, lons/lats and azimuths are radians instead of degrees.
  Distances are in meters.
- 
- Example usage:
- >>> from pyproj import Geod
- >>> g = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
- >>> # specify the lat/lons of some cities.
- >>> boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
- >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
- >>> newyork_lat = 40.+(47./60.); newyork_lon = -73.-(58./60.)
- >>> london_lat = 51.+(32./60.); london_lon = -(5./60.)
- >>> # compute forward and back azimuths, plus distance
- >>> # between Boston and Portland.
- >>> az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
- >>> print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
- -66.531 75.654  4164192.708
- >>> # compute latitude, longitude and back azimuth of Portland, 
- >>> # given Boston lat/lon, forward azimuth and distance to Portland.
- >>> endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)
- >>> print "%6.3f  %6.3f %13.3f" % (endlat,endlon,backaz)
- 45.517  -123.683        75.654
         """
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
