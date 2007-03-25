@@ -341,12 +341,9 @@ cdef class Geod:
 
     def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, radians=False):
         """
- given initial and terminus lat/lon, find npts intermediate
- points.  Those points, plus the end points, are returned in tuples"""
+ given initial and terminus lat/lon, find npts intermediate points."""
         cdef int i
         cdef double del_s
-        lats = ()
-        lons = ()
         if radians:
             self.geodesic_t.p1.v = lon1
             self.geodesic_t.p1.u = lat1
@@ -360,6 +357,8 @@ cdef class Geod:
         geod_inv(&self.geodesic_t)
         geod_pre(&self.geodesic_t)
         del_s = self.geodesic_t.DIST/npts
+        lats = ()
+        lons = ()
         for i from 1 <= i < npts:
             self.geodesic_t.DIST = i*del_s
             geod_for(&self.geodesic_t)
