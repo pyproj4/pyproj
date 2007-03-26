@@ -1,4 +1,11 @@
- * python 2.4 compatibility patch (suggested by Andrew Straw) from M. v. Loewis
+ 1.8.2 (not yet released):
+ * added Geod class for geodesic (i.e. Great Circle) computations.
+   Includes doctests (which can be run with pyproj.test()).
+ * proj.4 source code now included, thus removing proj.4 lib
+   dependency. Version 4.5.0 is included, with a patch to
+   create an API for geodesic computations.
+ * python 2.4 compatibility patch (suggested by Andrew Straw) 
+   from M. v. Loewis:
    http://mail.python.org/pipermail/python-dev/2006-March/062561.html 
 1.8.1: 
  * if given tuples, returns tuples (instead of lists).
