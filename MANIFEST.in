@@ -1,6 +1,5 @@
 include README
 include README.html
-include README.mingw
 include MANIFEST.in
 include LICENSE_proj4
 include Changelog
