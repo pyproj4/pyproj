@@ -217,7 +217,7 @@ def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
 cdef class Geod:
     cdef GEODESIC_T geodesic_t
     cdef public object geodparams
-    cdef object proj_version
+    cdef public object proj_version
     cdef char *geodinitstring
 
     def __new__(self, geodparams):

@@ -242,6 +242,8 @@ CLASSES
      |  Data descriptors inherited from _pyproj.Geod:
      |  
      |  geodparams
+     |  
+     |  proj_version
     
     class Proj(_pyproj.Proj)
      |  performs cartographic transformations (converts from
