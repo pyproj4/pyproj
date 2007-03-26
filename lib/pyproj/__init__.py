@@ -16,29 +16,6 @@ The inverse computation involves determining the forward and back
 azimuths and distance given the latitudes and longitudes of an initial
 and terminus point.
 
-Example usage of Proj class:
-
->>> from pyproj import Proj
->>> p = Proj(proj='utm',zone=10,ellps='WGS84')
->>> x,y = p(-120.108, 34.36116666)
->>> print 'x=%9.3f y=%11.3f' % (x,y)
-x=765975.641 y=3805993.134
->>> print 'lon=%8.3f lat=%5.3f' % p(x,y,inverse=True)
-lon=-120.108 lat=34.361
->>> # do 3 cities at a time in a tuple (Fresno, LA, SF)
->>> lons = (-119.72,-118.40,-122.38)
->>> lats = (36.77, 33.93, 37.62 )
->>> x,y = p(lons, lats)
->>> print 'x: %9.3f %9.3f %9.3f' % x
-x: 792763.863 925321.537 554714.301
->>> print 'y: %9.3f %9.3f %9.3f' % y
-y: 4074377.617 3763936.941 4163835.303
->>> lons, lats = p(x, y, inverse=True) # inverse transform
->>> print 'lons: %8.3f %8.3f %8.3f' % lons
-lons: -119.720 -118.400 -122.380
->>> print 'lats: %8.3f %8.3f %8.3f' % lats
-lats:   36.770   33.930   37.620
-
 Input coordinates can be given as python arrays, lists/tuples, scalars
 or numpy/Numeric/numarray arrays. Optimized for objects that support
 the Python buffer protocol (regular python and numpy array objects).
@@ -117,6 +94,29 @@ class Proj(_Proj):
  given in a dictionary 'projparams' or as keyword arguments.
  See the proj documentation (http://proj.maptools.org) for more
  information about specifying projection parameters.
+
+ Example usage:
+ 
+ >>> from pyproj import Proj
+ >>> p = Proj(proj='utm',zone=10,ellps='WGS84')
+ >>> x,y = p(-120.108, 34.36116666)
+ >>> print 'x=%9.3f y=%11.3f' % (x,y)
+ x=765975.641 y=3805993.134
+ >>> print 'lon=%8.3f lat=%5.3f' % p(x,y,inverse=True)
+ lon=-120.108 lat=34.361
+ >>> # do 3 cities at a time in a tuple (Fresno, LA, SF)
+ >>> lons = (-119.72,-118.40,-122.38)
+ >>> lats = (36.77, 33.93, 37.62 )
+ >>> x,y = p(lons, lats)
+ >>> print 'x: %9.3f %9.3f %9.3f' % x
+ x: 792763.863 925321.537 554714.301
+ >>> print 'y: %9.3f %9.3f %9.3f' % y
+ y: 4074377.617 3763936.941 4163835.303
+ >>> lons, lats = p(x, y, inverse=True) # inverse transform
+ >>> print 'lons: %8.3f %8.3f %8.3f' % lons
+ lons: -119.720 -118.400 -122.380
+ >>> print 'lats: %8.3f %8.3f %8.3f' % lats
+ lats:   36.770   33.930   37.620
         """
         # if projparams is None, use kwargs.
         if projparams is None:
