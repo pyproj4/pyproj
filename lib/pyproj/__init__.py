@@ -81,9 +81,7 @@ class Proj(_Proj):
  If errcheck=False and the transformation is invalid, no execption
  is raised and the platform dependent value HUGE_VAL is returned.
  Works with numpy and regular python array objects, python sequences
- and scalars, but is fastest for array objects. lon and
- lat must be of same type (array, list/tuple or scalar) and have the
- same length (if array, list or tuple).
+ and scalars, but is fastest for array objects. 
     """
 
     def __new__(self, projparams=None, **kwargs):
@@ -149,9 +147,7 @@ class Proj(_Proj):
  if they are not, causing a slight performance hit).
 
  Works with numpy and regular python array objects, python sequences
- and scalars, but is fastest for array objects. lon and
- lat must be of same type (array, list/tuple or scalar) and have the
- same length (if array, list or tuple).
+ and scalars, but is fastest for array objects.
         """
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(lon)
@@ -202,9 +198,7 @@ def transform(p1, p2, x, y, z=None, radians=False):
  radians keyword has no effect.
 
  x,y and z can be numpy or regular python arrays,
- python lists/tuples or scalars. Arrays are fastest. x,y and z must be
- all of the same type (array, list/tuple or scalar), and have the 
- same length (if arrays, lists or tuples).
+ python lists/tuples or scalars. Arrays are fastest. 
  For projections in geocentric coordinates, values of
  x and y are given in meters.  z is always meters.
 
@@ -442,9 +436,8 @@ longitudes of an initial and terminus point.
  of terminus points given longitudes (lons) and latitudes (lats) of initial
  points, plus forward azimuths (az) and distances (dist).
 
- Works with numpy and regular python array objects, python sequences
- Inputs must be of same type (array, list/tuple or scalar) and have the
- same length (if array, list or tuple).
+ Works with numpy and regular python array objects, python sequences and 
+ scalars.
 
  if radians=True, lons/lats and azimuths are radians instead of degrees.
  Distances are in meters.
@@ -468,9 +461,8 @@ longitudes of an initial and terminus point.
  distances between initial points (specified by lons1, lats1) and
  terminus points (specified by lons2, lats2).
 
- Works with numpy and regular python array objects, python sequences
- Inputs must be of same type (array, list/tuple or scalar) and have the
- same length (if array, list or tuple).
+ Works with numpy and regular python array objects, python sequences and 
+ scalars.
 
  if radians=True, lons/lats and azimuths are radians instead of degrees.
  Distances are in meters.
