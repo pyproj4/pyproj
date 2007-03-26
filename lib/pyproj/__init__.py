@@ -63,12 +63,11 @@ class Proj(_Proj):
  to native map projection x,y coordinates and vice versa) using proj 
  (http://proj.maptools.org/)
 
- A Proj class instance is initialized with 
- proj map projection control parameter key/value pairs.
- The key/value pairs can either be passed in a dictionary,
- or as keyword arguments.
- See http://www.remotesensing.org/geotiff/proj_list for
- examples of key/value pairs defining different map projections.
+ A Proj class instance is initialized with proj map projection control
+ parameter key/value pairs. The key/value pairs can either be passed in a
+ dictionary, or as keyword arguments. See
+ http://www.remotesensing.org/geotiff/proj_list for examples of key/value
+ pairs defining different map projections.
 
  Calling a Proj class instance with the arguments lon, lat will
  convert lon/lat (in degrees) to x/y native map projection 
@@ -472,7 +471,7 @@ longitudes of an initial and terminus point.
         iny, yisfloat, yislist, yistuple = _copytobuffer(lats1)
         inz, zisfloat, zislist, zistuple = _copytobuffer(lons2)
         ind, disfloat, dislist, distuple = _copytobuffer(lats2)
-        # call geod_invr function. inputs modified in place.
+        # call geod_inv function. inputs modified in place.
         _Geod._inv(self, inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
