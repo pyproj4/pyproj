@@ -11,8 +11,10 @@ cdef extern from "stdlib.h":
     void free(void *ptr)
 
 cdef extern from "math.h":
+    int isnan(double)
     cdef enum:
         HUGE_VAL
+        FP_NAN
 
 cdef extern from "geodesic.h":
     ctypedef struct projUV:

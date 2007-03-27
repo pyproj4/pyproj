@@ -78,18 +78,6 @@ cdef class Geod:
                 lonsdata[i] = _rad2dg*self.geodesic_t.p2.v
                 latsdata[i] = _rad2dg*self.geodesic_t.p2.u
                 azdata[i] = _rad2dg*self.geodesic_t.ALPHA21
-            # local mod for basemap - since HUGE_VAL can be 'inf',
-            # change it to a real (but very large) number.
-            # otherwise, postscript files end up with 'inf' in them,
-            # which ghostscript doesn't like.
-            #if projxyout.u == HUGE_VAL:
-            #    lonsdata[i] = 1.e30
-            #else:
-            #    lonsdata[i] = projxyout.u
-            #if projxyout.v == HUGE_VAL:
-            #    latsdata[i] = 1.e30
-            #else:     
-            #    latsdata[i] = projxyout.v
 
     def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):
         """
@@ -129,6 +117,8 @@ cdef class Geod:
                 self.geodesic_t.p2.v = _dg2rad*azdata[i]
                 self.geodesic_t.p2.u = _dg2rad*distdata[i]
             geod_inv(&self.geodesic_t)
+            if isnan(self.geodesic_t.DIST) == FP_NAN:
+                raise ValueError('undefined geodesic (may be an antipodal point)')
             if pj_errno != 0:
                 raise RuntimeError(pj_strerrno(pj_errno))
             if radians:
