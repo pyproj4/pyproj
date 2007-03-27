@@ -51,15 +51,17 @@ DESCRIPTION
     CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 PACKAGE CONTENTS
+    _geod
+    _proj
     _pyproj
 
 CLASSES
-    _pyproj.Geod(__builtin__.object)
+    _geod.Geod(__builtin__.object)
         Geod
-    _pyproj.Proj(__builtin__.object)
+    _proj.Proj(__builtin__.object)
         Proj
     
-    class Geod(_pyproj.Geod)
+    class Geod(_geod.Geod)
      |  performs forward and inverse geodetic, or Great Circle,
      |  computations.  The forward computation (using the 'fwd' method)
      |  involves determining latitude, longitude and back azimuth of a
@@ -71,7 +73,7 @@ CLASSES
      |  
      |  Method resolution order:
      |      Geod
-     |      _pyproj.Geod
+     |      _geod.Geod
      |      __builtin__.object
      |  
      |  Methods defined here:
@@ -118,15 +120,16 @@ CLASSES
      |      >>> # find ten equally spaced points between Boston and Portland.
      |      >>> lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10)
      |      >>> for lon,lat in lonlats: print '%6.3f  %7.3f' % (lat, lon)
-     |      43.646  -75.853
-     |      44.837  -80.797
-     |      45.806  -85.928
-     |      46.536  -91.218
-     |      47.016  -96.627
-     |      47.236  -102.106
-     |      47.194  -107.604
-     |      46.888  -113.066
-     |      46.326  -118.441
+     |      43.528  -75.414
+     |      44.637  -79.883
+     |      45.565  -84.512
+     |      46.299  -89.279
+     |      46.830  -94.156
+     |      47.149  -99.112
+     |      47.251  -104.106
+     |      47.136  -109.100
+     |      46.805  -114.051
+     |      46.262  -118.924
      |  
      |  ----------------------------------------------------------------------
      |  Static methods defined here:
@@ -233,19 +236,19 @@ CLASSES
      |      list of weak references to the object (if defined)
      |  
      |  ----------------------------------------------------------------------
-     |  Methods inherited from _pyproj.Geod:
+     |  Methods inherited from _geod.Geod:
      |  
      |  __reduce__(...)
      |      special method that allows pyproj.Geod instance to be pickled
      |  
      |  ----------------------------------------------------------------------
-     |  Data descriptors inherited from _pyproj.Geod:
+     |  Data descriptors inherited from _geod.Geod:
      |  
      |  geodparams
      |  
      |  proj_version
     
-    class Proj(_pyproj.Proj)
+    class Proj(_proj.Proj)
      |  performs cartographic transformations (converts from
      |  longitude,latitude to native map projection x,y coordinates and
      |  vice versa) using proj (http://proj.maptools.org/)
@@ -265,13 +268,14 @@ CLASSES
      |  degrees. If optional keyword 'errcheck' is True (default is
      |  False) an exception is raised if the transformation is invalid.
      |  If errcheck=False and the transformation is invalid, no
-     |  execption is raised and the platform dependent value HUGE_VAL is
-     |  returned. Works with numpy and regular python array objects,
-     |  python sequences and scalars, but is fastest for array objects.
+     |  exception is raised and 1.e30 is returned.
+     |  
+     |  Works with numpy and regular python array objects, python
+     |  sequences and scalars.
      |  
      |  Method resolution order:
      |      Proj
-     |      _pyproj.Proj
+     |      _proj.Proj
      |      __builtin__.object
      |  
      |  Methods defined here:
@@ -286,8 +290,7 @@ CLASSES
      |      degrees. If optional keyword 'errcheck' is True (default is
      |      False) an exception is raised if the transformation is invalid.
      |      If errcheck=False and the transformation is invalid, no
-     |      execption is raised and the platform dependent value HUGE_VAL is
-     |      returned.
+     |      execption is raised and 1.e30 is returned.
      |      
      |      Inputs should be doubles (they will be cast to doubles if they
      |      are not, causing a slight performance hit).
@@ -345,13 +348,13 @@ CLASSES
      |      list of weak references to the object (if defined)
      |  
      |  ----------------------------------------------------------------------
-     |  Methods inherited from _pyproj.Proj:
+     |  Methods inherited from _proj.Proj:
      |  
      |  __reduce__(...)
      |      special method that allows pyproj.Proj instance to be pickled
      |  
      |  ----------------------------------------------------------------------
-     |  Data descriptors inherited from _pyproj.Proj:
+     |  Data descriptors inherited from _proj.Proj:
      |  
      |  proj_version
      |  

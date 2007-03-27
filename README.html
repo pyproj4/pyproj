@@ -8,8 +8,8 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pyproj</strong></big></big> (version 1.8.2)</font></td
 ><td align=right valign=bottom
-    ><font color="#ffffff" face="helvetica, arial">
-        </font></td></tr></table>
+    >
+    </td></tr></table>
     <p><tt>Pyrex&nbsp;wrapper&nbsp;to&nbsp;provide&nbsp;python&nbsp;interfaces&nbsp;to&nbsp;<br>
 PROJ.4&nbsp;(<a href="http://proj.maptools.org">http://proj.maptools.org</a>)&nbsp;functions.<br>
 &nbsp;<br>
@@ -62,8 +62,10 @@ CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR&nbsp;PERFORMANCE&nbsp;OF&nbsp;THI
 <font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pyproj._pyproj.html">_pyproj</a><br>
-</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pyproj._geod.html">_geod</a><br>
+</td><td width="25%" valign=top><a href="pyproj._proj.html">_proj</a><br>
+</td><td width="25%" valign=top><a href="pyproj._pyproj.html">_pyproj</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -71,13 +73,13 @@ CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR&nbsp;PERFORMANCE&nbsp;OF&nbsp;THI
     
 <tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl>
-<dt><font face="helvetica, arial">_pyproj.Geod(<a href="__builtin__.html#object">__builtin__.object</a>)
+<dt><font face="helvetica, arial">_geod.Geod(<a href="__builtin__.html#object">__builtin__.object</a>)
 </font></dt><dd>
 <dl>
 <dt><font face="helvetica, arial"><a href="pyproj.html#Geod">Geod</a>
 </font></dt></dl>
 </dd>
-<dt><font face="helvetica, arial">_pyproj.Proj(<a href="__builtin__.html#object">__builtin__.object</a>)
+<dt><font face="helvetica, arial">_proj.Proj(<a href="__builtin__.html#object">__builtin__.object</a>)
 </font></dt><dd>
 <dl>
 <dt><font face="helvetica, arial"><a href="pyproj.html#Proj">Proj</a>
@@ -88,7 +90,7 @@ CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR&nbsp;PERFORMANCE&nbsp;OF&nbsp;THI
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="Geod">class <strong>Geod</strong></a>(_pyproj.Geod)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="Geod">class <strong>Geod</strong></a>(_geod.Geod)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>performs&nbsp;forward&nbsp;and&nbsp;inverse&nbsp;geodetic,&nbsp;or&nbsp;Great&nbsp;Circle,<br>
@@ -102,7 +104,7 @@ initial&nbsp;and&nbsp;terminus&nbsp;point.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="pyproj.html#Geod">Geod</a></dd>
-<dd>_pyproj.Geod</dd>
+<dd>_geod.Geod</dd>
 <dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
 </dl>
 <hr>
@@ -146,15 +148,16 @@ Example&nbsp;usage:<br>
 &gt;&gt;&gt;&nbsp;#&nbsp;find&nbsp;ten&nbsp;equally&nbsp;spaced&nbsp;points&nbsp;between&nbsp;Boston&nbsp;and&nbsp;Portland.<br>
 &gt;&gt;&gt;&nbsp;lonlats&nbsp;=&nbsp;g.<a href="#Geod-npts">npts</a>(boston_lon,boston_lat,portland_lon,portland_lat,10)<br>
 &gt;&gt;&gt;&nbsp;for&nbsp;lon,lat&nbsp;in&nbsp;lonlats:&nbsp;print&nbsp;'%6.3f&nbsp;&nbsp;%7.3f'&nbsp;%&nbsp;(lat,&nbsp;lon)<br>
-43.646&nbsp;&nbsp;-75.853<br>
-44.837&nbsp;&nbsp;-80.797<br>
-45.806&nbsp;&nbsp;-85.928<br>
-46.536&nbsp;&nbsp;-91.218<br>
-47.016&nbsp;&nbsp;-96.627<br>
-47.236&nbsp;&nbsp;-102.106<br>
-47.194&nbsp;&nbsp;-107.604<br>
-46.888&nbsp;&nbsp;-113.066<br>
-46.326&nbsp;&nbsp;-118.441</tt></dd></dl>
+43.528&nbsp;&nbsp;-75.414<br>
+44.637&nbsp;&nbsp;-79.883<br>
+45.565&nbsp;&nbsp;-84.512<br>
+46.299&nbsp;&nbsp;-89.279<br>
+46.830&nbsp;&nbsp;-94.156<br>
+47.149&nbsp;&nbsp;-99.112<br>
+47.251&nbsp;&nbsp;-104.106<br>
+47.136&nbsp;&nbsp;-109.100<br>
+46.805&nbsp;&nbsp;-114.051<br>
+46.262&nbsp;&nbsp;-118.924</tt></dd></dl>
 
 <hr>
 Static methods defined here:<br>
@@ -258,11 +261,11 @@ Data descriptors defined here:<br>
 <dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
 </dl>
 <hr>
-Methods inherited from _pyproj.Geod:<br>
+Methods inherited from _geod.Geod:<br>
 <dl><dt><a name="Geod-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt>special&nbsp;method&nbsp;that&nbsp;allows&nbsp;pyproj.<a href="#Geod">Geod</a>&nbsp;instance&nbsp;to&nbsp;be&nbsp;pickled</tt></dd></dl>
 
 <hr>
-Data descriptors inherited from _pyproj.Geod:<br>
+Data descriptors inherited from _geod.Geod:<br>
 <dl><dt><strong>geodparams</strong></dt>
 </dl>
 <dl><dt><strong>proj_version</strong></dt>
@@ -271,7 +274,7 @@ Data descriptors inherited from _pyproj.Geod:<br>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="Proj">class <strong>Proj</strong></a>(_pyproj.Proj)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="Proj">class <strong>Proj</strong></a>(_proj.Proj)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>performs&nbsp;cartographic&nbsp;transformations&nbsp;(converts&nbsp;from<br>
@@ -293,13 +296,14 @@ lon/lat&nbsp;is&nbsp;performed.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'radians
 degrees.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'errcheck'&nbsp;is&nbsp;True&nbsp;(default&nbsp;is<br>
 False)&nbsp;an&nbsp;exception&nbsp;is&nbsp;raised&nbsp;if&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid.<br>
 If&nbsp;errcheck=False&nbsp;and&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid,&nbsp;no<br>
-execption&nbsp;is&nbsp;raised&nbsp;and&nbsp;the&nbsp;platform&nbsp;dependent&nbsp;value&nbsp;HUGE_VAL&nbsp;is<br>
-returned.&nbsp;Works&nbsp;with&nbsp;numpy&nbsp;and&nbsp;regular&nbsp;python&nbsp;array&nbsp;objects,<br>
-python&nbsp;sequences&nbsp;and&nbsp;scalars,&nbsp;but&nbsp;is&nbsp;fastest&nbsp;for&nbsp;array&nbsp;objects.<br>&nbsp;</tt></td></tr>
+exception&nbsp;is&nbsp;raised&nbsp;and&nbsp;1.e30&nbsp;is&nbsp;returned.<br>
+&nbsp;<br>
+Works&nbsp;with&nbsp;numpy&nbsp;and&nbsp;regular&nbsp;python&nbsp;array&nbsp;objects,&nbsp;python<br>
+sequences&nbsp;and&nbsp;scalars.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="pyproj.html#Proj">Proj</a></dd>
-<dd>_pyproj.Proj</dd>
+<dd>_proj.Proj</dd>
 <dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
 </dl>
 <hr>
@@ -313,8 +317,7 @@ lon/lat&nbsp;is&nbsp;performed.&nbsp;&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'r
 degrees.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'errcheck'&nbsp;is&nbsp;True&nbsp;(default&nbsp;is<br>
 False)&nbsp;an&nbsp;exception&nbsp;is&nbsp;raised&nbsp;if&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid.<br>
 If&nbsp;errcheck=False&nbsp;and&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid,&nbsp;no<br>
-execption&nbsp;is&nbsp;raised&nbsp;and&nbsp;the&nbsp;platform&nbsp;dependent&nbsp;value&nbsp;HUGE_VAL&nbsp;is<br>
-returned.<br>
+execption&nbsp;is&nbsp;raised&nbsp;and&nbsp;1.e30&nbsp;is&nbsp;returned.<br>
 &nbsp;<br>
 Inputs&nbsp;should&nbsp;be&nbsp;doubles&nbsp;(they&nbsp;will&nbsp;be&nbsp;cast&nbsp;to&nbsp;doubles&nbsp;if&nbsp;they<br>
 are&nbsp;not,&nbsp;causing&nbsp;a&nbsp;slight&nbsp;performance&nbsp;hit).<br>
@@ -367,11 +370,11 @@ Data descriptors defined here:<br>
 <dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
 </dl>
 <hr>
-Methods inherited from _pyproj.Proj:<br>
+Methods inherited from _proj.Proj:<br>
 <dl><dt><a name="Proj-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt>special&nbsp;method&nbsp;that&nbsp;allows&nbsp;pyproj.<a href="#Proj">Proj</a>&nbsp;instance&nbsp;to&nbsp;be&nbsp;pickled</tt></dd></dl>
 
 <hr>
-Data descriptors inherited from _pyproj.Proj:<br>
+Data descriptors inherited from _proj.Proj:<br>
 <dl><dt><strong>proj_version</strong></dt>
 </dl>
 <dl><dt><strong>projparams</strong></dt>
