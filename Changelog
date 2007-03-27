@@ -1,4 +1,6 @@
  1.8.2 (not yet released):
+ * instead of returning HUGE_VAL (usually 'inf') when projection not defined
+   and errcheck=False, return 1.e30.
  * added Geod class for geodesic (i.e. Great Circle) computations.
    Includes doctests (which can be run with pyproj.test()).
  * proj.4 source code now included, thus removing proj.4 lib
