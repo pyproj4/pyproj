@@ -5,6 +5,8 @@ include LICENSE_proj4
 include Changelog
 include _proj.pyx
 include _geod.pyx
+include _proj.c
+include _geod.c
 include _pyproj.pxi
 include src/*.c
 include src/*.h
