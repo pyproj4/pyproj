@@ -78,9 +78,10 @@ lon/lat is performed. If optional keyword 'radians' is True
 degrees. If optional keyword 'errcheck' is True (default is
 False) an exception is raised if the transformation is invalid.
 If errcheck=False and the transformation is invalid, no
-execption is raised and the platform dependent value HUGE_VAL is
-returned. Works with numpy and regular python array objects,
-python sequences and scalars, but is fastest for array objects. 
+exception is raised and 1.e30 is returned.
+
+Works with numpy and regular python array objects, python
+sequences and scalars.
     """
 
     def __new__(self, projparams=None, **kwargs):
@@ -140,8 +141,7 @@ lon/lat is performed.  If optional keyword 'radians' is True
 degrees. If optional keyword 'errcheck' is True (default is
 False) an exception is raised if the transformation is invalid.
 If errcheck=False and the transformation is invalid, no
-execption is raised and the platform dependent value HUGE_VAL is
-returned.
+execption is raised and 1.e30 is returned.
 
 Inputs should be doubles (they will be cast to doubles if they
 are not, causing a slight performance hit).
