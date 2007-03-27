@@ -45,11 +45,11 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 
-from _pyproj import Proj as _Proj
-from _pyproj import Geod as _Geod
-from _pyproj import _transform
-from _pyproj import __version__
-from _pyproj import set_datapath
+from _proj import Proj as _Proj
+from _geod import Geod as _Geod
+from _proj import _transform
+from _proj import __version__
+from _proj import set_datapath
 from array import array
 from types import TupleType, ListType, NoneType
 import os
@@ -502,15 +502,16 @@ Example usage:
 >>> # find ten equally spaced points between Boston and Portland.
 >>> lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10)
 >>> for lon,lat in lonlats: print '%6.3f  %7.3f' % (lat, lon)
-43.646  -75.853
-44.837  -80.797
-45.806  -85.928
-46.536  -91.218
-47.016  -96.627
-47.236  -102.106
-47.194  -107.604
-46.888  -113.066
-46.326  -118.441
+43.528  -75.414
+44.637  -79.883
+45.565  -84.512
+46.299  -89.279
+46.830  -94.156
+47.149  -99.112
+47.251  -104.106
+47.136  -109.100
+46.805  -114.051
+46.262  -118.924
        """
         lons, lats = _Geod._npts(self,lon1,lat1,lon2,lat2,npts,radians=radians)
         return zip(lons, lats)
