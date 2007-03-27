@@ -3,8 +3,9 @@ include README.html
 include MANIFEST.in
 include LICENSE_proj4
 include Changelog
-include _pyproj.pyx
-include _pyproj.c
+include _proj.pyx
+include _geod.pyx
+include _pyproj.pxi
 include src/*.c
 include src/*.h
 include lib/pyproj/*py
