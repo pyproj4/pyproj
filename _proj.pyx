@@ -12,6 +12,7 @@ cdef class Proj:
     cdef public object projparams
     cdef public object proj_version
     cdef char *pjinitstring
+    cdef public object srs
 
     def __new__(self, projparams):
         self.projparams = projparams
@@ -19,7 +20,8 @@ cdef class Proj:
         pjargs = []
         for key,value in projparams.iteritems():
             pjargs.append('+'+key+"="+str(value)+' ')
-        self.pjinitstring = PyString_AsString(''.join(pjargs))
+        self.srs = ''.join(pjargs)
+        self.pjinitstring = PyString_AsString(self.srs)
         # initialize projection
         self.projpj = pj_init_plus(self.pjinitstring)
         if pj_errno != 0:
