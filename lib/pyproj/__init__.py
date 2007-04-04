@@ -377,10 +377,10 @@ new_intl a=6378157.5      b=6356772.2      New International 1967
   sphere a=6370997.0      b=6370997.0      Normal Sphere (r=6370997)
 
 The parameters of the ellipsoid may also be set directly using
-the 'a' (semi-major or equatorial axis radius), 'b' (semi-minor,
+the 'a' (semi-major or equatorial axis radius) keyword, and
+any one of the following keywords: 'b' (semi-minor,
 or polar axis radius), 'e' (eccentricity), 'es' (eccentricity
-squared), 'f' (flattening), or rf' (reciprocal flattening)
-keywords.
+squared), 'f' (flattening), or 'rf' (reciprocal flattening).
 
 See the proj documentation (http://proj.maptools.org) for more
 information about specifying ellipsoid parameters (specifically,
