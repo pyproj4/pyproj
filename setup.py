@@ -2,8 +2,8 @@ import os, glob
 from distutils.core import setup, Extension
 
 deps = glob.glob('src/*.c')
-extensions = [Extension("pyproj/_proj",deps+['_proj.c'],include_dirs = ['src'])]
-extensions.append(Extension("pyproj/_geod",deps+['_geod.c'],include_dirs = ['src']))
+extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
+extensions.append(Extension("pyproj._geod",deps+['_geod.c'],include_dirs = ['src']))
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
