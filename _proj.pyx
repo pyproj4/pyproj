@@ -70,12 +70,8 @@ cdef class Proj:
             projxyout = pj_fwd(projlonlatin,self.projpj)
             if errcheck and pj_errno != 0:
                 raise RuntimeError(pj_strerrno(pj_errno))
-            lonsdata[i] = projxyout.u
-            latsdata[i] = projxyout.v
-            # local mod for basemap - since HUGE_VAL can be 'inf',
+            # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
-            # otherwise, postscript files end up with 'inf' in them,
-            # which ghostscript doesn't like.
             if projxyout.u == HUGE_VAL:
                 lonsdata[i] = 1.e30
             else:
@@ -116,11 +112,19 @@ cdef class Proj:
             projlonlatout = pj_inv(projxyin,self.projpj)
             if errcheck and pj_errno != 0:
                 raise RuntimeError(pj_strerrno(pj_errno))
-            if radians:
+            # since HUGE_VAL can be 'inf',
+            # change it to a real (but very large) number.
+            if projlonlatout.u == HUGE_VAL:
+                xdatab[i] = 1.e30
+            elif radians:
                 xdatab[i] = projlonlatout.u
-                ydatab[i] = projlonlatout.v
             else:
                 xdatab[i] = _rad2dg*projlonlatout.u
+            if projlonlatout.v == HUGE_VAL:
+                ydatab[i] = 1.e30
+            elif radians:
+                ydatab[i] = projlonlatout.v
+            else:
                 ydatab[i] = _rad2dg*projlonlatout.v
 
     def is_latlong(self):
