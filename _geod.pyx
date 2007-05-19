@@ -24,7 +24,7 @@ cdef class Geod:
 
     def __reduce__(self):
         """special method that allows pyproj.Geod instance to be pickled"""
-        return (self.__class__,(self.projparams,))
+        return (self.__class__,(self.geodparams,))
 
     def _fwd(self, object lons, object lats, object az, object dist, radians=False):
         """
