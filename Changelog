@@ -1,4 +1,5 @@
  1.8.3:
+ * add Geod.__dealloc__ to prevent memory leaks.
  * fix __reduce__ method of Geod class so instances can be pickled.
  * make sure points outside projection limb are set to 1.e30 on inverse
    transform (if errcheck=False).

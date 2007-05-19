@@ -22,6 +22,10 @@ cdef class Geod:
             raise RuntimeError(pj_strerrno(pj_errno))
         self.proj_version = PJ_VERSION/100.
 
+    def __dealloc__(self):
+        """destroy geodesic definition"""
+        free(&self.geodesic_t)
+
     def __reduce__(self):
         """special method that allows pyproj.Geod instance to be pickled"""
         return (self.__class__,(self.geodparams,))
