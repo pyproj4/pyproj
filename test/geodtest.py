@@ -1,5 +1,5 @@
 from pyproj import Geod
-import commands
+import commands, cPickle
 g = Geod(ellps='clrk66')
 lat1pt = 42.+(15./60.)
 lon1pt = -71.-(7./60.)
@@ -55,3 +55,28 @@ except ValueError:
     print 'OK'
 else:
     print 'not OK, no exception raised!'
+
+# specify the lat/lons of some cities.
+boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
+portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
+newyork_lat = 40.+(47./60.); newyork_lon = -73.-(58./60.)
+london_lat = 51.+(32./60.); london_lon = -(5./60.)
+g1 = Geod(ellps='clrk66')
+cPickle.dump(g1,open('geod1.pickle','wb'),-1)
+g2 = Geod(ellps='WGS84')
+cPickle.dump(g2,open('geod2.pickle','wb'),-1)
+az12,az21,dist = g1.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+print "distance between boston and portland, clrk66:"
+print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
+print "distance between boston and portland, WGS84:"
+az12,az21,dist = g2.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
+print "testing pickling of Geod instance"
+g3 = cPickle.load(open('geod1.pickle','rb'))
+g4 = cPickle.load(open('geod2.pickle','rb'))
+az12,az21,dist = g3.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+print "distance between boston and portland, clrk66 (from pickle):"
+print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
+az12,az21,dist = g4.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+print "distance between boston and portland, WGS84 (from pickle):"
+print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
