@@ -18,3 +18,4 @@ include test/test2.py
 include test/sample.out
 include test/datum_shift.py
 include test/test_transform.py
+include test/geodtest.py
