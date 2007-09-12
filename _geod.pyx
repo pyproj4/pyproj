@@ -70,7 +70,7 @@ cdef class Geod:
             geod_for(&self.geodesic_t)
             if pj_errno != 0:
                 raise RuntimeError(pj_strerrno(pj_errno))
-            if isnan(self.geodesic_t.ALPHA21) == FP_NAN:
+            if isnan(self.geodesic_t.ALPHA21):
                 raise ValueError('undefined forward geodesic (may be an equatorial arc)')
             if radians:
                 lonsdata[i] = self.geodesic_t.p2.v
@@ -119,7 +119,7 @@ cdef class Geod:
                 self.geodesic_t.p2.v = _dg2rad*azdata[i]
                 self.geodesic_t.p2.u = _dg2rad*distdata[i]
             geod_inv(&self.geodesic_t)
-            if isnan(self.geodesic_t.DIST) == FP_NAN:
+            if isnan(self.geodesic_t.DIST):
                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
             if pj_errno != 0:
                 raise RuntimeError(pj_strerrno(pj_errno))
