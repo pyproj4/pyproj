@@ -1,9 +1,11 @@
-1.8.3:
+1.8.3 (svn revision 145):
+ * fixed bug in Geod class that cause erroneous error message
+   "undefined inverse geodesic (may be an antipodal point)".
  * fix __reduce__ method of Geod class so instances can be pickled.
  * make sure points outside projection limb are set to 1.e30 on inverse
    transform (if errcheck=False).
  * fixed small setup.py bug.
- * generate C source with Cython 0.9.6.5 (pycompat.h no longer needed).
+ * generate C source with Cython 0.9.6.6 (pycompat.h no longer needed).
 1.8.2:
  * added 'srs' (spatial reference system) instance variable to Proj.
  * instead of returning HUGE_VAL (usually 'inf') when projection not defined
