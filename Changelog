@@ -1,3 +1,4 @@
+1.8.4 (not yet released)
  * updated proj4 sources to version 4.6.0
 1.8.3 (svn revision 146):
  * fixed bug in Geod class that caused erroneous error message
