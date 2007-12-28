@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_utils.c,v 1.4 2005/07/06 14:04:09 fwarmerdam Exp $
+ * $Id: pj_utils.c,v 1.5 2007/03/12 14:05:35 fwarmerdam Exp $
  *
  * Project:  PROJ.4
  * Purpose:  Some utility functions we don't want to bother putting in
@@ -29,6 +29,9 @@
  ******************************************************************************
  *
  * $Log: pj_utils.c,v $
+ * Revision 1.5  2007/03/12 14:05:35  fwarmerdam
+ * Removed duplicate towgs84 definition code.
+ *
  * Revision 1.4  2005/07/06 14:04:09  fwarmerdam
  * Improved precision of es encoding for pj_latlong_from_proj() per:
  *   http://bugzilla.remotesensing.org/show_bug.cgi?id=881
@@ -131,10 +134,6 @@ PJ *pj_latlong_from_proj( PJ *pj_in )
 
     if( !got_datum )
     {
-        if( pj_param(pj_in->params, "ttowgs84").i )
-            sprintf( defn+strlen(defn), " +towgs84=%s", 
-                     pj_param(pj_in->params,"stowgs84").s );
-
         if( pj_param(pj_in->params, "ttowgs84").i )
             sprintf( defn+strlen(defn), " +towgs84=%s", 
                      pj_param(pj_in->params,"stowgs84").s );

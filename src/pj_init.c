@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_init.c,v 1.18 2006/10/12 21:04:39 fwarmerdam Exp $
+ * $Id: pj_init.c,v 1.19 2007/11/26 00:21:59 fwarmerdam Exp $
  *
  * Project:  PROJ.4
  * Purpose:  Initialize projection object from string definition.  Includes
@@ -30,6 +30,15 @@
  ******************************************************************************
  *
  * $Log: pj_init.c,v $
+ * Revision 1.19  2007/11/26 00:21:59  fwarmerdam
+ * Modified PJ structure to hold a_orig, es_orig, ellipsoid definition before
+ * adjustment for spherical projections.
+ * Modified pj_datum_transform() to use the original ellipsoid parameters,
+ * not the ones adjusted for spherical projections.
+ * Modified pj_datum_transform() to not attempt any datum shift via
+ * geocentric coordinates if the source *or* destination are raw ellipsoids
+ * (ie. PJD_UNKNOWN).  All per PROJ bug #1602, GDAL bug #2025.
+ *
  * Revision 1.18  2006/10/12 21:04:39  fwarmerdam
  * Added experimental +lon_wrap argument to set a "center point" for
  * longitude wrapping of longitude values coming out of pj_transform().
@@ -73,7 +82,7 @@
 #include <string.h>
 #include <errno.h>
 
-PJ_CVSID("$Id: pj_init.c,v 1.18 2006/10/12 21:04:39 fwarmerdam Exp $");
+PJ_CVSID("$Id: pj_init.c,v 1.19 2007/11/26 00:21:59 fwarmerdam Exp $");
 
 extern FILE *pj_open_lib(char *, char *);
 
@@ -281,6 +290,9 @@ pj_init(int argc, char **argv) {
 
 	/* set ellipsoid/sphere parameters */
 	if (pj_ell_set(start, &PIN->a, &PIN->es)) goto bum_call;
+
+        PIN->a_orig = PIN->a;
+        PIN->es_orig = PIN->es;
 
 	PIN->e = sqrt(PIN->es);
 	PIN->ra = 1. / PIN->a;

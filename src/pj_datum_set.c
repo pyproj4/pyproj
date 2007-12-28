@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_datum_set.c,v 1.2 2001/04/04 21:13:21 warmerda Exp $
+ * $Id: pj_datum_set.c,v 1.4 2007/11/29 21:06:50 fwarmerdam Exp $
  *
  * Project:  PROJ.4
  * Purpose:  Apply datum definition to PJ structure from initialization string.
@@ -28,6 +28,12 @@
  ******************************************************************************
  *
  * $Log: pj_datum_set.c,v $
+ * Revision 1.4  2007/11/29 21:06:50  fwarmerdam
+ * make sure we only look for 7 parameters
+ *
+ * Revision 1.3  2007/01/31 06:41:01  fwarmerdam
+ * dont parse more datum parameters than we have room for in datum_params[]
+ *
  * Revision 1.2  2001/04/04 21:13:21  warmerda
  * do arcsecond/radian and ppm datum parm transformation in pj_set_datum()
  *
@@ -113,7 +119,7 @@ int pj_datum_set(paralist *pl, PJ *projdef)
 
         /* parse out the parameters */
         s = towgs84;
-        for( s = towgs84; *s != '\0'; ) 
+        for( s = towgs84; *s != '\0' && parm_count < 7; ) 
         {
             projdef->datum_params[parm_count++] = atof(s);
             while( *s != '\0' && *s != ',' )
