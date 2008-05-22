@@ -1,4 +1,4 @@
-1.8.5 (not yet released)
+1.8.5 (svn revision 155)
  * allow Proj instance to be initialized using a proj4 string 
    (instead of just a dict or kwargs).
 1.8.4 (svn revision 151)
