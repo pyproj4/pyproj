@@ -3,7 +3,7 @@ import math
 _dg2rad = math.radians(1.)
 _rad2dg = math.degrees(1.)
 _doublesize = sizeof(double)
-__version__ = "1.8.4"
+__version__ = "1.8.5"
 
 cdef extern from "stdlib.h":
     ctypedef long size_t

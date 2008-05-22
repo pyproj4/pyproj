@@ -122,6 +122,78 @@ cdef class Proj:
             else:
                 ydatab[i] = _rad2dg*projlonlatout.v
 
+#   def _fwdn(self, c_numpy.ndarray lonlat, radians=False, errcheck=False):
+#       """
+#forward transformation - lons,lats to x,y (done in place).
+#Uses ndarray of shape ...,2.
+#if radians=True, lons/lats are radians instead of degrees.
+#if errcheck=True, an exception is raised if the forward
+#                transformation is invalid.
+#if errcheck=False and the forward transformation is
+#                invalid, no exception is
+#                raised and 1.e30 is returned.
+#       """
+#       cdef projUV projxyout, projlonlatin
+#       cdef projUV *llptr
+#       cdef Py_ssize_t npts, i
+#       npts = c_numpy.PyArray_SIZE(lonlat)//2
+#       llptr = <projUV *>lonlat.data
+#       for i from 0 <= i < npts:
+#           if radians:
+#               projlonlatin = llptr[i]
+#           else:
+#               projlonlatin.u = _dg2rad*llptr[i].u
+#               projlonlatin.v = _dg2rad*llptr[i].v
+#           projxyout = pj_fwd(projlonlatin,self.projpj)
+
+#           if errcheck and pj_errno != 0:
+#               raise RuntimeError(pj_strerrno(pj_errno))
+#           # since HUGE_VAL can be 'inf',
+#           # change it to a real (but very large) number.
+#           if projxyout.u == HUGE_VAL:
+#               llptr[i].u = 1.e30
+#           else:
+#               llptr[i].u = projxyout.u
+#           if projxyout.v == HUGE_VAL:
+#               llptr[i].u = 1.e30
+#           else:
+#               llptr[i].v = projxyout.v
+
+#   def _invn(self, c_numpy.ndarray xy, radians=False, errcheck=False):
+#       """
+#inverse transformation - x,y to lons,lats (done in place).
+#Uses ndarray of shape ...,2.
+#if radians=True, lons/lats are radians instead of degrees.
+#if errcheck=True, an exception is raised if the inverse transformation is invalid.
+#if errcheck=False and the inverse transformation is invalid, no exception is
+#raised and 1.e30 is returned.
+#       """
+#       cdef projUV projxyin, projlonlatout
+#       cdef projUV *llptr
+#       cdef Py_ssize_t npts, i
+#       npts = c_numpy.PyArray_SIZE(xy)//2
+#       llptr = <projUV *>xy.data
+
+#       for i from 0 <= i < npts:
+#           projxyin = llptr[i]
+#           projlonlatout = pj_inv(projxyin, self.projpj)
+#           if errcheck and pj_errno != 0:
+#               raise RuntimeError(pj_strerrno(pj_errno))
+#           # since HUGE_VAL can be 'inf',
+#           # change it to a real (but very large) number.
+#           if projlonlatout.u == HUGE_VAL:
+#               llptr[i].u = 1.e30
+#           elif radians:
+#               llptr[i].u = projlonlatout.u
+#           else:
+#               llptr[i].u = _rad2dg*projlonlatout.u
+#           if projlonlatout.v == HUGE_VAL:
+#               llptr[i].v = 1.e30
+#           elif radians:
+#               llptr[i].v = projlonlatout.v
+#           else:
+#               llptr[i].v = _rad2dg*projlonlatout.v
+
     def is_latlong(self):
         # returns True if projection in geographic (lon/lat) coordinates
         cdef int i
