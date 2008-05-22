@@ -121,14 +121,18 @@ lats:   36.770   33.930   37.620
             if len(kwargs) == 0:
                 raise RuntimeError('no projection control parameters specified')
             else:
-                projparams = kwargs
-        # set units to meters.
-        if not projparams.has_key('units'):
-            projparams['units']='m'
-        elif projparams['units'] != 'm':
-            print 'resetting units to meters ...'
-            projparams['units']='m'
-        return _Proj.__new__(self, projparams)
+                projstring = _dict2string(kwargs)
+        elif type(projparams) == str:
+            # if projparams is a string, interpret as a proj4 initialization
+            # string.
+            projstring = projparams
+        else: # projparams a dict
+            projstring = _dict2string(projparams)
+        # make sure units are meters.
+        i = projstring.count('+units=m')
+        if not i:
+            projstring = '+units=m '+projstring
+        return _Proj.__new__(self, projstring)
 
     def __call__(self,lon,lat,inverse=False,radians=False,errcheck=False):
         """
@@ -312,6 +316,13 @@ def _convertback(isfloat,islist,istuple,inx):
         return tuple(inx)
     else:
         return inx
+
+def _dict2string(projparams):
+    # convert a dict to a proj4 string.
+    pjargs = []
+    for key,value in projparams.iteritems():
+        pjargs.append('+'+key+"="+str(value)+' ')
+    return ''.join(pjargs)
 
 class Geod(_Geod):
     """

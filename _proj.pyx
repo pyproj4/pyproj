@@ -9,18 +9,13 @@ def set_datapath(datapath):
     
 cdef class Proj:
     cdef projPJ projpj
-    cdef public object projparams
     cdef public object proj_version
     cdef char *pjinitstring
     cdef public object srs
 
-    def __new__(self, projparams):
-        self.projparams = projparams
+    def __new__(self, projstring):
         # setup proj initialization string.
-        pjargs = []
-        for key,value in projparams.iteritems():
-            pjargs.append('+'+key+"="+str(value)+' ')
-        self.srs = ''.join(pjargs)
+        self.srs = projstring
         self.pjinitstring = PyString_AsString(self.srs)
         # initialize projection
         self.projpj = pj_init_plus(self.pjinitstring)
@@ -34,7 +29,7 @@ cdef class Proj:
 
     def __reduce__(self):
         """special method that allows pyproj.Proj instance to be pickled"""
-        return (self.__class__,(self.projparams,))
+        return (self.__class__,(self.srs,))
 
     def _fwd(self, object lons, object lats, radians=False, errcheck=False):
         """
