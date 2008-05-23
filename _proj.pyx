@@ -1,6 +1,8 @@
 # Make changes to this file, not the c-wrappers that Pyrex generates.
 
 include "_pyproj.pxi"
+#cimport c_numpy
+#c_numpy.import_array()
 
 def set_datapath(datapath):
     cdef char *searchpath
