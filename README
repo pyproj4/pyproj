@@ -4,7 +4,7 @@ NAME
     pyproj
 
 DESCRIPTION
-    Pyrex wrapper to provide python interfaces to 
+    Pyrex wrapper to provide python interfaces to
     PROJ.4 (http://proj.maptools.org) functions.
     
     Performs cartographic transformations and geodetic computations.
@@ -53,7 +53,6 @@ DESCRIPTION
 PACKAGE CONTENTS
     _geod
     _proj
-    _pyproj
 
 CLASSES
     _geod.Geod(__builtin__.object)
@@ -210,7 +209,7 @@ CLASSES
      |      >>> az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
      |      >>> print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
      |      -66.531 75.654  4164192.708
-     |      >>> # compute latitude, longitude and back azimuth of Portland, 
+     |      >>> # compute latitude, longitude and back azimuth of Portland,
      |      >>> # given Boston lat/lon, forward azimuth and distance to Portland.
      |      >>> endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)
      |      >>> print "%6.3f  %6.3f %13.3f" % (endlat,endlon,backaz)
@@ -255,7 +254,8 @@ CLASSES
      |  
      |  A Proj class instance is initialized with proj map projection
      |  control parameter key/value pairs. The key/value pairs can
-     |  either be passed in a dictionary, or as keyword arguments. See
+     |  either be passed in a dictionary, or as keyword arguments,
+     |  or as a proj4 string (compatible with the proj command). See
      |  http://www.remotesensing.org/geotiff/proj_list for examples of
      |  key/value pairs defining different map projections.
      |  
@@ -280,7 +280,7 @@ CLASSES
      |  
      |  Methods defined here:
      |  
-     |  __call__(self, lon, lat, inverse=False, radians=False, errcheck=False)
+     |  __call__(self, *args, **kw)
      |      Calling a Proj class instance with the arguments lon, lat will
      |      convert lon/lat (in degrees) to x/y native map projection
      |      coordinates (in meters).  If optional keyword 'inverse' is True
@@ -290,7 +290,11 @@ CLASSES
      |      degrees. If optional keyword 'errcheck' is True (default is
      |      False) an exception is raised if the transformation is invalid.
      |      If errcheck=False and the transformation is invalid, no
-     |      execption is raised and 1.e30 is returned.
+     |      exception is raised and 1.e30 is returned.
+     |      
+     |      Instead of calling with lon, lat, a single ndarray of
+     |      shape n,2 may be used, and one of the same shape will
+     |      be returned; this is more efficient.
      |      
      |      Inputs should be doubles (they will be cast to doubles if they
      |      are not, causing a slight performance hit).
@@ -318,7 +322,7 @@ CLASSES
      |      Example usage:
      |      
      |      >>> from pyproj import Proj
-     |      >>> p = Proj(proj='utm',zone=10,ellps='WGS84')
+     |      >>> p = Proj(proj='utm',zone=10,ellps='WGS84') # use kwargs
      |      >>> x,y = p(-120.108, 34.36116666)
      |      >>> print 'x=%9.3f y=%11.3f' % (x,y)
      |      x=765975.641 y=3805993.134
@@ -337,6 +341,10 @@ CLASSES
      |      lons: -119.720 -118.400 -122.380
      |      >>> print 'lats: %8.3f %8.3f %8.3f' % lats
      |      lats:   36.770   33.930   37.620
+     |      >>> p2 = Proj('+proj=utm +zone=10 +ellps=WGS84') # use proj4 string
+     |      >>> x,y = p2(-120.108, 34.36116666)
+     |      >>> print 'x=%9.3f y=%11.3f' % (x,y)
+     |      x=765975.641 y=3805993.134
      |  
      |  ----------------------------------------------------------------------
      |  Data descriptors defined here:
@@ -357,8 +365,6 @@ CLASSES
      |  Data descriptors inherited from _proj.Proj:
      |  
      |  proj_version
-     |  
-     |  projparams
      |  
      |  srs
 
@@ -384,7 +390,7 @@ FUNCTIONS
         projection coordinates, this function can take care of datum
         shifts (which cannot be done using the __call__ method of the
         Proj instances). It also allows for one of the coordinate
-        systems to be geographic (proj = 'latlong'). 
+        systems to be geographic (proj = 'latlong').
         
         If optional keyword 'radians' is True (default is False) and p1
         is defined in geographic coordinate (pj.is_latlong() is True),
@@ -396,7 +402,7 @@ FUNCTIONS
         
         x,y and z can be numpy or regular python arrays, python
         lists/tuples or scalars. Arrays are fastest.  For projections in
-        geocentric coordinates, values of x and y are given in meters. 
+        geocentric coordinates, values of x and y are given in meters.
         z is always meters.
         
         Example usage:
@@ -432,5 +438,8 @@ FUNCTIONS
         >>> print '%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f' % xy
          -92.220  -94.720  -90.370 38.830 39.320 38.750
 
+DATA
+    __version__ = '1.8.5'
+
 VERSION
-    1.8.4
+    1.8.5

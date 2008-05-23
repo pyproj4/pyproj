@@ -6,11 +6,10 @@
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pyproj</strong></big></big> (version 1.8.4)</font></td
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pyproj</strong></big></big> (version 1.8.5)</font></td
 ><td align=right valign=bottom
-    >
-    </td></tr></table>
-    <p><tt>Pyrex&nbsp;wrapper&nbsp;to&nbsp;provide&nbsp;python&nbsp;interfaces&nbsp;to&nbsp;<br>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/jsw/lib/python/pyproj/__init__.py">/Users/jsw/lib/python/pyproj/__init__.py</a></font></td></tr></table>
+    <p><tt>Pyrex&nbsp;wrapper&nbsp;to&nbsp;provide&nbsp;python&nbsp;interfaces&nbsp;to<br>
 PROJ.4&nbsp;(<a href="http://proj.maptools.org">http://proj.maptools.org</a>)&nbsp;functions.<br>
 &nbsp;<br>
 Performs&nbsp;cartographic&nbsp;transformations&nbsp;and&nbsp;geodetic&nbsp;computations.<br>
@@ -64,8 +63,7 @@ CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR&nbsp;PERFORMANCE&nbsp;OF&nbsp;THI
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pyproj._geod.html">_geod</a><br>
 </td><td width="25%" valign=top><a href="pyproj._proj.html">_proj</a><br>
-</td><td width="25%" valign=top><a href="pyproj._pyproj.html">_pyproj</a><br>
-</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -236,7 +234,7 @@ Example&nbsp;usage:<br>
 &gt;&gt;&gt;&nbsp;az12,az21,dist&nbsp;=&nbsp;g.<a href="#Geod-inv">inv</a>(boston_lon,boston_lat,portland_lon,portland_lat)<br>
 &gt;&gt;&gt;&nbsp;print&nbsp;"%7.3f&nbsp;%6.3f&nbsp;%12.3f"&nbsp;%&nbsp;(az12,az21,dist)<br>
 -66.531&nbsp;75.654&nbsp;&nbsp;4164192.708<br>
-&gt;&gt;&gt;&nbsp;#&nbsp;compute&nbsp;latitude,&nbsp;longitude&nbsp;and&nbsp;back&nbsp;azimuth&nbsp;of&nbsp;Portland,&nbsp;<br>
+&gt;&gt;&gt;&nbsp;#&nbsp;compute&nbsp;latitude,&nbsp;longitude&nbsp;and&nbsp;back&nbsp;azimuth&nbsp;of&nbsp;Portland,<br>
 &gt;&gt;&gt;&nbsp;#&nbsp;given&nbsp;Boston&nbsp;lat/lon,&nbsp;forward&nbsp;azimuth&nbsp;and&nbsp;distance&nbsp;to&nbsp;Portland.<br>
 &gt;&gt;&gt;&nbsp;endlon,&nbsp;endlat,&nbsp;backaz&nbsp;=&nbsp;g.<a href="#Geod-fwd">fwd</a>(boston_lon,&nbsp;boston_lat,&nbsp;az12,&nbsp;dist)<br>
 &gt;&gt;&gt;&nbsp;print&nbsp;"%6.3f&nbsp;&nbsp;%6.3f&nbsp;%13.3f"&nbsp;%&nbsp;(endlat,endlon,backaz)<br>
@@ -283,7 +281,8 @@ vice&nbsp;versa)&nbsp;using&nbsp;proj&nbsp;(<a href="http://proj.maptools.org/">
 &nbsp;<br>
 A&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance&nbsp;is&nbsp;initialized&nbsp;with&nbsp;proj&nbsp;map&nbsp;projection<br>
 control&nbsp;parameter&nbsp;key/value&nbsp;pairs.&nbsp;The&nbsp;key/value&nbsp;pairs&nbsp;can<br>
-either&nbsp;be&nbsp;passed&nbsp;in&nbsp;a&nbsp;dictionary,&nbsp;or&nbsp;as&nbsp;keyword&nbsp;arguments.&nbsp;See<br>
+either&nbsp;be&nbsp;passed&nbsp;in&nbsp;a&nbsp;dictionary,&nbsp;or&nbsp;as&nbsp;keyword&nbsp;arguments,<br>
+or&nbsp;as&nbsp;a&nbsp;proj4&nbsp;string&nbsp;(compatible&nbsp;with&nbsp;the&nbsp;proj&nbsp;command).&nbsp;See<br>
 <a href="http://www.remotesensing.org/geotiff/proj_list">http://www.remotesensing.org/geotiff/proj_list</a>&nbsp;for&nbsp;examples&nbsp;of<br>
 key/value&nbsp;pairs&nbsp;defining&nbsp;different&nbsp;map&nbsp;projections.<br>
 &nbsp;<br>
@@ -308,7 +307,7 @@ sequences&nbsp;and&nbsp;scalars.<br>&nbsp;</tt></td></tr>
 </dl>
 <hr>
 Methods defined here:<br>
-<dl><dt><a name="Proj-__call__"><strong>__call__</strong></a>(self, lon, lat, inverse<font color="#909090">=False</font>, radians<font color="#909090">=False</font>, errcheck<font color="#909090">=False</font>)</dt><dd><tt>Calling&nbsp;a&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance&nbsp;with&nbsp;the&nbsp;arguments&nbsp;lon,&nbsp;lat&nbsp;will<br>
+<dl><dt><a name="Proj-__call__"><strong>__call__</strong></a>(self, *args, **kw)</dt><dd><tt>Calling&nbsp;a&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance&nbsp;with&nbsp;the&nbsp;arguments&nbsp;lon,&nbsp;lat&nbsp;will<br>
 convert&nbsp;lon/lat&nbsp;(in&nbsp;degrees)&nbsp;to&nbsp;x/y&nbsp;native&nbsp;map&nbsp;projection<br>
 coordinates&nbsp;(in&nbsp;meters).&nbsp;&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'inverse'&nbsp;is&nbsp;True<br>
 (default&nbsp;is&nbsp;False),&nbsp;the&nbsp;inverse&nbsp;transformation&nbsp;from&nbsp;x/y&nbsp;to<br>
@@ -317,7 +316,11 @@ lon/lat&nbsp;is&nbsp;performed.&nbsp;&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'r
 degrees.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'errcheck'&nbsp;is&nbsp;True&nbsp;(default&nbsp;is<br>
 False)&nbsp;an&nbsp;exception&nbsp;is&nbsp;raised&nbsp;if&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid.<br>
 If&nbsp;errcheck=False&nbsp;and&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid,&nbsp;no<br>
-execption&nbsp;is&nbsp;raised&nbsp;and&nbsp;1.e30&nbsp;is&nbsp;returned.<br>
+exception&nbsp;is&nbsp;raised&nbsp;and&nbsp;1.e30&nbsp;is&nbsp;returned.<br>
+&nbsp;<br>
+Instead&nbsp;of&nbsp;calling&nbsp;with&nbsp;lon,&nbsp;lat,&nbsp;a&nbsp;single&nbsp;ndarray&nbsp;of<br>
+shape&nbsp;n,2&nbsp;may&nbsp;be&nbsp;used,&nbsp;and&nbsp;one&nbsp;of&nbsp;the&nbsp;same&nbsp;shape&nbsp;will<br>
+be&nbsp;returned;&nbsp;this&nbsp;is&nbsp;more&nbsp;efficient.<br>
 &nbsp;<br>
 Inputs&nbsp;should&nbsp;be&nbsp;doubles&nbsp;(they&nbsp;will&nbsp;be&nbsp;cast&nbsp;to&nbsp;doubles&nbsp;if&nbsp;they<br>
 are&nbsp;not,&nbsp;causing&nbsp;a&nbsp;slight&nbsp;performance&nbsp;hit).<br>
@@ -341,7 +344,7 @@ about&nbsp;specifying&nbsp;projection&nbsp;parameters.<br>
 Example&nbsp;usage:<br>
 &nbsp;<br>
 &gt;&gt;&gt;&nbsp;from&nbsp;pyproj&nbsp;import&nbsp;<a href="#Proj">Proj</a><br>
-&gt;&gt;&gt;&nbsp;p&nbsp;=&nbsp;<a href="#Proj">Proj</a>(proj='utm',zone=10,ellps='WGS84')<br>
+&gt;&gt;&gt;&nbsp;p&nbsp;=&nbsp;<a href="#Proj">Proj</a>(proj='utm',zone=10,ellps='WGS84')&nbsp;#&nbsp;use&nbsp;kwargs<br>
 &gt;&gt;&gt;&nbsp;x,y&nbsp;=&nbsp;p(-120.108,&nbsp;34.36116666)<br>
 &gt;&gt;&gt;&nbsp;print&nbsp;'x=%9.3f&nbsp;y=%11.3f'&nbsp;%&nbsp;(x,y)<br>
 x=765975.641&nbsp;y=3805993.134<br>
@@ -359,7 +362,11 @@ y:&nbsp;4074377.617&nbsp;3763936.941&nbsp;4163835.303<br>
 &gt;&gt;&gt;&nbsp;print&nbsp;'lons:&nbsp;%8.3f&nbsp;%8.3f&nbsp;%8.3f'&nbsp;%&nbsp;lons<br>
 lons:&nbsp;-119.720&nbsp;-118.400&nbsp;-122.380<br>
 &gt;&gt;&gt;&nbsp;print&nbsp;'lats:&nbsp;%8.3f&nbsp;%8.3f&nbsp;%8.3f'&nbsp;%&nbsp;lats<br>
-lats:&nbsp;&nbsp;&nbsp;36.770&nbsp;&nbsp;&nbsp;33.930&nbsp;&nbsp;&nbsp;37.620</tt></dd></dl>
+lats:&nbsp;&nbsp;&nbsp;36.770&nbsp;&nbsp;&nbsp;33.930&nbsp;&nbsp;&nbsp;37.620<br>
+&gt;&gt;&gt;&nbsp;p2&nbsp;=&nbsp;<a href="#Proj">Proj</a>('+proj=utm&nbsp;+zone=10&nbsp;+ellps=WGS84')&nbsp;#&nbsp;use&nbsp;proj4&nbsp;string<br>
+&gt;&gt;&gt;&nbsp;x,y&nbsp;=&nbsp;p2(-120.108,&nbsp;34.36116666)<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;'x=%9.3f&nbsp;y=%11.3f'&nbsp;%&nbsp;(x,y)<br>
+x=765975.641&nbsp;y=3805993.134</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -376,8 +383,6 @@ Methods inherited from _proj.Proj:<br>
 <hr>
 Data descriptors inherited from _proj.Proj:<br>
 <dl><dt><strong>proj_version</strong></dt>
-</dl>
-<dl><dt><strong>projparams</strong></dt>
 </dl>
 <dl><dt><strong>srs</strong></dt>
 </dl>
@@ -405,7 +410,7 @@ In&nbsp;addition&nbsp;to&nbsp;converting&nbsp;between&nbsp;cartographic&nbsp;and
 projection&nbsp;coordinates,&nbsp;this&nbsp;function&nbsp;can&nbsp;take&nbsp;care&nbsp;of&nbsp;datum<br>
 shifts&nbsp;(which&nbsp;cannot&nbsp;be&nbsp;done&nbsp;using&nbsp;the&nbsp;__call__&nbsp;method&nbsp;of&nbsp;the<br>
 <a href="#Proj">Proj</a>&nbsp;instances).&nbsp;It&nbsp;also&nbsp;allows&nbsp;for&nbsp;one&nbsp;of&nbsp;the&nbsp;coordinate<br>
-systems&nbsp;to&nbsp;be&nbsp;geographic&nbsp;(proj&nbsp;=&nbsp;'latlong').&nbsp;<br>
+systems&nbsp;to&nbsp;be&nbsp;geographic&nbsp;(proj&nbsp;=&nbsp;'latlong').<br>
 &nbsp;<br>
 If&nbsp;optional&nbsp;keyword&nbsp;'radians'&nbsp;is&nbsp;True&nbsp;(default&nbsp;is&nbsp;False)&nbsp;and&nbsp;p1<br>
 is&nbsp;defined&nbsp;in&nbsp;geographic&nbsp;coordinate&nbsp;(pj.is_latlong()&nbsp;is&nbsp;True),<br>
@@ -417,7 +422,7 @@ radians&nbsp;keyword&nbsp;has&nbsp;no&nbsp;effect.<br>
 &nbsp;<br>
 x,y&nbsp;and&nbsp;z&nbsp;can&nbsp;be&nbsp;numpy&nbsp;or&nbsp;regular&nbsp;python&nbsp;arrays,&nbsp;python<br>
 lists/tuples&nbsp;or&nbsp;scalars.&nbsp;Arrays&nbsp;are&nbsp;fastest.&nbsp;&nbsp;For&nbsp;projections&nbsp;in<br>
-geocentric&nbsp;coordinates,&nbsp;values&nbsp;of&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;given&nbsp;in&nbsp;meters.&nbsp;<br>
+geocentric&nbsp;coordinates,&nbsp;values&nbsp;of&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;given&nbsp;in&nbsp;meters.<br>
 z&nbsp;is&nbsp;always&nbsp;meters.<br>
 &nbsp;<br>
 Example&nbsp;usage:<br>
@@ -459,6 +464,6 @@ Example&nbsp;usage:<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>__version__</strong> = '1.8.4'<br>
-</td></tr></table>
+<td width="100%"><strong>__version__</strong> = '1.8.5'<br>
+<strong>pyproj_datadir</strong> = '/Users/jsw/lib/python/pyproj/data'</td></tr></table>
 </body></html>
