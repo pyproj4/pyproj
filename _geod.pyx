@@ -4,18 +4,15 @@ include "_pyproj.pxi"
 
 cdef class Geod:
     cdef GEODESIC_T geodesic_t
-    cdef public object geodparams
+    cdef public object geodstring
     cdef public object proj_version
     cdef char *geodinitstring
 
-    def __new__(self, geodparams):
+    def __new__(self, geodstring):
         cdef GEODESIC_T GEOD_T
-        self.geodparams = geodparams
-        # setup proj initialization string.
-        geodargs = []
-        for key,value in geodparams.iteritems():
-            geodargs.append('+'+key+"="+str(value)+' ')
-        self.geodinitstring = PyString_AsString(''.join(geodargs))
+        # setup geod initialization string.
+        self.geodstring = geodstring
+        self.geodinitstring = PyString_AsString(self.geodstring)
         # initialize projection
         self.geodesic_t = GEOD_init_plus(self.geodinitstring, &GEOD_T)[0]
         if pj_errno != 0:
@@ -24,7 +21,7 @@ cdef class Geod:
 
     def __reduce__(self):
         """special method that allows pyproj.Geod instance to be pickled"""
-        return (self.__class__,(self.geodparams,))
+        return (self.__class__,(self.geodstring,))
 
     def _fwd(self, object lons, object lats, object az, object dist, radians=False):
         """

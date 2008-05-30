@@ -369,10 +369,11 @@ class Geod(_Geod):
         """
         initialize a Geod class instance.
 
-        Geodetic parameters for specifying the ellipsoid or sphere to
-        use must either be given in a dictionary 'initparams' or as
-        keyword arguments. Following is a list of the ellipsoids that
-        may be defined using the 'ellps' keyword:
+        Geodetic parameters for specifying the ellipsoid
+        can be given in a dictionary 'initparams', as keyword arguments, 
+        or as as proj4 geod initialization string.
+        Following is a list of the ellipsoids that may be defined using the 
+        'ellps' keyword:
 
            MERIT a=6378137.0      rf=298.257       MERIT 1983
            SGS85 a=6378136.0      rf=298.257       Soviet Geodetic System 85
@@ -457,20 +458,35 @@ class Geod(_Geod):
          54.663 -123.448 288303.720
         -65.463  79.342 4013037.318
          51.254 -71.576 5579916.649
+        >>> g2 = Geod('+ellps=clrk66') # use proj4 style initialization string
+        >>> az12,az21,dist = g2.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+        >>> print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
+        -66.531 75.654  4164192.708
         """
-        # if projparams is None, use kwargs.
+        # if initparams is None, use kwargs.
         if initparams is None:
             if len(kwargs) == 0:
                 raise RuntimeError('no ellipsoid control parameters specified')
             else:
-                initparams = kwargs
-        # set units to meters.
-        if not initparams.has_key('units'):
-            initparams['units']='m'
-        elif initparams['units'] != 'm':
-            print 'resetting units to meters ...'
-            initparams['units']='m'
-        return _Geod.__new__(self, initparams)
+                initstring = _dict2string(kwargs)
+        elif type(initparams) == str:
+            # if projparams is a string, interpret as a proj4 init string.
+            initstring = initparams
+        else: # projparams a dict
+            initstring = _dict2string(initparams)
+        # make sure units are meters.
+        if not  initstring.count('+units='):
+            initstring = '+units=m '+initstring
+        else:
+            kvpairs = []
+            for kvpair in initstring.split():
+                if kvpair.startswith('+units'):
+                    k,v = kvpair.split('=')
+                    kvpairs.append(k+'=m ')
+                else:
+                    kvpairs.append(kvpair+' ')
+            initstring = ''.join(kvpairs)
+        return _Geod.__new__(self, initstring)
 
     def fwd(self, lons, lats, az, dist, radians=False):
         """

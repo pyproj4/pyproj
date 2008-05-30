@@ -80,3 +80,10 @@ print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
 az12,az21,dist = g4.inv(boston_lon,boston_lat,portland_lon,portland_lat)
 print "distance between boston and portland, WGS84 (from pickle):"
 print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
+g3 = Geod('+ellps=clrk66') # proj4 style init string
+print 'inverse transform'
+print 'from proj.4 invgeod:'
+print commands.getoutput('echo "42d15\'N 71d07\'W 45d31\'N 123d41\'W" | geod +ellps=clrk66 -I -f "%.3f"')
+print 'from pyproj._Geod._inv:'
+az12,az21,dist = g3.inv(lon1pt,lat1pt,lon2pt,lat2pt)
+print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
