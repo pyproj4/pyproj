@@ -1,4 +1,6 @@
-1.8.6
+1.8.6 (svn revision 164)
+ * now works with ms vs2008, vs2003 (fixed missing isnan).
+ * updated to proj 4.7.0 (fixes a problem coexisting with pyqt).
  * allow Geod instance to be initialized using a proj4 string 
 1.8.5 (svn revision 155)
  * allow Proj instance to be initialized using a proj4 string 
