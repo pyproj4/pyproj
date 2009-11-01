@@ -50,7 +50,7 @@ cdef class Geod:
         latsdata = <double *>latdata
         azdata = <double *>azdat
         distdata = <double *>distdat
-        errmsg = 'undefined inverse geodesic (may be an antipodal point'
+        errmsg = 'undefined inverse geodesic (may be an antipodal point)'
         for i from 0 <= i < ndim:
             if radians:
                 self.geodesic_t.p1.v = lonsdata[i]
@@ -109,7 +109,7 @@ cdef class Geod:
         latsdata = <double *>latdata
         azdata = <double *>azdat
         distdata = <double *>distdat
-        errmsg = 'undefined inverse geodesic (may be an antipodal point'
+        errmsg = 'undefined inverse geodesic (may be an antipodal point)'
         for i from 0 <= i < ndim:
             if radians:
                 self.geodesic_t.p1.v = lonsdata[i]
