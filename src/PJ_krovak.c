@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PJ_krovak.c,v 1.9 2007/03/07 17:32:32 fwarmerdam Exp $
+ * $Id: PJ_krovak.c 1504 2009-01-06 02:11:57Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Implementation of the krovak (Krovak) projection.
@@ -27,34 +27,7 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- ******************************************************************************
- *
- * $Log: PJ_krovak.c,v $
- * Revision 1.9  2007/03/07 17:32:32  fwarmerdam
- * remove orphan semicolon.
- *
- * Revision 1.8  2007/03/07 17:28:08  fwarmerdam
- * Make it reasonably clear that this is ellipsoidal in the code.
- *
- * Revision 1.7  2007/03/07 17:25:34  fwarmerdam
- * report krovak as ellipsoidal, not spherical
- *
- * Revision 1.6  2006/09/14 13:10:50  fwarmerdam
- * Add +czech flag to control reversal of signs (bug 1133,147)
- *
- * Revision 1.5  2006/03/30 01:22:48  fwarmerdam
- * Removed win32 only debug hack.
- *
- * Revision 1.4  2002/12/15 22:31:04  warmerda
- * handle lon_0, k, and prime meridian properly
- *
- * Revision 1.3  2002/12/15 00:13:30  warmerda
- * lat_0 may now be set by user, but still defaults to 49d30N
- *
- * Revision 1.2  2002/12/14 19:35:21  warmerda
- * updated headers
- *
- */
+ *****************************************************************************/
 
 #define PROJ_PARMS__ \
 	double	C_x;
@@ -64,7 +37,7 @@
 #include <string.h>
 #include <stdio.h>
 
-PJ_CVSID("$Id: PJ_krovak.c,v 1.9 2007/03/07 17:32:32 fwarmerdam Exp $");	
+PJ_CVSID("$Id: PJ_krovak.c 1504 2009-01-06 02:11:57Z warmerdam $");	
 
 PROJ_HEAD(krovak, "Krovak") "\n\tPCyl., Ellps.";
 

@@ -4,7 +4,7 @@
 ** Copyright (c) 2003   Gerald I. Evenden
 */
 static const char
-LIBPROJ_ID[] = "$Id: pj_gauss.c,v 1.1 2004/10/20 17:04:00 fwarmerdam Exp $";
+LIBPROJ_ID[] = "$Id: pj_gauss.c 1504 2009-01-06 02:11:57Z warmerdam $";
 /*
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -92,16 +92,3 @@ pj_inv_gauss(LP slp, const void *en) {
 		pj_errno = -17;
 	return (elp);
 }
-/* Revision Log:
-** $Log: pj_gauss.c,v $
-** Revision 1.1  2004/10/20 17:04:00  fwarmerdam
-** New
-**
-** Revision 2.2  2004/03/15 16:07:42  gie
-** removed es from init structure
-**
-** Revision 2.1  2003/03/28 01:44:30  gie
-** Initial
-**
-*/
-

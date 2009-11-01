@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PJ_aeqd.c,v 1.3 2002/12/14 19:27:06 warmerda Exp $
+ * $Id: PJ_aeqd.c 1504 2009-01-06 02:11:57Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Implementation of the aeqd (Azimuthal Equidistant) projection.
@@ -25,13 +25,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- ******************************************************************************
- *
- * $Log: PJ_aeqd.c,v $
- * Revision 1.3  2002/12/14 19:27:06  warmerda
- * updated header
- *
- */
+ *****************************************************************************/
 
 #define PROJ_PARMS__ \
 	double	sinph0; \
@@ -46,7 +40,7 @@
 #define PJ_LIB__
 #include	<projects.h>
 
-PJ_CVSID("$Id: PJ_aeqd.c,v 1.3 2002/12/14 19:27:06 warmerda Exp $");
+PJ_CVSID("$Id: PJ_aeqd.c 1504 2009-01-06 02:11:57Z warmerdam $");
 
 PROJ_HEAD(aeqd, "Azimuthal Equidistant") "\n\tAzi, Sph&Ell\n\tlat_0 guam";
 

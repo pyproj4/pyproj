@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PJ_airy.c,v 1.2 2002/12/14 19:30:40 warmerda Exp $
+ * $Id: PJ_airy.c 1504 2009-01-06 02:11:57Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Implementation of the airy (Airy) projection.
@@ -25,13 +25,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- ******************************************************************************
- *
- * $Log: PJ_airy.c,v $
- * Revision 1.2  2002/12/14 19:30:40  warmerda
- * updated header
- *
- */
+ *****************************************************************************/
 
 #define PROJ_PARMS__ \
 	double	p_halfpi; \
@@ -43,7 +37,7 @@
 #define PJ_LIB__
 #include <projects.h>
 
-PJ_CVSID("$Id: PJ_airy.c,v 1.2 2002/12/14 19:30:40 warmerda Exp $");
+PJ_CVSID("$Id: PJ_airy.c 1504 2009-01-06 02:11:57Z warmerdam $");
 
 PROJ_HEAD(airy, "Airy") "\n\tMisc Sph, no inv.\n\tno_cut lat_b=";
 

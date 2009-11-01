@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_datums.c,v 1.12 2006/04/21 02:46:10 fwarmerdam Exp $
+ * $Id: pj_datums.c 1558 2009-04-02 18:25:58Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Built in datum list.
@@ -25,46 +25,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- ******************************************************************************
- *
- * $Log: pj_datums.c,v $
- * Revision 1.12  2006/04/21 02:46:10  fwarmerdam
- * fixed bogota direction
- *
- * Revision 1.11  2005/11/08 15:25:40  fwarmerdam
- * added OSGB36 transformation
- *
- * Revision 1.10  2004/10/28 16:07:55  fwarmerdam
- * added pj_get_*_ref() accessors
- *
- * Revision 1.9  2004/05/04 01:15:21  warmerda
- * Added NZGD49 datum - see bug 339
- *
- * Revision 1.8  2003/03/28 14:29:28  warmerda
- * Fixed ire65 definition ... use mod_airy, not modif_airy.
- *
- * Revision 1.7  2003/03/17 21:37:22  warmerda
- * make NAD27 grids optional, added alaska and ntv2
- *
- * Revision 1.6  2003/02/06 03:37:52  warmerda
- * Fixed typo in madrid prime meridian value.
- *
- * Revision 1.5  2003/01/15 14:34:55  warmerda
- * Added some datums as suggested by GRASS team
- *
- * Revision 1.4  2002/12/09 16:01:02  warmerda
- * added prime meridian support
- *
- * Revision 1.3  2002/07/08 02:32:05  warmerda
- * ensure clean C++ builds
- *
- * Revision 1.2  2001/04/05 19:32:41  warmerda
- * added ntv1_can.dat to NAD27 list
- *
- * Revision 1.1  2000/07/06 23:32:27  warmerda
- * New
- *
- */
+ *****************************************************************************/
 
 #define PJ_DATUMS__
 
@@ -76,7 +37,7 @@
  * datum name for the comments if available. 
  */
 
-C_NAMESPACE struct PJ_DATUMS pj_datums[] = {
+C_NAMESPACE_VAR struct PJ_DATUMS pj_datums[] = {
 /* id       definition                               ellipse  comments */
 /* --       ----------                               -------  -------- */
 "WGS84",    "towgs84=0,0,0", 		             "WGS84", "",
@@ -102,7 +63,7 @@ struct PJ_DATUMS *pj_get_datums_ref()
     return pj_datums;
 }
 
-C_NAMESPACE struct PJ_PRIME_MERIDIANS pj_prime_meridians[] = {
+C_NAMESPACE_VAR struct PJ_PRIME_MERIDIANS pj_prime_meridians[] = {
     /* id        definition                         */
     /* --        ----------                         */
     "greenwich", "0dE",

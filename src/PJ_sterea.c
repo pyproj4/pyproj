@@ -4,7 +4,7 @@
 ** Copyright (c) 2003   Gerald I. Evenden
 */
 static const char
-LIBPROJ_ID[] = "$Id: PJ_sterea.c,v 1.1 2004/10/20 17:04:00 fwarmerdam Exp $";
+LIBPROJ_ID[] = "$Id: PJ_sterea.c 1504 2009-01-06 02:11:57Z warmerdam $";
 /*
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -80,18 +80,3 @@ ENTRY0(sterea)
 	P->inv = e_inverse;
 	P->fwd = e_forward;
 ENDENTRY(P)
-/*
-** $Log: PJ_sterea.c,v $
-** Revision 1.1  2004/10/20 17:04:00  fwarmerdam
-** New
-**
-** Revision 2.3  2004/04/07 17:18:32  gie
-** corrected comment stamp
-**
-** Revision 2.2  2003/08/05 00:15:09  gie
-** corrected 0 rho on inverse.
-**
-** Revision 2.1  2003/03/28 01:46:02  gie
-** Initial
-**
-*/

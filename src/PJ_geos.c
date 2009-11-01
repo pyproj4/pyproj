@@ -4,7 +4,7 @@
 ** Copyright (c) 2004   Gerald I. Evenden
 */
 static const char
-LIBPROJ_ID[] = "$Id: PJ_geos.c,v 1.2 2005/02/04 19:27:58 fwarmerdam Exp $";
+LIBPROJ_ID[] = "$Id: PJ_geos.c 1504 2009-01-06 02:11:57Z warmerdam $";
 /*
 ** See also (section 4.4.3.2):
 **   http://www.eumetsat.int/en/area4/msg/news/us_doc/cgms_03_26.pdf
@@ -140,18 +140,3 @@ ENTRY0(geos)
 		P->fwd = s_forward;
 	}
 ENDENTRY(P)
-/*
-** $Log: PJ_geos.c,v $
-** Revision 1.2  2005/02/04 19:27:58  fwarmerdam
-** Added link to reference info.
-**
-** Revision 1.1  2004/10/20 17:04:00  fwarmerdam
-** New
-**
-** Revision 1.2  2004/07/14 18:08:57  gie
-** corrected P->phi_0 to P->phi0
-**
-** Revision 1.1  2004/07/12 17:58:25  gie
-** Initial revision
-**
-*/

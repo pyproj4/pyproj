@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_init.c,v 1.19 2007/11/26 00:21:59 fwarmerdam Exp $
+ * $Id: pj_init.c 1630 2009-09-24 02:14:06Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Initialize projection object from string definition.  Includes
@@ -27,62 +27,16 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- ******************************************************************************
- *
- * $Log: pj_init.c,v $
- * Revision 1.19  2007/11/26 00:21:59  fwarmerdam
- * Modified PJ structure to hold a_orig, es_orig, ellipsoid definition before
- * adjustment for spherical projections.
- * Modified pj_datum_transform() to use the original ellipsoid parameters,
- * not the ones adjusted for spherical projections.
- * Modified pj_datum_transform() to not attempt any datum shift via
- * geocentric coordinates if the source *or* destination are raw ellipsoids
- * (ie. PJD_UNKNOWN).  All per PROJ bug #1602, GDAL bug #2025.
- *
- * Revision 1.18  2006/10/12 21:04:39  fwarmerdam
- * Added experimental +lon_wrap argument to set a "center point" for
- * longitude wrapping of longitude values coming out of pj_transform().
- *
- * Revision 1.17  2006/09/22 23:06:24  fwarmerdam
- * remote static start variable in pj_init (bug 1283)
- *
- * Revision 1.16  2004/09/08 15:23:37  warmerda
- * added new error for unknown prime meridians
- *
- * Revision 1.15  2004/05/05 01:45:41  warmerda
- * Made sword even longer.
- *
- * Revision 1.14  2004/05/05 01:45:00  warmerda
- * Make sword buffer larger so long +towgs84 parameters don't get split.
- *
- * Revision 1.13  2003/09/16 03:46:21  warmerda
- * dont use default ellps if any earth model info is set: bug 386
- *
- * Revision 1.12  2003/08/21 02:15:59  warmerda
- * improve MAX_ARG checking
- *
- * Revision 1.11  2003/06/09 21:23:16  warmerda
- * ensure start is initialized at very beginning of pj_init()
- *
- * Revision 1.10  2003/03/16 16:38:24  warmerda
- * Modified get_opt() to terminate reading the definition when a new
- * definition (a word starting with '<') is encountered, in addition to when
- * the definition terminator '<>' is encountered, so that unterminated
- * definitions like those in the distributed esri file will work properly.
- * http://bugzilla.remotesensing.org/show_bug.cgi?id=302
- *
- * Revision 1.9  2002/12/14 20:15:02  warmerda
- * added geocentric support, updated headers
- *
- */
+ *****************************************************************************/
 
 #define PJ_LIB__
 #include <projects.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <locale.h>
 
-PJ_CVSID("$Id: pj_init.c,v 1.19 2007/11/26 00:21:59 fwarmerdam Exp $");
+PJ_CVSID("$Id: pj_init.c 1630 2009-09-24 02:14:06Z warmerdam $");
 
 extern FILE *pj_open_lib(char *, char *);
 
@@ -153,8 +107,27 @@ static paralist *
 get_init(paralist **start, paralist *next, char *name) {
 	char fname[MAX_PATH_FILENAME+ID_TAG_MAX+3], *opt;
 	FILE *fid;
+	paralist *init_items = NULL;
+	const paralist *orig_next = next;
 
 	(void)strncpy(fname, name, MAX_PATH_FILENAME + ID_TAG_MAX + 1);
+	
+	/* 
+	** Search for file/key pair in cache 
+	*/
+	
+	init_items = pj_search_initcache( name );
+	if( init_items != NULL )
+	  {
+	    next->next = init_items;
+	    while( next->next != NULL )
+	      next = next->next;
+	    return next;
+	  }
+
+	/*
+	** Otherwise we try to open the file and search for it.
+	*/
 	if (opt = strrchr(fname, ':'))
 		*opt++ = '\0';
 	else { pj_errno = -3; return(0); }
@@ -165,6 +138,14 @@ get_init(paralist **start, paralist *next, char *name) {
 	(void)fclose(fid);
 	if (errno == 25)
 		errno = 0; /* unknown problem with some sys errno<-25 */
+
+	/* 
+	** If we seem to have gotten a result, insert it into the 
+	** init file cache.
+	*/
+	if( next != NULL && next != orig_next )
+	  pj_insert_initcache( name, orig_next->next );
+
 	return next;
 }
 
@@ -245,9 +226,13 @@ pj_init(int argc, char **argv) {
 	paralist *curr;
 	int i;
 	PJ *PIN = 0;
+        const char *old_locale;
 
 	errno = pj_errno = 0;
         start = NULL;
+
+        old_locale = setlocale(LC_NUMERIC, NULL); 
+        setlocale(LC_NUMERIC,"C");
 
 	/* put arguments into internal linked list */
 	if (argc <= 0) { pj_errno = -1; goto bum_call; }
@@ -397,6 +382,8 @@ bum_call: /* cleanup error return */
 			}
 		PIN = 0;
 	}
+        setlocale(LC_NUMERIC,old_locale);
+
 	return PIN;
 }
 

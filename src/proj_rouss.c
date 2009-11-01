@@ -4,7 +4,7 @@
 ** Copyright (c) 2003, 2006   Gerald I. Evenden
 */
 static const char
-LIBPROJ_ID[] = "$Id: proj_rouss.c,v 1.1 2006/10/18 05:21:31 fwarmerdam Exp $";
+LIBPROJ_ID[] = "$Id: proj_rouss.c 1504 2009-01-06 02:11:57Z warmerdam $";
 /*
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -120,12 +120,3 @@ ENTRY1(rouss, en)
 	P->fwd = e_forward;
 	P->inv = e_inverse;
 	ENDENTRY(P)
-/*
-** $Log: proj_rouss.c,v $
-** Revision 1.1  2006/10/18 05:21:31  fwarmerdam
-** New
-**
-** Revision 3.1  2006/01/11 01:38:18  gie
-** Initial
-**
-*/

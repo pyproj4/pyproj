@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_geocent.c,v 1.1 2002/12/14 20:13:21 warmerda Exp $
+ * $Id: pj_geocent.c 1504 2009-01-06 02:11:57Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Stub projection for geocentric.  The transformation isn't
@@ -27,18 +27,12 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- ******************************************************************************
- *
- * $Log: pj_geocent.c,v $
- * Revision 1.1  2002/12/14 20:13:21  warmerda
- * New
- *
- */
+ *****************************************************************************/
 
 #define PJ_LIB__
 #include <projects.h>
 
-PJ_CVSID("$Id: pj_geocent.c,v 1.1 2002/12/14 20:13:21 warmerda Exp $");
+PJ_CVSID("$Id: pj_geocent.c 1504 2009-01-06 02:11:57Z warmerdam $");
 
 PROJ_HEAD(geocent, "Geocentric")  "\n\t";
 
