@@ -91,6 +91,7 @@ GEODESIC_T *GEOD_init_plus(const char *definition, GEODESIC_T *geod)
   char	*argv[MAX_ARG];
   char	*defn_copy;
   int		argc = 0, i;
+  GEODESIC_T *ret_geod;
   
     /* make a copy that we can manipulate */
   defn_copy = strdup(definition);
@@ -126,7 +127,7 @@ GEODESIC_T *GEOD_init_plus(const char *definition, GEODESIC_T *geod)
   }
   
     /* perform actual initialization */
-  GEODESIC_T *ret_geod = GEOD_init(argc, argv, geod);
+  ret_geod = GEOD_init(argc, argv, geod);
   
   free( defn_copy );
   return ret_geod;
