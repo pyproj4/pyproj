@@ -11,10 +11,6 @@ cdef extern from "stdlib.h":
     void free(void *ptr)
 
 cdef extern from "math.h":
-    IF UNAME_SYSNAME == "Windows":
-        int _isnan(double)
-    ELSE:
-        int isnan(double)
     cdef enum:
         HUGE_VAL
         FP_NAN

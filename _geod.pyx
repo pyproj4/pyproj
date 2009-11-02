@@ -50,7 +50,6 @@ cdef class Geod:
         latsdata = <double *>latdata
         azdata = <double *>azdat
         distdata = <double *>distdat
-        errmsg = 'undefined inverse geodesic (may be an antipodal point)'
         for i from 0 <= i < ndim:
             if radians:
                 self.geodesic_t.p1.v = lonsdata[i]
@@ -68,12 +67,9 @@ cdef class Geod:
             geod_for(&self.geodesic_t)
             if pj_errno != 0:
                 raise RuntimeError(pj_strerrno(pj_errno))
-            IF UNAME_SYSNAME == "Windows":
-                if _isnan(self.geodesic_t.ALPHA21):
-                    raise ValueError(errmsg)
-            ELSE:
-                if isnan(self.geodesic_t.ALPHA21):
-                    raise ValueError(errmsg)
+            # check for NaN.
+            if self.geodesic_t.ALPHA21 != self.geodesic_t.ALPHA21:
+                raise ValueError('undefined inverse geodesic (may be an antipodal point)')
             if radians:
                 lonsdata[i] = self.geodesic_t.p2.v
                 latsdata[i] = self.geodesic_t.p2.u
@@ -122,12 +118,8 @@ cdef class Geod:
                 self.geodesic_t.p2.v = _dg2rad*azdata[i]
                 self.geodesic_t.p2.u = _dg2rad*distdata[i]
             geod_inv(&self.geodesic_t)
-            IF UNAME_SYSNAME == "Windows":
-                if _isnan(self.geodesic_t.DIST):
-                    raise ValueError(errmsg)
-            ELSE:
-                if isnan(self.geodesic_t.DIST):
-                    raise ValueError(errmsg)
+            if self.geodesic_t.DIST != self.geodesic_t.DIST: # check for NaN
+                raise ValueError('undefined inverse geodesic (may be an antipodal point)')
             if pj_errno != 0:
                 raise RuntimeError(pj_strerrno(pj_errno))
             if radians:
