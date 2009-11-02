@@ -1,0 +1,664 @@
+--- geod.c	2009-10-31 19:51:42.000000000 -0600
++++ ../../proj-4.7.0/src/geod.c	2009-01-26 10:14:12.000000000 -0700
+@@ -20,12 +20,7 @@
+ pline[50],		/* work string */
+ *usage =
+ "%s\nusage: %s [ -afFIptTwW [args] ] [ +opts[=arg] ] [ files ]\n";
+-
+-
+-static GEODESIC_T Geodesic;
+-static GEODESIC_T *GEODESIC = &Geodesic;
+-
+-static void
++	static void
+ printLL(double p, double l) {
+ 	if (oform) {
+ 		(void)printf(oform, p * RAD_TO_DEG); TAB;
+@@ -35,31 +30,28 @@
+ 		(void)fputs(rtodms(pline, l, 'E', 'W'),stdout);
+ 	}
+ }
+-
+-
+-static void
++	static void
+ do_arc(void) {
+ 	double az;
+ 
+-	printLL(GEODESIC->p2.u, GEODESIC->p2.v); putchar('\n');
+-	for (az = GEODESIC->ALPHA12; GEODESIC->n_alpha--; ) {
+-		GEODESIC->ALPHA12 = az = adjlon(az + GEODESIC->del_alpha);
+-		geod_pre(GEODESIC);
+-		geod_for(GEODESIC);
+-		printLL(GEODESIC->p2.u, GEODESIC->p2.v); putchar('\n');
++	printLL(phi2, lam2); putchar('\n');
++	for (az = al12; n_alpha--; ) {
++		al12 = az = adjlon(az + del_alpha);
++		geod_pre();
++		geod_for();
++		printLL(phi2, lam2); putchar('\n');
+ 	}
+ }
+-
+-static void	/* generate intermediate geodesic coordinates */
++	static void	/* generate intermediate geodesic coordinates */
+ do_geod(void) {
+ 	double phil, laml, del_S;
+ 
+-	phil = GEODESIC->p2.u;
+-	laml = GEODESIC->p2.v;
+-	printLL(GEODESIC->p1.u, GEODESIC->p1.v); putchar('\n');
+-	for ( GEODESIC->DIST = del_S = GEODESIC->DIST / GEODESIC->n_S; --(GEODESIC->n_S); GEODESIC->DIST += del_S) {
+-		geod_for(GEODESIC);
+-		printLL(GEODESIC->p2.u, GEODESIC->p2.v); putchar('\n');
++	phil = phi2;
++	laml = lam2;
++	printLL(phi1, lam1); putchar('\n');
++	for ( geod_S = del_S = geod_S / n_S; --n_S; geod_S += del_S) {
++		geod_for();
++		printLL(phi2, lam2); putchar('\n');
+ 	}
+ 	printLL(phil, laml); putchar('\n');
+ }
+@@ -81,51 +73,51 @@
+ 			fputs(line, stdout);
+ 			continue;
+ 		}
+-		GEODESIC->p1.u = dmstor(s, &s);
+-		GEODESIC->p1.v = dmstor(s, &s);
++		phi1 = dmstor(s, &s);
++		lam1 = dmstor(s, &s);
+ 		if (inverse) {
+-			GEODESIC->p2.u = dmstor(s, &s);
+-			GEODESIC->p2.v = dmstor(s, &s);
+-			geod_inv(GEODESIC);
++			phi2 = dmstor(s, &s);
++			lam2 = dmstor(s, &s);
++			geod_inv();
+ 		} else {
+-			GEODESIC->ALPHA12 = dmstor(s, &s);
+-			GEODESIC->DIST = strtod(s, &s) * GEODESIC->TO_METER;
+-			geod_pre(GEODESIC);
+-			geod_for(GEODESIC);
++			al12 = dmstor(s, &s);
++			geod_S = strtod(s, &s) * to_meter;
++			geod_pre();
++			geod_for();
+ 		}
+ 		if (!*s && (s > line)) --s; /* assumed we gobbled \n */
+ 		if (pos_azi) {
+-			if (GEODESIC->ALPHA12 < 0.) GEODESIC->ALPHA12 += TWOPI;
+-			if (GEODESIC->ALPHA21 < 0.) GEODESIC->ALPHA21 += TWOPI;
++			if (al12 < 0.) al12 += TWOPI;
++			if (al21 < 0.) al21 += TWOPI;
+ 		}
+ 		if (fullout) {
+-			printLL(GEODESIC->p1.u, GEODESIC->p1.v); TAB;
+-			printLL(GEODESIC->p2.u, GEODESIC->p2.v); TAB;
++			printLL(phi1, lam1); TAB;
++			printLL(phi2, lam2); TAB;
+ 			if (oform) {
+-				(void)printf(oform, GEODESIC->ALPHA12 * RAD_TO_DEG); TAB;
+-				(void)printf(oform, GEODESIC->ALPHA21 * RAD_TO_DEG); TAB;
+-				(void)printf(osform, GEODESIC->DIST * GEODESIC->FR_METER);
++				(void)printf(oform, al12 * RAD_TO_DEG); TAB;
++				(void)printf(oform, al21 * RAD_TO_DEG); TAB;
++				(void)printf(osform, geod_S * fr_meter);
+ 			}  else {
+-				(void)fputs(rtodms(pline, GEODESIC->ALPHA12, 0, 0), stdout); TAB;
+-				(void)fputs(rtodms(pline, GEODESIC->ALPHA21, 0, 0), stdout); TAB;
+-				(void)printf(osform, GEODESIC->DIST * GEODESIC->FR_METER);
++				(void)fputs(rtodms(pline, al12, 0, 0), stdout); TAB;
++				(void)fputs(rtodms(pline, al21, 0, 0), stdout); TAB;
++				(void)printf(osform, geod_S * fr_meter);
+ 			}
+ 		} else if (inverse)
+ 			if (oform) {
+-				(void)printf(oform, GEODESIC->ALPHA12 * RAD_TO_DEG); TAB;
+-				(void)printf(oform, GEODESIC->ALPHA21 * RAD_TO_DEG); TAB;
+-				(void)printf(osform, GEODESIC->DIST * GEODESIC->FR_METER);
++				(void)printf(oform, al12 * RAD_TO_DEG); TAB;
++				(void)printf(oform, al21 * RAD_TO_DEG); TAB;
++				(void)printf(osform, geod_S * fr_meter);
+ 			} else {
+-				(void)fputs(rtodms(pline, GEODESIC->ALPHA12, 0, 0), stdout); TAB;
+-				(void)fputs(rtodms(pline, GEODESIC->ALPHA21, 0, 0), stdout); TAB;
+-				(void)printf(osform, GEODESIC->DIST * GEODESIC->FR_METER);
++				(void)fputs(rtodms(pline, al12, 0, 0), stdout); TAB;
++				(void)fputs(rtodms(pline, al21, 0, 0), stdout); TAB;
++				(void)printf(osform, geod_S * fr_meter);
+ 			}
+ 		else {
+-			printLL(GEODESIC->p2.u, GEODESIC->p2.v); TAB;
++			printLL(phi2, lam2); TAB;
+ 			if (oform)
+-				(void)printf(oform, GEODESIC->ALPHA21 * RAD_TO_DEG);
++				(void)printf(oform, al21 * RAD_TO_DEG);
+ 			else
+-				(void)fputs(rtodms(pline, GEODESIC->ALPHA21, 0, 0), stdout);
++				(void)fputs(rtodms(pline, al21, 0, 0), stdout);
+ 		}
+ 		(void)fputs(s, stdout);
+ 	}
+@@ -214,12 +206,12 @@
+ 			eargv[eargc++] = *argv;
+ 	}
+ 	/* done with parameter and control input */
+-	GEOD_init(pargc, pargv, GEODESIC); /* setup projection */
+-	if ((GEODESIC->n_alpha || GEODESIC->n_S) && eargc)
++	geod_set(pargc, pargv); /* setup projection */
++	if ((n_alpha || n_S) && eargc)
+ 		emess(1,"files specified for arc/geodesic mode");
+-	if (GEODESIC->n_alpha)
++	if (n_alpha)
+ 		do_arc();
+-	else if (GEODESIC->n_S)
++	else if (n_S)
+ 		do_geod();
+ 	else { /* process input file list */
+ 		if (eargc == 0) /* if no specific files force sysin */
+--- geodesic.h	2009-10-31 19:51:00.000000000 -0600
++++ ../../proj-4.7.0/src/geodesic.h	2008-10-18 10:08:14.000000000 -0600
+@@ -1,8 +1,3 @@
+-#ifndef __GEODESIC_H__
+-#define __GEODESIC_H__
+-
+-#include "projects.h"
+-
+ #ifndef lint
+ static char GEODESIC_H_ID[] = "@(#)geodesic.h	4.3	95/08/19	GIE	REL";
+ #endif
+@@ -17,37 +12,40 @@
+ #  define GEOD_EXTERN
+ #endif
+ 
+-typedef struct geodesic {
++GEOD_EXTERN struct geodesic {
+ 	double	A;
+-
+-  projUV p1, p2;
+-
+-  double	ALPHA12;
+-	double	ALPHA21;
+-  
++	double	LAM1, PHI1, ALPHA12;
++	double	LAM2, PHI2, ALPHA21;
+ 	double	DIST;
+ 	double	ONEF, FLAT, FLAT2, FLAT4, FLAT64;
+ 	int	ELLIPSE;
+-  double FR_METER, TO_METER, del_alpha;
+-  int n_alpha, n_S;
+-
+-
+-  double th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,D,P,s1;
+-  int merid, signS;
+-} GEODESIC_T;
++} GEODESIC;
+ 
++# define geod_a	GEODESIC.A
++# define lam1	GEODESIC.LAM1
++# define phi1	GEODESIC.PHI1
++# define al12	GEODESIC.ALPHA12
++# define lam2	GEODESIC.LAM2
++# define phi2	GEODESIC.PHI2
++# define al21	GEODESIC.ALPHA21
++# define geod_S	GEODESIC.DIST
++# define geod_f	GEODESIC.FLAT
++# define onef	GEODESIC.ONEF
++# define f2	GEODESIC.FLAT2
++# define f4	GEODESIC.FLAT4
++# define ff2	GEODESIC.FLAT4
++# define f64	GEODESIC.FLAT64
++# define ellipse GEODESIC.ELLIPSE
++
++    
++GEOD_EXTERN int n_alpha, n_S;
++GEOD_EXTERN double to_meter, fr_meter, del_alpha;
+ 	
+-  GEODESIC_T *GEOD_init(int, char **, GEODESIC_T *g);
+-  GEODESIC_T *GEOD_init_plus(const char *args, GEODESIC_T *g);
+-  void geod_for(GEODESIC_T *g);
+-  void  geod_pre(GEODESIC_T *g);
+-  int geod_inv(GEODESIC_T *g);
++void geod_set(int, char **);
++void geod_for(void);
++void geod_pre(void);
++void geod_inv(void);
+ 
+-  
+-  
+ #ifdef __cplusplus
+ }
+ #endif
+-
+-#endif // __GEODESIC_H__
+-
+--- geod_for.c	2009-10-31 19:51:00.000000000 -0600
++++ ../../proj-4.7.0/src/geod_for.c	2009-01-26 10:14:14.000000000 -0700
+@@ -1,110 +1,103 @@
+ # include "projects.h"
+ # include "geodesic.h"
+ # define MERI_TOL 1e-9
+-
+-
+-// input: al12, ELLIPSE, ONEF, phi1, FLAT, FLAT4
+-// output: al12 (ajusting) and!!! double s1, D, P, c1, M, N, cosa12, sina12, sinth1, costh1, th1, int signS, merid
+-
+-void
+-geod_pre(GEODESIC_T *GEODESIC) {
+-	GEODESIC->ALPHA12 = adjlon(GEODESIC->ALPHA12); /* reduce to  +- 0-PI */
+-	GEODESIC->signS = fabs(GEODESIC->ALPHA12) > HALFPI ? 1 : 0;
+-	GEODESIC->th1 = GEODESIC->ELLIPSE ? atan(GEODESIC->ONEF * tan(GEODESIC->p1.u)) : GEODESIC->p1.u;
+-	GEODESIC->costh1 = cos(GEODESIC->th1);
+-	GEODESIC->sinth1 = sin(GEODESIC->th1);
+-	if ((GEODESIC->merid = fabs(GEODESIC->sina12 = sin(GEODESIC->ALPHA12)) < MERI_TOL)) {
+-		GEODESIC->sina12 = 0.;
+-		GEODESIC->cosa12 = fabs(GEODESIC->ALPHA12) < HALFPI ? 1. : -1.;
+-		GEODESIC->M = 0.;
++	static double
++th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,D,P,s1;
++	static int
++merid, signS;
++	void
++geod_pre(void) {
++	al12 = adjlon(al12); /* reduce to  +- 0-PI */
++	signS = fabs(al12) > HALFPI ? 1 : 0;
++	th1 = ellipse ? atan(onef * tan(phi1)) : phi1;
++	costh1 = cos(th1);
++	sinth1 = sin(th1);
++	if ((merid = fabs(sina12 = sin(al12)) < MERI_TOL)) {
++		sina12 = 0.;
++		cosa12 = fabs(al12) < HALFPI ? 1. : -1.;
++		M = 0.;
+ 	} else {
+-		GEODESIC->cosa12 = cos(GEODESIC->ALPHA12);
+-		GEODESIC->M = GEODESIC->costh1 * GEODESIC->sina12;
++		cosa12 = cos(al12);
++		M = costh1 * sina12;
+ 	}
+-	GEODESIC->N = GEODESIC->costh1 * GEODESIC->cosa12;
+-	if (GEODESIC->ELLIPSE) {
+-		if (GEODESIC->merid) {
+-			GEODESIC->c1 = 0.;
+-			GEODESIC->c2 = GEODESIC->FLAT4;
+-			GEODESIC->D = 1. - GEODESIC->c2;
+-			GEODESIC->D *= GEODESIC->D;
+-			GEODESIC->P = GEODESIC->c2 / GEODESIC->D;
++	N = costh1 * cosa12;
++	if (ellipse) {
++		if (merid) {
++			c1 = 0.;
++			c2 = f4;
++			D = 1. - c2;
++			D *= D;
++			P = c2 / D;
+ 		} else {
+-			GEODESIC->c1 = GEODESIC->FLAT * GEODESIC->M;
+-			GEODESIC->c2 = GEODESIC->FLAT4 * (1. - GEODESIC->M * GEODESIC->M);
+-			GEODESIC->D = (1. - GEODESIC->c2)*(1. - GEODESIC->c2 - GEODESIC->c1 * GEODESIC->M);
+-			GEODESIC->P = (1. + .5 * GEODESIC->c1 * GEODESIC->M) * GEODESIC->c2 / GEODESIC->D;
++			c1 = geod_f * M;
++			c2 = f4 * (1. - M * M);
++			D = (1. - c2)*(1. - c2 - c1 * M);
++			P = (1. + .5 * c1 * M) * c2 / D;
+ 		}
+ 	}
+-	if (GEODESIC->merid) GEODESIC->s1 = HALFPI - GEODESIC->th1;
++	if (merid) s1 = HALFPI - th1;
+ 	else {
+-		GEODESIC->s1 = (fabs(GEODESIC->M) >= 1.) ? 0. : acos(GEODESIC->M);
+-		GEODESIC->s1 =  GEODESIC->sinth1 / sin(GEODESIC->s1);
+-		GEODESIC->s1 = (fabs(GEODESIC->s1) >= 1.) ? 0. : acos(GEODESIC->s1);
++		s1 = (fabs(M) >= 1.) ? 0. : acos(M);
++		s1 =  sinth1 / sin(s1);
++		s1 = (fabs(s1) >= 1.) ? 0. : acos(s1);
+ 	}
+ }
+-
+-// input: ELLIPSE, DIST, A and!!! D, signS, s1
+-// output:
+-
+-void
+-geod_for(GEODESIC_T *GEODESIC) {
+-	double d,sind,u,V,X,ds,cosds,sinds,ss = 0,de;
+-
+-	if (GEODESIC->ELLIPSE) {
+-		d = GEODESIC->DIST / (GEODESIC->D * GEODESIC->A);
+-		if (GEODESIC->signS) d = -d;
+-		u = 2. * (GEODESIC->s1 - d);
++	void
++geod_for(void) {
++	double d,sind,u,V,X,ds,cosds,sinds,ss,de;
++
++	if (ellipse) {
++		d = geod_S / (D * geod_a);
++		if (signS) d = -d;
++		u = 2. * (s1 - d);
+ 		V = cos(u + d);
+-		X = GEODESIC->c2 * GEODESIC->c2 * (sind = sin(d)) * cos(d) * (2. * V * V - 1.);
+-		ds = d + X - 2. * GEODESIC->P * V * (1. - 2. * GEODESIC->P * cos(u)) * sind;
+-		ss = GEODESIC->s1 + GEODESIC->s1 - ds;
++		X = c2 * c2 * (sind = sin(d)) * cos(d) * (2. * V * V - 1.);
++		ds = d + X - 2. * P * V * (1. - 2. * P * cos(u)) * sind;
++		ss = s1 + s1 - ds;
+ 	} else {
+-		ds = GEODESIC->DIST / GEODESIC->A;
+-		if (GEODESIC->signS) ds = - ds;
++		ds = geod_S / geod_a;
++		if (signS) ds = - ds;
+ 	}
+ 	cosds = cos(ds);
+ 	sinds = sin(ds);
+-	if (GEODESIC->signS) sinds = - sinds;
+-	GEODESIC->ALPHA21 = GEODESIC->N * cosds - GEODESIC->sinth1 * sinds;
+-	if (GEODESIC->merid) {
+-		GEODESIC->p2.u = atan( tan(HALFPI + GEODESIC->s1 - ds) / GEODESIC->ONEF);
+-		if (GEODESIC->ALPHA21 > 0.) {
+-			GEODESIC->ALPHA21 = PI;
+-			if (GEODESIC->signS)
++	if (signS) sinds = - sinds;
++	al21 = N * cosds - sinth1 * sinds;
++	if (merid) {
++		phi2 = atan( tan(HALFPI + s1 - ds) / onef);
++		if (al21 > 0.) {
++			al21 = PI;
++			if (signS)
+ 				de = PI;
+ 			else {
+-				GEODESIC->p2.u = - GEODESIC->p2.u;
++				phi2 = - phi2;
+ 				de = 0.;
+ 			}
+ 		} else {
+-			GEODESIC->ALPHA21 = 0.;
+-			if (GEODESIC->signS) {
+-				GEODESIC->p2.u = - GEODESIC->p2.u;
++			al21 = 0.;
++			if (signS) {
++				phi2 = - phi2;
+ 				de = 0;
+ 			} else
+ 				de = PI;
+ 		}
+ 	} else {
+-		GEODESIC->ALPHA21 = atan(GEODESIC->M / GEODESIC->ALPHA21);
+-		if (GEODESIC->ALPHA21 > 0)
+-			GEODESIC->ALPHA21 += PI;
+-		if (GEODESIC->ALPHA12 < 0.)
+-			GEODESIC->ALPHA21 -= PI;
+-		GEODESIC->ALPHA21 = adjlon(GEODESIC->ALPHA21);
+-		GEODESIC->p2.u = atan(-(GEODESIC->sinth1 * cosds + GEODESIC->N * sinds) * sin(GEODESIC->ALPHA21) /
+-			(GEODESIC->ELLIPSE ? GEODESIC->ONEF * GEODESIC->M : GEODESIC->M));
+-		de = atan2(sinds * GEODESIC->sina12 ,
+-			(GEODESIC->costh1 * cosds - GEODESIC->sinth1 * sinds * GEODESIC->cosa12));
+-		if (GEODESIC->ELLIPSE)
+-    {
+-			if (GEODESIC->signS)
+-				de += GEODESIC->c1 * ((1. - GEODESIC->c2) * ds +
+-					GEODESIC->c2 * sinds * cos(ss));
++		al21 = atan(M / al21);
++		if (al21 > 0)
++			al21 += PI;
++		if (al12 < 0.)
++			al21 -= PI;
++		al21 = adjlon(al21);
++		phi2 = atan(-(sinth1 * cosds + N * sinds) * sin(al21) /
++			(ellipse ? onef * M : M));
++		de = atan2(sinds * sina12 ,
++			(costh1 * cosds - sinth1 * sinds * cosa12));
++		if (ellipse)
++			if (signS)
++				de += c1 * ((1. - c2) * ds +
++					c2 * sinds * cos(ss));
+ 			else
+-				de -= GEODESIC->c1 * ((1. - GEODESIC->c2) * ds -
+-					GEODESIC->c2 * sinds * cos(ss));
+-    }
++				de -= c1 * ((1. - c2) * ds -
++					c2 * sinds * cos(ss));
+ 	}
+-	GEODESIC->p2.v = adjlon( GEODESIC->p1.v + de );
++	lam2 = adjlon( lam1 + de );
+ }
+--- geod_inv.c	2009-10-31 19:51:00.000000000 -0600
++++ ../../proj-4.7.0/src/geod_inv.c	2009-01-26 10:14:17.000000000 -0700
+@@ -1,26 +1,24 @@
+ # include "projects.h"
+ # include "geodesic.h"
+ # define DTOL	1e-12
+-
+-int
+-geod_inv(GEODESIC_T *GEODESIC)
+-{
++	void
++geod_inv(void) {
+ 	double	th1,th2,thm,dthm,dlamm,dlam,sindlamm,costhm,sinthm,cosdthm,
+ 		sindthm,L,E,cosd,d,X,Y,T,sind,tandlammp,u,v,D,A,B;
+ 
+-	if (GEODESIC->ELLIPSE) {
+-		th1 = atan(GEODESIC->ONEF * tan(GEODESIC->p1.u));
+-		th2 = atan(GEODESIC->ONEF * tan(GEODESIC->p2.u));
++	if (ellipse) {
++		th1 = atan(onef * tan(phi1));
++		th2 = atan(onef * tan(phi2));
+ 	} else {
+-		th1 = GEODESIC->p1.u;
+-		th2 = GEODESIC->p2.u;
++		th1 = phi1;
++		th2 = phi2;
+ 	}
+ 	thm = .5 * (th1 + th2);
+ 	dthm = .5 * (th2 - th1);
+-	dlamm = .5 * ( dlam = adjlon(GEODESIC->p2.v - GEODESIC->p1.v) );
++	dlamm = .5 * ( dlam = adjlon(lam2 - lam1) );
+ 	if (fabs(dlam) < DTOL && fabs(dthm) < DTOL) {
+-		GEODESIC->ALPHA12 =  GEODESIC->ALPHA21 = GEODESIC->DIST = 0.;
+-		return -1;
++		al12 =  al21 = geod_S = 0.;
++		return;
+ 	}
+ 	sindlamm = sin(dlamm);
+ 	costhm = cos(thm);	sinthm = sin(thm);
+@@ -28,7 +26,7 @@
+ 	L = sindthm * sindthm + (cosdthm * cosdthm - sinthm * sinthm)
+ 		* sindlamm * sindlamm;
+ 	d = acos(cosd = 1 - L - L);
+-	if (GEODESIC->ELLIPSE) {
++	if (ellipse) {
+ 		E = cosd + cosd;
+ 		sind = sin( d );
+ 		Y = sinthm * cosdthm;
+@@ -41,19 +39,18 @@
+ 		D = 4. * T * T;
+ 		A = D * E;
+ 		B = D + D;
+-		GEODESIC->DIST = GEODESIC->A * sind * (T - GEODESIC->FLAT4 * (T * X - Y) +
+-                                           GEODESIC->FLAT64 * (X * (A + (T - .5 * (A - E)) * X) -
+-                                                               Y * (B + E * Y) + D * X * Y));
++		geod_S = geod_a * sind * (T - f4 * (T * X - Y) +
++			f64 * (X * (A + (T - .5 * (A - E)) * X) -
++			Y * (B + E * Y) + D * X * Y));
+ 		tandlammp = tan(.5 * (dlam - .25 * (Y + Y - E * (4. - X)) *
+-                          (GEODESIC->FLAT2 * T + GEODESIC->FLAT64 * (32. * T - (20. * T - A)
+-                                                                     * X - (B + 4.) * Y)) * tan(dlam)));
++			(f2 * T + f64 * (32. * T - (20. * T - A)
++			* X - (B + 4.) * Y)) * tan(dlam)));
+ 	} else {
+-		GEODESIC->DIST = GEODESIC->A * d;
++		geod_S = geod_a * d;
+ 		tandlammp = tan(dlamm);
+ 	}
+ 	u = atan2(sindthm , (tandlammp * costhm));
+ 	v = atan2(cosdthm , (tandlammp * sinthm));
+-	GEODESIC->ALPHA12 = adjlon(TWOPI + v - u);
+-	GEODESIC->ALPHA21 = adjlon(TWOPI - v - u);
+-  return 0;
++	al12 = adjlon(TWOPI + v - u);
++	al21 = adjlon(TWOPI - v - u);
+ }
+--- geod_set.c	2009-11-01 12:28:06.000000000 -0700
++++ ../../proj-4.7.0/src/geod_set.c	2009-01-26 10:14:19.000000000 -0700
+@@ -1,27 +1,17 @@
+ 
+ #define _IN_GEOD_SET
+ 
+-#include <stdlib.h>
+ #include <string.h>
+ #include "projects.h"
+ #include "geodesic.h"
+ #include "emess.h"
+-
+-GEODESIC_T *
+-GEOD_init(int argc, char **argv, GEODESIC_T *GEODESIC)
+-{
+-  paralist *start = 0, *curr = 0;
++	void
++geod_set(int argc, char **argv) {
++	paralist *start = 0, *curr;
+ 	double es;
+ 	char *name;
+ 	int i;
+ 
+-
+-    if(0 == GEODESIC)
+-    {
+-       GEODESIC = malloc(sizeof(GEODESIC_T));
+-    }
+-    memset(GEODESIC, 0, sizeof(GEODESIC_T));
+-
+     /* put arguments into internal linked list */
+ 	if (argc <= 0)
+ 		emess(1, "no arguments in initialization list");
+@@ -31,50 +21,49 @@
+ 		else
+ 			start = curr = pj_mkparam(argv[i]);
+ 	/* set elliptical parameters */
+-	if (pj_ell_set(start, &GEODESIC->A, &es)) emess(1,"ellipse setup failure");
++	if (pj_ell_set(start, &geod_a, &es)) emess(1,"ellipse setup failure");
+ 	/* set units */
+-	if ((name = pj_param(start, "sunits").s)) {
++	if (name = pj_param(start, "sunits").s) {
+ 		char *s;
+                 struct PJ_UNITS *unit_list = pj_get_units_ref();
+ 		for (i = 0; (s = unit_list[i].id) && strcmp(name, s) ; ++i) ;
+ 		if (!s)
+ 			emess(1,"%s unknown unit conversion id", name);
+-		GEODESIC->FR_METER = 1. / (GEODESIC->TO_METER = atof(unit_list[i].to_meter));
++		fr_meter = 1. / (to_meter = atof(unit_list[i].to_meter));
+ 	} else
+-		GEODESIC->TO_METER = GEODESIC->FR_METER = 1.;
+-	if ((GEODESIC->ELLIPSE = (es != 0.))) {
+-		GEODESIC->ONEF = sqrt(1. - es);
+-		GEODESIC->FLAT = 1 - GEODESIC->ONEF;
+-		GEODESIC->FLAT2 = GEODESIC->FLAT/2;
+-		GEODESIC->FLAT4 = GEODESIC->FLAT/4;
+-		GEODESIC->FLAT64 = GEODESIC->FLAT*GEODESIC->FLAT/64;
++		to_meter = fr_meter = 1.;
++	if (ellipse = es != 0.) {
++		onef = sqrt(1. - es);
++		geod_f = 1 - onef;
++		f2 = geod_f/2;
++		f4 = geod_f/4;
++		f64 = geod_f*geod_f/64;
+ 	} else {
+-		GEODESIC->ONEF = 1.;
+-		GEODESIC->FLAT = GEODESIC->FLAT2 = GEODESIC->FLAT4 = GEODESIC->FLAT64 = 0.;
++		onef = 1.;
++		geod_f = f2 = f4 = f64 = 0.;
+ 	}
+ 	/* check if line or arc mode */
+ 	if (pj_param(start, "tlat_1").i) {
+ 		double del_S;
+ #undef f
+-
+-    GEODESIC->p1.u = pj_param(start, "rlat_1").f;
+-		GEODESIC->p1.v = pj_param(start, "rlon_1").f;
++		phi1 = pj_param(start, "rlat_1").f;
++		lam1 = pj_param(start, "rlon_1").f;
+ 		if (pj_param(start, "tlat_2").i) {
+-			GEODESIC->p2.u = pj_param(start, "rlat_2").f;
+-			GEODESIC->p2.v = pj_param(start, "rlon_2").f;
+-			geod_inv(GEODESIC);
+-			geod_pre(GEODESIC);
+-		} else if ((GEODESIC->DIST = pj_param(start, "dS").f)) {
+-			GEODESIC->ALPHA12 = pj_param(start, "rA").f;
+-			geod_pre(GEODESIC);
+-			geod_for(GEODESIC);
++			phi2 = pj_param(start, "rlat_2").f;
++			lam2 = pj_param(start, "rlon_2").f;
++			geod_inv();
++			geod_pre();
++		} else if (geod_S = pj_param(start, "dS").f) {
++			al12 = pj_param(start, "rA").f;
++			geod_pre();
++			geod_for();
+ 		} else emess(1,"incomplete geodesic/arc info");
+-		if ((GEODESIC->n_alpha = pj_param(start, "in_A").i) > 0) {
+-			if (!(GEODESIC->del_alpha = pj_param(start, "rdel_A").f))
++		if ((n_alpha = pj_param(start, "in_A").i) > 0) {
++			if (!(del_alpha = pj_param(start, "rdel_A").f))
+ 				emess(1,"del azimuth == 0");
+-		} else if ((del_S = fabs(pj_param(start, "ddel_S").f))) {
+-			GEODESIC->n_S = GEODESIC->DIST / del_S + .5;
+-		} else if ((GEODESIC->n_S = pj_param(start, "in_S").i) <= 0)
++		} else if (del_S = fabs(pj_param(start, "ddel_S").f)) {
++			n_S = geod_S / del_S + .5;
++		} else if ((n_S = pj_param(start, "in_S").i) <= 0)
+ 			emess(1,"no interval divisor selected");
+ 	}
+ 	/* free up linked list */
+@@ -82,54 +71,4 @@
+ 		curr = start->next;
+ 		pj_dalloc(start);
+ 	}
+-  return GEODESIC;
+ }
+-
+-GEODESIC_T *GEOD_init_plus(const char *definition, GEODESIC_T *geod)
+-{
+-#define MAX_ARG 200
+-  char	*argv[MAX_ARG];
+-  char	*defn_copy;
+-  int		argc = 0, i;
+-  GEODESIC_T *ret_geod;
+-  
+-    /* make a copy that we can manipulate */
+-  defn_copy = strdup(definition);
+-  
+-    /* split into arguments based on '+' and trim white space */
+-  
+-  for( i = 0; defn_copy[i] != '\0'; i++ )
+-  {
+-    switch( defn_copy[i] )
+-    {
+-      case '+':
+-        if( i == 0 || defn_copy[i-1] == '\0' )
+-        {
+-          if( argc+1 == MAX_ARG )
+-          {
+-              //pj_errno = -44;
+-            return NULL;
+-          }
+-          
+-          argv[argc++] = defn_copy + i + 1;
+-        }
+-        break;
+-        
+-      case ' ':
+-      case '\t':
+-      case '\n':
+-        defn_copy[i] = '\0';
+-        break;
+-        
+-      default:
+-        /* do nothing */;
+-    }
+-  }
+-  
+-    /* perform actual initialization */
+-  ret_geod = GEOD_init(argc, argv, geod);
+-  
+-  free( defn_copy );
+-  return ret_geod;
+-}
+-
