@@ -80,13 +80,15 @@ class Proj(_Proj):
     degrees. If optional keyword 'errcheck' is True (default is
     False) an exception is raised if the transformation is invalid.
     If errcheck=False and the transformation is invalid, no
-    exception is raised and 1.e30 is returned.
+    exception is raised and 1.e30 is returned. If the optional keyword
+    'preserve_units' is True, the units in map projection coordinates
+    are not forced to be meters.
 
     Works with numpy and regular python array objects, python
     sequences and scalars.
     """
 
-    def __new__(self, projparams=None, **kwargs):
+    def __new__(self, projparams=None, preserve_units=False, **kwargs):
         """
         initialize a Proj class instance.
 
@@ -121,6 +123,12 @@ class Proj(_Proj):
         >>> x,y = p2(-120.108, 34.36116666)
         >>> print 'x=%9.3f y=%11.3f' % (x,y)
         x=765975.641 y=3805993.134
+        >>> p = Proj(init="epsg:32667")
+        >>> print 'x=%12.3f y=%12.3f (meters)' % p(-114.057222, 51.045)
+        x=-1783486.760 y= 6193833.196 (meters)
+        >>> p = Proj("+init=epsg:32667",preserve_units=True)
+        >>> print 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
+        x=-5851322.810 y=20320934.409 (feet)
         """
         # if projparams is None, use kwargs.
         if projparams is None:
@@ -133,13 +141,13 @@ class Proj(_Proj):
             projstring = projparams
         else: # projparams a dict
             projstring = _dict2string(projparams)
-        # make sure units are meters.
-        if not  projstring.count('+units='):
+        # make sure units are meters if preserve_units is False.
+        if not projstring.count('+units=') and not preserve_units:
             projstring = '+units=m '+projstring
         else:
             kvpairs = []
             for kvpair in projstring.split():
-                if kvpair.startswith('+units'):
+                if kvpair.startswith('+units') and not preserve_units:
                     k,v = kvpair.split('=')
                     kvpairs.append(k+'=m ')
                 else:
