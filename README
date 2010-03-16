@@ -268,7 +268,9 @@ CLASSES
      |  degrees. If optional keyword 'errcheck' is True (default is
      |  False) an exception is raised if the transformation is invalid.
      |  If errcheck=False and the transformation is invalid, no
-     |  exception is raised and 1.e30 is returned.
+     |  exception is raised and 1.e30 is returned. If the optional keyword
+     |  'preserve_units' is True, the units in map projection coordinates
+     |  are not forced to be meters.
      |  
      |  Works with numpy and regular python array objects, python
      |  sequences and scalars.
@@ -439,7 +441,7 @@ FUNCTIONS
          -92.220  -94.720  -90.370 38.830 39.320 38.750
 
 DATA
-    __version__ = '1.8.5'
+    __version__ = '1.8.7'
 
 VERSION
-    1.8.5
+    1.8.7

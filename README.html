@@ -1,12 +1,12 @@
 
-<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Python: package pyproj</title>
 </head><body bgcolor="#f0f0f8">
 
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pyproj</strong></big></big> (version 1.8.5)</font></td
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pyproj</strong></big></big> (version 1.8.7)</font></td
 ><td align=right valign=bottom
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/jsw/lib/python/pyproj/__init__.py">/Users/jsw/lib/python/pyproj/__init__.py</a></font></td></tr></table>
     <p><tt>Pyrex&nbsp;wrapper&nbsp;to&nbsp;provide&nbsp;python&nbsp;interfaces&nbsp;to<br>
@@ -161,10 +161,11 @@ Example&nbsp;usage:<br>
 Static methods defined here:<br>
 <dl><dt><a name="Geod-__new__"><strong>__new__</strong></a>(self, initparams<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>initialize&nbsp;a&nbsp;<a href="#Geod">Geod</a>&nbsp;class&nbsp;instance.<br>
 &nbsp;<br>
-Geodetic&nbsp;parameters&nbsp;for&nbsp;specifying&nbsp;the&nbsp;ellipsoid&nbsp;or&nbsp;sphere&nbsp;to<br>
-use&nbsp;must&nbsp;either&nbsp;be&nbsp;given&nbsp;in&nbsp;a&nbsp;dictionary&nbsp;'initparams'&nbsp;or&nbsp;as<br>
-keyword&nbsp;arguments.&nbsp;Following&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;ellipsoids&nbsp;that<br>
-may&nbsp;be&nbsp;defined&nbsp;using&nbsp;the&nbsp;'ellps'&nbsp;keyword:<br>
+Geodetic&nbsp;parameters&nbsp;for&nbsp;specifying&nbsp;the&nbsp;ellipsoid<br>
+can&nbsp;be&nbsp;given&nbsp;in&nbsp;a&nbsp;dictionary&nbsp;'initparams',&nbsp;as&nbsp;keyword&nbsp;arguments,&nbsp;<br>
+or&nbsp;as&nbsp;as&nbsp;proj4&nbsp;geod&nbsp;initialization&nbsp;string.<br>
+Following&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;ellipsoids&nbsp;that&nbsp;may&nbsp;be&nbsp;defined&nbsp;using&nbsp;the&nbsp;<br>
+'ellps'&nbsp;keyword:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;MERIT&nbsp;a=6378137.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rf=298.257&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MERIT&nbsp;1983<br>
 &nbsp;&nbsp;&nbsp;SGS85&nbsp;a=6378136.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rf=298.257&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Soviet&nbsp;Geodetic&nbsp;System&nbsp;85<br>
@@ -248,7 +249,11 @@ Example&nbsp;usage:<br>
 &gt;&gt;&gt;&nbsp;for&nbsp;faz,baz,d&nbsp;in&nbsp;zip(az12,az21,dist):&nbsp;print&nbsp;"%7.3f&nbsp;%7.3f&nbsp;%9.3f"&nbsp;%&nbsp;(faz,baz,d)<br>
 &nbsp;54.663&nbsp;-123.448&nbsp;288303.720<br>
 -65.463&nbsp;&nbsp;79.342&nbsp;4013037.318<br>
-&nbsp;51.254&nbsp;-71.576&nbsp;5579916.649</tt></dd></dl>
+&nbsp;51.254&nbsp;-71.576&nbsp;5579916.649<br>
+&gt;&gt;&gt;&nbsp;g2&nbsp;=&nbsp;<a href="#Geod">Geod</a>('+ellps=clrk66')&nbsp;#&nbsp;use&nbsp;proj4&nbsp;style&nbsp;initialization&nbsp;string<br>
+&gt;&gt;&gt;&nbsp;az12,az21,dist&nbsp;=&nbsp;g2.<a href="#Geod-inv">inv</a>(boston_lon,boston_lat,portland_lon,portland_lat)<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;"%7.3f&nbsp;%6.3f&nbsp;%12.3f"&nbsp;%&nbsp;(az12,az21,dist)<br>
+-66.531&nbsp;75.654&nbsp;&nbsp;4164192.708</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -264,7 +269,7 @@ Methods inherited from _geod.Geod:<br>
 
 <hr>
 Data descriptors inherited from _geod.Geod:<br>
-<dl><dt><strong>geodparams</strong></dt>
+<dl><dt><strong>geodstring</strong></dt>
 </dl>
 <dl><dt><strong>proj_version</strong></dt>
 </dl>
@@ -295,7 +300,9 @@ lon/lat&nbsp;is&nbsp;performed.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'radians
 degrees.&nbsp;If&nbsp;optional&nbsp;keyword&nbsp;'errcheck'&nbsp;is&nbsp;True&nbsp;(default&nbsp;is<br>
 False)&nbsp;an&nbsp;exception&nbsp;is&nbsp;raised&nbsp;if&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid.<br>
 If&nbsp;errcheck=False&nbsp;and&nbsp;the&nbsp;transformation&nbsp;is&nbsp;invalid,&nbsp;no<br>
-exception&nbsp;is&nbsp;raised&nbsp;and&nbsp;1.e30&nbsp;is&nbsp;returned.<br>
+exception&nbsp;is&nbsp;raised&nbsp;and&nbsp;1.e30&nbsp;is&nbsp;returned.&nbsp;If&nbsp;the&nbsp;optional&nbsp;keyword<br>
+'preserve_units'&nbsp;is&nbsp;True,&nbsp;the&nbsp;units&nbsp;in&nbsp;map&nbsp;projection&nbsp;coordinates<br>
+are&nbsp;not&nbsp;forced&nbsp;to&nbsp;be&nbsp;meters.<br>
 &nbsp;<br>
 Works&nbsp;with&nbsp;numpy&nbsp;and&nbsp;regular&nbsp;python&nbsp;array&nbsp;objects,&nbsp;python<br>
 sequences&nbsp;and&nbsp;scalars.<br>&nbsp;</tt></td></tr>
@@ -334,7 +341,7 @@ sequences&nbsp;and&nbsp;scalars,&nbsp;but&nbsp;is&nbsp;fastest&nbsp;for&nbsp;arr
 
 <hr>
 Static methods defined here:<br>
-<dl><dt><a name="Proj-__new__"><strong>__new__</strong></a>(self, projparams<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>initialize&nbsp;a&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance.<br>
+<dl><dt><a name="Proj-__new__"><strong>__new__</strong></a>(self, projparams<font color="#909090">=None</font>, preserve_units<font color="#909090">=False</font>, **kwargs)</dt><dd><tt>initialize&nbsp;a&nbsp;<a href="#Proj">Proj</a>&nbsp;class&nbsp;instance.<br>
 &nbsp;<br>
 Proj4&nbsp;projection&nbsp;control&nbsp;parameters&nbsp;must&nbsp;either&nbsp;be&nbsp;given&nbsp;in&nbsp;a<br>
 dictionary&nbsp;'projparams'&nbsp;or&nbsp;as&nbsp;keyword&nbsp;arguments.&nbsp;See&nbsp;the&nbsp;proj<br>
@@ -366,7 +373,13 @@ lats:&nbsp;&nbsp;&nbsp;36.770&nbsp;&nbsp;&nbsp;33.930&nbsp;&nbsp;&nbsp;37.620<br
 &gt;&gt;&gt;&nbsp;p2&nbsp;=&nbsp;<a href="#Proj">Proj</a>('+proj=utm&nbsp;+zone=10&nbsp;+ellps=WGS84')&nbsp;#&nbsp;use&nbsp;proj4&nbsp;string<br>
 &gt;&gt;&gt;&nbsp;x,y&nbsp;=&nbsp;p2(-120.108,&nbsp;34.36116666)<br>
 &gt;&gt;&gt;&nbsp;print&nbsp;'x=%9.3f&nbsp;y=%11.3f'&nbsp;%&nbsp;(x,y)<br>
-x=765975.641&nbsp;y=3805993.134</tt></dd></dl>
+x=765975.641&nbsp;y=3805993.134<br>
+&gt;&gt;&gt;&nbsp;p&nbsp;=&nbsp;<a href="#Proj">Proj</a>(init="epsg:32667")<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;'x=%12.3f&nbsp;y=%12.3f&nbsp;(meters)'&nbsp;%&nbsp;p(-114.057222,&nbsp;51.045)<br>
+x=-1783486.760&nbsp;y=&nbsp;6193833.196&nbsp;(meters)<br>
+&gt;&gt;&gt;&nbsp;p&nbsp;=&nbsp;<a href="#Proj">Proj</a>("+init=epsg:32667",preserve_units=True)<br>
+&gt;&gt;&gt;&nbsp;print&nbsp;'x=%12.3f&nbsp;y=%12.3f&nbsp;(feet)'&nbsp;%&nbsp;p(-114.057222,&nbsp;51.045)<br>
+x=-5851322.810&nbsp;y=20320934.409&nbsp;(feet)</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -464,6 +477,6 @@ Example&nbsp;usage:<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>__version__</strong> = '1.8.5'<br>
+<td width="100%"><strong>__version__</strong> = '1.8.7'<br>
 <strong>pyproj_datadir</strong> = '/Users/jsw/lib/python/pyproj/data'</td></tr></table>
 </body></html>
