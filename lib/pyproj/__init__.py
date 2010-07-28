@@ -494,6 +494,9 @@ class Geod(_Geod):
                 else:
                     kvpairs.append(kvpair+' ')
             initstring = ''.join(kvpairs)
+        # first try a Proj class (catches errors properly)
+        projstring = initstring + ' +proj=latlon'
+        p = Proj(projstring) # this is never used
         return _Geod.__new__(self, initstring)
 
     def fwd(self, lons, lats, az, dist, radians=False):
