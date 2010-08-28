@@ -1,4 +1,4 @@
-import os, glob
+import os, glob, subprocess
 from distutils import ccompiler, sysconfig
 from distutils.core import setup, Extension
 
@@ -20,7 +20,7 @@ for f in llafiles:
     fout = os.path.join(pathout,fout)
     str = '%s %s < %s' % (cmd, fout, f)
     print 'executing ',str
-    os.system(str)
+    subprocess.call(str,shell=True)
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
