@@ -1,9 +1,26 @@
 import os, glob
+from distutils import ccompiler, sysconfig
 from distutils.core import setup, Extension
 
 deps = glob.glob('src/*.c')
 extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
 extensions.append(Extension("pyproj._geod",deps+['_geod.c'],include_dirs = ['src']))
+
+# create binary datum shift grid files.
+cc = ccompiler.new_compiler()
+sysconfig.customize_compiler(cc)
+cc.set_include_dirs(['src'])
+objects = cc.compile(['nad2bin.c'])
+cc.link_executable(objects, 'nad2bin')
+llafiles = glob.glob('datumgrid/*.lla')
+pathout = os.path.join('lib',os.path.join('pyproj','data'))
+cmd = os.path.join(os.getcwd(),'nad2bin')
+for f in llafiles:
+    fout = os.path.basename(f.split('.lla')[0])
+    fout = os.path.join(pathout,fout)
+    str = '%s %s < %s' % (cmd, fout, f)
+    print 'executing ',str
+    os.system(str)
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
