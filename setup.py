@@ -34,7 +34,7 @@ package_data = {'pyproj':datafiles}
 
 setup(name = "pyproj",
   version = "1.8.8",
-  description = "Pyrex generated python interface to PROJ.4 library",
+  description = "Python interface to PROJ.4 library",
   long_description  = """
 Performs cartographic transformations between geographic (lat/lon)
 and map projection (x/y) coordinates. Can also transform directly
