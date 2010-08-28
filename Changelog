@@ -1,5 +1,6 @@
-1.8.8 (not yet released)
+1.8.8 (svn revision 196)
  * add extra datum shift files, added test/test_datum.py (fixes issue 22).
+   datum shifts now work correctly in transform function.
 1.8.7 (svn revision 175)
  * reverted pj_init.c to old version (from proj4 4.6.1) because version in
    4.7.0 includes caching code that can cause segfaults in pyproj (issue 19).
