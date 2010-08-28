@@ -1,4 +1,4 @@
-import os, glob, subprocess
+import sys, os, glob, subprocess
 from distutils import ccompiler, sysconfig
 from distutils.core import setup, Extension
 
@@ -7,21 +7,22 @@ extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
 extensions.append(Extension("pyproj._geod",deps+['_geod.c'],include_dirs = ['src']))
 
 # create binary datum shift grid files.
-cc = ccompiler.new_compiler()
-sysconfig.customize_compiler(cc)
-cc.set_include_dirs(['src'])
-objects = cc.compile(['nad2bin.c'])
-execname = 'nad2bin'
-cc.link_executable(objects, execname)
-llafiles = glob.glob('datumgrid/*.lla')
-pathout = os.path.join('lib',os.path.join('pyproj','data'))
-cmd = os.path.join(os.getcwd(),execname)
-for f in llafiles:
-    fout = os.path.basename(f.split('.lla')[0])
-    fout = os.path.join(pathout,fout)
-    str = '%s %s < %s' % (cmd, fout, f)
-    print 'executing ',str
-    subprocess.call(str,shell=True)
+if sys.argv[1] != 'sdist':
+    cc = ccompiler.new_compiler()
+    sysconfig.customize_compiler(cc)
+    cc.set_include_dirs(['src'])
+    objects = cc.compile(['nad2bin.c'])
+    execname = 'nad2bin'
+    cc.link_executable(objects, execname)
+    llafiles = glob.glob('datumgrid/*.lla')
+    pathout = os.path.join('lib',os.path.join('pyproj','data'))
+    cmd = os.path.join(os.getcwd(),execname)
+    for f in llafiles:
+        fout = os.path.basename(f.split('.lla')[0])
+        fout = os.path.join(pathout,fout)
+        str = '%s %s < %s' % (cmd, fout, f)
+        print 'executing ',str
+        subprocess.call(str,shell=True)
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
