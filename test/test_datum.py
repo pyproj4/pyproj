@@ -9,5 +9,5 @@ cstr='echo "-111.5 45.25919444444" | cs2cs +proj=latlong +datum=WGS84 +to '+\
 print 'test datum shift (requires cs2cs proj4 command line tool)'
 x1,y1,z1 = tuple( [float(x) for x in commands.getoutput(cstr).split()] )
 x2,y2 = transform(p1, p2, s_1, s_2)
-print 'is',x1,y1,'=',x2,y2,'?'
-print '%12.3f,%12.3f' % (x1,y1) == '%12.3f,%12.3f' % (x2,y2)
+print 'is',(x1,y1),'=',(x2,y2),'?'
+print "%12.3f %12.3f" % (x1,y1) == '%12.3f %12.3f' % (x2,y2)
