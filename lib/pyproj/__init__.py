@@ -258,7 +258,7 @@ def transform(p1, p2, x, y, z=None, radians=False):
     >>> print '%9.3f %11.3f' % (x1,y1)
     569704.566 4269024.671
     >>> print '%9.3f %11.3f' % (x2,y2)
-    569706.333 4268817.680
+    569722.342 4268814.027
     >>> print '%8.3f %5.3f' % p2(x2,y2,inverse=True)
      -92.200 38.567
     >>> # process 3 points at a time in a tuple
@@ -271,11 +271,18 @@ def transform(p1, p2, x, y, z=None, radians=False):
     567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005
     >>> xy = x2+y2
     >>> print '%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f' % xy
-    567705.072 351727.113 728558.917 4297993.157 4353490.111 4292111.678
+    567721.149 351747.558 728569.133 4297989.112 4353489.644 4292106.305
     >>> lons, lats = p2(x2,y2,inverse=True)
     >>> xy = lons+lats
     >>> print '%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f' % xy
      -92.220  -94.720  -90.370 38.830 39.320 38.750
+    >>> # test datum shifting, installation of extra datum grid files.
+    >>> p1 = Proj(proj='latlong',datum='WGS84')
+    >>> x1 = -111.5; y1 = 45.25919444444
+    >>> p2 = Proj(proj="utm",zone=10,datum='NAD27')
+    >>> x2, y2 = transform(p1, p2, x1, y1)
+    >>> print "%12.3f %12.3f" % (x2,y2)
+     1402285.991  5076292.423
     """
     # process inputs, making copies that support buffer API.
     inx, xisfloat, xislist, xistuple = _copytobuffer(x)
