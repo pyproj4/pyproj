@@ -11,10 +11,11 @@ cc = ccompiler.new_compiler()
 sysconfig.customize_compiler(cc)
 cc.set_include_dirs(['src'])
 objects = cc.compile(['nad2bin.c'])
-cc.link_executable(objects, 'nad2bin')
+execname = 'nad2bin'
+cc.link_executable(objects, execname)
 llafiles = glob.glob('datumgrid/*.lla')
 pathout = os.path.join('lib',os.path.join('pyproj','data'))
-cmd = os.path.join(os.getcwd(),'nad2bin')
+cmd = os.path.join(os.getcwd(),execname)
 for f in llafiles:
     fout = os.path.basename(f.split('.lla')[0])
     fout = os.path.join(pathout,fout)
