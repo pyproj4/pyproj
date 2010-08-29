@@ -7,6 +7,7 @@ extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
 extensions.append(Extension("pyproj._geod",deps+['_geod.c'],include_dirs = ['src']))
 
 # create binary datum shift grid files.
+pathout = os.path.join('lib',os.path.join('pyproj','data'))
 if sys.argv[1] != 'sdist':
     cc = ccompiler.new_compiler()
     sysconfig.customize_compiler(cc)
@@ -15,7 +16,6 @@ if sys.argv[1] != 'sdist':
     execname = 'nad2bin'
     cc.link_executable(objects, execname)
     llafiles = glob.glob('datumgrid/*.lla')
-    pathout = os.path.join('lib',os.path.join('pyproj','data'))
     cmd = os.path.join(os.getcwd(),execname)
     for f in llafiles:
         fout = os.path.basename(f.split('.lla')[0])
@@ -27,8 +27,7 @@ if sys.argv[1] != 'sdist':
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
 
-path = os.path.join('lib',os.path.join('pyproj','data'))
-datafiles = glob.glob(os.path.join(path,'*'))
+datafiles = glob.glob(os.path.join(pathout,'*'))
 datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
 package_data = {'pyproj':datafiles}
 
