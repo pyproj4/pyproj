@@ -56,6 +56,10 @@ import os
 #import numpy as np
 
 pyproj_datadir = os.sep.join([os.path.dirname(__file__), 'data'])
+if not os.path.isdir(pyproj_datadir):
+    msg="proj data directory not found. Expecting it at: %s"%pyproj_datadir
+    raise IOError(msg)
+
 set_datapath(pyproj_datadir)
 
 class Proj(_Proj):
