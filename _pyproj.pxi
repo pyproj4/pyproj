@@ -15,11 +15,29 @@ cdef extern from "math.h":
         HUGE_VAL
         FP_NAN
 
-cdef extern from "proj_api.h":
-    ctypedef double *projPJ
+cdef extern from "geodesic.h":
     ctypedef struct projUV:
         double u
         double v
+    ctypedef struct GEODESIC_T:
+        double A
+        projUV p1, p2
+        double ALPHA12
+        double ALPHA21
+        double DIST
+        double ONEF, FLAT, FLAT2, FLAT4, FLAT64
+        int ELLIPSE
+        double FR_METER, TO_METER, del_alpha
+        int n_alpha, n_S
+        double th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,D,P,s1
+        int merid, signS
+    GEODESIC_T *GEOD_init_plus(char *args, GEODESIC_T *g)
+    void geod_for(GEODESIC_T *g)
+    void geod_pre(GEODESIC_T *g)
+    int geod_inv(GEODESIC_T *g)
+
+cdef extern from "proj_api.h":
+    ctypedef double *projPJ
     projPJ pj_init_plus(char *)
     projUV pj_fwd(projUV, projPJ)
     projUV pj_inv(projUV, projPJ)
