@@ -58,6 +58,10 @@ cdef class Proj:
         lonsdata = <double *>londata
         latsdata = <double *>latdata
         for i from 0 <= i < ndim:
+            # if inputs are nan's, return big number.
+            if lonsdata[i] != lonsdata[i] or latsdata[i] != latsdata[i]:
+                lonsdata[i]=1.e30; latsdata[i]=1.e30
+                continue
             if radians:
                 projlonlatin.u = lonsdata[i]
                 projlonlatin.v = latsdata[i]
@@ -104,6 +108,10 @@ cdef class Proj:
         xdatab = <double *>xdata
         ydatab = <double *>ydata
         for i from 0 <= i < ndim:
+            # if inputs are nan's, return big number.
+            if xdatab[i] != xdatab[i] or ydatab[i] != ydatab[i]:
+                xdatab[i]=1.e30; ydatab[i]=1.e30
+                continue
             projxyin.u = xdatab[i]
             projxyin.v = ydatab[i]
             projlonlatout = pj_inv(projxyin,self.projpj)
