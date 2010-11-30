@@ -1,3 +1,4 @@
+ * if inputs are NaNs, return huge number (1.e30).
 1.8.8 (svn revision 196)
  * add extra datum shift files, added test/test_datum.py (fixes issue 22).
    datum shifts now work correctly in transform function.
