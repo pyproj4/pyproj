@@ -181,7 +181,6 @@ void pj_release_lock()
 {
     if( mutex_lock == NULL )
         pj_init_lock();
-        ReleaseMutex( mutex_lock );
     else
         ReleaseMutex( mutex_lock );
 }
@@ -206,8 +205,7 @@ static void pj_init_lock()
 
 {
     if( mutex_lock == NULL )
-        mutex_lock = CreateMutex( NULL, TRUE, NULL );
-        mutex_lock = CreateMutex( NULL, FALSE, NULL ); 
+        mutex_lock = CreateMutex( NULL, FALSE, NULL );
 }
 
 #endif // def MUTEX_win32
