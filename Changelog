@@ -1,3 +1,7 @@
+changes since 1.8.8
+ * updated src/pj_mutex.c from proj4 svn to fix a threading issue on windows
+   (issue 25). Windows binary installers updated (version 1.8.8-1), courtesy
+   Christoph Gohlke.
  * if inputs are NaNs, return huge number (1.e30).
 1.8.8 (svn revision 196)
  * add extra datum shift files, added test/test_datum.py (fixes issue 22).
