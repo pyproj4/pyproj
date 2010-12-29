@@ -15,7 +15,7 @@ FORWARD(s_forward); /* spheroid */
 }
 INVERSE(s_inverse); /* spheroid */
         double z;
-	z = sqrt(1. - (0.5 * P->w * xy.x) * (0.5 * P->w * xy.x) - (0.5 * xy.y) * (0.5 * xy.y));
+	z = sqrt(1. - 0.25*P->w*P->w*xy.x*xy.x - 0.25*xy.y*xy.y);
 	lp.lam = aatan2(P->w * xy.x * z,2. * z * z - 1)/P->w;
 	lp.phi = aasin(z * xy.y);
 	return (lp);
