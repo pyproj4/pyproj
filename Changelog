@@ -1,4 +1,5 @@
 changes since 1.8.8
+ * added inverse to Hammer projection.
  * updated src/pj_mutex.c from proj4 svn to fix a threading issue on windows
    (issue 25). Windows binary installers updated (version 1.8.8-1), courtesy
    Christoph Gohlke.

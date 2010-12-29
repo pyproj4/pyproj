@@ -4,7 +4,7 @@
 #define PJ_LIB__
 # include	<projects.h>
 PROJ_HEAD(hammer, "Hammer & Eckert-Greifendorff")
-	"\n\tMisc Sph, no inv.\n\tW= M=";
+	"\n\tMisc Sph, \n\tW= M=";
 FORWARD(s_forward); /* spheroid */
 	double cosphi, d;
 
@@ -12,6 +12,13 @@ FORWARD(s_forward); /* spheroid */
 	xy.x = P->m * d * cosphi * sin(lp.lam);
 	xy.y = P->rm * d * sin(lp.phi);
 	return (xy);
+}
+INVERSE(s_inverse); /* spheroid */
+        double z;
+	z = sqrt(1. - (0.5 * P->w * xy.x) * (0.5 * P->w * xy.x) - (0.5 * xy.y) * (0.5 * xy.y));
+	lp.lam = aatan2(P->w * xy.x * z,2. * z * z - 1)/P->w;
+	lp.phi = aasin(z * xy.y);
+	return (lp);
 }
 FREEUP; if (P) pj_dalloc(P); }
 ENTRY0(hammer)
@@ -25,5 +32,5 @@ ENTRY0(hammer)
 		P->m = 1.;
 	P->rm = 1. / P->m;
 	P->m /= P->w;
-	P->es = 0.; P->fwd = s_forward;
+	P->es = 0.; P->fwd = s_forward; P->inv = s_inverse;
 ENDENTRY(P)
