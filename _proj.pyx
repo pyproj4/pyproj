@@ -61,6 +61,8 @@ cdef class Proj:
             # if inputs are nan's, return big number.
             if lonsdata[i] != lonsdata[i] or latsdata[i] != latsdata[i]:
                 lonsdata[i]=1.e30; latsdata[i]=1.e30
+                if errcheck:
+                    raise RuntimeError('projection undefined')
                 continue
             if radians:
                 projlonlatin.u = lonsdata[i]
@@ -73,11 +75,18 @@ cdef class Proj:
                 raise RuntimeError(pj_strerrno(pj_errno))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
-            if projxyout.u == HUGE_VAL:
+            # also check for NaNs.
+            if projxyout.u == HUGE_VAL or\
+               projxyout.u != projxyout.u:
+                if errcheck:
+                    raise RuntimeError('projection undefined')
                 lonsdata[i] = 1.e30
             else:
                 lonsdata[i] = projxyout.u
-            if projxyout.v == HUGE_VAL:
+            if projxyout.v == HUGE_VAL or\
+               projxyout.u != projxyout.u:
+                if errcheck:
+                    raise RuntimeError('projection undefined')
                 latsdata[i] = 1.e30
             else:     
                 latsdata[i] = projxyout.v
@@ -111,6 +120,8 @@ cdef class Proj:
             # if inputs are nan's, return big number.
             if xdatab[i] != xdatab[i] or ydatab[i] != ydatab[i]:
                 xdatab[i]=1.e30; ydatab[i]=1.e30
+                if errcheck:
+                    raise RuntimeError('projection undefined')
                 continue
             projxyin.u = xdatab[i]
             projxyin.v = ydatab[i]
@@ -119,13 +130,20 @@ cdef class Proj:
                 raise RuntimeError(pj_strerrno(pj_errno))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
-            if projlonlatout.u == HUGE_VAL:
+            # also check for NaNs.
+            if projlonlatout.u == HUGE_VAL or \
+               projlonlatout.u != projlonlatout.u:
+                if errcheck:
+                    raise RuntimeError('projection undefined')
                 xdatab[i] = 1.e30
             elif radians:
                 xdatab[i] = projlonlatout.u
             else:
                 xdatab[i] = _rad2dg*projlonlatout.u
-            if projlonlatout.v == HUGE_VAL:
+            if projlonlatout.v == HUGE_VAL or \
+               projlonlatout.v != projlonlatout.v:
+                if errcheck:
+                    raise RuntimeError('projection undefined')
                 ydatab[i] = 1.e30
             elif radians:
                 ydatab[i] = projlonlatout.v
