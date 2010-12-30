@@ -157,6 +157,9 @@ class Proj(_Proj):
                 else:
                     kvpairs.append(kvpair+' ')
             projstring = ''.join(kvpairs)
+        # look for EPSG, replace with epsg (EPSG only works
+        # on case-insensitive filesystems.
+        projstring = projstring.replace('EPSG','epsg')
         return _Proj.__new__(self, projstring)
 
     def __call__(self, *args, **kw):
