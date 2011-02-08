@@ -15,7 +15,7 @@ cdef class Proj:
     cdef char *pjinitstring
     cdef public object srs
 
-    def __new__(self, projstring):
+    def __cinit__(self, projstring):
         # setup proj initialization string.
         self.srs = projstring
         self.pjinitstring = PyString_AsString(self.srs)

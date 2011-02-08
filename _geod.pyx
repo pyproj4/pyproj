@@ -8,7 +8,7 @@ cdef class Geod:
     cdef public object proj_version
     cdef char *geodinitstring
 
-    def __new__(self, geodstring):
+    def __cinit__(self, geodstring):
         cdef GEODESIC_T GEOD_T
         # setup geod initialization string.
         self.geodstring = geodstring
