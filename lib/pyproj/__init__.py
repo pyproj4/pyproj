@@ -52,11 +52,6 @@ _Geod = _geod.Geod
 _transform = _proj._transform
 __version__ =  _proj.__version__
 set_datapath =  _proj.set_datapath
-#from _proj import Proj as _Proj
-#from _geod import Geod as _Geod
-#from _proj import _transform
-#from _proj import __version__
-#from _proj import set_datapath
 from array import array
 import os
 #import numpy as np
@@ -112,33 +107,33 @@ class Proj(_Proj):
         >>> from pyproj import Proj
         >>> p = Proj(proj='utm',zone=10,ellps='WGS84') # use kwargs
         >>> x,y = p(-120.108, 34.36116666)
-        >>> print 'x=%9.3f y=%11.3f' % (x,y)
-        x=765975.641 y=3805993.134
-        >>> print 'lon=%8.3f lat=%5.3f' % p(x,y,inverse=True)
-        lon=-120.108 lat=34.361
+        >>> 'x=%9.3f y=%11.3f' % (x,y)
+        'x=765975.641 y=3805993.134'
+        >>> 'lon=%8.3f lat=%5.3f' % p(x,y,inverse=True)
+        'lon=-120.108 lat=34.361'
         >>> # do 3 cities at a time in a tuple (Fresno, LA, SF)
         >>> lons = (-119.72,-118.40,-122.38)
         >>> lats = (36.77, 33.93, 37.62 )
         >>> x,y = p(lons, lats)
-        >>> print 'x: %9.3f %9.3f %9.3f' % x
-        x: 792763.863 925321.537 554714.301
-        >>> print 'y: %9.3f %9.3f %9.3f' % y
-        y: 4074377.617 3763936.941 4163835.303
+        >>> 'x: %9.3f %9.3f %9.3f' % x
+        'x: 792763.863 925321.537 554714.301'
+        >>> 'y: %9.3f %9.3f %9.3f' % y
+        'y: 4074377.617 3763936.941 4163835.303'
         >>> lons, lats = p(x, y, inverse=True) # inverse transform
-        >>> print 'lons: %8.3f %8.3f %8.3f' % lons
-        lons: -119.720 -118.400 -122.380
-        >>> print 'lats: %8.3f %8.3f %8.3f' % lats
-        lats:   36.770   33.930   37.620
+        >>> 'lons: %8.3f %8.3f %8.3f' % lons
+        'lons: -119.720 -118.400 -122.380'
+        >>> 'lats: %8.3f %8.3f %8.3f' % lats
+        'lats:   36.770   33.930   37.620'
         >>> p2 = Proj('+proj=utm +zone=10 +ellps=WGS84') # use proj4 string
         >>> x,y = p2(-120.108, 34.36116666)
-        >>> print 'x=%9.3f y=%11.3f' % (x,y)
-        x=765975.641 y=3805993.134
+        >>> 'x=%9.3f y=%11.3f' % (x,y)
+        'x=765975.641 y=3805993.134'
         >>> p = Proj(init="epsg:32667")
-        >>> print 'x=%12.3f y=%12.3f (meters)' % p(-114.057222, 51.045)
-        x=-1783486.760 y= 6193833.196 (meters)
+        >>> 'x=%12.3f y=%12.3f (meters)' % p(-114.057222, 51.045)
+        'x=-1783486.760 y= 6193833.196 (meters)'
         >>> p = Proj("+init=epsg:32667",preserve_units=True)
-        >>> print 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
-        x=-5851322.810 y=20320934.409 (feet)
+        >>> 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
+        'x=-5851322.810 y=20320934.409 (feet)'
         """
         # if projparams is None, use kwargs.
         if projparams is None:
@@ -268,34 +263,34 @@ def transform(p1, p2, x, y, z=None, radians=False):
     >>> x1, y1 = p1(-92.199881,38.56694)
     >>> # transform this point to projection 2 coordinates.
     >>> x2, y2 = transform(p1,p2,x1,y1)
-    >>> print '%9.3f %11.3f' % (x1,y1)
-    569704.566 4269024.671
-    >>> print '%9.3f %11.3f' % (x2,y2)
-    569722.342 4268814.027
-    >>> print '%8.3f %5.3f' % p2(x2,y2,inverse=True)
-     -92.200 38.567
+    >>> '%9.3f %11.3f' % (x1,y1)
+    '569704.566 4269024.671'
+    >>> '%9.3f %11.3f' % (x2,y2)
+    '569722.342 4268814.027'
+    >>> '%8.3f %5.3f' % p2(x2,y2,inverse=True)
+    ' -92.200 38.567'
     >>> # process 3 points at a time in a tuple
     >>> lats = (38.83,39.32,38.75) # Columbia, KC and StL Missouri
     >>> lons = (-92.22,-94.72,-90.37)
     >>> x1, y1 = p1(lons,lats)
     >>> x2, y2 = transform(p1,p2,x1,y1)
     >>> xy = x1+y1
-    >>> print '%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f' % xy
-    567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005
+    >>> '%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f' % xy
+    '567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005'
     >>> xy = x2+y2
-    >>> print '%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f' % xy
-    567721.149 351747.558 728569.133 4297989.112 4353489.644 4292106.305
+    >>> '%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f' % xy
+    '567721.149 351747.558 728569.133 4297989.112 4353489.644 4292106.305'
     >>> lons, lats = p2(x2,y2,inverse=True)
     >>> xy = lons+lats
-    >>> print '%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f' % xy
-     -92.220  -94.720  -90.370 38.830 39.320 38.750
+    >>> '%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f' % xy
+    ' -92.220  -94.720  -90.370 38.830 39.320 38.750'
     >>> # test datum shifting, installation of extra datum grid files.
     >>> p1 = Proj(proj='latlong',datum='WGS84')
     >>> x1 = -111.5; y1 = 45.25919444444
     >>> p2 = Proj(proj="utm",zone=10,datum='NAD27')
     >>> x2, y2 = transform(p1, p2, x1, y1)
-    >>> print "%12.3f %12.3f" % (x2,y2)
-     1402285.991  5076292.423
+    >>> "%12.3f %12.3f" % (x2,y2)
+    ' 1402285.991  5076292.423'
     """
     # process inputs, making copies that support buffer API.
     inx, xisfloat, xislist, xistuple = _copytobuffer(x)
@@ -468,27 +463,27 @@ class Geod(_Geod):
         >>> # compute forward and back azimuths, plus distance
         >>> # between Boston and Portland.
         >>> az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
-        >>> print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
-        -66.531 75.654  4164192.708
+        >>> "%7.3f %6.3f %12.3f" % (az12,az21,dist)
+        '-66.531 75.654  4164192.708'
         >>> # compute latitude, longitude and back azimuth of Portland,
         >>> # given Boston lat/lon, forward azimuth and distance to Portland.
         >>> endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)
-        >>> print "%6.3f  %6.3f %13.3f" % (endlat,endlon,backaz)
-        45.517  -123.683        75.654
+        >>> "%6.3f  %6.3f %13.3f" % (endlat,endlon,backaz)
+        '45.517  -123.683        75.654'
         >>> # compute the azimuths, distances from New York to several
         >>> # cities (pass a list)
         >>> lons1 = 3*[newyork_lon]; lats1 = 3*[newyork_lat]
         >>> lons2 = [boston_lon, portland_lon, london_lon]
         >>> lats2 = [boston_lat, portland_lat, london_lat]
         >>> az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)
-        >>> for faz,baz,d in zip(az12,az21,dist): print "%7.3f %7.3f %9.3f" % (faz,baz,d)
-         54.663 -123.448 288303.720
-        -65.463  79.342 4013037.318
-         51.254 -71.576 5579916.649
+        >>> for faz,baz,d in list(zip(az12,az21,dist)): "%7.3f %7.3f %9.3f" % (faz,baz,d)
+        ' 54.663 -123.448 288303.720'
+        '-65.463  79.342 4013037.318'
+        ' 51.254 -71.576 5579916.649'
         >>> g2 = Geod('+ellps=clrk66') # use proj4 style initialization string
         >>> az12,az21,dist = g2.inv(boston_lon,boston_lat,portland_lon,portland_lat)
-        >>> print "%7.3f %6.3f %12.3f" % (az12,az21,dist)
-        -66.531 75.654  4164192.708
+        >>> "%7.3f %6.3f %12.3f" % (az12,az21,dist)
+        '-66.531 75.654  4164192.708'
         """
         # if initparams is None, use kwargs.
         if initparams is None:
@@ -588,17 +583,17 @@ class Geod(_Geod):
         >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
         >>> # find ten equally spaced points between Boston and Portland.
         >>> lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10)
-        >>> for lon,lat in lonlats: print '%6.3f  %7.3f' % (lat, lon)
-        43.528  -75.414
-        44.637  -79.883
-        45.565  -84.512
-        46.299  -89.279
-        46.830  -94.156
-        47.149  -99.112
-        47.251  -104.106
-        47.136  -109.100
-        46.805  -114.051
-        46.262  -118.924
+        >>> for lon,lat in lonlats: '%6.3f  %7.3f' % (lat, lon)
+        '43.528  -75.414'
+        '44.637  -79.883'
+        '45.565  -84.512'
+        '46.299  -89.279'
+        '46.830  -94.156'
+        '47.149  -99.112'
+        '47.251  -104.106'
+        '47.136  -109.100'
+        '46.805  -114.051'
+        '46.262  -118.924'
         """
         lons, lats = _Geod._npts(self,lon1,lat1,lon2,lat2,npts,radians=radians)
         return list(zip(lons, lats))
