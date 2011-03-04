@@ -354,8 +354,7 @@ def _copytobuffer(x):
                         inx = array('d',(x,))
                         isfloat = True
                     except:
-                        print 'x is',type(x)
-                        raise TypeError, 'input must be an array, list, tuple or scalar'
+                        raise TypeError('input must be an array, list, tuple or scalar')
     return inx,isfloat,islist,istuple
 
 def _convertback(isfloat,islist,istuple,inx):
