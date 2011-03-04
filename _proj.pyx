@@ -6,7 +6,8 @@ include "_pyproj.pxi"
 
 def set_datapath(datapath):
     cdef char *searchpath
-    searchpath = PyBytes_AsString(datapath)
+    bytestr = _strencode(datapath)
+    searchparth = bytestr
     pj_set_searchpath(1, &searchpath)
     
 cdef class Proj:
@@ -18,7 +19,8 @@ cdef class Proj:
     def __cinit__(self, projstring):
         # setup proj initialization string.
         self.srs = projstring
-        self.pjinitstring = PyBytes_AsString(self.srs)
+        bytestr = _strencode(projstring)
+        self.pjinitstring = bytestr
         # initialize projection
         self.projpj = pj_init_plus(self.pjinitstring)
         if pj_errno != 0:
@@ -275,3 +277,10 @@ def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
         for i from 0 <= i < npts:
             xx[i] = xx[i]*_rad2dg
             yy[i] = yy[i]*_rad2dg
+
+cdef _strencode(pystr,encoding='ascii'):
+    # encode a string into bytes.  If already bytes, do nothing.
+    try:
+        return pystr.encode(encoding)
+    except AttributeError:
+        return pystr # already bytes?
