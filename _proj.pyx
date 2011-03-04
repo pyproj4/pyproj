@@ -7,7 +7,7 @@ include "_pyproj.pxi"
 def set_datapath(datapath):
     cdef char *searchpath
     bytestr = _strencode(datapath)
-    searchparth = bytestr
+    searchpath = bytestr
     pj_set_searchpath(1, &searchpath)
     
 cdef class Proj:
