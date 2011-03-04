@@ -20,9 +20,9 @@ if sys.argv[1] != 'sdist':
     for f in llafiles:
         fout = os.path.basename(f.split('.lla')[0])
         fout = os.path.join(pathout,fout)
-        str = '%s %s < %s' % (cmd, fout, f)
-        print 'executing ',str
-        subprocess.call(str,shell=True)
+        strg = '%s %s < %s' % (cmd, fout, f)
+        sys.stdout.write('executing %s'%strg)
+        subprocess.call(strg,shell=True)
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
