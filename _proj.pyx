@@ -56,7 +56,7 @@ cdef class Proj:
         # process data in buffer
         if buflenx != bufleny:
             raise RuntimeError("Buffer lengths not the same")
-        ndim = buflenx/_doublesize
+        ndim = buflenx//_doublesize
         lonsdata = <double *>londata
         latsdata = <double *>latdata
         for i from 0 <= i < ndim:
@@ -115,7 +115,7 @@ cdef class Proj:
         # (for numpy/regular python arrays).
         if buflenx != bufleny:
             raise RuntimeError("Buffer lengths not the same")
-        ndim = buflenx/_doublesize
+        ndim = buflenx//_doublesize
         xdatab = <double *>xdata
         ydatab = <double *>ydata
         for i from 0 <= i < ndim:

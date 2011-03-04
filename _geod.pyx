@@ -46,7 +46,7 @@ cdef class Geod:
         # process data in buffer
         if not buflenlons == buflenlats == buflenaz == buflend:
             raise RuntimeError("Buffer lengths not the same")
-        ndim = buflenlons/_doublesize
+        ndim = buflenlons//_doublesize
         lonsdata = <double *>londata
         latsdata = <double *>latdata
         azdata = <double *>azdat
@@ -101,7 +101,7 @@ cdef class Geod:
         # process data in buffer
         if not buflenlons == buflenlats == buflenaz == buflend:
             raise RuntimeError("Buffer lengths not the same")
-        ndim = buflenlons/_doublesize
+        ndim = buflenlons//_doublesize
         lonsdata = <double *>londata
         latsdata = <double *>latdata
         azdata = <double *>azdat
