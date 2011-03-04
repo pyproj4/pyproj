@@ -6,7 +6,7 @@ include "_pyproj.pxi"
 
 def set_datapath(datapath):
     cdef char *searchpath
-    searchpath = PyString_AsString(datapath)
+    searchpath = PyBytes_AsString(datapath)
     pj_set_searchpath(1, &searchpath)
     
 cdef class Proj:
@@ -18,7 +18,7 @@ cdef class Proj:
     def __cinit__(self, projstring):
         # setup proj initialization string.
         self.srs = projstring
-        self.pjinitstring = PyString_AsString(self.srs)
+        self.pjinitstring = PyBytes_AsString(self.srs)
         # initialize projection
         self.projpj = pj_init_plus(self.pjinitstring)
         if pj_errno != 0:

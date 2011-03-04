@@ -45,13 +45,19 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 
-from _proj import Proj as _Proj
-from _geod import Geod as _Geod
-from _proj import _transform
-from _proj import __version__
-from _proj import set_datapath
+from . import _proj
+from . import _geod
+_Proj = _proj.Proj
+_Geod = _geod.Geod
+_transform = _proj._transform
+__version__ =  _proj.__version__
+set_datapath =  _proj.set_datapath
+#from _proj import Proj as _Proj
+#from _geod import Geod as _Geod
+#from _proj import _transform
+#from _proj import __version__
+#from _proj import set_datapath
 from array import array
-from types import TupleType, ListType, NoneType
 import os
 #import numpy as np
 
@@ -340,11 +346,11 @@ def _copytobuffer(x):
             except:
                 # try to convert to python array
                 # a list.
-                if type(x) is ListType:
+                if type(x) == list:
                     inx = array('d',x)
                     islist = True
                 # a tuple.
-                elif type(x) is TupleType:
+                elif type(x) == tuple:
                     inx = array('d',x)
                     istuple = True
                 # a scalar?
@@ -371,7 +377,7 @@ def _convertback(isfloat,islist,istuple,inx):
 def _dict2string(projparams):
     # convert a dict to a proj4 string.
     pjargs = []
-    for key,value in projparams.iteritems():
+    for key,value in projparams.items():
         pjargs.append('+'+key+"="+str(value)+' ')
     return ''.join(pjargs)
 
@@ -595,7 +601,7 @@ class Geod(_Geod):
         46.262  -118.924
         """
         lons, lats = _Geod._npts(self,lon1,lat1,lon2,lat2,npts,radians=radians)
-        return zip(lons, lats)
+        return list(zip(lons, lats))
 
 def test():
     """run the examples in the docstrings using the doctest module"""

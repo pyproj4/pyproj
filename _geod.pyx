@@ -12,7 +12,7 @@ cdef class Geod:
         cdef GEODESIC_T GEOD_T
         # setup geod initialization string.
         self.geodstring = geodstring
-        self.geodinitstring = PyString_AsString(self.geodstring)
+        self.geodinitstring = PyBytes_AsString(self.geodstring)
         # initialize projection
         self.geodesic_t = GEOD_init_plus(self.geodinitstring, &GEOD_T)[0]
         if pj_errno != 0:

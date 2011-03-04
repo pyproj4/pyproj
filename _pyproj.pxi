@@ -57,4 +57,4 @@ cdef extern from "proj_api.h":
 
 cdef extern from "Python.h":
     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
-    char *PyString_AsString(object)
+    char *PyBytes_AsString(object)
