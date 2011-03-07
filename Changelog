@@ -1,4 +1,4 @@
-changes since 1.8.8
+1.8.9 (svn revision 222)
  * Python 3 now supported.
  * allow 'EPSG' init (as well as 'epsg'). This only worked on case-insensitive
    filesystems previously. Fixes issue 6.
