@@ -1,6 +1,6 @@
 # include "projects.h"
 # include "geodesic.h"
-# define DTOL	1e-12
+# define DTOL	1e-8
 
 int
 geod_inv(GEODESIC_T *GEODESIC)
