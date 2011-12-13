@@ -7,6 +7,8 @@ Performs cartographic transformations and geodetic computations.
 The Proj class can convert from geographic (longitude,latitude)
 to native map projection (x,y) coordinates and vice versa, or
 from one map projection coordinate system directly to another.
+The module variable pj_list is a dictionary containing all the 
+available projections and their descriptions.
 
 The Geod class can perform forward and inverse geodetic, or
 Great Circle, computations.  The forward computation involves
