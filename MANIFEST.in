@@ -2,7 +2,6 @@ include README
 include MANIFEST.in
 include LICENSE_proj4
 include Changelog
-include setupegg.py
 include _proj.pyx
 include _geod.pyx
 include _proj.c
