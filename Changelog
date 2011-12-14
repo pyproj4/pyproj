@@ -1,4 +1,8 @@
 1.9.0 (not yet released)
+ * check that either a dict or kwargs are given to Geod.__init__ 
+   (to avoid crashes in the C code). Add pj_ellps module variable
+   containing allowed ellipse specifications, check ellps kwarg 
+   to Geod.__init__ against this list.
  * added 'etmerc' and 'igh' projections from proj4 svn.
  * changed DTOL to 1.e-8 in geod_inv.c (issue 18).
  * add pj_list module level variable (a dict mapping short
