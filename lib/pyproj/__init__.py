@@ -1,6 +1,6 @@
 """
-Pyrex wrapper to provide python interfaces to
-PROJ.4 (http://proj.maptools.org) functions.
+Cython wrapper to provide python interfaces to
+PROJ.4 (http://trac.osgeo.org/proj/) functions.
 
 Performs cartographic transformations and geodetic computations.
 
@@ -51,9 +51,6 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 #from . import _geod
 from pyproj import _proj
 from pyproj import _geod
-_Proj = _proj.Proj
-_Geod = _geod.Geod
-_transform = _proj._transform
 __version__ =  _proj.__version__
 set_datapath =  _proj.set_datapath
 from array import array
@@ -199,11 +196,11 @@ if not os.path.isdir(pyproj_datadir):
 
 set_datapath(pyproj_datadir)
 
-class Proj(_Proj):
+class Proj(_proj.Proj):
     """
     performs cartographic transformations (converts from
     longitude,latitude to native map projection x,y coordinates and
-    vice versa) using proj (http://proj.maptools.org/)
+    vice versa) using proj (http://trac.osgeo.org/proj/).
 
     A Proj class instance is initialized with proj map projection
     control parameter key/value pairs. The key/value pairs can
@@ -235,7 +232,7 @@ class Proj(_Proj):
 
         Proj4 projection control parameters must either be given in a
         dictionary 'projparams' or as keyword arguments. See the proj
-        documentation (http://proj.maptools.org) for more information
+        documentation (http://trac.osgeo.org/proj/) for more information
         about specifying projection parameters.
 
         Example usage:
@@ -297,7 +294,7 @@ class Proj(_Proj):
         # look for EPSG, replace with epsg (EPSG only works
         # on case-insensitive filesystems).
         projstring = projstring.replace('EPSG','epsg')
-        return _Proj.__new__(self, projstring)
+        return _proj.Proj.__new__(self, projstring)
 
     def __call__(self, *args, **kw):
     #,lon,lat,inverse=False,radians=False,errcheck=False):
@@ -330,9 +327,9 @@ class Proj(_Proj):
         #    latlon = np.array(args[0], copy=True,
         #                      order='C', dtype=float, ndmin=2)
         #    if inverse:
-        #        _Proj._invn(self, latlon, radians=radians, errcheck=errcheck)
+        #        _proj.Proj._invn(self, latlon, radians=radians, errcheck=errcheck)
         #    else:
-        #        _Proj._fwdn(self, latlon, radians=radians, errcheck=errcheck)
+        #        _proj.Proj._fwdn(self, latlon, radians=radians, errcheck=errcheck)
         #    return latlon
         lon, lat = args
         # process inputs, making copies that support buffer API.
@@ -340,9 +337,9 @@ class Proj(_Proj):
         iny, yisfloat, yislist, yistuple = _copytobuffer(lat)
         # call proj4 functions. inx and iny modified in place.
         if inverse:
-            _Proj._inv(self, inx, iny, radians=radians, errcheck=errcheck)
+            _proj.Proj._inv(self, inx, iny, radians=radians, errcheck=errcheck)
         else:
-            _Proj._fwd(self, inx, iny, radians=radians, errcheck=errcheck)
+            _proj.Proj._fwd(self, inx, iny, radians=radians, errcheck=errcheck)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
         outy = _convertback(yisfloat,yislist,xistuple,iny)
@@ -350,11 +347,11 @@ class Proj(_Proj):
 
     def is_latlong(self):
         """returns True if projection in geographic (lon/lat) coordinates"""
-        return _Proj.is_latlong(self)
+        return _proj.Proj.is_latlong(self)
 
     def is_geocent(self):
         """returns True if projection in geocentric (x/y) coordinates"""
-        return _Proj.is_geocent(self)
+        return _proj.Proj.is_geocent(self)
 
 def transform(p1, p2, x, y, z=None, radians=False):
     """
@@ -436,7 +433,7 @@ def transform(p1, p2, x, y, z=None, radians=False):
     else:
         inz = None
     # call pj_transform.  inx,iny,inz buffers modified in place.
-    _transform(p1,p2,inx,iny,inz,radians)
+    _proj._transform(p1,p2,inx,iny,inz,radians)
     # if inputs were lists, tuples or floats, convert back.
     outx = _convertback(xisfloat,xislist,xistuple,inx)
     outy = _convertback(yisfloat,yislist,xistuple,iny)
@@ -512,7 +509,7 @@ def _dict2string(projparams):
         pjargs.append('+'+key+"="+str(value)+' ')
     return ''.join(pjargs)
 
-class Geod(_Geod):
+class Geod(_geod.Geod):
     """
     performs forward and inverse geodetic, or Great Circle,
     computations.  The forward computation (using the 'fwd' method)
@@ -582,7 +579,7 @@ class Geod(_Geod):
         or polar axis radius), 'e' (eccentricity), 'es' (eccentricity
         squared), 'f' (flattening), or 'rf' (reciprocal flattening).
 
-        See the proj documentation (http://proj.maptools.org) for more
+        See the proj documentation (http://trac.osgeo.org/proj/) for more
         information about specifying ellipsoid parameters (specifically,
         the chapter 'Specifying the Earth's figure' in the main Proj
         users manual).
@@ -647,7 +644,7 @@ class Geod(_Geod):
         # first try a Proj class (catches errors properly)
         projstring = initstring + ' +proj=latlon'
         p = Proj(projstring) # this is never used
-        return _Geod.__new__(self, initstring)
+        return _geod.Geod.__new__(self, initstring)
 
     def fwd(self, lons, lats, az, dist, radians=False):
         """
@@ -668,7 +665,7 @@ class Geod(_Geod):
         inz, zisfloat, zislist, zistuple = _copytobuffer(az)
         ind, disfloat, dislist, distuple = _copytobuffer(dist)
         # call geod_for function. inputs modified in place.
-        _Geod._fwd(self, inx, iny, inz, ind, radians=radians)
+        _geod.Geod._fwd(self, inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
         outy = _convertback(yisfloat,yislist,xistuple,iny)
@@ -693,7 +690,7 @@ class Geod(_Geod):
         inz, zisfloat, zislist, zistuple = _copytobuffer(lons2)
         ind, disfloat, dislist, distuple = _copytobuffer(lats2)
         # call geod_inv function. inputs modified in place.
-        _Geod._inv(self, inx, iny, inz, ind, radians=radians)
+        _geod.Geod._inv(self, inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
         outy = _convertback(yisfloat,yislist,xistuple,iny)
@@ -731,7 +728,7 @@ class Geod(_Geod):
         '46.805  -114.051'
         '46.262  -118.924'
         """
-        lons, lats = _Geod._npts(self,lon1,lat1,lon2,lat2,npts,radians=radians)
+        lons, lats = _geod.Geod._npts(self,lon1,lat1,lon2,lat2,npts,radians=radians)
         return list(zip(lons, lats))
 
 def test():
