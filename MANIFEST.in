@@ -1,5 +1,4 @@
 include README
-include README.html
 include MANIFEST.in
 include LICENSE_proj4
 include Changelog
@@ -22,3 +21,4 @@ include test/datum_shift.py
 include test/test_transform.py
 include test/geodtest.py
 include test/test_datum.py
+recursive-include docs *
