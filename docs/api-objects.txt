@@ -1,5 +1,6 @@
 pyproj	pyproj-module.html
 pyproj._dict2string	pyproj-module.html#_dict2string
+pyproj.pj_ellps	pyproj-module.html#pj_ellps
 pyproj.transform	pyproj-module.html#transform
 pyproj.__package__	pyproj-module.html#__package__
 pyproj.pyproj_datadir	pyproj-module.html#pyproj_datadir
