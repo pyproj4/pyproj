@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pyproj</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;pyproj
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PACKAGE DESCRIPTION ==================== -->
+<h1 class="epydoc">Package pyproj</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj-pysrc.html">source&nbsp;code</a></span></p>
+<p>Cython wrapper to provide python interfaces to PROJ.4 
+  (http://trac.osgeo.org/proj/) functions.</p>
+  <p>Performs cartographic transformations and geodetic computations.</p>
+  <p>The Proj class can convert from geographic (longitude,latitude) to 
+  native map projection (x,y) coordinates and vice versa, or from one map 
+  projection coordinate system directly to another. The module variable 
+  pj_list is a dictionary containing all the available projections and 
+  their descriptions.</p>
+  <p>The Geod class can perform forward and inverse geodetic, or Great 
+  Circle, computations.  The forward computation involves determining 
+  latitude, longitude and back azimuth of a terminus point given the 
+  latitude and longitude of an initial point, plus azimuth and distance. 
+  The inverse computation involves determining the forward and back 
+  azimuths and distance given the latitudes and longitudes of an initial 
+  and terminus point.</p>
+  <p>Input coordinates can be given as python arrays, lists/tuples, scalars
+  or numpy/Numeric/numarray arrays. Optimized for objects that support the 
+  Python buffer protocol (regular python and numpy array objects).</p>
+  <p>Download: http://code.google.com/p/pyproj/downloads/list</p>
+  <p>Requirements: python 2.4 or higher.</p>
+  <p>Example scripts are in 'test' subdirectory of source distribution. The
+  'test()' function will run the examples in the docstrings.</p>
+  <p>Contact:  Jeffrey Whitaker &lt;jeffrey.s.whitaker@noaa.gov</p>
+  <p>copyright (c) 2006 by Jeffrey Whitaker.</p>
+  <p>Permission to use, copy, modify, and distribute this software and its 
+  documentation for any purpose and without fee is hereby granted, provided
+  that the above copyright notice appear in all copies and that both the 
+  copyright notice and this permission notice appear in supporting 
+  documentation. THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS 
+  SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+  FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT
+  OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+  USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR 
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+  PERFORMANCE OF THIS SOFTWARE.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        1.9.0
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyproj.Geod-class.html" class="summary-name">Geod</a><br />
+      performs forward and inverse geodetic, or Great Circle, 
+        computations.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyproj.Proj-class.html" class="summary-name">Proj</a><br />
+      performs cartographic transformations (converts from 
+        longitude,latitude to native map projection x,y coordinates and 
+        vice versa) using proj (http://trac.osgeo.org/proj/).
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="test"></a><span class="summary-sig-name">test</span>()</span><br />
+      run the examples in the docstrings using the doctest module</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#test">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj-module.html#transform" class="summary-sig-name">transform</a>(<span class="summary-sig-arg">p1</span>,
+        <span class="summary-sig-arg">p2</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">radians</span>=<span class="summary-sig-default">False</span>)</span><br />
+      x2, y2, z2 = transform(p1, p2, x1, y1, z1, radians=False)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#transform">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'pyproj'"><code class="variable-quote">'</code><code class="variable-string">pyproj</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyproj-module.html#pj_list" class="summary-name">pj_list</a> = <code title="{'aea': 'Albers Equal Area',
+ 'aeqd': 'Azimuthal Equidistant',
+ 'airy': 'Airy',
+ 'aitoff': 'Aitoff',
+ 'alsk': 'Mod. Stererographics of Alaska',
+ 'apian': 'Apian Globular I',
+ 'august': 'August Epicycloidal',
+ 'bacon': 'Bacon Globular',
+..."><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">aea</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Albers Equal Area</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">aeqd</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Azimuthal Equi</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyproj-module.html#pyproj_datadir" class="summary-name">pyproj_datadir</a> = <code title="'/Users/jwhitaker/.local/lib/python2.6/site-packages/pyproj/data'"><code class="variable-quote">'</code><code class="variable-string">/Users/jwhitaker/.local/lib/python2.6/site-p</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="transform"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">transform</span>(<span class="sig-arg">p1</span>,
+        <span class="sig-arg">p2</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">radians</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#transform">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x2, y2, z2 = transform(p1, p2, x1, y1, z1, radians=False)</p>
+  <p>Transform points between two coordinate systems defined by the Proj 
+  instances p1 and p2.</p>
+  <p>The points x1,y1,z1 in the coordinate system defined by p1 are 
+  transformed to x2,y2,z2 in the coordinate system defined by p2.</p>
+  <p>z1 is optional, if it is not set it is assumed to be zero (and only x2
+  and y2 are returned).</p>
+  <p>In addition to converting between cartographic and geographic 
+  projection coordinates, this function can take care of datum shifts 
+  (which cannot be done using the __call__ method of the Proj instances). 
+  It also allows for one of the coordinate systems to be geographic (proj =
+  'latlong').</p>
+  <p>If optional keyword 'radians' is True (default is False) and p1 is 
+  defined in geographic coordinate (pj.is_latlong() is True), x1,y1 is 
+  interpreted as radians instead of the default degrees. Similarly, if p2 
+  is defined in geographic coordinates and radians=True, x2, y2 are 
+  returned in radians instead of degrees. if p1.is_latlong() and 
+  p2.is_latlong() both are False, the radians keyword has no effect.</p>
+  <p>x,y and z can be numpy or regular python arrays, python lists/tuples 
+  or scalars. Arrays are fastest.  For projections in geocentric 
+  coordinates, values of x and y are given in meters. z is always 
+  meters.</p>
+  <p>Example usage:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># projection 1: UTM zone 15, grs80 ellipse, NAD83 datum</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># (defined by epsg code 26915)</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p1 = Proj(init=<span class="py-string">'epsg:26915'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p2 = Proj(init=<span class="py-string">'epsg:26715'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># find x,y of Jefferson City, MO.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>x1, y1 = p1(-92.199881,38.56694)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># transform this point to projection 2 coordinates.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>x2, y2 = transform(p1,p2,x1,y1)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'%9.3f %11.3f'</span> % (x1,y1)
+<span class="py-output">'569704.566 4269024.671'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'%9.3f %11.3f'</span> % (x2,y2)
+<span class="py-output">'569722.342 4268814.027'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'%8.3f %5.3f'</span> % p2(x2,y2,inverse=True)
+<span class="py-output">' -92.200 38.567'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># process 3 points at a time in a tuple</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>lats = (38.83,39.32,38.75) <span class="py-comment"># Columbia, KC and StL Missouri</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>lons = (-92.22,-94.72,-90.37)
+<span class="py-prompt">&gt;&gt;&gt; </span>x1, y1 = p1(lons,lats)
+<span class="py-prompt">&gt;&gt;&gt; </span>x2, y2 = transform(p1,p2,x1,y1)
+<span class="py-prompt">&gt;&gt;&gt; </span>xy = x1+y1
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f'</span> % xy
+<span class="py-output">'567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>xy = x2+y2
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f'</span> % xy
+<span class="py-output">'567721.149 351747.558 728569.133 4297989.112 4353489.644 4292106.305'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>lons, lats = p2(x2,y2,inverse=True)
+<span class="py-prompt">&gt;&gt;&gt; </span>xy = lons+lats
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f'</span> % xy
+<span class="py-output">' -92.220  -94.720  -90.370 38.830 39.320 38.750'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># test datum shifting, installation of extra datum grid files.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>p1 = Proj(proj=<span class="py-string">'latlong'</span>,datum=<span class="py-string">'WGS84'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>x1 = -111.5; y1 = 45.25919444444
+<span class="py-prompt">&gt;&gt;&gt; </span>p2 = Proj(proj=<span class="py-string">&quot;utm&quot;</span>,zone=10,datum=<span class="py-string">'NAD27'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>x2, y2 = transform(p1, p2, x1, y1)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">&quot;%12.3f %12.3f&quot;</span> % (x2,y2)
+<span class="py-output">' 1402285.991  5076292.423'</span></pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="pj_list"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">pj_list</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">aea</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Albers Equal Area</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">aeqd</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Azimuthal Equidistant</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">airy</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Airy</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">aitoff</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Aitoff</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">alsk</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Mod. Stererographics of Alaska</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">apian</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Apian Globular I</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">august</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">August Epicycloidal</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">bacon</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">Bacon Globular</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="pyproj_datadir"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">pyproj_datadir</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">/Users/jwhitaker/.local/lib/python2.6/site-packages/pyproj/data</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 14 09:01:10 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

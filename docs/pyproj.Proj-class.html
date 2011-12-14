@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pyproj.Proj</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pyproj-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pyproj-module.html">Package&nbsp;pyproj</a> ::
+        Class&nbsp;Proj
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Proj</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj-pysrc.html#Proj">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+object --+    
+         |    
+   ??.Proj --+
+             |
+            <strong class="uidshort">Proj</strong>
+</pre>
+
+<hr />
+<p>performs cartographic transformations (converts from 
+  longitude,latitude to native map projection x,y coordinates and vice 
+  versa) using proj (http://trac.osgeo.org/proj/).</p>
+  <p>A Proj class instance is initialized with proj map projection control 
+  parameter key/value pairs. The key/value pairs can either be passed in a 
+  dictionary, or as keyword arguments, or as a proj4 string (compatible 
+  with the proj command). See 
+  http://www.remotesensing.org/geotiff/proj_list for examples of key/value 
+  pairs defining different map projections.</p>
+  <p>Calling a Proj class instance with the arguments lon, lat will convert
+  lon/lat (in degrees) to x/y native map projection coordinates (in 
+  meters).  If optional keyword 'inverse' is True (default is False), the 
+  inverse transformation from x/y to lon/lat is performed. If optional 
+  keyword 'radians' is True (default is False) lon/lat are interpreted as 
+  radians instead of degrees. If optional keyword 'errcheck' is True 
+  (default is False) an exception is raised if the transformation is 
+  invalid. If errcheck=False and the transformation is invalid, no 
+  exception is raised and 1.e30 is returned. If the optional keyword 
+  'preserve_units' is True, the units in map projection coordinates are not
+  forced to be meters.</p>
+  <p>Works with numpy and regular python array objects, python sequences 
+  and scalars.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#__call__" class="summary-sig-name">__call__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kw</span>)</span><br />
+      Calling a Proj class instance with the arguments lon, lat will 
+      convert lon/lat (in degrees) to x/y native map projection coordinates
+      (in meters).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Proj.__call__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#is_geocent" class="summary-sig-name">is_geocent</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      returns True if projection in geocentric (x/y) coordinates</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Proj.is_geocent">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#is_latlong" class="summary-sig-name">is_latlong</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      returns True if projection in geographic (lon/lat) coordinates</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Proj.is_latlong">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.Proj</code></b>:
+      <code>__reduce__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__init__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Static Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">a new object with type S, a subtype of T</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">projparams</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">preserve_units</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      initialize a Proj class instance.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Proj.__new__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.Proj</code></b>:
+      <code>proj_version</code>,
+      <code>srs</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__call__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kw</span>)</span>
+    <br /><em class="fname">(Call operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.__call__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Calling a Proj class instance with the arguments lon, lat will convert
+  lon/lat (in degrees) to x/y native map projection coordinates (in 
+  meters).  If optional keyword 'inverse' is True (default is False), the 
+  inverse transformation from x/y to lon/lat is performed.  If optional 
+  keyword 'radians' is True (default is False) the units of lon/lat are 
+  radians instead of degrees. If optional keyword 'errcheck' is True 
+  (default is False) an exception is raised if the transformation is 
+  invalid. If errcheck=False and the transformation is invalid, no 
+  exception is raised and 1.e30 is returned.</p>
+  <p>Instead of calling with lon, lat, a single ndarray of shape n,2 may be
+  used, and one of the same shape will be returned; this is more 
+  efficient.</p>
+  <p>Inputs should be doubles (they will be cast to doubles if they are 
+  not, causing a slight performance hit).</p>
+  <p>Works with numpy and regular python array objects, python sequences 
+  and scalars, but is fastest for array objects.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="__new__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">projparams</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">preserve_units</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.__new__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>initialize a Proj class instance.</p>
+  <p>Proj4 projection control parameters must either be given in a 
+  dictionary 'projparams' or as keyword arguments. See the proj 
+  documentation (http://trac.osgeo.org/proj/) for more information about 
+  specifying projection parameters.</p>
+  <p>Example usage:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pyproj <span class="py-keyword">import</span> Proj
+<span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(proj=<span class="py-string">'utm'</span>,zone=10,ellps=<span class="py-string">'WGS84'</span>) <span class="py-comment"># use kwargs</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>x,y = p(-120.108, 34.36116666)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%9.3f y=%11.3f'</span> % (x,y)
+<span class="py-output">'x=765975.641 y=3805993.134'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'lon=%8.3f lat=%5.3f'</span> % p(x,y,inverse=True)
+<span class="py-output">'lon=-120.108 lat=34.361'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># do 3 cities at a time in a tuple (Fresno, LA, SF)</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>lons = (-119.72,-118.40,-122.38)
+<span class="py-prompt">&gt;&gt;&gt; </span>lats = (36.77, 33.93, 37.62 )
+<span class="py-prompt">&gt;&gt;&gt; </span>x,y = p(lons, lats)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x: %9.3f %9.3f %9.3f'</span> % x
+<span class="py-output">'x: 792763.863 925321.537 554714.301'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'y: %9.3f %9.3f %9.3f'</span> % y
+<span class="py-output">'y: 4074377.617 3763936.941 4163835.303'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>lons, lats = p(x, y, inverse=True) <span class="py-comment"># inverse transform</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'lons: %8.3f %8.3f %8.3f'</span> % lons
+<span class="py-output">'lons: -119.720 -118.400 -122.380'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'lats: %8.3f %8.3f %8.3f'</span> % lats
+<span class="py-output">'lats:   36.770   33.930   37.620'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p2 = Proj(<span class="py-string">'+proj=utm +zone=10 +ellps=WGS84'</span>) <span class="py-comment"># use proj4 string</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>x,y = p2(-120.108, 34.36116666)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%9.3f y=%11.3f'</span> % (x,y)
+<span class="py-output">'x=765975.641 y=3805993.134'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(init=<span class="py-string">&quot;epsg:32667&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%12.3f y=%12.3f (meters)'</span> % p(-114.057222, 51.045)
+<span class="py-output">'x=-1783486.760 y= 6193833.196 (meters)'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(<span class="py-string">&quot;+init=epsg:32667&quot;</span>,preserve_units=True)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%12.3f y=%12.3f (feet)'</span> % p(-114.057222, 51.045)
+<span class="py-output">'x=-5851322.810 y=20320934.409 (feet)'</span></pre>
+  <dl class="fields">
+    <dt>Returns: a new object with type S, a subtype of T</dt>
+    <dt>Overrides:
+        object.__new__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="is_geocent"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">is_geocent</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.is_geocent">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>returns True if projection in geocentric (x/y) coordinates</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <i>unreachable</i>.Proj.is_geocent
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="is_latlong"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">is_latlong</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.is_latlong">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>returns True if projection in geographic (lon/lat) coordinates</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <i>unreachable</i>.Proj.is_latlong
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pyproj-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 14 09:01:10 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

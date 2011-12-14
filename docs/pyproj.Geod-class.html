@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pyproj.Geod</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pyproj-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pyproj-module.html">Package&nbsp;pyproj</a> ::
+        Class&nbsp;Geod
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Geod</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj-pysrc.html#Geod">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+object --+    
+         |    
+   ??.Geod --+
+             |
+            <strong class="uidshort">Geod</strong>
+</pre>
+
+<hr />
+<p>performs forward and inverse geodetic, or Great Circle, computations.
+  The forward computation (using the 'fwd' method) involves determining 
+  latitude, longitude and back azimuth of a terminus point given the 
+  latitude and longitude of an initial point, plus azimuth and distance. 
+  The inverse computation (using the 'inv' method) involves determining the
+  forward and back azimuths and distance given the latitudes and longitudes
+  of an initial and terminus point.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Geod-class.html#fwd" class="summary-sig-name">fwd</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lons</span>,
+        <span class="summary-sig-arg">lats</span>,
+        <span class="summary-sig-arg">az</span>,
+        <span class="summary-sig-arg">dist</span>,
+        <span class="summary-sig-arg">radians</span>=<span class="summary-sig-default">False</span>)</span><br />
+      forward transformation - Returns longitudes, latitudes and back 
+      azimuths of terminus points given longitudes (lons) and latitudes 
+      (lats) of initial points, plus forward azimuths (az) and distances 
+      (dist).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Geod.fwd">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Geod-class.html#inv" class="summary-sig-name">inv</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lons1</span>,
+        <span class="summary-sig-arg">lats1</span>,
+        <span class="summary-sig-arg">lons2</span>,
+        <span class="summary-sig-arg">lats2</span>,
+        <span class="summary-sig-arg">radians</span>=<span class="summary-sig-default">False</span>)</span><br />
+      inverse transformation - Returns forward and back azimuths, plus 
+      distances between initial points (specified by lons1, lats1) and 
+      terminus points (specified by lons2, lats2).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Geod.inv">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Geod-class.html#npts" class="summary-sig-name">npts</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">npts</span>,
+        <span class="summary-sig-arg">radians</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Given a single initial point and terminus point (specified by python 
+      floats lon1,lat1 and lon2,lat2), returns a list of longitude/latitude
+      pairs describing npts equally spaced intermediate points along the 
+      geodesic between the initial and terminus points.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Geod.npts">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.Geod</code></b>:
+      <code>__reduce__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__init__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Static Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">a new object with type S, a subtype of T</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Geod-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">initparams</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      initialize a Geod class instance.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Geod.__new__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.Geod</code></b>:
+      <code>geodstring</code>,
+      <code>proj_version</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__new__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">initparams</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Geod.__new__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>initialize a Geod class instance.</p>
+  <p>Geodetic parameters for specifying the ellipsoid can be given in a 
+  dictionary 'initparams', as keyword arguments, or as as proj4 geod 
+  initialization string. Following is a list of the ellipsoids that may be 
+  defined using the 'ellps' keyword:</p>
+<pre class="literalblock">
+  MERIT a=6378137.0      rf=298.257       MERIT 1983
+  SGS85 a=6378136.0      rf=298.257       Soviet Geodetic System 85
+  GRS80 a=6378137.0      rf=298.257222101 GRS 1980(IUGG, 1980)
+  IAU76 a=6378140.0      rf=298.257       IAU 1976
+  airy a=6377563.396     b=6356256.910    Airy 1830
+  APL4.9 a=6378137.0.    rf=298.25        Appl. Physics. 1965
+  NWL9D a=6378145.0.     rf=298.25        Naval Weapons Lab., 1965
+  mod_airy a=6377340.189 b=6356034.446    Modified Airy
+  andrae a=6377104.43    rf=300.0         Andrae 1876 (Den., Iclnd.)
+  aust_SA a=6378160.0    rf=298.25        Australian Natl &amp; S. Amer. 1969
+  GRS67 a=6378160.0      rf=298.247167427 GRS 67(IUGG 1967)
+  bessel a=6377397.155   rf=299.1528128   Bessel 1841
+  bess_nam a=6377483.865 rf=299.1528128   Bessel 1841 (Namibia)
+  clrk66 a=6378206.4     b=6356583.8      Clarke 1866
+  clrk80 a=6378249.145   rf=293.4663      Clarke 1880 mod.
+  CPM a=6375738.7        rf=334.29        Comm. des Poids et Mesures 1799
+  delmbr a=6376428.      rf=311.5         Delambre 1810 (Belgium)
+  engelis a=6378136.05   rf=298.2566      Engelis 1985
+  evrst30 a=6377276.345  rf=300.8017      Everest 1830
+  evrst48 a=6377304.063  rf=300.8017      Everest 1948
+  evrst56 a=6377301.243  rf=300.8017      Everest 1956
+  evrst69 a=6377295.664  rf=300.8017      Everest 1969
+  evrstSS a=6377298.556  rf=300.8017      Everest (Sabah &amp; Sarawak)
+  fschr60 a=6378166.     rf=298.3         Fischer (Mercury Datum) 1960
+  fschr60m a=6378155.    rf=298.3         Modified Fischer 1960
+  fschr68 a=6378150.     rf=298.3         Fischer 1968
+  helmert a=6378200.     rf=298.3         Helmert 1906
+  hough a=6378270.0      rf=297.          Hough
+  intl a=6378388.0       rf=297.          International 1909 (Hayford)
+  krass a=6378245.0      rf=298.3         Krassovsky, 1942
+  kaula a=6378163.       rf=298.24        Kaula 1961
+  lerch a=6378139.       rf=298.257       Lerch 1979
+  mprts a=6397300.       rf=191.          Maupertius 1738
+  new_intl a=6378157.5   b=6356772.2      New International 1967
+  plessis a=6376523.     b=6355863.       Plessis 1817 (France)
+  SEasia a=6378155.0     b=6356773.3205   Southeast Asia
+  walbeck a=6376896.0    b=6355834.8467   Walbeck
+  WGS60 a=6378165.0      rf=298.3         WGS 60
+  WGS66 a=6378145.0      rf=298.25        WGS 66
+  WGS72 a=6378135.0      rf=298.26        WGS 72
+  WGS84 a=6378137.0      rf=298.257223563 WGS 84
+  sphere a=6370997.0     b=6370997.0      Normal Sphere (r=6370997)
+</pre>
+  <p>The parameters of the ellipsoid may also be set directly using the 'a'
+  (semi-major or equatorial axis radius) keyword, and any one of the 
+  following keywords: 'b' (semi-minor, or polar axis radius), 'e' 
+  (eccentricity), 'es' (eccentricity squared), 'f' (flattening), or 'rf' 
+  (reciprocal flattening).</p>
+  <p>See the proj documentation (http://trac.osgeo.org/proj/) for more 
+  information about specifying ellipsoid parameters (specifically, the 
+  chapter 'Specifying the Earth's figure' in the main Proj users 
+  manual).</p>
+  <p>Example usage:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pyproj <span class="py-keyword">import</span> Geod
+<span class="py-prompt">&gt;&gt;&gt; </span>g = Geod(ellps=<span class="py-string">'clrk66'</span>) <span class="py-comment"># Use Clarke 1966 ellipsoid.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># specify the lat/lons of some cities.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
+<span class="py-prompt">&gt;&gt;&gt; </span>portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
+<span class="py-prompt">&gt;&gt;&gt; </span>newyork_lat = 40.+(47./60.); newyork_lon = -73.-(58./60.)
+<span class="py-prompt">&gt;&gt;&gt; </span>london_lat = 51.+(32./60.); london_lon = -(5./60.)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># compute forward and back azimuths, plus distance</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># between Boston and Portland.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">&quot;%7.3f %6.3f %12.3f&quot;</span> % (az12,az21,dist)
+<span class="py-output">'-66.531 75.654  4164192.708'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># compute latitude, longitude and back azimuth of Portland,</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># given Boston lat/lon, forward azimuth and distance to Portland.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">&quot;%6.3f  %6.3f %13.3f&quot;</span> % (endlat,endlon,backaz)
+<span class="py-output">'45.517  -123.683        75.654'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># compute the azimuths, distances from New York to several</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># cities (pass a list)</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>lons1 = 3*[newyork_lon]; lats1 = 3*[newyork_lat]
+<span class="py-prompt">&gt;&gt;&gt; </span>lons2 = [boston_lon, portland_lon, london_lon]
+<span class="py-prompt">&gt;&gt;&gt; </span>lats2 = [boston_lat, portland_lat, london_lat]
+<span class="py-prompt">&gt;&gt;&gt; </span>az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">for</span> faz,baz,d <span class="py-keyword">in</span> list(zip(az12,az21,dist)): <span class="py-string">&quot;%7.3f %7.3f %9.3f&quot;</span> % (faz,baz,d)
+<span class="py-output">' 54.663 -123.448 288303.720'</span>
+<span class="py-output">'-65.463  79.342 4013037.318'</span>
+<span class="py-output">' 51.254 -71.576 5579916.649'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>g2 = Geod(<span class="py-string">'+ellps=clrk66'</span>) <span class="py-comment"># use proj4 style initialization string</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>az12,az21,dist = g2.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">&quot;%7.3f %6.3f %12.3f&quot;</span> % (az12,az21,dist)
+<span class="py-output">'-66.531 75.654  4164192.708'</span></pre>
+  <dl class="fields">
+    <dt>Returns: a new object with type S, a subtype of T</dt>
+    <dt>Overrides:
+        object.__new__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fwd"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fwd</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lons</span>,
+        <span class="sig-arg">lats</span>,
+        <span class="sig-arg">az</span>,
+        <span class="sig-arg">dist</span>,
+        <span class="sig-arg">radians</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Geod.fwd">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>forward transformation - Returns longitudes, latitudes and back 
+  azimuths of terminus points given longitudes (lons) and latitudes (lats) 
+  of initial points, plus forward azimuths (az) and distances (dist).</p>
+  <p>Works with numpy and regular python array objects, python sequences 
+  and scalars.</p>
+  <p>if radians=True, lons/lats and azimuths are radians instead of 
+  degrees. Distances are in meters.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="inv"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">inv</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lons1</span>,
+        <span class="sig-arg">lats1</span>,
+        <span class="sig-arg">lons2</span>,
+        <span class="sig-arg">lats2</span>,
+        <span class="sig-arg">radians</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Geod.inv">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>inverse transformation - Returns forward and back azimuths, plus 
+  distances between initial points (specified by lons1, lats1) and terminus
+  points (specified by lons2, lats2).</p>
+  <p>Works with numpy and regular python array objects, python sequences 
+  and scalars.</p>
+  <p>if radians=True, lons/lats and azimuths are radians instead of 
+  degrees. Distances are in meters.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="npts"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">npts</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">npts</span>,
+        <span class="sig-arg">radians</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Geod.npts">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Given a single initial point and terminus point (specified by python 
+  floats lon1,lat1 and lon2,lat2), returns a list of longitude/latitude 
+  pairs describing npts equally spaced intermediate points along the 
+  geodesic between the initial and terminus points.</p>
+  <p>if radians=True, lons/lats are radians instead of degrees.</p>
+  <p>Example usage:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pyproj <span class="py-keyword">import</span> Geod
+<span class="py-prompt">&gt;&gt;&gt; </span>g = Geod(ellps=<span class="py-string">'clrk66'</span>) <span class="py-comment"># Use Clarke 1966 ellipsoid.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># specify the lat/lons of Boston and Portland.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
+<span class="py-prompt">&gt;&gt;&gt; </span>portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># find ten equally spaced points between Boston and Portland.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">for</span> lon,lat <span class="py-keyword">in</span> lonlats: <span class="py-string">'%6.3f  %7.3f'</span> % (lat, lon)
+<span class="py-output">'43.528  -75.414'</span>
+<span class="py-output">'44.637  -79.883'</span>
+<span class="py-output">'45.565  -84.512'</span>
+<span class="py-output">'46.299  -89.279'</span>
+<span class="py-output">'46.830  -94.156'</span>
+<span class="py-output">'47.149  -99.112'</span>
+<span class="py-output">'47.251  -104.106'</span>
+<span class="py-output">'47.136  -109.100'</span>
+<span class="py-output">'46.805  -114.051'</span>
+<span class="py-output">'46.262  -118.924'</span></pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pyproj-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 14 09:01:10 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
