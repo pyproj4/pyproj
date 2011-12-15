@@ -1,4 +1,5 @@
 1.9.0 (not yet released)
+ * update C source and data from proj4 svn (r2130).
  * check that either a dict or kwargs are given to Geod.__init__ 
    (to avoid crashes in the C code). Add pj_ellps module variable
    containing allowed ellipse specifications, check ellps kwarg 
