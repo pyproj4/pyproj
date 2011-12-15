@@ -2,6 +2,7 @@ include README
 include MANIFEST.in
 include LICENSE_proj4
 include Changelog
+include create_docs.sh
 include _proj.pyx
 include _geod.pyx
 include _proj.c
