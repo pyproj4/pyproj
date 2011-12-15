@@ -97,6 +97,8 @@ pj_list={
 'gs50': "Mod. Stererographics of 50 U.S.",
 'hammer': "Hammer & Eckert-Greifendorff",
 'hatano': "Hatano Asymmetrical Equal Area",
+'healpix', "HEALPix",
+'rhealpix', "rHEALPix",
 'igh':  "Interrupted Goode Homolosine",
 'imw_p': "Internation Map of the World Polyconic",
 'kav5': "Kavraisky V",
