@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_apply_gridshift.c 1504 2009-01-06 02:11:57Z warmerdam $
+ * $Id: pj_apply_gridshift.c 1856 2010-06-11 03:26:04Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Apply datum shifts based on grid shift files (normally NAD27 to
@@ -38,24 +38,91 @@
 
 /************************************************************************/
 /*                         pj_apply_gridshift()                         */
+/*                                                                      */
+/*      This is the externally callable interface - part of the         */
+/*      public API - though it is not used internally any more and I    */
+/*      doubt it is used by any other applications.  But we preserve    */
+/*      it to honour our public api.                                    */
 /************************************************************************/
 
-int pj_apply_gridshift( const char *nadgrids, int inverse, 
+int pj_apply_gridshift( projCtx ctx, const char *nadgrids, int inverse, 
                         long point_count, int point_offset,
                         double *x, double *y, double *z )
 
 {
-    int grid_count = 0;
-    PJ_GRIDINFO   **tables;
+    PJ_GRIDINFO **gridlist;
+    int           grid_count;
+    int           ret;
+    
+    gridlist = pj_gridlist_from_nadgrids( ctx, nadgrids, &grid_count );
+
+    if( gridlist == NULL || grid_count == 0 )
+        return ctx->last_errno;
+
+    ret = pj_apply_gridshift_3( ctx, gridlist, grid_count, inverse, 
+                                point_count, point_offset, x, y, z );
+
+    /* 
+    ** Note this frees the array of grid list pointers, but not the grids
+    ** which is as intended.  The grids themselves live on.
+    */
+    pj_dalloc( gridlist );
+
+    return ret;
+}
+
+/************************************************************************/
+/*                        pj_apply_gridshift_2()                        */
+/*                                                                      */
+/*      This implmentation takes uses the gridlist from a coordinate    */
+/*      system definition.  If the gridlist has not yet been            */
+/*      populated in the coordinate system definition we set it up      */
+/*      now.                                                            */
+/************************************************************************/
+
+int pj_apply_gridshift_2( PJ *defn, int inverse, 
+                          long point_count, int point_offset,
+                          double *x, double *y, double *z )
+
+{
+    if( defn->gridlist == NULL )
+    {
+        defn->gridlist = 
+            pj_gridlist_from_nadgrids( pj_get_ctx( defn ),
+                                       pj_param(defn->ctx, defn->params,"snadgrids").s,
+                                       &(defn->gridlist_count) );
+
+        if( defn->gridlist == NULL || defn->gridlist_count == 0 )
+            return defn->ctx->last_errno;
+    }
+     
+    return pj_apply_gridshift_3( pj_get_ctx( defn ),
+                                 defn->gridlist, defn->gridlist_count, inverse, 
+                                 point_count, point_offset, x, y, z );
+}
+
+
+/************************************************************************/
+/*                        pj_apply_gridshift_3()                        */
+/*                                                                      */
+/*      This is the real workhorse, given a gridlist.                   */
+/************************************************************************/
+
+int pj_apply_gridshift_3( projCtx ctx, PJ_GRIDINFO **tables, int grid_count,
+                          int inverse, long point_count, int point_offset,
+                          double *x, double *y, double *z )
+
+{
     int  i;
-    int debug_flag = getenv( "PROJ_DEBUG" ) != NULL;
     static int debug_count = 0;
 
-    pj_errno = 0;
-
-    tables = pj_gridlist_from_nadgrids( nadgrids, &grid_count);
     if( tables == NULL || grid_count == 0 )
-        return pj_errno;
+    {
+        pj_ctx_set_errno( ctx, -38);
+        return -38;
+    }
+
+    ctx->last_errno = 0;
 
     for( i = 0; i < point_count; i++ )
     {
@@ -106,38 +173,45 @@ int pj_apply_gridshift( const char *nadgrids, int inverse,
             }
 
             /* load the grid shift info if we don't have it. */
-            if( ct->cvs == NULL && !pj_gridinfo_load( gi ) )
+            if( ct->cvs == NULL && !pj_gridinfo_load( ctx, gi ) )
             {
-                pj_errno = -38;
-                return pj_errno;
+                pj_ctx_set_errno( ctx, -38 );
+                return -38;
             }
             
             output = nad_cvt( input, inverse, ct );
             if( output.lam != HUGE_VAL )
             {
-                if( debug_flag && debug_count++ < 20 )
-                    fprintf( stderr,
-                             "pj_apply_gridshift(): used %s\n",
-                             ct->id );
+                if( debug_count++ < 20 )
+                    pj_log( ctx, PJ_LOG_DEBUG_MINOR,
+                            "pj_apply_gridshift(): used %s", ct->id );
                 break;
             }
         }
 
         if( output.lam == HUGE_VAL )
         {
-            if( debug_flag )
+            if( ctx->debug_level >= PJ_LOG_DEBUG_MAJOR )
             {
-                fprintf( stderr, 
-                         "pj_apply_gridshift(): failed to find a grid shift table for\n"
-                         "                      location (%.7fdW,%.7fdN)\n",
-                         x[io] * RAD_TO_DEG, 
-                         y[io] * RAD_TO_DEG );
-                fprintf( stderr, 
-                         "   tried: %s\n", nadgrids );
+                pj_log( ctx, PJ_LOG_DEBUG_MAJOR,
+                    "pj_apply_gridshift(): failed to find a grid shift table for\n"
+                    "                      location (%.7fdW,%.7fdN)",
+                    x[io] * RAD_TO_DEG, 
+                    y[io] * RAD_TO_DEG );
+                for( itable = 0; itable < grid_count; itable++ )
+                {
+                    PJ_GRIDINFO *gi = tables[itable];
+                    if( itable == 0 )
+                        pj_log( ctx, PJ_LOG_DEBUG_MAJOR,
+                                "   tried: %s", gi->gridname );
+                    else
+                        pj_log( ctx, PJ_LOG_DEBUG_MAJOR,
+                                ",%s", gi->gridname );
+                }
             }
-        
-            pj_errno = -38;
-            return pj_errno;
+                
+            pj_ctx_set_errno( ctx, PJD_ERR_GRID_AREA );
+            return PJD_ERR_GRID_AREA;
         }
         else
         {

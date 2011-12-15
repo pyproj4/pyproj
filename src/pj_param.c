@@ -6,7 +6,7 @@
 pj_mkparam(char *str) {
 	paralist *newitem;
 
-	if (newitem = (paralist *)pj_malloc(sizeof(paralist) + strlen(str))) {
+	if((newitem = (paralist *)pj_malloc(sizeof(paralist) + strlen(str))) != NULL) {
 		newitem->used = 0;
 		newitem->next = 0;
 		if (*str == '+')
@@ -34,10 +34,14 @@ pj_mkparam(char *str) {
 /************************************************************************/
 
 	PVALUE /* test for presence or get parameter value */
-pj_param(paralist *pl, char *opt) {
+pj_param(projCtx ctx, paralist *pl, const char *opt) {
+
 	int type;
 	unsigned l;
 	PVALUE value;
+
+	if( ctx == NULL )
+		ctx = pj_get_default_ctx();
 
 	type = *opt++;
 	/* simple linear lookup */
@@ -60,10 +64,10 @@ pj_param(paralist *pl, char *opt) {
 			value.f = atof(opt);
 			break;
 		case 'r':	/* degrees input */
-			value.f = dmstor(opt, 0);
+			value.f = dmstor_ctx(ctx, opt, 0);
 			break;
 		case 's':	/* char string */
-			value.s = opt;
+                        value.s = (char *) opt;
 			break;
 		case 'b':	/* boolean */
 			switch (*opt) {
@@ -74,7 +78,7 @@ pj_param(paralist *pl, char *opt) {
 				value.i = 1;
 				break;
 			default:
-				pj_errno = -8;
+				pj_ctx_set_errno(ctx, -8);
 				value.i = 0;
 				break;
 			}

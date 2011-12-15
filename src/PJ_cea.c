@@ -42,10 +42,9 @@ FREEUP;
 ENTRY1(cea, apa)
 	double t;
 
-	if (pj_param(P->params, "tlat_ts").i &&
-		(P->k0 = cos(t = pj_param(P->params, "rlat_ts").f)) < 0.) E_ERROR(-24)
-	else
-		t = 0.;
+	if (pj_param(P->ctx, P->params, "tlat_ts").i &&
+	    (P->k0 = cos(t = pj_param(P->ctx, P->params, "rlat_ts").f)) < 0.)
+	  E_ERROR(-24);
 	if (P->es) {
 		t = sin(t);
 		P->k0 /= sqrt(1. - P->es * t * t);

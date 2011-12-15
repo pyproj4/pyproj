@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: projects.h 1625 2009-09-23 18:58:15Z warmerdam $
+ * $Id: projects.h 2121 2011-11-22 22:51:47Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Primary (private) include file for PROJ.4 library.
@@ -44,6 +44,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #ifdef __cplusplus
 #define C_NAMESPACE extern "C"
@@ -124,6 +125,14 @@ extern double hypot(double, double);
 #define DIR_CHAR '/'
 #endif
 
+/* proj thread context */
+typedef struct {
+    int	    last_errno;
+    int     debug_level;
+    void    (*logger)(void *, int, const char *);
+    void    *app_data;
+} projCtx_t;
+
 /* datum_type values */
 #define PJD_UNKNOWN   0
 #define PJD_3PARAM    1   
@@ -131,8 +140,10 @@ extern double hypot(double, double);
 #define PJD_GRIDSHIFT 3
 #define PJD_WGS84     4   /* WGS84 (or anything considered equivelent) */
 
-/* datum system errors */
-#define PJD_ERR_GEOCENTRIC -45
+/* library errors */
+#define PJD_ERR_GEOCENTRIC          -45
+#define PJD_ERR_AXIS                -47
+#define PJD_ERR_GRID_AREA           -48
 
 #define USE_PROJUV 
 
@@ -206,6 +217,7 @@ typedef struct ARG_list {
 
 
 typedef struct PJconsts {
+    projCtx_t *ctx;
 	XY  (*fwd)(LP, struct PJconsts *);
 	LP  (*inv)(XY, struct PJconsts *);
 	void (*spc)(LP, struct PJconsts *, struct FACTORS *);
@@ -232,8 +244,18 @@ typedef struct PJconsts {
     
         int     datum_type; /* PJD_UNKNOWN/3PARAM/7PARAM/GRIDSHIFT/WGS84 */
         double  datum_params[7];
+        struct _pj_gi **gridlist;
+        int     gridlist_count;
+
+        int     has_geoid_vgrids;
+        struct _pj_gi **vgridlist_geoid;
+        int     vgridlist_geoid_count;
+        double  vto_meter, vfr_meter;
+
         double  from_greenwich; /* prime meridian offset (in radians) */
         double  long_wrap_center; /* 0.0 for -180 to 180, actually in radians*/
+        int     is_long_wrap_set;
+        char    axis[4];
         
 #ifdef PROJ_PARMS__
 PROJ_PARMS__
@@ -287,6 +309,7 @@ extern struct PJ_PRIME_MERIDIANS pj_prime_meridians[];
         C_NAMESPACE_VAR const char * const pj_s_##name = des_##name; \
 	C_NAMESPACE PJ *pj_##name(PJ *P) { if (!P) { \
 	if( (P = (PJ*) pj_malloc(sizeof(PJ))) != NULL) { \
+        memset( P, 0, sizeof(PJ) ); \
 	P->pfree = freeup; P->fwd = 0; P->inv = 0; \
 	P->spc = 0; P->descr = des_##name;
 #define ENTRYX } return P; } else {
@@ -294,10 +317,10 @@ extern struct PJ_PRIME_MERIDIANS pj_prime_meridians[];
 #define ENTRY1(name, a) ENTRYA(name) P->a = 0; ENTRYX
 #define ENTRY2(name, a, b) ENTRYA(name) P->a = 0; P->b = 0; ENTRYX
 #define ENDENTRY(p) } return (p); }
-#define E_ERROR(err) { pj_errno = err; freeup(P); return(0); }
+#define E_ERROR(err) { pj_ctx_set_errno( P->ctx, err); freeup(P); return(0); }
 #define E_ERROR_0 { freeup(P); return(0); }
-#define F_ERROR { pj_errno = -20; return(xy); }
-#define I_ERROR { pj_errno = -20; return(lp); }
+#define F_ERROR { pj_ctx_set_errno( P->ctx, -20); return(xy); }
+#define I_ERROR { pj_ctx_set_errno( P->ctx, -20); return(lp); }
 #define FORWARD(name) static XY name(LP lp, PJ *P) { XY xy = {0.0,0.0}
 #define INVERSE(name) static LP name(XY xy, PJ *P) { LP lp = {0.0,0.0}
 #define FREEUP static void freeup(PJ *P) {
@@ -332,35 +355,35 @@ typedef struct _pj_gi {
 
 /* procedure prototypes */
 double dmstor(const char *, char **);
+double dmstor_ctx(projCtx ctx, const char *, char **);
 void set_rtodms(int, int);
 char *rtodms(char *, double, int, int);
 double adjlon(double);
-double aacos(double), aasin(double), asqrt(double), aatan2(double, double);
-PVALUE pj_param(paralist *, char *);
+double aacos(projCtx,double), aasin(projCtx,double), asqrt(double), aatan2(double, double);
+PVALUE pj_param(projCtx ctx, paralist *, const char *);
 paralist *pj_mkparam(char *);
-int pj_ell_set(paralist *, double *, double *);
-int pj_datum_set(paralist *, PJ *);
+int pj_ell_set(projCtx ctx, paralist *, double *, double *);
+int pj_datum_set(projCtx,paralist *, PJ *);
 int pj_prime_meridian_set(paralist *, PJ *);
 int pj_angular_units_set(paralist *, PJ *);
 
 paralist *pj_clone_paralist( const paralist* );
-void pj_clear_initcache(void);
 paralist*pj_search_initcache( const char *filekey );
 void pj_insert_initcache( const char *filekey, const paralist *list);
 
 double *pj_enfn(double);
 double pj_mlfn(double, double, double, double *);
-double pj_inv_mlfn(double, double, double *);
+double pj_inv_mlfn(projCtx, double, double, double *);
 double pj_qsfn(double, double, double);
 double pj_tsfn(double, double, double);
 double pj_msfn(double, double, double);
-double pj_phi2(double, double);
+double pj_phi2(projCtx, double, double);
 double pj_qsfn_(double, PJ *);
 double *pj_authset(double);
 double pj_authlat(double, double *);
 COMPLEX pj_zpoly1(COMPLEX, COMPLEX *, int);
 COMPLEX pj_zpolyd1(COMPLEX, COMPLEX *, int, COMPLEX *);
-FILE *pj_open_lib(char *, char *);
+FILE *pj_open_lib(projCtx, char *, char *);
 
 int pj_deriv(LP, double, PJ *, struct DERIVS *);
 int pj_factors(LP, PJ *, double, struct FACTORS *);
@@ -390,26 +413,42 @@ int bch2bps(projUV, projUV, projUV **, int, int);
 /* nadcon related protos */
 LP nad_intr(LP, struct CTABLE *);
 LP nad_cvt(LP, int, struct CTABLE *);
-struct CTABLE *nad_init(char *);
-struct CTABLE *nad_ctable_init( FILE * fid );
-int nad_ctable_load( struct CTABLE *, FILE * fid );
+struct CTABLE *nad_init(projCtx ctx, char *);
+struct CTABLE *nad_ctable_init( projCtx ctx, FILE * fid );
+int nad_ctable_load( projCtx ctx, struct CTABLE *, FILE * fid );
+struct CTABLE *nad_ctable2_init( projCtx ctx, FILE * fid );
+int nad_ctable2_load( projCtx ctx, struct CTABLE *, FILE * fid );
 void nad_free(struct CTABLE *);
 
 /* higher level handling of datum grid shift files */
 
-PJ_GRIDINFO **pj_gridlist_from_nadgrids( const char *, int * );
+int pj_apply_vgridshift( PJ *defn, const char *listname,
+                         PJ_GRIDINFO ***gridlist_p, 
+                         int *gridlist_count_p,
+                         int inverse, 
+                         long point_count, int point_offset,
+                         double *x, double *y, double *z );
+int pj_apply_gridshift_2( PJ *defn, int inverse, 
+                          long point_count, int point_offset,
+                          double *x, double *y, double *z );
+int pj_apply_gridshift_3( projCtx ctx, 
+                          PJ_GRIDINFO **gridlist, int gridlist_count,
+                          int inverse, long point_count, int point_offset,
+                          double *x, double *y, double *z );
+
+PJ_GRIDINFO **pj_gridlist_from_nadgrids( projCtx, const char *, int * );
 void pj_deallocate_grids();
 
-PJ_GRIDINFO *pj_gridinfo_init( const char * );
-int pj_gridinfo_load( PJ_GRIDINFO * );
-void pj_gridinfo_free( PJ_GRIDINFO * );
+PJ_GRIDINFO *pj_gridinfo_init( projCtx, const char * );
+int pj_gridinfo_load( projCtx, PJ_GRIDINFO * );
+void pj_gridinfo_free( projCtx, PJ_GRIDINFO * );
 
 void *proj_mdist_ini(double);
 double proj_mdist(double, double, double, const void *);
-double proj_inv_mdist(double, const void *);
+double proj_inv_mdist(projCtx ctx, double, const void *);
 void *pj_gauss_ini(double, double, double *,double *);
-LP pj_gauss(LP, const void *);
-LP pj_inv_gauss(LP, const void *);
+LP pj_gauss(projCtx, LP, const void *);
+LP pj_inv_gauss(projCtx, LP, const void *);
 
 extern char const pj_release[];
 
@@ -420,8 +459,12 @@ struct PJ_LIST  *pj_get_list_ref( void );
 struct PJ_PRIME_MERIDIANS  *pj_get_prime_meridians_ref( void );
  
 #ifndef DISABLE_CVSID
-#  define PJ_CVSID(string)     static char pj_cvsid[] = string; \
+#  if defined(__GNUC__) && __GNUC__ >= 4
+#    define PJ_CVSID(string)     static char pj_cvsid[] __attribute__((used)) = string;
+#  else
+#    define PJ_CVSID(string)     static char pj_cvsid[] = string; \
 static char *cvsid_aw() { return( cvsid_aw() ? ((char *) NULL) : pj_cvsid ); }
+#  endif
 #else
 #  define PJ_CVSID(string)
 #endif

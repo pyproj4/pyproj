@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_init.c,v 1.19 2007/11/26 00:21:59 fwarmerdam Exp $
+ * $Id: pj_init.c 2117 2011-11-14 00:22:03Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Initialize projection object from string definition.  Includes
@@ -27,70 +27,22 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- ******************************************************************************
- *
- * $Log: pj_init.c,v $
- * Revision 1.19  2007/11/26 00:21:59  fwarmerdam
- * Modified PJ structure to hold a_orig, es_orig, ellipsoid definition before
- * adjustment for spherical projections.
- * Modified pj_datum_transform() to use the original ellipsoid parameters,
- * not the ones adjusted for spherical projections.
- * Modified pj_datum_transform() to not attempt any datum shift via
- * geocentric coordinates if the source *or* destination are raw ellipsoids
- * (ie. PJD_UNKNOWN).  All per PROJ bug #1602, GDAL bug #2025.
- *
- * Revision 1.18  2006/10/12 21:04:39  fwarmerdam
- * Added experimental +lon_wrap argument to set a "center point" for
- * longitude wrapping of longitude values coming out of pj_transform().
- *
- * Revision 1.17  2006/09/22 23:06:24  fwarmerdam
- * remote static start variable in pj_init (bug 1283)
- *
- * Revision 1.16  2004/09/08 15:23:37  warmerda
- * added new error for unknown prime meridians
- *
- * Revision 1.15  2004/05/05 01:45:41  warmerda
- * Made sword even longer.
- *
- * Revision 1.14  2004/05/05 01:45:00  warmerda
- * Make sword buffer larger so long +towgs84 parameters don't get split.
- *
- * Revision 1.13  2003/09/16 03:46:21  warmerda
- * dont use default ellps if any earth model info is set: bug 386
- *
- * Revision 1.12  2003/08/21 02:15:59  warmerda
- * improve MAX_ARG checking
- *
- * Revision 1.11  2003/06/09 21:23:16  warmerda
- * ensure start is initialized at very beginning of pj_init()
- *
- * Revision 1.10  2003/03/16 16:38:24  warmerda
- * Modified get_opt() to terminate reading the definition when a new
- * definition (a word starting with '<') is encountered, in addition to when
- * the definition terminator '<>' is encountered, so that unterminated
- * definitions like those in the distributed esri file will work properly.
- * http://bugzilla.remotesensing.org/show_bug.cgi?id=302
- *
- * Revision 1.9  2002/12/14 20:15:02  warmerda
- * added geocentric support, updated headers
- *
- */
+ *****************************************************************************/
 
 #define PJ_LIB__
 #include <projects.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <locale.h>
 
-PJ_CVSID("$Id: pj_init.c,v 1.19 2007/11/26 00:21:59 fwarmerdam Exp $");
-
-extern FILE *pj_open_lib(char *, char *);
+PJ_CVSID("$Id: pj_init.c 2117 2011-11-14 00:22:03Z warmerdam $");
 
 /************************************************************************/
 /*                              get_opt()                               */
 /************************************************************************/
 static paralist *
-get_opt(paralist **start, FILE *fid, char *name, paralist *next) {
+get_opt(projCtx ctx, paralist **start, FILE *fid, char *name, paralist *next) {
     char sword[302], *word = sword+1;
     int first = 1, len, c;
 
@@ -107,16 +59,16 @@ get_opt(paralist **start, FILE *fid, char *name, paralist *next) {
                 while((c = fgetc(fid)) != EOF && c != '\n') ;
                 break;
             }
-        } else if (!first && !pj_param(*start, sword).i) {
+        } else if (!first && !pj_param(ctx, *start, sword).i) {
             /* don't default ellipse if datum, ellps or any earth model
                information is set. */
             if( strncmp(word,"ellps=",6) != 0 
-                || (!pj_param(*start, "tdatum").i 
-                    && !pj_param(*start, "tellps").i 
-                    && !pj_param(*start, "ta").i 
-                    && !pj_param(*start, "tb").i 
-                    && !pj_param(*start, "trf").i 
-                    && !pj_param(*start, "tf").i) )
+                || (!pj_param(ctx, *start, "tdatum").i 
+                    && !pj_param(ctx, *start, "tellps").i 
+                    && !pj_param(ctx, *start, "ta").i 
+                    && !pj_param(ctx, *start, "tb").i 
+                    && !pj_param(ctx, *start, "trf").i 
+                    && !pj_param(ctx, *start, "tf").i) )
             {
                 next = next->next = pj_mkparam(word);
             }
@@ -132,40 +84,70 @@ get_opt(paralist **start, FILE *fid, char *name, paralist *next) {
 /*                            get_defaults()                            */
 /************************************************************************/
 static paralist *
-get_defaults(paralist **start, paralist *next, char *name) {
-	FILE *fid;
+get_defaults(projCtx ctx, paralist **start, paralist *next, char *name) {
+    FILE *fid;
 
-	if (fid = pj_open_lib("proj_def.dat", "rt")) {
-		next = get_opt(start, fid, "general", next);
-		rewind(fid);
-		next = get_opt(start, fid, name, next);
-		(void)fclose(fid);
-	}
-	if (errno)
-		errno = 0; /* don't care if can't open file */
-	return next;
+    if ( (fid = pj_open_lib(ctx,"proj_def.dat", "rt")) != NULL) {
+        next = get_opt(ctx, start, fid, "general", next);
+        rewind(fid);
+        next = get_opt(ctx, start, fid, name, next);
+        (void)fclose(fid);
+    }
+    if (errno)
+        errno = 0; /* don't care if can't open file */
+    ctx->last_errno = 0;
+    
+    return next;
 }
 
 /************************************************************************/
 /*                              get_init()                              */
 /************************************************************************/
 static paralist *
-get_init(paralist **start, paralist *next, char *name) {
-	char fname[MAX_PATH_FILENAME+ID_TAG_MAX+3], *opt;
-	FILE *fid;
+get_init(projCtx ctx, paralist **start, paralist *next, char *name) {
+    char fname[MAX_PATH_FILENAME+ID_TAG_MAX+3], *opt;
+    FILE *fid;
+    paralist *init_items = NULL;
+    const paralist *orig_next = next;
 
-	(void)strncpy(fname, name, MAX_PATH_FILENAME + ID_TAG_MAX + 1);
-	if (opt = strrchr(fname, ':'))
-		*opt++ = '\0';
-	else { pj_errno = -3; return(0); }
-	if (fid = pj_open_lib(fname, "rt"))
-		next = get_opt(start, fid, opt, next);
-	else
-		return(0);
-	(void)fclose(fid);
-	if (errno == 25)
-		errno = 0; /* unknown problem with some sys errno<-25 */
-	return next;
+    (void)strncpy(fname, name, MAX_PATH_FILENAME + ID_TAG_MAX + 1);
+	
+    /* 
+    ** Search for file/key pair in cache 
+    */
+	
+    init_items = pj_search_initcache( name );
+    if( init_items != NULL )
+    {
+        next->next = init_items;
+        while( next->next != NULL )
+            next = next->next;
+        return next;
+    }
+
+    /*
+    ** Otherwise we try to open the file and search for it.
+    */
+    if ((opt = strrchr(fname, ':')) != NULL)
+        *opt++ = '\0';
+    else { pj_ctx_set_errno(ctx,-3); return NULL; }
+
+    if ( (fid = pj_open_lib(ctx,fname, "rt")) != NULL)
+        next = get_opt(ctx, start, fid, opt, next);
+    else
+        return NULL;
+    (void)fclose(fid);
+    if (errno == 25)
+        errno = 0; /* unknown problem with some sys errno<-25 */
+
+    /* 
+    ** If we seem to have gotten a result, insert it into the 
+    ** init file cache.
+    */
+    if( next != NULL && next != orig_next )
+        pj_insert_initcache( name, orig_next->next );
+
+    return next;
 }
 
 /************************************************************************/
@@ -180,11 +162,17 @@ PJ *
 pj_init_plus( const char *definition )
 
 {
+    return pj_init_plus_ctx( pj_get_default_ctx(), definition );
+}
+
+PJ *
+pj_init_plus_ctx( projCtx ctx, const char *definition )
+{
 #define MAX_ARG 200
     char	*argv[MAX_ARG];
     char	*defn_copy;
     int		argc = 0, i;
-    PJ	        *result;
+    PJ	    *result;
     
     /* make a copy that we can manipulate */
     defn_copy = (char *) pj_malloc( strlen(definition)+1 );
@@ -201,7 +189,7 @@ pj_init_plus( const char *definition )
             {
                 if( argc+1 == MAX_ARG )
                 {
-                    pj_errno = -44;
+                    pj_ctx_set_errno( ctx, -44 );
                     return NULL;
                 }
                 
@@ -221,7 +209,7 @@ pj_init_plus( const char *definition )
     }
 
     /* perform actual initialization */
-    result = pj_init( argc, argv );
+    result = pj_init_ctx( ctx, argc, argv );
 
     pj_dalloc( defn_copy );
 
@@ -239,165 +227,238 @@ pj_init_plus( const char *definition )
 
 PJ *
 pj_init(int argc, char **argv) {
-	char *s, *name;
-        paralist *start = NULL;
-	PJ *(*proj)(PJ *);
-	paralist *curr;
-	int i;
-	PJ *PIN = 0;
+    return pj_init_ctx( pj_get_default_ctx(), argc, argv );
+}
 
-	errno = pj_errno = 0;
-        start = NULL;
+PJ *
+pj_init_ctx(projCtx ctx, int argc, char **argv) {
+    char *s, *name;
+    paralist *start = NULL;
+    PJ *(*proj)(PJ *);
+    paralist *curr;
+    int i;
+    PJ *PIN = 0;
+    char *old_locale;
 
-	/* put arguments into internal linked list */
-	if (argc <= 0) { pj_errno = -1; goto bum_call; }
-	for (i = 0; i < argc; ++i)
-		if (i)
-			curr = curr->next = pj_mkparam(argv[i]);
-		else
-			start = curr = pj_mkparam(argv[i]);
-	if (pj_errno) goto bum_call;
+    ctx->last_errno = 0;
+    start = NULL;
 
-	/* check if +init present */
-	if (pj_param(start, "tinit").i) {
-		paralist *last = curr;
+    old_locale = strdup(setlocale(LC_NUMERIC, NULL));
+    if( strcmp(old_locale,"C") != 0 )
+        setlocale(LC_NUMERIC,"C");
 
-		if (!(curr = get_init(&start, curr, pj_param(start, "sinit").s)))
-			goto bum_call;
-		if (curr == last) { pj_errno = -2; goto bum_call; }
-	}
-
-	/* find projection selection */
-	if (!(name = pj_param(start, "sproj").s))
-		{ pj_errno = -4; goto bum_call; }
-	for (i = 0; (s = pj_list[i].id) && strcmp(name, s) ; ++i) ;
-	if (!s) { pj_errno = -5; goto bum_call; }
-
-	/* set defaults, unless inhibited */
-	if (!pj_param(start, "bno_defs").i)
-		curr = get_defaults(&start, curr, name);
-	proj = (PJ *(*)(PJ *)) pj_list[i].proj;
-
-	/* allocate projection structure */
-	if (!(PIN = (*proj)(0))) goto bum_call;
-	PIN->params = start;
-        PIN->is_latlong = 0;
-        PIN->is_geocent = 0;
-        PIN->long_wrap_center = 0.0;
-
-        /* set datum parameters */
-        if (pj_datum_set(start, PIN)) goto bum_call;
-
-	/* set ellipsoid/sphere parameters */
-	if (pj_ell_set(start, &PIN->a, &PIN->es)) goto bum_call;
-
-        PIN->a_orig = PIN->a;
-        PIN->es_orig = PIN->es;
-
-	PIN->e = sqrt(PIN->es);
-	PIN->ra = 1. / PIN->a;
-	PIN->one_es = 1. - PIN->es;
-	if (PIN->one_es == 0.) { pj_errno = -6; goto bum_call; }
-	PIN->rone_es = 1./PIN->one_es;
-
-        /* Now that we have ellipse information check for WGS84 datum */
-        if( PIN->datum_type == PJD_3PARAM 
-            && PIN->datum_params[0] == 0.0
-            && PIN->datum_params[1] == 0.0
-            && PIN->datum_params[2] == 0.0
-            && PIN->a == 6378137.0
-            && ABS(PIN->es - 0.006694379990) < 0.000000000050 )/*WGS84/GRS80*/
-        {
-            PIN->datum_type = PJD_WGS84;
-        }
-        
-	/* set PIN->geoc coordinate system */
-	PIN->geoc = (PIN->es && pj_param(start, "bgeoc").i);
-
-	/* over-ranging flag */
-	PIN->over = pj_param(start, "bover").i;
-
-	/* longitude center for wrapping */
-	PIN->long_wrap_center = pj_param(start, "rlon_wrap").f;
-
-	/* central meridian */
-	PIN->lam0=pj_param(start, "rlon_0").f;
-
-	/* central latitude */
-	PIN->phi0 = pj_param(start, "rlat_0").f;
-
-	/* false easting and northing */
-	PIN->x0 = pj_param(start, "dx_0").f;
-	PIN->y0 = pj_param(start, "dy_0").f;
-
-	/* general scaling factor */
-	if (pj_param(start, "tk_0").i)
-		PIN->k0 = pj_param(start, "dk_0").f;
-	else if (pj_param(start, "tk").i)
-		PIN->k0 = pj_param(start, "dk").f;
-	else
-		PIN->k0 = 1.;
-	if (PIN->k0 <= 0.) {
-		pj_errno = -31;
-		goto bum_call;
-	}
-
-	/* set units */
-	s = 0;
-	if (name = pj_param(start, "sunits").s) { 
-		for (i = 0; (s = pj_units[i].id) && strcmp(name, s) ; ++i) ;
-		if (!s) { pj_errno = -7; goto bum_call; }
-		s = pj_units[i].to_meter;
-	}
-	if (s || (s = pj_param(start, "sto_meter").s)) {
-		PIN->to_meter = strtod(s, &s);
-		if (*s == '/') /* ratio number */
-			PIN->to_meter /= strtod(++s, 0);
-		PIN->fr_meter = 1. / PIN->to_meter;
-	} else
-		PIN->to_meter = PIN->fr_meter = 1.;
-
-	/* prime meridian */
-	s = 0;
-	if (name = pj_param(start, "spm").s) { 
-            const char *value = NULL;
-            char *next_str = NULL;
-
-            for (i = 0; pj_prime_meridians[i].id != NULL; ++i )
-            {
-                if( strcmp(name,pj_prime_meridians[i].id) == 0 )
-                {
-                    value = pj_prime_meridians[i].defn;
-                    break;
-                }
-            }
-            
-            if( value == NULL 
-                && (dmstor(name,&next_str) != 0.0  || *name == '0')
-                && *next_str == '\0' )
-                value = name;
-
-            if (!value) { pj_errno = -46; goto bum_call; }
-            PIN->from_greenwich = dmstor(value,NULL);
-	}
+    /* put arguments into internal linked list */
+    if (argc <= 0) { pj_ctx_set_errno( ctx, -1 ); goto bum_call; }
+    for (i = 0; i < argc; ++i)
+        if (i)
+            curr = curr->next = pj_mkparam(argv[i]);
         else
-            PIN->from_greenwich = 0.0;
+            start = curr = pj_mkparam(argv[i]);
+    if (ctx->last_errno) goto bum_call;
 
-	/* projection specific initialization */
-	if (!(PIN = (*proj)(PIN)) || errno || pj_errno) {
-bum_call: /* cleanup error return */
-		if (!pj_errno)
-			pj_errno = errno;
-		if (PIN)
-			pj_free(PIN);
-		else
-			for ( ; start; start = curr) {
-				curr = start->next;
-				pj_dalloc(start);
-			}
-		PIN = 0;
-	}
-	return PIN;
+    /* check if +init present */
+    if (pj_param(ctx, start, "tinit").i) {
+        paralist *last = curr;
+
+        if (!(curr = get_init(ctx,&start, curr, pj_param(ctx, start, "sinit").s)))
+            goto bum_call;
+        if (curr == last) { pj_ctx_set_errno( ctx, -2); goto bum_call; }
+    }
+
+    /* find projection selection */
+    if (!(name = pj_param(ctx, start, "sproj").s))
+    { pj_ctx_set_errno( ctx, -4 ); goto bum_call; }
+    for (i = 0; (s = pj_list[i].id) && strcmp(name, s) ; ++i) ;
+    if (!s) { pj_ctx_set_errno( ctx, -5 ); goto bum_call; }
+
+    /* set defaults, unless inhibited */
+    if (!pj_param(ctx, start, "bno_defs").i)
+        curr = get_defaults(ctx,&start, curr, name);
+    proj = (PJ *(*)(PJ *)) pj_list[i].proj;
+
+    /* allocate projection structure */
+    if (!(PIN = (*proj)(0))) goto bum_call;
+    PIN->ctx = ctx;
+    PIN->params = start;
+    PIN->is_latlong = 0;
+    PIN->is_geocent = 0;
+    PIN->is_long_wrap_set = 0;
+    PIN->long_wrap_center = 0.0;
+    strcpy( PIN->axis, "enu" );
+
+    PIN->gridlist = NULL;
+    PIN->gridlist_count = 0;
+
+    PIN->vgridlist_geoid = NULL;
+    PIN->vgridlist_geoid_count = 0;
+
+    /* set datum parameters */
+    if (pj_datum_set(ctx, start, PIN)) goto bum_call;
+
+    /* set ellipsoid/sphere parameters */
+    if (pj_ell_set(ctx, start, &PIN->a, &PIN->es)) goto bum_call;
+
+    PIN->a_orig = PIN->a;
+    PIN->es_orig = PIN->es;
+
+    PIN->e = sqrt(PIN->es);
+    PIN->ra = 1. / PIN->a;
+    PIN->one_es = 1. - PIN->es;
+    if (PIN->one_es == 0.) { pj_ctx_set_errno( ctx, -6 ); goto bum_call; }
+    PIN->rone_es = 1./PIN->one_es;
+
+    /* Now that we have ellipse information check for WGS84 datum */
+    if( PIN->datum_type == PJD_3PARAM 
+        && PIN->datum_params[0] == 0.0
+        && PIN->datum_params[1] == 0.0
+        && PIN->datum_params[2] == 0.0
+        && PIN->a == 6378137.0
+        && ABS(PIN->es - 0.006694379990) < 0.000000000050 )/*WGS84/GRS80*/
+    {
+        PIN->datum_type = PJD_WGS84;
+    }
+        
+    /* set PIN->geoc coordinate system */
+    PIN->geoc = (PIN->es && pj_param(ctx, start, "bgeoc").i);
+
+    /* over-ranging flag */
+    PIN->over = pj_param(ctx, start, "bover").i;
+
+    /* vertical datum geoid grids */
+    PIN->has_geoid_vgrids = pj_param(ctx, start, "tgeoidgrids").i;
+    if( PIN->has_geoid_vgrids ) /* we need to mark it as used. */
+        pj_param(ctx, start, "sgeoidgrids");
+
+    /* longitude center for wrapping */
+    PIN->is_long_wrap_set = pj_param(ctx, start, "tlon_wrap").i;
+    if (PIN->is_long_wrap_set)
+        PIN->long_wrap_center = pj_param(ctx, start, "rlon_wrap").f;
+
+    /* axis orientation */
+    if( (pj_param(ctx, start,"saxis").s) != NULL )
+    {
+        static const char *axis_legal = "ewnsud";
+        const char *axis_arg = pj_param(ctx, start,"saxis").s;
+        if( strlen(axis_arg) != 3 )
+        {
+            pj_ctx_set_errno( ctx, PJD_ERR_AXIS );
+            goto bum_call;
+        }
+
+        if( strchr( axis_legal, axis_arg[0] ) == NULL
+            || strchr( axis_legal, axis_arg[1] ) == NULL
+            || strchr( axis_legal, axis_arg[2] ) == NULL)
+        {
+            pj_ctx_set_errno( ctx, PJD_ERR_AXIS );
+            goto bum_call;
+        }
+
+        /* it would be nice to validate we don't have on axis repeated */
+        strcpy( PIN->axis, axis_arg );
+    }
+
+    PIN->is_long_wrap_set = pj_param(ctx, start, "tlon_wrap").i;
+    if (PIN->is_long_wrap_set)
+        PIN->long_wrap_center = pj_param(ctx, start, "rlon_wrap").f;
+
+    /* central meridian */
+    PIN->lam0=pj_param(ctx, start, "rlon_0").f;
+
+    /* central latitude */
+    PIN->phi0 = pj_param(ctx, start, "rlat_0").f;
+
+    /* false easting and northing */
+    PIN->x0 = pj_param(ctx, start, "dx_0").f;
+    PIN->y0 = pj_param(ctx, start, "dy_0").f;
+
+    /* general scaling factor */
+    if (pj_param(ctx, start, "tk_0").i)
+        PIN->k0 = pj_param(ctx, start, "dk_0").f;
+    else if (pj_param(ctx, start, "tk").i)
+        PIN->k0 = pj_param(ctx, start, "dk").f;
+    else
+        PIN->k0 = 1.;
+    if (PIN->k0 <= 0.) {
+        pj_ctx_set_errno( ctx, -31 );
+        goto bum_call;
+    }
+
+    /* set units */
+    s = 0;
+    if ((name = pj_param(ctx, start, "sunits").s) != NULL) { 
+        for (i = 0; (s = pj_units[i].id) && strcmp(name, s) ; ++i) ;
+        if (!s) { pj_ctx_set_errno( ctx, -7 ); goto bum_call; }
+        s = pj_units[i].to_meter;
+    }
+    if (s || (s = pj_param(ctx, start, "sto_meter").s)) {
+        PIN->to_meter = strtod(s, &s);
+        if (*s == '/') /* ratio number */
+            PIN->to_meter /= strtod(++s, 0);
+        PIN->fr_meter = 1. / PIN->to_meter;
+    } else
+        PIN->to_meter = PIN->fr_meter = 1.;
+
+    /* set vertical units */
+    s = 0;
+    if ((name = pj_param(ctx, start, "svunits").s) != NULL) { 
+        for (i = 0; (s = pj_units[i].id) && strcmp(name, s) ; ++i) ;
+        if (!s) { pj_ctx_set_errno( ctx, -7 ); goto bum_call; }
+        s = pj_units[i].to_meter;
+    }
+    if (s || (s = pj_param(ctx, start, "svto_meter").s)) {
+        PIN->vto_meter = strtod(s, &s);
+        if (*s == '/') /* ratio number */
+            PIN->vto_meter /= strtod(++s, 0);
+        PIN->vfr_meter = 1. / PIN->vto_meter;
+    } else {
+        PIN->vto_meter = PIN->to_meter;
+        PIN->vfr_meter = PIN->fr_meter;
+    }
+
+    /* prime meridian */
+    s = 0;
+    if ((name = pj_param(ctx, start, "spm").s) != NULL) { 
+        const char *value = NULL;
+        char *next_str = NULL;
+
+        for (i = 0; pj_prime_meridians[i].id != NULL; ++i )
+        {
+            if( strcmp(name,pj_prime_meridians[i].id) == 0 )
+            {
+                value = pj_prime_meridians[i].defn;
+                break;
+            }
+        }
+            
+        if( value == NULL 
+            && (dmstor_ctx(ctx,name,&next_str) != 0.0  || *name == '0')
+            && *next_str == '\0' )
+            value = name;
+
+        if (!value) { pj_ctx_set_errno( ctx, -46 ); goto bum_call; }
+        PIN->from_greenwich = dmstor_ctx(ctx,value,NULL);
+    }
+    else
+        PIN->from_greenwich = 0.0;
+
+    /* projection specific initialization */
+    if (!(PIN = (*proj)(PIN)) || ctx->last_errno) {
+      bum_call: /* cleanup error return */
+        if (PIN)
+            pj_free(PIN);
+        else
+            for ( ; start; start = curr) {
+                curr = start->next;
+                pj_dalloc(start);
+            }
+        PIN = 0;
+    }
+
+    if( strcmp(old_locale,"C") != 0 )
+        setlocale(LC_NUMERIC,old_locale);
+    free( old_locale );
+
+    return PIN;
 }
 
 /************************************************************************/
@@ -412,18 +473,22 @@ bum_call: /* cleanup error return */
 
 void
 pj_free(PJ *P) {
-	if (P) {
-		paralist *t = P->params, *n;
+    if (P) {
+        paralist *t = P->params, *n;
 
-		/* free parameter list elements */
-		for (t = P->params; t; t = n) {
-			n = t->next;
-			pj_dalloc(t);
-		}
+        /* free parameter list elements */
+        for (t = P->params; t; t = n) {
+            n = t->next;
+            pj_dalloc(t);
+        }
 
-		/* free projection parameters */
-		P->pfree(P);
-	}
+        /* free array of grid pointers if we have one */
+        if( P->gridlist != NULL )
+            pj_dalloc( P->gridlist );
+        
+        /* free projection parameters */
+        P->pfree(P);
+    }
 }
 
 

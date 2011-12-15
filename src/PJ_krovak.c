@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PJ_krovak.c 1504 2009-01-06 02:11:57Z warmerdam $
+ * $Id: PJ_krovak.c 1856 2010-06-11 03:26:04Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Implementation of the krovak (Krovak) projection.
@@ -37,7 +37,7 @@
 #include <string.h>
 #include <stdio.h>
 
-PJ_CVSID("$Id: PJ_krovak.c 1504 2009-01-06 02:11:57Z warmerdam $");	
+PJ_CVSID("$Id: PJ_krovak.c 1856 2010-06-11 03:26:04Z warmerdam $");	
 
 PROJ_HEAD(krovak, "Krovak") "\n\tPCyl., Ellps.";
 
@@ -69,12 +69,9 @@ PROJ_HEAD(krovak, "Krovak") "\n\tPCyl., Ellps.";
 FORWARD(e_forward); /* ellipsoid */
 /* calculate xy from lat/lon */
 
-	char errmess[255];
-	char tmp[16];
-
 /* Constants, identical to inverse transform function */
 	double s45, s90, e2, e, alfa, uq, u0, g, k, k1, n0, ro0, ad, a, s0, n;
-	double gfi, u, fi0, lon17, lamdd, deltav, s, d, eps, ro;
+	double gfi, u, fi0, deltav, s, d, eps, ro;
 
 
 	s45 = 0.785398163397448;    /* 45° */
@@ -124,7 +121,7 @@ FORWARD(e_forward); /* ellipsoid */
 	xy.y = ro * cos(eps) / a;
 	xy.x = ro * sin(eps) / a;
 
-        if( !pj_param(P -> params, "tczech").i )
+        if( !pj_param(P->ctx, P->params, "tczech").i )
 	  {
 	    xy.y *= -1.0;
 	    xy.x *= -1.0;
@@ -140,7 +137,7 @@ INVERSE(e_inverse); /* ellipsoid */
 
 /* Constants, identisch wie in der Umkehrfunktion */
 	double s45, s90, fi0, e2, e, alfa, uq, u0, g, k, k1, n0, ro0, ad, a, s0, n;
-	double u, l24, lamdd, deltav, s, d, eps, ro, fi1, xy0, lon17;
+	double u, deltav, s, d, eps, ro, fi1, xy0;
 	int ok;
 
 	s45 = 0.785398163397448;    /* 45° */
@@ -179,7 +176,7 @@ INVERSE(e_inverse); /* ellipsoid */
 	xy.x=xy.y;
 	xy.y=xy0;
 
-        if( !pj_param(P -> params, "tczech").i )
+        if( !pj_param(P->ctx, P->params, "tczech").i )
 	  {
 	    xy.x *= -1.0;
 	    xy.y *= -1.0;
@@ -224,7 +221,7 @@ ENTRY0(krovak)
 	/* read some Parameters,
 	 * here Latitude Truescale */
 
-	ts = pj_param(P->params, "rlat_ts").f;
+	ts = pj_param(P->ctx, P->params, "rlat_ts").f;
 	P->C_x = ts;
 	
 	/* we want Bessel as fixed ellipsoid */
@@ -232,17 +229,17 @@ ENTRY0(krovak)
 	P->e = sqrt(P->es = 0.006674372230614);
 
         /* if latitude of projection center is not set, use 49d30'N */
-	if (!pj_param(P->params, "tlat_0").i)
+	if (!pj_param(P->ctx, P->params, "tlat_0").i)
             P->phi0 = 0.863937979737193; 
 
         /* if center long is not set use 42d30'E of Ferro - 17d40' for Ferro */
         /* that will correspond to using longitudes relative to greenwich    */
         /* as input and output, instead of lat/long relative to Ferro */
-	if (!pj_param(P->params, "tlon_0").i)
+	if (!pj_param(P->ctx, P->params, "tlon_0").i)
             P->lam0 = 0.7417649320975901 - 0.308341501185665;
 
         /* if scale not set default to 0.9999 */
-	if (!pj_param(P->params, "tk").i)
+	if (!pj_param(P->ctx, P->params, "tk").i)
             P->k0 = 0.9999;
 
 	/* always the same */

@@ -37,8 +37,10 @@ PJ_CVSID("$Id: pj_transform.c 1504 2009-01-06 02:11:57Z warmerdam $");
 #include <proj_api.h>
 #endif
 
-#ifdef _WIN32
+/* on win32 we always use win32 mutexes, even if pthreads are available */
+#if defined(_WIN32) && !defined(MUTEX_stub)
 #  define MUTEX_win32
+#  undef  MUTEX_pthread
 #endif
 
 #if !defined(MUTEX_stub) && !defined(MUTEX_pthread) && !defined(MUTEX_win32)
@@ -82,15 +84,6 @@ void pj_cleanup_lock()
 {
 }
 
-/************************************************************************/
-/*                            pj_init_lock()                            */
-/************************************************************************/
-
-static void pj_init_lock()
-
-{
-}
-
 #endif // def MUTEX_stub
 
 /************************************************************************/
@@ -103,7 +96,7 @@ static void pj_init_lock()
 
 #include "pthread.h"
 
-static pthread_mutex_t core_lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t pj_core_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /************************************************************************/
 /*                          pj_acquire_lock()                           */
@@ -113,7 +106,7 @@ static pthread_mutex_t core_lock = PTHREAD_MUTEX_INITIALIZER;
 
 void pj_acquire_lock()
 {
-    pthread_mutex_lock( &core_lock);
+    pthread_mutex_lock( &pj_core_lock);
 }
 
 /************************************************************************/
@@ -124,22 +117,13 @@ void pj_acquire_lock()
 
 void pj_release_lock()
 {
-    pthread_mutex_unlock( &core_lock );
+    pthread_mutex_unlock( &pj_core_lock );
 }
 
 /************************************************************************/
 /*                          pj_cleanup_lock()                           */
 /************************************************************************/
 void pj_cleanup_lock()
-{
-}
-
-/************************************************************************/
-/*                            pj_init_lock()                            */
-/************************************************************************/
-
-static void pj_init_lock()
-
 {
 }
 

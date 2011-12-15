@@ -1,4 +1,4 @@
-static const char RCS_ID[] = "$Id: PJ_lcca.c 1504 2009-01-06 02:11:57Z warmerdam $";
+static const char RCS_ID[] = "$Id: PJ_lcca.c 1856 2010-06-11 03:26:04Z warmerdam $";
 /* PROJ.4 Cartographic Projection System 
 */
 #define MAX_ITER 10
@@ -22,7 +22,7 @@ fSp(double S, double C) {
 	return(1. + 3.* S * S * C);
 }
 FORWARD(e_forward); /* ellipsoid */
-	double S, S3, r, dr;
+	double S, r, dr;
 	
 	S = pj_mlfn(lp.phi, sin(lp.phi), cos(lp.phi), P->en) - P->M0;
 	dr = fS(S, P->C);
@@ -46,7 +46,7 @@ INVERSE(e_inverse); /* ellipsoid & spheroid */
 		if (fabs(dif) < DEL_TOL) break;
 	}
 	if (!i) I_ERROR
-	lp.phi = pj_inv_mlfn(S + P->M0, P->es, P->en);
+	lp.phi = pj_inv_mlfn(P->ctx, S + P->M0, P->es, P->en);
 	return (lp);
 }
 FREEUP; if (P) { if (P->en) pj_dalloc(P->en); pj_dalloc(P); } }
@@ -54,7 +54,7 @@ ENTRY0(lcca)
 	double s2p0, N0, R0, tan0, tan20;
 
 	if (!(P->en = pj_enfn(P->es))) E_ERROR_0;
-	if (!pj_param(P->params, "tlat_0").i) E_ERROR(50);
+	if (!pj_param(P->ctx, P->params, "tlat_0").i) E_ERROR(50);
 	if (P->phi0 == 0.) E_ERROR(51);
 	P->l = sin(P->phi0);
 	P->M0 = pj_mlfn(P->phi0, P->l, cos(P->phi0), P->en);

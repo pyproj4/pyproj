@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PJ_aea.c 1504 2009-01-06 02:11:57Z warmerdam $
+ * $Id: PJ_aea.c 1856 2010-06-11 03:26:04Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Implementation of the aea (Albers Equal Area) projection.
@@ -43,7 +43,7 @@
 #define PJ_LIB__
 #include <projects.h>
 
-PJ_CVSID("$Id: PJ_aea.c 1504 2009-01-06 02:11:57Z warmerdam $");
+PJ_CVSID("$Id: PJ_aea.c 1856 2010-06-11 03:26:04Z warmerdam $");
 
 # define EPS10	1.e-10
 # define TOL7	1.e-7
@@ -153,10 +153,10 @@ setup(PJ *P) {
 	return P;
 }
 ENTRY1(aea,en)
-	P->phi1 = pj_param(P->params, "rlat_1").f;
-	P->phi2 = pj_param(P->params, "rlat_2").f;
+	P->phi1 = pj_param(P->ctx, P->params, "rlat_1").f;
+	P->phi2 = pj_param(P->ctx, P->params, "rlat_2").f;
 ENDENTRY(setup(P))
 ENTRY1(leac,en)
-	P->phi2 = pj_param(P->params, "rlat_1").f;
-	P->phi1 = pj_param(P->params, "bsouth").i ? - HALFPI: HALFPI;
+	P->phi2 = pj_param(P->ctx, P->params, "rlat_1").f;
+	P->phi1 = pj_param(P->ctx, P->params, "bsouth").i ? - HALFPI: HALFPI;
 ENDENTRY(setup(P))

@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_datum_set.c 1504 2009-01-06 02:11:57Z warmerdam $
+ * $Id: pj_datum_set.c 1856 2010-06-11 03:26:04Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Apply datum definition to PJ structure from initialization string.
@@ -37,7 +37,7 @@
 /*                            pj_datum_set()                            */
 /************************************************************************/
 
-int pj_datum_set(paralist *pl, PJ *projdef)
+int pj_datum_set(projCtx ctx, paralist *pl, PJ *projdef)
 
 {
     const char *name, *towgs84, *nadgrids;
@@ -54,7 +54,7 @@ int pj_datum_set(paralist *pl, PJ *projdef)
 /*      definition will last into the pj_ell_set() function called      */
 /*      after this one.                                                 */
 /* -------------------------------------------------------------------- */
-    if( (name = pj_param(pl,"sdatum").s) != NULL )
+    if( (name = pj_param(ctx, pl,"sdatum").s) != NULL )
     {
         paralist *curr;
         const char *s;
@@ -66,7 +66,7 @@ int pj_datum_set(paralist *pl, PJ *projdef)
         /* find the datum definition */
         for (i = 0; (s = pj_datums[i].id) && strcmp(name, s) ; ++i) {}
 
-        if (!s) { pj_errno = -9; return 1; }
+        if (!s) { pj_ctx_set_errno(ctx, -9); return 1; }
 
         if( pj_datums[i].ellipse_id && strlen(pj_datums[i].ellipse_id) > 0 )
         {
@@ -84,7 +84,7 @@ int pj_datum_set(paralist *pl, PJ *projdef)
 /* -------------------------------------------------------------------- */
 /*      Check for nadgrids parameter.                                   */
 /* -------------------------------------------------------------------- */
-    if( (nadgrids = pj_param(pl,"snadgrids").s) != NULL )
+    if( (nadgrids = pj_param(ctx, pl,"snadgrids").s) != NULL )
     {
         /* We don't actually save the value separately.  It will continue
            to exist int he param list for use in pj_apply_gridshift.c */
@@ -95,7 +95,7 @@ int pj_datum_set(paralist *pl, PJ *projdef)
 /* -------------------------------------------------------------------- */
 /*      Check for towgs84 parameter.                                    */
 /* -------------------------------------------------------------------- */
-    else if( (towgs84 = pj_param(pl,"stowgs84").s) != NULL )
+    else if( (towgs84 = pj_param(ctx, pl,"stowgs84").s) != NULL )
     {
         int    parm_count = 0;
         const char *s;

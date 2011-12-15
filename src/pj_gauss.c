@@ -4,7 +4,7 @@
 ** Copyright (c) 2003   Gerald I. Evenden
 */
 static const char
-LIBPROJ_ID[] = "$Id: pj_gauss.c 1504 2009-01-06 02:11:57Z warmerdam $";
+LIBPROJ_ID[] = "$Id: pj_gauss.c 1856 2010-06-11 03:26:04Z warmerdam $";
 /*
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -64,7 +64,7 @@ pj_gauss_ini(double e, double phi0, double *chi, double *rc) {
 	return ((void *)en);
 }
 	LP
-pj_gauss(LP elp, const void *en) {
+pj_gauss(projCtx ctx, LP elp, const void *en) {
 	LP slp;
 
 	slp.phi = 2. * atan( EN->K *
@@ -74,7 +74,7 @@ pj_gauss(LP elp, const void *en) {
 	return(slp);
 }
 	LP
-pj_inv_gauss(LP slp, const void *en) {
+pj_inv_gauss(projCtx ctx, LP slp, const void *en) {
 	LP elp;
 	double num;
 	int i;
@@ -89,6 +89,6 @@ pj_inv_gauss(LP slp, const void *en) {
 	}	
 	/* convergence failed */
 	if (!i)
-		pj_errno = -17;
+		pj_ctx_set_errno( ctx, -17 );
 	return (elp);
 }

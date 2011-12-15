@@ -22,7 +22,7 @@ pj_err_list[] = {
 	"latitude or longitude exceeded limits",	/* -14 */
 	"invalid x or y",				/* -15 */
 	"improperly formed DMS value",			/* -16 */
-	"non-convergent inverse meridinal dist",	/* -17 */
+	"non-convergent inverse meridional dist",	/* -17 */
 	"non-convergent inverse phi2",			/* -18 */
 	"acos/asin: |arg| >1.+1e-14",			/* -19 */
 	"tolerance condition error",			/* -20 */
@@ -43,7 +43,7 @@ pj_err_list[] = {
 	"invalid UTM zone number",			/* -35 */
 	"arg(s) out of range for Tcheby eval",		/* -36 */
 	"failed to find projection to be rotated",	/* -37 */
-	"failed to load NAD27-83 correction file",  	/* -38 */
+	"failed to load datum shift file",  	        /* -38 */
 	"both n & m must be spec'd and > 0",		/* -39 */
 	"n <= 0, n > 1 or not specified",		/* -40 */
 	"lat_1 or lat_2 not specified",			/* -41 */
@@ -52,6 +52,8 @@ pj_err_list[] = {
 	"unparseable coordinate system definition",	/* -44 */
 	"geocentric transformation missing z or ellps",	/* -45 */
 	"unknown prime meridian conversion id",		/* -46 */
+	"illegal axis orientation combination",		/* -47 */
+	"point not within available datum shift grids", /* -48 */
 };
 	char *
 pj_strerrno(int err) 

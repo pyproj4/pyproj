@@ -4,7 +4,7 @@
 ** Copyright (c) 2004   Gerald I. Evenden
 */
 static const char
-LIBPROJ_ID[] = "$Id: PJ_geos.c 1504 2009-01-06 02:11:57Z warmerdam $";
+LIBPROJ_ID[] = "$Id: PJ_geos.c 1856 2010-06-11 03:26:04Z warmerdam $";
 /*
 ** See also (section 4.4.3.2):
 **   http://www.eumetsat.int/en/area4/msg/news/us_doc/cgms_03_26.pdf
@@ -79,7 +79,7 @@ FORWARD(e_forward); /* ellipsoid */
 	return (xy);
 }
 INVERSE(s_inverse); /* spheroid */
-	double Vx, Vy, Vz, a, b, c, det, k;
+	double Vx, Vy, Vz, a, b, det, k;
 
 /* Setting three components of vector from satellite to position.*/
 	Vx = -1.0;
@@ -100,7 +100,7 @@ INVERSE(s_inverse); /* spheroid */
 	return (lp);
 }
 INVERSE(e_inverse); /* ellipsoid */
-	double Vx, Vy, Vz, a, b, c, det, k;
+	double Vx, Vy, Vz, a, b, det, k;
 
 /* Setting three components of vector from satellite to position.*/
 	Vx = -1.0;
@@ -124,7 +124,7 @@ INVERSE(e_inverse); /* ellipsoid */
 }
 FREEUP; if (P) free(P); }
 ENTRY0(geos)
-	if ((P->h = pj_param(P->params, "dh").f) <= 0.) E_ERROR(-30);
+	if ((P->h = pj_param(P->ctx, P->params, "dh").f) <= 0.) E_ERROR(-30);
 	if (P->phi0) E_ERROR(-46);
 	P->radius_g = 1. + (P->radius_g_1 = P->h / P->a);
 	P->C  = P->radius_g * P->radius_g - 1.0;

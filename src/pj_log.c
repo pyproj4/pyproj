@@ -1,13 +1,12 @@
 /******************************************************************************
- * $Id: PJ_aitoff.c 1856 2010-06-11 03:26:04Z warmerdam $
+ * $Id$
  *
  * Project:  PROJ.4
- * Purpose:  Implementation of the aitoff (Aitoff) and wintri (Winkel Tripel)
- *           projections.
- * Author:   Gerald Evenden
+ * Purpose:  Implementation of pj_log() function.
+ * Author:   Frank Warmerdam, warmerdam@pobox.com
  *
  ******************************************************************************
- * Copyright (c) 1995, Gerald Evenden
+ * Copyright (c) 2010, Frank Warmerdam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -28,49 +27,47 @@
  * DEALINGS IN THE SOFTWARE.
  *****************************************************************************/
 
-#define PROJ_PARMS__ \
-	double	cosphi1; \
-	int		mode;
-#define PJ_LIB__
 #include <projects.h>
+#include <string.h>
+#include <stdarg.h>
 
-PJ_CVSID("$Id: PJ_aitoff.c 1856 2010-06-11 03:26:04Z warmerdam $");
+PJ_CVSID("$Id$");
 
-PROJ_HEAD(aitoff, "Aitoff") "\n\tMisc Sph";
-PROJ_HEAD(wintri, "Winkel Tripel") "\n\tMisc Sph\n\tlat_1";
+/************************************************************************/
+/*                          pj_stderr_logger()                          */
+/************************************************************************/
 
-FORWARD(s_forward); /* spheroid */
-	double c, d;
+void pj_stderr_logger( void *app_data, int level, const char *msg )
 
-	if((d = acos(cos(lp.phi) * cos(c = 0.5 * lp.lam)))) {/* basic Aitoff */
-		xy.x = 2. * d * cos(lp.phi) * sin(c) * (xy.y = 1. / sin(d));
-		xy.y *= d * sin(lp.phi);
-	} else
-		xy.x = xy.y = 0.;
-	if (P->mode) { /* Winkel Tripel */
-		xy.x = (xy.x + lp.lam * P->cosphi1) * 0.5;
-		xy.y = (xy.y + lp.phi) * 0.5;
-	}
-	return (xy);
+{
+    fprintf( stderr, "%s\n", msg );
 }
-FREEUP; if (P) pj_dalloc(P); }
-	static PJ *
-setup(PJ *P) {
-	P->inv = 0;
-	P->fwd = s_forward;
-	P->es = 0.;
-	return P;
+
+/************************************************************************/
+/*                               pj_log()                               */
+/************************************************************************/
+
+void pj_log( projCtx ctx, int level, const char *fmt, ... )
+
+{
+    va_list args;
+    char *msg_buf;
+
+    if( level > ctx->debug_level )
+        return;
+
+    msg_buf = (char *) malloc(100000);
+    if( msg_buf == NULL )
+        return;
+
+    va_start( args, fmt );
+
+    /* we should use vsnprintf where available once we add configure detect.*/
+    vsprintf( msg_buf, fmt, args );
+
+    va_end( args );
+
+    ctx->logger( ctx->app_data, level, msg_buf );
+    
+    free( msg_buf );
 }
-ENTRY0(aitoff)
-	P->mode = 0;
-ENDENTRY(setup(P))
-ENTRY0(wintri)
-	P->mode = 1;
-	if (pj_param(P->ctx, P->params, "tlat_1").i)
-        {
-		if ((P->cosphi1 = cos(pj_param(P->ctx, P->params, "rlat_1").f)) == 0.)
-			E_ERROR(-22)
-        }
-	else /* 50d28' or acos(2/pi) */
-		P->cosphi1 = 0.636619772367581343;
-ENDENTRY(setup(P))

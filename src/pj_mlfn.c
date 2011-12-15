@@ -23,7 +23,7 @@
 pj_enfn(double es) {
 	double t, *en;
 
-	if (en = (double *)pj_malloc(EN_SIZE * sizeof(double))) {
+	if ((en = (double *)pj_malloc(EN_SIZE * sizeof(double))) != NULL) {
 		en[0] = C00 - es * (C02 + es * (C04 + es * (C06 + es * C08)));
 		en[1] = es * (C22 - es * (C04 + es * (C06 + es * C08)));
 		en[2] = (t = es * es) * (C44 - es * (C46 + es * C48));
@@ -40,7 +40,7 @@ pj_mlfn(double phi, double sphi, double cphi, double *en) {
 		+ sphi*(en[3] + sphi*en[4]))));
 }
 	double
-pj_inv_mlfn(double arg, double es, double *en) {
+pj_inv_mlfn(projCtx ctx, double arg, double es, double *en) {
 	double s, t, phi, k = 1./(1.-es);
 	int i;
 
@@ -52,6 +52,6 @@ pj_inv_mlfn(double arg, double es, double *en) {
 		if (fabs(t) < EPS)
 			return phi;
 	}
-	pj_errno = -17;
+	pj_ctx_set_errno( ctx, -17 );
 	return phi;
 }
