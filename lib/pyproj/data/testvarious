@@ -13,13 +13,12 @@ usage()
 }
 
 if test -z "${EXE}"; then
-    echo "*** ERROR: Missing path to 'cs2cs' program."
-    usage
-else
-    if test ! -x ${EXE}; then
-        echo "*** ERROR: Can not find '${EXE}' program!"
-        exit 1
-    fi
+    EXE=../src/cs2cs
+fi
+
+if test ! -x ${EXE}; then
+    echo "*** ERROR: Can not find '${EXE}' program!"
+    exit 1
 fi
 
 echo "============================================"
@@ -82,6 +81,22 @@ $EXE +proj=latlong +datum=WGS84 +pm=greenwich  \
 EOF
 #
 echo "##############################################################" >> ${OUT}
+echo Test support for the lon_wrap switch. >> ${OUT}
+#
+$EXE +proj=latlong +datum=WGS84  \
+ +to +proj=latlong +datum=WGS84 +lon_wrap=180 \
+ -E >>${OUT} <<EOF
+1d00'00.000"W 10d00'00.000"N 0.0
+0d00'00.000"W 10d00'00.000"N 0.0
+0d00'00.000"E 10d00'00.000"N 0.0
+1d00'00.000"E 45d00'00.000"N 0.0
+179d00'00.000"E 45d00'00.000"N 0.0
+181d00'00.000"E 45d00'00.000"N 0.0
+350d00'00.000"E 45d00'00.000"N 0.0
+370d00'00.000"E 45d00'00.000"N 0.0
+EOF
+#
+echo "##############################################################" >> ${OUT}
 echo Test simple prime meridian handling within a projection. >> ${OUT}
 #
 $EXE +proj=utm +zone=11 +datum=WGS84 +pm=3 \
@@ -95,10 +110,10 @@ echo Test geocentric x/y/z generation. >> ${OUT}
 $EXE +proj=latlong +datum=WGS84  \
  +to +proj=geocent +datum=WGS84  \
  -E >>${OUT} <<EOF
-0d00'00.000"W 0d00'00.000"N 0.0
-0d00'00.000"W 0d00'00.000"N 10.0
+0d00'00.001"W 0d00'00.001"N 0.0
+0d00'00.001"W 0d00'00.001"N 10.0
 79d00'00.000"W 45d00'00.000"N 0.0
-0d00'00.000"W 90d00'00.000"N 0.0
+45d00'00.000"W 89d59'59.990"N 0.0
 EOF
 #
 echo "##############################################################" >> ${OUT}
@@ -149,6 +164,136 @@ $EXE +proj=kav5 +ellps=WGS84 +units=m \
  +to +proj=latlong +ellps=WGS84 \
  -E >>${OUT} <<EOF
 383646.088858 5997047.888175
+EOF
+#
+echo "##############################################################" >> ${OUT}
+echo "Test RSO Borneo projection (re: ticket 62)" >> ${OUT}
+#
+$EXE +proj=latlong +a=6377298.556 +rf=300.8017 \
+ +to +proj=omerc +a=6377298.556 +rf=300.8017 +lat_0=4 +lonc=115 \
+                 +alpha=53d18\'56.9537 +gamma=53d7\'48.3685  +k_0=0.99984 \
+                 +x_0=590476.87 +y_0=442857.65 \
+ -E >>${OUT} <<EOF
+116d2'11.12630 5d54'19.90183
+EOF
+echo "##############################################################" >> ${OUT}
+echo "Test extended transverse mercator (#97)" >> ${OUT}
+#
+$EXE +proj=etmerc +k=0.998 +lon_0=-20 +datum=WGS84 +x_0=10000 +y_0=20000 \
+ +to +proj=latlong +datum=WGS84 \
+ -E >>${OUT} <<EOF
+10000 20000
+500000 2000000  
+1000000 2000000  
+2000000 2000000  
+4000000 2000000  
+EOF
+#
+echo "##############################################################" >> ${OUT}
+echo "Test extended transverse mercator inverse (#97)" >> ${OUT}
+#
+$EXE +proj=latlong +datum=WGS84 \
+ +to +proj=etmerc +k=0.998 +lon_0=-20 +datum=WGS84 +x_0=10000 +y_0=20000 \
+ -E >>${OUT} <<EOF
+0dN 0.000
+15d22'16.108"W	17d52'53.478"N 0.000  
+10d40'55.532"W	17d42'48.526"N 0.000  
+1d32'21.33"W	17d3'47.233"N 0.000  
+15d4'42.357"E	14d48'56.372"N 0.000  
+EOF
+#
+echo "##############################################################" >> ${OUT}
+echo "Test transverse mercator (#97)" >> ${OUT}
+#
+$EXE +proj=tmerc +k=0.998 +lon_0=-20 +datum=WGS84 +x_0=10000 +y_0=20000 \
+ +to +proj=latlong +datum=WGS84 \
+ -E >>${OUT} <<EOF
+10000 20000
+500000 2000000  
+1000000 2000000  
+2000000 2000000  
+4000000 2000000  
+EOF
+#
+echo "##############################################################" >> ${OUT}
+echo "Test transverse mercator inverse (#97)" >> ${OUT}
+#
+$EXE +proj=latlong +datum=WGS84 \
+ +to +proj=tmerc +k=0.998 +lon_0=-20 +datum=WGS84 +x_0=10000 +y_0=20000 \
+ -E >>${OUT} <<EOF
+0dN 0.000
+15d22'16.108"W	17d52'53.478"N 0.000  
+10d40'55.532"W	17d42'48.526"N 0.000  
+1d32'21.33"W	17d3'47.233"N 0.000  
+15d4'42.357"E	14d48'56.372"N 0.000  
+EOF
+#
+echo "##############################################################" >> ${OUT}
+echo "Test robinson projection (#113)" >> ${OUT}
+#
+$EXE +proj=latlong +datum=WGS84 \
+ +to +proj=robin +datum=WGS84 \
+ -E >>${OUT} <<EOF
+-30 40 
+-35 45
+EOF
+echo "##############################################################" >> ${OUT}
+echo "Test forward projection on sphere" >> ${OUT}
+$EXE +proj=latlong +a=1 +lon_0=0 \
+ +to +proj=healpix +a=1 +lon_0=0  -f '%.'5'f' \
+ -E >>${OUT} <<EOF
+0 41.81031
+-90 0
+EOF
+echo "Test inverse projection on sphere" >> ${OUT}
+$EXE +proj=latlong +a=1 +lon_0=0 \
+ +to +proj=healpix +a=1 +lon_0=0  -f '%.'5'f' -I\
+ -E >>${OUT} <<EOF
+0 0.7853981633974483
+-1.5707963267948966 0
+EOF
+echo "Test forward projection on ellipsoid" >> ${OUT}
+$EXE +proj=latlong +a=1 +lon_0=0 +ellps=WGS84 \
+ +to +proj=healpix +a=1 +lon_0=0 +ellps=WGS84 -f '%.'5'f' \
+ -E >>${OUT} <<EOF
+0 41.937853904844985
+-90 0
+EOF
+echo "Test inverse projection on ellipsoid" >> ${OUT}
+$EXE +proj=latlong +a=1 +lon_0=0 +ellps=WGS84 \
+ +to +proj=healpix +a=1 +lon_0=0 +ellps=WGS84 -f '%.'5'f' -I\
+ -E >>${OUT} <<EOF
+0 0.7853981633974483
+-1.5707963267948966 0
+EOF
+echo "##############################################################" >> ${OUT}
+echo "Test forward projection on sphere" >> ${OUT}
+$EXE +proj=latlong +a=1 +lon_0=0 \
+ +to +proj=rhealpix +a=1 +lon_0=0 +npole=0 +spole=0 -f '%.'5'f' \
+ -E >>${OUT} <<EOF
+0 41.81031
+-90 0
+EOF
+echo "Test inverse projection on sphere" >> ${OUT}
+$EXE +proj=latlong +a=1 +lon_0=0 \
+ +to +proj=rhealpix +a=1 +lon_0=0 +npole=0 +spole=0 -f '%.'5'f' -I\
+ -E >>${OUT} <<EOF
+0 0.7853981633974483
+-1.5707963267948966 0
+EOF
+echo "Test forward projection on ellipsoid" >> ${OUT}
+$EXE +proj=latlong +a=1 +lon_0=0 +ellps=WGS84 \
+ +to +proj=rhealpix +a=1 +lon_0=0 +ellps=WGS84 +npole=0 +spole=0 -f '%.'5'f' \
+ -E >>${OUT} <<EOF
+0 41.937853904844985
+-90 0
+EOF
+echo "Test inverse projection on ellipsoid" >> ${OUT}
+$EXE +proj=latlong +a=1 +lon_0=0 +ellps=WGS84 \
+ +to +proj=rhealpix +a=1 +lon_0=0 -I +ellps=WGS84 +npole=0 +spole=0 -f '%.'5'f'\
+ -E >>${OUT} <<EOF
+0 0.7853981633974483
+-1.5707963267948966 0
 EOF
 #
 ##############################################################################
