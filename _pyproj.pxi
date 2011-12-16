@@ -37,7 +37,8 @@ cdef extern from "geodesic.h":
     int geod_inv(GEODESIC_T *g)
 
 cdef extern from "proj_api.h":
-    ctypedef double *projPJ
+    ctypedef void *projPJ
+    ctypedef void *projCtx
     projPJ pj_init_plus(char *)
     projUV pj_fwd(projUV, projPJ)
     projUV pj_inv(projUV, projPJ)
@@ -46,9 +47,10 @@ cdef extern from "proj_api.h":
     int pj_is_latlong(projPJ)
     int pj_is_geocent(projPJ)
     char *pj_strerrno(int)
+    int pj_ctx_get_errno( projCtx )
+    projCtx pj_get_default_ctx()
     void pj_free(projPJ)
     void pj_set_searchpath ( int count, char **path )
-    cdef extern int pj_errno
     cdef enum:
         PJ_VERSION
 

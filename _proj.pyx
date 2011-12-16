@@ -18,13 +18,15 @@ cdef class Proj:
 
     def __cinit__(self, projstring):
         # setup proj initialization string.
+        cdef int err
         self.srs = projstring
         bytestr = _strencode(projstring)
         self.pjinitstring = bytestr
         # initialize projection
         self.projpj = pj_init_plus(self.pjinitstring)
-        if pj_errno != 0:
-            raise RuntimeError(pj_strerrno(pj_errno))
+        err = pj_ctx_get_errno(pj_get_default_ctx())
+        if err != 0:
+             raise RuntimeError(pj_strerrno(err))
         self.proj_version = PJ_VERSION/100.
 
     def __dealloc__(self):
@@ -48,6 +50,7 @@ cdef class Proj:
         cdef double u, v
         cdef double *lonsdata, *latsdata
         cdef void *londata, *latdata
+        cdef int err
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:
             raise RuntimeError
@@ -73,8 +76,10 @@ cdef class Proj:
                 projlonlatin.u = _dg2rad*lonsdata[i]
                 projlonlatin.v = _dg2rad*latsdata[i]
             projxyout = pj_fwd(projlonlatin,self.projpj)
-            if errcheck and pj_errno != 0:
-                raise RuntimeError(pj_strerrno(pj_errno))
+            if errcheck:
+                err = pj_ctx_get_errno(pj_get_default_ctx())
+                if err != 0:
+                     raise RuntimeError(pj_strerrno(err))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -128,8 +133,10 @@ cdef class Proj:
             projxyin.u = xdatab[i]
             projxyin.v = ydatab[i]
             projlonlatout = pj_inv(projxyin,self.projpj)
-            if errcheck and pj_errno != 0:
-                raise RuntimeError(pj_strerrno(pj_errno))
+            if errcheck:
+                err = pj_ctx_get_errno(pj_get_default_ctx())
+                if err != 0:
+                     raise RuntimeError(pj_strerrno(err))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -165,6 +172,7 @@ cdef class Proj:
 #       """
 #       cdef projUV projxyout, projlonlatin
 #       cdef projUV *llptr
+#       cdef int err
 #       cdef Py_ssize_t npts, i
 #       npts = c_numpy.PyArray_SIZE(lonlat)//2
 #       llptr = <projUV *>lonlat.data
@@ -176,8 +184,10 @@ cdef class Proj:
 #               projlonlatin.v = _dg2rad*llptr[i].v
 #           projxyout = pj_fwd(projlonlatin,self.projpj)
 
-#           if errcheck and pj_errno != 0:
-#               raise RuntimeError(pj_strerrno(pj_errno))
+#           if errcheck:
+#               err = pj_ctx_get_errno(pj_get_default_ctx())
+#               if err != 0:
+#                    raise RuntimeError(pj_strerrno(err))
 #           # since HUGE_VAL can be 'inf',
 #           # change it to a real (but very large) number.
 #           if projxyout.u == HUGE_VAL:
@@ -207,8 +217,10 @@ cdef class Proj:
 #       for i from 0 <= i < npts:
 #           projxyin = llptr[i]
 #           projlonlatout = pj_inv(projxyin, self.projpj)
-#           if errcheck and pj_errno != 0:
-#               raise RuntimeError(pj_strerrno(pj_errno))
+#           if errcheck:
+#               err = pj_ctx_get_errno(pj_get_default_ctx())
+#               if err != 0:
+#                    raise RuntimeError(pj_strerrno(err))
 #           # since HUGE_VAL can be 'inf',
 #           # change it to a real (but very large) number.
 #           if projlonlatout.u == HUGE_VAL:
@@ -247,6 +259,7 @@ def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
     cdef void *xdata, *ydata, *zdata
     cdef double *xx, *yy, *zz
     cdef Py_ssize_t buflenx, bufleny, buflenz, npts, i
+    cdef int err
     if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
         raise RuntimeError
     if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:
@@ -268,11 +281,11 @@ def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
             xx[i] = xx[i]*_dg2rad
             yy[i] = yy[i]*_dg2rad
     if inz is not None:
-        ierr = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, zz)
+        err = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, zz)
     else:
-        ierr = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, NULL)
-    if ierr != 0:
-        raise RuntimeError(pj_strerrno(ierr))
+        err = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, NULL)
+    if err != 0:
+        raise RuntimeError(pj_strerrno(err))
     if not radians and p2.is_latlong():
         for i from 0 <= i < npts:
             xx[i] = xx[i]*_rad2dg

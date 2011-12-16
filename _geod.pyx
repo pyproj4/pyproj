@@ -10,14 +10,16 @@ cdef class Geod:
 
     def __cinit__(self, geodstring):
         cdef GEODESIC_T GEOD_T
+        cdef int err
         # setup geod initialization string.
         self.geodstring = geodstring
         bytestr = _strencode(geodstring)
         self.geodinitstring = bytestr
         # initialize projection
         self.geodesic_t = GEOD_init_plus(self.geodinitstring, &GEOD_T)[0]
-        if pj_errno != 0:
-            raise RuntimeError(pj_strerrno(pj_errno))
+        err = pj_ctx_get_errno(pj_get_default_ctx())
+        if err != 0:
+             raise RuntimeError(pj_strerrno(err))
         self.proj_version = PJ_VERSION/100.
 
     def __reduce__(self):
@@ -34,6 +36,7 @@ cdef class Geod:
         cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
         cdef double *lonsdata, *latsdata, *azdata, *distdata
         cdef void *londata, *latdata, *azdat, *distdat
+        cdef int err
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
             raise RuntimeError
@@ -63,11 +66,13 @@ cdef class Geod:
                 self.geodesic_t.ALPHA12 = _dg2rad*azdata[i]
                 self.geodesic_t.DIST = distdata[i]
             geod_pre(&self.geodesic_t)
-            if pj_errno != 0:
-                raise RuntimeError(pj_strerrno(pj_errno))
+            err = pj_ctx_get_errno(pj_get_default_ctx())
+            if err != 0:
+                 raise RuntimeError(pj_strerrno(err))
             geod_for(&self.geodesic_t)
-            if pj_errno != 0:
-                raise RuntimeError(pj_strerrno(pj_errno))
+            err = pj_ctx_get_errno(pj_get_default_ctx())
+            if err != 0:
+                 raise RuntimeError(pj_strerrno(err))
             # check for NaN.
             if self.geodesic_t.ALPHA21 != self.geodesic_t.ALPHA21:
                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
@@ -89,6 +94,7 @@ cdef class Geod:
         cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
         cdef double *lonsdata, *latsdata, *azdata, *distdata
         cdef void *londata, *latdata, *azdat, *distdat
+        cdef int err
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:
             raise RuntimeError
@@ -121,8 +127,9 @@ cdef class Geod:
             geod_inv(&self.geodesic_t)
             if self.geodesic_t.DIST != self.geodesic_t.DIST: # check for NaN
                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
-            if pj_errno != 0:
-                raise RuntimeError(pj_strerrno(pj_errno))
+            err = pj_ctx_get_errno(pj_get_default_ctx())
+            if err != 0:
+                 raise RuntimeError(pj_strerrno(err))
             if radians:
                 lonsdata[i] = self.geodesic_t.ALPHA12
                 latsdata[i] = self.geodesic_t.ALPHA21
