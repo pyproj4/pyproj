@@ -40,6 +40,7 @@ cdef extern from "proj_api.h":
     ctypedef void *projPJ
     ctypedef void *projCtx
     projPJ pj_init_plus(char *)
+    projPJ pj_init_plus_ctx(projCtx, char *)
     projUV pj_fwd(projUV, projPJ)
     projUV pj_inv(projUV, projPJ)
     int pj_transform(projPJ src, projPJ dst, long point_count, int point_offset,
@@ -47,7 +48,9 @@ cdef extern from "proj_api.h":
     int pj_is_latlong(projPJ)
     int pj_is_geocent(projPJ)
     char *pj_strerrno(int)
+    void pj_ctx_free( projCtx )
     int pj_ctx_get_errno( projCtx )
+    projCtx pj_ctx_alloc()
     projCtx pj_get_default_ctx()
     void pj_free(projPJ)
     void pj_set_searchpath ( int count, char **path )

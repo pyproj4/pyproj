@@ -12,6 +12,7 @@ def set_datapath(datapath):
     
 cdef class Proj:
     cdef projPJ projpj
+    cdef projCtx projctx
     cdef public object proj_version
     cdef char *pjinitstring
     cdef public object srs
@@ -23,8 +24,9 @@ cdef class Proj:
         bytestr = _strencode(projstring)
         self.pjinitstring = bytestr
         # initialize projection
-        self.projpj = pj_init_plus(self.pjinitstring)
-        err = pj_ctx_get_errno(pj_get_default_ctx())
+        self.projctx = pj_ctx_alloc()
+        self.projpj = pj_init_plus_ctx(self.projctx, self.pjinitstring)
+        err = pj_ctx_get_errno(self.projctx)
         if err != 0:
              raise RuntimeError(pj_strerrno(err))
         self.proj_version = PJ_VERSION/100.
@@ -32,6 +34,7 @@ cdef class Proj:
     def __dealloc__(self):
         """destroy projection definition"""
         pj_free(self.projpj)
+        pj_ctx_free(self.projctx)
 
     def __reduce__(self):
         """special method that allows pyproj.Proj instance to be pickled"""
@@ -77,7 +80,7 @@ cdef class Proj:
                 projlonlatin.v = _dg2rad*latsdata[i]
             projxyout = pj_fwd(projlonlatin,self.projpj)
             if errcheck:
-                err = pj_ctx_get_errno(pj_get_default_ctx())
+                err = pj_ctx_get_errno(self.projctx)
                 if err != 0:
                      raise RuntimeError(pj_strerrno(err))
             # since HUGE_VAL can be 'inf',
@@ -134,7 +137,7 @@ cdef class Proj:
             projxyin.v = ydatab[i]
             projlonlatout = pj_inv(projxyin,self.projpj)
             if errcheck:
-                err = pj_ctx_get_errno(pj_get_default_ctx())
+                err = pj_ctx_get_errno(self.projctx)
                 if err != 0:
                      raise RuntimeError(pj_strerrno(err))
             # since HUGE_VAL can be 'inf',
@@ -185,7 +188,7 @@ cdef class Proj:
 #           projxyout = pj_fwd(projlonlatin,self.projpj)
 
 #           if errcheck:
-#               err = pj_ctx_get_errno(pj_get_default_ctx())
+#               err = pj_ctx_get_errno(self.projctx)
 #               if err != 0:
 #                    raise RuntimeError(pj_strerrno(err))
 #           # since HUGE_VAL can be 'inf',
@@ -218,7 +221,7 @@ cdef class Proj:
 #           projxyin = llptr[i]
 #           projlonlatout = pj_inv(projxyin, self.projpj)
 #           if errcheck:
-#               err = pj_ctx_get_errno(pj_get_default_ctx())
+#               err = pj_ctx_get_errno(self.projctx)
 #               if err != 0:
 #                    raise RuntimeError(pj_strerrno(err))
 #           # since HUGE_VAL can be 'inf',
