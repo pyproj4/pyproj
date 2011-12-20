@@ -1,38 +1,62 @@
-# Make changes to this file, not the c-wrappers that Pyrex generates.
+import math
 
-include "_pyproj.pxi"
+cdef double _dg2rad, _rad2dg 
+
+_dg2rad = math.radians(1.)
+_rad2dg = math.degrees(1.)
+_doublesize = sizeof(double)
+
+cdef extern from "Python.h":
+    int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
+
+cdef extern from "project.h":
+    # Earth's elliptical constants.
+    # Element  a units, typically meters, defines the units for
+    # all other length elements.
+    ctypedef struct PROJ_ELLIPS:
+        double a # semi-major axis or sphere radius
+        double f # ellpsoid flattening, if == 0 then sphere
+        double es # eccentricity squared, if == 0 then sphere
+        double one_es # 1-es 
+    # 3D Geographic coordinate 
+    ctypedef struct PROJ_PT_LPH:
+        double lam # longitude in radians
+        double phi # latitude in radians
+        double h # height above the ellpsoid
+    # Geodesic line structure
+    # Azimuths in radians clockwise from North.  Distance units the
+    # same as element a in structure ellps.
+    ctypedef struct PROJ_LINE:
+        PROJ_PT_LPH *pt1 # pointer to geographic coord of first location
+        double az12 # azimuth from pt1 to pt2 (forward) 
+        PROJ_PT_LPH *pt2 # pointer to geographic coord of second location
+        double az21 #  azimuth from pt2 to pt1 (back)
+        double S # geodetic distance between points
+        PROJ_ELLIPS *E # pointer to ellpsoid constants
+    void proj_sp_inv(PROJ_LINE * A)
+    void proj_sp_fwd(PROJ_LINE * A)
+    void proj_in_fwd(PROJ_LINE * A)
+    void proj_in_inv(PROJ_LINE * A)
 
 cdef class Geod:
-    cdef GEODESIC_T geodesic_t
-    cdef public object geodstring
-    cdef public object proj_version
-    cdef char *geodinitstring
+    cdef PROJ_LINE arc
+    cdef PROJ_ELLIPS ellps
+    cdef PROJ_PT_LPH pt1, pt2
 
-    def __cinit__(self, geodstring):
-        cdef GEODESIC_T GEOD_T
-        cdef int err
-        # setup geod initialization string.
-        self.geodstring = geodstring
-        bytestr = _strencode(geodstring)
-        self.geodinitstring = bytestr
-        # initialize projection
-        self.geodesic_t = GEOD_init_plus(self.geodinitstring, &GEOD_T)[0]
-        err = pj_ctx_get_errno(pj_get_default_ctx())
-        if err != 0:
-             raise RuntimeError(pj_strerrno(err))
-        self.proj_version = PJ_VERSION/100.
+    def __cinit__(self, object a, object f, object es, object sphere):
+        self.sphere = sphere
+        self.ellps.a = a
+        self.ellps.f = f
+        self.ellps.es = es
+        self.ellps.one_es = 1.-es
+        self.arc.E = &self.ellps
 
     def __reduce__(self):
         """special method that allows pyproj.Geod instance to be pickled"""
-        return (self.__class__,(self.geodstring,))
+        initstring = '+a=%s +f=%s +es=%s' % (self.a, self.f, self.es)
+        return (self.__class__,(initstring,))
 
-    def _fwd(self, object lons, object lats, object az, object dist, radians=False):
-        """
- forward transformation - determine longitude, latitude and back azimuth 
- of a terminus point given an initial point longitude and latitude, plus
- forward azimuth and distance.
- if radians=True, lons/lats are radians instead of degrees.
-        """
+    def _fwd(self, lons, lats, az, dist, radians=False):
         cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
         cdef double *lonsdata, *latsdata, *azdata, *distdata
         cdef void *londata, *latdata, *azdat, *distdat
@@ -56,34 +80,38 @@ cdef class Geod:
         distdata = <double *>distdat
         for i from 0 <= i < ndim:
             if radians:
-                self.geodesic_t.p1.v = lonsdata[i]
-                self.geodesic_t.p1.u = latsdata[i]
-                self.geodesic_t.ALPHA12 = azdata[i]
-                self.geodesic_t.DIST = distdata[i]
+                self.pt1.lam = lonsdata[i]
+                self.pt1.phi = latsdata[i]
+                self.pt1.h = 0.
+                self.arc.pt1 = &self.pt1
+                self.arc.az12 = azdata[i]
+                self.arc.S = distdata[i]
             else:
-                self.geodesic_t.p1.v = _dg2rad*lonsdata[i]
-                self.geodesic_t.p1.u = _dg2rad*latsdata[i]
-                self.geodesic_t.ALPHA12 = _dg2rad*azdata[i]
-                self.geodesic_t.DIST = distdata[i]
-            geod_pre(&self.geodesic_t)
-            err = pj_ctx_get_errno(pj_get_default_ctx())
-            if err != 0:
-                 raise RuntimeError(pj_strerrno(err))
-            geod_for(&self.geodesic_t)
-            err = pj_ctx_get_errno(pj_get_default_ctx())
-            if err != 0:
-                 raise RuntimeError(pj_strerrno(err))
-            # check for NaN.
-            if self.geodesic_t.ALPHA21 != self.geodesic_t.ALPHA21:
-                raise ValueError('undefined inverse geodesic (may be an antipodal point)')
+                self.pt1.lam = _dg2rad*lonsdata[i]
+                self.pt1.phi = _dg2rad*latsdata[i]
+                self.pt1.h = 0.
+                self.arc.pt1 = &self.pt1
+                self.arc.az12 = _dg2rad*azdata[i]
+                self.arc.S = distdata[i]
+# Computes the location of the second point in the structure
+# based on the first point's location and the distance and
+# forward azumuth
+            if self.sphere:
+                proj_sp_fwd(&self.arc)
+            else:
+                proj_in_fwd(&self.arc)
             if radians:
-                lonsdata[i] = self.geodesic_t.p2.v
-                latsdata[i] = self.geodesic_t.p2.u
-                azdata[i] = self.geodesic_t.ALPHA21
+                self.pt2.lam = self.arc.pt2.lam
+                self.pt2.phi = self.arc.pt2.phi
+                lonsdata[i] = self.pt2.lam
+                latsdata[i] = self.pt2.phi
+                azdata[i] = self.arc.az21
             else:
-                lonsdata[i] = _rad2dg*self.geodesic_t.p2.v
-                latsdata[i] = _rad2dg*self.geodesic_t.p2.u
-                azdata[i] = _rad2dg*self.geodesic_t.ALPHA21
+                self.pt2.lam = _rad2dg*self.arc.pt2.lam
+                self.pt2.phi = _rad2dg*self.arc.pt2.phi
+                lonsdata[i] = self.pt2.lam
+                latsdata[i] = self.pt2.phi
+                azdata[i] = _rad2dg*self.arc.az21
 
     def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):
         """
@@ -115,28 +143,34 @@ cdef class Geod:
         errmsg = 'undefined inverse geodesic (may be an antipodal point)'
         for i from 0 <= i < ndim:
             if radians:
-                self.geodesic_t.p1.v = lonsdata[i]
-                self.geodesic_t.p1.u = latsdata[i]
-                self.geodesic_t.p2.v = azdata[i]
-                self.geodesic_t.p2.u = distdata[i]
+                self.pt1.lam = lonsdata[i]
+                self.pt1.phi = latsdata[i]
+                self.pt1.h = 0.
+                self.pt2.lam = azdata[i]
+                self.pt2.phi = distdata[i]
+                self.arc.pt1 = &self.pt1
+                self.arc.pt2 = &self.pt2
             else:
-                self.geodesic_t.p1.v = _dg2rad*lonsdata[i]
-                self.geodesic_t.p1.u = _dg2rad*latsdata[i]
-                self.geodesic_t.p2.v = _dg2rad*azdata[i]
-                self.geodesic_t.p2.u = _dg2rad*distdata[i]
-            geod_inv(&self.geodesic_t)
-            if self.geodesic_t.DIST != self.geodesic_t.DIST: # check for NaN
-                raise ValueError('undefined inverse geodesic (may be an antipodal point)')
-            err = pj_ctx_get_errno(pj_get_default_ctx())
-            if err != 0:
-                 raise RuntimeError(pj_strerrno(err))
+                self.pt1.lam = _dg2rad*lonsdata[i]
+                self.pt1.phi = _dg2rad*latsdata[i]
+                self.pt1.h = 0.
+                self.pt2.lam = _dg2rad*azdata[i]
+                self.pt2.phi = _dg2rad*distdata[i]
+                self.arc.pt1 = &self.pt1
+                self.arc.pt2 = &self.pt2
+# Computes distance, forward and back azimuths in structure
+# for the two end points of the geodesic line
+            if self.sphere:
+                proj_sp_inv(&self.arc)
+            else:
+                proj_in_inv(&self.arc)
             if radians:
-                lonsdata[i] = self.geodesic_t.ALPHA12
-                latsdata[i] = self.geodesic_t.ALPHA21
+                lonsdata[i] = self.arc.az12
+                latsdata[i] = self.arc.az21
             else:
-                lonsdata[i] = _rad2dg*self.geodesic_t.ALPHA12
-                latsdata[i] = _rad2dg*self.geodesic_t.ALPHA21
-            azdata[i] = self.geodesic_t.DIST
+                lonsdata[i] = _rad2dg*self.arc.az12
+                latsdata[i] = _rad2dg*self.arc.az21
+            azdata[i] = self.arc.S
 
     def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, radians=False):
         """
@@ -144,39 +178,41 @@ cdef class Geod:
         cdef int i
         cdef double del_s
         if radians:
-            self.geodesic_t.p1.v = lon1
-            self.geodesic_t.p1.u = lat1
-            self.geodesic_t.p2.v = lon2
-            self.geodesic_t.p2.u = lat2
+            self.pt1.lam = lon1
+            self.pt1.phi = lat1
+            self.pt1.h = 0.
+            self.pt2.lam = lon2     
+            self.pt2.phi = lat2       
+            self.arc.pt1 = &self.pt1
+            self.arc.pt2 = &self.pt2
         else:
-            self.geodesic_t.p1.v = _dg2rad*lon1
-            self.geodesic_t.p1.u = _dg2rad*lat1
-            self.geodesic_t.p2.v = _dg2rad*lon2
-            self.geodesic_t.p2.u = _dg2rad*lat2
-        # do inverse computation to set azimuths, distance.
-        geod_inv(&self.geodesic_t)
-        # set up some constants needed for forward computation.
-        geod_pre(&self.geodesic_t)
+            self.pt1.lam = _dg2rad*lon1
+            self.pt1.phi = _dg2rad*lat1
+            self.pt1.h = 0.
+            self.pt2.lam = _dg2rad*lon2
+            self.pt2.phi = _dg2rad*lat2
+            self.arc.pt1 = &self.pt1
+            self.arc.pt2 = &self.pt2
+        if self.sphere:
+            proj_sp_inv(&self.arc)
+        else:
+            proj_in_inv(&self.arc)
         # distance increment.
-        del_s = self.geodesic_t.DIST/(npts+1)
+        del_s = self.arc.S/(npts+1)
         # initialize output tuples.
         lats = ()
         lons = ()
         # loop over intermediate points, compute lat/lons.
         for i from 1 <= i < npts+1:
-            self.geodesic_t.DIST = i*del_s
-            geod_for(&self.geodesic_t)
-            if radians:
-                lats = lats + (self.geodesic_t.p2.u,)
-                lons = lons + (self.geodesic_t.p2.v,)
+            self.arc.S = i*del_s
+            if self.sphere:
+                proj_sp_fwd(&self.arc)
             else:
-                lats = lats + (_rad2dg*self.geodesic_t.p2.u,)
-                lons = lons + (_rad2dg*self.geodesic_t.p2.v,)
+                proj_in_fwd(&self.arc)
+            if radians:
+                lats = lats + (self.pt2.phi,)
+                lons = lons + (self.pt2.lam.v,)
+            else:
+                lats = lats + (_rad2dg*self.pt2.phi,)
+                lons = lons + (_rad2dg*self.pt2.lam,)
         return lons, lats   
-
-cdef _strencode(pystr,encoding='ascii'):
-    # encode a string into bytes.  If already bytes, do nothing.
-    try:
-        return pystr.encode(encoding)
-    except AttributeError:
-        return pystr # already bytes?
