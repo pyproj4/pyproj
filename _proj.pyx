@@ -1,5 +1,3 @@
-# Make changes to this file, not the c-wrappers that Pyrex generates.
-
 #cimport c_numpy
 #c_numpy.import_array()
 
@@ -49,7 +47,7 @@ def set_datapath(datapath):
     bytestr = _strencode(datapath)
     searchpath = bytestr
     pj_set_searchpath(1, &searchpath)
-    
+
 cdef class Proj:
     cdef projPJ projpj
     cdef projCtx projctx
