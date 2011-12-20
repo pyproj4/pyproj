@@ -378,6 +378,8 @@ void proj_in_inv(PROJ_LINE * A) {
 	A->az12 += (2. * M_PI);
     if (A->az21 < 0.)
 	A->az21 += (2. * M_PI);
+    A->az12 = proj_adjlon(A->az12);
+    A->az21 = proj_adjlon(A->az21);
     return;
 }
 
