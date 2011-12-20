@@ -86,6 +86,8 @@ void proj_sp_inv(PROJ_LINE * A) {
     A->az21 = -atan2(c0 * shp, c1 * s0 - s1 * c0 * shl);
     if (A->az21 < 0.)
 	A->az21 += 2.*M_PI;
+    A->az12 = proj_adjlon(A->az12);
+    A->az21 = proj_adjlon(A->az21);
 }
 
 /*
