@@ -1,4 +1,4 @@
-1.9.0 (svn revision 263)
+1.9.0 (svn revision 264)
  * use geodesic computation code from libproject-1.01
  (http://home.comcast.net/~gevenden56/proj/), instead of proj4.
  * don't use global variable pj_errno for return codes, use pj_ctx_get_errno

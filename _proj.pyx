@@ -1,8 +1,53 @@
 # Make changes to this file, not the c-wrappers that Pyrex generates.
 
-include "_pyproj.pxi"
 #cimport c_numpy
 #c_numpy.import_array()
+
+import math
+
+cdef double _dg2rad, _rad2dg 
+
+_dg2rad = math.radians(1.)
+_rad2dg = math.degrees(1.)
+_doublesize = sizeof(double)
+__version__ = "1.9.0"
+
+cdef extern from "stdlib.h":
+    ctypedef long size_t
+    void *malloc(size_t size)
+    void free(void *ptr)
+
+cdef extern from "math.h":
+    cdef enum:
+        HUGE_VAL
+        FP_NAN
+
+cdef extern from "proj_api.h":
+    ctypedef struct projUV:
+        double u
+        double v
+    ctypedef void *projPJ
+    ctypedef void *projCtx
+    projPJ pj_init_plus(char *)
+    projPJ pj_init_plus_ctx(projCtx, char *)
+    projUV pj_fwd(projUV, projPJ)
+    projUV pj_inv(projUV, projPJ)
+    int pj_transform(projPJ src, projPJ dst, long point_count, int point_offset,
+                     double *x, double *y, double *z)
+    int pj_is_latlong(projPJ)
+    int pj_is_geocent(projPJ)
+    char *pj_strerrno(int)
+    void pj_ctx_free( projCtx )
+    int pj_ctx_get_errno( projCtx )
+    projCtx pj_ctx_alloc()
+    projCtx pj_get_default_ctx()
+    void pj_free(projPJ)
+    void pj_set_searchpath ( int count, char **path )
+    cdef enum:
+        PJ_VERSION
+
+cdef extern from "Python.h":
+    int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
 
 def set_datapath(datapath):
     cdef char *searchpath
