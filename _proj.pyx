@@ -12,11 +12,6 @@ _rad2dg = math.degrees(1.)
 _doublesize = sizeof(double)
 __version__ = "1.9.0"
 
-cdef extern from "stdlib.h":
-    ctypedef long size_t
-    void *malloc(size_t size)
-    void free(void *ptr)
-
 cdef extern from "math.h":
     cdef enum:
         HUGE_VAL
