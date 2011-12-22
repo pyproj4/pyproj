@@ -85,6 +85,8 @@ void proj_in_fwd(PROJ_LINE * A) {
     d = ((e * cy * c + cz) * sy * c + y) * sa;
     A->pt2->lam = A->pt1->lam + x - (1.0 - c) * d * flat;
     A->az21 = atan2(sa, A->az21) + M_PI;
+    A->az12 = proj_adjlon(A->az12);
+    A->az21 = proj_adjlon(A->az21);
     return;
 }
 

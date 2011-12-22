@@ -62,6 +62,8 @@ void proj_sp_fwd(PROJ_LINE * A) {
 		    cos(A->pt2->phi) * sp - sin(A->pt2->phi) * cp * cos(dl));
     if (fabs(A->pt2->lam) > M_PI)
 	A->pt2->lam -= copysign(2.*M_PI, A->pt2->lam);
+    A->az12 = proj_adjlon(A->az12);
+    A->az21 = proj_adjlon(A->az21);
 }
 
 /*
