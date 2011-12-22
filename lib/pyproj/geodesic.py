@@ -895,6 +895,8 @@ class Geodesic(object):
   def CheckPosition(lat, lon):
     if not (abs(lat) <= 90):
       raise ValueError("latitude " + str(lat) + " not in [-90, 90]")
+    if lon > 360.: lon = lon - 360.
+    if lon < -180: lon = lon + 360.
     if not (lon >= -180 and lon <= 360):
       raise ValueError("longitude " + str(lon) + " not in [-180, 360]")
     return Geodesic.AngNormalize(lon)
