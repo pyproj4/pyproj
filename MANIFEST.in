@@ -4,9 +4,7 @@ include LICENSE_proj4
 include Changelog
 include create_docs.sh
 include _proj.pyx
-include _geod.pyx
 include _proj.c
-include _geod.c
 include nad2bin.c
 include src/*.c
 include src/*.h

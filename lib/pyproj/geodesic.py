@@ -901,6 +901,8 @@ class Geodesic(object):
   CheckPosition = staticmethod(CheckPosition)
 
   def CheckAzimuth(azi):
+    if azi > 360.: azi = azi - 360.
+    if azi < -180: azi = azi + 360.
     if not (azi >= -180 and azi <= 360):
       raise ValueError("azimuth " + str(azi) + " not in [-180, 360]")
     return Geodesic.AngNormalize(azi)

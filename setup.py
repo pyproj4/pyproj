@@ -4,9 +4,6 @@ from distutils.core import setup, Extension
 
 deps = glob.glob('src/*.c')
 extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
-deps = glob.glob('geodesic/*.c')
-extensions.append(Extension("pyproj._geod",deps+['_geod.c'],\
-        include_dirs = ['geodesic']))
 
 # create binary datum shift grid files.
 pathout = os.path.join('lib',os.path.join('pyproj','data'))
