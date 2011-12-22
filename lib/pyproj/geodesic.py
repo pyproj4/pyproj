@@ -25,9 +25,9 @@
 ######################################################################
 
 import math
-from geomath import Math
-from constants import Constants
-from geodesiccapability import GeodesicCapability
+from pyproj.geomath import Math
+from pyproj.constants import Constants
+from pyproj.geodesiccapability import GeodesicCapability
 
 class Geodesic(object):
   """

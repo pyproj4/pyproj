@@ -25,14 +25,14 @@
 ######################################################################
 
 import math
-from geomath import Math
-from geodesiccapability import GeodesicCapability
+from pyproj.geomath import Math
+from pyproj.geodesiccapability import GeodesicCapability
 
 class GeodesicLine(object):
   """Points on a geodesic path"""
 
   def __init__(self, geod, lat1, lon1, azi1, caps = GeodesicCapability.ALL):
-    from geodesic import Geodesic
+    from pyproj.geodesic import Geodesic
     self._a = geod._a
     self._f = geod._f
     self._b = geod._b
@@ -126,7 +126,7 @@ class GeodesicLine(object):
   # return a12, lat2, lon2, azi2, s12, m12, M12, M21, S12
   def GenPosition(self, arcmode, s12_a12, outmask):
 
-    from geodesic import Geodesic
+    from pyproj.geodesic import Geodesic
     a12 = lat2 = lon2 = azi2 = s12 = m12 = M12 = M21 = S12 = Math.nan
     outmask &= self._caps & Geodesic.OUT_ALL
     if not (arcmode or (self._caps & Geodesic.DISTANCE_IN & Geodesic.OUT_ALL)):
@@ -286,7 +286,7 @@ class GeodesicLine(object):
       Geodesic.ALL
     """
 
-    from geodesic import Geodesic
+    from pyproj.geodesic import Geodesic
     Geodesic.CheckDistance(s12)
     result = {'lat1': self._lat1, 'lon1': self._lon1, 'azi1': self._azi1,
               's12': s12}

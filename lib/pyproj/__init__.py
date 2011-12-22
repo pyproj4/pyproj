@@ -49,7 +49,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 
 from pyproj import _proj
 from pyproj import _geod
-from geodesic import Geodesic
+from pyproj.geodesic import Geodesic
 __version__ =  _proj.__version__
 set_datapath =  _proj.set_datapath
 from array import array
@@ -1030,6 +1030,7 @@ class Geod(object):
             result = self.G.Direct(lat, lon, az, dist)
             inx[n] = result['lon2']
             iny[n] = result['lat2']
+            inz[n] = result['azi2']
             az = result['azi2']
             if az > 0:
                 inz[n] = az-180.

@@ -14,8 +14,8 @@
 ######################################################################
 
 import math
-from geomath import Math
-from accumulator import Accumulator
+from pyproj.geomath import Math
+from pyproj.accumulator import Accumulator
 
 class PolygonArea(object):
   """Area of a geodesic polygon"""
@@ -23,7 +23,7 @@ class PolygonArea(object):
   def transit(lon1, lon2):
     # Return 1 or -1 if crossing prime meridian in east or west direction.
     # Otherwise return zero.
-    from geodesic import Geodesic
+    from pyproj.geodesic import Geodesic
     lon1 = Geodesic.AngNormalize(lon1)
     lon2 = Geodesic.AngNormalize(lon2)
     # treat lon12 = -180 as an eastward geodesic, so convert to 180.
@@ -34,7 +34,7 @@ class PolygonArea(object):
   transit = staticmethod(transit)
 
   def __init__(self, earth, polyline = False):
-    from geodesic import Geodesic
+    from pyproj.geodesic import Geodesic
     self._earth = earth
     self._area0 = 4 * math.pi * earth._c2
     self._polyline = polyline
