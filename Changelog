@@ -1,4 +1,4 @@
-1.9.0 (svn revision 275)
+1.9.0 (svn revision 278)
  * use pure python geographiclib for geodesic computation codes instead of
  proj4.
  * don't use global variable pj_errno for return codes, use pj_ctx_get_errno
