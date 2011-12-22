@@ -7,7 +7,6 @@ include _proj.pyx
 include _geod.pyx
 include _proj.c
 include _geod.c
-include _pyproj.pxi
 include nad2bin.c
 include src/*.c
 include src/*.h
