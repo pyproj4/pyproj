@@ -48,7 +48,6 @@ NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 
 from pyproj import _proj
-from pyproj import _geod
 from pyproj.geodesic import Geodesic
 __version__ =  _proj.__version__
 set_datapath =  _proj.set_datapath
