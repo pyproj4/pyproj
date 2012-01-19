@@ -51,21 +51,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Geod</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj-pysrc.html#Geod">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-object --+    
-         |    
-   ??.Geod --+
-             |
-            <strong class="uidshort">Geod</strong>
+object --+
+         |
+        <strong class="uidshort">Geod</strong>
 </pre>
 
 <hr />
 <p>performs forward and inverse geodetic, or Great Circle, computations.
   The forward computation (using the 'fwd' method) involves determining 
-  latitude, longitude and back azimuth of a terminus point given the 
-  latitude and longitude of an initial point, plus azimuth and distance. 
-  The inverse computation (using the 'inv' method) involves determining the
-  forward and back azimuths and distance given the latitudes and longitudes
-  of an initial and terminus point.</p>
+  latitude, longitude and back azimuth of a computations.  The forward 
+  computation (using the 'fwd' method) involves determining latitude, 
+  longitude and back azimuth of a terminus point given the latitude and 
+  longitude of an initial point, plus azimuth and distance. The inverse 
+  computation (using the 'inv' method) involves determining the forward and
+  back azimuths and distance given the latitudes and longitudes of an 
+  initial and terminus point.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -75,6 +75,25 @@ object --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Geod-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">initstring</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      initialize a Geod class instance.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Geod.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -152,15 +171,13 @@ object --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.Geod</code></b>:
-      <code>__reduce__</code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
       <code>__format__</code>,
       <code>__getattribute__</code>,
       <code>__hash__</code>,
-      <code>__init__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
       <code>__repr__</code>,
       <code>__setattr__</code>,
@@ -168,34 +185,6 @@ object --+
       <code>__str__</code>,
       <code>__subclasshook__</code>
       </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== STATIC METHODS ==================== -->
-<a name="section-StaticMethods"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Static Methods</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">a new object with type S, a subtype of T</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pyproj.Geod-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">initstring</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      initialize a Geod class instance.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#Geod.__new__">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
     </td>
   </tr>
 </table>
@@ -224,20 +213,20 @@ object --+
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="__new__"></a>
+<a name="__init__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">initstring</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**kwargs</span>)</span>
-    <br /><em class="fname">Static Method</em>
+    <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Geod.__new__">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="pyproj-pysrc.html#Geod.__init__">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
@@ -252,6 +241,8 @@ object --+
   SGS85 a=6378136.0      rf=298.257       Soviet Geodetic System 85
   GRS80 a=6378137.0      rf=298.257222101 GRS 1980(IUGG, 1980)
   IAU76 a=6378140.0      rf=298.257       IAU 1976
+  airy a=6377563.396     b=6356256.910    Airy 1830
+  APL4.9 a=6378137.0.    rf=298.25        Appl. Physics. 1965
   airy a=6377563.396     b=6356256.910    Airy 1830
   APL4.9 a=6378137.0.    rf=298.25        Appl. Physics. 1965
   NWL9D a=6378145.0.     rf=298.25        Naval Weapons Lab., 1965
@@ -276,6 +267,8 @@ object --+
   fschr68 a=6378150.     rf=298.3         Fischer 1968
   helmert a=6378200.     rf=298.3         Helmert 1906
   hough a=6378270.0      rf=297.          Hough
+  helmert a=6378200.     rf=298.3         Helmert 1906
+  hough a=6378270.0      rf=297.          Hough
   intl a=6378388.0       rf=297.          International 1909 (Hayford)
   krass a=6378245.0      rf=298.3         Krassovsky, 1942
   kaula a=6378163.       rf=298.24        Kaula 1961
@@ -296,6 +289,7 @@ object --+
   following keywords: 'b' (semi-minor, or polar axis radius), 'e' 
   (eccentricity), 'es' (eccentricity squared), 'f' (flattening), or 'rf' 
   (reciprocal flattening).</p>
+  <p>See the proj documentation (http://trac.osgeo.org/proj/) for more</p>
   <p>See the proj documentation (http://trac.osgeo.org/proj/) for more 
   information about specifying ellipsoid parameters (specifically, the 
   chapter 'Specifying the Earth's figure' in the main Proj users 
@@ -334,9 +328,8 @@ object --+
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">&quot;%7.3f %6.3f %12.3f&quot;</span> % (az12,az21,dist)
 <span class="py-output">'-66.531 75.654  4164192.708'</span></pre>
   <dl class="fields">
-    <dt>Returns: a new object with type S, a subtype of T</dt>
     <dt>Overrides:
-        object.__new__
+        object.__init__
     </dt>
   </dl>
 </td></tr></table>
@@ -362,7 +355,9 @@ object --+
   
   <p>forward transformation - Returns longitudes, latitudes and back 
   azimuths of terminus points given longitudes (lons) and latitudes (lats) 
-  of initial points, plus forward azimuths (az) and distances (dist).</p>
+  of initial points, plus forward azimuths (az) and distances (dist). 
+  latitudes (lats) of initial points, plus forward azimuths (az) and 
+  distances (dist).</p>
   <p>Works with numpy and regular python array objects, python sequences 
   and scalars.</p>
   <p>if radians=True, lons/lats and azimuths are radians instead of 
@@ -431,6 +426,8 @@ object --+
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pyproj <span class="py-keyword">import</span> Geod
 <span class="py-prompt">&gt;&gt;&gt; </span>g = Geod(ellps=<span class="py-string">'clrk66'</span>) <span class="py-comment"># Use Clarke 1966 ellipsoid.</span>
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># specify the lat/lons of Boston and Portland.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>g = Geod(ellps=<span class="py-string">'clrk66'</span>) <span class="py-comment"># Use Clarke 1966 ellipsoid.</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># specify the lat/lons of Boston and Portland.</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
 <span class="py-prompt">&gt;&gt;&gt; </span>portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># find ten equally spaced points between Boston and Portland.</span>
@@ -477,7 +474,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec 20 10:41:17 2011
+    Generated by Epydoc 3.0.1 on Thu Jan 19 09:02:06 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
