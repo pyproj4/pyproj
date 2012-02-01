@@ -1,3 +1,6 @@
+1.9.1 (svn revision 285)
+ * restore compatibility with python 2.4/2.5, which was broken by the addition
+   of the geographiclib geodesic module (issue 36).
 1.9.0 (svn revision 282)
  * use pure python geographiclib for geodesic computation codes instead of
  proj4.
