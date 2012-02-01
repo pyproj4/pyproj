@@ -28,8 +28,12 @@ class PolygonArea(object):
     lon2 = Geodesic.AngNormalize(lon2)
     # treat lon12 = -180 as an eastward geodesic, so convert to 180.
     lon12 = -Geodesic.AngNormalize(lon1 - lon2) # In (-180, 180]
-    cross = (1 if lon1 < 0 and lon2 >= 0 and lon12 > 0
-             else (-1 if lon2 < 0 and lon1 >= 0 and lon12 < 0 else 0))
+    if lon1 < 0 and lon2 >= 0 and lon12 > 0:
+      cross = 1
+    elif lon2 < 0 and lon1 >= 0 and lon12 < 0:
+      cross = -1
+    else:
+      cross = 0
     return cross
   transit = staticmethod(transit)
 
@@ -38,8 +42,10 @@ class PolygonArea(object):
     self._earth = earth
     self._area0 = 4 * math.pi * earth._c2
     self._polyline = polyline
-    self._mask = Geodesic.DISTANCE | (0 if self._polyline else Geodesic.AREA)
-    if not self._polyline: self._areasum = Accumulator()
+    self._mask = Geodesic.DISTANCE
+    if not self._polyline:
+      self._mask |= Geodesic.AREA
+      self._areasum = Accumulator()
     self._perimetersum = Accumulator()
     self.Clear()
 
@@ -84,7 +90,10 @@ class PolygonArea(object):
     tempsum.Add(S12)
     crossings = self._crossings + PolygonArea.transit(self._lon1, self._lon0)
     if crossings & 1:
-      tempsum.Add( (1 if tempsum < 0 else -1) * self._area0/2 )
+      if tempsum < 0:
+        tempsum.Add(self._area0 / 2)
+      else:
+        tempsum.Add(-self._area0 / 2)
     # area is with the clockwise sense.  If !reverse convert to
     # counter-clockwise convention.
     if not reverse: tempsum.Negate()
@@ -112,24 +121,38 @@ class PolygonArea(object):
       return 1, perimeter, area
 
     perimeter = self._perimetersum.Sum()
-    tempsum = 0 if self._polyline else self._areasum.Sum()
+    if self._polyline:
+      tempsum = 0
+      dl = [0]
+    else:
+      tempsum = self._areasum.Sum()
+      dl = [0, 1]
     crossings = self._crossings; num = self._num + 1
-    for i in ([0] if self._polyline else [0, 1]):
-      t, s12, t, t, t, t, t, S12 = self._earth.GenInverse(
-        self._lat1 if i == 0 else lat, self._lon1 if i == 0 else lon,
-        self._lat0 if i != 0 else lat, self._lon0 if i != 0 else lon,
-        self._mask)
+    for i in dl:
+      if i == 0:
+        ilon1 = self._lon1
+        ilon0 = lon
+        t, s12, t, t, t, t, t, S12 = self._earth.GenInverse(
+          self._lat1, self._lon1, lat, lon, self._mask)
+      else:
+        ilon1 = lon
+        ilon0 = self._lon0
+        t, s12, t, t, t, t, t, S12 = self._earth.GenInverse(
+          lat, lon, self._lat0, self._lon0, self._mask)
       perimeter += s12
       if not self._polyline:
         tempsum += S12
-        crossings += PolygonArea.transit(self._lon1 if i == 0 else lon,
-                                         self._lon0 if i != 0 else lon)
+        
+        crossings += PolygonArea.transit(ilon1, ilon0)
 
     if self._polyline:
       return num, perimeter, area
 
     if crossings & 1:
-      tempsum += (1 if tempsum < 0 else -1) * self._area0/2
+      if tempsum < 0:
+        tempsum += self._area0 / 2
+      else:
+        tempsum -= self._area0 / 2
     # area is with the clockwise sense.  If !reverse convert to
     # counter-clockwise convention.
     if not reverse: tempsum *= -1

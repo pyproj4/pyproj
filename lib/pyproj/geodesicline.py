@@ -51,13 +51,22 @@ class GeodesicLine(object):
     alp1 = azi1 * Math.degree
     # Enforce sin(pi) == 0 and cos(pi/2) == 0.  Better to face the ensuing
     # problems directly than to skirt them.
-    self._salp1 = 0 if     azi1  == -180 else math.sin(alp1)
-    self._calp1 = 0 if abs(azi1) ==   90 else math.cos(alp1)
+    if azi1 == -180:
+      self._salp1 = 0
+    else:
+      self._salp1 = math.sin(alp1)
+    if abs(azi1) == 90:
+      self._calp1 = 0
+    else:
+      self._calp1 = math.cos(alp1)
     # real cbet1, sbet1, phi
     phi = lat1 * Math.degree
     # Ensure cbet1 = +epsilon at poles
     sbet1 = self._f1 * math.sin(phi)
-    cbet1 = Geodesic.tiny_ if abs(lat1) == 90 else math.cos(phi)
+    if abs(lat1) == 90:
+      cbet1 = Geodesic.tiny_
+    else:
+      cbet1 = math.cos(phi)
     sbet1, cbet1 = Geodesic.SinCosNorm(sbet1, cbet1)
 
     # Evaluate alp0 from sin(alp1) * cos(bet1) = sin(alp0),
@@ -75,8 +84,10 @@ class GeodesicLine(object):
     # No atan2(0,0) ambiguity at poles since cbet1 = +epsilon.
     # With alp0 = 0, omg1 = 0 for alp1 = 0, omg1 = pi for alp1 = pi.
     self._ssig1 = sbet1; self._somg1 = self._salp0 * sbet1
-    self._csig1 = self._comg1 = (cbet1 * self._calp1
-                                 if sbet1 != 0 or self._calp1 != 0 else 1)
+    if sbet1 != 0 or self._calp1 != 0:
+      self._csig1 = self._comg1 = cbet1 * self._calp1
+    else:
+      self._csig1 = self._comg1 = 1.0
     # sig1 in (-pi, pi]
     self._ssig1, self._csig1 = Geodesic.SinCosNorm(self._ssig1, self._csig1)
     self._somg1, self._comg1 = Geodesic.SinCosNorm(self._somg1, self._comg1)
@@ -140,8 +151,14 @@ class GeodesicLine(object):
       sig12 = s12_a12 * Math.degree
       s12a = abs(s12_a12)
       s12a -= 180 * math.floor(s12a / 180)
-      ssig12 = 0 if s12a ==  0 else math.sin(sig12)
-      csig12 = 0 if s12a == 90 else math.cos(sig12)
+      if s12a == 0:
+        ssig12 = 0.0
+      else:
+        ssig12 = math.sin(sig12)
+      if s12a == 90:
+        csig12 = 0.0
+      else:
+        csig12 = math.cos(sig12)
     else:
       # Interpret s12_a12 as distance
       tau12 = s12_a12 / (self._b * (1 + self._A1m1))
@@ -180,7 +197,10 @@ class GeodesicLine(object):
                   comg2 * self._comg1 + somg2 * self._somg1)
 
     if outmask & Geodesic.DISTANCE:
-      s12 = self._b * ((1 + self._A1m1) * sig12 + AB1) if arcmode else s12_a12
+      if arcmode:
+        s12 = self._b * ((1 + self._A1m1) * sig12 + AB1)
+      else:
+        s12 = s12_a12
 
     if outmask & Geodesic.LONGITUDE:
       lam12 = omg12 + self._A3c * (
@@ -242,14 +262,20 @@ class GeodesicLine(object):
         # else
         #   csig1 - csig2 = csig1 * (1 - csig12) + ssig12 * ssig1
         # No need to normalize
-        salp12 = self._calp0 * self._salp0 * (
-          self._csig1 * (1 - csig12) + ssig12 * self._ssig1 if csig12 <= 0
-          else ssig12 * (self._csig1 * ssig12 / (1 + csig12) + self._ssig1))
+        if csig12 > 0:
+          salp12 = self._calp0 * self._salp0 * (
+            ssig12 * (self._csig1 * ssig12 / (1 + csig12) + self._ssig1))
+        else:
+          salp12 = self._calp0 * self._salp0 * (
+            self._csig1 * (1 - csig12) + ssig12 * self._ssig1)
         calp12 = (Math.sq(self._salp0) +
                   Math.sq(self._calp0) * self._csig1 * csig2)
       S12 = self._c2 * math.atan2(salp12, calp12) + self._A4 * (B42 - self._B41)
 
-    a12 = s12_a12 if arcmode else sig12 / Math.degree
+    if arcmode:
+      a12 = s12_a12
+    else:
+      a12 = sig12 / Math.degree
     return a12, lat2, lon2, azi2, s12, m12, M12, M21, S12
 
   def Position(self, s12,

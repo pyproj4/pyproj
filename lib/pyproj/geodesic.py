@@ -122,14 +122,18 @@ class Geodesic(object):
       # Unroll loop x 2, so accumulators return to their original role
       k -= 1; y1 = ar * y0 - y1 + c[k]
       k -= 1; y0 = ar * y1 - y0 + c[k]
-    return ( 2 * sinx * cosx * y0 if sinp # sin(2 * x) * y0
-             else cosx * (y0 - y1) )      # cos(x) * (y0 - y1)
+    if sinp: # sin(2 * x) * y0
+      return 2 * sinx * cosx * y0
+    else:    # cos(x) * (y0 - y1)
+      return cosx * (y0 - y1)
   SinCosSeries = staticmethod(SinCosSeries)
 
   def AngNormalize(x):
-    # Place angle in [-180, 180).  Assumes x is in [-540, 540).
-    return (x - 360 if x >= 180 else
-            (x + 360 if x < -180 else x))
+    # Place angle in [-180, 180); multiples of 360
+    if x < -180 or x >= 180:
+      return ((x + 180) % 360) - 180
+    else:
+      return x
   AngNormalize = staticmethod(AngNormalize)
 
   def AngRound(x):
@@ -141,8 +145,9 @@ class Geodesic(object):
     z = 0.0625                  # 1/16
     y = abs(x)
     # The compiler mustn't "simplify" z - (z - y) to y
-    y =  z - (z - y) if y < z else y
-    return -y if x < 0 else y
+    if y < z:
+      y =  z - (z - y)
+    return cmp(x, 0) * y
   AngRound = staticmethod(AngRound)
 
   def SinCosNorm(sinx, cosx):
@@ -171,11 +176,13 @@ class Geodesic(object):
         # Pick the sign on the sqrt to maximize abs(T3).  This minimizes loss
         # of precision due to cancellation.  The result is unchanged because
         # of the way the T is used in definition of u.
-        T3 += -math.sqrt(disc) if T3 < 0 else math.sqrt(disc) # T3 = (r * t)^3
+        T3 += cmp(T3, 0) * math.sqrt(disc) # T3 = (r * t)^3
         # N.B. cbrt always returns the real root.  cbrt(-8) = -2.
         T = Math.cbrt(T3)       # T = r * t
         # T can be zero; but then r2 / T -> 0.
-        u += T + (r2 / T if T != 0 else 0)
+        u += T
+        if T != 0:
+          u += (r2 / T)
       else:
         # T is complex, but the way u is defined the result is real.
         ang = math.atan2(math.sqrt(-disc), -(S + r3))
@@ -184,7 +191,11 @@ class Geodesic(object):
         u += 2 * r * math.cos(ang / 3)
       v = math.sqrt(Math.sq(u) + q)  # guaranteed positive
       # Avoid loss of accuracy when u < 0.
-      uv = q / (v - u) if u < 0 else u + v # u+v, guaranteed positive
+      # u+v, guaranteed positive
+      if u < 0:
+        uv = q / (v - u)
+      else:
+        uv = u + v
       w = (uv - q) / (2 * v)               # positive?
       # Rearrange expression for k to avoid loss of accuracy due to
       # subtraction.  Division by 0 not possible because uv > 0, w >= 0.
@@ -263,18 +274,26 @@ class Geodesic(object):
     """
 
     self._a = float(a)
-    self._f = float(f) if f <= 1 else 1.0/f
+    if f <= 1:
+      self._f = float(f)
+    else:
+      self._f = 1.0/f
     self._f1 = 1 - self._f
     self._e2 = self._f * (2 - self._f)
     self._ep2 = self._e2 / Math.sq(self._f1) # e2 / (1 - e2)
     self._n = self._f / ( 2 - self._f)
     self._b = self._a * self._f1
     # authalic radius squared
-    self._c2 = (Math.sq(self._a) + Math.sq(self._b) *
-                (1 if self._e2 == 0 else
-                 (Math.atanh(math.sqrt(self._e2)) if self._e2 > 0 else
-                  math.atan(math.sqrt(-self._e2))) /
-                 math.sqrt(abs(self._e2))))/2
+    if self._e2 == 0:
+      self._c2 = (Math.sq(self._a) + Math.sq(self._b))/2
+    elif self._e2 > 0:
+      self._c2 = (Math.sq(self._a) +
+                  Math.sq(self._b) * Math.atanh(math.sqrt(self._e2)) /
+                  math.sqrt(abs(self._e2)))/2
+    else: # self._e2 < 0:
+      self._c2 = (Math.sq(self._a) +
+                  Math.sq(self._b) * math.atan(math.sqrt(-self._e2)) /
+                  math.sqrt(abs(self._e2)))/2
     self._etol2 = Geodesic.tol2_ / max(0.1, math.sqrt(abs(self._e2)))
     if not(Math.isfinite(self._a) and self._a > 0):
       raise ValueError("Major radius is not positive")
@@ -443,14 +462,17 @@ class Geodesic(object):
     sbet12a += cbet2 * sbet1
 
     shortline = cbet12 >= 0 and sbet12 < 0.5 and lam12 <= math.pi / 6
-    omg12 =  (lam12 / math.sqrt(1 - self._e2 * Math.sq(cbet1)) if shortline
-              else lam12)
+    if shortline:
+      omg12 = lam12 / math.sqrt(1 - self._e2 * Math.sq(cbet1))
+    else:
+      omg12 = lam12
     somg12 = math.sin(omg12); comg12 = math.cos(omg12)
 
     salp1 = cbet2 * somg12
-    calp1 = (
-      sbet12 + cbet2 * sbet1 * Math.sq(somg12) / (1 + comg12)  if comg12 >= 0
-      else sbet12a - cbet2 * sbet1 * Math.sq(somg12) / (1 - comg12))
+    if comg12 >= 0:
+      calp1 = sbet12 + cbet2 * sbet1 * Math.sq(somg12) / (1 + comg12)
+    else:
+      calp1 = sbet12a - cbet2 * sbet1 * Math.sq(somg12) / (1 - comg12)
 
     ssig12 = math.hypot(salp1, calp1)
     csig12 = sbet1 * sbet2 + cbet1 * cbet2 * comg12
@@ -492,8 +514,10 @@ class Geodesic(object):
           self._n, math.pi + bet12a, sbet1, -cbet1, sbet2, cbet2,
           cbet1, cbet2, dummy, False, C1a, C2a)
         x = -1 + m12a/(self._f1 * cbet1 * cbet2 * m0 * math.pi)
-        betscale = (sbet12a / x if x < -real(0.01)
-                    else -self._f * Math.sq(cbet1) * math.pi)
+        if x < -real(0.01):
+          betscale = sbet12a / x
+        else:
+          betscale = -self._f * Math.sq(cbet1) * math.pi
         lamscale = betscale / cbet1
         y = (lam12 - math.pi) / lamscale
 
@@ -502,7 +526,10 @@ class Geodesic(object):
         if self._f >= 0:
           salp1 = min(1.0, -x); calp1 = - math.sqrt(1 - Math.sq(salp1))
         else:
-          calp1 = max((0.0 if x > -Geodesic.tol1_ else -1.0),  x)
+          if x > -Geodesic.tol1_:
+            calp1 = max(0.0, x)
+          else:
+            calp1 = max(-1.0, x)
           salp1 = math.sqrt(1 - Math.sq(calp1))
       else:
         # Estimate alp1, by solving the astroid problem.
@@ -540,8 +567,10 @@ class Geodesic(object):
         #
         # Because omg12 is near pi, estimate work with omg12a = pi - omg12
         k = Geodesic.Astroid(x, y)
-        omg12a = lamscale * ( -x * k/(1 + k) if self._f >= 0
-                               else -y * (1 + k)/k )
+        if self._f >= 0:
+          omg12a = lamscale * -x * k/(1 + k)
+        else:
+          omg12a = lamscale * -y * (1 + k)/k
         somg12 = math.sin(omg12a); comg12 = -math.cos(omg12a)
         # Update spherical estimate of alp1 using omg12 instead of lam12
         salp1 = cbet2 * somg12
@@ -576,15 +605,23 @@ class Geodesic(object):
     # about this case, since this can yield singularities in the Newton
     # iteration.
     # sin(alp2) * cos(bet2) = sin(alp0)
-    salp2 = salp0 / cbet2 if cbet2 != cbet1 else salp1
+    if cbet2 != cbet1:
+      salp2 = salp0 / cbet2
+    else:
+      salp2 = salp1
     # calp2 = sqrt(1 - sq(salp2))
     #       = sqrt(sq(calp0) - sq(sbet2)) / cbet2
     # and subst for calp0 and rearrange to give (choose positive sqrt
     # to give alp2 in [0, pi/2]).
-    calp2 = (math.sqrt(Math.sq(calp1 * cbet1) +
-                       ((cbet2 - cbet1) * (cbet1 + cbet2) if cbet1 < -sbet1
-                        else (sbet1 - sbet2) * (sbet1 + sbet2))) / cbet2
-             if cbet2 != cbet1 or abs(sbet2) != -sbet1 else abs(calp1))
+    if cbet2 != cbet1 or abs(sbet2) != -sbet1:
+      if cbet1 < -sbet1:
+        calp2 = math.sqrt(Math.sq(calp1 * cbet1) +
+                          (cbet2 - cbet1) * (cbet1 + cbet2)) / cbet2
+      else:
+        calp2 = math.sqrt(Math.sq(calp1 * cbet1) +
+                          (sbet1 - sbet2) * (sbet1 + sbet2)) / cbet2
+    else:
+      calp2 = abs(calp1)
     # tan(bet2) = tan(sig2) * cos(alp2)
     # tan(omg2) = sin(alp0) * tan(sig2).
     ssig2 = sbet2; somg2 = salp0 * sbet2
@@ -633,7 +670,10 @@ class Geodesic(object):
     # Not sure this is necessary...
     lon12 = Geodesic.AngRound(lon12)
     # Make longitude difference positive.
-    lonsign = 1 if lon12 >= 0 else -1
+    if lon12 >= 0:
+      lonsign = 1
+    else:
+      lonsign = -1
     lon12 *= lonsign
     if lon12 == 180:
       lonsign = 1
@@ -641,12 +681,17 @@ class Geodesic(object):
     lat1 = Geodesic.AngRound(lat1)
     lat2 = Geodesic.AngRound(lat2)
     # Swap points so that point with higher (abs) latitude is point 1
-    swapp = 1 if abs(lat1) >= abs(lat2) else -1
-    if swapp < 0:
+    if abs(lat1) >= abs(lat2):
+      swapp = 1
+    else:
+      swapp = -1
       lonsign *= -1
       lat2, lat1 = lat1, lat2
     # Make lat1 <= 0
-    latsign = 1 if lat1 < 0 else -1
+    if lat1 < 0:
+      latsign = 1
+    else:
+      latsign = -1
     lat1 *= latsign
     lat2 *= latsign
     # Now we have
@@ -666,13 +711,19 @@ class Geodesic(object):
     phi = lat1 * Math.degree
     # Ensure cbet1 = +epsilon at poles
     sbet1 = self._f1 * math.sin(phi)
-    cbet1 = Geodesic.tiny_ if lat1 == -90 else math.cos(phi)
+    if lat1 == -90:
+      cbet1 = Geodesic.tiny_
+    else:
+      cbet1 = math.cos(phi)
     sbet1, cbet1 = Geodesic.SinCosNorm(sbet1, cbet1)
 
     phi = lat2 * Math.degree
     # Ensure cbet2 = +epsilon at poles
     sbet2 = self._f1 * math.sin(phi)
-    cbet2 = Geodesic.tiny_ if abs(lat2) == 90 else math.cos(phi)
+    if abs(lat2) == 90:
+      cbet2 = Geodesic.tiny_
+    else:
+      cbet2 = math.cos(phi)
     sbet2, cbet2 = Geodesic.SinCosNorm(sbet2, cbet2)
 
     # If cbet1 < -sbet1, then cbet2 - cbet1 is a sensitive measure of the
@@ -685,13 +736,19 @@ class Geodesic(object):
 
     if cbet1 < -sbet1:
       if cbet2 == cbet1:
-        sbet2 = sbet1 if sbet2 < 0 else -sbet1
+        if sbet2 < 0:
+          sbet2 = sbet1
+        else:
+          sbet2 = -sbet1
     else:
       if abs(sbet2) == -sbet1:
         cbet2 = cbet1
 
     lam12 = lon12 * Math.degree
-    slam12 = 0 if lon12 == 180 else math.sin(lam12)
+    if lon12 == 180:
+      slam12 = 0.0
+    else:
+      slam12 = math.sin(lam12)
     clam12 = math.cos(lam12)      # lon12 == 90 isn't interesting
 
     # real a12, sig12, calp1, salp1, calp2, salp2
@@ -968,10 +1025,12 @@ class Geodesic(object):
   # return a12, lat2, lon2, azi2, s12, m12, M12, M21, S12
   def GenDirect(self, lat1, lon1, azi1, arcmode, s12_a12, outmask):
     from geodesicline import GeodesicLine
-    line = GeodesicLine(
-      self, lat1, lon1, azi1,
-      # Automatically supply DISTANCE_IN if necessary
-      outmask | ( Geodesic.NONE if arcmode else Geodesic.DISTANCE_IN))
+    # Automatically supply DISTANCE_IN if necessary
+    if arcmode:
+      dist_mask = Geodesic.NONE
+    else:
+      dist_mask = Geodesic.DISTANCE_IN
+    line = GeodesicLine(self, lat1, lon1, azi1, outmask | dist_mask)
     return line.GenPosition(arcmode, s12_a12, outmask)
 
   def Direct(self, lat1, lon1, azi1, s12,
