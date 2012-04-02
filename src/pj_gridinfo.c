@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_gridinfo.c 2121 2011-11-22 22:51:47Z warmerdam $
+ * $Id: pj_gridinfo.c 2142 2012-01-25 19:23:31Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Functions for handling individual PJ_GRIDINFO's.  Includes
@@ -832,7 +832,7 @@ PJ_GRIDINFO *pj_gridinfo_init( projCtx ctx, const char *gridname )
         pj_gridinfo_init_gtx( ctx, fp, gilist );
     }
 
-    else if( strncmp(header+0,"CTABLE V2",9) == 0 )
+    else if( strncmp(header + 0,"CTABLE V2",9) == 0 )
     {
         struct CTABLE *ct = nad_ctable2_init( ctx, fp );
 

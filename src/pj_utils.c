@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_utils.c 1856 2010-06-11 03:26:04Z warmerdam $
+ * $Id: pj_utils.c 2160 2012-02-15 23:51:45Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Some utility functions we don't want to bother putting in
@@ -154,3 +154,20 @@ PJ *pj_latlong_from_proj( PJ *pj_in )
     return pj_init_plus_ctx( pj_in->ctx, defn );
 }
 
+/************************************************************************/
+/*                        pj_get_spheroid_defn()                        */
+/*                                                                      */
+/*      Fetch the internal definition of the spheroid.  Note that       */
+/*      you can compute "b" from eccentricity_squared as:               */
+/*                                                                      */
+/*      b = a * sqrt(1 - es)                                            */
+/************************************************************************/
+
+void pj_get_spheroid_defn(projPJ defn, double *major_axis, double *eccentricity_squared)
+{
+	if ( major_axis )
+		*major_axis = defn->a;
+		
+	if ( eccentricity_squared )
+		*eccentricity_squared = defn->es;
+};

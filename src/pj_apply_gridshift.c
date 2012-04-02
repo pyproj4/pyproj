@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_apply_gridshift.c 1856 2010-06-11 03:26:04Z warmerdam $
+ * $Id: pj_apply_gridshift.c 2154 2012-02-09 21:25:41Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Apply datum shifts based on grid shift files (normally NAD27 to
@@ -140,11 +140,15 @@ int pj_apply_gridshift_3( projCtx ctx, PJ_GRIDINFO **tables, int grid_count,
         {
             PJ_GRIDINFO *gi = tables[itable];
             struct CTABLE *ct = gi->ct;
+            double epsilon = (fabs(ct->del.phi)+fabs(ct->del.lam))/10000.0;
 
             /* skip tables that don't match our point at all.  */
-            if( ct->ll.phi > input.phi || ct->ll.lam > input.lam
-                || ct->ll.phi + (ct->lim.phi-1) * ct->del.phi < input.phi
-                || ct->ll.lam + (ct->lim.lam-1) * ct->del.lam < input.lam )
+            if( ct->ll.phi - epsilon > input.phi 
+                || ct->ll.lam - epsilon > input.lam
+                || (ct->ll.phi + (ct->lim.phi-1) * ct->del.phi + epsilon 
+                    < input.phi)
+                || (ct->ll.lam + (ct->lim.lam-1) * ct->del.lam + epsilon 
+                    < input.lam) )
                 continue;
 
             /* If we have child nodes, check to see if any of them apply. */
@@ -155,10 +159,15 @@ int pj_apply_gridshift_3( projCtx ctx, PJ_GRIDINFO **tables, int grid_count,
                 for( child = gi->child; child != NULL; child = child->next )
                 {
                     struct CTABLE *ct1 = child->ct;
+                    double epsilon = 
+                        (fabs(ct1->del.phi)+fabs(ct1->del.lam))/10000.0;
 
-                    if( ct1->ll.phi > input.phi || ct1->ll.lam > input.lam
-                      || ct1->ll.phi+(ct1->lim.phi-1)*ct1->del.phi < input.phi
-                      || ct1->ll.lam+(ct1->lim.lam-1)*ct1->del.lam < input.lam)
+                    if( ct1->ll.phi - epsilon > input.phi 
+                        || ct1->ll.lam - epsilon > input.lam
+                        || (ct1->ll.phi+(ct1->lim.phi-1)*ct1->del.phi + epsilon 
+                            < input.phi)
+                        || (ct1->ll.lam+(ct1->lim.lam-1)*ct1->del.lam + epsilon 
+                            < input.lam) )
                         continue;
 
                     break;
@@ -209,9 +218,24 @@ int pj_apply_gridshift_3( projCtx ctx, PJ_GRIDINFO **tables, int grid_count,
                                 ",%s", gi->gridname );
                 }
             }
-                
-            pj_ctx_set_errno( ctx, PJD_ERR_GRID_AREA );
-            return PJD_ERR_GRID_AREA;
+
+            /* 
+             * We don't actually have any machinery currently to set the 
+             * following macro, so this is mostly kept here to make it clear 
+             * how we ought to operate if we wanted to make it super clear 
+             * that an error has occured when points are outside our available
+             * datum shift areas.  But if this is on, we will find that "low 
+             * value" points on the fringes of some datasets will completely 
+             * fail causing lots of problems when it is more or less ok to 
+             * just not apply a datum shift.  So rather than deal with
+             * that we just fallback to no shift. (see also bug #45).
+             */
+#ifdef ERR_GRID_AREA_TRANSIENT_SEVERE
+            y[io] = HUGE_VAL;
+            x[io] = HUGE_VAL;
+#else
+            /* leave x/y unshifted. */
+#endif
         }
         else
         {

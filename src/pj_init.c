@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_init.c 2131 2011-12-23 02:11:46Z warmerdam $
+ * $Id: pj_init.c 2163 2012-02-21 01:53:19Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Initialize projection object from string definition.  Includes
@@ -36,7 +36,7 @@
 #include <errno.h>
 #include <locale.h>
 
-PJ_CVSID("$Id: pj_init.c 2131 2011-12-23 02:11:46Z warmerdam $");
+PJ_CVSID("$Id: pj_init.c 2163 2012-02-21 01:53:19Z warmerdam $");
 
 /************************************************************************/
 /*                              get_opt()                               */
@@ -470,7 +470,7 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
 
     if( strcmp(old_locale,"C") != 0 )
         setlocale(LC_NUMERIC,old_locale);
-    free( old_locale );
+    free( (char*)old_locale );
 
     return PIN;
 }

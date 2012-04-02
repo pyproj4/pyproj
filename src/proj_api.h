@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: proj_api.h 1925 2010-10-19 16:22:55Z warmerdam $
+ * $Id: proj_api.h 2160 2012-02-15 23:51:45Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Public (application) include file for PROJ.4 API, and constants.
@@ -86,6 +86,7 @@ void pj_deallocate_grids(void);
 void pj_clear_initcache(void);
 int pj_is_latlong(projPJ);
 int pj_is_geocent(projPJ);
+void pj_get_spheroid_defn(projPJ defn, double *major_axis, double *eccentricity_squared);
 void pj_pr_list(projPJ);
 void pj_free(projPJ);
 void pj_set_finder( const char *(*)(const char *) );

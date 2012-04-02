@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: projects.h 2121 2011-11-22 22:51:47Z warmerdam $
+ * $Id: projects.h 2196 2012-03-14 01:27:57Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Primary (private) include file for PROJ.4 library.
@@ -266,24 +266,18 @@ PROJ_PARMS__
 #include "proj_api.h"
 
 /* Generate pj_list external or make list from include file */
-#ifndef PJ_LIST_H
+#ifndef USE_PJ_LIST_H
 extern struct PJ_LIST pj_list[];
 #else
 #define PROJ_HEAD(id, name) \
     struct PJconsts *pj_##id(struct PJconsts*); extern char * const pj_s_##id;
     
-#ifndef lint
-#define DO_PJ_LIST_ID
-#endif
-#include PJ_LIST_H
-#ifndef lint
-#undef DO_PJ_LIST_ID
-#endif
+#include "pj_list.h"
 #undef PROJ_HEAD
 #define PROJ_HEAD(id, name) {#id, pj_##id, &pj_s_##id},
 	struct PJ_LIST
 pj_list[] = {
-#include PJ_LIST_H
+#include "pj_list.h"
 		{0,     0,  0},
 	};
 #undef PROJ_HEAD
