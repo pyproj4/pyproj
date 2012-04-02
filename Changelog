@@ -1,4 +1,4 @@
-since version 1.9.2
+1.9.2 (not yet released)
  * updated proj4 src to 4.8.0 - includes two new map projections (natearth and
    isea).
 1.9.1 (svn revision 285)
