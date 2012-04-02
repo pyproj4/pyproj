@@ -1,3 +1,6 @@
+since version 1.9.2
+ * updated proj4 src to 4.8.0 - includes two new map projections (natearth and
+   isea).
 1.9.1 (svn revision 285)
  * restore compatibility with python 2.4/2.5, which was broken by the addition
    of the geographiclib geodesic module (issue 36).
