@@ -29,6 +29,9 @@ from pyproj.geomath import Math
 from pyproj.constants import Constants
 from pyproj.geodesiccapability import GeodesicCapability
 
+def cmp(a,b):
+    return (a > b) - (a < b) 
+
 class Geodesic(object):
   """
   Solve geodesic problems.  The following illustrates its use
