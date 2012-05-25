@@ -49,6 +49,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 
 from pyproj import _proj
 from pyproj.geodesic import Geodesic
+from pyproj.datadir import pyproj_datadir
 __version__ =  _proj.__version__
 set_datapath =  _proj.set_datapath
 from array import array
@@ -236,7 +237,6 @@ pj_ellps={
 "sphere":       {'a':6370997.0,'b':6370997.0,'description':"Normal Sphere"},
 }
 
-pyproj_datadir = os.sep.join([os.path.dirname(__file__), 'data'])
 if not os.path.isdir(pyproj_datadir):
     msg="proj data directory not found. Expecting it at: %s"%pyproj_datadir
     raise IOError(msg)
