@@ -16,25 +16,31 @@ if proj_incdir is None and proj_dir is not None:
 pyprojext =\
 Extension("pyproj._proj",["_proj.c"],include_dirs=incdirs,library_dirs=libdirs,libraries=libraries)
 
+# to use datum shift grid files installed with proj, edit
+# lib/pyproj/__init__.py and replace
+# pyproj_datadir = os.sep.join([os.path.dirname(__file__), 'data'])
+# with
+# pyproj_datadir = os.path.join(os.path.join(proj_dir,'share'),'proj')
+
 # create binary datum shift grid files.
-pathout = os.path.join('lib',os.path.join('pyproj','data'))
-if sys.argv[1] != 'sdist':
-    execname = 'nad2bin'
-    llafiles = glob.glob('datumgrid/*.lla')
-    cmd = os.path.join(proj_dir+'/bin',execname)
-    for f in llafiles:
-        fout = os.path.basename(f.split('.lla')[0])
-        fout = os.path.join(pathout,fout)
-        strg = '%s %s < %s' % (cmd, fout, f)
-        sys.stdout.write('executing %s'%strg)
-        subprocess.call(strg,shell=True)
+#pathout = os.path.join('lib',os.path.join('pyproj','data'))
+#if sys.argv[1] != 'sdist':
+#    execname = 'nad2bin'
+#    llafiles = glob.glob('datumgrid/*.lla')
+#    cmd = os.path.join(proj_dir+'/bin',execname)
+#    for f in llafiles:
+#        fout = os.path.basename(f.split('.lla')[0])
+#        fout = os.path.join(pathout,fout)
+#        strg = '%s %s < %s' % (cmd, fout, f)
+#        sys.stdout.write('executing %s'%strg)
+#        subprocess.call(strg,shell=True)
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
 
-datafiles = glob.glob(os.path.join(pathout,'*'))
-datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
-package_data = {'pyproj':datafiles}
+#datafiles = glob.glob(os.path.join(pathout,'*'))
+#datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
+#package_data = {'pyproj':datafiles}
 
 setup(name = "pyproj",
   version = "1.9.2",
@@ -62,6 +68,6 @@ Optimized for numpy arrays.""",
   packages          = packages,
   package_dir       = package_dirs,
   ext_modules = [pyprojext],
-  package_data = package_data
+  #package_data = package_data
   )
 
