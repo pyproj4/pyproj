@@ -1,6 +1,10 @@
+# build pyproj using installed proj library and data files
+# (instead of bundled source and data)
 from distutils.core import setup, Extension
 import os, glob, numpy, sys, subprocess
+
 proj_dir = os.environ.get('PROJ_DIR')
+if proj_dir is None: proj_dir='/usr/local'
 proj_libdir = os.environ.get('PROJ_LIBDIR')
 proj_incdir = os.environ.get('PROJ_INCDIR')
 libdirs=[]
@@ -16,31 +20,15 @@ if proj_incdir is None and proj_dir is not None:
 pyprojext =\
 Extension("pyproj._proj",["_proj.c"],include_dirs=incdirs,library_dirs=libdirs,libraries=libraries)
 
-# to use datum shift grid files installed with proj, edit
-# lib/pyproj/__init__.py and replace
-# pyproj_datadir = os.sep.join([os.path.dirname(__file__), 'data'])
-# with
-# pyproj_datadir = os.path.join(os.path.join(proj_dir,'share'),'proj')
-
-# create binary datum shift grid files.
-#pathout = os.path.join('lib',os.path.join('pyproj','data'))
-#if sys.argv[1] != 'sdist':
-#    execname = 'nad2bin'
-#    llafiles = glob.glob('datumgrid/*.lla')
-#    cmd = os.path.join(proj_dir+'/bin',execname)
-#    for f in llafiles:
-#        fout = os.path.basename(f.split('.lla')[0])
-#        fout = os.path.join(pathout,fout)
-#        strg = '%s %s < %s' % (cmd, fout, f)
-#        sys.stdout.write('executing %s'%strg)
-#        subprocess.call(strg,shell=True)
+# over-write default data directory.
+pyproj_datadir = os.path.join(os.path.join(proj_dir,'share'),'proj')
+datadirfile = os.path.join('lib',os.path.join('pyproj','datadir.py'))
+f = open(datadirfile,'w')
+f.write('pyproj_datadir="%s"\n' % pyproj_datadir)
+f.close()
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
-
-#datafiles = glob.glob(os.path.join(pathout,'*'))
-#datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
-#package_data = {'pyproj':datafiles}
 
 setup(name = "pyproj",
   version = "1.9.2",
@@ -67,7 +55,5 @@ Optimized for numpy arrays.""",
                        "Operating System :: OS Independent"],
   packages          = packages,
   package_dir       = package_dirs,
-  ext_modules = [pyprojext],
-  #package_data = package_data
+  ext_modules = [pyprojext]
   )
-
