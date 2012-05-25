@@ -9,6 +9,7 @@ include _proj.c
 include nad2bin.c
 include src/*.c
 include src/*.h
+include setup-proj.py
 include lib/pyproj/*py
 include lib/pyproj/data/*
 include datumgrid/*.lla
