@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_init.c 2163 2012-02-21 01:53:19Z warmerdam $
+ * $Id$
  *
  * Project:  PROJ.4
  * Purpose:  Initialize projection object from string definition.  Includes
@@ -36,7 +36,7 @@
 #include <errno.h>
 #include <locale.h>
 
-PJ_CVSID("$Id: pj_init.c 2163 2012-02-21 01:53:19Z warmerdam $");
+PJ_CVSID("$Id$");
 
 /************************************************************************/
 /*                              get_opt()                               */
@@ -499,10 +499,11 @@ pj_free(PJ *P) {
         /* free array of grid pointers if we have one */
         if( P->gridlist != NULL )
             pj_dalloc( P->gridlist );
-        
+
+        if( P->vgridlist_geoid != NULL )
+            pj_dalloc( P->vgridlist_geoid );
+
         /* free projection parameters */
         P->pfree(P);
     }
 }
-
-
