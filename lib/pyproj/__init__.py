@@ -237,9 +237,9 @@ pj_ellps={
 "sphere":       {'a':6370997.0,'b':6370997.0,'description':"Normal Sphere"},
 }
 
-if not os.path.isdir(pyproj_datadir):
-    msg="proj data directory not found. Expecting it at: %s"%pyproj_datadir
-    raise IOError(msg)
+#if not os.path.isdir(pyproj_datadir):
+#    msg="proj data directory not found. Expecting it at: %s"%pyproj_datadir
+#    raise IOError(msg)
 
 set_datapath(pyproj_datadir)
 
