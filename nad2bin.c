@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
 /* ==================================================================== */
     for( i = 1; i < argc; i++ )
     {
-        if( strcmp(argv[i],"-f") && i < argc-1 ) 
+        if( strcmp(argv[i],"-f") == 0 && i < argc-1 ) 
         {
             format = argv[++i];
         }
@@ -98,9 +98,15 @@ int main(int argc, char **argv) {
 /*      Read the ASCII Table                                            */
 /* ==================================================================== */
 
-    fgets(ct.id, MAX_TAB_ID, stdin);
-    scanf("%d %d %*d %lf %lf %lf %lf", &ct.lim.lam, &ct.lim.phi,
-          &ct.ll.lam, &ct.del.lam, &ct.ll.phi, &ct.del.phi);
+    if ( NULL == fgets(ct.id, MAX_TAB_ID, stdin) ) {
+        perror("fgets");
+        exit(1);
+    }
+    if ( EOF == scanf("%d %d %*d %lf %lf %lf %lf", &ct.lim.lam, &ct.lim.phi,
+          &ct.ll.lam, &ct.del.lam, &ct.ll.phi, &ct.del.phi) ) {
+        perror("scanf");
+        exit(1);
+    }
     if (!(ct.cvs = (FLP *)malloc(tsize = ct.lim.lam * ct.lim.phi *
                                  sizeof(FLP)))) {
         perror("mem. alloc");
@@ -112,7 +118,10 @@ int main(int argc, char **argv) {
     ct.del.phi *= DEG_TO_RAD;
     /* load table */
     for (p = ct.cvs, i = 0; i < ct.lim.phi; ++i) {
-        scanf("%d:%ld %ld", &ichk, &laml, &phil);
+        if ( EOF == scanf("%d:%ld %ld", &ichk, &laml, &phil) ) {
+            perror("scanf on row");
+            exit(1);
+        }
         if (ichk != i) {
             fprintf(stderr,"format check on row\n");
             exit(1);
@@ -121,7 +130,10 @@ int main(int argc, char **argv) {
         t.phi = phil * U_SEC_TO_RAD;
         *p++ = t;
         for (j = 1; j < ct.lim.lam; ++j) {
-            scanf("%ld %ld", &lam, &phi);
+            if ( EOF == scanf("%ld %ld", &lam, &phi) ) {
+                perror("scanf on column");
+                exit(1);
+            }
             t.lam = (laml += lam) * U_SEC_TO_RAD;
             t.phi = (phil += phi) * U_SEC_TO_RAD;
             *p++ = t;
@@ -183,7 +195,7 @@ int main(int argc, char **argv) {
         {
             swap_words( header +  96, 8, 4 );
             swap_words( header + 128, 4, 2 );
-            swap_words( ct.cvs, 4, ct.lim.lam * ct.lim.phi );
+            swap_words( ct.cvs, 4, ct.lim.lam * 2 * ct.lim.phi );
         }
 
         if( fwrite( header, sizeof(header), 1, fp ) != 1 ) {
