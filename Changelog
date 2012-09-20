@@ -1,4 +1,6 @@
-1.9.2 (not yet released)
+since version 1.9.2
+ * allow PROJ_DIR env var to control location of proj data (issue 40).
+1.9.2 (svn revision 301)
  * updated proj4 src to 4.8.0 - includes two new map projections (natearth and
    isea).
 1.9.1 (svn revision 285)
