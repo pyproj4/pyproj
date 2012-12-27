@@ -1,4 +1,5 @@
 since version 1.9.2
+ * make radians=True work with Geod.npts (issue 47).
  * allow PROJ_DIR env var to control location of proj data (issue 40).
 1.9.2 (svn revision 301)
  * updated proj4 src to 4.8.0 - includes two new map projections (natearth and

@@ -55,6 +55,7 @@ set_datapath =  _proj.set_datapath
 from array import array
 import os, math
 #import numpy as np
+_dg2rad = math.radians(1.)
 pj_list={
 'aea': "Albers Equal Area",
 'aeqd': "Azimuthal Equidistant",
@@ -853,6 +854,18 @@ class Geod(object):
         '47.136  -109.100'
         '46.805  -114.051'
         '46.262  -118.924'
+        >>> lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10,radians=True)
+        >>> for lon,lat in lonlats: '%6.3f  %7.3f' % (lat, lon)
+        ' 0.760   -1.316'
+        ' 0.779   -1.394'
+        ' 0.795   -1.475'
+        ' 0.808   -1.558'
+        ' 0.817   -1.643'
+        ' 0.823   -1.730'
+        ' 0.825   -1.817'
+        ' 0.823   -1.904'
+        ' 0.817   -1.991'
+        ' 0.807   -2.076'
         """
         result = self.G.Inverse(lat1, lon1, lat2, lon2)
         dist = result['s12']
