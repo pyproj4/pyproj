@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_datum_set.c 1856 2010-06-11 03:26:04Z warmerdam $
+ * $Id: pj_datum_set.c 2219 2012-06-19 04:18:00Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Apply datum definition to PJ structure from initialization string.
@@ -40,7 +40,7 @@
 int pj_datum_set(projCtx ctx, paralist *pl, PJ *projdef)
 
 {
-    const char *name, *towgs84, *nadgrids;
+    const char *name, *towgs84, *nadgrids, *catalog;
 
     projdef->datum_type = PJD_UNKNOWN;
 
@@ -90,6 +90,21 @@ int pj_datum_set(projCtx ctx, paralist *pl, PJ *projdef)
            to exist int he param list for use in pj_apply_gridshift.c */
 
         projdef->datum_type = PJD_GRIDSHIFT;
+    }
+
+/* -------------------------------------------------------------------- */
+/*      Check for grid catalog parameter, and optional date.            */
+/* -------------------------------------------------------------------- */
+    else if( (catalog = pj_param(ctx, pl,"scatalog").s) != NULL )
+    {
+        const char *date;
+
+        projdef->datum_type = PJD_GRIDSHIFT;
+        projdef->catalog_name = strdup(catalog);
+
+        date = pj_param(ctx, pl, "sdate").s;
+        if( date != NULL) 
+            projdef->datum_date = pj_gc_parsedate( ctx, date);
     }
 
 /* -------------------------------------------------------------------- */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_apply_gridshift.c 2154 2012-02-09 21:25:41Z warmerdam $
+ * $Id: pj_apply_gridshift.c 2219 2012-06-19 04:18:00Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Apply datum shifts based on grid shift files (normally NAD27 to
@@ -85,6 +85,10 @@ int pj_apply_gridshift_2( PJ *defn, int inverse,
                           double *x, double *y, double *z )
 
 {
+    if( defn->catalog_name != NULL )
+        return pj_gc_apply_gridshift( defn, inverse, point_count, point_offset,
+                                      x, y, z );
+                                      
     if( defn->gridlist == NULL )
     {
         defn->gridlist = 
