@@ -403,6 +403,8 @@ cdef class Geod:
                 s12 = distdata[i]
             Direct(&self._Geodesic, lat1, lon1, az1, s12,\
                    &plat2, &plon2, &pazi2)
+            # back azimuth needs to be flipped 180 degrees
+            # to match what old proj4 geod utility produced.
             if pazi2 > 0:
                 pazi2 = pazi2-180.
             elif pazi2 < 0:
@@ -460,6 +462,8 @@ cdef class Geod:
                 lat2 = distdata[i]
             Inverse(&self._Geodesic, lat1, lon1, lat2, lon2,
                     &ps12, &pazi1, &pazi2)
+            # back azimuth needs to be flipped 180 degrees
+            # to match what old proj4 geod utility produced.
             if pazi2 > 0:
                 pazi2 = pazi2-180.
             elif pazi2 < 0:
