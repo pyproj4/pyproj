@@ -835,6 +835,7 @@ class Geod(_proj.Geod):
         '47.136  -109.100'
         '46.805  -114.051'
         '46.262  -118.924'
+        >>> # test with radians=True (inputs/outputs in radians, not degrees)
         >>> import math
         >>> dg2rad = math.radians(1.)
         >>> rad2dg = math.degrees(1.)
