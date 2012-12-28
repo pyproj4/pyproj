@@ -7,7 +7,7 @@ Performs cartographic transformations and geodetic computations.
 The Proj class can convert from geographic (longitude,latitude)
 to native map projection (x,y) coordinates and vice versa, or
 from one map projection coordinate system directly to another.
-The module variable pj_list is a dictionary containing all the 
+The module variable pj_list is a dictionary containing all the
 available projections and their descriptions.
 
 The Geod class can perform forward and inverse geodetic, or
@@ -48,15 +48,12 @@ NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 
 from pyproj import _proj
-from pyproj.geodesic import Geodesic
 from pyproj.datadir import pyproj_datadir
 __version__ =  _proj.__version__
 set_datapath =  _proj.set_datapath
 from array import array
 import os, math
 #import numpy as np
-_dg2rad = math.radians(1.)
-_rad2dg = math.degrees(1.)
 pj_list={
 'aea': "Albers Equal Area",
 'aeqd': "Azimuthal Equidistant",
@@ -492,6 +489,13 @@ def transform(p1, p2, x, y, z=None, radians=False):
     else:
         return outx, outy
 
+def _copytobuffer_return_scalar(x):
+    try:
+        # inx,isfloat,islist,istuple
+        return array('d',(float(x),)),True,False,False
+    except:
+        raise TypeError('input must be an array, list, tuple or scalar')
+
 def _copytobuffer(x):
     """
     return a copy of x as an object that supports the python Buffer
@@ -504,40 +508,45 @@ def _copytobuffer(x):
     isfloat = False; islist = False; istuple = False
     # first, if it's a numpy array scalar convert to float
     # (array scalars don't support buffer API)
-    if hasattr(x,'shape') and x.shape == (): x = float(x)
-    try:
-        # typecast numpy arrays to double.
-        # (this makes a copy - which is crucial
-        #  since buffer is modified in place)
-        x.dtype.char
-        inx = x.astype('d')
-    except:
-        try: # perhaps they are Numeric/numarrays?
-            x.typecode()
-            inx = x.astype('d')
-        except:
-            # perhaps they are regular python arrays?
+    if hasattr(x,'shape'):
+        if x.shape == ():
+            return _copytobuffer_return_scalar(x)
+        else:
             try:
-                x.typecode
-                inx = array('d',x)
+                # typecast numpy arrays to double.
+                # (this makes a copy - which is crucial
+                #  since buffer is modified in place)
+                x.dtype.char
+                inx = x.astype('d')
+                # inx,isfloat,islist,istuple
+                return inx,False,False,False
             except:
-                # try to convert to python array
-                # a list.
-                if type(x) == list:
-                    inx = array('d',x)
-                    islist = True
-                # a tuple.
-                elif type(x) == tuple:
-                    inx = array('d',x)
-                    istuple = True
-                # a scalar?
-                else:
-                    try:
-                        x = float(x)
-                        inx = array('d',(x,))
-                        isfloat = True
-                    except:
-                        raise TypeError('input must be an array, list, tuple or scalar')
+                try: # perhaps they are Numeric/numarrays?
+                    # sorry, not tested yet.
+                    # i don't know Numeric/numarrays has `shape'.
+                    x.typecode()
+                    inx = x.astype('d')
+                    # inx,isfloat,islist,istuple
+                    return inx,False,False,False
+                except:
+                    raise TypeError('input must be an array, list, tuple or scalar')
+    else:
+        # perhaps they are regular python arrays?
+        if hasattr(x, 'typecode'):
+            #x.typecode
+            inx = array('d',x)
+        # try to convert to python array
+        # a list.
+        elif type(x) == list:
+            inx = array('d',x)
+            islist = True
+        # a tuple.
+        elif type(x) == tuple:
+            inx = array('d',x)
+            istuple = True
+        # a scalar?
+        else:
+            return _copytobuffer_return_scalar(x)
     return inx,isfloat,islist,istuple
 
 def _convertback(isfloat,islist,istuple,inx):
@@ -576,9 +585,9 @@ class Geod(_proj.Geod):
         initialize a Geod class instance.
 
         Geodetic parameters for specifying the ellipsoid
-        can be given in a dictionary 'initparams', as keyword arguments, 
+        can be given in a dictionary 'initparams', as keyword arguments,
         or as as proj4 geod initialization string.
-        Following is a list of the ellipsoids that may be defined using the 
+        Following is a list of the ellipsoids that may be defined using the
         'ellps' keyword (these are stored in the model variable pj_ellps)::
 
            MERIT a=6378137.0      rf=298.257       MERIT 1983
@@ -702,7 +711,7 @@ class Geod(_proj.Geod):
                 f = 1./ellps_dict['rf']
                 b = a*(1. - f)
                 es = 1. - (b * b) / (a * a)
-        else: 
+        else:
             # a (semi-major axis) and one of
             # b the semi-minor axis
             # rf the reciprocal flattening
@@ -741,8 +750,6 @@ class Geod(_proj.Geod):
         self.b = b
         self.f = f
         self.es = es
-        #self.G = Geodesic(self.a, self.f)
-        #self.G = _proj.Geod(self.a, self.f)
         return _proj.Geod.__new__(self, a, f)
 
     def fwd(self, lons, lats, az, dist, radians=False):
@@ -766,21 +773,6 @@ class Geod(_proj.Geod):
         inz, zisfloat, zislist, zistuple = _copytobuffer(az)
         ind, disfloat, dislist, distuple = _copytobuffer(dist)
         _proj.Geod._fwd(self, inx, iny, inz, ind, radians=radians)
-        #n = 0
-        #zipin = zip(inx,iny,inz,ind)
-        #for lon,lat,az,dist in zipin:
-        #    result = self.G.Direct(lat, lon, az, dist)
-        #    inx[n] = result['lon2']
-        #    iny[n] = result['lat2']
-        #    inz[n] = result['azi2']
-        #    az = result['azi2']
-        #    if az > 0:
-        #        inz[n] = az-180.
-        #    elif az < 0:
-        #        inz[n] = az+180.
-        #    else:
-        #        inz[n] = az
-        #    n = n + 1
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
         outy = _convertback(yisfloat,yislist,xistuple,iny)
@@ -805,20 +797,6 @@ class Geod(_proj.Geod):
         inz, zisfloat, zislist, zistuple = _copytobuffer(lons2)
         ind, disfloat, dislist, distuple = _copytobuffer(lats2)
         _proj.Geod._inv(self,inx,iny,inz,ind,radians=radians)
-        #n = 0
-        #zipin = zip(inx,iny,inz,ind)
-        #for lon1,lat1,lon2,lat2 in zipin:
-        #    result = self.G.Inverse(lat1, lon1, lat2, lon2)
-        #    inx[n] = result['azi1']
-        #    az = result['azi2']
-        #    if az > 0:
-        #        iny[n] = az-180.
-        #    elif az < 0:
-        #        iny[n] = az+180.
-        #    else:
-        #        iny[n] = az
-        #    inz[n] = result['s12']
-        #    n = n + 1
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
         outy = _convertback(yisfloat,yislist,xistuple,iny)
@@ -874,29 +852,6 @@ class Geod(_proj.Geod):
         '46.262  -118.924'
         """
         lons, lats = _proj.Geod._npts(self, lon1, lat1, lon2, lat2, npts, radians=radians)
-        #if radians:
-        #    lat1 = _rad2dg*lat1
-        #    lon1 = _rad2dg*lon1
-        #    lat2 = _rad2dg*lat2
-        #    lon2 = _rad2dg*lon2
-        #result = self.G.Inverse(lat1, lon1, lat2, lon2)
-        #dist = result['s12']
-        #az = result['azi1']
-        ## distance increment.
-        #del_s = dist/(npts+1)
-        ## initialize output tuples.
-        #lats = ()
-        #lons = ()
-        ## loop over intermediate points, compute lat/lons.
-        #for i in range(1,npts+1):
-        #    S = i*del_s
-        #    result = self.G.Direct(lat1, lon1, az, S)
-        #    if radians:
-        #        lats = lats + (_dg2rad*result['lat2'],)
-        #        lons = lons + (_dg2rad*result['lon2'],)
-        #    else:
-        #        lats = lats + (result['lat2'],)
-        #        lons = lons + (result['lon2'],)
         return list(zip(lons, lats))
 
 def test():
