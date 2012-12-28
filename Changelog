@@ -1,4 +1,6 @@
 1.9.3 (not yet released)
+ * Geod now uses C code adapted from geographiclib now included in proj4 source,
+   instead of pure python code directly from geographiclib.
  * make radians=True work with Geod.npts (issue 47).
  * allow PROJ_DIR env var to control location of proj data (issue 40).
 1.9.2 (svn revision 301)
