@@ -11,10 +11,10 @@ libdirs=[]
 incdirs=[numpy.get_include()]
 libraries=['proj']
 
-if proj_libdir is None and proj_dir is not None: 
+if proj_libdir is None and proj_dir is not None:
     libdirs.append(os.path.join(proj_dir,'lib'))
     libdirs.append(os.path.join(proj_dir,'lib64'))
-if proj_incdir is None and proj_dir is not None: 
+if proj_incdir is None and proj_dir is not None:
     incdirs.append(os.path.join(proj_dir,'include'))
 
 pyprojext =\
@@ -31,7 +31,7 @@ packages          = ['pyproj']
 package_dirs       = {'':'lib'}
 
 setup(name = "pyproj",
-  version = "1.9.2",
+  version = "1.9.3",
   description = "Python interface to PROJ.4 library",
   long_description  = """
 Performs cartographic transformations between geographic (lat/lon)
@@ -47,8 +47,8 @@ Optimized for numpy arrays.""",
   license           = "OSI Approved",
   keywords          = ["python","map projections","GIS","mapping","maps"],
   classifiers       = ["Development Status :: 4 - Beta",
-                       "Intended Audience :: Science/Research", 
-                       "License :: OSI Approved", 
+                       "Intended Audience :: Science/Research",
+                       "License :: OSI Approved",
                        "Topic :: Software Development :: Libraries :: Python Modules",
                        "Topic :: Scientific/Engineering :: GIS",
                        "Topic :: Scientific/Engineering :: Mathematics",
