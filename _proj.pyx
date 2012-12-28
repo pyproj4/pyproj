@@ -8,7 +8,7 @@ cdef double _dg2rad, _rad2dg
 _dg2rad = math.radians(1.)
 _rad2dg = math.degrees(1.)
 _doublesize = sizeof(double)
-__version__ = "1.9.2"
+__version__ = "1.9.3"
 
 cdef extern from "math.h":
     cdef enum:
@@ -354,14 +354,15 @@ cdef class Geod:
     cdef Geodesic _Geodesic
     cdef public object f
     cdef public object a
+
     def __cinit__(self, a, f):
-        cdef Geodesic g
-        GeodesicInit(&g, <double> a, <double> f)
         self.f = f; self.a = a
-        self._Geodesic = g
+        GeodesicInit(&self._Geodesic, <double> a, <double> f)
+
     def __reduce__(self):
         """special method that allows pyproj.Geod instance to be pickled"""
-        return (self.__class__,(<double>self.a,<double>self.f,))
+        return (self.__class__,(<double> self.a,<double> self.f,))
+
     def _fwd(self, object lons, object lats, object az, object dist, radians=False):
         """
  forward transformation - determine longitude, latitude and back azimuth 
@@ -418,6 +419,7 @@ cdef class Geod:
                 lonsdata[i] = _rad2dg*plon2
                 latsdata[i] = _rad2dg*plat2
                 azdata[i] = _rad2dg*pazi2
+
     def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):
         """
  inverse transformation - return forward and back azimuths, plus distance
@@ -472,6 +474,7 @@ cdef class Geod:
                 lonsdata[i] = pazi1
                 latsdata[i] = pazi2
             azdata[i] = ps12
+
     def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, radians=False):
         """
  given initial and terminus lat/lon, find npts intermediate points."""
