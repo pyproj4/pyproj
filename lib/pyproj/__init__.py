@@ -56,6 +56,7 @@ from array import array
 import os, math
 #import numpy as np
 _dg2rad = math.radians(1.)
+_rad2dg = math.degrees(1.)
 pj_list={
 'aea': "Albers Equal Area",
 'aeqd': "Azimuthal Equidistant",
@@ -741,6 +742,7 @@ class Geod(object):
         self.f = f
         self.es = es
         self.G = Geodesic(self.a, self.f)
+        #self.G = _proj.Geod(self.a, self.f)
 
     def fwd(self, lons, lats, az, dist, radians=False):
         """
@@ -762,6 +764,7 @@ class Geod(object):
         iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
         inz, zisfloat, zislist, zistuple = _copytobuffer(az)
         ind, disfloat, dislist, distuple = _copytobuffer(dist)
+        #self.G._fwd(inx, iny, inz, ind, radians=radians)
         n = 0
         zipin = zip(inx,iny,inz,ind)
         for lon,lat,az,dist in zipin:
@@ -779,8 +782,6 @@ class Geod(object):
             n = n + 1
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
-        outy = _convertback(yisfloat,yislist,xistuple,iny)
-        outz = _convertback(zisfloat,zislist,zistuple,inz)
         outy = _convertback(yisfloat,yislist,xistuple,iny)
         outz = _convertback(zisfloat,zislist,zistuple,inz)
         return outx, outy, outz
@@ -802,6 +803,7 @@ class Geod(object):
         iny, yisfloat, yislist, yistuple = _copytobuffer(lats1)
         inz, zisfloat, zislist, zistuple = _copytobuffer(lons2)
         ind, disfloat, dislist, distuple = _copytobuffer(lats2)
+        #self.G._inv(inx,iny,inz,ind,radians=radians)
         n = 0
         zipin = zip(inx,iny,inz,ind)
         for lon1,lat1,lon2,lat2 in zipin:
@@ -854,25 +856,32 @@ class Geod(object):
         '47.136  -109.100'
         '46.805  -114.051'
         '46.262  -118.924'
-        >>> lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10,radians=True)
-        >>> for lon,lat in lonlats: '%6.3f  %7.3f' % (lat, lon)
-        ' 0.760   -1.316'
-        ' 0.779   -1.394'
-        ' 0.795   -1.475'
-        ' 0.808   -1.558'
-        ' 0.817   -1.643'
-        ' 0.823   -1.730'
-        ' 0.825   -1.817'
-        ' 0.823   -1.904'
-        ' 0.817   -1.991'
-        ' 0.807   -2.076'
+        >>> import math
+        >>> dg2rad = math.radians(1.)
+        >>> rad2dg = math.degrees(1.)
+        >>> lonlats = g.npts(dg2rad*boston_lon,dg2rad*boston_lat,dg2rad*portland_lon,dg2rad*portland_lat,10,radians=True)
+        >>> for lon,lat in lonlats: '%6.3f  %7.3f' % (rad2dg*lat, rad2dg*lon)
+        '43.528  -75.414'
+        '44.637  -79.883'
+        '45.565  -84.512'
+        '46.299  -89.279'
+        '46.830  -94.156'
+        '47.149  -99.112'
+        '47.251  -104.106'
+        '47.136  -109.100'
+        '46.805  -114.051'
+        '46.262  -118.924'
         """
+        #lons, lats = self.G._npts(lon1, lat1, lon2, lat2, npts, radians=radians)
+        if radians:
+            lat1 = _rad2dg*lat1
+            lon1 = _rad2dg*lon1
+            lat2 = _rad2dg*lat2
+            lon2 = _rad2dg*lon2
         result = self.G.Inverse(lat1, lon1, lat2, lon2)
         dist = result['s12']
         az = result['azi1']
         # distance increment.
-        del_s = dist/(npts+1)
-        # initialize output tuples.
         del_s = dist/(npts+1)
         # initialize output tuples.
         lats = ()
