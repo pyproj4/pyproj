@@ -15,6 +15,17 @@ cdef extern from "math.h":
         HUGE_VAL
         FP_NAN
 
+cdef extern from "geodesic.h":
+  struct Geodesic:
+        pass
+  void GeodesicInit(Geodesic* g, double a, double f)
+  void Direct(Geodesic* g,\
+              double lat1, double lon1, double azi1, double s12,\
+              double* plat2, double* plon2, double* pazi2)
+  void Inverse(Geodesic* g,\
+               double lat1, double lon1, double lat2, double lon2,\
+               double* ps12, double* pazi1, double* pazi2)
+
 cdef extern from "proj_api.h":
     ctypedef struct projUV:
         double u
@@ -338,3 +349,156 @@ cdef _strencode(pystr,encoding='ascii'):
         return pystr.encode(encoding)
     except AttributeError:
         return pystr # already bytes?
+
+cdef class Geod:
+    cdef Geodesic _Geodesic
+    cdef public object f
+    cdef public object a
+    def __cinit__(self, a, f):
+        cdef Geodesic g
+        GeodesicInit(&g, <double> a, <double> f)
+        self.f = f; self.a = a
+        self._Geodesic = g
+    def __reduce__(self):
+        """special method that allows pyproj.Geod instance to be pickled"""
+        return (self.__class__,(<double>self.a,<double>self.f,))
+    def _fwd(self, object lons, object lats, object az, object dist, radians=False):
+        """
+ forward transformation - determine longitude, latitude and back azimuth 
+ of a terminus point given an initial point longitude and latitude, plus
+ forward azimuth and distance.
+ if radians=True, lons/lats are radians instead of degrees.
+        """
+        cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
+        cdef double lat1,lon1,az1,s12,plon2,plat2,pazi2
+        cdef double *lonsdata, *latsdata, *azdata, *distdata
+        cdef void *londata, *latdata, *azdat, *distdat
+        # if buffer api is supported, get pointer to data buffers.
+        if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
+            raise RuntimeError
+        if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
+            raise RuntimeError
+        if PyObject_AsWriteBuffer(az, &azdat, &buflenaz) <> 0:
+            raise RuntimeError
+        if PyObject_AsWriteBuffer(dist, &distdat, &buflend) <> 0:
+            raise RuntimeError
+        # process data in buffer
+        if not buflenlons == buflenlats == buflenaz == buflend:
+            raise RuntimeError("Buffer lengths not the same")
+        ndim = buflenlons/_doublesize
+        lonsdata = <double *>londata
+        latsdata = <double *>latdata
+        azdata = <double *>azdat
+        distdata = <double *>distdat
+        for i from 0 <= i < ndim:
+            if not radians:
+                lon1 = lonsdata[i]
+                lat1 = latsdata[i]
+                az1 = azdata[i]
+                s12 = distdata[i]
+            else:
+                lon1 = _dg2rad*lonsdata[i]
+                lat1 = _dg2rad*latsdata[i]
+                az1 = _dg2rad*azdata[i]
+                s12 = distdata[i]
+            Direct(&self._Geodesic, lat1, lon1, az1, s12,\
+                   &plat2, &plon2, &pazi2)
+            if pazi2 > 0:
+                pazi2 = pazi2-180.
+            elif pazi2 < 0:
+                pazi2 = pazi2+180.
+            # check for NaN.
+            if pazi2 != pazi2:
+                raise ValueError('undefined inverse geodesic (may be an antipodal point)')
+            if not radians:
+                lonsdata[i] = plon2
+                latsdata[i] = plat2
+                azdata[i] = pazi2
+            else:
+                lonsdata[i] = _rad2dg*plon2
+                latsdata[i] = _rad2dg*plat2
+                azdata[i] = _rad2dg*pazi2
+    def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):
+        """
+ inverse transformation - return forward and back azimuths, plus distance
+ between an initial and terminus lat/lon pair.
+ if radians=True, lons/lats are radians instead of degrees.
+        """
+        cdef double lat1,lon1,lat2,lon2,pazi1,pazi2,ps12
+        cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
+        cdef double *lonsdata, *latsdata, *azdata, *distdata
+        cdef void *londata, *latdata, *azdat, *distdat
+        # if buffer api is supported, get pointer to data buffers.
+        if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:
+            raise RuntimeError
+        if PyObject_AsWriteBuffer(lats1, &latdata, &buflenlats) <> 0:
+            raise RuntimeError
+        if PyObject_AsWriteBuffer(lons2, &azdat, &buflenaz) <> 0:
+            raise RuntimeError
+        if PyObject_AsWriteBuffer(lats2, &distdat, &buflend) <> 0:
+            raise RuntimeError
+        # process data in buffer
+        if not buflenlons == buflenlats == buflenaz == buflend:
+            raise RuntimeError("Buffer lengths not the same")
+        ndim = buflenlons/_doublesize
+        lonsdata = <double *>londata
+        latsdata = <double *>latdata
+        azdata = <double *>azdat
+        distdata = <double *>distdat
+        errmsg = 'undefined inverse geodesic (may be an antipodal point)'
+        for i from 0 <= i < ndim:
+            if radians:
+                lon1 = _rad2dg*lonsdata[i]
+                lat1 = _rad2dg*latsdata[i]
+                lon2 = _rad2dg*azdata[i]
+                lat2 = _rad2dg*distdata[i]
+            else:
+                lon1 = lonsdata[i]
+                lat1 = latsdata[i]
+                lon2 = azdata[i]
+                lat2 = distdata[i]
+            Inverse(&self._Geodesic, lat1, lon1, lat2, lon2,
+                    &ps12, &pazi1, &pazi2)
+            if pazi2 > 0:
+                pazi2 = pazi2-180.
+            elif pazi2 < 0:
+                pazi2 = pazi2+180.
+            if ps12 != ps12: # check for NaN
+                raise ValueError('undefined inverse geodesic (may be an antipodal point)')
+            if radians:
+                lonsdata[i] = _rad2dg*pazi1
+                latsdata[i] = _rad2dg*pazi2
+            else:
+                lonsdata[i] = pazi1
+                latsdata[i] = pazi2
+            azdata[i] = ps12
+    def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, radians=False):
+        """
+ given initial and terminus lat/lon, find npts intermediate points."""
+        cdef int i
+        cdef double del_s,ps12,pazi1,pazi2,s12,plon2,plat2
+        if radians:
+            lon1 = _rad2dg*lon1
+            lat1 = _rad2dg*lat1
+            lon2 = _rad2dg*lon2
+            lat2 = _rad2dg*lat2
+        # do inverse computation to set azimuths, distance.
+        Inverse(&self._Geodesic, lat1, lon1,  lat2, lon2,
+                &ps12, &pazi1, &pazi2)
+        # distance increment.
+        del_s = ps12/(npts+1)
+        # initialize output tuples.
+        lats = ()
+        lons = ()
+        # loop over intermediate points, compute lat/lons.
+        for i from 1 <= i < npts+1:
+            s12 = i*del_s
+            Direct(&self._Geodesic, lat1, lon1, pazi1, s12,\
+                   &plat2, &plon2, &pazi2)
+            if radians:
+                lats = lats + (_dg2rad*plat2,)
+                lons = lons + (_dg2rad*plon2,)
+            else:
+                lats = lats + (plat2,)
+                lons = lons + (plon2,)
+        return lons, lats
