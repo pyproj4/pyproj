@@ -352,16 +352,15 @@ cdef _strencode(pystr,encoding='ascii'):
 
 cdef class Geod:
     cdef Geodesic _Geodesic
-    cdef public object f
-    cdef public object a
+    cdef public object initstring
 
     def __cinit__(self, a, f):
-        self.f = f; self.a = a
+        self.initstring = '+a=%s +f=%s' % (a, f)
         GeodesicInit(&self._Geodesic, <double> a, <double> f)
 
     def __reduce__(self):
         """special method that allows pyproj.Geod instance to be pickled"""
-        return (self.__class__,(<double> self.a,<double> self.f,))
+        return (self.__class__,(self.initstring,))
 
     def _fwd(self, object lons, object lats, object az, object dist, radians=False):
         """
