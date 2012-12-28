@@ -558,7 +558,7 @@ def _dict2string(projparams):
         pjargs.append('+'+key+"="+str(value)+' ')
     return ''.join(pjargs)
 
-class Geod(object):
+class Geod(_proj.Geod):
     """
     performs forward and inverse geodetic, or Great Circle,
     computations.  The forward computation (using the 'fwd' method)
@@ -571,7 +571,7 @@ class Geod(object):
     azimuths and distance given the latitudes and longitudes of an
     initial and terminus point.
     """
-    def __init__(self, initstring=None, **kwargs):
+    def __new__(self, initstring=None, **kwargs):
         """
         initialize a Geod class instance.
 
@@ -741,8 +741,9 @@ class Geod(object):
         self.b = b
         self.f = f
         self.es = es
-        self.G = Geodesic(self.a, self.f)
+        #self.G = Geodesic(self.a, self.f)
         #self.G = _proj.Geod(self.a, self.f)
+        return _proj.Geod.__new__(self, a, f)
 
     def fwd(self, lons, lats, az, dist, radians=False):
         """
@@ -764,22 +765,22 @@ class Geod(object):
         iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
         inz, zisfloat, zislist, zistuple = _copytobuffer(az)
         ind, disfloat, dislist, distuple = _copytobuffer(dist)
-        #self.G._fwd(inx, iny, inz, ind, radians=radians)
-        n = 0
-        zipin = zip(inx,iny,inz,ind)
-        for lon,lat,az,dist in zipin:
-            result = self.G.Direct(lat, lon, az, dist)
-            inx[n] = result['lon2']
-            iny[n] = result['lat2']
-            inz[n] = result['azi2']
-            az = result['azi2']
-            if az > 0:
-                inz[n] = az-180.
-            elif az < 0:
-                inz[n] = az+180.
-            else:
-                inz[n] = az
-            n = n + 1
+        _proj.Geod._fwd(self, inx, iny, inz, ind, radians=radians)
+        #n = 0
+        #zipin = zip(inx,iny,inz,ind)
+        #for lon,lat,az,dist in zipin:
+        #    result = self.G.Direct(lat, lon, az, dist)
+        #    inx[n] = result['lon2']
+        #    iny[n] = result['lat2']
+        #    inz[n] = result['azi2']
+        #    az = result['azi2']
+        #    if az > 0:
+        #        inz[n] = az-180.
+        #    elif az < 0:
+        #        inz[n] = az+180.
+        #    else:
+        #        inz[n] = az
+        #    n = n + 1
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
         outy = _convertback(yisfloat,yislist,xistuple,iny)
@@ -803,21 +804,21 @@ class Geod(object):
         iny, yisfloat, yislist, yistuple = _copytobuffer(lats1)
         inz, zisfloat, zislist, zistuple = _copytobuffer(lons2)
         ind, disfloat, dislist, distuple = _copytobuffer(lats2)
-        #self.G._inv(inx,iny,inz,ind,radians=radians)
-        n = 0
-        zipin = zip(inx,iny,inz,ind)
-        for lon1,lat1,lon2,lat2 in zipin:
-            result = self.G.Inverse(lat1, lon1, lat2, lon2)
-            inx[n] = result['azi1']
-            az = result['azi2']
-            if az > 0:
-                iny[n] = az-180.
-            elif az < 0:
-                iny[n] = az+180.
-            else:
-                iny[n] = az
-            inz[n] = result['s12']
-            n = n + 1
+        _proj.Geod._inv(self,inx,iny,inz,ind,radians=radians)
+        #n = 0
+        #zipin = zip(inx,iny,inz,ind)
+        #for lon1,lat1,lon2,lat2 in zipin:
+        #    result = self.G.Inverse(lat1, lon1, lat2, lon2)
+        #    inx[n] = result['azi1']
+        #    az = result['azi2']
+        #    if az > 0:
+        #        iny[n] = az-180.
+        #    elif az < 0:
+        #        iny[n] = az+180.
+        #    else:
+        #        iny[n] = az
+        #    inz[n] = result['s12']
+        #    n = n + 1
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat,xislist,xistuple,inx)
         outy = _convertback(yisfloat,yislist,xistuple,iny)
@@ -872,30 +873,30 @@ class Geod(object):
         '46.805  -114.051'
         '46.262  -118.924'
         """
-        #lons, lats = self.G._npts(lon1, lat1, lon2, lat2, npts, radians=radians)
-        if radians:
-            lat1 = _rad2dg*lat1
-            lon1 = _rad2dg*lon1
-            lat2 = _rad2dg*lat2
-            lon2 = _rad2dg*lon2
-        result = self.G.Inverse(lat1, lon1, lat2, lon2)
-        dist = result['s12']
-        az = result['azi1']
-        # distance increment.
-        del_s = dist/(npts+1)
-        # initialize output tuples.
-        lats = ()
-        lons = ()
-        # loop over intermediate points, compute lat/lons.
-        for i in range(1,npts+1):
-            S = i*del_s
-            result = self.G.Direct(lat1, lon1, az, S)
-            if radians:
-                lats = lats + (_dg2rad*result['lat2'],)
-                lons = lons + (_dg2rad*result['lon2'],)
-            else:
-                lats = lats + (result['lat2'],)
-                lons = lons + (result['lon2'],)
+        lons, lats = _proj.Geod._npts(self, lon1, lat1, lon2, lat2, npts, radians=radians)
+        #if radians:
+        #    lat1 = _rad2dg*lat1
+        #    lon1 = _rad2dg*lon1
+        #    lat2 = _rad2dg*lat2
+        #    lon2 = _rad2dg*lon2
+        #result = self.G.Inverse(lat1, lon1, lat2, lon2)
+        #dist = result['s12']
+        #az = result['azi1']
+        ## distance increment.
+        #del_s = dist/(npts+1)
+        ## initialize output tuples.
+        #lats = ()
+        #lons = ()
+        ## loop over intermediate points, compute lat/lons.
+        #for i in range(1,npts+1):
+        #    S = i*del_s
+        #    result = self.G.Direct(lat1, lon1, az, S)
+        #    if radians:
+        #        lats = lats + (_dg2rad*result['lat2'],)
+        #        lons = lons + (_dg2rad*result['lon2'],)
+        #    else:
+        #        lats = lats + (result['lat2'],)
+        #        lons = lons + (result['lon2'],)
         return list(zip(lons, lats))
 
 def test():
