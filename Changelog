@@ -1,4 +1,4 @@
-1.9.3 (svn revision 324)
+1.9.3 (svn revision 325)
  * Geod now uses C code adapted from geographiclib now included in proj4 source,
    instead of pure python code directly from geographiclib.
  * make radians=True work with Geod.npts (issue 47).
