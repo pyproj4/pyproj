@@ -9,7 +9,8 @@ extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
 pathout = os.path.join('lib',os.path.join('pyproj','data'))
 if sys.argv[1] != 'sdist':
     cc = ccompiler.new_compiler()
-    #sysconfig.customize_compiler(cc) # doesn't work in python 3.3
+    sysconfig.get_config_vars()
+    sysconfig.customize_compiler(cc)
     cc.set_include_dirs(['src'])
     objects = cc.compile(['nad2bin.c', 'src/pj_malloc.c'])
     execname = 'nad2bin'
