@@ -1,3 +1,5 @@
+since 1.9.3
+ * added to_latlong method (issue 51).
 1.9.3 (svn revision 327)
  * Geod now uses C code adapted from geographiclib now included in proj4 source,
    instead of pure python code directly from geographiclib.

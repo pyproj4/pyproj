@@ -36,9 +36,11 @@ cdef extern from "proj_api.h":
     projPJ pj_init_plus_ctx(projCtx, char *)
     projUV pj_fwd(projUV, projPJ)
     projUV pj_inv(projUV, projPJ)
+    projPJ pj_latlong_from_proj(projPJ) 
     int pj_transform(projPJ src, projPJ dst, long point_count, int point_offset,
                      double *x, double *y, double *z)
     int pj_is_latlong(projPJ)
+    char *pj_get_def( projPJ pj, int options)
     int pj_is_geocent(projPJ)
     char *pj_strerrno(int)
     void pj_ctx_free( projCtx )
@@ -58,6 +60,9 @@ def set_datapath(datapath):
     bytestr = _strencode(datapath)
     searchpath = bytestr
     pj_set_searchpath(1, &searchpath)
+
+def _createproj(projstring):
+    return Proj(projstring)
 
 cdef class Proj:
     cdef projPJ projpj
@@ -84,6 +89,15 @@ cdef class Proj:
         """destroy projection definition"""
         pj_free(self.projpj)
         pj_ctx_free(self.projctx)
+
+    def to_latlong(self):
+        """return a new Proj instance which is the geographic (lat/lon)
+        coordinate version of the current projection"""
+        cdef projPJ llpj
+        llpj = pj_latlong_from_proj(self.projpj)
+        initstring = pj_get_def(llpj, 0)
+        pj_free(llpj)
+        return _createproj(initstring)
 
     def __reduce__(self):
         """special method that allows pyproj.Proj instance to be pickled"""

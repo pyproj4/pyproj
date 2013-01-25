@@ -391,6 +391,11 @@ class Proj(_proj.Proj):
         outy = _convertback(yisfloat,yislist,xistuple,iny)
         return outx, outy
 
+    def to_latlong(self):
+        """returns an equivalent Proj in the corresponding lon/lat
+        coordinates. (see pj_latlong_from_proj() in the Proj.4 C API)"""
+        return _proj.Proj.to_latlong(self)
+
     def is_latlong(self):
         """returns True if projection in geographic (lon/lat) coordinates"""
         return _proj.Proj.is_latlong(self)
