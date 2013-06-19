@@ -32,7 +32,7 @@ datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
 package_data = {'pyproj':datafiles}
 
 setup(name = "pyproj",
-  version = "1.9.3",
+  version = "1.9.4",
   description = "Python interface to PROJ.4 library",
   long_description  = """
 Performs cartographic transformations between geographic (lat/lon)
@@ -48,8 +48,8 @@ Optimized for numpy arrays.""",
   license           = "OSI Approved",
   keywords          = ["python","map projections","GIS","mapping","maps"],
   classifiers       = ["Development Status :: 4 - Beta",
-                       "Intended Audience :: Science/Research", 
-                       "License :: OSI Approved", 
+                       "Intended Audience :: Science/Research",
+                       "License :: OSI Approved",
                        "Topic :: Software Development :: Libraries :: Python Modules",
                        "Topic :: Scientific/Engineering :: GIS",
                        "Topic :: Scientific/Engineering :: Mathematics",

@@ -31,7 +31,7 @@ packages          = ['pyproj']
 package_dirs       = {'':'lib'}
 
 setup(name = "pyproj",
-  version = "1.9.3",
+  version = "1.9.4",
   description = "Python interface to PROJ.4 library",
   long_description  = """
 Performs cartographic transformations between geographic (lat/lon)
