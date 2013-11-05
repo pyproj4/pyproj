@@ -18,7 +18,8 @@ if proj_incdir is None and proj_dir is not None:
     incdirs.append(os.path.join(proj_dir,'include'))
 
 pyprojext =\
-Extension("pyproj._proj",["_proj.c"],include_dirs=incdirs,library_dirs=libdirs,libraries=libraries)
+Extension("pyproj._proj",["_proj.c"],include_dirs=incdirs,library_dirs=libdirs,\
+runtime_library_dirs=libdirs,libraries=libraries)
 
 # over-write default data directory.
 pyproj_datadir = os.path.join(os.path.join(proj_dir,'share'),'proj')
