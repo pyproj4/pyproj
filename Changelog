@@ -1,7 +1,7 @@
 1.9.4 (not yet released)
+ * update proj4 source code from svn r2406.
  * added to_latlong method (issue 51).
  * fix back azimuth when lon1 and lon2 are identical.
- * update proj4 source code from svn r2338.
 1.9.3 (svn revision 327)
  * Geod now uses C code adapted from geographiclib now included in proj4 source,
    instead of pure python code directly from geographiclib.

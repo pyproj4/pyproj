@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PJ_aitoff.c 1856 2010-06-11 03:26:04Z warmerdam $
+ * $Id: PJ_aitoff.c 2369 2013-06-26 05:54:00Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Implementation of the aitoff (Aitoff) and wintri (Winkel Tripel)
@@ -34,10 +34,10 @@
 #define PJ_LIB__
 #include <projects.h>
 
-PJ_CVSID("$Id: PJ_aitoff.c 1856 2010-06-11 03:26:04Z warmerdam $");
+PJ_CVSID("$Id: PJ_aitoff.c 2369 2013-06-26 05:54:00Z warmerdam $");
 
-PROJ_HEAD(aitoff, "Aitoff") "\n\tMisc Sph";
-PROJ_HEAD(wintri, "Winkel Tripel") "\n\tMisc Sph\n\tlat_1";
+PROJ_HEAD(aitoff, "Aitoff") "\n\tMisc Sph, no inv.";
+PROJ_HEAD(wintri, "Winkel Tripel") "\n\tMisc Sph, no inv.\n\tlat_1";
 
 FORWARD(s_forward); /* spheroid */
 	double c, d;

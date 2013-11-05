@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_open_lib.c 2130 2011-12-15 01:20:23Z warmerdam $
+ * $Id: pj_open_lib.c 2372 2013-06-26 21:44:00Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Implementation of pj_open_lib(), and pj_set_finder().  These
@@ -36,7 +36,7 @@
 #include <string.h>
 #include <errno.h>
 
-PJ_CVSID("$Id: pj_open_lib.c 2130 2011-12-15 01:20:23Z warmerdam $");
+PJ_CVSID("$Id: pj_open_lib.c 2372 2013-06-26 21:44:00Z warmerdam $");
 
 static const char *(*pj_finder)(const char *) = NULL;
 static int path_count = 0;
@@ -98,11 +98,11 @@ void pj_set_searchpath ( int count, const char **path )
 /*                            pj_open_lib()                             */
 /************************************************************************/
 
-FILE *
-pj_open_lib(projCtx ctx, char *name, char *mode) {
+PAFile
+pj_open_lib(projCtx ctx, const char *name, const char *mode) {
     char fname[MAX_PATH_FILENAME+1];
     const char *sysname;
-    FILE *fid;
+    PAFile fid;
     int n = 0;
     int i;
 #ifdef WIN32
@@ -145,7 +145,7 @@ pj_open_lib(projCtx ctx, char *name, char *mode) {
     } else /* just try it bare bones */
         sysname = name;
 
-    if ((fid = fopen(sysname, mode)) != NULL)
+    if ((fid = pj_ctx_fopen(ctx, sysname, mode)) != NULL)
         errno = 0;
 
     /* If none of those work and we have a search path, try it */
@@ -155,7 +155,7 @@ pj_open_lib(projCtx ctx, char *name, char *mode) {
         {
             sprintf(fname, "%s%c%s", search_path[i], DIR_CHAR, name);
             sysname = fname;
-            fid = fopen (sysname, mode);
+            fid = pj_ctx_fopen(ctx, sysname, mode);
         }
         if (fid)
             errno = 0;

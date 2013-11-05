@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: projects.h 2219 2012-06-19 04:18:00Z warmerdam $
+ * $Id: projects.h 2356 2013-06-25 01:02:23Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Primary (private) include file for PROJ.4 library.
@@ -100,10 +100,6 @@ extern double hypot(double, double);
 #define PI		3.14159265358979323846
 #define TWOPI		6.2831853071795864769
 
-/* environment parameter name */
-#ifndef PROJ_LIB
-#define PROJ_LIB "PROJ_LIB"
-#endif
 /* maximum tag id length for +init and default files */
 #ifndef ID_TAG_MAX
 #define ID_TAG_MAX 50
@@ -125,12 +121,15 @@ extern double hypot(double, double);
 #define DIR_CHAR '/'
 #endif
 
+struct projFileAPI_t;
+
 /* proj thread context */
 typedef struct {
     int	    last_errno;
     int     debug_level;
     void    (*logger)(void *, int, const char *);
     void    *app_data;
+    struct projFileAPI_t *fileapi;
 } projCtx_t;
 
 /* datum_type values */
@@ -421,7 +420,6 @@ double *pj_authset(double);
 double pj_authlat(double, double *);
 COMPLEX pj_zpoly1(COMPLEX, COMPLEX *, int);
 COMPLEX pj_zpolyd1(COMPLEX, COMPLEX *, int, COMPLEX *);
-FILE *pj_open_lib(projCtx, char *, char *);
 
 int pj_deriv(LP, double, PJ *, struct DERIVS *);
 int pj_factors(LP, PJ *, double, struct FACTORS *);
@@ -452,10 +450,10 @@ int bch2bps(projUV, projUV, projUV **, int, int);
 LP nad_intr(LP, struct CTABLE *);
 LP nad_cvt(LP, int, struct CTABLE *);
 struct CTABLE *nad_init(projCtx ctx, char *);
-struct CTABLE *nad_ctable_init( projCtx ctx, FILE * fid );
-int nad_ctable_load( projCtx ctx, struct CTABLE *, FILE * fid );
-struct CTABLE *nad_ctable2_init( projCtx ctx, FILE * fid );
-int nad_ctable2_load( projCtx ctx, struct CTABLE *, FILE * fid );
+struct CTABLE *nad_ctable_init( projCtx ctx, PAFile fid );
+int nad_ctable_load( projCtx ctx, struct CTABLE *, PAFile fid );
+struct CTABLE *nad_ctable2_init( projCtx ctx, PAFile fid );
+int nad_ctable2_load( projCtx ctx, struct CTABLE *, PAFile fid );
 void nad_free(struct CTABLE *);
 
 /* higher level handling of datum grid shift files */

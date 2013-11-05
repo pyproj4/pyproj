@@ -33,7 +33,7 @@
 PJ_CVSID("$Id$");
 
 static projCtx_t default_context;
-static int       default_context_initialized = 0;
+static volatile int       default_context_initialized = 0;
 
 /************************************************************************/
 /*                             pj_get_ctx()                             */
@@ -68,11 +68,11 @@ projCtx pj_get_default_ctx()
 
     if( !default_context_initialized )
     {
-        default_context_initialized = 1;
         default_context.last_errno = 0;
         default_context.debug_level = PJ_LOG_NONE;
         default_context.logger = pj_stderr_logger;
         default_context.app_data = NULL;
+        default_context.fileapi = pj_get_default_fileapi();
 
         if( getenv("PROJ_DEBUG") != NULL )
         {
@@ -81,6 +81,7 @@ projCtx pj_get_default_ctx()
             else
                 default_context.debug_level = PJ_LOG_DEBUG_MINOR;
         }
+        default_context_initialized = 1;
     }
 
     pj_release_lock();
@@ -174,6 +175,26 @@ void *pj_ctx_get_app_data( projCtx ctx )
 
 {
     return ctx->app_data;
+}
+
+/************************************************************************/
+/*                         pj_ctx_set_fileapi()                         */
+/************************************************************************/
+
+void pj_ctx_set_fileapi( projCtx ctx, projFileAPI *fileapi )
+
+{
+    ctx->fileapi = fileapi;
+}
+
+/************************************************************************/
+/*                         pj_ctx_get_fileapi()                         */
+/************************************************************************/
+
+projFileAPI *pj_ctx_get_fileapi( projCtx ctx )
+
+{
+    return ctx->fileapi;
 }
 
 

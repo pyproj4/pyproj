@@ -1,7 +1,11 @@
 /**
  * \file geodesic.c
  * \brief Implementation of the geodesic routines in C
+ *
+ * For the full documentation see geodesic.h.
  **********************************************************************/
+
+/** @cond SKIP */
 
 /*
  * This is a C implementation of the geodesic algorithms described in
@@ -20,8 +24,6 @@
  */
 
 #include "geodesic.h"
-
-/** @cond SKIP */
 #include <math.h>
 
 #define GEOGRAPHICLIB_GEODESIC_ORDER 6
@@ -195,6 +197,8 @@ static real InverseStart(const struct geod_geodesic* g,
                          real* psalp1, real* pcalp1,
                          /* Only updated if return val >= 0 */
                          real* psalp2, real* pcalp2,
+                         /* Only updated for short lines */
+                         real* pdnm,
                          /* Scratch areas of the right size */
                          real C1a[], real C2a[]);
 static real Lambda12(const struct geod_geodesic* g,
@@ -218,8 +222,11 @@ static void C1pf(real eps, real c[]);
 static real A2m1f(real eps);
 static void C2f(real eps, real c[]);
 static int transit(real lon1, real lon2);
-
-/** @endcond */
+static void accini(real s[]);
+static void acccopy(const real s[], real t[]);
+static void accadd(real s[], real y);
+static real accsum(const real s[], real y);
+static void accneg(real s[]);
 
 void geod_init(struct geod_geodesic* g, real a, real f) {
   if (!init) Init();
@@ -234,8 +241,18 @@ void geod_init(struct geod_geodesic* g, real a, real f) {
            (g->e2 == 0 ? 1 :
             (g->e2 > 0 ? atanhx(sqrt(g->e2)) : atan(sqrt(-g->e2))) /
             sqrt(fabs(g->e2))))/2; /* authalic radius squared */
-  /* The sig12 threshold for "really short" */
-  g->etol2 = 0.01 * tol2 / maxx((real)(0.1), sqrt(fabs(g->e2)));
+  /* The sig12 threshold for "really short".  Using the auxiliary sphere
+   * solution with dnm computed at (bet1 + bet2) / 2, the relative error in the
+   * azimuth consistency check is sig12^2 * abs(f) * min(1, 1-f/2) / 2.  (Error
+   * measured for 1/100 < b/a < 100 and abs(f) >= 1/1000.  For a given f and
+   * sig12, the max error occurs for lines near the pole.  If the old rule for
+   * computing dnm = (dn1 + dn2)/2 is used, then the error increases by a
+   * factor of 2.)  Setting this equal to epsilon gives sig12 = etol2.  Here
+   * 0.1 is a safety factor (error decreased by 100) and max(0.001, abs(f))
+   * stops etol2 getting too large in the nearly spherical case. */
+  g->etol2 = 0.1 * tol2 /
+    sqrt( maxx((real)(0.001), fabs(g->f)) * minx((real)(1), 1 - g->f/2) / 2 );
+
   A3coeff(g);
   C3coeff(g);
   C4coeff(g);
@@ -716,14 +733,14 @@ real geod_geninverse(const struct geod_geodesic* g,
      * meridian and geodesic is neither meridional or equatorial. */
 
     /* Figure a starting point for Newton's method */
+    real dnm = 0;
     sig12 = InverseStart(g, sbet1, cbet1, dn1, sbet2, cbet2, dn2,
                          lam12,
-                         &salp1, &calp1, &salp2, &calp2,
+                         &salp1, &calp1, &salp2, &calp2, &dnm,
                          C1a, C2a);
 
     if (sig12 >= 0) {
-      /* Short lines (InverseStart sets salp2, calp2) */
-      real dnm = (dn1 + dn2) / 2;
+      /* Short lines (InverseStart sets salp2, calp2, dnm) */
       s12x = sig12 * g->b * dnm;
       m12x = sq(dnm) * g->b * sin(sig12 / dnm);
       if (outmask & GEOD_GEODESICSCALE)
@@ -911,16 +928,12 @@ real geod_geninverse(const struct geod_geodesic* g,
 }
 
 void geod_inverse(const struct geod_geodesic* g,
-                  double lat1, double lon1, double lat2, double lon2,
-                  double* ps12, double* pazi1, double* pazi2) {
+                  real lat1, real lon1, real lat2, real lon2,
+                  real* ps12, real* pazi1, real* pazi2) {
   geod_geninverse(g, lat1, lon1, lat2, lon2, ps12, pazi1, pazi2, 0, 0, 0, 0);
 }
 
-/** @cond SKIP */
-
-real SinCosSeries(boolx sinp,
-                  real sinx, real cosx,
-                  const real c[], int n) {
+real SinCosSeries(boolx sinp, real sinx, real cosx, const real c[], int n) {
   /* Evaluate
    * y = sinp ? sum(c[i] * sin( 2*i    * x), i, 1, n) :
    *            sum(c[i] * cos((2*i+1) * x), i, 0, n-1)
@@ -1046,9 +1059,11 @@ real InverseStart(const struct geod_geodesic* g,
                   real* psalp1, real* pcalp1,
                   /* Only updated if return val >= 0 */
                   real* psalp2, real* pcalp2,
+                  /* Only updated for short lines */
+                  real* pdnm,
                   /* Scratch areas of the right size */
                   real C1a[], real C2a[]) {
-  real salp1 = 0, calp1 = 0, salp2 = 0, calp2 = 0;
+  real salp1 = 0, calp1 = 0, salp2 = 0, calp2 = 0, dnm = 0;
 
   /* Return a starting point for Newton's method in salp1 and calp1 (function
    * value is -1).  If Newton's method doesn't need to be used, return also
@@ -1076,11 +1091,17 @@ real InverseStart(const struct geod_geodesic* g,
   real sbet12a = sbet2 * cbet1 + cbet2 * sbet1;
 #endif
   boolx shortline = cbet12 >= 0 && sbet12 < (real)(0.5) &&
-    lam12 <= pi / 6;
-  real
-    omg12 = !shortline ? lam12 : lam12 / (g->f1 * (dn1 + dn2) / 2),
-    somg12 = sin(omg12), comg12 = cos(omg12);
-  real ssig12, csig12;
+    cbet2 * lam12 < (real)(0.5);
+  real omg12 = lam12, somg12, comg12, ssig12, csig12;
+  if (shortline) {
+    real sbetm2 = sq(sbet1 + sbet2);
+    /* sin((bet1+bet2)/2)^2
+     * =  (sbet1 + sbet2)^2 / ((sbet1 + sbet2)^2 + (cbet1 + cbet2)^2) */
+    sbetm2 /= sbetm2 + sq(cbet1 + cbet2);
+    dnm = sqrt(1 + g->ep2 * sbetm2);
+    omg12 /= g->f1 * dnm;
+  }
+  somg12 = sin(omg12); comg12 = cos(omg12);
 
   salp1 = cbet2 * somg12;
   calp1 = comg12 >= 0 ?
@@ -1093,7 +1114,8 @@ real InverseStart(const struct geod_geodesic* g,
   if (shortline && ssig12 < g->etol2) {
     /* really short lines */
     salp2 = cbet1 * somg12;
-    calp2 = sbet12 - cbet1 * sbet2 * sq(somg12) / (1 + comg12);
+    calp2 = sbet12 - cbet1 * sbet2 *
+      (comg12 >= 0 ? sq(somg12) / (1 + comg12) : 1 - comg12);
     SinCosNorm(&salp2, &calp2);
     /* Set return value */
     sig12 = atan2(ssig12, csig12);
@@ -1200,6 +1222,8 @@ real InverseStart(const struct geod_geodesic* g,
 
   *psalp1 = salp1;
   *pcalp1 = calp1;
+  if (shortline)
+    *pdnm = dnm;
   if (sig12 >= 0) {
     *psalp2 = salp2;
     *pcalp2 = calp2;
@@ -1492,28 +1516,255 @@ int transit(real lon1, real lon2) {
     (lon2 < 0 && lon1 >= 0 && lon12 < 0 ? -1 : 0);
 }
 
-/** @endcond */
+void accini(real s[]) {
+  /* Initialize an accumulator; this is an array with two elements. */
+  s[0] = s[1] = 0;
+}
+
+void acccopy(const real s[], real t[]) {
+  /* Copy an accumulator; t = s. */
+  t[0] = s[0]; t[1] = s[1];
+}
+
+void accadd(real s[], real y) {
+  /* Add y to an accumulator. */
+  real u, z = sumx(y, s[1], &u);
+  s[0] = sumx(z, s[0], &s[1]);
+  if (s[0] == 0)
+    s[0] = u;
+  else
+    s[1] = s[1] + u;
+}
+
+real accsum(const real s[], real y) {
+  /* Return accumulator + y (but don't add to accumulator). */
+  real t[2];
+  acccopy(s, t);
+  accadd(t, y);
+  return t[0];
+}
+
+void accneg(real s[]) {
+  /* Negate an accumulator. */
+  s[0] = -s[0]; s[1] = -s[1];
+}
+
+void geod_polygon_init(struct geod_polygon* p, boolx polylinep) {
+  p->lat0 = p->lon0 = p->lat = p->lon = NaN;
+  p->polyline = (polylinep != 0);
+  accini(p->P);
+  accini(p->A);
+  p->num = p->crossings = 0;
+}
+
+void geod_polygon_addpoint(const struct geod_geodesic* g,
+                           struct geod_polygon* p,
+                           real lat, real lon) {
+  lon = AngNormalize(lon);
+  if (p->num == 0) {
+    p->lat0 = p->lat = lat;
+    p->lon0 = p->lon = lon;
+  } else {
+    real s12, S12;
+    geod_geninverse(g, p->lat, p->lon, lat, lon,
+                    &s12, 0, 0, 0, 0, 0, p->polyline ? 0 : &S12);
+    accadd(p->P, s12);
+    if (!p->polyline) {
+      accadd(p->A, S12);
+      p->crossings += transit(p->lon, lon);
+    }
+    p->lat = lat; p->lon = lon;
+  }
+  ++p->num;
+}
+
+void geod_polygon_addedge(const struct geod_geodesic* g,
+                          struct geod_polygon* p,
+                          real azi, real s) {
+  if (p->num) {                 /* Do nothing is num is zero */
+    real lat, lon, S12;
+    geod_gendirect(g, p->lat, p->lon, azi, FALSE, s,
+                   &lat, &lon, 0,
+                   0, 0, 0, 0, p->polyline ? 0 : &S12);
+    accadd(p->P, s);
+    if (!p->polyline) {
+      accadd(p->A, S12);
+      p->crossings += transit(p->lon, lon);
+    }
+    p->lat = lat; p->lon = lon;
+    ++p->num;
+  }
+}
+
+unsigned geod_polygon_compute(const struct geod_geodesic* g,
+                              const struct geod_polygon* p,
+                              boolx reverse, boolx sign,
+                              real* pA, real* pP) {
+  real s12, S12, t[2], area0;
+  int crossings;
+  if (p->num < 2) {
+    if (pP) *pP = 0;
+    if (!p->polyline && pA) *pA = 0;
+    return p->num;
+  }
+  if (p->polyline) {
+    if (pP) *pP = p->P[0];
+    return p->num;
+  }
+  geod_geninverse(g, p->lat, p->lon, p->lat0, p->lon0,
+                  &s12, 0, 0, 0, 0, 0, &S12);
+  if (pP) *pP = accsum(p->P, s12);
+  acccopy(p->A, t);
+  accadd(t, S12);
+  crossings = p->crossings + transit(p->lon, p->lon0);
+  area0 = 4 * pi * g->c2;
+  if (crossings & 1)
+    accadd(t, (t[0] < 0 ? 1 : -1) * area0/2);
+  /* area is with the clockwise sense.  If !reverse convert to
+   * counter-clockwise convention. */
+  if (!reverse)
+    accneg(t);
+  /* If sign put area in (-area0/2, area0/2], else put area in [0, area0) */
+  if (sign) {
+    if (t[0] > area0/2)
+      accadd(t, -area0);
+    else if (t[0] <= -area0/2)
+      accadd(t, +area0);
+  } else {
+    if (t[0] >= area0)
+      accadd(t, -area0);
+    else if (t[0] < 0)
+      accadd(t, +area0);
+  }
+  if (pA) *pA = 0 + t[0];
+  return p->num;
+}
+
+unsigned geod_polygon_testpoint(const struct geod_geodesic* g,
+                                const struct geod_polygon* p,
+                                real lat, real lon,
+                                boolx reverse, boolx sign,
+                                real* pA, real* pP) {
+  real perimeter, tempsum, area0;
+  int crossings, i;
+  unsigned num = p->num + 1;
+  if (num == 1) {
+    if (pP) *pP = 0;
+    if (!p->polyline && pA) *pA = 0;
+    return num;
+  }
+  perimeter = p->P[0];
+  tempsum = p->polyline ? 0 : p->A[0];
+  crossings = p->crossings;
+  for (i = 0; i < (p->polyline ? 1 : 2); ++i) {
+    real s12, S12;
+    geod_geninverse(g,
+                    i == 0 ? p->lat  : lat, i == 0 ? p->lon  : lon,
+                    i != 0 ? p->lat0 : lat, i != 0 ? p->lon0 : lon,
+                    &s12, 0, 0, 0, 0, 0, p->polyline ? 0 : &S12);
+    perimeter += s12;
+    if (!p->polyline) {
+      tempsum += S12;
+      crossings += transit(i == 0 ? p->lon  : lon,
+                           i != 0 ? p->lon0 : lon);
+    }
+  }
+
+  if (pP) *pP = perimeter;
+  if (p->polyline)
+    return num;
+
+  area0 = 4 * pi * g->c2;
+  if (crossings & 1)
+    tempsum += (tempsum < 0 ? 1 : -1) * area0/2;
+  /* area is with the clockwise sense.  If !reverse convert to
+   * counter-clockwise convention. */
+  if (!reverse)
+    tempsum *= -1;
+  /* If sign put area in (-area0/2, area0/2], else put area in [0, area0) */
+  if (sign) {
+    if (tempsum > area0/2)
+      tempsum -= area0;
+    else if (tempsum <= -area0/2)
+      tempsum += area0;
+  } else {
+    if (tempsum >= area0)
+      tempsum -= area0;
+    else if (tempsum < 0)
+      tempsum += area0;
+  }
+  if (pA) *pA = 0 + tempsum;
+  return num;
+}
+
+unsigned geod_polygon_testedge(const struct geod_geodesic* g,
+                               const struct geod_polygon* p,
+                               real azi, real s,
+                               boolx reverse, boolx sign,
+                               real* pA, real* pP) {
+  real perimeter, tempsum, area0;
+  int crossings;
+  unsigned num = p->num + 1;
+  if (num == 1) {               /* we don't have a starting point! */
+    if (pP) *pP = NaN;
+    if (!p->polyline && pA) *pA = NaN;
+    return 0;
+  }
+  perimeter = p->P[0] + s;
+  if (p->polyline) {
+    if (pP) *pP = perimeter;
+    return num;
+  }
+
+  tempsum = p->A[0];
+  crossings = p->crossings;
+  {
+    real lat, lon, s12, S12;
+    geod_gendirect(g, p->lat, p->lon, azi, FALSE, s,
+                   &lat, &lon, 0,
+                   0, 0, 0, 0, &S12);
+    tempsum += S12;
+    crossings += transit(p->lon, lon);
+    geod_geninverse(g, lat,  lon, p->lat0,  p->lon0,
+                    &s12, 0, 0, 0, 0, 0, &S12);
+    perimeter += s12;
+    tempsum += S12;
+    crossings += transit(lon, p->lon0);
+  }
+
+  area0 = 4 * pi * g->c2;
+  if (crossings & 1)
+    tempsum += (tempsum < 0 ? 1 : -1) * area0/2;
+  /* area is with the clockwise sense.  If !reverse convert to
+   * counter-clockwise convention. */
+  if (!reverse)
+    tempsum *= -1;
+  /* If sign put area in (-area0/2, area0/2], else put area in [0, area0) */
+  if (sign) {
+    if (tempsum > area0/2)
+      tempsum -= area0;
+    else if (tempsum <= -area0/2)
+      tempsum += area0;
+  } else {
+    if (tempsum >= area0)
+      tempsum -= area0;
+    else if (tempsum < 0)
+      tempsum += area0;
+  }
+  if (pP) *pP = perimeter;
+  if (pA) *pA = 0 + tempsum;
+  return num;
+}
 
 void geod_polygonarea(const struct geod_geodesic* g,
                       real lats[], real lons[], int n,
                       real* pA, real* pP) {
-  int i, crossings = 0;
-  real area0 = 4 * pi * g->c2, A = 0, P = 0;
-  for (i = 0; i < n; ++i) {
-    real s12, S12;
-    geod_geninverse(g, lats[i], lons[i], lats[(i + 1) % n], lons[(i + 1) % n],
-               &s12, 0, 0, 0, 0, 0, &S12);
-    P += s12;
-    A -= S12; /* The minus sign is due to the counter-clockwise convention */
-    crossings += transit(lons[i], lons[(i + 1) % n]);
-  }
-  if (crossings & 1)
-    A += (A < 0 ? 1 : -1) * area0/2;
-  /* Put area in (-area0/2, area0/2] */
-  if (A > area0/2)
-    A -= area0;
-  else if (A <= -area0/2)
-    A += area0;
-  if (pA) *pA = A;
-  if (pP) *pP = P;
+  int i;
+  struct geod_polygon p;
+  geod_polygon_init(&p, FALSE);
+  for (i = 0; i < n; ++i)
+    geod_polygon_addpoint(g, &p, lats[i], lons[i]);
+  geod_polygon_compute(g, &p, FALSE, TRUE, pA, pP);
 }
+
+/** @endcond */
