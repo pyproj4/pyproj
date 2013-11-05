@@ -1,0 +1,4 @@
+all the files here are directly copied from proj svn, except for PJ_hammer.c
+which is patched to enable the inverse transform.
+
+Currently up-to-date with r2406 proj svn (20131105).
