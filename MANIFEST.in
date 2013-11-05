@@ -1,7 +1,7 @@
 include README
 include MANIFEST.in
 include LICENSE_proj4
-include LICENSE_geographiclib
+include LICENSE
 include Changelog
 include create_docs.sh
 include _proj.pyx
