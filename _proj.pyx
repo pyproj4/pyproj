@@ -56,9 +56,8 @@ cdef extern from "Python.h":
     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
 
 def set_datapath(datapath):
-    cdef char *searchpath
     bytestr = _strencode(datapath)
-    searchpath = bytestr
+    cdef const char *searchpath = bytestr
     pj_set_searchpath(1, &searchpath)
 
 def _createproj(projstring):
