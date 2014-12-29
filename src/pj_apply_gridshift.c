@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_apply_gridshift.c 2219 2012-06-19 04:18:00Z warmerdam $
+ * $Id: pj_apply_gridshift.c 2548 2014-09-17 06:21:09Z warmerdam $
  *
  * Project:  PROJ.4
  * Purpose:  Apply datum shifts based on grid shift files (normally NAD27 to
@@ -156,7 +156,7 @@ int pj_apply_gridshift_3( projCtx ctx, PJ_GRIDINFO **tables, int grid_count,
                 continue;
 
             /* If we have child nodes, check to see if any of them apply. */
-            if( gi->child != NULL )
+            while( gi->child )
             {
                 PJ_GRIDINFO *child;
 
@@ -177,12 +177,14 @@ int pj_apply_gridshift_3( projCtx ctx, PJ_GRIDINFO **tables, int grid_count,
                     break;
                 }
 
-                /* we found a more refined child node to use */
-                if( child != NULL )
-                {
-                    gi = child;
-                    ct = child->ct;
-                }
+                /* If we didn't find a child then nothing more to do */
+
+                if( child == NULL ) break;
+
+                /* Otherwise use the child, first checking it's children */
+
+                gi = child;
+                ct = child->ct;
             }
 
             /* load the grid shift info if we don't have it. */

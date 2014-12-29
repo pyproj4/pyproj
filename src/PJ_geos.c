@@ -5,7 +5,7 @@
 ** Copyright (c) 2012   Martin Raspaud
 */
 static const char
-LIBPROJ_ID[] = "$Id: PJ_geos.c 2176 2012-02-27 07:56:32Z warmerdam $";
+LIBPROJ_ID[] = "$Id: PJ_geos.c 2411 2013-12-09 18:13:15Z warmerdam $";
 /*
 ** See also (section 4.4.3.2):
 **   http://www.eumetsat.int/en/area4/msg/news/us_doc/cgms_03_26.pdf
@@ -170,7 +170,7 @@ ENTRY0(geos)
                 (P->sweep_axis[0] != 'x' &&
                  P->sweep_axis[0] != 'y'))
               E_ERROR(-49);
-            if (P->sweep_axis[0] == 'y')
+            if (P->sweep_axis[0] == 'x')
               P->flip_axis = 1;
             else
               P->flip_axis = 0;

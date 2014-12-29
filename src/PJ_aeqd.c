@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: PJ_aeqd.c 1856 2010-06-11 03:26:04Z warmerdam $
+ * $Id: PJ_aeqd.c 2520 2014-09-13 20:19:37Z hobu $
  *
  * Project:  PROJ.4
  * Purpose:  Implementation of the aeqd (Azimuthal Equidistant) projection.
@@ -40,7 +40,7 @@
 #define PJ_LIB__
 #include	<projects.h>
 
-PJ_CVSID("$Id: PJ_aeqd.c 1856 2010-06-11 03:26:04Z warmerdam $");
+PJ_CVSID("$Id: PJ_aeqd.c 2520 2014-09-13 20:19:37Z hobu $");
 
 PROJ_HEAD(aeqd, "Azimuthal Equidistant") "\n\tAzi, Sph&Ell\n\tlat_0 guam";
 
@@ -210,7 +210,7 @@ INVERSE(s_inverse); /* spherical */
 			xy.y = (cosc - P->sinph0 * sin(lp.phi)) * c_rh;
 			xy.x *= sinc * P->cosph0;
 		}
-		lp.lam = xy.y == 0. ? 0. : atan2(xy.x, xy.y);
+		lp.lam = atan2(xy.x, xy.y);
 	} else if (P->mode == N_POLE) {
 		lp.phi = HALFPI - c_rh;
 		lp.lam = atan2(xy.x, -xy.y);
