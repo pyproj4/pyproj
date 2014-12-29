@@ -23,7 +23,7 @@ scalars or numpy/Numeric/numarray arrays. Optimized for objects
 that support the Python buffer protocol (regular python and
 numpy array objects).
 
-Download: http://code.google.com/p/pyproj/downloads/list
+Download: http://python.org/pypi/pyproj
 
 Requirements: python 2.4 or higher.
 

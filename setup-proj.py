@@ -40,7 +40,7 @@ and map projection (x/y) coordinates. Can also transform directly
 from one map projection coordinate system to another.
 Coordinates can be given as numpy arrays, python arrays, lists or scalars.
 Optimized for numpy arrays.""",
-  url               = "http://code.google.com/p/pyproj",
+  url               = "https://github.com/jswhit/pyproj",
   download_url      = "http://python.org/pypi/pyproj",
   author            = "Jeff Whitaker",
   author_email      = "jeffrey.s.whitaker@noaa.gov",
