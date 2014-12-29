@@ -4,6 +4,8 @@ To install:
 * python setup.py build
 * python setup.py install (with sudo if necessary).
 
+To test, run `python -c "import pyproj; pyproj.test()"`
+
 To use installed proj lib (and data files), use setup-proj.py instead
 and set PROJ_DIR env var to point to location of proj installation.
 
