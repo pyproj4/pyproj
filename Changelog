@@ -1,4 +1,4 @@
-1.9.4 (not yet released)
+1.9.4 (git tag v1.9.4rel)
  * migrate to github from googlecode.
  * update proj4 source code from svn r2406.
  * include runtime_library_dirs in setup-proj.py.
