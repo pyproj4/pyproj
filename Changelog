@@ -1,4 +1,5 @@
 1.9.4 (not yet released)
+ * migrate to github from googlecode.
  * update proj4 source code from svn r2406.
  * include runtime_library_dirs in setup-proj.py.
  * added to_latlong method (issue 51).
