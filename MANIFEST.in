@@ -1,4 +1,4 @@
-include README
+include README.md
 include MANIFEST.in
 include LICENSE_proj4
 include LICENSE
