@@ -1,28 +1,35 @@
 import sys, os, glob, subprocess
-from distutils import ccompiler, sysconfig
-from distutils.core import setup, Extension
+
+try:
+    from setuptools import setup, Extension
+    use_setuptools = True
+except ImportError:
+    from distutils.core import setup, Extension
+    from distutils import ccompiler, sysconfig
+    use_setuptools = False
 
 deps = glob.glob('src/*.c')
 extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
 
 # create binary datum shift grid files.
 pathout = os.path.join('lib',os.path.join('pyproj','data'))
-if sys.argv[1] != 'sdist':
-    cc = ccompiler.new_compiler()
-    sysconfig.get_config_vars()
-    sysconfig.customize_compiler(cc)
-    cc.set_include_dirs(['src'])
-    objects = cc.compile(['nad2bin.c', 'src/pj_malloc.c'])
-    execname = 'nad2bin'
-    cc.link_executable(objects, execname)
-    llafiles = glob.glob('datumgrid/*.lla')
-    cmd = os.path.join(os.getcwd(),execname)
-    for f in llafiles:
-        fout = os.path.basename(f.split('.lla')[0])
-        fout = os.path.join(pathout,fout)
-        strg = '%s %s < %s' % (cmd, fout, f)
-        sys.stdout.write('executing %s'%strg)
-        subprocess.call(strg,shell=True)
+if not use_setuptools:
+    if sys.argv[1] != 'sdist':
+        cc = ccompiler.new_compiler()
+        sysconfig.get_config_vars()
+        sysconfig.customize_compiler(cc)
+        cc.set_include_dirs(['src'])
+        objects = cc.compile(['nad2bin.c', 'src/pj_malloc.c'])
+        execname = 'nad2bin'
+        cc.link_executable(objects, execname)
+        llafiles = glob.glob('datumgrid/*.lla')
+        cmd = os.path.join(os.getcwd(),execname)
+        for f in llafiles:
+            fout = os.path.basename(f.split('.lla')[0])
+            fout = os.path.join(pathout,fout)
+            strg = '%s %s < %s' % (cmd, fout, f)
+            sys.stdout.write('executing %s'%strg)
+            subprocess.call(strg,shell=True)
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
