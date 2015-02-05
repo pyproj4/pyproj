@@ -1,3 +1,5 @@
+since 1.9.4 release
+* restore inverse Hammer patch that was lost when proj4 source code was updated.
 1.9.4 (git tag v1.9.4rel)
  * migrate to github from googlecode.
  * update proj4 source code from svn r2595 (version 4.9.0RC2).
