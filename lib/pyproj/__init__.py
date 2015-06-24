@@ -320,8 +320,8 @@ class Proj(_proj.Proj):
                 raise RuntimeError('no projection control parameters specified')
             else:
                 projstring = _dict2string(kwargs)
-        elif type(projparams) == str:
-            # if projparams is a string, interpret as a proj4 init string.
+        elif type(projparams) == str or unicode:
+            # if projparams is a string or a unicode string, interpret as a proj4 init string.
             projstring = projparams
         else: # projparams a dict
             projstring = _dict2string(projparams)
