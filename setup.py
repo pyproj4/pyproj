@@ -7,7 +7,7 @@ extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
 
 # create binary datum shift grid files.
 pathout = os.path.join('lib',os.path.join('pyproj','data'))
-if sys.argv[1] != 'sdist':
+if len(sys.argv) > 1 and sys.argv[1] != 'sdist':
     cc = ccompiler.new_compiler()
     sysconfig.get_config_vars()
     sysconfig.customize_compiler(cc)
