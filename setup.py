@@ -7,14 +7,15 @@ extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
 
 # create binary datum shift grid files.
 pathout = os.path.join('lib',os.path.join('pyproj','data'))
-if sys.argv[1] != 'sdist':
+if len(sys.argv) > 1 and sys.argv[1] != 'sdist':
     cc = ccompiler.new_compiler()
+    cc.define_macro('_CRT_SECURE_NO_WARNINGS')
     sysconfig.get_config_vars()
     sysconfig.customize_compiler(cc)
     cc.set_include_dirs(['src'])
     objects = cc.compile(['nad2bin.c', 'src/pj_malloc.c'])
     execname = 'nad2bin'
-    cc.link_executable(objects, execname)
+    cc.link_executable(objects, execname, extra_postargs = [ '/MANIFEST' ] if os.name == 'nt' else  None)
     llafiles = glob.glob('datumgrid/*.lla')
     cmd = os.path.join(os.getcwd(),execname)
     for f in llafiles:
