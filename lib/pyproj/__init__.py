@@ -476,6 +476,12 @@ def transform(p1, p2, x, y, z=None, radians=False):
     >>> "%12.3f %12.3f" % (x2,y2)
     ' 1402285.991  5076292.423'
     """
+    # check that p1 and p2 are from the Proj class
+    if not isinstance(p1, Proj):
+        raise TypeError("p1 must be a Proj class")
+    if not isinstance(p2, Proj):
+        raise TypeError("p2 must be a Proj class")
+
     # process inputs, making copies that support buffer API.
     inx, xisfloat, xislist, xistuple = _copytobuffer(x)
     iny, yisfloat, yislist, yistuple = _copytobuffer(y)
