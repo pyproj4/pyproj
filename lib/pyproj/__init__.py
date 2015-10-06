@@ -694,6 +694,10 @@ class Geod(_proj.Geod):
         ellpsd = {}
         if initstring is not None:
             for kvpair in initstring.split():
+                # Actually only +a and +b are needed
+                # We can ignore safely any parameter that doesn't have a value
+                if kvpair.find('=') == -1:
+                    continue
                 k,v = kvpair.split('=')
                 k = k.lstrip('+')
                 if k in ['a','b','rf','f','es','e']:
