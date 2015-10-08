@@ -47,6 +47,24 @@ class BasicTest(unittest.TestCase):
       self.assertAlmostEqual(point_geog[0], point_geog2[0])
       self.assertAlmostEqual(point_geog[1], point_geog2[1])
 
+class Issue8Test(unittest.TestCase):
+    # Test for "Segmentation fault on pyproj.transform #8"
+    # https://github.com/jswhit/pyproj/issues/8
+
+    def setUp(self):
+       self.p = Proj(init='epsg:4269')
+    
+    def test_tranform_none_1st_parmeter(self):
+    # test should raise Type error if projections are not of Proj classes
+    # version 1.9.4 produced AttributeError, now should raise TypeError
+       with self.assertRaises(TypeError):
+          transform(None, self.p, -74, 39)
+
+    def test_tranform_none_2nd_parmeter(self):
+    # test should raise Type error if projections are not of Proj classes
+    # version 1.9.4 has a Segmentation Fault, now should raise TypeError
+       with self.assertRaises(TypeError):
+          transform(self.p, None, -74, 39)
 
 if __name__ == '__main__':
   unittest.main()
