@@ -476,6 +476,12 @@ def transform(p1, p2, x, y, z=None, radians=False):
     >>> "%12.3f %12.3f" % (x2,y2)
     ' 1402285.991  5076292.423'
     """
+    # check that p1 and p2 are from the Proj class
+    if not isinstance(p1, Proj):
+        raise TypeError("p1 must be a Proj class")
+    if not isinstance(p2, Proj):
+        raise TypeError("p2 must be a Proj class")
+
     # process inputs, making copies that support buffer API.
     inx, xisfloat, xislist, xistuple = _copytobuffer(x)
     iny, yisfloat, yislist, yistuple = _copytobuffer(y)
@@ -694,6 +700,10 @@ class Geod(_proj.Geod):
         ellpsd = {}
         if initstring is not None:
             for kvpair in initstring.split():
+                # Actually only +a and +b are needed
+                # We can ignore safely any parameter that doesn't have a value
+                if kvpair.find('=') == -1:
+                    continue
                 k,v = kvpair.split('=')
                 k = k.lstrip('+')
                 if k in ['a','b','rf','f','es','e']:

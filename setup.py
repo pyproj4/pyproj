@@ -1,6 +1,6 @@
 import sys, os, glob, subprocess
 from distutils import ccompiler, sysconfig
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 
 deps = glob.glob('src/*.c')
 extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
