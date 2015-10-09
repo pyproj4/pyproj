@@ -47,6 +47,8 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 
+from six import string_types, text_type
+
 from pyproj import _proj
 from pyproj.datadir import pyproj_datadir
 __version__ =  _proj.__version__
@@ -320,7 +322,7 @@ class Proj(_proj.Proj):
                 raise RuntimeError('no projection control parameters specified')
             else:
                 projstring = _dict2string(kwargs)
-        elif type(projparams) == str or unicode:
+        elif isinstance(projparams, string_types) or type(projparams) == text_type:
             # if projparams is a string or a unicode string, interpret as a proj4 init string.
             projstring = projparams
         else: # projparams a dict
