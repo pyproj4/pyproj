@@ -6,6 +6,11 @@ To install:
 
 To test, run `python -c "import pyproj; pyproj.test()"`
 
+For new unit tests, run:
+* `python unittest/test.py`
+* OR this `py.test -v unittest/test.py`
+* OR under the unittests folder this `nosetests -v`
+
 To use installed proj lib (and data files), use setup-proj.py instead
 and set PROJ_DIR env var to point to location of proj installation.
 

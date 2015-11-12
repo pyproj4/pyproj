@@ -54,6 +54,7 @@ Optimized for numpy arrays.""",
                        "Topic :: Scientific/Engineering :: GIS",
                        "Topic :: Scientific/Engineering :: Mathematics",
                        "Operating System :: OS Independent"],
+  install_requires = ['six'],
   packages          = packages,
   package_dir       = package_dirs,
   ext_modules = [pyprojext]
