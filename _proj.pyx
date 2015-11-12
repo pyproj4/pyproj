@@ -340,7 +340,7 @@ def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
     yy = <double *>ydata
     if inz is not None:
         zz = <double *>zdata
-    npts = buflenx/8
+    npts = buflenx//8
     if not radians and p1.is_latlong():
         for i from 0 <= i < npts:
             xx[i] = xx[i]*_dg2rad
