@@ -528,7 +528,10 @@ def _copytobuffer(x):
                 # (this makes a copy - which is crucial
                 #  since buffer is modified in place)
                 x.dtype.char
-                inx = x.astype('d')
+                # Basemap issue
+                # https://github.com/matplotlib/basemap/pull/223/files
+                # (deal with input array in fortran order)
+                inx = x.copy(order="C").astype('d')
                 # inx,isfloat,islist,istuple
                 return inx,False,False,False
             except:
