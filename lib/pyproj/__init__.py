@@ -54,6 +54,13 @@ set_datapath =  _proj.set_datapath
 from array import array
 import os, math
 #import numpy as np
+
+# Python 2/3 compatibility
+if sys.version_info[0] == 2:	 	# Python 2
+   string_types = (basestring,)
+else: 			   		# Python 3
+   string_types = (str,)
+
 pj_list={
 'aea': "Albers Equal Area",
 'aeqd': "Azimuthal Equidistant",
@@ -320,7 +327,7 @@ class Proj(_proj.Proj):
                 raise RuntimeError('no projection control parameters specified')
             else:
                 projstring = _dict2string(kwargs)
-        elif type(projparams) == str or unicode:
+        elif isinstance(projparams, string_types):
             # if projparams is a string or a unicode string, interpret as a proj4 init string.
             projstring = projparams
         else: # projparams a dict
