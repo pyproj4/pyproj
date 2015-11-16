@@ -1,0 +1,26 @@
+language: python
+
+sudo: false
+
+env:
+  global:
+    - DEPENDS="numpy"
+
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+
+before_install:
+  - pip install $DEPENDS
+
+install:
+  - python setup.py install
+
+script:
+    - python -c "import pyproj; pyproj.test()"
+    - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
+
+notifications:
+  email: false
