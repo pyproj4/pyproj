@@ -363,10 +363,6 @@ class Proj(_proj.Proj):
         If errcheck=False and the transformation is invalid, no
         exception is raised and 1.e30 is returned.
 
-        Instead of calling with lon, lat, a single ndarray of
-        shape n,2 may be used, and one of the same shape will
-        be returned; this is more efficient.
-
         Inputs should be doubles (they will be cast to doubles if they
         are not, causing a slight performance hit).
 
