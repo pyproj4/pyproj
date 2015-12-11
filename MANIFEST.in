@@ -9,6 +9,7 @@ include _proj.c
 include nad2bin.c
 include src/*.c
 include src/*.h
+include src/*diff
 include setup-proj.py
 include lib/pyproj/*py
 include lib/pyproj/data/*
@@ -21,3 +22,4 @@ include test/test_transform.py
 include test/geodtest.py
 include test/test_datum.py
 recursive-include docs *
+recursive-include unittest *
