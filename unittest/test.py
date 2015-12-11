@@ -66,11 +66,11 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
        with self.assertRaises(TypeError):
           transform(self.p, None, -74, 39)
 
-+class Geod_NoDefs_Issue22_Test(unittest.TestCase):
-+   # Test for Issue #22, Geod with "+no_defs" in initstring 
-+   # Before PR #23 merged 2015-10-07, having +no_defs in the initstring would result in a ValueError
-+   def test_geod_nodefs(self):
-+       Geod("+a=6378137 +b=6378137 +no_defs")
+class Geod_NoDefs_Issue22_Test(unittest.TestCase):
+   # Test for Issue #22, Geod with "+no_defs" in initstring 
+   # Before PR #23 merged 2015-10-07, having +no_defs in the initstring would result in a ValueError
+   def test_geod_nodefs(self):
+       Geod("+a=6378137 +b=6378137 +no_defs")
 
 if __name__ == '__main__':
   unittest.main()
