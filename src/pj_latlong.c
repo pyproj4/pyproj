@@ -1,6 +1,4 @@
 /******************************************************************************
- * $Id: pj_latlong.c 1504 2009-01-06 02:11:57Z warmerdam $
- *
  * Project:  PROJ.4
  * Purpose:  Stub projection implementation for lat/long coordinates. We 
  *           don't actually change the coordinates, but we want proj=latlong

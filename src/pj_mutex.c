@@ -1,6 +1,4 @@
 /******************************************************************************
- * $Id: pj_transform.c 1504 2009-01-06 02:11:57Z warmerdam $
- *
  * Project:  PROJ.4
  * Purpose:  Mutex (thread lock) functions.
  * Author:   Frank Warmerdam, warmerdam@pobox.com
@@ -30,9 +28,15 @@
 
 /* projects.h and windows.h conflict - avoid this! */
 
+#if defined(MUTEX_pthread) && !defined(_XOPEN_SOURCE)
+// For pthread_mutexattr_settype
+#define _XOPEN_SOURCE 500
+#endif
+
+
 #ifndef _WIN32
+#include "proj_config.h"
 #include <projects.h>
-PJ_CVSID("$Id: pj_transform.c 1504 2009-01-06 02:11:57Z warmerdam $");
 #else
 #include <proj_api.h>
 #endif
@@ -118,10 +122,10 @@ void pj_acquire_lock()
         pthread_mutex_lock( &pj_precreated_lock);
 
         pthread_mutexattr_init(&mutex_attr);
-#ifndef PTHREAD_MUTEX_RECURSIVE
-        pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE_NP);
-#else
+#ifdef HAVE_PTHREAD_MUTEX_RECURSIVE
         pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE);
+#else
+        pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE_NP);
 #endif
         pthread_mutex_init(&pj_core_lock, &mutex_attr);
         pj_core_lock_created = 1;
