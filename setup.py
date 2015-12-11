@@ -3,7 +3,19 @@ from distutils import ccompiler, sysconfig
 from setuptools import setup, Extension
 
 deps = glob.glob('src/*.c')
-extensions = [Extension("pyproj._proj",deps+['_proj.c'],include_dirs = ['src'])]
+macros = []
+# these flags are set by configure when proj.4 lib is built.
+# enable pthreads support
+#macros.append(('MUTEX_pthread',1))
+#macros.append(('HAVE_PTHREAD_MUTEX_RECURSIVE',1))
+# you have localeconv
+#macros.append(('HAVE_LOCALECONV',1))
+# use strerror to print error messages
+#macros.append(('HAVE_STRERROR',1))
+# for win32 threads
+#macros.append(('MUTEX_win32',1))
+extensions = [Extension("pyproj._proj",deps+['_proj.c'],
+              include_dirs=['src'],define_macros=macros)]
 
 # create binary datum shift grid files.
 pathout = os.path.join('lib',os.path.join('pyproj','data'))
