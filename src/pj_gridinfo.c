@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_gridinfo.c 2548 2014-09-17 06:21:09Z warmerdam $
+ * $Id: pj_gridinfo.c 2624 2015-02-21 14:10:46Z rouault $
  *
  * Project:  PROJ.4
  * Purpose:  Functions for handling individual PJ_GRIDINFO's.  Includes
@@ -41,7 +41,7 @@
  * TODO - mloskot: re-implement porting friendly assert
  */
 # define assert(exp)	((void)0)
-#else/
+#else
 # include <assert.h>
 #endif /* _WIN32_WCE */
 

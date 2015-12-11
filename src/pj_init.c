@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: pj_init.c 2482 2014-08-18 22:43:04Z hobu $
+ * $Id: pj_init.c 2604 2015-02-16 17:49:22Z hobu $
  *
  * Project:  PROJ.4
  * Purpose:  Initialize projection object from string definition.  Includes
@@ -37,7 +37,7 @@
 #include <locale.h>
 #include <ctype.h>
 
-PJ_CVSID("$Id: pj_init.c 2482 2014-08-18 22:43:04Z hobu $");
+PJ_CVSID("$Id: pj_init.c 2604 2015-02-16 17:49:22Z hobu $");
 
 typedef struct {
     projCtx ctx;
@@ -405,8 +405,8 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
     old_locale = setlocale(LC_NUMERIC, NULL);
     if (old_locale != NULL) {
        if (strcmp(old_locale,"C") != 0) {
-	  setlocale(LC_NUMERIC,"C");
 	  old_locale = strdup(old_locale);
+	  setlocale(LC_NUMERIC,"C");
        }else
 	  old_locale = NULL;
     }

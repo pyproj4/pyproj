@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: proj_api.h 2372 2013-06-26 21:44:00Z warmerdam $
+ * $Id: proj_api.h 2610 2015-02-17 21:52:14Z hobu $
  *
  * Project:  PROJ.4
  * Purpose:  Public (application) include file for PROJ.4 API, and constants.
@@ -40,7 +40,7 @@ extern "C" {
 #endif
 
 /* Try to update this every version! */
-#define PJ_VERSION 490
+#define PJ_VERSION 491
 
 extern char const pj_release[]; /* global release id string */
 
