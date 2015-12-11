@@ -54,6 +54,7 @@ __version__ =  _proj.__version__
 set_datapath =  _proj.set_datapath
 from array import array
 import os, math
+import sys
 #import numpy as np
 
 # Python 2/3 compatibility
