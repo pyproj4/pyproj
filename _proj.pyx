@@ -8,7 +8,7 @@ cdef double _dg2rad, _rad2dg
 _dg2rad = math.radians(1.)
 _rad2dg = math.degrees(1.)
 _doublesize = sizeof(double)
-__version__ = "1.9.4"
+__version__ = "1.9.5"
 
 cdef extern from "math.h":
     cdef enum:
@@ -113,8 +113,10 @@ cdef class Proj:
         cdef projUV projxyout, projlonlatin
         cdef Py_ssize_t buflenx, bufleny, ndim, i
         cdef double u, v
-        cdef double *lonsdata, *latsdata
-        cdef void *londata, *latdata
+        cdef double *lonsdata
+        cdef double *latsdata
+        cdef void *londata
+        cdef void *latdata
         cdef int err
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:
@@ -174,8 +176,10 @@ cdef class Proj:
         cdef projUV projxyin, projlonlatout
         cdef Py_ssize_t buflenx, bufleny, ndim, i
         cdef double u, v
-        cdef void *xdata, *ydata
-        cdef double *xdatab, *ydatab
+        cdef void *xdata
+        cdef void *ydata
+        cdef double *xdatab
+        cdef double *ydatab
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:
             raise RuntimeError
@@ -321,8 +325,12 @@ cdef class Proj:
 
 def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
     # private function to call pj_transform
-    cdef void *xdata, *ydata, *zdata
-    cdef double *xx, *yy, *zz
+    cdef void *xdata
+    cdef void *ydata
+    cdef void *zdata
+    cdef double *xx
+    cdef double *yy
+    cdef double *zz
     cdef Py_ssize_t buflenx, bufleny, buflenz, npts, i
     cdef int err
     if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
@@ -384,8 +392,14 @@ cdef class Geod:
         """
         cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
         cdef double lat1,lon1,az1,s12,plon2,plat2,pazi2
-        cdef double *lonsdata, *latsdata, *azdata, *distdata
-        cdef void *londata, *latdata, *azdat, *distdat
+        cdef double *lonsdata
+        cdef double *latsdata
+        cdef double *azdata
+        cdef double *distdata
+        cdef void *londata
+        cdef void *latdata
+        cdef void *azdat
+        cdef void *distdat
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
             raise RuntimeError
@@ -442,8 +456,14 @@ cdef class Geod:
         """
         cdef double lat1,lon1,lat2,lon2,pazi1,pazi2,ps12
         cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
-        cdef double *lonsdata, *latsdata, *azdata, *distdata
-        cdef void *londata, *latdata, *azdat, *distdat
+        cdef double *lonsdata
+        cdef double *latsdata
+        cdef double *azdata
+        cdef double *distdata
+        cdef void *londata
+        cdef void *latdata
+        cdef void *azdat
+        cdef void *distdat
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:
             raise RuntimeError
