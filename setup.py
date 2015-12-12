@@ -1,4 +1,4 @@
-import sys, os, glob, subprocess
+import sys, os, glob, subprocess, shutil
 from distutils import ccompiler, sysconfig
 from setuptools import setup, Extension
 
@@ -25,6 +25,8 @@ if proj_dir is not None:
     # over-write default data directory.
     pyproj_datadir = os.path.join(os.path.join(proj_dir,'share'),'proj')
     datadirfile = os.path.join('lib',os.path.join('pyproj','datadir.py'))
+    datadirfile_save = os.path.join('lib',os.path.join('pyproj','datadir.py.save'))
+    shutil.copyfile(datadirfile, datadirfile_save)
     f = open(datadirfile,'w')
     f.write('pyproj_datadir="%s"\n' % pyproj_datadir)
     f.close()
@@ -34,6 +36,12 @@ if proj_dir is not None:
 
 else:
     # use bundled proj.4
+
+    # copy saved datadir.py back
+    datadirfile = os.path.join('lib',os.path.join('pyproj','datadir.py'))
+    datadirfile_save = os.path.join('lib',os.path.join('pyproj','datadir.py.save'))
+    if os.path.isfile(datadirfile_save):
+        shutil.move(datadirfile_save, datadirfile)
 
     deps = glob.glob('src/*.c')
     macros = []
