@@ -10,7 +10,6 @@ include nad2bin.c
 include src/*.c
 include src/*.h
 include src/*diff
-include setup-proj.py
 include lib/pyproj/*py
 include lib/pyproj/data/*
 include datumgrid/*.lla
