@@ -8,8 +8,10 @@ To test, run `python -c "import pyproj; pyproj.test()"`
 
 For new unit tests, run `python unittest/test.py`
 
-To use installed proj lib (and data files), use setup-proj.py instead
-and set PROJ_DIR env var to point to location of proj installation.
+To use installed proj lib (and data files), 
+set PROJ_DIR env var to point to location of proj installation.
+before running setup.py. If PROJ_DIR is not set, bundled proj4
+source code and data files are used.
 
 Docs at http://jswhit.github.io/pyproj.
 
