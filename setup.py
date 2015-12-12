@@ -1,7 +1,6 @@
 import sys, os, glob, subprocess
 from distutils import ccompiler, sysconfig
 from setuptools import setup, Extension
-import numpy
 
 proj_dir = os.environ.get('PROJ_DIR')
 
@@ -11,9 +10,7 @@ proj_dir = os.environ.get('PROJ_DIR')
 if proj_dir is not None:
     proj_libdir = os.environ.get('PROJ_LIBDIR')
     proj_incdir = os.environ.get('PROJ_INCDIR')
-    libdirs=[]
-    incdirs=[numpy.get_include()]
-    libraries=['proj']
+    libdirs=[]; incdirs = []; libraries = ['proj']
     
     if proj_libdir is None and proj_dir is not None:
         libdirs.append(os.path.join(proj_dir,'lib'))
