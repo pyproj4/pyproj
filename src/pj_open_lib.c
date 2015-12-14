@@ -1,6 +1,4 @@
 /******************************************************************************
- * $Id: pj_open_lib.c 2372 2013-06-26 21:44:00Z warmerdam $
- *
  * Project:  PROJ.4
  * Purpose:  Implementation of pj_open_lib(), and pj_set_finder().  These
  *           provide a standard interface for opening projections support
@@ -35,8 +33,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-
-PJ_CVSID("$Id: pj_open_lib.c 2372 2013-06-26 21:44:00Z warmerdam $");
 
 static const char *(*pj_finder)(const char *) = NULL;
 static int path_count = 0;

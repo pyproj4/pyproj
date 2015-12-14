@@ -1,6 +1,4 @@
 /******************************************************************************
- * $Id: pj_init.c 2482 2014-08-18 22:43:04Z hobu $
- *
  * Project:  PROJ.4
  * Purpose:  Initialize projection object from string definition.  Includes
  *           pj_init(), pj_init_plus() and pj_free() function.
@@ -34,10 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include <locale.h>
 #include <ctype.h>
-
-PJ_CVSID("$Id: pj_init.c 2482 2014-08-18 22:43:04Z hobu $");
 
 typedef struct {
     projCtx ctx;
@@ -54,7 +49,7 @@ typedef struct {
 static const char *fill_buffer(pj_read_state *state, const char *last_char)
 {
     size_t bytes_read;
-    int char_remaining, char_requested;
+    size_t char_remaining, char_requested;
 
 /* -------------------------------------------------------------------- */
 /*      Don't bother trying to read more if we are at eof, or if the    */
@@ -312,7 +307,7 @@ pj_init_plus_ctx( projCtx ctx, const char *definition )
     char	*argv[MAX_ARG];
     char	*defn_copy;
     int		argc = 0, i, blank_count = 0;
-    PJ	    *result;
+    PJ	    *result = NULL;
     
     /* make a copy that we can manipulate */
     defn_copy = (char *) pj_malloc( strlen(definition)+1 );
@@ -337,7 +332,7 @@ pj_init_plus_ctx( projCtx ctx, const char *definition )
                 if( argc+1 == MAX_ARG )
                 {
                     pj_ctx_set_errno( ctx, -44 );
-                    return NULL;
+                    goto bum_call;
                 }
                 
                 argv[argc++] = defn_copy + i + 1;
@@ -365,6 +360,7 @@ pj_init_plus_ctx( projCtx ctx, const char *definition )
     /* perform actual initialization */
     result = pj_init_ctx( ctx, argc, argv );
 
+bum_call:
     pj_dalloc( defn_copy );
 
     return result;
@@ -392,37 +388,21 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
     paralist *curr;
     int i;
     PJ *PIN = 0;
-    char *old_locale;
 
     ctx->last_errno = 0;
     start = NULL;
 
-    /*
-    ** MS Visual Studio 2012+ may have problems in multithreaded cases
-    ** as discussed in this ticket:
-    ** http://trac.osgeo.org/proj/ticket/226
-    */
-    old_locale = setlocale(LC_NUMERIC, NULL);
-    if (old_locale != NULL) {
-       if (strcmp(old_locale,"C") != 0) {
-	  setlocale(LC_NUMERIC,"C");
-	  old_locale = strdup(old_locale);
-       }else
-	  old_locale = NULL;
-    }
-
     /* put arguments into internal linked list */
     if (argc <= 0) { pj_ctx_set_errno( ctx, -1 ); goto bum_call; }
-    for (i = 0; i < argc; ++i)
-        if (i)
-            curr = curr->next = pj_mkparam(argv[i]);
-        else
-            start = curr = pj_mkparam(argv[i]);
+    start = curr = pj_mkparam(argv[0]);
+    for (i = 1; i < argc; ++i) {
+        curr->next = pj_mkparam(argv[i]);
+        curr = curr->next;
+    }
     if (ctx->last_errno) goto bum_call;
 
     /* check if +init present */
     if (pj_param(ctx, start, "tinit").i) {
-        paralist *last = curr;
         int found_def = 0;
 
         if (!(curr = get_init(ctx,&start, curr,
@@ -558,9 +538,9 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
         s = pj_units[i].to_meter;
     }
     if (s || (s = pj_param(ctx, start, "sto_meter").s)) {
-        PIN->to_meter = strtod(s, &s);
+        PIN->to_meter = pj_strtod(s, &s);
         if (*s == '/') /* ratio number */
-            PIN->to_meter /= strtod(++s, 0);
+            PIN->to_meter /= pj_strtod(++s, 0);
         PIN->fr_meter = 1. / PIN->to_meter;
     } else
         PIN->to_meter = PIN->fr_meter = 1.;
@@ -573,9 +553,9 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
         s = pj_units[i].to_meter;
     }
     if (s || (s = pj_param(ctx, start, "svto_meter").s)) {
-        PIN->vto_meter = strtod(s, &s);
+        PIN->vto_meter = pj_strtod(s, &s);
         if (*s == '/') /* ratio number */
-            PIN->vto_meter /= strtod(++s, 0);
+            PIN->vto_meter /= pj_strtod(++s, 0);
         PIN->vfr_meter = 1. / PIN->vto_meter;
     } else {
         PIN->vto_meter = PIN->to_meter;
@@ -621,11 +601,6 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
         PIN = 0;
     }
 
-    if (old_locale != NULL) {
-       setlocale(LC_NUMERIC,old_locale);
-       free( (char*)old_locale );
-    }
-
     return PIN;
 }
 
@@ -642,7 +617,7 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
 void
 pj_free(PJ *P) {
     if (P) {
-        paralist *t = P->params, *n;
+        paralist *t, *n;
 
         /* free parameter list elements */
         for (t = P->params; t; t = n) {

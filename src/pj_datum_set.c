@@ -1,6 +1,4 @@
 /******************************************************************************
- * $Id: pj_datum_set.c 2219 2012-06-19 04:18:00Z warmerdam $
- *
  * Project:  PROJ.4
  * Purpose:  Apply datum definition to PJ structure from initialization string.
  * Author:   Frank Warmerdam, warmerda@home.com
@@ -118,10 +116,9 @@ int pj_datum_set(projCtx ctx, paralist *pl, PJ *projdef)
         memset( projdef->datum_params, 0, sizeof(double) * 7);
 
         /* parse out the parameters */
-        s = towgs84;
         for( s = towgs84; *s != '\0' && parm_count < 7; ) 
         {
-            projdef->datum_params[parm_count++] = atof(s);
+            projdef->datum_params[parm_count++] = pj_atof(s);
             while( *s != '\0' && *s != ',' )
                 s++;
             if( *s == ',' )

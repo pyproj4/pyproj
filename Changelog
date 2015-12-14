@@ -1,4 +1,7 @@
-since 1.9.4 release
+1.9.5
+* update proj4 source to latest github master (commit
+953cc00fd87425395cabe37641cda905c4b587c1).
+* port of basemap fix for input arrays in fortran order 
 * restore inverse Hammer patch that was lost when proj4 source code was updated.
 1.9.4 (git tag v1.9.4rel)
  * migrate to github from googlecode.

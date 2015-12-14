@@ -1,6 +1,4 @@
 /******************************************************************************
- * $Id: proj_api.h 2372 2013-06-26 21:44:00Z warmerdam $
- *
  * Project:  PROJ.4
  * Purpose:  Public (application) include file for PROJ.4 API, and constants.
  * Author:   Frank Warmerdam, <warmerdam@pobox.com>
@@ -40,27 +38,36 @@ extern "C" {
 #endif
 
 /* Try to update this every version! */
-#define PJ_VERSION 490
+#define PJ_VERSION 492
+
+/* pj_init() and similar functions can be used with a non-C locale */
+/* Can be detected too at runtime if the symbol pj_atof exists */
+#define PJ_LOCALE_SAFE 1
 
 extern char const pj_release[]; /* global release id string */
 
-#define RAD_TO_DEG	57.29577951308232
-#define DEG_TO_RAD	.0174532925199432958
+#define RAD_TO_DEG	57.295779513082321
+#define DEG_TO_RAD	.017453292519943296
 
 
 extern int pj_errno;	/* global error return code */
 
 #if !defined(PROJECTS_H)
     typedef struct { double u, v; } projUV;
+    typedef struct { double u, v, w; } projUVW;
     typedef void *projPJ;
     #define projXY projUV
     #define projLP projUV
+    #define projXYZ projUVW
+    #define projLPZ projUVW
     typedef void *projCtx;
 #else
     typedef PJ *projPJ;
     typedef projCtx_t *projCtx;
 #   define projXY	XY
 #   define projLP       LP
+#   define projXYZ      XYZ
+#   define projLPZ      LPZ
 #endif
 
 /* file reading api, like stdio */
@@ -78,6 +85,9 @@ typedef struct projFileAPI_t {
 projXY pj_fwd(projLP, projPJ);
 projLP pj_inv(projXY, projPJ);
 
+projXYZ pj_fwd3d(projLPZ, projPJ);
+projLPZ pj_inv3d(projXYZ, projPJ);
+
 int pj_transform( projPJ src, projPJ dst, long point_count, int point_offset,
                   double *x, double *y, double *z );
 int pj_datum_transform( projPJ src, projPJ dst, long point_count, int point_offset,
@@ -89,7 +99,7 @@ int pj_geodetic_to_geocentric( double a, double es,
                                long point_count, int point_offset,
                                double *x, double *y, double *z );
 int pj_compare_datums( projPJ srcdefn, projPJ dstdefn );
-int pj_apply_gridshift( projCtx, const char *, int, 
+int pj_apply_gridshift( projCtx, const char *, int,
                         long point_count, int point_offset,
                         double *x, double *y, double *z );
 void pj_deallocate_grids(void);

@@ -478,7 +478,7 @@ def transform(p1, p2, x, y, z=None, radians=False):
     >>> p2 = Proj(proj="utm",zone=10,datum='NAD27')
     >>> x2, y2 = transform(p1, p2, x1, y1)
     >>> "%12.3f %12.3f" % (x2,y2)
-    ' 1402285.991  5076292.423'
+    ' 1402285.983  5076292.421'
     """
     # check that p1 and p2 are from the Proj class
     if not isinstance(p1, Proj):

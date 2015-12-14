@@ -9,7 +9,7 @@ include _proj.c
 include nad2bin.c
 include src/*.c
 include src/*.h
-include setup-proj.py
+include src/*diff
 include lib/pyproj/*py
 include lib/pyproj/data/*
 include datumgrid/*.lla
@@ -21,3 +21,4 @@ include test/test_transform.py
 include test/geodtest.py
 include test/test_datum.py
 recursive-include docs *
+recursive-include unittest *

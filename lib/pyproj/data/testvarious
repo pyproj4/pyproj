@@ -3,6 +3,7 @@
 # on datum files.
 #
 #
+NAD_DIR=`dirname $0`
 EXE=$1
 
 usage()
@@ -19,6 +20,16 @@ fi
 if test ! -x ${EXE}; then
     echo "*** ERROR: Can not find '${EXE}' program!"
     exit 1
+fi
+
+# Would be great to have a universale way of selecting a locale with
+# a decimal separator that is not '.'
+if command locale >/dev/null 2>/dev/null; then
+    if test `locale -a | grep fr_FR.utf8`; then
+        echo "Using locale with comma as decimal separator"
+        export LC_ALL=fr_FR.UTF-8
+        export PROJ_USE_ENV_LOCALE=1
+    fi
 fi
 
 echo "============================================"
@@ -275,27 +286,6 @@ $EXE +proj=latlong +R=5 \
 -180 -90.0
 0 60.0
 0 -60.0
-EOF
-echo "Test healpix inverse projection on sphere" >> ${OUT}
-$EXE +proj=latlong +a=1 +lon_0=0 \
- +to +proj=healpix +a=1 +lon_0=0  -f '%.'5'f' -I\
- -E >>${OUT} <<EOF
-0 0.7853981633974483
--1.5707963267948966 0
-EOF
-$EXE +proj=latlong +a=5 \
- +to +proj=healpix +a=5 -f '%.'5'f' -I\
- -E >>${OUT} <<EOF
-0.0 0.0
-0.0 3.9269908169872414
-0.0 -3.9269908169872414
-7.853981633974483 0.0
--7.853981633974483 0.0
--15.707963267948966 0.0
--11.780972450961723 7.853981633974483
--11.780972450961723 -7.853981633974483
-1.437378399445537 5.364369216432778
-1.437378399445537 -5.364369216432778
 EOF
 echo "Test healpix forward projection on ellipsoid" >> ${OUT}
 $EXE +proj=latlong +a=1 +lon_0=0 +ellps=WGS84 \
@@ -588,7 +578,7 @@ EOF
 echo "##############################################################" >> ${OUT}
 echo "Test MGI datum gives expected results (#207)" >> ${OUT}
 #
-$EXE -f '%.14f' \
+$EXE -f '%.7f' \
      +proj=latlong +datum=WGS84 \
  +to +init=epsg:31284 \
  -E >>${OUT} <<EOF
@@ -597,7 +587,7 @@ EOF
 echo "##############################################################" >> ${OUT}
 echo "Test omerc sensitivity with locations 90d from origin(#114)" >> ${OUT}
 #
-$EXE -f '%.14f' \
+$EXE -f '%.8f' \
      +proj=latlong +ellps=WGS84 \
  +to +proj=omerc +ellps=WGS84 +lon_1=62.581150 +lat_1=74.856102 \
                  +lon_2=53.942810 +lat_2=74.905884 +units=km +no_rot +no_defs \
@@ -634,7 +624,7 @@ EOF
 echo "##############################################################" >> ${OUT}
 echo "Test qsc" >> ${OUT}
 #
-$EXE -f '%.13f' \
+$EXE -f '%.7f' \
      +proj=latlong +datum=WGS84 \
  +to +proj=qsc +datum=WGS84 +no_defs \
  -E >>${OUT} <<EOF
@@ -666,7 +656,7 @@ EOF
 echo "##############################################################" >> ${OUT}
 echo "Test bug 244 " >> ${OUT}
 #
-$EXE -f '%.12f' \
+$EXE -f '%.8f' \
      +init=epsg:4326 \
      +to +proj=aeqd +lon_0=130.0 +lat_0=40.0 +a=6378137 +b=6378137 +units=m +no_defs \
  -E >>${OUT} <<EOF
@@ -675,33 +665,98 @@ EOF
 echo "##############################################################" >> ${OUT}
 echo "Test bug 244 (2)" >> ${OUT}
 #
-$EXE -f '%.12f' \
+$EXE -f '%.11f' \
      +proj=aeqd +lon_0=130.0 +lat_0=40.0 +a=6378137 +b=6378137 +units=m +no_defs \
      +to +init=epsg:4326 \
  -E >>${OUT} <<EOF
-987122.4183302754536 -14429896.5395309105515
+987122.418330284 -14429896.539530909
 EOF
 echo "##############################################################" >> ${OUT}
 echo "Test bug 245 (use +datum=carthage)" >> ${OUT}
 #
-$EXE -f '%.12f' \
-     +proj=longlat +datum=WGS84 +nodefs +to +proj=utm +zone=32 +datum=carthage +nodefs \
+$EXE -f '%.7f' \
+     +proj=longlat +datum=WGS84 +no_defs +to +proj=utm +zone=32 +datum=carthage +no_defs \
  -E >>${OUT} <<EOF
 10 34
 EOF
 echo "##############################################################" >> ${OUT}
-echo "Test bug 245 (use expension of +datum=carthage)" >> ${OUT}
+echo "Test bug 245 (use expansion of +datum=carthage)" >> ${OUT}
 #
-$EXE -f '%.12f' \
-     +proj=longlat +datum=WGS84 +nodefs +to +proj=utm +zone=32 +a=6378249.2 +b=6356515 +towgs84=-263.0,6.0,431.0 +nodefs \
+$EXE -f '%.7f' \
+     +proj=longlat +datum=WGS84 +no_defs +to +proj=utm +zone=32 +a=6378249.2 +b=6356515 +towgs84=-263.0,6.0,431.0 +no_defs \
  -E >>${OUT} <<EOF
 10 34
 EOF
+echo  "##############################################################" >> ${OUT}
+echo  "Test SCH forward projection" >> ${OUT}
+#
+$EXE -f '%.7f' \
+    +proj=latlong +datum=WGS84 +to +proj=sch +datum=WGS84 +plat_0=30.0 +plon_0=45.0 \
+    +phdg_0=-12.0 +nodefs \
+ -E >> ${OUT} <<EOF
+0.0 0.0
+0.0 90.0
+45.0 45.0
+45.1 44.9
+44.9 45.1
+30.0 45.0
+EOF
+echo  "##############################################################" >> ${OUT}
+echo  "Test SCH inverse projection" >> ${OUT}
+#
+$EXE -f '%.7f' \
+    +proj=sch +datum=WGS84 +plat_0=30.0 +plon_0=45.0 +phdg_0=-12.0 +nodefs +to \
+    +proj=latlong +datum=WGS84 \
+ -E >> ${OUT} <<EOF
+0. 0.
+0. 1000.
+1000. 0.
+1000. 1000.
+EOF
 ##############################################################################
+echo "##############################################################" >> ${OUT}
+echo "Test issue #316 (switch utm to use etmerc)" >> ${OUT}
+#
+$EXE -f '%.6f' \
+     +proj=latlong +datum=WGS84 +no_defs +to +proj=utm +zone=35 +datum=WGS84 +no_defs \
+ -E >>${OUT} <<EOF
+0 83
+EOF
+##############################################################################
+echo "##############################################################" >> ${OUT}
+echo "Test issue #316 (switch utm to use etmerc)" >> ${OUT}
+#
+$EXE -f '%.6f' \
+     +proj=latlong +datum=WGS84 +no_defs +to +proj=etmerc +datum=WGS84 +no_defs +k=0.9996 +lon_0=27 +x_0=500000 -f %.6f \
+ -E >>${OUT} <<EOF
+0 83
+EOF
+##############################################################################
+echo  "##############################################################" >> ${OUT}
+echo  "Test nzmg forward projection" >> ${OUT}
+#
+$EXE -f '%.7f' \
+    +proj=latlong +datum=WGS84 +to \
+    +proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=WGS84 +units=m +no_defs \
+ -E >> ${OUT} <<EOF
+175. -40. 0.
+EOF
+##############################################################################
+echo  "##############################################################" >> ${OUT}
+echo  "Test nzmg inverse projection" >> ${OUT}
+#
+$EXE -f '%.7f' \
+    +proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=WGS84 +units=m +no_defs +to \
+    +proj=latlong +datum=WGS84 \
+ -E >> ${OUT} <<EOF
+2680778.57267967 6132228.07645127 0.
+EOF
+
+
 # Done!
 # do 'diff' with distribution results
 echo "diff ${OUT} with ${OUT}.dist"
-diff -b ${OUT} ${OUT}.dist
+diff -b ${OUT} ${NAD_DIR}/${OUT}.dist
 if [ $? -ne 0 ] ; then
 	echo  ""
 	echo "PROBLEMS HAVE OCCURED"

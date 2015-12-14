@@ -1,6 +1,4 @@
 /******************************************************************************
- * $Id: pj_apply_gridshift.c 1831 2010-03-16 12:44:36Z warmerdam $
- *
  * Project:  PROJ.4
  * Purpose:  Apply vertical datum shifts based on grid shift files, normally
  *           geoid grids mapping WGS84 to NAVD88 or something similar.
@@ -153,7 +151,7 @@ int pj_apply_vgridshift( PJ *defn, const char *listname,
                 + cvs[grid_ix + 1 + (grid_iy+1) * ct->lim.lam] 
                 * (grid_x) * (grid_y);
 
-            if( value > 1000 || value < -1000 ) /* nodata? */
+            if( value == -88.88880f ) /* nodata? */
                 value = HUGE_VAL;
             else
             {
