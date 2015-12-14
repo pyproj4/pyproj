@@ -4,29 +4,31 @@ from setuptools import setup, Extension
 
 proj_dir = os.environ.get('PROJ_DIR')
 
-# if PROJ_DIR env var is set, build against 
+# if PROJ_DIR env var is set, build against
 # existing proj.4 installation.
 
 if proj_dir is not None:
+    sys.stdout.write('PROJ_DIR is set, using existing proj4 installation..\n')
     proj_libdir = os.environ.get('PROJ_LIBDIR')
     proj_incdir = os.environ.get('PROJ_INCDIR')
     libdirs=[]; incdirs = []; libraries = ['proj']
-    
+
     if proj_libdir is None and proj_dir is not None:
         libdirs.append(os.path.join(proj_dir,'lib'))
         libdirs.append(os.path.join(proj_dir,'lib64'))
     if proj_incdir is None and proj_dir is not None:
         incdirs.append(os.path.join(proj_dir,'include'))
-    
+
     pyprojext =\
     Extension("pyproj._proj",["_proj.c"],include_dirs=incdirs,library_dirs=libdirs,\
     runtime_library_dirs=libdirs,libraries=libraries)
-    
+
     # over-write default data directory.
     pyproj_datadir = os.path.join(os.path.join(proj_dir,'share'),'proj')
     datadirfile = os.path.join('lib',os.path.join('pyproj','datadir.py'))
     datadirfile_save = os.path.join('lib',os.path.join('pyproj','datadir.py.save'))
-    shutil.copyfile(datadirfile, datadirfile_save)
+    if not os.path.isfile(datadirfile_save):
+        shutil.copyfile(datadirfile, datadirfile_save)
     f = open(datadirfile,'w')
     f.write('pyproj_datadir="%s"\n' % pyproj_datadir)
     f.close()
@@ -36,6 +38,7 @@ if proj_dir is not None:
 
 else:
     # use bundled proj.4
+    sys.stdout.write('using bundled proj4..\n')
 
     # copy saved datadir.py back
     datadirfile = os.path.join('lib',os.path.join('pyproj','datadir.py'))
@@ -57,7 +60,7 @@ else:
     #macros.append(('MUTEX_win32',1))
     extensions = [Extension("pyproj._proj",deps+['_proj.c'],
                   include_dirs=['src'],define_macros=macros)]
-    
+
     # create binary datum shift grid files.
     pathout = os.path.join('lib',os.path.join('pyproj','data'))
     if len(sys.argv) > 1 and sys.argv[1] != 'sdist':
@@ -77,7 +80,7 @@ else:
             strg = '%s %s < %s' % (cmd, fout, f)
             sys.stdout.write('executing %s'%strg)
             subprocess.call(strg,shell=True)
-    
+
     datafiles = glob.glob(os.path.join(pathout,'*'))
     datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
     package_data = {'pyproj':datafiles}
