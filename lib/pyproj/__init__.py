@@ -321,6 +321,13 @@ class Proj(_proj.Proj):
         >>> p = Proj("+init=epsg:32667",preserve_units=True)
         >>> 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
         'x=-5851322.810 y=20320934.409 (feet)'
+        >>> p = Proj(proj='hammer') # hammer proj and inverse
+        >>> x,y = p(-30,40)
+        >>> 'x=%12.3f y=%12.3f' % (x,y)
+        'x=-2711575.083 y= 4395506.619'
+        >>> lon,lat = p(x,y,inverse=True)
+        >>> 'lon=%9.3f lat=%9.3f (degrees)' % (lon,lat)
+        'lon=  -30.000 lat=   40.000 (degrees)'
         """
         # if projparams is None, use kwargs.
         if projparams is None:
@@ -477,8 +484,8 @@ def transform(p1, p2, x, y, z=None, radians=False):
     >>> x1 = -111.5; y1 = 45.25919444444
     >>> p2 = Proj(proj="utm",zone=10,datum='NAD27')
     >>> x2, y2 = transform(p1, p2, x1, y1)
-    >>> "%12.3f %12.3f" % (x2,y2)
-    ' 1402285.983  5076292.421'
+    >>> "%s  %s" % (str(x2)[:9],str(y2)[:9])
+    '1402285.9  5076292.4'
     """
     # check that p1 and p2 are from the Proj class
     if not isinstance(p1, Proj):
