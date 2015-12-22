@@ -21,6 +21,7 @@ install:
 script:
     - python -c "import pyproj; pyproj.test()"
     - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
+    - python unittest/test.py
 
 notifications:
   email: false
