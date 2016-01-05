@@ -2,6 +2,7 @@ pyproj	pyproj-module.html
 pyproj._dict2string	pyproj-module.html#_dict2string
 pyproj._copytobuffer_return_scalar	pyproj-module.html#_copytobuffer_return_scalar
 pyproj.pj_ellps	pyproj-module.html#pj_ellps
+pyproj.string_types	pyproj-module.html#string_types
 pyproj.pyproj_datadir	pyproj-module.html#pyproj_datadir
 pyproj.__package__	pyproj-module.html#__package__
 pyproj.transform	pyproj-module.html#transform
