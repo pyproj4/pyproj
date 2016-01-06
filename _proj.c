@@ -692,7 +692,6 @@ static char __pyx_k_math[] = "math";
 static char __pyx_k_npts[] = "npts";
 static char __pyx_k_proj[] = "_proj";
 static char __pyx_k_test[] = "__test__";
-static char __pyx_k_1_9_5[] = "1.9.5";
 static char __pyx_k_ascii[] = "ascii";
 static char __pyx_k_class[] = "__class__";
 static char __pyx_k_lats1[] = "lats1";
@@ -704,6 +703,7 @@ static char __pyx_k_ydata[] = "ydata";
 static char __pyx_k_zdata[] = "zdata";
 static char __pyx_k_encode[] = "encode";
 static char __pyx_k_import[] = "__import__";
+static char __pyx_k_1_9_5_1[] = "1.9.5.1";
 static char __pyx_k_a_s_f_s[] = "+a=%s +f=%s";
 static char __pyx_k_buflenx[] = "buflenx";
 static char __pyx_k_bufleny[] = "bufleny";
@@ -727,14 +727,14 @@ static char __pyx_k_AttributeError[] = "AttributeError";
 static char __pyx_k_projection_undefined[] = "projection undefined";
 static char __pyx_k_Buffer_lengths_not_the_same[] = "Buffer lengths not the same";
 static char __pyx_k_x_y_and_z_must_be_same_size[] = "x,y and z must be same size";
-static char __pyx_k_Users_jsw_python_pyproj_git__pr[] = "/Users/jsw/python/pyproj.git/_proj.pyx";
+static char __pyx_k_Volumes_Drobo_python_pyproj_git[] = "/Volumes/Drobo/python/pyproj.git/_proj.pyx";
 static char __pyx_k_undefined_inverse_geodesic_may_b[] = "undefined inverse geodesic (may be an antipodal point)";
-static PyObject *__pyx_kp_s_1_9_5;
+static PyObject *__pyx_kp_s_1_9_5_1;
 static PyObject *__pyx_n_s_AttributeError;
 static PyObject *__pyx_kp_s_Buffer_lengths_not_the_same;
 static PyObject *__pyx_n_s_RuntimeError;
-static PyObject *__pyx_kp_s_Users_jsw_python_pyproj_git__pr;
 static PyObject *__pyx_n_s_ValueError;
+static PyObject *__pyx_kp_s_Volumes_Drobo_python_pyproj_git;
 static PyObject *__pyx_n_s_a;
 static PyObject *__pyx_kp_s_a_s_f_s;
 static PyObject *__pyx_n_s_ascii;
@@ -6384,12 +6384,12 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_1_9_5, __pyx_k_1_9_5, sizeof(__pyx_k_1_9_5), 0, 0, 1, 0},
+  {&__pyx_kp_s_1_9_5_1, __pyx_k_1_9_5_1, sizeof(__pyx_k_1_9_5_1), 0, 0, 1, 0},
   {&__pyx_n_s_AttributeError, __pyx_k_AttributeError, sizeof(__pyx_k_AttributeError), 0, 0, 1, 1},
   {&__pyx_kp_s_Buffer_lengths_not_the_same, __pyx_k_Buffer_lengths_not_the_same, sizeof(__pyx_k_Buffer_lengths_not_the_same), 0, 0, 1, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Users_jsw_python_pyproj_git__pr, __pyx_k_Users_jsw_python_pyproj_git__pr, sizeof(__pyx_k_Users_jsw_python_pyproj_git__pr), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
+  {&__pyx_kp_s_Volumes_Drobo_python_pyproj_git, __pyx_k_Volumes_Drobo_python_pyproj_git, sizeof(__pyx_k_Volumes_Drobo_python_pyproj_git), 0, 0, 1, 0},
   {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
   {&__pyx_kp_s_a_s_f_s, __pyx_k_a_s_f_s, sizeof(__pyx_k_a_s_f_s), 0, 0, 1, 0},
   {&__pyx_n_s_ascii, __pyx_k_ascii, sizeof(__pyx_k_ascii), 0, 0, 1, 1},
@@ -6622,7 +6622,7 @@ static int __Pyx_InitCachedConstants(void) {
  * _dg2rad = math.radians(1.)
  * _rad2dg = math.degrees(1.)             # <<<<<<<<<<<<<<
  * _doublesize = sizeof(double)
- * __version__ = "1.9.5"
+ * __version__ = "1.9.5.1"
  */
   __pyx_tuple__15 = PyTuple_Pack(1, __pyx_float_1_); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__15);
@@ -6638,7 +6638,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__16 = PyTuple_Pack(3, __pyx_n_s_datapath, __pyx_n_s_bytestr, __pyx_n_s_searchpath); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_jsw_python_pyproj_git__pr, __pyx_n_s_set_datapath, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Volumes_Drobo_python_pyproj_git, __pyx_n_s_set_datapath, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "_proj.pyx":63
  *     pj_set_searchpath(1, &searchpath)
@@ -6650,7 +6650,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__18 = PyTuple_Pack(1, __pyx_n_s_projstring); if (unlikely(!__pyx_tuple__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_jsw_python_pyproj_git__pr, __pyx_n_s_createproj, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Volumes_Drobo_python_pyproj_git, __pyx_n_s_createproj, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "_proj.pyx":326
  *             return False
@@ -6662,7 +6662,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__20 = PyTuple_Pack(18, __pyx_n_s_p1, __pyx_n_s_p2, __pyx_n_s_inx, __pyx_n_s_iny, __pyx_n_s_inz, __pyx_n_s_radians, __pyx_n_s_xdata, __pyx_n_s_ydata, __pyx_n_s_zdata, __pyx_n_s_xx, __pyx_n_s_yy, __pyx_n_s_zz, __pyx_n_s_buflenx, __pyx_n_s_bufleny, __pyx_n_s_buflenz, __pyx_n_s_npts, __pyx_n_s_i, __pyx_n_s_err); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(6, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_jsw_python_pyproj_git__pr, __pyx_n_s_transform, 326, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(6, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Volumes_Drobo_python_pyproj_git, __pyx_n_s_transform, 326, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6818,7 +6818,7 @@ PyMODINIT_FUNC PyInit__proj(void)
  * _dg2rad = math.radians(1.)
  * _rad2dg = math.degrees(1.)             # <<<<<<<<<<<<<<
  * _doublesize = sizeof(double)
- * __version__ = "1.9.5"
+ * __version__ = "1.9.5.1"
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -6836,7 +6836,7 @@ PyMODINIT_FUNC PyInit__proj(void)
  * _dg2rad = math.radians(1.)
  * _rad2dg = math.degrees(1.)
  * _doublesize = sizeof(double)             # <<<<<<<<<<<<<<
- * __version__ = "1.9.5"
+ * __version__ = "1.9.5.1"
  * 
  */
   __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -6847,11 +6847,11 @@ PyMODINIT_FUNC PyInit__proj(void)
   /* "_proj.pyx":11
  * _rad2dg = math.degrees(1.)
  * _doublesize = sizeof(double)
- * __version__ = "1.9.5"             # <<<<<<<<<<<<<<
+ * __version__ = "1.9.5.1"             # <<<<<<<<<<<<<<
  * 
  * cdef extern from "math.h":
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_s_1_9_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_s_1_9_5_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "_proj.pyx":58
  *     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)

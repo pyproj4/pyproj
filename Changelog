@@ -1,3 +1,4 @@
+1.9.5.1
 * fix for issue #42 (compilation error with microsoft visual studio).
 1.9.5
 * update proj4 source to latest github master (commit
