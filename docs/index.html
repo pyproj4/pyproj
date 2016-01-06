@@ -48,7 +48,7 @@
   </tr>
 </table>
 <!-- ==================== PACKAGE DESCRIPTION ==================== -->
-<h1 class="epydoc">Package pyproj</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj-pysrc.html">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Package pyproj</h1><p class="nomargin-top"></p>
 <p>Cython wrapper to provide python interfaces to PROJ.4 
   (http://trac.osgeo.org/proj/) functions.</p>
   <p>Performs cartographic transformations and geodetic computations.</p>
@@ -87,7 +87,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        1.9.4
+        1.9.5
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -134,7 +134,7 @@
           <td><span class="summary-sig"><a name="test"></a><span class="summary-sig-name">test</span>()</span><br />
       run the examples in the docstrings using the doctest module</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#test">source&nbsp;code</a></span>
+            
             
           </td>
         </tr>
@@ -156,7 +156,7 @@
         <span class="summary-sig-arg">radians</span>=<span class="summary-sig-default">False</span>)</span><br />
       x2, y2, z2 = transform(p1, p2, x1, y1, z1, radians=False)</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#transform">source&nbsp;code</a></span>
+            
             
           </td>
         </tr>
@@ -173,6 +173,14 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Variables</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyproj-module.html#__loader__" class="summary-name">__loader__</a> = <code title="&lt;zipimporter object &quot;/Users/jwhitaker/Library/Python/2.7/lib/python/si\
+te-packages/pyproj-1.9.5-py2.7-macosx-10.10-x86_64.egg&quot;&gt;">&lt;zipimporter object &quot;/Users/jwhitaker/Library/Pyt<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -214,8 +222,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pyproj-module.html#pyproj_datadir" class="summary-name">pyproj_datadir</a> = <code title="'/Users/jwhitaker/Library/Python/2.7/lib/python/site-packages/pyproj/d\
-ata'"><code class="variable-quote">'</code><code class="variable-string">/Users/jwhitaker/Library/Python/2.7/lib/pyth</code><code class="variable-ellipsis">...</code></code>
+        <a name="pyproj_datadir"></a><span class="summary-name">pyproj_datadir</span> = <code title="'/opt/local/share/proj'"><code class="variable-quote">'</code><code class="variable-string">/opt/local/share/proj</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="string_types"></a><span class="summary-name">string_types</span> = <code title="(&lt;type 'basestring'&gt;)"><code class="variable-group">(</code>&lt;type 'basestring'&gt;<code class="variable-group">)</code></code>
     </td>
   </tr>
 </table>
@@ -243,7 +257,7 @@ ata'"><code class="variable-quote">'</code><code class="variable-string">/Users/
         <span class="sig-arg">radians</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#transform">source&nbsp;code</a></span>&nbsp;
+    >&nbsp;
     </td>
   </tr></table>
   
@@ -306,8 +320,8 @@ ata'"><code class="variable-quote">'</code><code class="variable-string">/Users/
 <span class="py-prompt">&gt;&gt;&gt; </span>x1 = -111.5; y1 = 45.25919444444
 <span class="py-prompt">&gt;&gt;&gt; </span>p2 = Proj(proj=<span class="py-string">&quot;utm&quot;</span>,zone=10,datum=<span class="py-string">'NAD27'</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>x2, y2 = transform(p1, p2, x1, y1)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">&quot;%12.3f %12.3f&quot;</span> % (x2,y2)
-<span class="py-output">' 1402285.991  5076292.423'</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">&quot;%s  %s&quot;</span> % (str(x2)[:9],str(y2)[:9])
+<span class="py-output">'1402285.9  5076292.4'</span></pre>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -322,6 +336,25 @@ ata'"><code class="variable-quote">'</code><code class="variable-string">/Users/
     <span class="table-header">Variables Details</span></td>
 </tr>
 </table>
+<a name="__loader__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__loader__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;zipimporter object &quot;/Users/jwhitaker/Library/Python/2.7/lib/python/si<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+te-packages/pyproj-1.9.5-py2.7-macosx-10.10-x86_64.egg&quot;&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="pj_ellps"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -374,25 +407,6 @@ ata'"><code class="variable-quote">'</code><code class="variable-string">/Users/
   </dl>
 </td></tr></table>
 </div>
-<a name="pyproj_datadir"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">pyproj_datadir</h3>
-  
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-<code class="variable-quote">'</code><code class="variable-string">/Users/jwhitaker/Library/Python/2.7/lib/python/site-packages/pyproj/d</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-<code class="variable-string">ata</code><code class="variable-quote">'</code>
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -420,7 +434,7 @@ ata'"><code class="variable-quote">'</code><code class="variable-string">/Users/
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 29 15:13:06 2014
+    Generated by Epydoc 3.0.1 on Wed Jan  6 15:26:04 2016
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -49,7 +49,7 @@
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class Proj</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj-pysrc.html#Proj">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Class Proj</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
 object --+    
          |    
@@ -103,7 +103,7 @@ object --+
       convert lon/lat (in degrees) to x/y native map projection coordinates
       (in meters).</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#Proj.__call__">source&nbsp;code</a></span>
+            
             
           </td>
         </tr>
@@ -120,7 +120,7 @@ object --+
           <td><span class="summary-sig"><a href="pyproj.Proj-class.html#is_geocent" class="summary-sig-name">is_geocent</a>(<span class="summary-sig-arg">self</span>)</span><br />
       returns True if projection in geocentric (x/y) coordinates</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#Proj.is_geocent">source&nbsp;code</a></span>
+            
             
           </td>
         </tr>
@@ -137,7 +137,7 @@ object --+
           <td><span class="summary-sig"><a href="pyproj.Proj-class.html#is_latlong" class="summary-sig-name">is_latlong</a>(<span class="summary-sig-arg">self</span>)</span><br />
       returns True if projection in geographic (lon/lat) coordinates</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#Proj.is_latlong">source&nbsp;code</a></span>
+            
             
           </td>
         </tr>
@@ -154,7 +154,7 @@ object --+
           <td><span class="summary-sig"><a href="pyproj.Proj-class.html#to_latlong" class="summary-sig-name">to_latlong</a>(<span class="summary-sig-arg">self</span>)</span><br />
       returns an equivalent Proj in the corresponding lon/lat coordinates.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#Proj.to_latlong">source&nbsp;code</a></span>
+            
             
           </td>
         </tr>
@@ -203,7 +203,7 @@ object --+
         <span class="summary-sig-arg">**kwargs</span>)</span><br />
       initialize a Proj class instance.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#Proj.__new__">source&nbsp;code</a></span>
+            
             
           </td>
         </tr>
@@ -254,7 +254,7 @@ object --+
     <br /><em class="fname">(Call operator)</em>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.__call__">source&nbsp;code</a></span>&nbsp;
+    >&nbsp;
     </td>
   </tr></table>
   
@@ -267,9 +267,6 @@ object --+
   (default is False) an exception is raised if the transformation is 
   invalid. If errcheck=False and the transformation is invalid, no 
   exception is raised and 1.e30 is returned.</p>
-  <p>Instead of calling with lon, lat, a single ndarray of shape n,2 may be
-  used, and one of the same shape will be returned; this is more 
-  efficient.</p>
   <p>Inputs should be doubles (they will be cast to doubles if they are 
   not, causing a slight performance hit).</p>
   <p>Works with numpy and regular python array objects, python sequences 
@@ -292,7 +289,7 @@ object --+
     <br /><em class="fname">Static Method</em>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.__new__">source&nbsp;code</a></span>&nbsp;
+    >&nbsp;
     </td>
   </tr></table>
   
@@ -332,7 +329,14 @@ object --+
 <span class="py-output">'x=-1783486.760 y= 6193833.196 (meters)'</span>
 <span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(<span class="py-string">&quot;+init=epsg:32667&quot;</span>,preserve_units=True)
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%12.3f y=%12.3f (feet)'</span> % p(-114.057222, 51.045)
-<span class="py-output">'x=-5851322.810 y=20320934.409 (feet)'</span></pre>
+<span class="py-output">'x=-5851322.810 y=20320934.409 (feet)'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(proj=<span class="py-string">'hammer'</span>) <span class="py-comment"># hammer proj and inverse</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>x,y = p(-30,40)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%12.3f y=%12.3f'</span> % (x,y)
+<span class="py-output">'x=-2711575.083 y= 4395506.619'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>lon,lat = p(x,y,inverse=True)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'lon=%9.3f lat=%9.3f (degrees)'</span> % (lon,lat)
+<span class="py-output">'lon=  -30.000 lat=   40.000 (degrees)'</span></pre>
   <dl class="fields">
     <dt>Returns: a new object with type S, a subtype of T</dt>
     <dt>Overrides:
@@ -351,7 +355,7 @@ object --+
   <h3 class="epydoc"><span class="sig"><span class="sig-name">is_geocent</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.is_geocent">source&nbsp;code</a></span>&nbsp;
+    >&nbsp;
     </td>
   </tr></table>
   
@@ -373,7 +377,7 @@ object --+
   <h3 class="epydoc"><span class="sig"><span class="sig-name">is_latlong</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.is_latlong">source&nbsp;code</a></span>&nbsp;
+    >&nbsp;
     </td>
   </tr></table>
   
@@ -395,7 +399,7 @@ object --+
   <h3 class="epydoc"><span class="sig"><span class="sig-name">to_latlong</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.to_latlong">source&nbsp;code</a></span>&nbsp;
+    >&nbsp;
     </td>
   </tr></table>
   
@@ -435,7 +439,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 29 15:13:06 2014
+    Generated by Epydoc 3.0.1 on Wed Jan  6 15:26:04 2016
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
