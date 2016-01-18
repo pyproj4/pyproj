@@ -26,6 +26,15 @@ cdef extern from "geodesic.h":
                double lat1, double lon1, double lat2, double lon2,\
                double* ps12, double* pazi1, double* pazi2)
 
+# define part of the struct PJconsts from projects.h
+ctypedef void (*c_func_type)()
+
+ctypedef struct PJconsts:
+    void *ctx
+    c_func_type fwd
+    c_func_type inv
+    # ignore all other components of this struct, we don't need them  
+
 cdef extern from "proj_api.h":
     ctypedef struct projUV:
         double u
@@ -201,6 +210,9 @@ cdef class Proj:
                 continue
             projxyin.u = xdatab[i]
             projxyin.v = ydatab[i]
+            projpj2 = <PJconsts *> self.projpj
+            if (projpj2.inv == NULL):
+                raise RuntimeError('inverse projection undefined')
             projlonlatout = pj_inv(projxyin,self.projpj)
             if errcheck:
                 err = pj_ctx_get_errno(self.projctx)

@@ -1,7 +1,7 @@
 """Rewrite part of test.py in pyproj in the form of unittests."""
 import unittest
 from pyproj import Geod, Proj, transform
-
+from pyproj import pj_list # , pj_ellps
 
 class BasicTest(unittest.TestCase):
 
@@ -72,5 +72,28 @@ class Geod_NoDefs_Issue22_Test(unittest.TestCase):
    def test_geod_nodefs(self):
        Geod("+a=6378137 +b=6378137 +no_defs")
 
+class ForwardInverseTest(unittest.TestCase):
+  pass
+
+def testcase(pj):
+  # print 'defining: ', pj
+  def TestOneProjection(self):
+    # print 'testing: ', pj
+    try:
+      p = Proj(proj=pj)
+      x,y = p(-30,40)
+      # note, for proj 4.9.2 or before the inverse projection may be missing
+      # and pyproj 1.9.5.1 or before does not test for this and will
+      # give a segmentation fault at this point:
+      lon,lat = p(x,y,inverse=True)
+    except RuntimeError:
+      pass
+  return TestOneProjection
+
+# maybe also add tests for pj_ellps?
+for pj in sorted(pj_list):
+  testname = 'test_'+pj
+  setattr(ForwardInverseTest, testname, testcase(pj))
+  
 if __name__ == '__main__':
   unittest.main()
