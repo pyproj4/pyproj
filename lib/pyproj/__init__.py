@@ -1,6 +1,6 @@
 """
 Cython wrapper to provide python interfaces to
-PROJ.4 (http://trac.osgeo.org/proj/) functions.
+PROJ.4 (https://github.com/OSGeo/proj.4/wiki) functions.
 
 Performs cartographic transformations and geodetic computations.
 
@@ -254,7 +254,7 @@ class Proj(_proj.Proj):
     """
     performs cartographic transformations (converts from
     longitude,latitude to native map projection x,y coordinates and
-    vice versa) using proj (http://trac.osgeo.org/proj/).
+    vice versa) using proj (https://github.com/OSGeo/proj.4/wiki).
 
     A Proj class instance is initialized with proj map projection
     control parameter key/value pairs. The key/value pairs can
@@ -286,7 +286,7 @@ class Proj(_proj.Proj):
 
         Proj4 projection control parameters must either be given in a
         dictionary 'projparams' or as keyword arguments. See the proj
-        documentation (http://trac.osgeo.org/proj/) for more information
+        documentation (https://github.com/OSGeo/proj.4/wiki) for more information
         about specifying projection parameters.
 
         Example usage:
@@ -668,9 +668,7 @@ class Geod(_proj.Geod):
         or polar axis radius), 'e' (eccentricity), 'es' (eccentricity
         squared), 'f' (flattening), or 'rf' (reciprocal flattening).
 
-        See the proj documentation (http://trac.osgeo.org/proj/) for more
-
-        See the proj documentation (http://trac.osgeo.org/proj/) for more
+        See the proj documentation (https://github.com/OSGeo/proj.4/wiki) for more
         information about specifying ellipsoid parameters (specifically,
         the chapter 'Specifying the Earth's figure' in the main Proj
         users manual).
