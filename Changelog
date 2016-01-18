@@ -1,3 +1,6 @@
+since 1.9.5.1 release
+* fix segfault when inverse projection not defined (issue #43, pull request
+  #44).
 1.9.5.1
 * fix for issue #42 (compilation error with microsoft visual studio).
 1.9.5
