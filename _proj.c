@@ -457,7 +457,11 @@ struct __pyx_t_5_proj_PJconsts;
 typedef struct __pyx_t_5_proj_PJconsts __pyx_t_5_proj_PJconsts;
 struct __pyx_opt_args_5_proj__strencode;
 
+<<<<<<< HEAD
 /* "_proj.pyx":34
+=======
+/* "_proj.pyx":30
+>>>>>>> add pyproj.itransform function
  * 
  * # define part of the struct PJconsts from projects.h
  * ctypedef void (*c_func_type)()             # <<<<<<<<<<<<<<
@@ -466,7 +470,11 @@ struct __pyx_opt_args_5_proj__strencode;
  */
 typedef void (*__pyx_t_5_proj_c_func_type)(void);
 
+<<<<<<< HEAD
 /* "_proj.pyx":36
+=======
+/* "_proj.pyx":32
+>>>>>>> add pyproj.itransform function
  * ctypedef void (*c_func_type)()
  * 
  * ctypedef struct PJconsts:             # <<<<<<<<<<<<<<
@@ -479,7 +487,11 @@ struct __pyx_t_5_proj_PJconsts {
   __pyx_t_5_proj_c_func_type inv;
 };
 
+<<<<<<< HEAD
 /* "_proj.pyx":400
+=======
+/* "_proj.pyx":379
+>>>>>>> add pyproj.itransform function
  *             yy[i] = yy[i]*_rad2dg
  * 
  * cdef _strencode(pystr,encoding='ascii'):             # <<<<<<<<<<<<<<
@@ -491,7 +503,11 @@ struct __pyx_opt_args_5_proj__strencode {
   PyObject *encoding;
 };
 
+<<<<<<< HEAD
 /* "_proj.pyx":96
+=======
+/* "_proj.pyx":75
+>>>>>>> add pyproj.itransform function
  *     return Proj(projstring)
  * 
  * cdef class Proj:             # <<<<<<<<<<<<<<
@@ -508,8 +524,13 @@ struct __pyx_obj_5_proj_Proj {
 };
 
 
+<<<<<<< HEAD
 /* "_proj.pyx":407
  *         return pystr # already bytes?
+=======
+/* "_proj.pyx":433
+ *             coords[j+1] *= _dg2rad
+>>>>>>> add pyproj.itransform function
  * 
  * cdef class Geod:             # <<<<<<<<<<<<<<
  *     cdef geod_geodesic _geod_geodesic
@@ -646,6 +667,9 @@ static void __Pyx_ExceptionReset(PyObject *type, PyObject *value, PyObject *tb);
 
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 
+#define UNARY_NEG_WOULD_OVERFLOW(x)\
+        (((x) < 0) & ((unsigned long)(x) == 0-(unsigned long)(x)))
+
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
 static CYTHON_INLINE long __Pyx_mod_long(long, long);
@@ -698,8 +722,10 @@ static PyObject *__pyx_builtin_ValueError;
 static char __pyx_k_a[] = "a";
 static char __pyx_k_f[] = "f";
 static char __pyx_k_i[] = "i";
+static char __pyx_k_j[] = "j";
 static char __pyx_k_x[] = "x";
 static char __pyx_k_y[] = "y";
+static char __pyx_k_z[] = "z";
 static char __pyx_k_az[] = "az";
 static char __pyx_k_p1[] = "p1";
 static char __pyx_k_p2[] = "p2";
@@ -725,6 +751,7 @@ static char __pyx_k_test[] = "__test__";
 static char __pyx_k_0_1_2[] = "{0}.{1}.{2}";
 static char __pyx_k_ascii[] = "ascii";
 static char __pyx_k_class[] = "__class__";
+static char __pyx_k_inseq[] = "inseq";
 static char __pyx_k_lats1[] = "lats1";
 static char __pyx_k_lats2[] = "lats2";
 static char __pyx_k_lons1[] = "lons1";
@@ -732,9 +759,14 @@ static char __pyx_k_lons2[] = "lons2";
 static char __pyx_k_xdata[] = "xdata";
 static char __pyx_k_ydata[] = "ydata";
 static char __pyx_k_zdata[] = "zdata";
+static char __pyx_k_buffer[] = "buffer";
+static char __pyx_k_buflen[] = "buflen";
+static char __pyx_k_coords[] = "coords";
 static char __pyx_k_encode[] = "encode";
 static char __pyx_k_format[] = "format";
 static char __pyx_k_import[] = "__import__";
+static char __pyx_k_stride[] = "stride";
+static char __pyx_k_switch[] = "switch";
 static char __pyx_k_1_9_5_1[] = "1.9.5.1";
 static char __pyx_k_a_s_f_s[] = "+a=%s +f=%s";
 static char __pyx_k_buflenx[] = "buflenx";
@@ -756,13 +788,23 @@ static char __pyx_k_searchpath[] = "searchpath";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
 static char __pyx_k_set_datapath[] = "set_datapath";
 static char __pyx_k_AttributeError[] = "AttributeError";
+<<<<<<< HEAD
 static char __pyx_k_proj_version_str[] = "proj_version_str";
 static char __pyx_k_geodesic_version_str[] = "geodesic_version_str";
+=======
+static char __pyx_k_transform_sequence[] = "_transform_sequence";
+>>>>>>> add pyproj.itransform function
 static char __pyx_k_projection_undefined[] = "projection undefined";
 static char __pyx_k_Buffer_lengths_not_the_same[] = "Buffer lengths not the same";
 static char __pyx_k_x_y_and_z_must_be_same_size[] = "x,y and z must be same size";
 static char __pyx_k_inverse_projection_undefined[] = "inverse projection undefined";
+<<<<<<< HEAD
 static char __pyx_k_C_Users_mcochran_github_pyproj[] = "C:\\Users\\mcochran\\github\\pyproj\\_proj.pyx";
+=======
+static char __pyx_k_home_george_ouzou_Desktop_proje[] = "/home/george-ouzou/Desktop/projects/pyproj/_proj.pyx";
+static char __pyx_k_coordinates_must_contain_at_leas[] = "coordinates must contain at least 2 values";
+static char __pyx_k_object_does_not_provide_the_pyth[] = "object does not provide the python buffer writable interface";
+>>>>>>> add pyproj.itransform function
 static char __pyx_k_undefined_inverse_geodesic_may_b[] = "undefined inverse geodesic (may be an antipodal point)";
 static PyObject *__pyx_kp_s_0_1_2;
 static PyObject *__pyx_kp_s_1_9_5_1;
@@ -775,11 +817,15 @@ static PyObject *__pyx_n_s_a;
 static PyObject *__pyx_kp_s_a_s_f_s;
 static PyObject *__pyx_n_s_ascii;
 static PyObject *__pyx_n_s_az;
+static PyObject *__pyx_n_s_buffer;
+static PyObject *__pyx_n_s_buflen;
 static PyObject *__pyx_n_s_buflenx;
 static PyObject *__pyx_n_s_bufleny;
 static PyObject *__pyx_n_s_buflenz;
 static PyObject *__pyx_n_s_bytestr;
 static PyObject *__pyx_n_s_class;
+static PyObject *__pyx_kp_s_coordinates_must_contain_at_leas;
+static PyObject *__pyx_n_s_coords;
 static PyObject *__pyx_n_s_createproj;
 static PyObject *__pyx_n_s_datapath;
 static PyObject *__pyx_n_s_degrees;
@@ -789,15 +835,23 @@ static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_err;
 static PyObject *__pyx_n_s_errcheck;
 static PyObject *__pyx_n_s_f;
+<<<<<<< HEAD
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_geodesic_version_str;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
+=======
+static PyObject *__pyx_kp_s_home_george_ouzou_Desktop_proje;
+static PyObject *__pyx_n_s_i;
+static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_inseq;
+>>>>>>> add pyproj.itransform function
 static PyObject *__pyx_kp_s_inverse_projection_undefined;
 static PyObject *__pyx_n_s_inx;
 static PyObject *__pyx_n_s_iny;
 static PyObject *__pyx_n_s_inz;
 static PyObject *__pyx_n_s_is_latlong;
+static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_n_s_lat1;
 static PyObject *__pyx_n_s_lat2;
 static PyObject *__pyx_n_s_lats;
@@ -811,6 +865,7 @@ static PyObject *__pyx_n_s_lons2;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_math;
 static PyObject *__pyx_n_s_npts;
+static PyObject *__pyx_kp_s_object_does_not_provide_the_pyth;
 static PyObject *__pyx_n_s_p1;
 static PyObject *__pyx_n_s_p2;
 static PyObject *__pyx_n_s_proj;
@@ -820,8 +875,11 @@ static PyObject *__pyx_n_s_projstring;
 static PyObject *__pyx_n_s_radians;
 static PyObject *__pyx_n_s_searchpath;
 static PyObject *__pyx_n_s_set_datapath;
+static PyObject *__pyx_n_s_stride;
+static PyObject *__pyx_n_s_switch;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_transform;
+static PyObject *__pyx_n_s_transform_sequence;
 static PyObject *__pyx_kp_s_undefined_inverse_geodesic_may_b;
 static PyObject *__pyx_n_s_version;
 static PyObject *__pyx_n_s_x;
@@ -831,6 +889,7 @@ static PyObject *__pyx_n_s_xx;
 static PyObject *__pyx_n_s_y;
 static PyObject *__pyx_n_s_ydata;
 static PyObject *__pyx_n_s_yy;
+static PyObject *__pyx_n_s_z;
 static PyObject *__pyx_n_s_zdata;
 static PyObject *__pyx_n_s_zz;
 static PyObject *__pyx_pf_5_proj_set_datapath(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_datapath); /* proto */
@@ -850,6 +909,7 @@ static PyObject *__pyx_pf_5_proj_4Proj_3srs___get__(struct __pyx_obj_5_proj_Proj
 static int __pyx_pf_5_proj_4Proj_3srs_2__set__(struct __pyx_obj_5_proj_Proj *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_5_proj_4Proj_3srs_4__del__(struct __pyx_obj_5_proj_Proj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5_proj_Proj *__pyx_v_p1, struct __pyx_obj_5_proj_Proj *__pyx_v_p2, PyObject *__pyx_v_inx, PyObject *__pyx_v_iny, PyObject *__pyx_v_inz, PyObject *__pyx_v_radians); /* proto */
+static PyObject *__pyx_pf_5_proj_6_transform_sequence(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5_proj_Proj *__pyx_v_p1, struct __pyx_obj_5_proj_Proj *__pyx_v_p2, Py_ssize_t __pyx_v_stride, PyObject *__pyx_v_inseq, int __pyx_v_radians, int __pyx_v_switch); /* proto */
 static int __pyx_pf_5_proj_4Geod___cinit__(struct __pyx_obj_5_proj_Geod *__pyx_v_self, PyObject *__pyx_v_a, PyObject *__pyx_v_f); /* proto */
 static PyObject *__pyx_pf_5_proj_4Geod_2__reduce__(struct __pyx_obj_5_proj_Geod *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx_v_self, PyObject *__pyx_v_lons, PyObject *__pyx_v_lats, PyObject *__pyx_v_az, PyObject *__pyx_v_dist, PyObject *__pyx_v_radians); /* proto */
@@ -878,6 +938,7 @@ static PyObject *__pyx_tuple__14;
 static PyObject *__pyx_tuple__15;
 static PyObject *__pyx_tuple__16;
 static PyObject *__pyx_tuple__17;
+<<<<<<< HEAD
 static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_codeobj__18;
@@ -886,6 +947,20 @@ static PyObject *__pyx_codeobj__22;
 
 /* "_proj.pyx":88
  * 
+=======
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__19;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_codeobj__20;
+static PyObject *__pyx_codeobj__22;
+static PyObject *__pyx_codeobj__24;
+static PyObject *__pyx_codeobj__26;
+
+/* "_proj.pyx":67
+ *     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
+>>>>>>> add pyproj.itransform function
  * 
  * def set_datapath(datapath):             # <<<<<<<<<<<<<<
  *     bytestr = _strencode(datapath)
@@ -918,29 +993,48 @@ static PyObject *__pyx_pf_5_proj_set_datapath(CYTHON_UNUSED PyObject *__pyx_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_datapath", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":89
+=======
+  /* "_proj.pyx":68
+>>>>>>> add pyproj.itransform function
  * 
  * def set_datapath(datapath):
  *     bytestr = _strencode(datapath)             # <<<<<<<<<<<<<<
  *     cdef const char *searchpath = bytestr
  *     pj_set_searchpath(1, &searchpath)
  */
+<<<<<<< HEAD
   __pyx_t_1 = __pyx_f_5_proj__strencode(__pyx_v_datapath, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = __pyx_f_5_proj__strencode(__pyx_v_datapath, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bytestr = __pyx_t_1;
   __pyx_t_1 = 0;
 
+<<<<<<< HEAD
   /* "_proj.pyx":90
+=======
+  /* "_proj.pyx":69
+>>>>>>> add pyproj.itransform function
  * def set_datapath(datapath):
  *     bytestr = _strencode(datapath)
  *     cdef const char *searchpath = bytestr             # <<<<<<<<<<<<<<
  *     pj_set_searchpath(1, &searchpath)
  * 
  */
+<<<<<<< HEAD
   __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_bytestr); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_searchpath = __pyx_t_2;
 
   /* "_proj.pyx":91
+=======
+  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_bytestr); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_searchpath = __pyx_t_2;
+
+  /* "_proj.pyx":70
+>>>>>>> add pyproj.itransform function
  *     bytestr = _strencode(datapath)
  *     cdef const char *searchpath = bytestr
  *     pj_set_searchpath(1, &searchpath)             # <<<<<<<<<<<<<<
@@ -949,8 +1043,13 @@ static PyObject *__pyx_pf_5_proj_set_datapath(CYTHON_UNUSED PyObject *__pyx_self
  */
   pj_set_searchpath(1, (&__pyx_v_searchpath));
 
+<<<<<<< HEAD
   /* "_proj.pyx":88
  * 
+=======
+  /* "_proj.pyx":67
+ *     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
+>>>>>>> add pyproj.itransform function
  * 
  * def set_datapath(datapath):             # <<<<<<<<<<<<<<
  *     bytestr = _strencode(datapath)
@@ -971,7 +1070,11 @@ static PyObject *__pyx_pf_5_proj_set_datapath(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":93
+=======
+/* "_proj.pyx":72
+>>>>>>> add pyproj.itransform function
  *     pj_set_searchpath(1, &searchpath)
  * 
  * def _createproj(projstring):             # <<<<<<<<<<<<<<
@@ -1003,7 +1106,11 @@ static PyObject *__pyx_pf_5_proj_2_createproj(CYTHON_UNUSED PyObject *__pyx_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_createproj", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":94
+=======
+  /* "_proj.pyx":73
+>>>>>>> add pyproj.itransform function
  * 
  * def _createproj(projstring):
  *     return Proj(projstring)             # <<<<<<<<<<<<<<
@@ -1011,19 +1118,31 @@ static PyObject *__pyx_pf_5_proj_2_createproj(CYTHON_UNUSED PyObject *__pyx_self
  * cdef class Proj:
  */
   __Pyx_XDECREF(__pyx_r);
+<<<<<<< HEAD
   __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_projstring);
   __Pyx_GIVEREF(__pyx_v_projstring);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_projstring);
+<<<<<<< HEAD
   __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5_proj_Proj), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5_proj_Proj), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
+<<<<<<< HEAD
   /* "_proj.pyx":93
+=======
+  /* "_proj.pyx":72
+>>>>>>> add pyproj.itransform function
  *     pj_set_searchpath(1, &searchpath)
  * 
  * def _createproj(projstring):             # <<<<<<<<<<<<<<
@@ -1043,7 +1162,11 @@ static PyObject *__pyx_pf_5_proj_2_createproj(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":103
+=======
+/* "_proj.pyx":82
+>>>>>>> add pyproj.itransform function
  *     cdef public object srs
  * 
  *     def __cinit__(self, projstring):             # <<<<<<<<<<<<<<
@@ -1079,7 +1202,11 @@ static int __pyx_pw_5_proj_4Proj_1__cinit__(PyObject *__pyx_v_self, PyObject *__
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
+<<<<<<< HEAD
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -1090,7 +1217,11 @@ static int __pyx_pw_5_proj_4Proj_1__cinit__(PyObject *__pyx_v_self, PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
+<<<<<<< HEAD
   __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_L3_error:;
   __Pyx_AddTraceback("_proj.Proj.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1117,7 +1248,11 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":106
+=======
+  /* "_proj.pyx":85
+>>>>>>> add pyproj.itransform function
  *         # setup proj initialization string.
  *         cdef int err
  *         self.srs = projstring             # <<<<<<<<<<<<<<
@@ -1130,29 +1265,48 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
   __Pyx_DECREF(__pyx_v_self->srs);
   __pyx_v_self->srs = __pyx_v_projstring;
 
+<<<<<<< HEAD
   /* "_proj.pyx":107
+=======
+  /* "_proj.pyx":86
+>>>>>>> add pyproj.itransform function
  *         cdef int err
  *         self.srs = projstring
  *         bytestr = _strencode(projstring)             # <<<<<<<<<<<<<<
  *         self.pjinitstring = bytestr
  *         # initialize projection
  */
+<<<<<<< HEAD
   __pyx_t_1 = __pyx_f_5_proj__strencode(__pyx_v_projstring, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = __pyx_f_5_proj__strencode(__pyx_v_projstring, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bytestr = __pyx_t_1;
   __pyx_t_1 = 0;
 
+<<<<<<< HEAD
   /* "_proj.pyx":108
+=======
+  /* "_proj.pyx":87
+>>>>>>> add pyproj.itransform function
  *         self.srs = projstring
  *         bytestr = _strencode(projstring)
  *         self.pjinitstring = bytestr             # <<<<<<<<<<<<<<
  *         # initialize projection
  *         self.projctx = pj_ctx_alloc()
  */
+<<<<<<< HEAD
   __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_bytestr); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->pjinitstring = __pyx_t_2;
 
   /* "_proj.pyx":110
+=======
+  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_bytestr); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->pjinitstring = __pyx_t_2;
+
+  /* "_proj.pyx":89
+>>>>>>> add pyproj.itransform function
  *         self.pjinitstring = bytestr
  *         # initialize projection
  *         self.projctx = pj_ctx_alloc()             # <<<<<<<<<<<<<<
@@ -1161,7 +1315,11 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
  */
   __pyx_v_self->projctx = pj_ctx_alloc();
 
+<<<<<<< HEAD
   /* "_proj.pyx":111
+=======
+  /* "_proj.pyx":90
+>>>>>>> add pyproj.itransform function
  *         # initialize projection
  *         self.projctx = pj_ctx_alloc()
  *         self.projpj = pj_init_plus_ctx(self.projctx, self.pjinitstring)             # <<<<<<<<<<<<<<
@@ -1170,7 +1328,11 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
  */
   __pyx_v_self->projpj = pj_init_plus_ctx(__pyx_v_self->projctx, __pyx_v_self->pjinitstring);
 
+<<<<<<< HEAD
   /* "_proj.pyx":112
+=======
+  /* "_proj.pyx":91
+>>>>>>> add pyproj.itransform function
  *         self.projctx = pj_ctx_alloc()
  *         self.projpj = pj_init_plus_ctx(self.projctx, self.pjinitstring)
  *         err = pj_ctx_get_errno(self.projctx)             # <<<<<<<<<<<<<<
@@ -1179,7 +1341,11 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
  */
   __pyx_v_err = pj_ctx_get_errno(__pyx_v_self->projctx);
 
+<<<<<<< HEAD
   /* "_proj.pyx":113
+=======
+  /* "_proj.pyx":92
+>>>>>>> add pyproj.itransform function
  *         self.projpj = pj_init_plus_ctx(self.projctx, self.pjinitstring)
  *         err = pj_ctx_get_errno(self.projctx)
  *         if err != 0:             # <<<<<<<<<<<<<<
@@ -1189,28 +1355,48 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
   __pyx_t_3 = ((__pyx_v_err != 0) != 0);
   if (__pyx_t_3) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":114
+=======
+    /* "_proj.pyx":93
+>>>>>>> add pyproj.itransform function
  *         err = pj_ctx_get_errno(self.projctx)
  *         if err != 0:
  *              raise RuntimeError(pj_strerrno(err))             # <<<<<<<<<<<<<<
  *         self.proj_version = PJ_VERSION/100.
  * 
  */
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+    __pyx_t_1 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
     __pyx_t_1 = 0;
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":113
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":92
+>>>>>>> add pyproj.itransform function
  *         self.projpj = pj_init_plus_ctx(self.projctx, self.pjinitstring)
  *         err = pj_ctx_get_errno(self.projctx)
  *         if err != 0:             # <<<<<<<<<<<<<<
@@ -1219,14 +1405,22 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":115
+=======
+  /* "_proj.pyx":94
+>>>>>>> add pyproj.itransform function
  *         if err != 0:
  *              raise RuntimeError(pj_strerrno(err))
  *         self.proj_version = PJ_VERSION/100.             # <<<<<<<<<<<<<<
  * 
  *     def __dealloc__(self):
  */
+<<<<<<< HEAD
   __pyx_t_1 = PyFloat_FromDouble((PJ_VERSION / 100.)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = PyFloat_FromDouble((PJ_VERSION / 100.)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->proj_version);
@@ -1234,7 +1428,11 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
   __pyx_v_self->proj_version = __pyx_t_1;
   __pyx_t_1 = 0;
 
+<<<<<<< HEAD
   /* "_proj.pyx":103
+=======
+  /* "_proj.pyx":82
+>>>>>>> add pyproj.itransform function
  *     cdef public object srs
  * 
  *     def __cinit__(self, projstring):             # <<<<<<<<<<<<<<
@@ -1256,7 +1454,11 @@ static int __pyx_pf_5_proj_4Proj___cinit__(struct __pyx_obj_5_proj_Proj *__pyx_v
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":117
+=======
+/* "_proj.pyx":96
+>>>>>>> add pyproj.itransform function
  *         self.proj_version = PJ_VERSION/100.
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -1279,7 +1481,11 @@ static void __pyx_pf_5_proj_4Proj_2__dealloc__(struct __pyx_obj_5_proj_Proj *__p
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":119
+=======
+  /* "_proj.pyx":98
+>>>>>>> add pyproj.itransform function
  *     def __dealloc__(self):
  *         """destroy projection definition"""
  *         pj_free(self.projpj)             # <<<<<<<<<<<<<<
@@ -1288,7 +1494,11 @@ static void __pyx_pf_5_proj_4Proj_2__dealloc__(struct __pyx_obj_5_proj_Proj *__p
  */
   pj_free(__pyx_v_self->projpj);
 
+<<<<<<< HEAD
   /* "_proj.pyx":120
+=======
+  /* "_proj.pyx":99
+>>>>>>> add pyproj.itransform function
  *         """destroy projection definition"""
  *         pj_free(self.projpj)
  *         pj_ctx_free(self.projctx)             # <<<<<<<<<<<<<<
@@ -1297,7 +1507,11 @@ static void __pyx_pf_5_proj_4Proj_2__dealloc__(struct __pyx_obj_5_proj_Proj *__p
  */
   pj_ctx_free(__pyx_v_self->projctx);
 
+<<<<<<< HEAD
   /* "_proj.pyx":117
+=======
+  /* "_proj.pyx":96
+>>>>>>> add pyproj.itransform function
  *         self.proj_version = PJ_VERSION/100.
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -1309,7 +1523,11 @@ static void __pyx_pf_5_proj_4Proj_2__dealloc__(struct __pyx_obj_5_proj_Proj *__p
   __Pyx_RefNannyFinishContext();
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":122
+=======
+/* "_proj.pyx":101
+>>>>>>> add pyproj.itransform function
  *         pj_ctx_free(self.projctx)
  * 
  *     def to_latlong(self):             # <<<<<<<<<<<<<<
@@ -1346,7 +1564,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_4to_latlong(struct __pyx_obj_5_proj_Proj 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_latlong", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":126
+=======
+  /* "_proj.pyx":105
+>>>>>>> add pyproj.itransform function
  *         coordinate version of the current projection"""
  *         cdef projPJ llpj
  *         llpj = pj_latlong_from_proj(self.projpj)             # <<<<<<<<<<<<<<
@@ -1355,7 +1577,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_4to_latlong(struct __pyx_obj_5_proj_Proj 
  */
   __pyx_v_llpj = pj_latlong_from_proj(__pyx_v_self->projpj);
 
+<<<<<<< HEAD
   /* "_proj.pyx":127
+=======
+  /* "_proj.pyx":106
+>>>>>>> add pyproj.itransform function
  *         cdef projPJ llpj
  *         llpj = pj_latlong_from_proj(self.projpj)
  *         initstring = pj_get_def(llpj, 0)             # <<<<<<<<<<<<<<
@@ -1364,7 +1590,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_4to_latlong(struct __pyx_obj_5_proj_Proj 
  */
   __pyx_v_initstring = pj_get_def(__pyx_v_llpj, 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":128
+=======
+  /* "_proj.pyx":107
+>>>>>>> add pyproj.itransform function
  *         llpj = pj_latlong_from_proj(self.projpj)
  *         initstring = pj_get_def(llpj, 0)
  *         pj_free(llpj)             # <<<<<<<<<<<<<<
@@ -1373,7 +1603,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_4to_latlong(struct __pyx_obj_5_proj_Proj 
  */
   pj_free(__pyx_v_llpj);
 
+<<<<<<< HEAD
   /* "_proj.pyx":129
+=======
+  /* "_proj.pyx":108
+>>>>>>> add pyproj.itransform function
  *         initstring = pj_get_def(llpj, 0)
  *         pj_free(llpj)
  *         return _createproj(initstring)             # <<<<<<<<<<<<<<
@@ -1381,9 +1615,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_4to_latlong(struct __pyx_obj_5_proj_Proj 
  *     def __reduce__(self):
  */
   __Pyx_XDECREF(__pyx_r);
+<<<<<<< HEAD
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_createproj); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_initstring); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_createproj); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_initstring); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -1396,17 +1636,29 @@ static PyObject *__pyx_pf_5_proj_4Proj_4to_latlong(struct __pyx_obj_5_proj_Proj 
     }
   }
   if (!__pyx_t_4) {
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
     __pyx_t_3 = 0;
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
@@ -1415,7 +1667,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_4to_latlong(struct __pyx_obj_5_proj_Proj 
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
+<<<<<<< HEAD
   /* "_proj.pyx":122
+=======
+  /* "_proj.pyx":101
+>>>>>>> add pyproj.itransform function
  *         pj_ctx_free(self.projctx)
  * 
  *     def to_latlong(self):             # <<<<<<<<<<<<<<
@@ -1438,7 +1694,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_4to_latlong(struct __pyx_obj_5_proj_Proj 
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":131
+=======
+/* "_proj.pyx":110
+>>>>>>> add pyproj.itransform function
  *         return _createproj(initstring)
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -1471,7 +1731,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_6__reduce__(struct __pyx_obj_5_proj_Proj 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce__", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":133
+=======
+  /* "_proj.pyx":112
+>>>>>>> add pyproj.itransform function
  *     def __reduce__(self):
  *         """special method that allows pyproj.Proj instance to be pickled"""
  *         return (self.__class__,(self.srs,))             # <<<<<<<<<<<<<<
@@ -1479,14 +1743,24 @@ static PyObject *__pyx_pf_5_proj_4Proj_6__reduce__(struct __pyx_obj_5_proj_Proj 
  *     def _fwd(self, object lons, object lats, radians=False, errcheck=False):
  */
   __Pyx_XDECREF(__pyx_r);
+<<<<<<< HEAD
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_self->srs);
   __Pyx_GIVEREF(__pyx_v_self->srs);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_self->srs);
+<<<<<<< HEAD
   __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -1498,7 +1772,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_6__reduce__(struct __pyx_obj_5_proj_Proj 
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
+<<<<<<< HEAD
   /* "_proj.pyx":131
+=======
+  /* "_proj.pyx":110
+>>>>>>> add pyproj.itransform function
  *         return _createproj(initstring)
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -1519,7 +1797,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_6__reduce__(struct __pyx_obj_5_proj_Proj 
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":135
+=======
+/* "_proj.pyx":114
+>>>>>>> add pyproj.itransform function
  *         return (self.__class__,(self.srs,))
  * 
  *     def _fwd(self, object lons, object lats, radians=False, errcheck=False):             # <<<<<<<<<<<<<<
@@ -1565,7 +1847,11 @@ static PyObject *__pyx_pw_5_proj_4Proj_9_fwd(PyObject *__pyx_v_self, PyObject *_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lats)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_fwd", 0, 2, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_fwd", 0, 2, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  2:
         if (kw_args > 0) {
@@ -1579,7 +1865,11 @@ static PyObject *__pyx_pw_5_proj_4Proj_9_fwd(PyObject *__pyx_v_self, PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
+<<<<<<< HEAD
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_fwd") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_fwd") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1598,7 +1888,11 @@ static PyObject *__pyx_pw_5_proj_4Proj_9_fwd(PyObject *__pyx_v_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
+<<<<<<< HEAD
   __Pyx_RaiseArgtupleInvalid("_fwd", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+  __Pyx_RaiseArgtupleInvalid("_fwd", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_L3_error:;
   __Pyx_AddTraceback("_proj.Proj._fwd", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1637,7 +1931,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_fwd", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":152
+=======
+  /* "_proj.pyx":131
+>>>>>>> add pyproj.itransform function
  *         cdef int err
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:             # <<<<<<<<<<<<<<
@@ -1647,7 +1945,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_lons, (&__pyx_v_londata), (&__pyx_v_buflenx)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":153
+=======
+    /* "_proj.pyx":132
+>>>>>>> add pyproj.itransform function
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -1655,9 +1957,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  *             raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 153; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":152
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":131
+>>>>>>> add pyproj.itransform function
  *         cdef int err
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:             # <<<<<<<<<<<<<<
@@ -1666,7 +1974,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":154
+=======
+  /* "_proj.pyx":133
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats, &latdata, &bufleny) <> 0:             # <<<<<<<<<<<<<<
@@ -1676,7 +1988,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_lats, (&__pyx_v_latdata), (&__pyx_v_bufleny)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":155
+=======
+    /* "_proj.pyx":134
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats, &latdata, &bufleny) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -1684,9 +2000,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  *         if buflenx != bufleny:
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":154
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":133
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats, &latdata, &bufleny) <> 0:             # <<<<<<<<<<<<<<
@@ -1695,7 +2017,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":157
+=======
+  /* "_proj.pyx":136
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         # process data in buffer
  *         if buflenx != bufleny:             # <<<<<<<<<<<<<<
@@ -1705,13 +2031,18 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
   __pyx_t_1 = ((__pyx_v_buflenx != __pyx_v_bufleny) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":158
+=======
+    /* "_proj.pyx":137
+>>>>>>> add pyproj.itransform function
  *         # process data in buffer
  *         if buflenx != bufleny:
  *             raise RuntimeError("Buffer lengths not the same")             # <<<<<<<<<<<<<<
  *         ndim = buflenx//_doublesize
  *         lonsdata = <double *>londata
  */
+<<<<<<< HEAD
     __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
@@ -1719,6 +2050,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":157
+=======
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":136
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         # process data in buffer
  *         if buflenx != bufleny:             # <<<<<<<<<<<<<<
@@ -1727,13 +2067,18 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":159
+=======
+  /* "_proj.pyx":138
+>>>>>>> add pyproj.itransform function
  *         if buflenx != bufleny:
  *             raise RuntimeError("Buffer lengths not the same")
  *         ndim = buflenx//_doublesize             # <<<<<<<<<<<<<<
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata
  */
+<<<<<<< HEAD
   __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_buflenx); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_doublesize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1747,6 +2092,21 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
   __pyx_v_ndim = __pyx_t_5;
 
   /* "_proj.pyx":160
+=======
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_buflenx); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_doublesize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyNumber_FloorDivide(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_5 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_5 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_ndim = __pyx_t_5;
+
+  /* "_proj.pyx":139
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError("Buffer lengths not the same")
  *         ndim = buflenx//_doublesize
  *         lonsdata = <double *>londata             # <<<<<<<<<<<<<<
@@ -1755,7 +2115,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
   __pyx_v_lonsdata = ((double *)__pyx_v_londata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":161
+=======
+  /* "_proj.pyx":140
+>>>>>>> add pyproj.itransform function
  *         ndim = buflenx//_doublesize
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata             # <<<<<<<<<<<<<<
@@ -1764,7 +2128,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
   __pyx_v_latsdata = ((double *)__pyx_v_latdata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":162
+=======
+  /* "_proj.pyx":141
+>>>>>>> add pyproj.itransform function
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata
  *         for i from 0 <= i < ndim:             # <<<<<<<<<<<<<<
@@ -1774,7 +2142,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
   __pyx_t_5 = __pyx_v_ndim;
   for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_5; __pyx_v_i++) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":164
+=======
+    /* "_proj.pyx":143
+>>>>>>> add pyproj.itransform function
  *         for i from 0 <= i < ndim:
  *             # if inputs are nan's, return big number.
  *             if lonsdata[i] != lonsdata[i] or latsdata[i] != latsdata[i]:             # <<<<<<<<<<<<<<
@@ -1792,7 +2164,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":165
+=======
+      /* "_proj.pyx":144
+>>>>>>> add pyproj.itransform function
  *             # if inputs are nan's, return big number.
  *             if lonsdata[i] != lonsdata[i] or latsdata[i] != latsdata[i]:
  *                 lonsdata[i]=1.e30; latsdata[i]=1.e30             # <<<<<<<<<<<<<<
@@ -1802,23 +2178,35 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
       (__pyx_v_lonsdata[__pyx_v_i]) = 1.e30;
       (__pyx_v_latsdata[__pyx_v_i]) = 1.e30;
 
+<<<<<<< HEAD
       /* "_proj.pyx":166
+=======
+      /* "_proj.pyx":145
+>>>>>>> add pyproj.itransform function
  *             if lonsdata[i] != lonsdata[i] or latsdata[i] != latsdata[i]:
  *                 lonsdata[i]=1.e30; latsdata[i]=1.e30
  *                 if errcheck:             # <<<<<<<<<<<<<<
  *                     raise RuntimeError('projection undefined')
  *                 continue
  */
+<<<<<<< HEAD
       __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_1) {
 
         /* "_proj.pyx":167
+=======
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 145; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (__pyx_t_1) {
+
+        /* "_proj.pyx":146
+>>>>>>> add pyproj.itransform function
  *                 lonsdata[i]=1.e30; latsdata[i]=1.e30
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 continue
  *             if radians:
  */
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
@@ -1826,6 +2214,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
         /* "_proj.pyx":166
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "_proj.pyx":145
+>>>>>>> add pyproj.itransform function
  *             if lonsdata[i] != lonsdata[i] or latsdata[i] != latsdata[i]:
  *                 lonsdata[i]=1.e30; latsdata[i]=1.e30
  *                 if errcheck:             # <<<<<<<<<<<<<<
@@ -1834,7 +2231,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       }
 
+<<<<<<< HEAD
       /* "_proj.pyx":168
+=======
+      /* "_proj.pyx":147
+>>>>>>> add pyproj.itransform function
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')
  *                 continue             # <<<<<<<<<<<<<<
@@ -1843,7 +2244,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       goto __pyx_L6_continue;
 
+<<<<<<< HEAD
       /* "_proj.pyx":164
+=======
+      /* "_proj.pyx":143
+>>>>>>> add pyproj.itransform function
  *         for i from 0 <= i < ndim:
  *             # if inputs are nan's, return big number.
  *             if lonsdata[i] != lonsdata[i] or latsdata[i] != latsdata[i]:             # <<<<<<<<<<<<<<
@@ -1852,17 +2257,28 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":169
+=======
+    /* "_proj.pyx":148
+>>>>>>> add pyproj.itransform function
  *                     raise RuntimeError('projection undefined')
  *                 continue
  *             if radians:             # <<<<<<<<<<<<<<
  *                 projlonlatin.u = lonsdata[i]
  *                 projlonlatin.v = latsdata[i]
  */
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_1) {
 
       /* "_proj.pyx":170
+=======
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_1) {
+
+      /* "_proj.pyx":149
+>>>>>>> add pyproj.itransform function
  *                 continue
  *             if radians:
  *                 projlonlatin.u = lonsdata[i]             # <<<<<<<<<<<<<<
@@ -1871,7 +2287,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       __pyx_v_projlonlatin.u = (__pyx_v_lonsdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":171
+=======
+      /* "_proj.pyx":150
+>>>>>>> add pyproj.itransform function
  *             if radians:
  *                 projlonlatin.u = lonsdata[i]
  *                 projlonlatin.v = latsdata[i]             # <<<<<<<<<<<<<<
@@ -1880,7 +2300,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       __pyx_v_projlonlatin.v = (__pyx_v_latsdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":169
+=======
+      /* "_proj.pyx":148
+>>>>>>> add pyproj.itransform function
  *                     raise RuntimeError('projection undefined')
  *                 continue
  *             if radians:             # <<<<<<<<<<<<<<
@@ -1890,7 +2314,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
       goto __pyx_L12;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":173
+=======
+    /* "_proj.pyx":152
+>>>>>>> add pyproj.itransform function
  *                 projlonlatin.v = latsdata[i]
  *             else:
  *                 projlonlatin.u = _dg2rad*lonsdata[i]             # <<<<<<<<<<<<<<
@@ -1900,7 +2328,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
     /*else*/ {
       __pyx_v_projlonlatin.u = (__pyx_v_5_proj__dg2rad * (__pyx_v_lonsdata[__pyx_v_i]));
 
+<<<<<<< HEAD
       /* "_proj.pyx":174
+=======
+      /* "_proj.pyx":153
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 projlonlatin.u = _dg2rad*lonsdata[i]
  *                 projlonlatin.v = _dg2rad*latsdata[i]             # <<<<<<<<<<<<<<
@@ -1911,7 +2343,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
     }
     __pyx_L12:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":175
+=======
+    /* "_proj.pyx":154
+>>>>>>> add pyproj.itransform function
  *                 projlonlatin.u = _dg2rad*lonsdata[i]
  *                 projlonlatin.v = _dg2rad*latsdata[i]
  *             projxyout = pj_fwd(projlonlatin,self.projpj)             # <<<<<<<<<<<<<<
@@ -1920,17 +2356,28 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
     __pyx_v_projxyout = pj_fwd(__pyx_v_projlonlatin, __pyx_v_self->projpj);
 
+<<<<<<< HEAD
     /* "_proj.pyx":176
+=======
+    /* "_proj.pyx":155
+>>>>>>> add pyproj.itransform function
  *                 projlonlatin.v = _dg2rad*latsdata[i]
  *             projxyout = pj_fwd(projlonlatin,self.projpj)
  *             if errcheck:             # <<<<<<<<<<<<<<
  *                 err = pj_ctx_get_errno(self.projctx)
  *                 if err != 0:
  */
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_1) {
 
       /* "_proj.pyx":177
+=======
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_1) {
+
+      /* "_proj.pyx":156
+>>>>>>> add pyproj.itransform function
  *             projxyout = pj_fwd(projlonlatin,self.projpj)
  *             if errcheck:
  *                 err = pj_ctx_get_errno(self.projctx)             # <<<<<<<<<<<<<<
@@ -1939,7 +2386,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       __pyx_v_err = pj_ctx_get_errno(__pyx_v_self->projctx);
 
+<<<<<<< HEAD
       /* "_proj.pyx":178
+=======
+      /* "_proj.pyx":157
+>>>>>>> add pyproj.itransform function
  *             if errcheck:
  *                 err = pj_ctx_get_errno(self.projctx)
  *                 if err != 0:             # <<<<<<<<<<<<<<
@@ -1949,28 +2400,48 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
       __pyx_t_1 = ((__pyx_v_err != 0) != 0);
       if (__pyx_t_1) {
 
+<<<<<<< HEAD
         /* "_proj.pyx":179
+=======
+        /* "_proj.pyx":158
+>>>>>>> add pyproj.itransform function
  *                 err = pj_ctx_get_errno(self.projctx)
  *                 if err != 0:
  *                      raise RuntimeError(pj_strerrno(err))             # <<<<<<<<<<<<<<
  *             # since HUGE_VAL can be 'inf',
  *             # change it to a real (but very large) number.
  */
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+        __pyx_t_4 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_4);
         PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
         __pyx_t_4 = 0;
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+<<<<<<< HEAD
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
         /* "_proj.pyx":178
+=======
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "_proj.pyx":157
+>>>>>>> add pyproj.itransform function
  *             if errcheck:
  *                 err = pj_ctx_get_errno(self.projctx)
  *                 if err != 0:             # <<<<<<<<<<<<<<
@@ -1979,7 +2450,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       }
 
+<<<<<<< HEAD
       /* "_proj.pyx":176
+=======
+      /* "_proj.pyx":155
+>>>>>>> add pyproj.itransform function
  *                 projlonlatin.v = _dg2rad*latsdata[i]
  *             projxyout = pj_fwd(projlonlatin,self.projpj)
  *             if errcheck:             # <<<<<<<<<<<<<<
@@ -1988,7 +2463,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":183
+=======
+    /* "_proj.pyx":162
+>>>>>>> add pyproj.itransform function
  *             # change it to a real (but very large) number.
  *             # also check for NaNs.
  *             if projxyout.u == HUGE_VAL or\             # <<<<<<<<<<<<<<
@@ -2002,7 +2481,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
       goto __pyx_L16_bool_binop_done;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":184
+=======
+    /* "_proj.pyx":163
+>>>>>>> add pyproj.itransform function
  *             # also check for NaNs.
  *             if projxyout.u == HUGE_VAL or\
  *                projxyout.u != projxyout.u:             # <<<<<<<<<<<<<<
@@ -2013,7 +2496,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
     __pyx_t_1 = __pyx_t_6;
     __pyx_L16_bool_binop_done:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":183
+=======
+    /* "_proj.pyx":162
+>>>>>>> add pyproj.itransform function
  *             # change it to a real (but very large) number.
  *             # also check for NaNs.
  *             if projxyout.u == HUGE_VAL or\             # <<<<<<<<<<<<<<
@@ -2022,23 +2509,35 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":185
+=======
+      /* "_proj.pyx":164
+>>>>>>> add pyproj.itransform function
  *             if projxyout.u == HUGE_VAL or\
  *                projxyout.u != projxyout.u:
  *                 if errcheck:             # <<<<<<<<<<<<<<
  *                     raise RuntimeError('projection undefined')
  *                 lonsdata[i] = 1.e30
  */
+<<<<<<< HEAD
       __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_1) {
 
         /* "_proj.pyx":186
+=======
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (__pyx_t_1) {
+
+        /* "_proj.pyx":165
+>>>>>>> add pyproj.itransform function
  *                projxyout.u != projxyout.u:
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 lonsdata[i] = 1.e30
  *             else:
  */
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
@@ -2046,6 +2545,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
         /* "_proj.pyx":185
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "_proj.pyx":164
+>>>>>>> add pyproj.itransform function
  *             if projxyout.u == HUGE_VAL or\
  *                projxyout.u != projxyout.u:
  *                 if errcheck:             # <<<<<<<<<<<<<<
@@ -2054,7 +2562,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       }
 
+<<<<<<< HEAD
       /* "_proj.pyx":187
+=======
+      /* "_proj.pyx":166
+>>>>>>> add pyproj.itransform function
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')
  *                 lonsdata[i] = 1.e30             # <<<<<<<<<<<<<<
@@ -2063,7 +2575,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       (__pyx_v_lonsdata[__pyx_v_i]) = 1.e30;
 
+<<<<<<< HEAD
       /* "_proj.pyx":183
+=======
+      /* "_proj.pyx":162
+>>>>>>> add pyproj.itransform function
  *             # change it to a real (but very large) number.
  *             # also check for NaNs.
  *             if projxyout.u == HUGE_VAL or\             # <<<<<<<<<<<<<<
@@ -2073,7 +2589,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
       goto __pyx_L15;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":189
+=======
+    /* "_proj.pyx":168
+>>>>>>> add pyproj.itransform function
  *                 lonsdata[i] = 1.e30
  *             else:
  *                 lonsdata[i] = projxyout.u             # <<<<<<<<<<<<<<
@@ -2086,7 +2606,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
     }
     __pyx_L15:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":190
+=======
+    /* "_proj.pyx":169
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 lonsdata[i] = projxyout.u
  *             if projxyout.v == HUGE_VAL or\             # <<<<<<<<<<<<<<
@@ -2100,7 +2624,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
       goto __pyx_L20_bool_binop_done;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":191
+=======
+    /* "_proj.pyx":170
+>>>>>>> add pyproj.itransform function
  *                 lonsdata[i] = projxyout.u
  *             if projxyout.v == HUGE_VAL or\
  *                projxyout.u != projxyout.u:             # <<<<<<<<<<<<<<
@@ -2111,7 +2639,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
     __pyx_t_1 = __pyx_t_6;
     __pyx_L20_bool_binop_done:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":190
+=======
+    /* "_proj.pyx":169
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 lonsdata[i] = projxyout.u
  *             if projxyout.v == HUGE_VAL or\             # <<<<<<<<<<<<<<
@@ -2120,23 +2652,35 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":192
+=======
+      /* "_proj.pyx":171
+>>>>>>> add pyproj.itransform function
  *             if projxyout.v == HUGE_VAL or\
  *                projxyout.u != projxyout.u:
  *                 if errcheck:             # <<<<<<<<<<<<<<
  *                     raise RuntimeError('projection undefined')
  *                 latsdata[i] = 1.e30
  */
+<<<<<<< HEAD
       __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_1) {
 
         /* "_proj.pyx":193
+=======
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (__pyx_t_1) {
+
+        /* "_proj.pyx":172
+>>>>>>> add pyproj.itransform function
  *                projxyout.u != projxyout.u:
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 latsdata[i] = 1.e30
  *             else:
  */
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
@@ -2144,6 +2688,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
         /* "_proj.pyx":192
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "_proj.pyx":171
+>>>>>>> add pyproj.itransform function
  *             if projxyout.v == HUGE_VAL or\
  *                projxyout.u != projxyout.u:
  *                 if errcheck:             # <<<<<<<<<<<<<<
@@ -2152,7 +2705,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       }
 
+<<<<<<< HEAD
       /* "_proj.pyx":194
+=======
+      /* "_proj.pyx":173
+>>>>>>> add pyproj.itransform function
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')
  *                 latsdata[i] = 1.e30             # <<<<<<<<<<<<<<
@@ -2161,7 +2718,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
  */
       (__pyx_v_latsdata[__pyx_v_i]) = 1.e30;
 
+<<<<<<< HEAD
       /* "_proj.pyx":190
+=======
+      /* "_proj.pyx":169
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 lonsdata[i] = projxyout.u
  *             if projxyout.v == HUGE_VAL or\             # <<<<<<<<<<<<<<
@@ -2171,7 +2732,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
       goto __pyx_L19;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":196
+=======
+    /* "_proj.pyx":175
+>>>>>>> add pyproj.itransform function
  *                 latsdata[i] = 1.e30
  *             else:
  *                 latsdata[i] = projxyout.v             # <<<<<<<<<<<<<<
@@ -2186,7 +2751,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
     __pyx_L6_continue:;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":135
+=======
+  /* "_proj.pyx":114
+>>>>>>> add pyproj.itransform function
  *         return (self.__class__,(self.srs,))
  * 
  *     def _fwd(self, object lons, object lats, radians=False, errcheck=False):             # <<<<<<<<<<<<<<
@@ -2209,7 +2778,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_8_fwd(struct __pyx_obj_5_proj_Proj *__pyx
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":198
+=======
+/* "_proj.pyx":177
+>>>>>>> add pyproj.itransform function
  *                 latsdata[i] = projxyout.v
  * 
  *     def _inv(self, object x, object y, radians=False, errcheck=False):             # <<<<<<<<<<<<<<
@@ -2255,7 +2828,11 @@ static PyObject *__pyx_pw_5_proj_4Proj_11_inv(PyObject *__pyx_v_self, PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_inv", 0, 2, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_inv", 0, 2, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  2:
         if (kw_args > 0) {
@@ -2269,7 +2846,11 @@ static PyObject *__pyx_pw_5_proj_4Proj_11_inv(PyObject *__pyx_v_self, PyObject *
         }
       }
       if (unlikely(kw_args > 0)) {
+<<<<<<< HEAD
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_inv") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_inv") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2288,7 +2869,11 @@ static PyObject *__pyx_pw_5_proj_4Proj_11_inv(PyObject *__pyx_v_self, PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
+<<<<<<< HEAD
   __Pyx_RaiseArgtupleInvalid("_inv", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+  __Pyx_RaiseArgtupleInvalid("_inv", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_L3_error:;
   __Pyx_AddTraceback("_proj.Proj._inv", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2328,7 +2913,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_inv", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":214
+=======
+  /* "_proj.pyx":193
+>>>>>>> add pyproj.itransform function
  *         cdef double *ydatab
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:             # <<<<<<<<<<<<<<
@@ -2338,7 +2927,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_x, (&__pyx_v_xdata), (&__pyx_v_buflenx)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":215
+=======
+    /* "_proj.pyx":194
+>>>>>>> add pyproj.itransform function
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -2346,9 +2939,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  *             raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":214
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":193
+>>>>>>> add pyproj.itransform function
  *         cdef double *ydatab
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:             # <<<<<<<<<<<<<<
@@ -2357,7 +2956,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":216
+=======
+  /* "_proj.pyx":195
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(y, &ydata, &bufleny) <> 0:             # <<<<<<<<<<<<<<
@@ -2367,7 +2970,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_y, (&__pyx_v_ydata), (&__pyx_v_bufleny)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":217
+=======
+    /* "_proj.pyx":196
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(y, &ydata, &bufleny) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -2375,9 +2982,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  *         # (for numpy/regular python arrays).
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":216
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":195
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(y, &ydata, &bufleny) <> 0:             # <<<<<<<<<<<<<<
@@ -2386,7 +2999,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":220
+=======
+  /* "_proj.pyx":199
+>>>>>>> add pyproj.itransform function
  *         # process data in buffer
  *         # (for numpy/regular python arrays).
  *         if buflenx != bufleny:             # <<<<<<<<<<<<<<
@@ -2396,13 +3013,18 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
   __pyx_t_1 = ((__pyx_v_buflenx != __pyx_v_bufleny) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":221
+=======
+    /* "_proj.pyx":200
+>>>>>>> add pyproj.itransform function
  *         # (for numpy/regular python arrays).
  *         if buflenx != bufleny:
  *             raise RuntimeError("Buffer lengths not the same")             # <<<<<<<<<<<<<<
  *         ndim = buflenx//_doublesize
  *         xdatab = <double *>xdata
  */
+<<<<<<< HEAD
     __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
@@ -2410,6 +3032,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":220
+=======
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":199
+>>>>>>> add pyproj.itransform function
  *         # process data in buffer
  *         # (for numpy/regular python arrays).
  *         if buflenx != bufleny:             # <<<<<<<<<<<<<<
@@ -2418,13 +3049,18 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":222
+=======
+  /* "_proj.pyx":201
+>>>>>>> add pyproj.itransform function
  *         if buflenx != bufleny:
  *             raise RuntimeError("Buffer lengths not the same")
  *         ndim = buflenx//_doublesize             # <<<<<<<<<<<<<<
  *         xdatab = <double *>xdata
  *         ydatab = <double *>ydata
  */
+<<<<<<< HEAD
   __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_buflenx); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_doublesize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -2438,6 +3074,21 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
   __pyx_v_ndim = __pyx_t_5;
 
   /* "_proj.pyx":223
+=======
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_buflenx); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_doublesize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyNumber_FloorDivide(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_5 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_5 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_ndim = __pyx_t_5;
+
+  /* "_proj.pyx":202
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError("Buffer lengths not the same")
  *         ndim = buflenx//_doublesize
  *         xdatab = <double *>xdata             # <<<<<<<<<<<<<<
@@ -2446,7 +3097,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
   __pyx_v_xdatab = ((double *)__pyx_v_xdata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":224
+=======
+  /* "_proj.pyx":203
+>>>>>>> add pyproj.itransform function
  *         ndim = buflenx//_doublesize
  *         xdatab = <double *>xdata
  *         ydatab = <double *>ydata             # <<<<<<<<<<<<<<
@@ -2455,7 +3110,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
   __pyx_v_ydatab = ((double *)__pyx_v_ydata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":225
+=======
+  /* "_proj.pyx":204
+>>>>>>> add pyproj.itransform function
  *         xdatab = <double *>xdata
  *         ydatab = <double *>ydata
  *         for i from 0 <= i < ndim:             # <<<<<<<<<<<<<<
@@ -2465,7 +3124,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
   __pyx_t_5 = __pyx_v_ndim;
   for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_5; __pyx_v_i++) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":227
+=======
+    /* "_proj.pyx":206
+>>>>>>> add pyproj.itransform function
  *         for i from 0 <= i < ndim:
  *             # if inputs are nan's, return big number.
  *             if xdatab[i] != xdatab[i] or ydatab[i] != ydatab[i]:             # <<<<<<<<<<<<<<
@@ -2483,7 +3146,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":228
+=======
+      /* "_proj.pyx":207
+>>>>>>> add pyproj.itransform function
  *             # if inputs are nan's, return big number.
  *             if xdatab[i] != xdatab[i] or ydatab[i] != ydatab[i]:
  *                 xdatab[i]=1.e30; ydatab[i]=1.e30             # <<<<<<<<<<<<<<
@@ -2493,23 +3160,35 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       (__pyx_v_xdatab[__pyx_v_i]) = 1.e30;
       (__pyx_v_ydatab[__pyx_v_i]) = 1.e30;
 
+<<<<<<< HEAD
       /* "_proj.pyx":229
+=======
+      /* "_proj.pyx":208
+>>>>>>> add pyproj.itransform function
  *             if xdatab[i] != xdatab[i] or ydatab[i] != ydatab[i]:
  *                 xdatab[i]=1.e30; ydatab[i]=1.e30
  *                 if errcheck:             # <<<<<<<<<<<<<<
  *                     raise RuntimeError('projection undefined')
  *                 continue
  */
+<<<<<<< HEAD
       __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 229; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_1) {
 
         /* "_proj.pyx":230
+=======
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (__pyx_t_1) {
+
+        /* "_proj.pyx":209
+>>>>>>> add pyproj.itransform function
  *                 xdatab[i]=1.e30; ydatab[i]=1.e30
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 continue
  *             projxyin.u = xdatab[i]
  */
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
@@ -2517,6 +3196,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
         /* "_proj.pyx":229
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "_proj.pyx":208
+>>>>>>> add pyproj.itransform function
  *             if xdatab[i] != xdatab[i] or ydatab[i] != ydatab[i]:
  *                 xdatab[i]=1.e30; ydatab[i]=1.e30
  *                 if errcheck:             # <<<<<<<<<<<<<<
@@ -2525,7 +3213,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
       }
 
+<<<<<<< HEAD
       /* "_proj.pyx":231
+=======
+      /* "_proj.pyx":210
+>>>>>>> add pyproj.itransform function
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')
  *                 continue             # <<<<<<<<<<<<<<
@@ -2534,7 +3226,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
       goto __pyx_L6_continue;
 
+<<<<<<< HEAD
       /* "_proj.pyx":227
+=======
+      /* "_proj.pyx":206
+>>>>>>> add pyproj.itransform function
  *         for i from 0 <= i < ndim:
  *             # if inputs are nan's, return big number.
  *             if xdatab[i] != xdatab[i] or ydatab[i] != ydatab[i]:             # <<<<<<<<<<<<<<
@@ -2543,7 +3239,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":232
+=======
+    /* "_proj.pyx":211
+>>>>>>> add pyproj.itransform function
  *                     raise RuntimeError('projection undefined')
  *                 continue
  *             projxyin.u = xdatab[i]             # <<<<<<<<<<<<<<
@@ -2552,7 +3252,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     __pyx_v_projxyin.u = (__pyx_v_xdatab[__pyx_v_i]);
 
+<<<<<<< HEAD
     /* "_proj.pyx":233
+=======
+    /* "_proj.pyx":212
+>>>>>>> add pyproj.itransform function
  *                 continue
  *             projxyin.u = xdatab[i]
  *             projxyin.v = ydatab[i]             # <<<<<<<<<<<<<<
@@ -2561,7 +3265,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     __pyx_v_projxyin.v = (__pyx_v_ydatab[__pyx_v_i]);
 
+<<<<<<< HEAD
     /* "_proj.pyx":234
+=======
+    /* "_proj.pyx":213
+>>>>>>> add pyproj.itransform function
  *             projxyin.u = xdatab[i]
  *             projxyin.v = ydatab[i]
  *             projpj2 = <PJconsts *> self.projpj             # <<<<<<<<<<<<<<
@@ -2570,7 +3278,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     __pyx_v_projpj2 = ((__pyx_t_5_proj_PJconsts *)__pyx_v_self->projpj);
 
+<<<<<<< HEAD
     /* "_proj.pyx":235
+=======
+    /* "_proj.pyx":214
+>>>>>>> add pyproj.itransform function
  *             projxyin.v = ydatab[i]
  *             projpj2 = <PJconsts *> self.projpj
  *             if (projpj2.inv == NULL):             # <<<<<<<<<<<<<<
@@ -2580,13 +3292,18 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
     __pyx_t_1 = ((__pyx_v_projpj2->inv == NULL) != 0);
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":236
+=======
+      /* "_proj.pyx":215
+>>>>>>> add pyproj.itransform function
  *             projpj2 = <PJconsts *> self.projpj
  *             if (projpj2.inv == NULL):
  *                 raise RuntimeError('inverse projection undefined')             # <<<<<<<<<<<<<<
  *             projlonlatout = pj_inv(projxyin,self.projpj)
  *             if errcheck:
  */
+<<<<<<< HEAD
       __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
@@ -2594,6 +3311,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
       /* "_proj.pyx":235
+=======
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+      /* "_proj.pyx":214
+>>>>>>> add pyproj.itransform function
  *             projxyin.v = ydatab[i]
  *             projpj2 = <PJconsts *> self.projpj
  *             if (projpj2.inv == NULL):             # <<<<<<<<<<<<<<
@@ -2602,7 +3328,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":237
+=======
+    /* "_proj.pyx":216
+>>>>>>> add pyproj.itransform function
  *             if (projpj2.inv == NULL):
  *                 raise RuntimeError('inverse projection undefined')
  *             projlonlatout = pj_inv(projxyin,self.projpj)             # <<<<<<<<<<<<<<
@@ -2611,17 +3341,28 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     __pyx_v_projlonlatout = pj_inv(__pyx_v_projxyin, __pyx_v_self->projpj);
 
+<<<<<<< HEAD
     /* "_proj.pyx":238
+=======
+    /* "_proj.pyx":217
+>>>>>>> add pyproj.itransform function
  *                 raise RuntimeError('inverse projection undefined')
  *             projlonlatout = pj_inv(projxyin,self.projpj)
  *             if errcheck:             # <<<<<<<<<<<<<<
  *                 err = pj_ctx_get_errno(self.projctx)
  *                 if err != 0:
  */
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_1) {
 
       /* "_proj.pyx":239
+=======
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_1) {
+
+      /* "_proj.pyx":218
+>>>>>>> add pyproj.itransform function
  *             projlonlatout = pj_inv(projxyin,self.projpj)
  *             if errcheck:
  *                 err = pj_ctx_get_errno(self.projctx)             # <<<<<<<<<<<<<<
@@ -2630,7 +3371,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
       __pyx_v_err = pj_ctx_get_errno(__pyx_v_self->projctx);
 
+<<<<<<< HEAD
       /* "_proj.pyx":240
+=======
+      /* "_proj.pyx":219
+>>>>>>> add pyproj.itransform function
  *             if errcheck:
  *                 err = pj_ctx_get_errno(self.projctx)
  *                 if err != 0:             # <<<<<<<<<<<<<<
@@ -2640,28 +3385,48 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       __pyx_t_1 = ((__pyx_v_err != 0) != 0);
       if (__pyx_t_1) {
 
+<<<<<<< HEAD
         /* "_proj.pyx":241
+=======
+        /* "_proj.pyx":220
+>>>>>>> add pyproj.itransform function
  *                 err = pj_ctx_get_errno(self.projctx)
  *                 if err != 0:
  *                      raise RuntimeError(pj_strerrno(err))             # <<<<<<<<<<<<<<
  *             # since HUGE_VAL can be 'inf',
  *             # change it to a real (but very large) number.
  */
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 241; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 241; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+        __pyx_t_4 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_4);
         PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
         __pyx_t_4 = 0;
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 241; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+<<<<<<< HEAD
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 241; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
         /* "_proj.pyx":240
+=======
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "_proj.pyx":219
+>>>>>>> add pyproj.itransform function
  *             if errcheck:
  *                 err = pj_ctx_get_errno(self.projctx)
  *                 if err != 0:             # <<<<<<<<<<<<<<
@@ -2670,7 +3435,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
       }
 
+<<<<<<< HEAD
       /* "_proj.pyx":238
+=======
+      /* "_proj.pyx":217
+>>>>>>> add pyproj.itransform function
  *                 raise RuntimeError('inverse projection undefined')
  *             projlonlatout = pj_inv(projxyin,self.projpj)
  *             if errcheck:             # <<<<<<<<<<<<<<
@@ -2679,7 +3448,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":245
+=======
+    /* "_proj.pyx":224
+>>>>>>> add pyproj.itransform function
  *             # change it to a real (but very large) number.
  *             # also check for NaNs.
  *             if projlonlatout.u == HUGE_VAL or \             # <<<<<<<<<<<<<<
@@ -2693,7 +3466,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       goto __pyx_L16_bool_binop_done;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":246
+=======
+    /* "_proj.pyx":225
+>>>>>>> add pyproj.itransform function
  *             # also check for NaNs.
  *             if projlonlatout.u == HUGE_VAL or \
  *                projlonlatout.u != projlonlatout.u:             # <<<<<<<<<<<<<<
@@ -2704,7 +3481,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
     __pyx_t_1 = __pyx_t_6;
     __pyx_L16_bool_binop_done:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":245
+=======
+    /* "_proj.pyx":224
+>>>>>>> add pyproj.itransform function
  *             # change it to a real (but very large) number.
  *             # also check for NaNs.
  *             if projlonlatout.u == HUGE_VAL or \             # <<<<<<<<<<<<<<
@@ -2713,23 +3494,35 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":247
+=======
+      /* "_proj.pyx":226
+>>>>>>> add pyproj.itransform function
  *             if projlonlatout.u == HUGE_VAL or \
  *                projlonlatout.u != projlonlatout.u:
  *                 if errcheck:             # <<<<<<<<<<<<<<
  *                     raise RuntimeError('projection undefined')
  *                 xdatab[i] = 1.e30
  */
+<<<<<<< HEAD
       __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 247; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_1) {
 
         /* "_proj.pyx":248
+=======
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (__pyx_t_1) {
+
+        /* "_proj.pyx":227
+>>>>>>> add pyproj.itransform function
  *                projlonlatout.u != projlonlatout.u:
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 xdatab[i] = 1.e30
  *             elif radians:
  */
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
@@ -2737,6 +3530,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
         /* "_proj.pyx":247
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 227; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 227; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "_proj.pyx":226
+>>>>>>> add pyproj.itransform function
  *             if projlonlatout.u == HUGE_VAL or \
  *                projlonlatout.u != projlonlatout.u:
  *                 if errcheck:             # <<<<<<<<<<<<<<
@@ -2745,7 +3547,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
       }
 
+<<<<<<< HEAD
       /* "_proj.pyx":249
+=======
+      /* "_proj.pyx":228
+>>>>>>> add pyproj.itransform function
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')
  *                 xdatab[i] = 1.e30             # <<<<<<<<<<<<<<
@@ -2754,7 +3560,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
       (__pyx_v_xdatab[__pyx_v_i]) = 1.e30;
 
+<<<<<<< HEAD
       /* "_proj.pyx":245
+=======
+      /* "_proj.pyx":224
+>>>>>>> add pyproj.itransform function
  *             # change it to a real (but very large) number.
  *             # also check for NaNs.
  *             if projlonlatout.u == HUGE_VAL or \             # <<<<<<<<<<<<<<
@@ -2764,17 +3574,28 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       goto __pyx_L15;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":250
+=======
+    /* "_proj.pyx":229
+>>>>>>> add pyproj.itransform function
  *                     raise RuntimeError('projection undefined')
  *                 xdatab[i] = 1.e30
  *             elif radians:             # <<<<<<<<<<<<<<
  *                 xdatab[i] = projlonlatout.u
  *             else:
  */
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 250; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_1) {
 
       /* "_proj.pyx":251
+=======
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 229; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_1) {
+
+      /* "_proj.pyx":230
+>>>>>>> add pyproj.itransform function
  *                 xdatab[i] = 1.e30
  *             elif radians:
  *                 xdatab[i] = projlonlatout.u             # <<<<<<<<<<<<<<
@@ -2784,7 +3605,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       __pyx_t_7 = __pyx_v_projlonlatout.u;
       (__pyx_v_xdatab[__pyx_v_i]) = __pyx_t_7;
 
+<<<<<<< HEAD
       /* "_proj.pyx":250
+=======
+      /* "_proj.pyx":229
+>>>>>>> add pyproj.itransform function
  *                     raise RuntimeError('projection undefined')
  *                 xdatab[i] = 1.e30
  *             elif radians:             # <<<<<<<<<<<<<<
@@ -2794,7 +3619,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       goto __pyx_L15;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":253
+=======
+    /* "_proj.pyx":232
+>>>>>>> add pyproj.itransform function
  *                 xdatab[i] = projlonlatout.u
  *             else:
  *                 xdatab[i] = _rad2dg*projlonlatout.u             # <<<<<<<<<<<<<<
@@ -2806,7 +3635,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
     }
     __pyx_L15:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":254
+=======
+    /* "_proj.pyx":233
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 xdatab[i] = _rad2dg*projlonlatout.u
  *             if projlonlatout.v == HUGE_VAL or \             # <<<<<<<<<<<<<<
@@ -2820,7 +3653,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       goto __pyx_L20_bool_binop_done;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":255
+=======
+    /* "_proj.pyx":234
+>>>>>>> add pyproj.itransform function
  *                 xdatab[i] = _rad2dg*projlonlatout.u
  *             if projlonlatout.v == HUGE_VAL or \
  *                projlonlatout.v != projlonlatout.v:             # <<<<<<<<<<<<<<
@@ -2831,7 +3668,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
     __pyx_t_1 = __pyx_t_6;
     __pyx_L20_bool_binop_done:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":254
+=======
+    /* "_proj.pyx":233
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 xdatab[i] = _rad2dg*projlonlatout.u
  *             if projlonlatout.v == HUGE_VAL or \             # <<<<<<<<<<<<<<
@@ -2840,23 +3681,35 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":256
+=======
+      /* "_proj.pyx":235
+>>>>>>> add pyproj.itransform function
  *             if projlonlatout.v == HUGE_VAL or \
  *                projlonlatout.v != projlonlatout.v:
  *                 if errcheck:             # <<<<<<<<<<<<<<
  *                     raise RuntimeError('projection undefined')
  *                 ydatab[i] = 1.e30
  */
+<<<<<<< HEAD
       __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_1) {
 
         /* "_proj.pyx":257
+=======
+      __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_errcheck); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (__pyx_t_1) {
+
+        /* "_proj.pyx":236
+>>>>>>> add pyproj.itransform function
  *                projlonlatout.v != projlonlatout.v:
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 ydatab[i] = 1.e30
  *             elif radians:
  */
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
@@ -2864,6 +3717,15 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
         {__pyx_filename = __pyx_f[0]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
         /* "_proj.pyx":256
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "_proj.pyx":235
+>>>>>>> add pyproj.itransform function
  *             if projlonlatout.v == HUGE_VAL or \
  *                projlonlatout.v != projlonlatout.v:
  *                 if errcheck:             # <<<<<<<<<<<<<<
@@ -2872,7 +3734,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
       }
 
+<<<<<<< HEAD
       /* "_proj.pyx":258
+=======
+      /* "_proj.pyx":237
+>>>>>>> add pyproj.itransform function
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')
  *                 ydatab[i] = 1.e30             # <<<<<<<<<<<<<<
@@ -2881,7 +3747,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
  */
       (__pyx_v_ydatab[__pyx_v_i]) = 1.e30;
 
+<<<<<<< HEAD
       /* "_proj.pyx":254
+=======
+      /* "_proj.pyx":233
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 xdatab[i] = _rad2dg*projlonlatout.u
  *             if projlonlatout.v == HUGE_VAL or \             # <<<<<<<<<<<<<<
@@ -2891,17 +3761,28 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       goto __pyx_L19;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":259
+=======
+    /* "_proj.pyx":238
+>>>>>>> add pyproj.itransform function
  *                     raise RuntimeError('projection undefined')
  *                 ydatab[i] = 1.e30
  *             elif radians:             # <<<<<<<<<<<<<<
  *                 ydatab[i] = projlonlatout.v
  *             else:
  */
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 259; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_1) {
 
       /* "_proj.pyx":260
+=======
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_1) {
+
+      /* "_proj.pyx":239
+>>>>>>> add pyproj.itransform function
  *                 ydatab[i] = 1.e30
  *             elif radians:
  *                 ydatab[i] = projlonlatout.v             # <<<<<<<<<<<<<<
@@ -2911,7 +3792,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       __pyx_t_7 = __pyx_v_projlonlatout.v;
       (__pyx_v_ydatab[__pyx_v_i]) = __pyx_t_7;
 
+<<<<<<< HEAD
       /* "_proj.pyx":259
+=======
+      /* "_proj.pyx":238
+>>>>>>> add pyproj.itransform function
  *                     raise RuntimeError('projection undefined')
  *                 ydatab[i] = 1.e30
  *             elif radians:             # <<<<<<<<<<<<<<
@@ -2921,7 +3806,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
       goto __pyx_L19;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":262
+=======
+    /* "_proj.pyx":241
+>>>>>>> add pyproj.itransform function
  *                 ydatab[i] = projlonlatout.v
  *             else:
  *                 ydatab[i] = _rad2dg*projlonlatout.v             # <<<<<<<<<<<<<<
@@ -2935,7 +3824,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
     __pyx_L6_continue:;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":198
+=======
+  /* "_proj.pyx":177
+>>>>>>> add pyproj.itransform function
  *                 latsdata[i] = projxyout.v
  * 
  *     def _inv(self, object x, object y, radians=False, errcheck=False):             # <<<<<<<<<<<<<<
@@ -2958,7 +3851,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_10_inv(struct __pyx_obj_5_proj_Proj *__py
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":341
+=======
+/* "_proj.pyx":320
+>>>>>>> add pyproj.itransform function
  * #               llptr[i].v = _rad2dg*projlonlatout.v
  * 
  *     def is_latlong(self):             # <<<<<<<<<<<<<<
@@ -2986,7 +3883,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_12is_latlong(struct __pyx_obj_5_proj_Proj
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("is_latlong", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":344
+=======
+  /* "_proj.pyx":323
+>>>>>>> add pyproj.itransform function
  *         # returns True if projection in geographic (lon/lat) coordinates
  *         cdef int i
  *         i = pj_is_latlong(self.projpj)             # <<<<<<<<<<<<<<
@@ -2995,7 +3896,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_12is_latlong(struct __pyx_obj_5_proj_Proj
  */
   __pyx_v_i = pj_is_latlong(__pyx_v_self->projpj);
 
+<<<<<<< HEAD
   /* "_proj.pyx":345
+=======
+  /* "_proj.pyx":324
+>>>>>>> add pyproj.itransform function
  *         cdef int i
  *         i = pj_is_latlong(self.projpj)
  *         if i:             # <<<<<<<<<<<<<<
@@ -3005,7 +3910,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_12is_latlong(struct __pyx_obj_5_proj_Proj
   __pyx_t_1 = (__pyx_v_i != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":346
+=======
+    /* "_proj.pyx":325
+>>>>>>> add pyproj.itransform function
  *         i = pj_is_latlong(self.projpj)
  *         if i:
  *             return True             # <<<<<<<<<<<<<<
@@ -3017,7 +3926,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_12is_latlong(struct __pyx_obj_5_proj_Proj
     __pyx_r = Py_True;
     goto __pyx_L0;
 
+<<<<<<< HEAD
     /* "_proj.pyx":345
+=======
+    /* "_proj.pyx":324
+>>>>>>> add pyproj.itransform function
  *         cdef int i
  *         i = pj_is_latlong(self.projpj)
  *         if i:             # <<<<<<<<<<<<<<
@@ -3026,7 +3939,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_12is_latlong(struct __pyx_obj_5_proj_Proj
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":348
+=======
+  /* "_proj.pyx":327
+>>>>>>> add pyproj.itransform function
  *             return True
  *         else:
  *             return False             # <<<<<<<<<<<<<<
@@ -3040,7 +3957,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_12is_latlong(struct __pyx_obj_5_proj_Proj
     goto __pyx_L0;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":341
+=======
+  /* "_proj.pyx":320
+>>>>>>> add pyproj.itransform function
  * #               llptr[i].v = _rad2dg*projlonlatout.v
  * 
  *     def is_latlong(self):             # <<<<<<<<<<<<<<
@@ -3055,7 +3976,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_12is_latlong(struct __pyx_obj_5_proj_Proj
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":350
+=======
+/* "_proj.pyx":329
+>>>>>>> add pyproj.itransform function
  *             return False
  * 
  *     def is_geocent(self):             # <<<<<<<<<<<<<<
@@ -3083,7 +4008,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_14is_geocent(struct __pyx_obj_5_proj_Proj
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("is_geocent", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":353
+=======
+  /* "_proj.pyx":332
+>>>>>>> add pyproj.itransform function
  *         # returns True if projection in geocentric (x/y) coordinates
  *         cdef int i
  *         i = pj_is_geocent(self.projpj)             # <<<<<<<<<<<<<<
@@ -3092,7 +4021,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_14is_geocent(struct __pyx_obj_5_proj_Proj
  */
   __pyx_v_i = pj_is_geocent(__pyx_v_self->projpj);
 
+<<<<<<< HEAD
   /* "_proj.pyx":354
+=======
+  /* "_proj.pyx":333
+>>>>>>> add pyproj.itransform function
  *         cdef int i
  *         i = pj_is_geocent(self.projpj)
  *         if i:             # <<<<<<<<<<<<<<
@@ -3102,7 +4035,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_14is_geocent(struct __pyx_obj_5_proj_Proj
   __pyx_t_1 = (__pyx_v_i != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":355
+=======
+    /* "_proj.pyx":334
+>>>>>>> add pyproj.itransform function
  *         i = pj_is_geocent(self.projpj)
  *         if i:
  *             return True             # <<<<<<<<<<<<<<
@@ -3114,7 +4051,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_14is_geocent(struct __pyx_obj_5_proj_Proj
     __pyx_r = Py_True;
     goto __pyx_L0;
 
+<<<<<<< HEAD
     /* "_proj.pyx":354
+=======
+    /* "_proj.pyx":333
+>>>>>>> add pyproj.itransform function
  *         cdef int i
  *         i = pj_is_geocent(self.projpj)
  *         if i:             # <<<<<<<<<<<<<<
@@ -3123,7 +4064,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_14is_geocent(struct __pyx_obj_5_proj_Proj
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":357
+=======
+  /* "_proj.pyx":336
+>>>>>>> add pyproj.itransform function
  *             return True
  *         else:
  *             return False             # <<<<<<<<<<<<<<
@@ -3137,7 +4082,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_14is_geocent(struct __pyx_obj_5_proj_Proj
     goto __pyx_L0;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":350
+=======
+  /* "_proj.pyx":329
+>>>>>>> add pyproj.itransform function
  *             return False
  * 
  *     def is_geocent(self):             # <<<<<<<<<<<<<<
@@ -3152,7 +4101,11 @@ static PyObject *__pyx_pf_5_proj_4Proj_14is_geocent(struct __pyx_obj_5_proj_Proj
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":99
+=======
+/* "_proj.pyx":78
+>>>>>>> add pyproj.itransform function
  *     cdef projPJ projpj
  *     cdef projCtx projctx
  *     cdef public object proj_version             # <<<<<<<<<<<<<<
@@ -3247,7 +4200,11 @@ static int __pyx_pf_5_proj_4Proj_12proj_version_4__del__(struct __pyx_obj_5_proj
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":101
+=======
+/* "_proj.pyx":80
+>>>>>>> add pyproj.itransform function
  *     cdef public object proj_version
  *     cdef char *pjinitstring
  *     cdef public object srs             # <<<<<<<<<<<<<<
@@ -3342,7 +4299,11 @@ static int __pyx_pf_5_proj_4Proj_3srs_4__del__(struct __pyx_obj_5_proj_Proj *__p
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":359
+=======
+/* "_proj.pyx":338
+>>>>>>> add pyproj.itransform function
  *             return False
  * 
  * def _transform(Proj p1, Proj p2, inx, iny, inz, radians):             # <<<<<<<<<<<<<<
@@ -3390,31 +4351,55 @@ static PyObject *__pyx_pw_5_proj_5_transform(PyObject *__pyx_self, PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_p2)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_inx)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_iny)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_inz)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_radians)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_transform") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_transform") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
       goto __pyx_L5_argtuple_error;
@@ -3435,14 +4420,23 @@ static PyObject *__pyx_pw_5_proj_5_transform(PyObject *__pyx_self, PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
+<<<<<<< HEAD
   __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+  __Pyx_RaiseArgtupleInvalid("_transform", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_L3_error:;
   __Pyx_AddTraceback("_proj._transform", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
+<<<<<<< HEAD
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p1), __pyx_ptype_5_proj_Proj, 1, "p1", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p2), __pyx_ptype_5_proj_Proj, 1, "p2", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p1), __pyx_ptype_5_proj_Proj, 1, "p1", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p2), __pyx_ptype_5_proj_Proj, 1, "p2", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_r = __pyx_pf_5_proj_4_transform(__pyx_self, __pyx_v_p1, __pyx_v_p2, __pyx_v_inx, __pyx_v_iny, __pyx_v_inz, __pyx_v_radians);
 
   /* function exit code */
@@ -3481,7 +4475,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_transform", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":369
+=======
+  /* "_proj.pyx":348
+>>>>>>> add pyproj.itransform function
  *     cdef Py_ssize_t buflenx, bufleny, buflenz, npts, i
  *     cdef int err
  *     if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:             # <<<<<<<<<<<<<<
@@ -3491,7 +4489,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_inx, (&__pyx_v_xdata), (&__pyx_v_buflenx)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":370
+=======
+    /* "_proj.pyx":349
+>>>>>>> add pyproj.itransform function
  *     cdef int err
  *     if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
  *         raise RuntimeError             # <<<<<<<<<<<<<<
@@ -3499,9 +4501,15 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  *         raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 370; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":369
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 349; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":348
+>>>>>>> add pyproj.itransform function
  *     cdef Py_ssize_t buflenx, bufleny, buflenz, npts, i
  *     cdef int err
  *     if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:             # <<<<<<<<<<<<<<
@@ -3510,7 +4518,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":371
+=======
+  /* "_proj.pyx":350
+>>>>>>> add pyproj.itransform function
  *     if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
  *         raise RuntimeError
  *     if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:             # <<<<<<<<<<<<<<
@@ -3520,7 +4532,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_iny, (&__pyx_v_ydata), (&__pyx_v_bufleny)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":372
+=======
+    /* "_proj.pyx":351
+>>>>>>> add pyproj.itransform function
  *         raise RuntimeError
  *     if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:
  *         raise RuntimeError             # <<<<<<<<<<<<<<
@@ -3528,9 +4544,15 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  *         if PyObject_AsWriteBuffer(inz, &zdata, &buflenz) <> 0:
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 372; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":371
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":350
+>>>>>>> add pyproj.itransform function
  *     if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
  *         raise RuntimeError
  *     if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:             # <<<<<<<<<<<<<<
@@ -3539,7 +4561,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":373
+=======
+  /* "_proj.pyx":352
+>>>>>>> add pyproj.itransform function
  *     if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:
  *         raise RuntimeError
  *     if inz is not None:             # <<<<<<<<<<<<<<
@@ -3550,7 +4576,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":374
+=======
+    /* "_proj.pyx":353
+>>>>>>> add pyproj.itransform function
  *         raise RuntimeError
  *     if inz is not None:
  *         if PyObject_AsWriteBuffer(inz, &zdata, &buflenz) <> 0:             # <<<<<<<<<<<<<<
@@ -3560,7 +4590,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
     __pyx_t_2 = ((PyObject_AsWriteBuffer(__pyx_v_inz, (&__pyx_v_zdata), (&__pyx_v_buflenz)) != 0) != 0);
     if (__pyx_t_2) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":375
+=======
+      /* "_proj.pyx":354
+>>>>>>> add pyproj.itransform function
  *     if inz is not None:
  *         if PyObject_AsWriteBuffer(inz, &zdata, &buflenz) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -3568,9 +4602,15 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  *         buflenz = bufleny
  */
       __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
       {__pyx_filename = __pyx_f[0]; __pyx_lineno = 375; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
       /* "_proj.pyx":374
+=======
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 354; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+      /* "_proj.pyx":353
+>>>>>>> add pyproj.itransform function
  *         raise RuntimeError
  *     if inz is not None:
  *         if PyObject_AsWriteBuffer(inz, &zdata, &buflenz) <> 0:             # <<<<<<<<<<<<<<
@@ -3579,7 +4619,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":373
+=======
+    /* "_proj.pyx":352
+>>>>>>> add pyproj.itransform function
  *     if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:
  *         raise RuntimeError
  *     if inz is not None:             # <<<<<<<<<<<<<<
@@ -3589,7 +4633,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
     goto __pyx_L5;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":377
+=======
+  /* "_proj.pyx":356
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *     else:
  *         buflenz = bufleny             # <<<<<<<<<<<<<<
@@ -3601,7 +4649,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   }
   __pyx_L5:;
 
+<<<<<<< HEAD
   /* "_proj.pyx":378
+=======
+  /* "_proj.pyx":357
+>>>>>>> add pyproj.itransform function
  *     else:
  *         buflenz = bufleny
  *     if not (buflenx == bufleny == buflenz):             # <<<<<<<<<<<<<<
@@ -3615,13 +4667,18 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_1 = ((!(__pyx_t_2 != 0)) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":379
+=======
+    /* "_proj.pyx":358
+>>>>>>> add pyproj.itransform function
  *         buflenz = bufleny
  *     if not (buflenx == bufleny == buflenz):
  *         raise RuntimeError('x,y and z must be same size')             # <<<<<<<<<<<<<<
  *     xx = <double *>xdata
  *     yy = <double *>ydata
  */
+<<<<<<< HEAD
     __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
@@ -3629,6 +4686,15 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":378
+=======
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 358; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 358; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":357
+>>>>>>> add pyproj.itransform function
  *     else:
  *         buflenz = bufleny
  *     if not (buflenx == bufleny == buflenz):             # <<<<<<<<<<<<<<
@@ -3637,7 +4703,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":380
+=======
+  /* "_proj.pyx":359
+>>>>>>> add pyproj.itransform function
  *     if not (buflenx == bufleny == buflenz):
  *         raise RuntimeError('x,y and z must be same size')
  *     xx = <double *>xdata             # <<<<<<<<<<<<<<
@@ -3646,7 +4716,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   __pyx_v_xx = ((double *)__pyx_v_xdata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":381
+=======
+  /* "_proj.pyx":360
+>>>>>>> add pyproj.itransform function
  *         raise RuntimeError('x,y and z must be same size')
  *     xx = <double *>xdata
  *     yy = <double *>ydata             # <<<<<<<<<<<<<<
@@ -3655,7 +4729,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   __pyx_v_yy = ((double *)__pyx_v_ydata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":382
+=======
+  /* "_proj.pyx":361
+>>>>>>> add pyproj.itransform function
  *     xx = <double *>xdata
  *     yy = <double *>ydata
  *     if inz is not None:             # <<<<<<<<<<<<<<
@@ -3666,7 +4744,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":383
+=======
+    /* "_proj.pyx":362
+>>>>>>> add pyproj.itransform function
  *     yy = <double *>ydata
  *     if inz is not None:
  *         zz = <double *>zdata             # <<<<<<<<<<<<<<
@@ -3675,7 +4757,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
     __pyx_v_zz = ((double *)__pyx_v_zdata);
 
+<<<<<<< HEAD
     /* "_proj.pyx":382
+=======
+    /* "_proj.pyx":361
+>>>>>>> add pyproj.itransform function
  *     xx = <double *>xdata
  *     yy = <double *>ydata
  *     if inz is not None:             # <<<<<<<<<<<<<<
@@ -3684,7 +4770,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":384
+=======
+  /* "_proj.pyx":363
+>>>>>>> add pyproj.itransform function
  *     if inz is not None:
  *         zz = <double *>zdata
  *     npts = buflenx//8             # <<<<<<<<<<<<<<
@@ -3693,21 +4783,33 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   __pyx_v_npts = __Pyx_div_Py_ssize_t(__pyx_v_buflenx, 8);
 
+<<<<<<< HEAD
   /* "_proj.pyx":385
+=======
+  /* "_proj.pyx":364
+>>>>>>> add pyproj.itransform function
  *         zz = <double *>zdata
  *     npts = buflenx//8
  *     if not radians and p1.is_latlong():             # <<<<<<<<<<<<<<
  *         for i from 0 <= i < npts:
  *             xx[i] = xx[i]*_dg2rad
  */
+<<<<<<< HEAD
   __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 364; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_t_4 = ((!__pyx_t_1) != 0);
   if (__pyx_t_4) {
   } else {
     __pyx_t_2 = __pyx_t_4;
     goto __pyx_L10_bool_binop_done;
   }
+<<<<<<< HEAD
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p1), __pyx_n_s_is_latlong); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p1), __pyx_n_s_is_latlong); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 364; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
@@ -3720,6 +4822,7 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
     }
   }
   if (__pyx_t_6) {
+<<<<<<< HEAD
     __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
@@ -3728,12 +4831,26 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 364; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 364; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 364; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_2 = __pyx_t_4;
   __pyx_L10_bool_binop_done:;
   if (__pyx_t_2) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":386
+=======
+    /* "_proj.pyx":365
+>>>>>>> add pyproj.itransform function
  *     npts = buflenx//8
  *     if not radians and p1.is_latlong():
  *         for i from 0 <= i < npts:             # <<<<<<<<<<<<<<
@@ -3743,7 +4860,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
     __pyx_t_7 = __pyx_v_npts;
     for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_7; __pyx_v_i++) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":387
+=======
+      /* "_proj.pyx":366
+>>>>>>> add pyproj.itransform function
  *     if not radians and p1.is_latlong():
  *         for i from 0 <= i < npts:
  *             xx[i] = xx[i]*_dg2rad             # <<<<<<<<<<<<<<
@@ -3752,7 +4873,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
       (__pyx_v_xx[__pyx_v_i]) = ((__pyx_v_xx[__pyx_v_i]) * __pyx_v_5_proj__dg2rad);
 
+<<<<<<< HEAD
       /* "_proj.pyx":388
+=======
+      /* "_proj.pyx":367
+>>>>>>> add pyproj.itransform function
  *         for i from 0 <= i < npts:
  *             xx[i] = xx[i]*_dg2rad
  *             yy[i] = yy[i]*_dg2rad             # <<<<<<<<<<<<<<
@@ -3762,7 +4887,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
       (__pyx_v_yy[__pyx_v_i]) = ((__pyx_v_yy[__pyx_v_i]) * __pyx_v_5_proj__dg2rad);
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":385
+=======
+    /* "_proj.pyx":364
+>>>>>>> add pyproj.itransform function
  *         zz = <double *>zdata
  *     npts = buflenx//8
  *     if not radians and p1.is_latlong():             # <<<<<<<<<<<<<<
@@ -3771,7 +4900,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":389
+=======
+  /* "_proj.pyx":368
+>>>>>>> add pyproj.itransform function
  *             xx[i] = xx[i]*_dg2rad
  *             yy[i] = yy[i]*_dg2rad
  *     if inz is not None:             # <<<<<<<<<<<<<<
@@ -3782,7 +4915,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_4 = (__pyx_t_2 != 0);
   if (__pyx_t_4) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":390
+=======
+    /* "_proj.pyx":369
+>>>>>>> add pyproj.itransform function
  *             yy[i] = yy[i]*_dg2rad
  *     if inz is not None:
  *         err = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, zz)             # <<<<<<<<<<<<<<
@@ -3791,7 +4928,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
     __pyx_v_err = pj_transform(__pyx_v_p1->projpj, __pyx_v_p2->projpj, __pyx_v_npts, 0, __pyx_v_xx, __pyx_v_yy, __pyx_v_zz);
 
+<<<<<<< HEAD
     /* "_proj.pyx":389
+=======
+    /* "_proj.pyx":368
+>>>>>>> add pyproj.itransform function
  *             xx[i] = xx[i]*_dg2rad
  *             yy[i] = yy[i]*_dg2rad
  *     if inz is not None:             # <<<<<<<<<<<<<<
@@ -3801,7 +4942,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
     goto __pyx_L14;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":392
+=======
+  /* "_proj.pyx":371
+>>>>>>> add pyproj.itransform function
  *         err = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, zz)
  *     else:
  *         err = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, NULL)             # <<<<<<<<<<<<<<
@@ -3813,7 +4958,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   }
   __pyx_L14:;
 
+<<<<<<< HEAD
   /* "_proj.pyx":393
+=======
+  /* "_proj.pyx":372
+>>>>>>> add pyproj.itransform function
  *     else:
  *         err = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, NULL)
  *     if err != 0:             # <<<<<<<<<<<<<<
@@ -3823,28 +4972,48 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_4 = ((__pyx_v_err != 0) != 0);
   if (__pyx_t_4) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":394
+=======
+    /* "_proj.pyx":373
+>>>>>>> add pyproj.itransform function
  *         err = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, NULL)
  *     if err != 0:
  *         raise RuntimeError(pj_strerrno(err))             # <<<<<<<<<<<<<<
  *     if not radians and p2.is_latlong():
  *         for i from 0 <= i < npts:
  */
+<<<<<<< HEAD
     __pyx_t_3 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+    __pyx_t_3 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 373; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 373; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
     __pyx_t_3 = 0;
+<<<<<<< HEAD
     __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 373; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":393
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 373; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":372
+>>>>>>> add pyproj.itransform function
  *     else:
  *         err = pj_transform(p1.projpj, p2.projpj, npts, 0, xx, yy, NULL)
  *     if err != 0:             # <<<<<<<<<<<<<<
@@ -3853,21 +5022,33 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":395
+=======
+  /* "_proj.pyx":374
+>>>>>>> add pyproj.itransform function
  *     if err != 0:
  *         raise RuntimeError(pj_strerrno(err))
  *     if not radians and p2.is_latlong():             # <<<<<<<<<<<<<<
  *         for i from 0 <= i < npts:
  *             xx[i] = xx[i]*_rad2dg
  */
+<<<<<<< HEAD
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 395; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_t_1 = ((!__pyx_t_2) != 0);
   if (__pyx_t_1) {
   } else {
     __pyx_t_4 = __pyx_t_1;
     goto __pyx_L17_bool_binop_done;
   }
+<<<<<<< HEAD
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p2), __pyx_n_s_is_latlong); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 395; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p2), __pyx_n_s_is_latlong); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
@@ -3880,6 +5061,7 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
     }
   }
   if (__pyx_t_6) {
+<<<<<<< HEAD
     __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 395; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
@@ -3888,12 +5070,26 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 395; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_4 = __pyx_t_1;
   __pyx_L17_bool_binop_done:;
   if (__pyx_t_4) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":396
+=======
+    /* "_proj.pyx":375
+>>>>>>> add pyproj.itransform function
  *         raise RuntimeError(pj_strerrno(err))
  *     if not radians and p2.is_latlong():
  *         for i from 0 <= i < npts:             # <<<<<<<<<<<<<<
@@ -3903,7 +5099,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
     __pyx_t_7 = __pyx_v_npts;
     for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_7; __pyx_v_i++) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":397
+=======
+      /* "_proj.pyx":376
+>>>>>>> add pyproj.itransform function
  *     if not radians and p2.is_latlong():
  *         for i from 0 <= i < npts:
  *             xx[i] = xx[i]*_rad2dg             # <<<<<<<<<<<<<<
@@ -3912,7 +5112,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
       (__pyx_v_xx[__pyx_v_i]) = ((__pyx_v_xx[__pyx_v_i]) * __pyx_v_5_proj__rad2dg);
 
+<<<<<<< HEAD
       /* "_proj.pyx":398
+=======
+      /* "_proj.pyx":377
+>>>>>>> add pyproj.itransform function
  *         for i from 0 <= i < npts:
  *             xx[i] = xx[i]*_rad2dg
  *             yy[i] = yy[i]*_rad2dg             # <<<<<<<<<<<<<<
@@ -3922,7 +5126,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
       (__pyx_v_yy[__pyx_v_i]) = ((__pyx_v_yy[__pyx_v_i]) * __pyx_v_5_proj__rad2dg);
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":395
+=======
+    /* "_proj.pyx":374
+>>>>>>> add pyproj.itransform function
  *     if err != 0:
  *         raise RuntimeError(pj_strerrno(err))
  *     if not radians and p2.is_latlong():             # <<<<<<<<<<<<<<
@@ -3931,7 +5139,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":359
+=======
+  /* "_proj.pyx":338
+>>>>>>> add pyproj.itransform function
  *             return False
  * 
  * def _transform(Proj p1, Proj p2, inx, iny, inz, radians):             # <<<<<<<<<<<<<<
@@ -3954,7 +5166,11 @@ static PyObject *__pyx_pf_5_proj_4_transform(CYTHON_UNUSED PyObject *__pyx_self,
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":400
+=======
+/* "_proj.pyx":379
+>>>>>>> add pyproj.itransform function
  *             yy[i] = yy[i]*_rad2dg
  * 
  * cdef _strencode(pystr,encoding='ascii'):             # <<<<<<<<<<<<<<
@@ -3984,7 +5200,11 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
     }
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":402
+=======
+  /* "_proj.pyx":381
+>>>>>>> add pyproj.itransform function
  * cdef _strencode(pystr,encoding='ascii'):
  *     # encode a string into bytes.  If already bytes, do nothing.
  *     try:             # <<<<<<<<<<<<<<
@@ -3998,7 +5218,11 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
     __Pyx_XGOTREF(__pyx_t_3);
     /*try:*/ {
 
+<<<<<<< HEAD
       /* "_proj.pyx":403
+=======
+      /* "_proj.pyx":382
+>>>>>>> add pyproj.itransform function
  *     # encode a string into bytes.  If already bytes, do nothing.
  *     try:
  *         return pystr.encode(encoding)             # <<<<<<<<<<<<<<
@@ -4006,7 +5230,11 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
  *         return pystr # already bytes?
  */
       __Pyx_XDECREF(__pyx_r);
+<<<<<<< HEAD
       __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_pystr, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 403; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_pystr, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 382; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_6 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
@@ -4019,16 +5247,27 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
         }
       }
       if (!__pyx_t_6) {
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_encoding); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 403; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_4);
       } else {
         __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 403; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_encoding); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 382; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+      } else {
+        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 382; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_INCREF(__pyx_v_encoding);
         __Pyx_GIVEREF(__pyx_v_encoding);
         PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_encoding);
+<<<<<<< HEAD
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 403; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 382; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
@@ -4037,7 +5276,11 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
       __pyx_t_4 = 0;
       goto __pyx_L7_try_return;
 
+<<<<<<< HEAD
       /* "_proj.pyx":402
+=======
+      /* "_proj.pyx":381
+>>>>>>> add pyproj.itransform function
  * cdef _strencode(pystr,encoding='ascii'):
  *     # encode a string into bytes.  If already bytes, do nothing.
  *     try:             # <<<<<<<<<<<<<<
@@ -4051,7 +5294,11 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
 
+<<<<<<< HEAD
     /* "_proj.pyx":404
+=======
+    /* "_proj.pyx":383
+>>>>>>> add pyproj.itransform function
  *     try:
  *         return pystr.encode(encoding)
  *     except AttributeError:             # <<<<<<<<<<<<<<
@@ -4061,17 +5308,25 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
     __pyx_t_8 = PyErr_ExceptionMatches(__pyx_builtin_AttributeError);
     if (__pyx_t_8) {
       __Pyx_AddTraceback("_proj._strencode", __pyx_clineno, __pyx_lineno, __pyx_filename);
+<<<<<<< HEAD
       if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_5, &__pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 404; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+=======
+      if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_5, &__pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_7);
 
+<<<<<<< HEAD
       /* "_proj.pyx":405
+=======
+      /* "_proj.pyx":384
+>>>>>>> add pyproj.itransform function
  *         return pystr.encode(encoding)
  *     except AttributeError:
  *         return pystr # already bytes?             # <<<<<<<<<<<<<<
  * 
- * cdef class Geod:
+ * def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint radians, bint switch):
  */
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(__pyx_v_pystr);
@@ -4084,7 +5339,11 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":402
+=======
+    /* "_proj.pyx":381
+>>>>>>> add pyproj.itransform function
  * cdef _strencode(pystr,encoding='ascii'):
  *     # encode a string into bytes.  If already bytes, do nothing.
  *     try:             # <<<<<<<<<<<<<<
@@ -4110,7 +5369,11 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
     goto __pyx_L0;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":400
+=======
+  /* "_proj.pyx":379
+>>>>>>> add pyproj.itransform function
  *             yy[i] = yy[i]*_rad2dg
  * 
  * cdef _strencode(pystr,encoding='ascii'):             # <<<<<<<<<<<<<<
@@ -4132,7 +5395,628 @@ static PyObject *__pyx_f_5_proj__strencode(PyObject *__pyx_v_pystr, struct __pyx
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":411
+ *     cdef public object initstring
+=======
+/* "_proj.pyx":386
+ *         return pystr # already bytes?
+>>>>>>> add pyproj.itransform function
+ * 
+ * def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint radians, bint switch):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         void *buffer
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5_proj_7_transform_sequence(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_5_proj_7_transform_sequence = {"_transform_sequence", (PyCFunction)__pyx_pw_5_proj_7_transform_sequence, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_5_proj_7_transform_sequence(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_5_proj_Proj *__pyx_v_p1 = 0;
+  struct __pyx_obj_5_proj_Proj *__pyx_v_p2 = 0;
+  Py_ssize_t __pyx_v_stride;
+  PyObject *__pyx_v_inseq = 0;
+  int __pyx_v_radians;
+  int __pyx_v_switch;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("_transform_sequence (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_p1,&__pyx_n_s_p2,&__pyx_n_s_stride,&__pyx_n_s_inseq,&__pyx_n_s_radians,&__pyx_n_s_switch,0};
+    PyObject* values[6] = {0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_p1)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_p2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("_transform_sequence", 1, 6, 6, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_stride)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("_transform_sequence", 1, 6, 6, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  3:
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_inseq)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("_transform_sequence", 1, 6, 6, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  4:
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_radians)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("_transform_sequence", 1, 6, 6, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  5:
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_switch)) != 0)) kw_args--;
+        else {
+<<<<<<< HEAD
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 411; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 411; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_transform_sequence", 1, 6, 6, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_transform_sequence") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+    }
+    __pyx_v_p1 = ((struct __pyx_obj_5_proj_Proj *)values[0]);
+    __pyx_v_p2 = ((struct __pyx_obj_5_proj_Proj *)values[1]);
+    __pyx_v_stride = __Pyx_PyIndex_AsSsize_t(values[2]); if (unlikely((__pyx_v_stride == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_inseq = values[3];
+    __pyx_v_radians = __Pyx_PyObject_IsTrue(values[4]); if (unlikely((__pyx_v_radians == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_switch = __Pyx_PyObject_IsTrue(values[5]); if (unlikely((__pyx_v_switch == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+<<<<<<< HEAD
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 411; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+  __Pyx_RaiseArgtupleInvalid("_transform_sequence", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("_proj._transform_sequence", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p1), __pyx_ptype_5_proj_Proj, 1, "p1", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p2), __pyx_ptype_5_proj_Proj, 1, "p2", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5_proj_6_transform_sequence(__pyx_self, __pyx_v_p1, __pyx_v_p2, __pyx_v_stride, __pyx_v_inseq, __pyx_v_radians, __pyx_v_switch);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5_proj_6_transform_sequence(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5_proj_Proj *__pyx_v_p1, struct __pyx_obj_5_proj_Proj *__pyx_v_p2, Py_ssize_t __pyx_v_stride, PyObject *__pyx_v_inseq, int __pyx_v_radians, int __pyx_v_switch) {
+  void *__pyx_v_buffer;
+  double *__pyx_v_coords;
+  double *__pyx_v_x;
+  double *__pyx_v_y;
+  double *__pyx_v_z;
+  Py_ssize_t __pyx_v_buflen;
+  Py_ssize_t __pyx_v_npts;
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_j;
+  int __pyx_v_err;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  Py_ssize_t __pyx_t_7;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_transform_sequence", 0);
+
+<<<<<<< HEAD
+  /* "_proj.pyx":412
+ * 
+ *     def __cinit__(self, a, f):
+ *         self.initstring = '+a=%s +f=%s' % (a, f)             # <<<<<<<<<<<<<<
+ *         geod_init(&self._geod_geodesic, <double> a, <double> f)
+=======
+  /* "_proj.pyx":396
+ *         int err
+>>>>>>> add pyproj.itransform function
+ * 
+ *     if stride < 2:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("coordinates must contain at least 2 values")
+ *     if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
+ */
+<<<<<<< HEAD
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 412; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_v_a);
+  __Pyx_GIVEREF(__pyx_v_a);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_a);
+  __Pyx_INCREF(__pyx_v_f);
+  __Pyx_GIVEREF(__pyx_v_f);
+  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_f);
+  __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_a_s_f_s, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 412; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_GIVEREF(__pyx_t_2);
+  __Pyx_GOTREF(__pyx_v_self->initstring);
+  __Pyx_DECREF(__pyx_v_self->initstring);
+  __pyx_v_self->initstring = __pyx_t_2;
+  __pyx_t_2 = 0;
+
+  /* "_proj.pyx":413
+=======
+  __pyx_t_1 = ((__pyx_v_stride < 2) != 0);
+  if (__pyx_t_1) {
+
+    /* "_proj.pyx":397
+ * 
+ *     if stride < 2:
+ *         raise RuntimeError("coordinates must contain at least 2 values")             # <<<<<<<<<<<<<<
+ *     if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
+ *         raise RuntimeError("object does not provide the python buffer writable interface")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 397; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 397; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":396
+ *         int err
+ * 
+ *     if stride < 2:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("coordinates must contain at least 2 values")
+ *     if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
+ */
+  }
+
+  /* "_proj.pyx":398
+ *     if stride < 2:
+ *         raise RuntimeError("coordinates must contain at least 2 values")
+ *     if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("object does not provide the python buffer writable interface")
+ * 
+ */
+  __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_inseq, (&__pyx_v_buffer), (&__pyx_v_buflen)) != 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "_proj.pyx":399
+ *         raise RuntimeError("coordinates must contain at least 2 values")
+ *     if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
+ *         raise RuntimeError("object does not provide the python buffer writable interface")             # <<<<<<<<<<<<<<
+ * 
+ *     coords = <double*>buffer
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":398
+ *     if stride < 2:
+ *         raise RuntimeError("coordinates must contain at least 2 values")
+ *     if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("object does not provide the python buffer writable interface")
+ * 
+ */
+  }
+
+  /* "_proj.pyx":401
+ *         raise RuntimeError("object does not provide the python buffer writable interface")
+ * 
+ *     coords = <double*>buffer             # <<<<<<<<<<<<<<
+ *     npts = buflen // (stride * 8)
+ * 
+ */
+  __pyx_v_coords = ((double *)__pyx_v_buffer);
+
+  /* "_proj.pyx":402
+ * 
+ *     coords = <double*>buffer
+ *     npts = buflen // (stride * 8)             # <<<<<<<<<<<<<<
+ * 
+ *     if not radians and p1.is_latlong():
+ */
+  __pyx_t_3 = (__pyx_v_stride * 8);
+  if (unlikely(__pyx_t_3 == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 402; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  else if (sizeof(Py_ssize_t) == sizeof(long) && (!(((Py_ssize_t)-1) > 0)) && unlikely(__pyx_t_3 == (Py_ssize_t)-1)  && unlikely(UNARY_NEG_WOULD_OVERFLOW(__pyx_v_buflen))) {
+    PyErr_SetString(PyExc_OverflowError, "value too large to perform division");
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 402; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_v_npts = __Pyx_div_Py_ssize_t(__pyx_v_buflen, __pyx_t_3);
+
+  /* "_proj.pyx":404
+ *     npts = buflen // (stride * 8)
+ * 
+ *     if not radians and p1.is_latlong():             # <<<<<<<<<<<<<<
+ *         for i from 0 <= i < npts:
+ *             j = stride*i
+ */
+  __pyx_t_4 = ((!(__pyx_v_radians != 0)) != 0);
+  if (__pyx_t_4) {
+  } else {
+    __pyx_t_1 = __pyx_t_4;
+    goto __pyx_L6_bool_binop_done;
+  }
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p1), __pyx_n_s_is_latlong); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 404; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 404; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 404; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_4 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 404; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __pyx_t_4;
+  __pyx_L6_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "_proj.pyx":405
+ * 
+ *     if not radians and p1.is_latlong():
+ *         for i from 0 <= i < npts:             # <<<<<<<<<<<<<<
+ *             j = stride*i
+ *             coords[j] *= _dg2rad
+ */
+    __pyx_t_3 = __pyx_v_npts;
+    for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_3; __pyx_v_i++) {
+
+      /* "_proj.pyx":406
+ *     if not radians and p1.is_latlong():
+ *         for i from 0 <= i < npts:
+ *             j = stride*i             # <<<<<<<<<<<<<<
+ *             coords[j] *= _dg2rad
+ *             coords[j+1] *= _dg2rad
+ */
+      __pyx_v_j = (__pyx_v_stride * __pyx_v_i);
+
+      /* "_proj.pyx":407
+ *         for i from 0 <= i < npts:
+ *             j = stride*i
+ *             coords[j] *= _dg2rad             # <<<<<<<<<<<<<<
+ *             coords[j+1] *= _dg2rad
+ * 
+ */
+      __pyx_t_7 = __pyx_v_j;
+      (__pyx_v_coords[__pyx_t_7]) = ((__pyx_v_coords[__pyx_t_7]) * __pyx_v_5_proj__dg2rad);
+
+      /* "_proj.pyx":408
+ *             j = stride*i
+ *             coords[j] *= _dg2rad
+ *             coords[j+1] *= _dg2rad             # <<<<<<<<<<<<<<
+ * 
+ *     if not switch:
+ */
+      __pyx_t_7 = (__pyx_v_j + 1);
+      (__pyx_v_coords[__pyx_t_7]) = ((__pyx_v_coords[__pyx_t_7]) * __pyx_v_5_proj__dg2rad);
+    }
+
+    /* "_proj.pyx":404
+ *     npts = buflen // (stride * 8)
+ * 
+ *     if not radians and p1.is_latlong():             # <<<<<<<<<<<<<<
+ *         for i from 0 <= i < npts:
+ *             j = stride*i
+ */
+  }
+
+  /* "_proj.pyx":410
+ *             coords[j+1] *= _dg2rad
+ * 
+ *     if not switch:             # <<<<<<<<<<<<<<
+ *         x = coords
+ *         y = coords + 1
+ */
+  __pyx_t_1 = ((!(__pyx_v_switch != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "_proj.pyx":411
+ * 
+ *     if not switch:
+ *         x = coords             # <<<<<<<<<<<<<<
+ *         y = coords + 1
+ *     else:
+ */
+    __pyx_v_x = __pyx_v_coords;
+
+    /* "_proj.pyx":412
+ *     if not switch:
+ *         x = coords
+ *         y = coords + 1             # <<<<<<<<<<<<<<
+ *     else:
+ *         x = coords + 1
+ */
+    __pyx_v_y = (__pyx_v_coords + 1);
+
+    /* "_proj.pyx":410
+ *             coords[j+1] *= _dg2rad
+ * 
+ *     if not switch:             # <<<<<<<<<<<<<<
+ *         x = coords
+ *         y = coords + 1
+ */
+    goto __pyx_L10;
+  }
+
+  /* "_proj.pyx":414
+ *         y = coords + 1
+ *     else:
+ *         x = coords + 1             # <<<<<<<<<<<<<<
+ *         y = coords
+ * 
+ */
+  /*else*/ {
+    __pyx_v_x = (__pyx_v_coords + 1);
+
+    /* "_proj.pyx":415
+ *     else:
+ *         x = coords + 1
+ *         y = coords             # <<<<<<<<<<<<<<
+ * 
+ *     if stride == 2:
+ */
+    __pyx_v_y = __pyx_v_coords;
+  }
+  __pyx_L10:;
+
+  /* "_proj.pyx":417
+ *         y = coords
+ * 
+ *     if stride == 2:             # <<<<<<<<<<<<<<
+ *         z = NULL
+ *     else:
+ */
+  __pyx_t_1 = ((__pyx_v_stride == 2) != 0);
+  if (__pyx_t_1) {
+
+    /* "_proj.pyx":418
+ * 
+ *     if stride == 2:
+ *         z = NULL             # <<<<<<<<<<<<<<
+ *     else:
+ *         z = coords + 2
+ */
+    __pyx_v_z = NULL;
+
+    /* "_proj.pyx":417
+ *         y = coords
+ * 
+ *     if stride == 2:             # <<<<<<<<<<<<<<
+ *         z = NULL
+ *     else:
+ */
+    goto __pyx_L11;
+  }
+
+  /* "_proj.pyx":420
+ *         z = NULL
+ *     else:
+ *         z = coords + 2             # <<<<<<<<<<<<<<
+ * 
+ *     err = pj_transform(p1.projpj, p2.projpj, npts, stride, x, y, z)
+ */
+  /*else*/ {
+    __pyx_v_z = (__pyx_v_coords + 2);
+  }
+  __pyx_L11:;
+
+  /* "_proj.pyx":422
+ *         z = coords + 2
+ * 
+ *     err = pj_transform(p1.projpj, p2.projpj, npts, stride, x, y, z)             # <<<<<<<<<<<<<<
+ * 
+ *     if err != 0:
+ */
+  __pyx_v_err = pj_transform(__pyx_v_p1->projpj, __pyx_v_p2->projpj, __pyx_v_npts, __pyx_v_stride, __pyx_v_x, __pyx_v_y, __pyx_v_z);
+
+  /* "_proj.pyx":424
+ *     err = pj_transform(p1.projpj, p2.projpj, npts, stride, x, y, z)
+ * 
+ *     if err != 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError(pj_strerrno(err))
+ * 
+ */
+  __pyx_t_1 = ((__pyx_v_err != 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "_proj.pyx":425
+ * 
+ *     if err != 0:
+ *         raise RuntimeError(pj_strerrno(err))             # <<<<<<<<<<<<<<
+ * 
+ *     if not radians and p2.is_latlong():
+ */
+    __pyx_t_2 = __Pyx_PyBytes_FromString(pj_strerrno(__pyx_v_err)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":424
+ *     err = pj_transform(p1.projpj, p2.projpj, npts, stride, x, y, z)
+ * 
+ *     if err != 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError(pj_strerrno(err))
+ * 
+ */
+  }
+
+  /* "_proj.pyx":427
+ *         raise RuntimeError(pj_strerrno(err))
+ * 
+ *     if not radians and p2.is_latlong():             # <<<<<<<<<<<<<<
+ *         for i from 0 <= i < npts:
+ *             j = stride*i
+ */
+  __pyx_t_4 = ((!(__pyx_v_radians != 0)) != 0);
+  if (__pyx_t_4) {
+  } else {
+    __pyx_t_1 = __pyx_t_4;
+    goto __pyx_L14_bool_binop_done;
+  }
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p2), __pyx_n_s_is_latlong); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 427; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 427; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else {
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 427; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_4 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 427; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __pyx_t_4;
+  __pyx_L14_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "_proj.pyx":428
+ * 
+ *     if not radians and p2.is_latlong():
+ *         for i from 0 <= i < npts:             # <<<<<<<<<<<<<<
+ *             j = stride*i
+ *             coords[j] *= _dg2rad
+ */
+    __pyx_t_3 = __pyx_v_npts;
+    for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_3; __pyx_v_i++) {
+
+      /* "_proj.pyx":429
+ *     if not radians and p2.is_latlong():
+ *         for i from 0 <= i < npts:
+ *             j = stride*i             # <<<<<<<<<<<<<<
+ *             coords[j] *= _dg2rad
+ *             coords[j+1] *= _dg2rad
+ */
+      __pyx_v_j = (__pyx_v_stride * __pyx_v_i);
+
+      /* "_proj.pyx":430
+ *         for i from 0 <= i < npts:
+ *             j = stride*i
+ *             coords[j] *= _dg2rad             # <<<<<<<<<<<<<<
+ *             coords[j+1] *= _dg2rad
+ * 
+ */
+      __pyx_t_7 = __pyx_v_j;
+      (__pyx_v_coords[__pyx_t_7]) = ((__pyx_v_coords[__pyx_t_7]) * __pyx_v_5_proj__dg2rad);
+
+      /* "_proj.pyx":431
+ *             j = stride*i
+ *             coords[j] *= _dg2rad
+ *             coords[j+1] *= _dg2rad             # <<<<<<<<<<<<<<
+ * 
+ * cdef class Geod:
+ */
+      __pyx_t_7 = (__pyx_v_j + 1);
+      (__pyx_v_coords[__pyx_t_7]) = ((__pyx_v_coords[__pyx_t_7]) * __pyx_v_5_proj__dg2rad);
+    }
+
+    /* "_proj.pyx":427
+ *         raise RuntimeError(pj_strerrno(err))
+ * 
+ *     if not radians and p2.is_latlong():             # <<<<<<<<<<<<<<
+ *         for i from 0 <= i < npts:
+ *             j = stride*i
+ */
+  }
+
+  /* "_proj.pyx":386
+ *         return pystr # already bytes?
+ * 
+ * def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint radians, bint switch):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         void *buffer
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("_proj._transform_sequence", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_proj.pyx":437
  *     cdef public object initstring
  * 
  *     def __cinit__(self, a, f):             # <<<<<<<<<<<<<<
@@ -4171,11 +6055,11 @@ static int __pyx_pw_5_proj_4Geod_1__cinit__(PyObject *__pyx_v_self, PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 411; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 437; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 411; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 437; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4188,7 +6072,7 @@ static int __pyx_pw_5_proj_4Geod_1__cinit__(PyObject *__pyx_v_self, PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 411; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 437; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("_proj.Geod.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4213,14 +6097,14 @@ static int __pyx_pf_5_proj_4Geod___cinit__(struct __pyx_obj_5_proj_Geod *__pyx_v
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "_proj.pyx":412
+  /* "_proj.pyx":438
  * 
  *     def __cinit__(self, a, f):
  *         self.initstring = '+a=%s +f=%s' % (a, f)             # <<<<<<<<<<<<<<
  *         geod_init(&self._geod_geodesic, <double> a, <double> f)
  * 
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 412; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_a);
   __Pyx_GIVEREF(__pyx_v_a);
@@ -4228,7 +6112,7 @@ static int __pyx_pf_5_proj_4Geod___cinit__(struct __pyx_obj_5_proj_Geod *__pyx_v
   __Pyx_INCREF(__pyx_v_f);
   __Pyx_GIVEREF(__pyx_v_f);
   PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_f);
-  __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_a_s_f_s, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 412; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_a_s_f_s, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -4237,18 +6121,27 @@ static int __pyx_pf_5_proj_4Geod___cinit__(struct __pyx_obj_5_proj_Geod *__pyx_v
   __pyx_v_self->initstring = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "_proj.pyx":413
+  /* "_proj.pyx":439
+>>>>>>> add pyproj.itransform function
  *     def __cinit__(self, a, f):
  *         self.initstring = '+a=%s +f=%s' % (a, f)
  *         geod_init(&self._geod_geodesic, <double> a, <double> f)             # <<<<<<<<<<<<<<
  * 
  *     def __reduce__(self):
  */
+<<<<<<< HEAD
   __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 413; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_f); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 413; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   geod_init((&__pyx_v_self->_geod_geodesic), ((double)__pyx_t_3), ((double)__pyx_t_4));
 
   /* "_proj.pyx":411
+=======
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 439; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_f); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 439; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  geod_init((&__pyx_v_self->_geod_geodesic), ((double)__pyx_t_3), ((double)__pyx_t_4));
+
+  /* "_proj.pyx":437
+>>>>>>> add pyproj.itransform function
  *     cdef public object initstring
  * 
  *     def __cinit__(self, a, f):             # <<<<<<<<<<<<<<
@@ -4269,7 +6162,11 @@ static int __pyx_pf_5_proj_4Geod___cinit__(struct __pyx_obj_5_proj_Geod *__pyx_v
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":415
+=======
+/* "_proj.pyx":441
+>>>>>>> add pyproj.itransform function
  *         geod_init(&self._geod_geodesic, <double> a, <double> f)
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -4302,7 +6199,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_2__reduce__(struct __pyx_obj_5_proj_Geod 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce__", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":417
+=======
+  /* "_proj.pyx":443
+>>>>>>> add pyproj.itransform function
  *     def __reduce__(self):
  *         """special method that allows pyproj.Geod instance to be pickled"""
  *         return (self.__class__,(self.initstring,))             # <<<<<<<<<<<<<<
@@ -4310,14 +6211,24 @@ static PyObject *__pyx_pf_5_proj_4Geod_2__reduce__(struct __pyx_obj_5_proj_Geod 
  *     def _fwd(self, object lons, object lats, object az, object dist, radians=False):
  */
   __Pyx_XDECREF(__pyx_r);
+<<<<<<< HEAD
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 417; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 417; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 443; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 443; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_self->initstring);
   __Pyx_GIVEREF(__pyx_v_self->initstring);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_self->initstring);
+<<<<<<< HEAD
   __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 417; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 443; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -4329,7 +6240,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_2__reduce__(struct __pyx_obj_5_proj_Geod 
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
+<<<<<<< HEAD
   /* "_proj.pyx":415
+=======
+  /* "_proj.pyx":441
+>>>>>>> add pyproj.itransform function
  *         geod_init(&self._geod_geodesic, <double> a, <double> f)
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -4350,7 +6265,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_2__reduce__(struct __pyx_obj_5_proj_Geod 
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":419
+=======
+/* "_proj.pyx":445
+>>>>>>> add pyproj.itransform function
  *         return (self.__class__,(self.initstring,))
  * 
  *     def _fwd(self, object lons, object lats, object az, object dist, radians=False):             # <<<<<<<<<<<<<<
@@ -4397,17 +6316,29 @@ static PyObject *__pyx_pw_5_proj_4Geod_5_fwd(PyObject *__pyx_v_self, PyObject *_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lats)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_fwd", 0, 4, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 419; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_fwd", 0, 4, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_az)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_fwd", 0, 4, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 419; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_fwd", 0, 4, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_dist)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_fwd", 0, 4, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 419; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_fwd", 0, 4, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  4:
         if (kw_args > 0) {
@@ -4416,7 +6347,11 @@ static PyObject *__pyx_pw_5_proj_4Geod_5_fwd(PyObject *__pyx_v_self, PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
+<<<<<<< HEAD
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_fwd") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 419; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_fwd") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4437,7 +6372,11 @@ static PyObject *__pyx_pw_5_proj_4Geod_5_fwd(PyObject *__pyx_v_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
+<<<<<<< HEAD
   __Pyx_RaiseArgtupleInvalid("_fwd", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 419; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+  __Pyx_RaiseArgtupleInvalid("_fwd", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_L3_error:;
   __Pyx_AddTraceback("_proj.Geod._fwd", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4485,7 +6424,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_fwd", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":437
+=======
+  /* "_proj.pyx":463
+>>>>>>> add pyproj.itransform function
  *         cdef void *distdat
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:             # <<<<<<<<<<<<<<
@@ -4495,7 +6438,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_lons, (&__pyx_v_londata), (&__pyx_v_buflenlons)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":438
+=======
+    /* "_proj.pyx":464
+>>>>>>> add pyproj.itransform function
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -4503,9 +6450,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  *             raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":437
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":463
+>>>>>>> add pyproj.itransform function
  *         cdef void *distdat
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:             # <<<<<<<<<<<<<<
@@ -4514,7 +6467,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":439
+=======
+  /* "_proj.pyx":465
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:             # <<<<<<<<<<<<<<
@@ -4524,7 +6481,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_lats, (&__pyx_v_latdata), (&__pyx_v_buflenlats)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":440
+=======
+    /* "_proj.pyx":466
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -4532,9 +6493,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  *             raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 440; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":439
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":465
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:             # <<<<<<<<<<<<<<
@@ -4543,7 +6510,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":441
+=======
+  /* "_proj.pyx":467
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(az, &azdat, &buflenaz) <> 0:             # <<<<<<<<<<<<<<
@@ -4553,7 +6524,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_az, (&__pyx_v_azdat), (&__pyx_v_buflenaz)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":442
+=======
+    /* "_proj.pyx":468
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(az, &azdat, &buflenaz) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -4561,9 +6536,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  *             raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 442; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":441
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":467
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(az, &azdat, &buflenaz) <> 0:             # <<<<<<<<<<<<<<
@@ -4572,7 +6553,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":443
+=======
+  /* "_proj.pyx":469
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(az, &azdat, &buflenaz) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(dist, &distdat, &buflend) <> 0:             # <<<<<<<<<<<<<<
@@ -4582,7 +6567,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_dist, (&__pyx_v_distdat), (&__pyx_v_buflend)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":444
+=======
+    /* "_proj.pyx":470
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(dist, &distdat, &buflend) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -4590,9 +6579,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  *         if not buflenlons == buflenlats == buflenaz == buflend:
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":443
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 470; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":469
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(az, &azdat, &buflenaz) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(dist, &distdat, &buflend) <> 0:             # <<<<<<<<<<<<<<
@@ -4601,7 +6596,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":446
+=======
+  /* "_proj.pyx":472
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         # process data in buffer
  *         if not buflenlons == buflenlats == buflenaz == buflend:             # <<<<<<<<<<<<<<
@@ -4618,13 +6617,18 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_2 = ((!(__pyx_t_1 != 0)) != 0);
   if (__pyx_t_2) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":447
+=======
+    /* "_proj.pyx":473
+>>>>>>> add pyproj.itransform function
  *         # process data in buffer
  *         if not buflenlons == buflenlats == buflenaz == buflend:
  *             raise RuntimeError("Buffer lengths not the same")             # <<<<<<<<<<<<<<
  *         ndim = buflenlons//_doublesize
  *         lonsdata = <double *>londata
  */
+<<<<<<< HEAD
     __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 447; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
@@ -4632,6 +6636,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 447; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":446
+=======
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":472
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         # process data in buffer
  *         if not buflenlons == buflenlats == buflenaz == buflend:             # <<<<<<<<<<<<<<
@@ -4640,13 +6653,18 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":448
+=======
+  /* "_proj.pyx":474
+>>>>>>> add pyproj.itransform function
  *         if not buflenlons == buflenlats == buflenaz == buflend:
  *             raise RuntimeError("Buffer lengths not the same")
  *         ndim = buflenlons//_doublesize             # <<<<<<<<<<<<<<
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata
  */
+<<<<<<< HEAD
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_buflenlons); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 448; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_doublesize); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 448; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -4660,6 +6678,21 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_v_ndim = __pyx_t_6;
 
   /* "_proj.pyx":449
+=======
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_buflenlons); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_doublesize); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyNumber_FloorDivide(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_6 = __Pyx_PyIndex_AsSsize_t(__pyx_t_5); if (unlikely((__pyx_t_6 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_ndim = __pyx_t_6;
+
+  /* "_proj.pyx":475
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError("Buffer lengths not the same")
  *         ndim = buflenlons//_doublesize
  *         lonsdata = <double *>londata             # <<<<<<<<<<<<<<
@@ -4668,7 +6701,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   __pyx_v_lonsdata = ((double *)__pyx_v_londata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":450
+=======
+  /* "_proj.pyx":476
+>>>>>>> add pyproj.itransform function
  *         ndim = buflenlons//_doublesize
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata             # <<<<<<<<<<<<<<
@@ -4677,7 +6714,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   __pyx_v_latsdata = ((double *)__pyx_v_latdata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":451
+=======
+  /* "_proj.pyx":477
+>>>>>>> add pyproj.itransform function
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata
  *         azdata = <double *>azdat             # <<<<<<<<<<<<<<
@@ -4686,7 +6727,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   __pyx_v_azdata = ((double *)__pyx_v_azdat);
 
+<<<<<<< HEAD
   /* "_proj.pyx":452
+=======
+  /* "_proj.pyx":478
+>>>>>>> add pyproj.itransform function
  *         latsdata = <double *>latdata
  *         azdata = <double *>azdat
  *         distdata = <double *>distdat             # <<<<<<<<<<<<<<
@@ -4695,7 +6740,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
   __pyx_v_distdata = ((double *)__pyx_v_distdat);
 
+<<<<<<< HEAD
   /* "_proj.pyx":453
+=======
+  /* "_proj.pyx":479
+>>>>>>> add pyproj.itransform function
  *         azdata = <double *>azdat
  *         distdata = <double *>distdat
  *         for i from 0 <= i < ndim:             # <<<<<<<<<<<<<<
@@ -4705,18 +6754,30 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_6 = __pyx_v_ndim;
   for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_6; __pyx_v_i++) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":454
+=======
+    /* "_proj.pyx":480
+>>>>>>> add pyproj.itransform function
  *         distdata = <double *>distdat
  *         for i from 0 <= i < ndim:
  *             if not radians:             # <<<<<<<<<<<<<<
  *                 lon1 = lonsdata[i]
  *                 lat1 = latsdata[i]
  */
+<<<<<<< HEAD
     __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 454; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_1 = ((!__pyx_t_2) != 0);
     if (__pyx_t_1) {
 
       /* "_proj.pyx":455
+=======
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 480; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = ((!__pyx_t_2) != 0);
+    if (__pyx_t_1) {
+
+      /* "_proj.pyx":481
+>>>>>>> add pyproj.itransform function
  *         for i from 0 <= i < ndim:
  *             if not radians:
  *                 lon1 = lonsdata[i]             # <<<<<<<<<<<<<<
@@ -4725,7 +6786,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lon1 = (__pyx_v_lonsdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":456
+=======
+      /* "_proj.pyx":482
+>>>>>>> add pyproj.itransform function
  *             if not radians:
  *                 lon1 = lonsdata[i]
  *                 lat1 = latsdata[i]             # <<<<<<<<<<<<<<
@@ -4734,7 +6799,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lat1 = (__pyx_v_latsdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":457
+=======
+      /* "_proj.pyx":483
+>>>>>>> add pyproj.itransform function
  *                 lon1 = lonsdata[i]
  *                 lat1 = latsdata[i]
  *                 az1 = azdata[i]             # <<<<<<<<<<<<<<
@@ -4743,7 +6812,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_az1 = (__pyx_v_azdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":458
+=======
+      /* "_proj.pyx":484
+>>>>>>> add pyproj.itransform function
  *                 lat1 = latsdata[i]
  *                 az1 = azdata[i]
  *                 s12 = distdata[i]             # <<<<<<<<<<<<<<
@@ -4752,7 +6825,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_s12 = (__pyx_v_distdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":454
+=======
+      /* "_proj.pyx":480
+>>>>>>> add pyproj.itransform function
  *         distdata = <double *>distdat
  *         for i from 0 <= i < ndim:
  *             if not radians:             # <<<<<<<<<<<<<<
@@ -4762,7 +6839,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
       goto __pyx_L10;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":460
+=======
+    /* "_proj.pyx":486
+>>>>>>> add pyproj.itransform function
  *                 s12 = distdata[i]
  *             else:
  *                 lon1 = _dg2rad*lonsdata[i]             # <<<<<<<<<<<<<<
@@ -4772,7 +6853,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     /*else*/ {
       __pyx_v_lon1 = (__pyx_v_5_proj__dg2rad * (__pyx_v_lonsdata[__pyx_v_i]));
 
+<<<<<<< HEAD
       /* "_proj.pyx":461
+=======
+      /* "_proj.pyx":487
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 lon1 = _dg2rad*lonsdata[i]
  *                 lat1 = _dg2rad*latsdata[i]             # <<<<<<<<<<<<<<
@@ -4781,7 +6866,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lat1 = (__pyx_v_5_proj__dg2rad * (__pyx_v_latsdata[__pyx_v_i]));
 
+<<<<<<< HEAD
       /* "_proj.pyx":462
+=======
+      /* "_proj.pyx":488
+>>>>>>> add pyproj.itransform function
  *                 lon1 = _dg2rad*lonsdata[i]
  *                 lat1 = _dg2rad*latsdata[i]
  *                 az1 = _dg2rad*azdata[i]             # <<<<<<<<<<<<<<
@@ -4790,7 +6879,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_az1 = (__pyx_v_5_proj__dg2rad * (__pyx_v_azdata[__pyx_v_i]));
 
+<<<<<<< HEAD
       /* "_proj.pyx":463
+=======
+      /* "_proj.pyx":489
+>>>>>>> add pyproj.itransform function
  *                 lat1 = _dg2rad*latsdata[i]
  *                 az1 = _dg2rad*azdata[i]
  *                 s12 = distdata[i]             # <<<<<<<<<<<<<<
@@ -4801,7 +6894,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     }
     __pyx_L10:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":464
+=======
+    /* "_proj.pyx":490
+>>>>>>> add pyproj.itransform function
  *                 az1 = _dg2rad*azdata[i]
  *                 s12 = distdata[i]
  *             geod_direct(&self._geod_geodesic, lat1, lon1, az1, s12,\             # <<<<<<<<<<<<<<
@@ -4810,7 +6907,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
     geod_direct((&__pyx_v_self->_geod_geodesic), __pyx_v_lat1, __pyx_v_lon1, __pyx_v_az1, __pyx_v_s12, (&__pyx_v_plat2), (&__pyx_v_plon2), (&__pyx_v_pazi2));
 
+<<<<<<< HEAD
     /* "_proj.pyx":468
+=======
+    /* "_proj.pyx":494
+>>>>>>> add pyproj.itransform function
  *             # back azimuth needs to be flipped 180 degrees
  *             # to match what proj4 geod utility produces.
  *             if pazi2 > 0:             # <<<<<<<<<<<<<<
@@ -4820,7 +6921,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     __pyx_t_1 = ((__pyx_v_pazi2 > 0.0) != 0);
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":469
+=======
+      /* "_proj.pyx":495
+>>>>>>> add pyproj.itransform function
  *             # to match what proj4 geod utility produces.
  *             if pazi2 > 0:
  *                 pazi2 = pazi2-180.             # <<<<<<<<<<<<<<
@@ -4829,7 +6934,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_pazi2 = (__pyx_v_pazi2 - 180.);
 
+<<<<<<< HEAD
       /* "_proj.pyx":468
+=======
+      /* "_proj.pyx":494
+>>>>>>> add pyproj.itransform function
  *             # back azimuth needs to be flipped 180 degrees
  *             # to match what proj4 geod utility produces.
  *             if pazi2 > 0:             # <<<<<<<<<<<<<<
@@ -4839,7 +6948,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
       goto __pyx_L11;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":470
+=======
+    /* "_proj.pyx":496
+>>>>>>> add pyproj.itransform function
  *             if pazi2 > 0:
  *                 pazi2 = pazi2-180.
  *             elif pazi2 <= 0:             # <<<<<<<<<<<<<<
@@ -4849,7 +6962,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     __pyx_t_1 = ((__pyx_v_pazi2 <= 0.0) != 0);
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":471
+=======
+      /* "_proj.pyx":497
+>>>>>>> add pyproj.itransform function
  *                 pazi2 = pazi2-180.
  *             elif pazi2 <= 0:
  *                 pazi2 = pazi2+180.             # <<<<<<<<<<<<<<
@@ -4858,7 +6975,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_pazi2 = (__pyx_v_pazi2 + 180.);
 
+<<<<<<< HEAD
       /* "_proj.pyx":470
+=======
+      /* "_proj.pyx":496
+>>>>>>> add pyproj.itransform function
  *             if pazi2 > 0:
  *                 pazi2 = pazi2-180.
  *             elif pazi2 <= 0:             # <<<<<<<<<<<<<<
@@ -4868,7 +6989,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     }
     __pyx_L11:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":473
+=======
+    /* "_proj.pyx":499
+>>>>>>> add pyproj.itransform function
  *                 pazi2 = pazi2+180.
  *             # check for NaN.
  *             if pazi2 != pazi2:             # <<<<<<<<<<<<<<
@@ -4878,13 +7003,18 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     __pyx_t_1 = ((__pyx_v_pazi2 != __pyx_v_pazi2) != 0);
     if (__pyx_t_1) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":474
+=======
+      /* "_proj.pyx":500
+>>>>>>> add pyproj.itransform function
  *             # check for NaN.
  *             if pazi2 != pazi2:
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')             # <<<<<<<<<<<<<<
  *             if not radians:
  *                 lonsdata[i] = plon2
  */
+<<<<<<< HEAD
       __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
@@ -4892,6 +7022,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
       {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
       /* "_proj.pyx":473
+=======
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 500; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_Raise(__pyx_t_5, 0, 0, 0);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 500; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+      /* "_proj.pyx":499
+>>>>>>> add pyproj.itransform function
  *                 pazi2 = pazi2+180.
  *             # check for NaN.
  *             if pazi2 != pazi2:             # <<<<<<<<<<<<<<
@@ -4900,18 +7039,30 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":475
+=======
+    /* "_proj.pyx":501
+>>>>>>> add pyproj.itransform function
  *             if pazi2 != pazi2:
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
  *             if not radians:             # <<<<<<<<<<<<<<
  *                 lonsdata[i] = plon2
  *                 latsdata[i] = plat2
  */
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 475; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_2 = ((!__pyx_t_1) != 0);
     if (__pyx_t_2) {
 
       /* "_proj.pyx":476
+=======
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 501; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = ((!__pyx_t_1) != 0);
+    if (__pyx_t_2) {
+
+      /* "_proj.pyx":502
+>>>>>>> add pyproj.itransform function
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
  *             if not radians:
  *                 lonsdata[i] = plon2             # <<<<<<<<<<<<<<
@@ -4920,7 +7071,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       (__pyx_v_lonsdata[__pyx_v_i]) = __pyx_v_plon2;
 
+<<<<<<< HEAD
       /* "_proj.pyx":477
+=======
+      /* "_proj.pyx":503
+>>>>>>> add pyproj.itransform function
  *             if not radians:
  *                 lonsdata[i] = plon2
  *                 latsdata[i] = plat2             # <<<<<<<<<<<<<<
@@ -4929,7 +7084,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       (__pyx_v_latsdata[__pyx_v_i]) = __pyx_v_plat2;
 
+<<<<<<< HEAD
       /* "_proj.pyx":478
+=======
+      /* "_proj.pyx":504
+>>>>>>> add pyproj.itransform function
  *                 lonsdata[i] = plon2
  *                 latsdata[i] = plat2
  *                 azdata[i] = pazi2             # <<<<<<<<<<<<<<
@@ -4938,7 +7097,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       (__pyx_v_azdata[__pyx_v_i]) = __pyx_v_pazi2;
 
+<<<<<<< HEAD
       /* "_proj.pyx":475
+=======
+      /* "_proj.pyx":501
+>>>>>>> add pyproj.itransform function
  *             if pazi2 != pazi2:
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
  *             if not radians:             # <<<<<<<<<<<<<<
@@ -4948,7 +7111,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
       goto __pyx_L13;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":480
+=======
+    /* "_proj.pyx":506
+>>>>>>> add pyproj.itransform function
  *                 azdata[i] = pazi2
  *             else:
  *                 lonsdata[i] = _rad2dg*plon2             # <<<<<<<<<<<<<<
@@ -4958,7 +7125,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     /*else*/ {
       (__pyx_v_lonsdata[__pyx_v_i]) = (__pyx_v_5_proj__rad2dg * __pyx_v_plon2);
 
+<<<<<<< HEAD
       /* "_proj.pyx":481
+=======
+      /* "_proj.pyx":507
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 lonsdata[i] = _rad2dg*plon2
  *                 latsdata[i] = _rad2dg*plat2             # <<<<<<<<<<<<<<
@@ -4967,7 +7138,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
  */
       (__pyx_v_latsdata[__pyx_v_i]) = (__pyx_v_5_proj__rad2dg * __pyx_v_plat2);
 
+<<<<<<< HEAD
       /* "_proj.pyx":482
+=======
+      /* "_proj.pyx":508
+>>>>>>> add pyproj.itransform function
  *                 lonsdata[i] = _rad2dg*plon2
  *                 latsdata[i] = _rad2dg*plat2
  *                 azdata[i] = _rad2dg*pazi2             # <<<<<<<<<<<<<<
@@ -4979,7 +7154,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
     __pyx_L13:;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":419
+=======
+  /* "_proj.pyx":445
+>>>>>>> add pyproj.itransform function
  *         return (self.__class__,(self.initstring,))
  * 
  *     def _fwd(self, object lons, object lats, object az, object dist, radians=False):             # <<<<<<<<<<<<<<
@@ -5002,7 +7181,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_4_fwd(struct __pyx_obj_5_proj_Geod *__pyx
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":484
+=======
+/* "_proj.pyx":510
+>>>>>>> add pyproj.itransform function
  *                 azdata[i] = _rad2dg*pazi2
  * 
  *     def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):             # <<<<<<<<<<<<<<
@@ -5049,17 +7232,29 @@ static PyObject *__pyx_pw_5_proj_4Geod_7_inv(PyObject *__pyx_v_self, PyObject *_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lats1)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_inv", 0, 4, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_inv", 0, 4, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 510; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lons2)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_inv", 0, 4, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_inv", 0, 4, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 510; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lats2)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_inv", 0, 4, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_inv", 0, 4, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 510; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  4:
         if (kw_args > 0) {
@@ -5068,7 +7263,11 @@ static PyObject *__pyx_pw_5_proj_4Geod_7_inv(PyObject *__pyx_v_self, PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
+<<<<<<< HEAD
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_inv") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_inv") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 510; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5089,7 +7288,11 @@ static PyObject *__pyx_pw_5_proj_4Geod_7_inv(PyObject *__pyx_v_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
+<<<<<<< HEAD
   __Pyx_RaiseArgtupleInvalid("_inv", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+  __Pyx_RaiseArgtupleInvalid("_inv", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 510; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_L3_error:;
   __Pyx_AddTraceback("_proj.Geod._inv", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5138,7 +7341,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_inv", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":501
+=======
+  /* "_proj.pyx":527
+>>>>>>> add pyproj.itransform function
  *         cdef void *distdat
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:             # <<<<<<<<<<<<<<
@@ -5148,7 +7355,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_lons1, (&__pyx_v_londata), (&__pyx_v_buflenlons)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":502
+=======
+    /* "_proj.pyx":528
+>>>>>>> add pyproj.itransform function
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -5156,9 +7367,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  *             raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 502; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":501
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 528; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":527
+>>>>>>> add pyproj.itransform function
  *         cdef void *distdat
  *         # if buffer api is supported, get pointer to data buffers.
  *         if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:             # <<<<<<<<<<<<<<
@@ -5167,7 +7384,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":503
+=======
+  /* "_proj.pyx":529
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats1, &latdata, &buflenlats) <> 0:             # <<<<<<<<<<<<<<
@@ -5177,7 +7398,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_lats1, (&__pyx_v_latdata), (&__pyx_v_buflenlats)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":504
+=======
+    /* "_proj.pyx":530
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats1, &latdata, &buflenlats) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -5185,9 +7410,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  *             raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 504; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":503
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 530; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":529
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats1, &latdata, &buflenlats) <> 0:             # <<<<<<<<<<<<<<
@@ -5196,7 +7427,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":505
+=======
+  /* "_proj.pyx":531
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lats1, &latdata, &buflenlats) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lons2, &azdat, &buflenaz) <> 0:             # <<<<<<<<<<<<<<
@@ -5206,7 +7441,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_lons2, (&__pyx_v_azdat), (&__pyx_v_buflenaz)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":506
+=======
+    /* "_proj.pyx":532
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lons2, &azdat, &buflenaz) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -5214,9 +7453,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  *             raise RuntimeError
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 506; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":505
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 532; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":531
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lats1, &latdata, &buflenlats) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lons2, &azdat, &buflenaz) <> 0:             # <<<<<<<<<<<<<<
@@ -5225,7 +7470,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":507
+=======
+  /* "_proj.pyx":533
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lons2, &azdat, &buflenaz) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats2, &distdat, &buflend) <> 0:             # <<<<<<<<<<<<<<
@@ -5235,7 +7484,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_1 = ((PyObject_AsWriteBuffer(__pyx_v_lats2, (&__pyx_v_distdat), (&__pyx_v_buflend)) != 0) != 0);
   if (__pyx_t_1) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":508
+=======
+    /* "_proj.pyx":534
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats2, &distdat, &buflend) <> 0:
  *             raise RuntimeError             # <<<<<<<<<<<<<<
@@ -5243,9 +7496,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  *         if not buflenlons == buflenlats == buflenaz == buflend:
  */
     __Pyx_Raise(__pyx_builtin_RuntimeError, 0, 0, 0);
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 508; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":507
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 534; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":533
+>>>>>>> add pyproj.itransform function
  *         if PyObject_AsWriteBuffer(lons2, &azdat, &buflenaz) <> 0:
  *             raise RuntimeError
  *         if PyObject_AsWriteBuffer(lats2, &distdat, &buflend) <> 0:             # <<<<<<<<<<<<<<
@@ -5254,7 +7513,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":510
+=======
+  /* "_proj.pyx":536
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         # process data in buffer
  *         if not buflenlons == buflenlats == buflenaz == buflend:             # <<<<<<<<<<<<<<
@@ -5271,13 +7534,18 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_2 = ((!(__pyx_t_1 != 0)) != 0);
   if (__pyx_t_2) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":511
+=======
+    /* "_proj.pyx":537
+>>>>>>> add pyproj.itransform function
  *         # process data in buffer
  *         if not buflenlons == buflenlats == buflenaz == buflend:
  *             raise RuntimeError("Buffer lengths not the same")             # <<<<<<<<<<<<<<
  *         ndim = buflenlons//_doublesize
  *         lonsdata = <double *>londata
  */
+<<<<<<< HEAD
     __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 511; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
@@ -5285,6 +7553,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 511; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "_proj.pyx":510
+=======
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 537; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 537; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "_proj.pyx":536
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError
  *         # process data in buffer
  *         if not buflenlons == buflenlats == buflenaz == buflend:             # <<<<<<<<<<<<<<
@@ -5293,13 +7570,18 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":512
+=======
+  /* "_proj.pyx":538
+>>>>>>> add pyproj.itransform function
  *         if not buflenlons == buflenlats == buflenaz == buflend:
  *             raise RuntimeError("Buffer lengths not the same")
  *         ndim = buflenlons//_doublesize             # <<<<<<<<<<<<<<
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata
  */
+<<<<<<< HEAD
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_buflenlons); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_doublesize); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -5313,6 +7595,21 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_v_ndim = __pyx_t_6;
 
   /* "_proj.pyx":513
+=======
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_buflenlons); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 538; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_doublesize); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 538; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyNumber_FloorDivide(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 538; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_6 = __Pyx_PyIndex_AsSsize_t(__pyx_t_5); if (unlikely((__pyx_t_6 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 538; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_ndim = __pyx_t_6;
+
+  /* "_proj.pyx":539
+>>>>>>> add pyproj.itransform function
  *             raise RuntimeError("Buffer lengths not the same")
  *         ndim = buflenlons//_doublesize
  *         lonsdata = <double *>londata             # <<<<<<<<<<<<<<
@@ -5321,7 +7618,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   __pyx_v_lonsdata = ((double *)__pyx_v_londata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":514
+=======
+  /* "_proj.pyx":540
+>>>>>>> add pyproj.itransform function
  *         ndim = buflenlons//_doublesize
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata             # <<<<<<<<<<<<<<
@@ -5330,7 +7631,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   __pyx_v_latsdata = ((double *)__pyx_v_latdata);
 
+<<<<<<< HEAD
   /* "_proj.pyx":515
+=======
+  /* "_proj.pyx":541
+>>>>>>> add pyproj.itransform function
  *         lonsdata = <double *>londata
  *         latsdata = <double *>latdata
  *         azdata = <double *>azdat             # <<<<<<<<<<<<<<
@@ -5339,7 +7644,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   __pyx_v_azdata = ((double *)__pyx_v_azdat);
 
+<<<<<<< HEAD
   /* "_proj.pyx":516
+=======
+  /* "_proj.pyx":542
+>>>>>>> add pyproj.itransform function
  *         latsdata = <double *>latdata
  *         azdata = <double *>azdat
  *         distdata = <double *>distdat             # <<<<<<<<<<<<<<
@@ -5348,7 +7657,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
   __pyx_v_distdata = ((double *)__pyx_v_distdat);
 
+<<<<<<< HEAD
   /* "_proj.pyx":517
+=======
+  /* "_proj.pyx":543
+>>>>>>> add pyproj.itransform function
  *         azdata = <double *>azdat
  *         distdata = <double *>distdat
  *         errmsg = 'undefined inverse geodesic (may be an antipodal point)'             # <<<<<<<<<<<<<<
@@ -5358,7 +7671,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   __Pyx_INCREF(__pyx_kp_s_undefined_inverse_geodesic_may_b);
   __pyx_v_errmsg = __pyx_kp_s_undefined_inverse_geodesic_may_b;
 
+<<<<<<< HEAD
   /* "_proj.pyx":518
+=======
+  /* "_proj.pyx":544
+>>>>>>> add pyproj.itransform function
  *         distdata = <double *>distdat
  *         errmsg = 'undefined inverse geodesic (may be an antipodal point)'
  *         for i from 0 <= i < ndim:             # <<<<<<<<<<<<<<
@@ -5368,17 +7685,28 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   __pyx_t_6 = __pyx_v_ndim;
   for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_6; __pyx_v_i++) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":519
+=======
+    /* "_proj.pyx":545
+>>>>>>> add pyproj.itransform function
  *         errmsg = 'undefined inverse geodesic (may be an antipodal point)'
  *         for i from 0 <= i < ndim:
  *             if radians:             # <<<<<<<<<<<<<<
  *                 lon1 = _rad2dg*lonsdata[i]
  *                 lat1 = _rad2dg*latsdata[i]
  */
+<<<<<<< HEAD
     __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 519; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_2) {
 
       /* "_proj.pyx":520
+=======
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 545; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_2) {
+
+      /* "_proj.pyx":546
+>>>>>>> add pyproj.itransform function
  *         for i from 0 <= i < ndim:
  *             if radians:
  *                 lon1 = _rad2dg*lonsdata[i]             # <<<<<<<<<<<<<<
@@ -5387,7 +7715,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lon1 = (__pyx_v_5_proj__rad2dg * (__pyx_v_lonsdata[__pyx_v_i]));
 
+<<<<<<< HEAD
       /* "_proj.pyx":521
+=======
+      /* "_proj.pyx":547
+>>>>>>> add pyproj.itransform function
  *             if radians:
  *                 lon1 = _rad2dg*lonsdata[i]
  *                 lat1 = _rad2dg*latsdata[i]             # <<<<<<<<<<<<<<
@@ -5396,7 +7728,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lat1 = (__pyx_v_5_proj__rad2dg * (__pyx_v_latsdata[__pyx_v_i]));
 
+<<<<<<< HEAD
       /* "_proj.pyx":522
+=======
+      /* "_proj.pyx":548
+>>>>>>> add pyproj.itransform function
  *                 lon1 = _rad2dg*lonsdata[i]
  *                 lat1 = _rad2dg*latsdata[i]
  *                 lon2 = _rad2dg*azdata[i]             # <<<<<<<<<<<<<<
@@ -5405,7 +7741,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lon2 = (__pyx_v_5_proj__rad2dg * (__pyx_v_azdata[__pyx_v_i]));
 
+<<<<<<< HEAD
       /* "_proj.pyx":523
+=======
+      /* "_proj.pyx":549
+>>>>>>> add pyproj.itransform function
  *                 lat1 = _rad2dg*latsdata[i]
  *                 lon2 = _rad2dg*azdata[i]
  *                 lat2 = _rad2dg*distdata[i]             # <<<<<<<<<<<<<<
@@ -5414,7 +7754,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lat2 = (__pyx_v_5_proj__rad2dg * (__pyx_v_distdata[__pyx_v_i]));
 
+<<<<<<< HEAD
       /* "_proj.pyx":519
+=======
+      /* "_proj.pyx":545
+>>>>>>> add pyproj.itransform function
  *         errmsg = 'undefined inverse geodesic (may be an antipodal point)'
  *         for i from 0 <= i < ndim:
  *             if radians:             # <<<<<<<<<<<<<<
@@ -5424,7 +7768,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
       goto __pyx_L10;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":525
+=======
+    /* "_proj.pyx":551
+>>>>>>> add pyproj.itransform function
  *                 lat2 = _rad2dg*distdata[i]
  *             else:
  *                 lon1 = lonsdata[i]             # <<<<<<<<<<<<<<
@@ -5434,7 +7782,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     /*else*/ {
       __pyx_v_lon1 = (__pyx_v_lonsdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":526
+=======
+      /* "_proj.pyx":552
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 lon1 = lonsdata[i]
  *                 lat1 = latsdata[i]             # <<<<<<<<<<<<<<
@@ -5443,7 +7795,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lat1 = (__pyx_v_latsdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":527
+=======
+      /* "_proj.pyx":553
+>>>>>>> add pyproj.itransform function
  *                 lon1 = lonsdata[i]
  *                 lat1 = latsdata[i]
  *                 lon2 = azdata[i]             # <<<<<<<<<<<<<<
@@ -5452,7 +7808,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_lon2 = (__pyx_v_azdata[__pyx_v_i]);
 
+<<<<<<< HEAD
       /* "_proj.pyx":528
+=======
+      /* "_proj.pyx":554
+>>>>>>> add pyproj.itransform function
  *                 lat1 = latsdata[i]
  *                 lon2 = azdata[i]
  *                 lat2 = distdata[i]             # <<<<<<<<<<<<<<
@@ -5463,7 +7823,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     }
     __pyx_L10:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":529
+=======
+    /* "_proj.pyx":555
+>>>>>>> add pyproj.itransform function
  *                 lon2 = azdata[i]
  *                 lat2 = distdata[i]
  *             geod_inverse(&self._geod_geodesic, lat1, lon1, lat2, lon2,             # <<<<<<<<<<<<<<
@@ -5472,7 +7836,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
     geod_inverse((&__pyx_v_self->_geod_geodesic), __pyx_v_lat1, __pyx_v_lon1, __pyx_v_lat2, __pyx_v_lon2, (&__pyx_v_ps12), (&__pyx_v_pazi1), (&__pyx_v_pazi2));
 
+<<<<<<< HEAD
     /* "_proj.pyx":533
+=======
+    /* "_proj.pyx":559
+>>>>>>> add pyproj.itransform function
  *             # back azimuth needs to be flipped 180 degrees
  *             # to match what proj4 geod utility produces.
  *             if pazi2 > 0:             # <<<<<<<<<<<<<<
@@ -5482,7 +7850,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     __pyx_t_2 = ((__pyx_v_pazi2 > 0.0) != 0);
     if (__pyx_t_2) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":534
+=======
+      /* "_proj.pyx":560
+>>>>>>> add pyproj.itransform function
  *             # to match what proj4 geod utility produces.
  *             if pazi2 > 0:
  *                 pazi2 = pazi2-180.             # <<<<<<<<<<<<<<
@@ -5491,7 +7863,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_pazi2 = (__pyx_v_pazi2 - 180.);
 
+<<<<<<< HEAD
       /* "_proj.pyx":533
+=======
+      /* "_proj.pyx":559
+>>>>>>> add pyproj.itransform function
  *             # back azimuth needs to be flipped 180 degrees
  *             # to match what proj4 geod utility produces.
  *             if pazi2 > 0:             # <<<<<<<<<<<<<<
@@ -5501,7 +7877,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
       goto __pyx_L11;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":535
+=======
+    /* "_proj.pyx":561
+>>>>>>> add pyproj.itransform function
  *             if pazi2 > 0:
  *                 pazi2 = pazi2-180.
  *             elif pazi2 <= 0:             # <<<<<<<<<<<<<<
@@ -5511,7 +7891,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     __pyx_t_2 = ((__pyx_v_pazi2 <= 0.0) != 0);
     if (__pyx_t_2) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":536
+=======
+      /* "_proj.pyx":562
+>>>>>>> add pyproj.itransform function
  *                 pazi2 = pazi2-180.
  *             elif pazi2 <= 0:
  *                 pazi2 = pazi2+180.             # <<<<<<<<<<<<<<
@@ -5520,7 +7904,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       __pyx_v_pazi2 = (__pyx_v_pazi2 + 180.);
 
+<<<<<<< HEAD
       /* "_proj.pyx":535
+=======
+      /* "_proj.pyx":561
+>>>>>>> add pyproj.itransform function
  *             if pazi2 > 0:
  *                 pazi2 = pazi2-180.
  *             elif pazi2 <= 0:             # <<<<<<<<<<<<<<
@@ -5530,7 +7918,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     }
     __pyx_L11:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":537
+=======
+    /* "_proj.pyx":563
+>>>>>>> add pyproj.itransform function
  *             elif pazi2 <= 0:
  *                 pazi2 = pazi2+180.
  *             if ps12 != ps12: # check for NaN             # <<<<<<<<<<<<<<
@@ -5540,13 +7932,18 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     __pyx_t_2 = ((__pyx_v_ps12 != __pyx_v_ps12) != 0);
     if (__pyx_t_2) {
 
+<<<<<<< HEAD
       /* "_proj.pyx":538
+=======
+      /* "_proj.pyx":564
+>>>>>>> add pyproj.itransform function
  *                 pazi2 = pazi2+180.
  *             if ps12 != ps12: # check for NaN
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')             # <<<<<<<<<<<<<<
  *             if radians:
  *                 lonsdata[i] = _rad2dg*pazi1
  */
+<<<<<<< HEAD
       __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 538; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
@@ -5554,6 +7951,15 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
       {__pyx_filename = __pyx_f[0]; __pyx_lineno = 538; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
       /* "_proj.pyx":537
+=======
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 564; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_Raise(__pyx_t_5, 0, 0, 0);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 564; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+      /* "_proj.pyx":563
+>>>>>>> add pyproj.itransform function
  *             elif pazi2 <= 0:
  *                 pazi2 = pazi2+180.
  *             if ps12 != ps12: # check for NaN             # <<<<<<<<<<<<<<
@@ -5562,17 +7968,28 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":539
+=======
+    /* "_proj.pyx":565
+>>>>>>> add pyproj.itransform function
  *             if ps12 != ps12: # check for NaN
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
  *             if radians:             # <<<<<<<<<<<<<<
  *                 lonsdata[i] = _rad2dg*pazi1
  *                 latsdata[i] = _rad2dg*pazi2
  */
+<<<<<<< HEAD
     __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 539; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_2) {
 
       /* "_proj.pyx":540
+=======
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 565; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_2) {
+
+      /* "_proj.pyx":566
+>>>>>>> add pyproj.itransform function
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
  *             if radians:
  *                 lonsdata[i] = _rad2dg*pazi1             # <<<<<<<<<<<<<<
@@ -5581,7 +7998,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       (__pyx_v_lonsdata[__pyx_v_i]) = (__pyx_v_5_proj__rad2dg * __pyx_v_pazi1);
 
+<<<<<<< HEAD
       /* "_proj.pyx":541
+=======
+      /* "_proj.pyx":567
+>>>>>>> add pyproj.itransform function
  *             if radians:
  *                 lonsdata[i] = _rad2dg*pazi1
  *                 latsdata[i] = _rad2dg*pazi2             # <<<<<<<<<<<<<<
@@ -5590,7 +8011,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
  */
       (__pyx_v_latsdata[__pyx_v_i]) = (__pyx_v_5_proj__rad2dg * __pyx_v_pazi2);
 
+<<<<<<< HEAD
       /* "_proj.pyx":539
+=======
+      /* "_proj.pyx":565
+>>>>>>> add pyproj.itransform function
  *             if ps12 != ps12: # check for NaN
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
  *             if radians:             # <<<<<<<<<<<<<<
@@ -5600,7 +8025,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
       goto __pyx_L13;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":543
+=======
+    /* "_proj.pyx":569
+>>>>>>> add pyproj.itransform function
  *                 latsdata[i] = _rad2dg*pazi2
  *             else:
  *                 lonsdata[i] = pazi1             # <<<<<<<<<<<<<<
@@ -5610,7 +8039,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     /*else*/ {
       (__pyx_v_lonsdata[__pyx_v_i]) = __pyx_v_pazi1;
 
+<<<<<<< HEAD
       /* "_proj.pyx":544
+=======
+      /* "_proj.pyx":570
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 lonsdata[i] = pazi1
  *                 latsdata[i] = pazi2             # <<<<<<<<<<<<<<
@@ -5621,7 +8054,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     }
     __pyx_L13:;
 
+<<<<<<< HEAD
     /* "_proj.pyx":545
+=======
+    /* "_proj.pyx":571
+>>>>>>> add pyproj.itransform function
  *                 lonsdata[i] = pazi1
  *                 latsdata[i] = pazi2
  *             azdata[i] = ps12             # <<<<<<<<<<<<<<
@@ -5631,7 +8068,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
     (__pyx_v_azdata[__pyx_v_i]) = __pyx_v_ps12;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":484
+=======
+  /* "_proj.pyx":510
+>>>>>>> add pyproj.itransform function
  *                 azdata[i] = _rad2dg*pazi2
  * 
  *     def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):             # <<<<<<<<<<<<<<
@@ -5655,7 +8096,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_6_inv(struct __pyx_obj_5_proj_Geod *__pyx
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":547
+=======
+/* "_proj.pyx":573
+>>>>>>> add pyproj.itransform function
  *             azdata[i] = ps12
  * 
  *     def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, radians=False):             # <<<<<<<<<<<<<<
@@ -5704,22 +8149,38 @@ static PyObject *__pyx_pw_5_proj_4Geod_9_npts(PyObject *__pyx_v_self, PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lat1)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lon2)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lat2)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_npts)) != 0)) kw_args--;
         else {
+<<<<<<< HEAD
           __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+          __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
         }
         case  5:
         if (kw_args > 0) {
@@ -5728,7 +8189,11 @@ static PyObject *__pyx_pw_5_proj_4Geod_9_npts(PyObject *__pyx_v_self, PyObject *
         }
       }
       if (unlikely(kw_args > 0)) {
+<<<<<<< HEAD
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_npts") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_npts") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5742,16 +8207,28 @@ static PyObject *__pyx_pw_5_proj_4Geod_9_npts(PyObject *__pyx_v_self, PyObject *
         default: goto __pyx_L5_argtuple_error;
       }
     }
+<<<<<<< HEAD
     __pyx_v_lon1 = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_lon1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_lat1 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_lat1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_lon2 = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_lon2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_lat2 = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_lat2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_npts = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_npts == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+    __pyx_v_lon1 = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_lon1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_lat1 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_lat1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_lon2 = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_lon2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_lat2 = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_lat2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_npts = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_npts == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
     __pyx_v_radians = values[5];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
+<<<<<<< HEAD
   __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 547; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+=======
+  __Pyx_RaiseArgtupleInvalid("_npts", 0, 5, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 573; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_L3_error:;
   __Pyx_AddTraceback("_proj.Geod._npts", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5786,17 +8263,28 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_npts", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":552
+=======
+  /* "_proj.pyx":578
+>>>>>>> add pyproj.itransform function
  *         cdef int i
  *         cdef double del_s,ps12,pazi1,pazi2,s12,plon2,plat2
  *         if radians:             # <<<<<<<<<<<<<<
  *             lon1 = _rad2dg*lon1
  *             lat1 = _rad2dg*lat1
  */
+<<<<<<< HEAD
   __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 552; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_1) {
 
     /* "_proj.pyx":553
+=======
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 578; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__pyx_t_1) {
+
+    /* "_proj.pyx":579
+>>>>>>> add pyproj.itransform function
  *         cdef double del_s,ps12,pazi1,pazi2,s12,plon2,plat2
  *         if radians:
  *             lon1 = _rad2dg*lon1             # <<<<<<<<<<<<<<
@@ -5805,7 +8293,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  */
     __pyx_v_lon1 = (__pyx_v_5_proj__rad2dg * __pyx_v_lon1);
 
+<<<<<<< HEAD
     /* "_proj.pyx":554
+=======
+    /* "_proj.pyx":580
+>>>>>>> add pyproj.itransform function
  *         if radians:
  *             lon1 = _rad2dg*lon1
  *             lat1 = _rad2dg*lat1             # <<<<<<<<<<<<<<
@@ -5814,7 +8306,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  */
     __pyx_v_lat1 = (__pyx_v_5_proj__rad2dg * __pyx_v_lat1);
 
+<<<<<<< HEAD
     /* "_proj.pyx":555
+=======
+    /* "_proj.pyx":581
+>>>>>>> add pyproj.itransform function
  *             lon1 = _rad2dg*lon1
  *             lat1 = _rad2dg*lat1
  *             lon2 = _rad2dg*lon2             # <<<<<<<<<<<<<<
@@ -5823,7 +8319,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  */
     __pyx_v_lon2 = (__pyx_v_5_proj__rad2dg * __pyx_v_lon2);
 
+<<<<<<< HEAD
     /* "_proj.pyx":556
+=======
+    /* "_proj.pyx":582
+>>>>>>> add pyproj.itransform function
  *             lat1 = _rad2dg*lat1
  *             lon2 = _rad2dg*lon2
  *             lat2 = _rad2dg*lat2             # <<<<<<<<<<<<<<
@@ -5832,7 +8332,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  */
     __pyx_v_lat2 = (__pyx_v_5_proj__rad2dg * __pyx_v_lat2);
 
+<<<<<<< HEAD
     /* "_proj.pyx":552
+=======
+    /* "_proj.pyx":578
+>>>>>>> add pyproj.itransform function
  *         cdef int i
  *         cdef double del_s,ps12,pazi1,pazi2,s12,plon2,plat2
  *         if radians:             # <<<<<<<<<<<<<<
@@ -5841,7 +8345,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  */
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":558
+=======
+  /* "_proj.pyx":584
+>>>>>>> add pyproj.itransform function
  *             lat2 = _rad2dg*lat2
  *         # do inverse computation to set azimuths, distance.
  *         geod_inverse(&self._geod_geodesic, lat1, lon1,  lat2, lon2,             # <<<<<<<<<<<<<<
@@ -5850,7 +8358,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  */
   geod_inverse((&__pyx_v_self->_geod_geodesic), __pyx_v_lat1, __pyx_v_lon1, __pyx_v_lat2, __pyx_v_lon2, (&__pyx_v_ps12), (&__pyx_v_pazi1), (&__pyx_v_pazi2));
 
+<<<<<<< HEAD
   /* "_proj.pyx":561
+=======
+  /* "_proj.pyx":587
+>>>>>>> add pyproj.itransform function
  *                 &ps12, &pazi1, &pazi2)
  *         # distance increment.
  *         del_s = ps12/(npts+1)             # <<<<<<<<<<<<<<
@@ -5860,11 +8372,19 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
   __pyx_t_2 = (__pyx_v_npts + 1);
   if (unlikely(__pyx_t_2 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+<<<<<<< HEAD
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 561; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_v_del_s = (__pyx_v_ps12 / __pyx_t_2);
 
   /* "_proj.pyx":563
+=======
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 587; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_v_del_s = (__pyx_v_ps12 / __pyx_t_2);
+
+  /* "_proj.pyx":589
+>>>>>>> add pyproj.itransform function
  *         del_s = ps12/(npts+1)
  *         # initialize output tuples.
  *         lats = ()             # <<<<<<<<<<<<<<
@@ -5874,7 +8394,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
   __Pyx_INCREF(__pyx_empty_tuple);
   __pyx_v_lats = __pyx_empty_tuple;
 
+<<<<<<< HEAD
   /* "_proj.pyx":564
+=======
+  /* "_proj.pyx":590
+>>>>>>> add pyproj.itransform function
  *         # initialize output tuples.
  *         lats = ()
  *         lons = ()             # <<<<<<<<<<<<<<
@@ -5884,7 +8408,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
   __Pyx_INCREF(__pyx_empty_tuple);
   __pyx_v_lons = __pyx_empty_tuple;
 
+<<<<<<< HEAD
   /* "_proj.pyx":566
+=======
+  /* "_proj.pyx":592
+>>>>>>> add pyproj.itransform function
  *         lons = ()
  *         # loop over intermediate points, compute lat/lons.
  *         for i from 1 <= i < npts+1:             # <<<<<<<<<<<<<<
@@ -5894,7 +8422,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
   __pyx_t_2 = (__pyx_v_npts + 1);
   for (__pyx_v_i = 1; __pyx_v_i < __pyx_t_2; __pyx_v_i++) {
 
+<<<<<<< HEAD
     /* "_proj.pyx":567
+=======
+    /* "_proj.pyx":593
+>>>>>>> add pyproj.itransform function
  *         # loop over intermediate points, compute lat/lons.
  *         for i from 1 <= i < npts+1:
  *             s12 = i*del_s             # <<<<<<<<<<<<<<
@@ -5903,7 +8435,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  */
     __pyx_v_s12 = (__pyx_v_i * __pyx_v_del_s);
 
+<<<<<<< HEAD
     /* "_proj.pyx":568
+=======
+    /* "_proj.pyx":594
+>>>>>>> add pyproj.itransform function
  *         for i from 1 <= i < npts+1:
  *             s12 = i*del_s
  *             geod_direct(&self._geod_geodesic, lat1, lon1, pazi1, s12,\             # <<<<<<<<<<<<<<
@@ -5912,57 +8448,96 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  */
     geod_direct((&__pyx_v_self->_geod_geodesic), __pyx_v_lat1, __pyx_v_lon1, __pyx_v_pazi1, __pyx_v_s12, (&__pyx_v_plat2), (&__pyx_v_plon2), (&__pyx_v_pazi2));
 
+<<<<<<< HEAD
     /* "_proj.pyx":570
+=======
+    /* "_proj.pyx":596
+>>>>>>> add pyproj.itransform function
  *             geod_direct(&self._geod_geodesic, lat1, lon1, pazi1, s12,\
  *                    &plat2, &plon2, &pazi2)
  *             if radians:             # <<<<<<<<<<<<<<
  *                 lats = lats + (_dg2rad*plat2,)
  *                 lons = lons + (_dg2rad*plon2,)
  */
+<<<<<<< HEAD
     __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 570; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_1) {
 
       /* "_proj.pyx":571
+=======
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_radians); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 596; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_1) {
+
+      /* "_proj.pyx":597
+>>>>>>> add pyproj.itransform function
  *                    &plat2, &plon2, &pazi2)
  *             if radians:
  *                 lats = lats + (_dg2rad*plat2,)             # <<<<<<<<<<<<<<
  *                 lons = lons + (_dg2rad*plon2,)
  *             else:
  */
+<<<<<<< HEAD
       __pyx_t_3 = PyFloat_FromDouble((__pyx_v_5_proj__dg2rad * __pyx_v_plat2)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 571; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 571; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+      __pyx_t_3 = PyFloat_FromDouble((__pyx_v_5_proj__dg2rad * __pyx_v_plat2)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 597; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 597; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
       __pyx_t_3 = 0;
+<<<<<<< HEAD
       __pyx_t_3 = PyNumber_Add(__pyx_v_lats, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 571; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+      __pyx_t_3 = PyNumber_Add(__pyx_v_lats, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 597; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF_SET(__pyx_v_lats, __pyx_t_3);
       __pyx_t_3 = 0;
 
+<<<<<<< HEAD
       /* "_proj.pyx":572
+=======
+      /* "_proj.pyx":598
+>>>>>>> add pyproj.itransform function
  *             if radians:
  *                 lats = lats + (_dg2rad*plat2,)
  *                 lons = lons + (_dg2rad*plon2,)             # <<<<<<<<<<<<<<
  *             else:
  *                 lats = lats + (plat2,)
  */
+<<<<<<< HEAD
       __pyx_t_3 = PyFloat_FromDouble((__pyx_v_5_proj__dg2rad * __pyx_v_plon2)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 572; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 572; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+      __pyx_t_3 = PyFloat_FromDouble((__pyx_v_5_proj__dg2rad * __pyx_v_plon2)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 598; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 598; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
       __pyx_t_3 = 0;
+<<<<<<< HEAD
       __pyx_t_3 = PyNumber_Add(__pyx_v_lons, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 572; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+      __pyx_t_3 = PyNumber_Add(__pyx_v_lons, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 598; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF_SET(__pyx_v_lons, __pyx_t_3);
       __pyx_t_3 = 0;
 
+<<<<<<< HEAD
       /* "_proj.pyx":570
+=======
+      /* "_proj.pyx":596
+>>>>>>> add pyproj.itransform function
  *             geod_direct(&self._geod_geodesic, lat1, lon1, pazi1, s12,\
  *                    &plat2, &plon2, &pazi2)
  *             if radians:             # <<<<<<<<<<<<<<
@@ -5972,7 +8547,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
       goto __pyx_L6;
     }
 
+<<<<<<< HEAD
     /* "_proj.pyx":574
+=======
+    /* "_proj.pyx":600
+>>>>>>> add pyproj.itransform function
  *                 lons = lons + (_dg2rad*plon2,)
  *             else:
  *                 lats = lats + (plat2,)             # <<<<<<<<<<<<<<
@@ -5980,33 +8559,57 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
  *         return lons, lats
  */
     /*else*/ {
+<<<<<<< HEAD
       __pyx_t_3 = PyFloat_FromDouble(__pyx_v_plat2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 574; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 574; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_plat2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 600; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 600; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
       __pyx_t_3 = 0;
+<<<<<<< HEAD
       __pyx_t_3 = PyNumber_Add(__pyx_v_lats, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 574; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+      __pyx_t_3 = PyNumber_Add(__pyx_v_lats, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 600; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF_SET(__pyx_v_lats, __pyx_t_3);
       __pyx_t_3 = 0;
 
+<<<<<<< HEAD
       /* "_proj.pyx":575
+=======
+      /* "_proj.pyx":601
+>>>>>>> add pyproj.itransform function
  *             else:
  *                 lats = lats + (plat2,)
  *                 lons = lons + (plon2,)             # <<<<<<<<<<<<<<
  *         return lons, lats
  */
+<<<<<<< HEAD
       __pyx_t_3 = PyFloat_FromDouble(__pyx_v_plon2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 575; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 575; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_plon2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 601; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 601; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
       __pyx_t_3 = 0;
+<<<<<<< HEAD
       __pyx_t_3 = PyNumber_Add(__pyx_v_lons, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 575; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+      __pyx_t_3 = PyNumber_Add(__pyx_v_lons, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 601; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF_SET(__pyx_v_lons, __pyx_t_3);
@@ -6015,13 +8618,21 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
     __pyx_L6:;
   }
 
+<<<<<<< HEAD
   /* "_proj.pyx":576
+=======
+  /* "_proj.pyx":602
+>>>>>>> add pyproj.itransform function
  *                 lats = lats + (plat2,)
  *                 lons = lons + (plon2,)
  *         return lons, lats             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
+<<<<<<< HEAD
   __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 602; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_lons);
   __Pyx_GIVEREF(__pyx_v_lons);
@@ -6033,7 +8644,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
+<<<<<<< HEAD
   /* "_proj.pyx":547
+=======
+  /* "_proj.pyx":573
+>>>>>>> add pyproj.itransform function
  *             azdata[i] = ps12
  * 
  *     def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, radians=False):             # <<<<<<<<<<<<<<
@@ -6055,7 +8670,11 @@ static PyObject *__pyx_pf_5_proj_4Geod_8_npts(struct __pyx_obj_5_proj_Geod *__py
   return __pyx_r;
 }
 
+<<<<<<< HEAD
 /* "_proj.pyx":409
+=======
+/* "_proj.pyx":435
+>>>>>>> add pyproj.itransform function
  * cdef class Geod:
  *     cdef geod_geodesic _geod_geodesic
  *     cdef public object initstring             # <<<<<<<<<<<<<<
@@ -6478,11 +9097,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_a_s_f_s, __pyx_k_a_s_f_s, sizeof(__pyx_k_a_s_f_s), 0, 0, 1, 0},
   {&__pyx_n_s_ascii, __pyx_k_ascii, sizeof(__pyx_k_ascii), 0, 0, 1, 1},
   {&__pyx_n_s_az, __pyx_k_az, sizeof(__pyx_k_az), 0, 0, 1, 1},
+  {&__pyx_n_s_buffer, __pyx_k_buffer, sizeof(__pyx_k_buffer), 0, 0, 1, 1},
+  {&__pyx_n_s_buflen, __pyx_k_buflen, sizeof(__pyx_k_buflen), 0, 0, 1, 1},
   {&__pyx_n_s_buflenx, __pyx_k_buflenx, sizeof(__pyx_k_buflenx), 0, 0, 1, 1},
   {&__pyx_n_s_bufleny, __pyx_k_bufleny, sizeof(__pyx_k_bufleny), 0, 0, 1, 1},
   {&__pyx_n_s_buflenz, __pyx_k_buflenz, sizeof(__pyx_k_buflenz), 0, 0, 1, 1},
   {&__pyx_n_s_bytestr, __pyx_k_bytestr, sizeof(__pyx_k_bytestr), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
+  {&__pyx_kp_s_coordinates_must_contain_at_leas, __pyx_k_coordinates_must_contain_at_leas, sizeof(__pyx_k_coordinates_must_contain_at_leas), 0, 0, 1, 0},
+  {&__pyx_n_s_coords, __pyx_k_coords, sizeof(__pyx_k_coords), 0, 0, 1, 1},
   {&__pyx_n_s_createproj, __pyx_k_createproj, sizeof(__pyx_k_createproj), 0, 0, 1, 1},
   {&__pyx_n_s_datapath, __pyx_k_datapath, sizeof(__pyx_k_datapath), 0, 0, 1, 1},
   {&__pyx_n_s_degrees, __pyx_k_degrees, sizeof(__pyx_k_degrees), 0, 0, 1, 1},
@@ -6492,15 +9115,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_err, __pyx_k_err, sizeof(__pyx_k_err), 0, 0, 1, 1},
   {&__pyx_n_s_errcheck, __pyx_k_errcheck, sizeof(__pyx_k_errcheck), 0, 0, 1, 1},
   {&__pyx_n_s_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 0, 1, 1},
+<<<<<<< HEAD
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_geodesic_version_str, __pyx_k_geodesic_version_str, sizeof(__pyx_k_geodesic_version_str), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+=======
+  {&__pyx_kp_s_home_george_ouzou_Desktop_proje, __pyx_k_home_george_ouzou_Desktop_proje, sizeof(__pyx_k_home_george_ouzou_Desktop_proje), 0, 0, 1, 0},
+  {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
+  {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_inseq, __pyx_k_inseq, sizeof(__pyx_k_inseq), 0, 0, 1, 1},
+>>>>>>> add pyproj.itransform function
   {&__pyx_kp_s_inverse_projection_undefined, __pyx_k_inverse_projection_undefined, sizeof(__pyx_k_inverse_projection_undefined), 0, 0, 1, 0},
   {&__pyx_n_s_inx, __pyx_k_inx, sizeof(__pyx_k_inx), 0, 0, 1, 1},
   {&__pyx_n_s_iny, __pyx_k_iny, sizeof(__pyx_k_iny), 0, 0, 1, 1},
   {&__pyx_n_s_inz, __pyx_k_inz, sizeof(__pyx_k_inz), 0, 0, 1, 1},
   {&__pyx_n_s_is_latlong, __pyx_k_is_latlong, sizeof(__pyx_k_is_latlong), 0, 0, 1, 1},
+  {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
   {&__pyx_n_s_lat1, __pyx_k_lat1, sizeof(__pyx_k_lat1), 0, 0, 1, 1},
   {&__pyx_n_s_lat2, __pyx_k_lat2, sizeof(__pyx_k_lat2), 0, 0, 1, 1},
   {&__pyx_n_s_lats, __pyx_k_lats, sizeof(__pyx_k_lats), 0, 0, 1, 1},
@@ -6514,6 +9145,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_math, __pyx_k_math, sizeof(__pyx_k_math), 0, 0, 1, 1},
   {&__pyx_n_s_npts, __pyx_k_npts, sizeof(__pyx_k_npts), 0, 0, 1, 1},
+  {&__pyx_kp_s_object_does_not_provide_the_pyth, __pyx_k_object_does_not_provide_the_pyth, sizeof(__pyx_k_object_does_not_provide_the_pyth), 0, 0, 1, 0},
   {&__pyx_n_s_p1, __pyx_k_p1, sizeof(__pyx_k_p1), 0, 0, 1, 1},
   {&__pyx_n_s_p2, __pyx_k_p2, sizeof(__pyx_k_p2), 0, 0, 1, 1},
   {&__pyx_n_s_proj, __pyx_k_proj, sizeof(__pyx_k_proj), 0, 0, 1, 1},
@@ -6523,8 +9155,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_radians, __pyx_k_radians, sizeof(__pyx_k_radians), 0, 0, 1, 1},
   {&__pyx_n_s_searchpath, __pyx_k_searchpath, sizeof(__pyx_k_searchpath), 0, 0, 1, 1},
   {&__pyx_n_s_set_datapath, __pyx_k_set_datapath, sizeof(__pyx_k_set_datapath), 0, 0, 1, 1},
+  {&__pyx_n_s_stride, __pyx_k_stride, sizeof(__pyx_k_stride), 0, 0, 1, 1},
+  {&__pyx_n_s_switch, __pyx_k_switch, sizeof(__pyx_k_switch), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_transform, __pyx_k_transform, sizeof(__pyx_k_transform), 0, 0, 1, 1},
+  {&__pyx_n_s_transform_sequence, __pyx_k_transform_sequence, sizeof(__pyx_k_transform_sequence), 0, 0, 1, 1},
   {&__pyx_kp_s_undefined_inverse_geodesic_may_b, __pyx_k_undefined_inverse_geodesic_may_b, sizeof(__pyx_k_undefined_inverse_geodesic_may_b), 0, 0, 1, 0},
   {&__pyx_n_s_version, __pyx_k_version, sizeof(__pyx_k_version), 0, 0, 1, 1},
   {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
@@ -6534,14 +9169,21 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
   {&__pyx_n_s_ydata, __pyx_k_ydata, sizeof(__pyx_k_ydata), 0, 0, 1, 1},
   {&__pyx_n_s_yy, __pyx_k_yy, sizeof(__pyx_k_yy), 0, 0, 1, 1},
+  {&__pyx_n_s_z, __pyx_k_z, sizeof(__pyx_k_z), 0, 0, 1, 1},
   {&__pyx_n_s_zdata, __pyx_k_zdata, sizeof(__pyx_k_zdata), 0, 0, 1, 1},
   {&__pyx_n_s_zz, __pyx_k_zz, sizeof(__pyx_k_zz), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
+<<<<<<< HEAD
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_AttributeError = __Pyx_GetBuiltinName(__pyx_n_s_AttributeError); if (!__pyx_builtin_AttributeError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 404; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_AttributeError = __Pyx_GetBuiltinName(__pyx_n_s_AttributeError); if (!__pyx_builtin_AttributeError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 500; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -6551,159 +9193,295 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
+<<<<<<< HEAD
   /* "_proj.pyx":158
+=======
+  /* "_proj.pyx":137
+>>>>>>> add pyproj.itransform function
  *         # process data in buffer
  *         if buflenx != bufleny:
  *             raise RuntimeError("Buffer lengths not the same")             # <<<<<<<<<<<<<<
  *         ndim = buflenx//_doublesize
  *         lonsdata = <double *>londata
  */
+<<<<<<< HEAD
   __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Buffer_lengths_not_the_same); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
   /* "_proj.pyx":167
+=======
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Buffer_lengths_not_the_same); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
+
+  /* "_proj.pyx":146
+>>>>>>> add pyproj.itransform function
  *                 lonsdata[i]=1.e30; latsdata[i]=1.e30
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 continue
  *             if radians:
  */
+<<<<<<< HEAD
   __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
   /* "_proj.pyx":186
+=======
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+
+  /* "_proj.pyx":165
+>>>>>>> add pyproj.itransform function
  *                projxyout.u != projxyout.u:
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 lonsdata[i] = 1.e30
  *             else:
  */
+<<<<<<< HEAD
   __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
   /* "_proj.pyx":193
+=======
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+
+  /* "_proj.pyx":172
+>>>>>>> add pyproj.itransform function
  *                projxyout.u != projxyout.u:
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 latsdata[i] = 1.e30
  *             else:
  */
+<<<<<<< HEAD
   __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
   /* "_proj.pyx":221
+=======
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
+
+  /* "_proj.pyx":200
+>>>>>>> add pyproj.itransform function
  *         # (for numpy/regular python arrays).
  *         if buflenx != bufleny:
  *             raise RuntimeError("Buffer lengths not the same")             # <<<<<<<<<<<<<<
  *         ndim = buflenx//_doublesize
  *         xdatab = <double *>xdata
  */
+<<<<<<< HEAD
   __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_Buffer_lengths_not_the_same); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "_proj.pyx":230
+=======
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_Buffer_lengths_not_the_same); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+
+  /* "_proj.pyx":209
+>>>>>>> add pyproj.itransform function
  *                 xdatab[i]=1.e30; ydatab[i]=1.e30
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 continue
  *             projxyin.u = xdatab[i]
  */
+<<<<<<< HEAD
   __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "_proj.pyx":236
+=======
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
+
+  /* "_proj.pyx":215
+>>>>>>> add pyproj.itransform function
  *             projpj2 = <PJconsts *> self.projpj
  *             if (projpj2.inv == NULL):
  *                 raise RuntimeError('inverse projection undefined')             # <<<<<<<<<<<<<<
  *             projlonlatout = pj_inv(projxyin,self.projpj)
  *             if errcheck:
  */
+<<<<<<< HEAD
   __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_inverse_projection_undefined); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "_proj.pyx":248
+=======
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_inverse_projection_undefined); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+
+  /* "_proj.pyx":227
+>>>>>>> add pyproj.itransform function
  *                projlonlatout.u != projlonlatout.u:
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 xdatab[i] = 1.e30
  *             elif radians:
  */
+<<<<<<< HEAD
   __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "_proj.pyx":257
+=======
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 227; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
+
+  /* "_proj.pyx":236
+>>>>>>> add pyproj.itransform function
  *                projlonlatout.v != projlonlatout.v:
  *                 if errcheck:
  *                     raise RuntimeError('projection undefined')             # <<<<<<<<<<<<<<
  *                 ydatab[i] = 1.e30
  *             elif radians:
  */
+<<<<<<< HEAD
   __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "_proj.pyx":379
+=======
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_projection_undefined); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+
+  /* "_proj.pyx":358
+>>>>>>> add pyproj.itransform function
  *         buflenz = bufleny
  *     if not (buflenx == bufleny == buflenz):
  *         raise RuntimeError('x,y and z must be same size')             # <<<<<<<<<<<<<<
  *     xx = <double *>xdata
  *     yy = <double *>ydata
  */
+<<<<<<< HEAD
   __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_x_y_and_z_must_be_same_size); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "_proj.pyx":447
+=======
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_x_y_and_z_must_be_same_size); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 358; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
+
+  /* "_proj.pyx":397
+ * 
+ *     if stride < 2:
+ *         raise RuntimeError("coordinates must contain at least 2 values")             # <<<<<<<<<<<<<<
+ *     if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
+ *         raise RuntimeError("object does not provide the python buffer writable interface")
+ */
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_coordinates_must_contain_at_leas); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 397; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
+
+  /* "_proj.pyx":399
+ *         raise RuntimeError("coordinates must contain at least 2 values")
+ *     if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
+ *         raise RuntimeError("object does not provide the python buffer writable interface")             # <<<<<<<<<<<<<<
+ * 
+ *     coords = <double*>buffer
+ */
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_object_does_not_provide_the_pyth); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+
+  /* "_proj.pyx":473
+>>>>>>> add pyproj.itransform function
  *         # process data in buffer
  *         if not buflenlons == buflenlats == buflenaz == buflend:
  *             raise RuntimeError("Buffer lengths not the same")             # <<<<<<<<<<<<<<
  *         ndim = buflenlons//_doublesize
  *         lonsdata = <double *>londata
  */
+<<<<<<< HEAD
   __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_Buffer_lengths_not_the_same); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 447; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "_proj.pyx":474
+=======
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_Buffer_lengths_not_the_same); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+
+  /* "_proj.pyx":500
+>>>>>>> add pyproj.itransform function
  *             # check for NaN.
  *             if pazi2 != pazi2:
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')             # <<<<<<<<<<<<<<
  *             if not radians:
  *                 lonsdata[i] = plon2
  */
+<<<<<<< HEAD
   __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_undefined_inverse_geodesic_may_b); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "_proj.pyx":511
+=======
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_undefined_inverse_geodesic_may_b); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 500; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+
+  /* "_proj.pyx":537
+>>>>>>> add pyproj.itransform function
  *         # process data in buffer
  *         if not buflenlons == buflenlats == buflenaz == buflend:
  *             raise RuntimeError("Buffer lengths not the same")             # <<<<<<<<<<<<<<
  *         ndim = buflenlons//_doublesize
  *         lonsdata = <double *>londata
  */
+<<<<<<< HEAD
   __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_Buffer_lengths_not_the_same); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 511; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "_proj.pyx":538
+=======
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_Buffer_lengths_not_the_same); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 537; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+
+  /* "_proj.pyx":564
+>>>>>>> add pyproj.itransform function
  *                 pazi2 = pazi2+180.
  *             if ps12 != ps12: # check for NaN
  *                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')             # <<<<<<<<<<<<<<
  *             if radians:
  *                 lonsdata[i] = _rad2dg*pazi1
  */
+<<<<<<< HEAD
   __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_undefined_inverse_geodesic_may_b); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 538; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
+=======
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_undefined_inverse_geodesic_may_b); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 564; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
+>>>>>>> add pyproj.itransform function
 
   /* "_proj.pyx":8
  * cdef double _dg2rad, _rad2dg
@@ -6712,9 +9490,15 @@ static int __Pyx_InitCachedConstants(void) {
  * _rad2dg = math.degrees(1.)
  * _doublesize = sizeof(double)
  */
+<<<<<<< HEAD
   __pyx_tuple__15 = PyTuple_Pack(1, __pyx_float_1_); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
+=======
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_float_1_); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+>>>>>>> add pyproj.itransform function
 
   /* "_proj.pyx":9
  * 
@@ -6723,45 +9507,91 @@ static int __Pyx_InitCachedConstants(void) {
  * _doublesize = sizeof(double)
  * __version__ = "1.9.5.1"
  */
+<<<<<<< HEAD
   __pyx_tuple__16 = PyTuple_Pack(1, __pyx_float_1_); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "_proj.pyx":88
  * 
+=======
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_float_1_); if (unlikely(!__pyx_tuple__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+
+  /* "_proj.pyx":67
+ *     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
+>>>>>>> add pyproj.itransform function
  * 
  * def set_datapath(datapath):             # <<<<<<<<<<<<<<
  *     bytestr = _strencode(datapath)
  *     cdef const char *searchpath = bytestr
  */
+<<<<<<< HEAD
   __pyx_tuple__17 = PyTuple_Pack(3, __pyx_n_s_datapath, __pyx_n_s_bytestr, __pyx_n_s_searchpath); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
   __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_C_Users_mcochran_github_pyproj, __pyx_n_s_set_datapath, 88, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "_proj.pyx":93
+=======
+  __pyx_tuple__19 = PyTuple_Pack(3, __pyx_n_s_datapath, __pyx_n_s_bytestr, __pyx_n_s_searchpath); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_george_ouzou_Desktop_proje, __pyx_n_s_set_datapath, 67, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "_proj.pyx":72
+>>>>>>> add pyproj.itransform function
  *     pj_set_searchpath(1, &searchpath)
  * 
  * def _createproj(projstring):             # <<<<<<<<<<<<<<
  *     return Proj(projstring)
  * 
  */
+<<<<<<< HEAD
   __pyx_tuple__19 = PyTuple_Pack(1, __pyx_n_s_projstring); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
   __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_C_Users_mcochran_github_pyproj, __pyx_n_s_createproj, 93, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "_proj.pyx":359
+=======
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_projstring); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_george_ouzou_Desktop_proje, __pyx_n_s_createproj, 72, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "_proj.pyx":338
+>>>>>>> add pyproj.itransform function
  *             return False
  * 
  * def _transform(Proj p1, Proj p2, inx, iny, inz, radians):             # <<<<<<<<<<<<<<
  *     # private function to call pj_transform
  *     cdef void *xdata
  */
+<<<<<<< HEAD
   __pyx_tuple__21 = PyTuple_Pack(18, __pyx_n_s_p1, __pyx_n_s_p2, __pyx_n_s_inx, __pyx_n_s_iny, __pyx_n_s_inz, __pyx_n_s_radians, __pyx_n_s_xdata, __pyx_n_s_ydata, __pyx_n_s_zdata, __pyx_n_s_xx, __pyx_n_s_yy, __pyx_n_s_zz, __pyx_n_s_buflenx, __pyx_n_s_bufleny, __pyx_n_s_buflenz, __pyx_n_s_npts, __pyx_n_s_i, __pyx_n_s_err); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
   __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(6, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_C_Users_mcochran_github_pyproj, __pyx_n_s_transform, 359, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_tuple__23 = PyTuple_Pack(18, __pyx_n_s_p1, __pyx_n_s_p2, __pyx_n_s_inx, __pyx_n_s_iny, __pyx_n_s_inz, __pyx_n_s_radians, __pyx_n_s_xdata, __pyx_n_s_ydata, __pyx_n_s_zdata, __pyx_n_s_xx, __pyx_n_s_yy, __pyx_n_s_zz, __pyx_n_s_buflenx, __pyx_n_s_bufleny, __pyx_n_s_buflenz, __pyx_n_s_npts, __pyx_n_s_i, __pyx_n_s_err); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(6, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_george_ouzou_Desktop_proje, __pyx_n_s_transform, 338, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "_proj.pyx":386
+ *         return pystr # already bytes?
+ * 
+ * def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint radians, bint switch):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         void *buffer
+ */
+  __pyx_tuple__25 = PyTuple_Pack(16, __pyx_n_s_p1, __pyx_n_s_p2, __pyx_n_s_stride, __pyx_n_s_inseq, __pyx_n_s_radians, __pyx_n_s_switch, __pyx_n_s_buffer, __pyx_n_s_coords, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_z, __pyx_n_s_buflen, __pyx_n_s_npts, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_err); if (unlikely(!__pyx_tuple__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(6, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_george_ouzou_Desktop_proje, __pyx_n_s_transform_sequence, 386, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6872,6 +9702,7 @@ PyMODINIT_FUNC PyInit__proj(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
+<<<<<<< HEAD
   if (PyType_Ready(&__pyx_type_5_proj_Proj) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5_proj_Proj.tp_print = 0;
   if (PyObject_SetAttrString(__pyx_m, "Proj", (PyObject *)&__pyx_type_5_proj_Proj) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -6879,6 +9710,15 @@ PyMODINIT_FUNC PyInit__proj(void)
   if (PyType_Ready(&__pyx_type_5_proj_Geod) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 407; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5_proj_Geod.tp_print = 0;
   if (PyObject_SetAttrString(__pyx_m, "Geod", (PyObject *)&__pyx_type_5_proj_Geod) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 407; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  if (PyType_Ready(&__pyx_type_5_proj_Proj) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_5_proj_Proj.tp_print = 0;
+  if (PyObject_SetAttrString(__pyx_m, "Proj", (PyObject *)&__pyx_type_5_proj_Proj) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5_proj_Proj = &__pyx_type_5_proj_Proj;
+  if (PyType_Ready(&__pyx_type_5_proj_Geod) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 433; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_5_proj_Geod.tp_print = 0;
+  if (PyObject_SetAttrString(__pyx_m, "Geod", (PyObject *)&__pyx_type_5_proj_Geod) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 433; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __pyx_ptype_5_proj_Geod = &__pyx_type_5_proj_Geod;
   /*--- Type import code ---*/
   /*--- Variable import code ---*/
@@ -6912,7 +9752,11 @@ PyMODINIT_FUNC PyInit__proj(void)
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_radians); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+<<<<<<< HEAD
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -6931,7 +9775,11 @@ PyMODINIT_FUNC PyInit__proj(void)
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_degrees); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+<<<<<<< HEAD
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -6959,6 +9807,7 @@ PyMODINIT_FUNC PyInit__proj(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_s_1_9_5_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
+<<<<<<< HEAD
   /* "_proj.pyx":73
  * 
  * # version number strings for proj.4 and Geod
@@ -7152,38 +10001,78 @@ PyMODINIT_FUNC PyInit__proj(void)
 
   /* "_proj.pyx":88
  * 
+=======
+  /* "_proj.pyx":67
+ *     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
+>>>>>>> add pyproj.itransform function
  * 
  * def set_datapath(datapath):             # <<<<<<<<<<<<<<
  *     bytestr = _strencode(datapath)
  *     cdef const char *searchpath = bytestr
  */
+<<<<<<< HEAD
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5_proj_1set_datapath, NULL, __pyx_n_s_proj); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_set_datapath, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "_proj.pyx":93
+=======
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5_proj_1set_datapath, NULL, __pyx_n_s_proj); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_set_datapath, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_proj.pyx":72
+>>>>>>> add pyproj.itransform function
  *     pj_set_searchpath(1, &searchpath)
  * 
  * def _createproj(projstring):             # <<<<<<<<<<<<<<
  *     return Proj(projstring)
  * 
  */
+<<<<<<< HEAD
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5_proj_3_createproj, NULL, __pyx_n_s_proj); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_createproj, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "_proj.pyx":359
+=======
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5_proj_3_createproj, NULL, __pyx_n_s_proj); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_createproj, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_proj.pyx":338
+>>>>>>> add pyproj.itransform function
  *             return False
  * 
  * def _transform(Proj p1, Proj p2, inx, iny, inz, radians):             # <<<<<<<<<<<<<<
  *     # private function to call pj_transform
  *     cdef void *xdata
  */
+<<<<<<< HEAD
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5_proj_5_transform, NULL, __pyx_n_s_proj); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_transform, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 359; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+=======
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5_proj_5_transform, NULL, __pyx_n_s_proj); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_transform, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_proj.pyx":386
+ *         return pystr # already bytes?
+ * 
+ * def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint radians, bint switch):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         void *buffer
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5_proj_7_transform_sequence, NULL, __pyx_n_s_proj); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_transform_sequence, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+>>>>>>> add pyproj.itransform function
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "_proj.pyx":1
