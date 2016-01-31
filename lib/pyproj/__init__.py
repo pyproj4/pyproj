@@ -513,7 +513,14 @@ def transform(p1, p2, x, y, z=None, radians=False):
     else:
         return outx, outy
 
-from itertools import islice, izip, chain
+from itertools import islice, chain
+try:
+    from future_builtins import zip # python 2.6+
+except ImportError:
+    try:
+        from itertools import izip as zip # python 2.x
+    except ImportError:
+        pass # python 3.x
 
 def itransform(p1, p2, points, radians=False, switch=False):
     """
@@ -584,7 +591,7 @@ def itransform(p1, p2, points, radians=False, switch=False):
 
         _proj._transform_sequence(p1, p2, stride, buff, radians, switch)
 
-        for pt in izip(*([iter(buff)]*stride)):
+        for pt in zip(*([iter(buff)]*stride)):
             yield pt
 
 
