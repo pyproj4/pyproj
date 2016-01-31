@@ -383,6 +383,53 @@ cdef _strencode(pystr,encoding='ascii'):
     except AttributeError:
         return pystr # already bytes?
 
+def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint radians, bint switch):
+    cdef:
+        void *buffer
+        double *coords
+        double *x 
+        double *y 
+        double *z
+        Py_ssize_t buflen, npts, i, j
+        int err
+
+    if stride < 2:
+        raise RuntimeError("coordinates must contain at least 2 values")
+    if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
+        raise RuntimeError("object does not provide the python buffer writable interface")
+
+    coords = <double*>buffer
+    npts = buflen // (stride * 8)
+
+    if not radians and p1.is_latlong():
+        for i from 0 <= i < npts:
+            j = stride*i
+            coords[j] *= _dg2rad
+            coords[j+1] *= _dg2rad
+
+    if not switch:
+        x = coords
+        y = coords + 1
+    else:
+        x = coords + 1
+        y = coords
+    
+    if stride == 2:
+        z = NULL
+    else:
+        z = coords + 2
+
+    err = pj_transform(p1.projpj, p2.projpj, npts, stride, x, y, z)
+
+    if err != 0:
+        raise RuntimeError(pj_strerrno(err))
+
+    if not radians and p2.is_latlong():
+        for i from 0 <= i < npts:
+            j = stride*i
+            coords[j] *= _dg2rad
+            coords[j+1] *= _dg2rad
+
 cdef class Geod:
     cdef geod_geodesic _geod_geodesic
     cdef public object initstring
