@@ -569,7 +569,10 @@ def itransform(p1, p2, points, radians=False, switch=False):
     it = iter(points) # point iterator
     # get first point to check stride
     try:
-        fst_pt = next(it)
+        try:
+            fst_pt = next(it) # python 2.6+
+        except NameError:
+            fst_pt = it.next() # python 2.4
     except StopIteration:
         raise ValueError("iterable must contain at least one point")
         
