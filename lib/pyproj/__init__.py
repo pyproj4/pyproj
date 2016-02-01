@@ -571,7 +571,7 @@ def itransform(p1, p2, points, radians=False, switch=False):
     it = iter(points) # point iterator
     # get first point to check stride
     try:
-        fst_pt = it.next()
+        fst_pt = next(it)
     except StopIteration:
         raise ValueError("iterable must contain at least one point")
         
@@ -581,7 +581,8 @@ def itransform(p1, p2, points, radians=False, switch=False):
 
     # create a coordinate sequence generator etc. x1,y1,z1,x2,y2,z2,....
     # chain so the generator returns the first point that was already acquired
-    coord_gen = chain(fst_pt, (coords[c] for coords in it for c in xrange(stride)))
+
+    coord_gen = chain(fst_pt, (coords[c] for coords in it for c in range(stride)))
 
     while True:
         # create a temporary buffer storage for the next 64 points (64*stride*8 bytes)
