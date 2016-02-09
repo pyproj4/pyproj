@@ -98,6 +98,15 @@ cdef class Proj:
         pj_free(self.projpj)
         pj_ctx_free(self.projctx)
 
+    def to_latlong_def(self):
+        """return the definition string of the geographic (lat/lon)
+        coordinate version of the current projection"""
+        cdef projPJ llpj
+        llpj = pj_latlong_from_proj(self.projpj)
+        initstring = pj_get_def(llpj, 0)
+        pj_free(llpj)
+        return initstring
+
     def to_latlong(self):
         """return a new Proj instance which is the geographic (lat/lon)
         coordinate version of the current projection"""
