@@ -25,7 +25,7 @@ numpy array objects).
 
 Download: http://python.org/pypi/pyproj
 
-Requirements: python 2.4 or higher.
+Requirements: Python 2.6, 2.7, 3.2 or higher version.
 
 Example scripts are in 'test' subdirectory of source distribution.
 The 'test()' function will run the examples in the docstrings.
