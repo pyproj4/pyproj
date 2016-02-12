@@ -86,15 +86,14 @@ else:
     datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
     package_data = {'pyproj':datafiles}
 
-# store pyproj version information (from _proj.pyx) in version variable
+# retreive pyproj version information (stored in _proj.pyx) in version variable
 # (taken from Fiona)
 with open('_proj.pyx', 'r') as f:
     for line in f:
         if line.find("__version__") >= 0:
-            version = line.split("=")[1].strip()
-            version = version.strip('"')
-            version = version.strip("'")
-            continue
+            # parse __version__ and remove surrounding " or '
+            version = line.split("=")[1].strip()[1:-1]
+            break
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
