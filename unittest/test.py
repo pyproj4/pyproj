@@ -1,7 +1,7 @@
 """Rewrite part of test.py in pyproj in the form of unittests."""
 import unittest
 from pyproj import Geod, Proj, transform
-from pyproj import pj_list # , pj_ellps
+from pyproj import pj_list, pj_ellps
 
 class BasicTest(unittest.TestCase):
 
@@ -94,6 +94,27 @@ def testcase(pj):
 for pj in sorted(pj_list):
   testname = 'test_'+pj
   setattr(ForwardInverseTest, testname, testcase(pj))
+
+# test __repr__ for Proj object
+class ProjReprTest(unittest.TestCase):
+    def test_repr(self):
+        p = Proj(proj='latlong', preserve_units=True)
+        self.assertEqual(repr(p), "pyproj.Proj('+proj=latlong ', preserve_units=True)")
+
+# test __repr__ for Geod object
+class GeodReprTest(unittest.TestCase):
+    def test_sphere(self):
+        g = Geod('+a=6051800 +b=6051800')   # ellipse is Venus 2000, IAU2000:29900
+        self.assertEqual(repr(g), "pyproj.Geod('+a=6051800.0 +f=0.0')")
+    
+    def test_ellps_name_round_trip(self):
+        # this could be done in a parameter fashion
+        for ellps_name in pj_ellps.iterkeys():
+            if ellps_name in ('NWL9D', 'WGS66'): # skip tests, these ellipses are the same
+                continue
+            p = Geod(ellps=ellps_name)
+            self.assertEqual(repr(p), "pyproj.Geod(ellps='{0}')".format(ellps_name))
+
   
 if __name__ == '__main__':
   unittest.main()

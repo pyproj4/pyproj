@@ -882,6 +882,20 @@ class Geod(_proj.Geod):
         lons, lats = _proj.Geod._npts(self, lon1, lat1, lon2, lat2, npts, radians=radians)
         return list(zip(lons, lats))
 
+    def __repr__(self):
+        # search for ellipse name
+        for ellps, vals in pj_ellps.iteritems():
+            if self.a == vals['a']:
+                # self.sphere is when self.f is zero or very close to zero (0)
+                # written this way to protect from divide by zero.
+                if self.b == vals.get('b', None) or (not self.sphere and (1.0/self.f) == vals.get('rf', None)):
+                    return "{modname}.{classname}(ellps={ellps!r})".format(modname=self.__module__,
+                                                      classname=self.__class__.__name__,
+                                                      ellps=ellps)
+        # no ellipse name found, call super class
+        return _proj.Geod.__repr__(self)
+
+
 def test():
     """run the examples in the docstrings using the doctest module"""
     import doctest, pyproj
