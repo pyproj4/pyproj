@@ -884,10 +884,10 @@ class Geod(_proj.Geod):
 
     def __repr__(self):
         # search for ellipse name
-        for ellps, vals in pj_ellps.iteritems():
+        for (ellps, vals) in pj_ellps.items():
             if self.a == vals['a']:
-                # self.sphere is when self.f is zero or very close to zero (0)
-                # written this way to protect from divide by zero.
+                # self.sphere is True when self.f is zero or very close to zero (0),
+                # so prevent divide by zero.
                 if self.b == vals.get('b', None) or (not self.sphere and (1.0/self.f) == vals.get('rf', None)):
                     return "{modname}.{classname}(ellps={ellps!r})".format(modname=self.__module__,
                                                       classname=self.__class__.__name__,

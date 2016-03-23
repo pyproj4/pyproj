@@ -109,7 +109,7 @@ class GeodReprTest(unittest.TestCase):
     
     def test_ellps_name_round_trip(self):
         # this could be done in a parameter fashion
-        for ellps_name in pj_ellps.iterkeys():
+        for ellps_name in pj_ellps:
             if ellps_name in ('NWL9D', 'WGS66'): # skip tests, these ellipses are the same
                 continue
             p = Geod(ellps=ellps_name)
