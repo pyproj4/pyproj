@@ -605,7 +605,7 @@ class Geod(_proj.Geod):
     azimuths and distance given the latitudes and longitudes of an
     initial and terminus point.
     """
-    def __new__(self, initstring=None, **kwargs):
+    def __new__(cls, initstring=None, **kwargs):
         """
         initialize a Geod class instance.
 
@@ -723,13 +723,13 @@ class Geod(_proj.Geod):
                 ellpsd[k] = v
         # merge this dict with kwargs dict.
         kwargs = dict(list(kwargs.items()) + list(ellpsd.items()))
-        self.sphere = False
+        sphere = False
         if 'ellps' in kwargs:
             # ellipse name given, look up in pj_ellps dict
             ellps_dict = pj_ellps[kwargs['ellps']]
             a = ellps_dict['a']
             if ellps_dict['description']=='Normal Sphere':
-                self.sphere = True
+                sphere = True
             if 'b' in ellps_dict:
                 b = ellps_dict['b']
                 es = 1. - (b * b) / (a * a)
@@ -772,12 +772,9 @@ class Geod(_proj.Geod):
                 es = 0.
                 #msg='ellipse name or a, plus one of f,es,b must be given'
                 #raise ValueError(msg)
-        if math.fabs(f) < 1.e-8: self.sphere = True
-        self.a = a
-        self.b = b
-        self.f = f
-        self.es = es
-        return _proj.Geod.__new__(self, a, f)
+        if math.fabs(f) < 1.e-8: sphere = True
+        
+        return _proj.Geod.__new__(cls, a, f, sphere, b, es)
 
     def fwd(self, lons, lats, az, dist, radians=False):
         """

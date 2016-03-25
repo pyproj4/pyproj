@@ -387,9 +387,14 @@ cdef class Geod:
     cdef geod_geodesic _geod_geodesic
     cdef public object initstring
 
-    def __cinit__(self, a, f):
+    def __cinit__(self, a, f, sphere, b, es):
         self.initstring = '+a=%s +f=%s' % (a, f)
         geod_init(&self._geod_geodesic, <double> a, <double> f)
+        self.a = a
+        self.f = f
+        self.sphere = sphere
+        self.b = b
+        self.es = es
 
     def __reduce__(self):
         """special method that allows pyproj.Geod instance to be pickled"""

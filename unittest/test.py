@@ -94,6 +94,37 @@ def testcase(pj):
 for pj in sorted(pj_list):
   testname = 'test_'+pj
   setattr(ForwardInverseTest, testname, testcase(pj))
-  
+
+# Tests for shared memory between Geod objects
+class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
+    def setUp(self):
+        self.g = Geod(ellps='clrk66')
+        self.ga = self.g.a
+        self.mercury = Geod(a=2439700) # Mercury 2000 ellipsoid
+                                       # Mercury is much smaller than earth.
+    
+    def test_not_shared_memory(self):
+        self.assertEqual(self.ga, self.g.a)
+        # mecury must have a different major axis from earth
+        self.assertNotEqual(self.g.a, self.mercury.a)
+        self.assertNotEqual(self.g.b, self.mercury.b)
+        self.assertNotEqual(self.g.sphere, self.mercury.sphere)
+        self.assertNotEqual(self.g.f, self.mercury.f)
+        self.assertNotEqual(self.g.es, self.mercury.es)
+        
+        # initstrings were not shared in issue #64
+        self.assertNotEqual(self.g.initstring, self.mercury.initstring)
+
+    def test_distances(self):
+        # note calculated distance was not an issue with #64, but it still a shared memory test
+        boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
+        portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
+        
+        az12,az21,dist_g = self.g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+        
+        az12,az21,dist_mercury = self.mercury.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+        self.assertLess(dist_mercury, dist_g)
+        
+        
 if __name__ == '__main__':
   unittest.main()
