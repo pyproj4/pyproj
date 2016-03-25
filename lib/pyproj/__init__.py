@@ -895,6 +895,29 @@ class Geod(_proj.Geod):
         # no ellipse name found, call super class
         return _proj.Geod.__repr__(self)
 
+    def __eq__(self, other):
+        """
+        equality operator == for Geod objects
+        
+        Example usage:
+        
+        >>> from pyproj import Geod
+        >>> gclrk1 = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
+        >>> gclrk2 = Geod(a=6378206.4, b=6356583.8) # Define Clarke 1966 using parameters
+        >>> gclrk1 == gclrk2
+        True
+        >>> gwgs66 = Geod('+ellps=WGS66')  # WGS 66 ellipsoid, Proj.4 style
+        >>> gnwl9d = Geod('+ellps=NWL9D')  # Naval Weapons Lab., 1965 ellipsoid
+        >>> # these ellipsoids are the same
+        >>> gnwl9d == gwgs66
+        True
+        >>>  gclrk1 == gnwl9d  # Clark 1966 is unlike NWL9D
+        False
+        """
+        if not isinstance(other, _proj.Geod):
+            return False
+        
+        return self.__repr__() == other.__repr__()
 
 def test():
     """run the examples in the docstrings using the doctest module"""
