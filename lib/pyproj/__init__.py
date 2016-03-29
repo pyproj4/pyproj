@@ -406,6 +406,9 @@ class Proj(_proj.Proj):
         """returns an equivalent Proj in the corresponding lon/lat
         coordinates. (see pj_latlong_from_proj() in the Proj.4 C API)"""
         string_def = _proj.Proj.to_latlong_def(self)
+        # Decode bytes --> Unicode String (for Python3)
+        if not isinstance(string_def, str):
+            string_def = string_def.decode()
         return Proj(string_def)
 
     def is_latlong(self):
