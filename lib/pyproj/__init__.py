@@ -51,6 +51,8 @@ import sys
 from pyproj import _proj
 from pyproj.datadir import pyproj_datadir
 __version__ =  _proj.__version__
+proj_version_str = _proj.proj_version_str
+geodesic_version_str = _proj.geodesic_version_str
 set_datapath =  _proj.set_datapath
 from array import array
 import os, math
