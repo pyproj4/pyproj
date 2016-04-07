@@ -4,7 +4,6 @@ lib/pyproj.egg-info/
 nad2bin*
 *.obj
 *.o
-<<<<<<< HEAD
 *~
 lib/pyproj/data/FL
 lib/pyproj/data/MD
@@ -21,8 +20,3 @@ lib/pyproj/data/stlrnc
 lib/pyproj/data/stpaul
 test/itransform_coords.out.txt
 
-
-
-=======
-*~
->>>>>>> 1a6add855716a1248c194acfff3791bfde3a2d1d
