@@ -25,7 +25,7 @@ numpy array objects).
 
 Download: http://python.org/pypi/pyproj
 
-Requirements: python 2.4 or higher.
+Requirements: Python 2.6, 2.7, 3.2 or higher version.
 
 Example scripts are in 'test' subdirectory of source distribution.
 The 'test()' function will run the examples in the docstrings.
@@ -51,6 +51,8 @@ import sys
 from pyproj import _proj
 from pyproj.datadir import pyproj_datadir
 __version__ =  _proj.__version__
+proj_version_str = _proj.proj_version_str
+geodesic_version_str = _proj.geodesic_version_str
 set_datapath =  _proj.set_datapath
 from array import array
 import os, math

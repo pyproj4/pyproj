@@ -25,6 +25,10 @@ cdef extern from "geodesic.h":
   void geod_inverse(geod_geodesic* g,\
                double lat1, double lon1, double lat2, double lon2,\
                double* ps12, double* pazi1, double* pazi2)
+  cdef enum:
+      GEODESIC_VERSION_MAJOR
+      GEODESIC_VERSION_MINOR
+      GEODESIC_VERSION_PATCH
 
 # define part of the struct PJconsts from projects.h
 ctypedef void (*c_func_type)()
@@ -63,6 +67,23 @@ cdef extern from "proj_api.h":
 
 cdef extern from "Python.h":
     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
+
+
+# version number strings for proj.4 and Geod
+if PJ_VERSION > 499:
+# proj.4 Version 4.10.0 and later: PJ_VERSION=MMMNNNPP later where MMM, NNN, PP
+# are the major, minor, and patch numbers 
+    proj_version_str = "{0}.{1}.{2}".format(PJ_VERSION // 10**5 % 1000, 
+                           PJ_VERSION // 10**2 % 1000, PJ_VERSION % 100)
+else:
+#  before proj.4 version 4.10.0: PJ_VERSION=MNP where M, N, and P are the major,
+#   minor, and patch numbers;
+    proj_version_str = "{0}.{1}.{2}".format(PJ_VERSION // 100 % 10, 
+                                 PJ_VERSION // 10 % 10, PJ_VERSION % 10)
+
+geodesic_version_str = "{0}.{1}.{2}".format(GEODESIC_VERSION_MAJOR, 
+                         GEODESIC_VERSION_MINOR, GEODESIC_VERSION_PATCH)
+
 
 def set_datapath(datapath):
     bytestr = _strencode(datapath)
