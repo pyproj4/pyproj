@@ -3,6 +3,15 @@ import sys, os, glob, subprocess, shutil
 from distutils import ccompiler, sysconfig
 from setuptools import setup, Extension
 
+USE_CYTHON = False
+
+# is this a repository
+if not os.path.isfile("_proj.c"):
+    # no _proj.c, repository
+    USE_CYTHON = True
+
+ext = '.pyx' if USE_CYTHON else '.c'
+
 proj_dir = os.environ.get('PROJ_DIR')
 
 # if PROJ_DIR env var is set, build against
@@ -21,7 +30,7 @@ if proj_dir is not None:
         incdirs.append(os.path.join(proj_dir,'include'))
 
     pyprojext =\
-    Extension("pyproj._proj",["_proj.c"],include_dirs=incdirs,library_dirs=libdirs,\
+    Extension("pyproj._proj",["_proj"+ext],include_dirs=incdirs,library_dirs=libdirs,\
     runtime_library_dirs=libdirs,libraries=libraries)
 
     # over-write default data directory.
@@ -59,7 +68,7 @@ else:
     #macros.append(('HAVE_STRERROR',1))
     # for win32 threads
     #macros.append(('MUTEX_win32',1))
-    extensions = [Extension("pyproj._proj",deps+['_proj.c'],
+    extensions = [Extension("pyproj._proj",deps+['_proj'+ext],
                   include_dirs=['src'],define_macros=macros)]
 
     # create binary datum shift grid files.
@@ -85,6 +94,20 @@ else:
     datafiles = glob.glob(os.path.join(pathout,'*'))
     datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
     package_data = {'pyproj':datafiles}
+
+
+# use Cython to generate the C code (_proj.c) from _proj.pyx
+if USE_CYTHON:
+    try:
+        from Cython.Build import cythonize
+    except ImportError:
+        sys.stderr.write("\n\n_proj.c does not exist in a repository copy.\n"
+                         "ImportError: Cython must be installed in order to generate _proj.c\n"
+                         "\tto install Cython run `pip install cython`\n")
+        sys.exit(1)
+
+    extensions = cythonize(extensions)
+
 
 # retreive pyproj version information (stored in _proj.pyx) in version variable
 # (taken from Fiona)
