@@ -1,3 +1,4 @@
+from __future__ import with_statement
 import sys, os, glob, subprocess, shutil
 from distutils import ccompiler, sysconfig
 from setuptools import setup, Extension
@@ -85,12 +86,20 @@ else:
     datafiles = [os.path.join('data',os.path.basename(f)) for f in datafiles]
     package_data = {'pyproj':datafiles}
 
+# retreive pyproj version information (stored in _proj.pyx) in version variable
+# (taken from Fiona)
+with open('_proj.pyx', 'r') as f:
+    for line in f:
+        if line.find("__version__") >= 0:
+            # parse __version__ and remove surrounding " or '
+            version = line.split("=")[1].strip()[1:-1]
+            break
 
 packages          = ['pyproj']
 package_dirs       = {'':'lib'}
 
 setup(name = "pyproj",
-  version = "1.9.5.1",
+  version = version,
   description = "Python interface to PROJ.4 library",
   long_description  = """
 Performs cartographic transformations between geographic (lat/lon)
@@ -108,6 +117,13 @@ Optimized for numpy arrays.""",
   classifiers       = ["Development Status :: 4 - Beta",
                        "Intended Audience :: Science/Research",
                        "License :: OSI Approved",
+                       "Programming Language :: Python :: 2",
+                       "Programming Language :: Python :: 2.6",
+                       "Programming Language :: Python :: 2.7",
+                       "Programming Language :: Python :: 3",
+                       "Programming Language :: Python :: 3.3",
+                       "Programming Language :: Python :: 3.4",
+                       "Programming Language :: Python :: 3.5",
                        "Topic :: Software Development :: Libraries :: Python Modules",
                        "Topic :: Scientific/Engineering :: GIS",
                        "Topic :: Scientific/Engineering :: Mathematics",

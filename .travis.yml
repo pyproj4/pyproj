@@ -7,6 +7,7 @@ env:
     - DEPENDS="numpy"
 
 python:
+  - "2.6"
   - "2.7"
   - "3.3"
   - "3.4"
@@ -14,6 +15,8 @@ python:
 
 before_install:
   - pip install $DEPENDS
+  # extra requirements to support Python 2.6  
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2; fi
 
 install:
   - python setup.py install

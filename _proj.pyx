@@ -25,6 +25,10 @@ cdef extern from "geodesic.h":
   void geod_inverse(geod_geodesic* g,\
                double lat1, double lon1, double lat2, double lon2,\
                double* ps12, double* pazi1, double* pazi2)
+  cdef enum:
+      GEODESIC_VERSION_MAJOR
+      GEODESIC_VERSION_MINOR
+      GEODESIC_VERSION_PATCH
 
 # define part of the struct PJconsts from projects.h
 ctypedef void (*c_func_type)()
@@ -63,6 +67,23 @@ cdef extern from "proj_api.h":
 
 cdef extern from "Python.h":
     int PyObject_AsWriteBuffer(object, void **rbuf, Py_ssize_t *len)
+
+
+# version number strings for proj.4 and Geod
+if PJ_VERSION > 499:
+# proj.4 Version 4.10.0 and later: PJ_VERSION=MMMNNNPP later where MMM, NNN, PP
+# are the major, minor, and patch numbers 
+    proj_version_str = "{0}.{1}.{2}".format(PJ_VERSION // 10**5 % 1000, 
+                           PJ_VERSION // 10**2 % 1000, PJ_VERSION % 100)
+else:
+#  before proj.4 version 4.10.0: PJ_VERSION=MNP where M, N, and P are the major,
+#   minor, and patch numbers;
+    proj_version_str = "{0}.{1}.{2}".format(PJ_VERSION // 100 % 10, 
+                                 PJ_VERSION // 10 % 10, PJ_VERSION % 10)
+
+geodesic_version_str = "{0}.{1}.{2}".format(GEODESIC_VERSION_MAJOR, 
+                         GEODESIC_VERSION_MINOR, GEODESIC_VERSION_PATCH)
+
 
 def set_datapath(datapath):
     bytestr = _strencode(datapath)
@@ -382,6 +403,55 @@ cdef _strencode(pystr,encoding='ascii'):
         return pystr.encode(encoding)
     except AttributeError:
         return pystr # already bytes?
+
+def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint radians, bint switch):
+    # private function to itransform function
+    cdef:
+        void *buffer
+        double *coords
+        double *x
+        double *y
+        double *z
+        Py_ssize_t buflen, npts, i, j
+        int err
+
+    if stride < 2:
+        raise RuntimeError("coordinates must contain at least 2 values")
+    if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
+        raise RuntimeError("object does not provide the python buffer writeable interface")
+
+    coords = <double*>buffer
+    npts = buflen // (stride * sizeof(double))
+
+    if not radians and p1.is_latlong():
+        for i from 0 <= i < npts:
+            j = stride*i
+            coords[j] *= _dg2rad
+            coords[j+1] *= _dg2rad
+
+    if not switch:
+        x = coords
+        y = coords + 1
+    else:
+        x = coords + 1
+        y = coords
+
+    if stride == 2:
+        z = NULL
+    else:
+        z = coords + 2
+
+    err = pj_transform(p1.projpj, p2.projpj, npts, stride, x, y, z)
+
+    if err != 0:
+        raise RuntimeError(pj_strerrno(err))
+
+    if not radians and p2.is_latlong():
+        for i from 0 <= i < npts:
+            j = stride*i
+            coords[j] *= _dg2rad
+            coords[j+1] *= _dg2rad  
+
 
 cdef class Geod:
     cdef geod_geodesic _geod_geodesic

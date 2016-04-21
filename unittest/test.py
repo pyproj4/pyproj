@@ -1,5 +1,14 @@
 """Rewrite part of test.py in pyproj in the form of unittests."""
-import unittest
+from __future__ import with_statement
+
+from sys import version_info as sys_version_info
+
+if sys_version_info[:2] < (2 ,7):
+    # for Python 2.4 - 2.6 use the backport of unittest from Python 2.7 and onwards
+    import unittest2 as unittest
+else:
+    import unittest
+
 from pyproj import Geod, Proj, transform
 from pyproj import pj_list # , pj_ellps
 
