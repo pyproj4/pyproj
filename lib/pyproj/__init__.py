@@ -412,7 +412,8 @@ class Proj(_proj.Proj):
     def to_latlong(self):
         """returns an equivalent Proj in the corresponding lon/lat
         coordinates. (see pj_latlong_from_proj() in the Proj.4 C API)"""
-        return _proj.Proj.to_latlong(self)
+        string_def = _proj.Proj.to_latlong_def(self)
+        return Proj(string_def)
 
     def is_latlong(self):
         """returns True if projection in geographic (lon/lat) coordinates"""
