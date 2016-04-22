@@ -4,6 +4,7 @@ pyproj
 Installation
 ------------
 * clone github repo or download source release at http://python.org/pypi/pyproj.
+* If you clone the github repo, (Cython)[http://cython.org/] is a dependency.
 * python setup.py build
 * python setup.py install (with sudo if necessary).
 

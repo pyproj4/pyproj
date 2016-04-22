@@ -2,6 +2,7 @@ build/
 nad2bin*
 *.obj
 *.o
+_proj.c
 dist/
 lib/pyproj.egg-info/
 lib/pyproj/data/FL
