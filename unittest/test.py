@@ -81,6 +81,14 @@ class Geod_NoDefs_Issue22_Test(unittest.TestCase):
    def test_geod_nodefs(self):
        Geod("+a=6378137 +b=6378137 +no_defs")
 
+class ProjLatLongTypeErrorTest(unittest.TestCase):
+    # .latlong() using in transform raised a TypeError in release 1.9.5.1
+    # reported in issue #53, resolved by PR #54.
+    def test_latlong_typeerror(self):
+        p = Proj('+proj=stere +lon_0=-39 +lat_0=90 +lat_ts=71.0 +ellps=WGS84')
+        # if not patched this line raises a "TypeError: p2 must be a Proj class"
+        lon, lat = transform(p, p.to_latlong(), 200000, 400000)
+        
 class ForwardInverseTest(unittest.TestCase):
   pass
 
