@@ -25,7 +25,7 @@ numpy array objects).
 
 Download: http://python.org/pypi/pyproj
 
-Requirements: python 2.4 or higher.
+Requirements: Python 2.6, 2.7, 3.2 or higher version.
 
 Example scripts are in 'test' subdirectory of source distribution.
 The 'test()' function will run the examples in the docstrings.
@@ -51,9 +51,16 @@ import sys
 from pyproj import _proj
 from pyproj.datadir import pyproj_datadir
 __version__ =  _proj.__version__
+proj_version_str = _proj.proj_version_str
+geodesic_version_str = _proj.geodesic_version_str
 set_datapath =  _proj.set_datapath
 from array import array
 import os, math
+from itertools import islice, chain
+try:
+    from future_builtins import zip # python 2.6+
+except ImportError:
+    pass # python 3.x
 #import numpy as np
 
 # Python 2/3 compatibility
@@ -511,6 +518,78 @@ def transform(p1, p2, x, y, z=None, radians=False):
     else:
         return outx, outy
 
+def itransform(p1, p2, points, radians=False, switch=False):
+    """
+    points2 = transform(p1, p2, points1, radians=False)
+    Iterator/generator version of the function pyproj.transform.
+    Transform points between two coordinate systems defined by the
+    Proj instances p1 and p2. This function can be used as an alternative
+    to pyproj.transform when there is a need to transform a big number of 
+    coordinates lazily, for example when reading and processing from a file.
+    Points1 is an iterable/generator of coordinates x1,y1(,z1) or lon1,lat1(,z1) 
+    in the coordinate system defined by p1. Points2 is an iterator that returns tuples 
+    of x2,y2(,z2) or lon2,lat2(,z2) coordinates in the coordinate system defined by p2.
+    z are provided optionally.
+    
+    Points1 can be:
+        - a tuple/list of tuples/lists i.e. for 2d points: [(xi,yi),(xj,yj),....(xn,yn)]
+        - a Nx3 or Nx2 2d numpy array where N is the point number
+        - a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d 
+     
+    If optional keyword 'switch' is True (default is False) then x, y or lon,lat coordinates
+    of points are switched to y, x or lat, lon.
+    If optional keyword 'radians' is True (default is False) and p1
+    is defined in geographic coordinate (pj.is_latlong() is True),
+    x1,y1 is interpreted as radians instead of the default degrees.
+    Similarly, if p2 is defined in geographic coordinates and
+    radians=True, x2, y2 are returned in radians instead of degrees.
+    if p1.is_latlong() and p2.is_latlong() both are False, the
+    radians keyword has no effect.
+    Example usage:
+    >>> # projection 1: WGS84
+    >>> # (defined by epsg code 4326)
+    >>> p1 = Proj(init='epsg:4326')
+    >>> # projection 2: GGRS87 / Greek Grid
+    >>> p2 = Proj(init='epsg:2100')
+    >>> # Three points with coordinates lon, lat in p1
+    >>> points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]
+    >>> # transform this point to projection 2 coordinates.
+    >>> for pt in itransform(p1,p2,points): '%6.3f %7.3f' % pt
+    '411050.470 4497928.574'
+    '399060.236 4486978.710'
+    '458553.243 4523045.485'
+    """
+    if not isinstance(p1, Proj):
+        raise TypeError("p1 must be a Proj class")
+    if not isinstance(p2, Proj):
+        raise TypeError("p2 must be a Proj class")
+
+    it = iter(points) # point iterator
+    # get first point to check stride
+    try:
+        fst_pt = next(it)
+    except StopIteration:
+        raise ValueError("iterable must contain at least one point")
+        
+    stride = len(fst_pt)
+    if stride not in (2,3):
+        raise ValueError("points can contain up to 3 coordinates")
+
+    # create a coordinate sequence generator etc. x1,y1,z1,x2,y2,z2,....
+    # chain so the generator returns the first point that was already acquired
+    coord_gen = chain(fst_pt, (coords[c] for coords in it for c in range(stride)))
+
+    while True:
+        # create a temporary buffer storage for the next 64 points (64*stride*8 bytes)
+        buff = array('d', islice(coord_gen, 0, 64*stride))
+        if len(buff) == 0:
+            break;
+
+        _proj._transform_sequence(p1, p2, stride, buff, radians, switch)
+
+        for pt in zip(*([iter(buff)]*stride)):
+            yield pt
+
 def _copytobuffer_return_scalar(x):
     try:
         # inx,isfloat,islist,istuple
@@ -605,7 +684,7 @@ class Geod(_proj.Geod):
     azimuths and distance given the latitudes and longitudes of an
     initial and terminus point.
     """
-    def __new__(self, initstring=None, **kwargs):
+    def __new__(cls, initstring=None, **kwargs):
         """
         initialize a Geod class instance.
 
@@ -723,13 +802,13 @@ class Geod(_proj.Geod):
                 ellpsd[k] = v
         # merge this dict with kwargs dict.
         kwargs = dict(list(kwargs.items()) + list(ellpsd.items()))
-        self.sphere = False
+        sphere = False
         if 'ellps' in kwargs:
             # ellipse name given, look up in pj_ellps dict
             ellps_dict = pj_ellps[kwargs['ellps']]
             a = ellps_dict['a']
             if ellps_dict['description']=='Normal Sphere':
-                self.sphere = True
+                sphere = True
             if 'b' in ellps_dict:
                 b = ellps_dict['b']
                 es = 1. - (b * b) / (a * a)
@@ -772,12 +851,9 @@ class Geod(_proj.Geod):
                 es = 0.
                 #msg='ellipse name or a, plus one of f,es,b must be given'
                 #raise ValueError(msg)
-        if math.fabs(f) < 1.e-8: self.sphere = True
-        self.a = a
-        self.b = b
-        self.f = f
-        self.es = es
-        return _proj.Geod.__new__(self, a, f)
+        if math.fabs(f) < 1.e-8: sphere = True
+        
+        return _proj.Geod.__new__(cls, a, f, sphere, b, es)
 
     def fwd(self, lons, lats, az, dist, radians=False):
         """

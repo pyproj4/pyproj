@@ -1,5 +1,14 @@
 """Rewrite part of test.py in pyproj in the form of unittests."""
-import unittest
+from __future__ import with_statement
+
+from sys import version_info as sys_version_info
+
+if sys_version_info[:2] < (2 ,7):
+    # for Python 2.4 - 2.6 use the backport of unittest from Python 2.7 and onwards
+    import unittest2 as unittest
+else:
+    import unittest
+
 from pyproj import Geod, Proj, transform
 from pyproj import pj_list, pj_ellps
 
@@ -95,6 +104,7 @@ for pj in sorted(pj_list):
   testname = 'test_'+pj
   setattr(ForwardInverseTest, testname, testcase(pj))
 
+
 # test __repr__ for Proj object
 class ProjReprTest(unittest.TestCase):
     def test_repr(self):
@@ -116,5 +126,37 @@ class GeodReprTest(unittest.TestCase):
             self.assertEqual(repr(p), "pyproj.Geod(ellps='{0}')".format(ellps_name))
 
   
+
+# Tests for shared memory between Geod objects
+class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
+    def setUp(self):
+        self.g = Geod(ellps='clrk66')
+        self.ga = self.g.a
+        self.mercury = Geod(a=2439700) # Mercury 2000 ellipsoid
+                                       # Mercury is much smaller than earth.
+    
+    def test_not_shared_memory(self):
+        self.assertEqual(self.ga, self.g.a)
+        # mecury must have a different major axis from earth
+        self.assertNotEqual(self.g.a, self.mercury.a)
+        self.assertNotEqual(self.g.b, self.mercury.b)
+        self.assertNotEqual(self.g.sphere, self.mercury.sphere)
+        self.assertNotEqual(self.g.f, self.mercury.f)
+        self.assertNotEqual(self.g.es, self.mercury.es)
+        
+        # initstrings were not shared in issue #64
+        self.assertNotEqual(self.g.initstring, self.mercury.initstring)
+
+    def test_distances(self):
+        # note calculated distance was not an issue with #64, but it still a shared memory test
+        boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
+        portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
+        
+        az12,az21,dist_g = self.g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+        
+        az12,az21,dist_mercury = self.mercury.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+        self.assertLess(dist_mercury, dist_g)
+        
+        
 if __name__ == '__main__':
   unittest.main()
