@@ -355,6 +355,11 @@ cdef class Proj:
             return True
         else:
             return False
+    
+    def __repr__(self):
+        return "{modname}.{classname}({srs!r}, preserve_units=True)".format(modname=self.__module__,
+                                             classname=self.__class__.__name__,
+                                             srs=self.srs)
 
 def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
     # private function to call pj_transform
@@ -628,3 +633,8 @@ cdef class Geod:
                 lats = lats + (plat2,)
                 lons = lons + (plon2,)
         return lons, lats
+
+    def __repr__(self):
+        return "{modname}.{classname}({init!r})".format(modname=self.__module__,
+                                              classname=self.__class__.__name__,
+                                              init=self.initstring)
