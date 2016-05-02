@@ -83,9 +83,10 @@ class Geod_NoDefs_Issue22_Test(unittest.TestCase):
 
 class ProjLatLongTypeErrorTest(unittest.TestCase):  
     # .latlong() using in transform raised a TypeError in release 1.9.5.1
-    # reported in issue #53, resolved in #72.
+    # reported in issue #53, resolved in #73.
     def test_latlong_typeerror(self):
         p = Proj('+proj=stere +lon_0=-39 +lat_0=90 +lat_ts=71.0 +ellps=WGS84')
+        self.assertTrue(isinstance(p, Proj))
         # if not patched this line raises a "TypeError: p2 must be a Proj class"
         lon, lat = transform(p, p.to_latlong(), 200000, 400000)
 
