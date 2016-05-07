@@ -62,6 +62,7 @@ cdef extern from "proj_api.h":
     projCtx pj_get_default_ctx()
     void pj_free(projPJ)
     void pj_set_searchpath ( int count, char **path )
+    void pj_dalloc(void *)
     cdef enum:
         PJ_VERSION
 
@@ -355,6 +356,15 @@ cdef class Proj:
             return True
         else:
             return False
+
+    def definition_string(self):
+        # Returns projection definition
+        cdef bytes py_def_string
+        cdef char* c_def_string
+        c_def_string = pj_get_def(self.projpj, 0)
+        py_def_string = c_def_string
+        pj_dalloc(c_def_string)
+        return py_def_string
 
 def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
     # private function to call pj_transform
