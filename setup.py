@@ -18,7 +18,7 @@ proj_dir = os.environ.get('PROJ_DIR')
 # existing proj.4 installation.
 
 if proj_dir is not None:
-    sys.stdout.write('PROJ_DIR is set, using existing proj4 installation..\n')
+    sys.stderr.write('PROJ_DIR is set, using existing proj4 installation..\n')
     proj_libdir = os.environ.get('PROJ_LIBDIR')
     proj_incdir = os.environ.get('PROJ_INCDIR')
     libdirs=[]; incdirs = []; libraries = ['proj']
@@ -48,7 +48,7 @@ if proj_dir is not None:
 
 else:
     # use bundled proj.4
-    sys.stdout.write('using bundled proj4..\n')
+    sys.stderr.write('using bundled proj4..\n')
 
     # copy saved datadir.py back
     datadirfile = os.path.join('lib',os.path.join('pyproj','datadir.py'))
@@ -88,7 +88,7 @@ else:
             fout = os.path.basename(f.split('.lla')[0])
             fout = os.path.join(pathout,fout)
             strg = '%s %s < %s' % (cmd, fout, f)
-            sys.stdout.write('executing %s'%strg)
+            sys.stderr.write('executing %s\n'%strg)
             subprocess.call(strg,shell=True)
 
     datafiles = glob.glob(os.path.join(pathout,'*'))
