@@ -59,8 +59,10 @@ cdef extern from "proj_api.h":
     void pj_ctx_free( projCtx )
     int pj_ctx_get_errno( projCtx )
     projCtx pj_ctx_alloc()
-    projCtx pj_get_default_ctx()
+    projCtx pj_get_default_ctx()  
     void pj_free(projPJ)
+    # pj_dalloc: useful for deallocating stuff like i.e. pj_get_def char buffer
+    void pj_dalloc(void *) 
     void pj_set_searchpath ( int count, char **path )
     cdef enum:
         PJ_VERSION
@@ -90,6 +92,7 @@ def set_datapath(datapath):
     cdef const char *searchpath = bytestr
     pj_set_searchpath(1, &searchpath)
 
+# deprecated: used in _proj.Proj.to_latlong
 def _createproj(projstring):
     return Proj(projstring)
 
@@ -119,12 +122,39 @@ cdef class Proj:
         pj_free(self.projpj)
         pj_ctx_free(self.projctx)
 
-    def to_latlong(self):
+    def to_latlong_def(self):
+        """return the definition string of the geographic (lat/lon)
+        coordinate version of the current projection"""
+        # This is a little hacky way of getting a latlong proj object
+        # Maybe instead of this function the __cinit__ function can take a
+        # Proj object and a type (where type = "geographic") as the libproj 
+        # java wrapper
+        cdef projPJ llpj
+        cdef char *cstring_def
+        cdef int err
+
+        llpj = pj_latlong_from_proj(self.projpj) # create temp proj
+        if llpj is not NULL:
+            cstring_def = pj_get_def(llpj, 0) # get definition c string
+            pj_free(llpj) # deallocate temp proj
+            if cstring_def is not NULL:
+                try:
+                    pystring_def = <bytes>cstring_def # copy to python string
+                    return pystring_def
+                finally:
+                    pj_dalloc(cstring_def) # deallocate c string
+
+        raise RuntimeError("could not create latlong definition")
+
+                
+    # deprecated : using in transform raised a TypeError in release 1.9.5.1
+    # reported in issue #53, resolved in #73.
+    def to_latlong(self):  
         """return a new Proj instance which is the geographic (lat/lon)
         coordinate version of the current projection"""
         cdef projPJ llpj
         llpj = pj_latlong_from_proj(self.projpj)
-        initstring = pj_get_def(llpj, 0)
+        initstring = pj_get_def(llpj, 0) # this leaks the c char buffer
         pj_free(llpj)
         return _createproj(initstring)
 
