@@ -1,19 +1,35 @@
 language: python
 
-sudo: false
+cache: pip
 
-python:
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
+env: 
+  global: 
+    - PROJ4SRC=builtin
+
+matrix:
+  include:
+    - python: 2.6
+    - python: 2.7
+    - python: 3.3
+    - python: 3.4
+    - python: 3.5
+    - python: "nightly"
+      env: 
+        - PROJSOURCE=git
+    
+  allow_failures:
+    - python: "nightly"
+
+
 
 before_install:
   - pip install -r requirements-dev.txt
   # extra requirements to support Python 2.6  
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2; fi
-
+  - echo "PROJSOURCE is $PROJSOURCE"
+  # Downlaod PROJ.4 repo and compile
+  - if [[ $PROJSOURCE == "git" ]]; then ci/travis/proj4-git-download-and-compile; export PROJ_DIR="/tmp/proj_git_install"; fi
+  
 install:
   - python setup.py install
 

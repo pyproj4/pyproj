@@ -1,0 +1,11 @@
+#!/bin/bash
+echo 'Building PROJ.4 git version'
+
+git clone https://github.com/OSGeo/proj.4.git git-src
+cd git-src
+cmake . -DCMAKE_INSTALL_PREFIX=/tmp/proj_git_install
+make -j3
+make install
+find /tmp/proj_git_install
+export PROJ_DIR="/tmp/proj_git_install"
+cd ..
