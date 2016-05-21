@@ -18,7 +18,7 @@ install:
   - python setup.py install
 
 script:
-    - python -c "import pyproj; pyproj.test()"
+    - python lib/pyproj/__init__.py
     - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
     - python unittest/test.py -v
 

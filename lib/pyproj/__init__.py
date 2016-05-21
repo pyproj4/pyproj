@@ -925,8 +925,6 @@ class Geod(_proj.Geod):
         >>> from pyproj import Geod
         >>> g = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
         >>> # specify the lat/lons of Boston and Portland.
-        >>> g = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
-        >>> # specify the lat/lons of Boston and Portland.
         >>> boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
         >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
         >>> # find ten equally spaced points between Boston and Portland.
@@ -965,6 +963,7 @@ class Geod(_proj.Geod):
 def test():
     """run the examples in the docstrings using the doctest module"""
     import doctest, pyproj
-    doctest.testmod(pyproj,verbose=True)
+    failure_count, test_count = doctest.testmod(pyproj,verbose=True)
+    return failure_count
 
-if __name__ == "__main__": test()
+if __name__ == "__main__": sys.exit(test())
