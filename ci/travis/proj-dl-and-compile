@@ -1,0 +1,18 @@
+#!/bin/bash
+echo "Building PROJ.4 $1 version from source..."
+
+if [[ $1 == "git" ]]; then
+  git clone https://github.com/OSGeo/proj.4.git proj.4-git
+else
+  wget https://github.com/OSGeo/proj.4/archive/$1.tar.gz
+  tar zxf $1.tar.gz
+fi
+cd proj.4-$1
+# could be installed to a cached location (probably not git version)
+# seems to take only about 13 seconds of build time
+cmake . -DCMAKE_INSTALL_PREFIX=/tmp/proj_dl_install
+make -j3
+make install
+find /tmp/proj_dl_install
+# export PROJ_DIR="/tmp/proj_git_install"
+cd ..
