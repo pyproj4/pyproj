@@ -89,8 +89,10 @@ geodesic_version_str = "{0}.{1}.{2}".format(GEODESIC_VERSION_MAJOR,
 
 
 def set_datapath(datapath):
-    bytestr = _strencode(datapath)
-    cdef const char *searchpath = bytestr
+    # convert the datapath into bytes if it is not already
+    if not isinstance(datapath, bytes):
+        datapath = datapath.encode('utf-8')
+    cdef const char *searchpath = datapath
     pj_set_searchpath(1, &searchpath)
 
 # deprecated: used in _proj.Proj.to_latlong
