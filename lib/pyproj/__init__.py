@@ -426,6 +426,21 @@ class Proj(_proj.Proj):
         """returns True if projection in geocentric (x/y) coordinates"""
         return _proj.Proj.is_geocent(self)
 
+    def definition_string(self):
+        """Returns formal definition string for projection
+
+        >>> Proj('+init=epsg:4326').definition_string()
+        ' +units=m +init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+        >>>
+        """
+
+        string_def = _proj.Proj.definition_string(self)
+
+        if not isinstance(string_def, str):
+            string_def = string_def.decode()
+
+        return string_def
+        
 def transform(p1, p2, x, y, z=None, radians=False):
     """
     x2, y2, z2 = transform(p1, p2, x1, y1, z1, radians=False)
