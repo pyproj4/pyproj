@@ -156,7 +156,7 @@ class TestRadians(unittest.TestCase):
 
     def test_inv_radians(self):
 
-        # First in degrees
+        # Get bearings and distance from Boston to Portland in degrees
         az12_d, az21_d, dist_d = self.g.inv(
             self.boston_d[0],
             self.boston_d[1],
@@ -164,7 +164,7 @@ class TestRadians(unittest.TestCase):
             self.portland_d[1],
             radians=False)
 
-        # Now in radians
+        # Get bearings and distance from Boston to Portland in radians
         az12_r, az21_r, dist_r = self.g.inv(
             self.boston_r[0],
             self.boston_r[1],
@@ -172,11 +172,13 @@ class TestRadians(unittest.TestCase):
             self.portland_r[1],
             radians=True)
 
-        self.assertEqual(az12_d, math.degrees(az12_r))
-        self.assertEqual(az21_d, math.degrees(az21_r))
-        self.assertEqual(dist_d, dist_r)
+        # Check they are equal
+        self.assertAlmostEqual(az12_d, math.degrees(az12_r))
+        self.assertAlmostEqual(az21_d, math.degrees(az21_r))
+        self.assertAlmostEqual(dist_d, dist_r)
 
     def test_fwd_radians(self):
+        # Get bearing and distance to Portland
         az12_d, az21_d, dist = self.g.inv(
             self.boston_d[0],
             self.boston_d[1],
@@ -184,6 +186,7 @@ class TestRadians(unittest.TestCase):
             self.portland_d[1],
             radians=False)
 
+        # Calculate Portland's lon/lat from bearing and distance in degrees
         endlon_d, endlat_d, backaz_d = self.g.fwd(
             self.boston_d[0],
             self.boston_d[1],
@@ -191,6 +194,7 @@ class TestRadians(unittest.TestCase):
             dist,
             radians=False)
 
+        # Calculate Portland's lon/lat from bearing and distance in radians
         endlon_r, endlat_r, backaz_r = self.g.fwd(
             self.boston_r[0],
             self.boston_r[1],
@@ -198,12 +202,38 @@ class TestRadians(unittest.TestCase):
             dist,
             radians=True)
 
+        # Check they are equal
         self.assertAlmostEqual(endlon_d, math.degrees(endlon_r))
         self.assertAlmostEqual(endlat_d, math.degrees(endlat_r))
         self.assertAlmostEqual(backaz_d, math.degrees(backaz_r))
 
+        # Check to make sure we're back in Portland
+        self.assertAlmostEqual(endlon_d, self.portland_d[0])
+        self.assertAlmostEqual(endlat_d, self.portland_d[1])
+
     def test_npts_radians(self):
-        pass
+        # Calculate 10 points between Boston and Portland in degrees
+        points_d = self.g.npts(
+            lon1=self.boston_d[0],
+            lat1=self.boston_d[1],
+            lon2=self.portland_d[0],
+            lat2=self.portland_d[1],
+            npts=10,
+            radians=False)
+
+        # Calculate 10 points between Boston and Portland in radians
+        points_r = self.g.npts(
+            lon1=self.boston_r[0],
+            lat1=self.boston_r[1],
+            lon2=self.portland_r[0],
+            lat2=self.portland_r[1],
+            npts=10,
+            radians=True)
+
+        # Check they are equal
+        for index, dpoint in enumerate(points_d):
+            self.assertAlmostEqual(dpoint[0], math.degrees(points_r[index][0]))
+            self.assertAlmostEqual(dpoint[1], math.degrees(points_r[index][1]))
 
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()
