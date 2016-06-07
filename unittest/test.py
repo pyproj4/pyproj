@@ -9,6 +9,7 @@ if sys_version_info[:2] < (2 ,7):
 else:
     import unittest
 
+import math
 from pyproj import Geod, Proj, transform
 from pyproj import pj_list # , pj_ellps
 
@@ -62,7 +63,7 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
 
     def setUp(self):
        self.p = Proj(init='epsg:4269')
-    
+
     def test_tranform_none_1st_parmeter(self):
     # test should raise Type error if projections are not of Proj classes
     # version 1.9.4 produced AttributeError, now should raise TypeError
@@ -76,12 +77,12 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
           transform(self.p, None, -74, 39)
 
 class Geod_NoDefs_Issue22_Test(unittest.TestCase):
-   # Test for Issue #22, Geod with "+no_defs" in initstring 
+   # Test for Issue #22, Geod with "+no_defs" in initstring
    # Before PR #23 merged 2015-10-07, having +no_defs in the initstring would result in a ValueError
    def test_geod_nodefs(self):
        Geod("+a=6378137 +b=6378137 +no_defs")
 
-class ProjLatLongTypeErrorTest(unittest.TestCase):  
+class ProjLatLongTypeErrorTest(unittest.TestCase):
     # .latlong() using in transform raised a TypeError in release 1.9.5.1
     # reported in issue #53, resolved in #73.
     def test_latlong_typeerror(self):
@@ -120,7 +121,7 @@ class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
         self.ga = self.g.a
         self.mercury = Geod(a=2439700) # Mercury 2000 ellipsoid
                                        # Mercury is much smaller than earth.
-    
+
     def test_not_shared_memory(self):
         self.assertEqual(self.ga, self.g.a)
         # mecury must have a different major axis from earth
@@ -129,7 +130,7 @@ class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
         self.assertNotEqual(self.g.sphere, self.mercury.sphere)
         self.assertNotEqual(self.g.f, self.mercury.f)
         self.assertNotEqual(self.g.es, self.mercury.es)
-        
+
         # initstrings were not shared in issue #64
         self.assertNotEqual(self.g.initstring, self.mercury.initstring)
 
@@ -137,12 +138,72 @@ class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
         # note calculated distance was not an issue with #64, but it still a shared memory test
         boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
         portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
-        
+
         az12,az21,dist_g = self.g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
-        
+
         az12,az21,dist_mercury = self.mercury.inv(boston_lon,boston_lat,portland_lon,portland_lat)
         self.assertLess(dist_mercury, dist_g)
-        
-        
+
+
+class TestRadians(unittest.TestCase):
+    """Tests issue #84"""
+    def setUp(self):
+        self.g = Geod(ellps='clrk66')
+        self.boston_d = (-71. - (7. / 60.), 42. + (15. / 60.))
+        self.boston_r = (math.radians(self.boston_d[0]), math.radians(self.boston_d[1]))
+        self.portland_d = (-123. - (41. / 60.), 45. + (31. / 60.))
+        self.portland_r = (math.radians(self.portland_d[0]), math.radians(self.portland_d[1]))
+
+    def test_inv_radians(self):
+
+        # First in degrees
+        az12_d, az21_d, dist_d = self.g.inv(
+            self.boston_d[0],
+            self.boston_d[1],
+            self.portland_d[0],
+            self.portland_d[1],
+            radians=False)
+
+        # Now in radians
+        az12_r, az21_r, dist_r = self.g.inv(
+            self.boston_r[0],
+            self.boston_r[1],
+            self.portland_r[0],
+            self.portland_r[1],
+            radians=True)
+
+        self.assertEqual(az12_d, math.degrees(az12_r))
+        self.assertEqual(az21_d, math.degrees(az21_r))
+        self.assertEqual(dist_d, dist_r)
+
+    def test_fwd_radians(self):
+        az12_d, az21_d, dist = self.g.inv(
+            self.boston_d[0],
+            self.boston_d[1],
+            self.portland_d[0],
+            self.portland_d[1],
+            radians=False)
+
+        endlon_d, endlat_d, backaz_d = self.g.fwd(
+            self.boston_d[0],
+            self.boston_d[1],
+            az12_d,
+            dist,
+            radians=False)
+
+        endlon_r, endlat_r, backaz_r = self.g.fwd(
+            self.boston_r[0],
+            self.boston_r[1],
+            math.radians(az12_d),
+            dist,
+            radians=True)
+
+        self.assertAlmostEqual(endlon_d, math.degrees(endlon_r))
+        self.assertAlmostEqual(endlat_d, math.degrees(endlat_r))
+        self.assertAlmostEqual(backaz_d, math.degrees(backaz_r))
+
+    def test_npts_radians(self):
+        pass
+
 if __name__ == '__main__':
   unittest.main()
