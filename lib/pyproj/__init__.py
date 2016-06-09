@@ -328,13 +328,6 @@ class Proj(_proj.Proj):
         >>> p = Proj("+init=epsg:32667",preserve_units=True)
         >>> 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
         'x=-5851322.810 y=20320934.409 (feet)'
-        >>> p = Proj(proj='hammer') # hammer proj and inverse
-        >>> x,y = p(-30,40)
-        >>> 'x=%12.3f y=%12.3f' % (x,y)
-        'x=-2711575.083 y= 4395506.619'
-        >>> lon,lat = p(x,y,inverse=True)
-        >>> 'lon=%9.3f lat=%9.3f (degrees)' % (lon,lat)
-        'lon=  -30.000 lat=   40.000 (degrees)'
         """
         # if projparams is None, use kwargs.
         if projparams is None:
