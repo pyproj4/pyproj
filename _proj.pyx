@@ -3,7 +3,7 @@
 
 import math
 
-cdef double _dg2rad, _rad2dg 
+cdef double _dg2rad, _rad2dg
 
 _dg2rad = math.radians(1.)
 _rad2dg = math.degrees(1.)
@@ -37,7 +37,7 @@ ctypedef struct PJconsts:
     void *ctx
     c_func_type fwd
     c_func_type inv
-    # ignore all other components of this struct, we don't need them  
+    # ignore all other components of this struct, we don't need them
 
 cdef extern from "proj_api.h":
     ctypedef struct projUV:
@@ -49,7 +49,7 @@ cdef extern from "proj_api.h":
     projPJ pj_init_plus_ctx(projCtx, char *)
     projUV pj_fwd(projUV, projPJ)
     projUV pj_inv(projUV, projPJ)
-    projPJ pj_latlong_from_proj(projPJ) 
+    projPJ pj_latlong_from_proj(projPJ)
     int pj_transform(projPJ src, projPJ dst, long point_count, int point_offset,
                      double *x, double *y, double *z)
     int pj_is_latlong(projPJ)
@@ -59,10 +59,10 @@ cdef extern from "proj_api.h":
     void pj_ctx_free( projCtx )
     int pj_ctx_get_errno( projCtx )
     projCtx pj_ctx_alloc()
-    projCtx pj_get_default_ctx()  
+    projCtx pj_get_default_ctx()
     void pj_free(projPJ)
     # pj_dalloc: useful for deallocating stuff like i.e. pj_get_def char buffer
-    void pj_dalloc(void *) 
+    void pj_dalloc(void *)
     void pj_set_searchpath ( int count, char **path )
     void pj_dalloc(void *)
     cdef enum:
@@ -75,16 +75,16 @@ cdef extern from "Python.h":
 # version number strings for proj.4 and Geod
 if PJ_VERSION > 499:
 # proj.4 Version 4.10.0 and later: PJ_VERSION=MMMNNNPP later where MMM, NNN, PP
-# are the major, minor, and patch numbers 
-    proj_version_str = "{0}.{1}.{2}".format(PJ_VERSION // 10**5 % 1000, 
+# are the major, minor, and patch numbers
+    proj_version_str = "{0}.{1}.{2}".format(PJ_VERSION // 10**5 % 1000,
                            PJ_VERSION // 10**2 % 1000, PJ_VERSION % 100)
 else:
 #  before proj.4 version 4.10.0: PJ_VERSION=MNP where M, N, and P are the major,
 #   minor, and patch numbers;
-    proj_version_str = "{0}.{1}.{2}".format(PJ_VERSION // 100 % 10, 
+    proj_version_str = "{0}.{1}.{2}".format(PJ_VERSION // 100 % 10,
                                  PJ_VERSION // 10 % 10, PJ_VERSION % 10)
 
-geodesic_version_str = "{0}.{1}.{2}".format(GEODESIC_VERSION_MAJOR, 
+geodesic_version_str = "{0}.{1}.{2}".format(GEODESIC_VERSION_MAJOR,
                          GEODESIC_VERSION_MINOR, GEODESIC_VERSION_PATCH)
 
 
@@ -128,7 +128,7 @@ cdef class Proj:
         coordinate version of the current projection"""
         # This is a little hacky way of getting a latlong proj object
         # Maybe instead of this function the __cinit__ function can take a
-        # Proj object and a type (where type = "geographic") as the libproj 
+        # Proj object and a type (where type = "geographic") as the libproj
         # java wrapper
         cdef projPJ llpj
         cdef char *cstring_def
@@ -147,10 +147,10 @@ cdef class Proj:
 
         raise RuntimeError("could not create latlong definition")
 
-                
+
     # deprecated : using in transform raised a TypeError in release 1.9.5.1
     # reported in issue #53, resolved in #73.
-    def to_latlong(self):  
+    def to_latlong(self):
         """return a new Proj instance which is the geographic (lat/lon)
         coordinate version of the current projection"""
         cdef projPJ llpj
@@ -223,7 +223,7 @@ cdef class Proj:
                 if errcheck:
                     raise RuntimeError('projection undefined')
                 latsdata[i] = 1.e30
-            else:     
+            else:
                 latsdata[i] = projxyout.v
 
     def _inv(self, object x, object y, radians=False, errcheck=False):
@@ -246,7 +246,7 @@ cdef class Proj:
             raise RuntimeError
         if PyObject_AsWriteBuffer(y, &ydata, &bufleny) <> 0:
             raise RuntimeError
-        # process data in buffer 
+        # process data in buffer
         # (for numpy/regular python arrays).
         if buflenx != bufleny:
             raise RuntimeError("Buffer lengths not the same")
@@ -490,7 +490,7 @@ def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint radians
         for i from 0 <= i < npts:
             j = stride*i
             coords[j] *= _dg2rad
-            coords[j+1] *= _dg2rad  
+            coords[j+1] *= _dg2rad
 
 
 cdef class Geod:
@@ -512,7 +512,7 @@ cdef class Geod:
 
     def _fwd(self, object lons, object lats, object az, object dist, radians=False):
         """
- forward transformation - determine longitude, latitude and back azimuth 
+ forward transformation - determine longitude, latitude and back azimuth
  of a terminus point given an initial point longitude and latitude, plus
  forward azimuth and distance.
  if radians=True, lons/lats are radians instead of degrees.
@@ -551,9 +551,9 @@ cdef class Geod:
                 az1 = azdata[i]
                 s12 = distdata[i]
             else:
-                lon1 = _dg2rad*lonsdata[i]
-                lat1 = _dg2rad*latsdata[i]
-                az1 = _dg2rad*azdata[i]
+                lon1 = _rad2dg*lonsdata[i]
+                lat1 = _rad2dg*latsdata[i]
+                az1 = _rad2dg*azdata[i]
                 s12 = distdata[i]
             geod_direct(&self._geod_geodesic, lat1, lon1, az1, s12,\
                    &plat2, &plon2, &pazi2)
@@ -571,9 +571,9 @@ cdef class Geod:
                 latsdata[i] = plat2
                 azdata[i] = pazi2
             else:
-                lonsdata[i] = _rad2dg*plon2
-                latsdata[i] = _rad2dg*plat2
-                azdata[i] = _rad2dg*pazi2
+                lonsdata[i] = _dg2rad*plon2
+                latsdata[i] = _dg2rad*plat2
+                azdata[i] = _dg2rad*pazi2
 
     def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):
         """
@@ -631,8 +631,8 @@ cdef class Geod:
             if ps12 != ps12: # check for NaN
                 raise ValueError('undefined inverse geodesic (may be an antipodal point)')
             if radians:
-                lonsdata[i] = _rad2dg*pazi1
-                latsdata[i] = _rad2dg*pazi2
+                lonsdata[i] = _dg2rad*pazi1
+                latsdata[i] = _dg2rad*pazi2
             else:
                 lonsdata[i] = pazi1
                 latsdata[i] = pazi2
