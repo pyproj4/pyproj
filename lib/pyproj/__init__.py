@@ -328,13 +328,6 @@ class Proj(_proj.Proj):
         >>> p = Proj("+init=epsg:32667",preserve_units=True)
         >>> 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
         'x=-5851322.810 y=20320934.409 (feet)'
-        >>> p = Proj(proj='hammer') # hammer proj and inverse
-        >>> x,y = p(-30,40)
-        >>> 'x=%12.3f y=%12.3f' % (x,y)
-        'x=-2711575.083 y= 4395506.619'
-        >>> lon,lat = p(x,y,inverse=True)
-        >>> 'lon=%9.3f lat=%9.3f (degrees)' % (lon,lat)
-        'lon=  -30.000 lat=   40.000 (degrees)'
         """
         # if projparams is None, use kwargs.
         if projparams is None:
@@ -412,7 +405,11 @@ class Proj(_proj.Proj):
     def to_latlong(self):
         """returns an equivalent Proj in the corresponding lon/lat
         coordinates. (see pj_latlong_from_proj() in the Proj.4 C API)"""
-        return _proj.Proj.to_latlong(self)
+        string_def = _proj.Proj.to_latlong_def(self)
+        # Decode bytes --> Unicode String (for Python3)
+        if not isinstance(string_def, str):
+            string_def = string_def.decode()
+        return Proj(string_def)
 
     def is_latlong(self):
         """returns True if projection in geographic (lon/lat) coordinates"""
@@ -422,6 +419,21 @@ class Proj(_proj.Proj):
         """returns True if projection in geocentric (x/y) coordinates"""
         return _proj.Proj.is_geocent(self)
 
+    def definition_string(self):
+        """Returns formal definition string for projection
+
+        >>> Proj('+init=epsg:4326').definition_string()
+        ' +units=m +init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+        >>>
+        """
+
+        string_def = _proj.Proj.definition_string(self)
+
+        if not isinstance(string_def, str):
+            string_def = string_def.decode()
+
+        return string_def
+        
 def transform(p1, p2, x, y, z=None, radians=False):
     """
     x2, y2, z2 = transform(p1, p2, x1, y1, z1, radians=False)
@@ -921,8 +933,6 @@ class Geod(_proj.Geod):
         >>> from pyproj import Geod
         >>> g = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
         >>> # specify the lat/lons of Boston and Portland.
-        >>> g = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
-        >>> # specify the lat/lons of Boston and Portland.
         >>> boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
         >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
         >>> # find ten equally spaced points between Boston and Portland.
@@ -961,6 +971,7 @@ class Geod(_proj.Geod):
 def test():
     """run the examples in the docstrings using the doctest module"""
     import doctest, pyproj
-    doctest.testmod(pyproj,verbose=True)
+    failure_count, test_count = doctest.testmod(pyproj,verbose=True)
+    return failure_count
 
-if __name__ == "__main__": test()
+if __name__ == "__main__": sys.exit(test())

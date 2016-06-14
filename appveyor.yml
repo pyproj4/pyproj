@@ -97,7 +97,7 @@ build_script:
 
 test_script:
   # Run the project tests
-  - "%CMD_IN_ENV% python -c \"import pyproj; pyproj.test()\""
+  - "%CMD_IN_ENV% python lib/pyproj/__init__.py"
   - "%CMD_IN_ENV% python -c \"import pyproj; pyproj.Proj(init='epsg:4269')\""
   - "%CMD_IN_ENV% python unittest/test.py -v"
 
