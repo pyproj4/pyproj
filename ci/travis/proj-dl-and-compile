@@ -8,6 +8,13 @@ else
   tar zxf $1.tar.gz
 fi
 cd proj.4-$1
+
+# Download and extract grids
+wget http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
+cd nad
+unzip -o ../proj-datumgrid-1.5.zip
+cd ..
+
 # could be installed to a cached location (probably not git version)
 # seems to take only about 13 seconds of build time
 cmake . -DCMAKE_INSTALL_PREFIX=/tmp/proj_dl_install
