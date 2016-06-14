@@ -1,17 +1,22 @@
 """Rewrite part of test.py in pyproj in the form of unittests."""
 from __future__ import with_statement
 
+from distutils.version import LooseVersion
 from sys import version_info as sys_version_info
 
 if sys_version_info[:2] < (2 ,7):
     # for Python 2.4 - 2.6 use the backport of unittest from Python 2.7 and onwards
     import unittest2 as unittest
+    from unittest2 import skipIf
 else:
     import unittest
+    from unittest import skipIf
 
 import math
+
 from pyproj import Geod, Proj, transform
 from pyproj import pj_list # , pj_ellps
+from pyproj import proj_version_str
 
 class BasicTest(unittest.TestCase):
 
@@ -56,6 +61,42 @@ class BasicTest(unittest.TestCase):
       point_geog2 = awips221(*point, inverse=True)
       self.assertAlmostEqual(point_geog[0], point_geog2[0])
       self.assertAlmostEqual(point_geog[1], point_geog2[1])
+
+
+class InverseHammerTest(unittest.TestCase):
+    # This is a unit test of the inverse of the hammer projection, which
+    # was added to the PROJ.4 repository on 2015-12-13.
+    # PROJ.4 versions 4.9.2 and below do not contain this feature but future
+    # releases of PROJ.4 should support the inverse of the hammer projection.
+    # Therefore, different tests are to test the expected behavior on versions.
+    @classmethod
+    def setUpClass(self):
+        self.p = Proj(proj='hammer') # hammer proj
+        self.x, self.y = self.p(-30, 40)
+
+    def test_forward(self):
+        self.assertAlmostEqual(self.x, -2711575.083, places=3)
+        self.assertAlmostEqual(self.y, 4395506.619, places=3)
+
+    @skipIf(proj_version_str > LooseVersion('4.9.2'),
+            'test is for PROJ.4 version 4.9.2 and below ({0} installed)'
+            ''.format(proj_version_str))
+    def test_inverse_proj_4_9_2_and_below(self):
+        try:
+            lon, lat = self.p(self.x, self.y, inverse=True)
+            self.assertAlmostEqual(lon, -30.0, places=3)
+            self.assertAlmostEqual(lat, 40.0, places=3)
+        except RuntimeError:
+            pass
+
+    @skipIf(proj_version_str <= LooseVersion('4.9.2'),
+            'test is for PROJ.4 versions above 4.9.2 ({0} installed)'
+            ''.format(proj_version_str))
+    def test_inverse_above_proj_4_9_2(self):
+        lon, lat = self.p(self.x, self.y, inverse=True)
+        self.assertAlmostEqual(lon, -30.0, places=3)
+        self.assertAlmostEqual(lat, 40.0, places=3)
+
 
 class TypeError_Transform_Issue8_Test(unittest.TestCase):
     # Test for "Segmentation fault on pyproj.transform #8"
