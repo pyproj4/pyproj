@@ -2,18 +2,50 @@ language: python
 
 sudo: false
 
-python:
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
+cache: pip
+
+env: 
+  global: 
+    - PROJSOURCE=builtin
+
+# External version of PROJ.4 installed:
+#  * 4.9.2 is installed due to it having easy binary install on
+#    Ubuntu Linux 16.04 Long Term Support (LTS) (April 2016).
+#  * git repository test for future compatibility changes to PROJ.4 may
+#    be caught early.
+matrix:
+  include:
+    - python: 2.6
+    - python: 2.7
+    - python: 3.3
+      env: 
+        - PROJSOURCE=4.9.2
+    - python: 3.4
+    - python: 3.5
+    - python: "nightly"
+      env: 
+        - PROJSOURCE=git
+    
+  allow_failures:
+    - python: "nightly"
+
 
 before_install:
   - pip install -r requirements-dev.txt
   # extra requirements to support Python 2.6  
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2; fi
-
+  
+  - echo "PROJSOURCE is $PROJSOURCE"
+  - pwd
+  # Download external PROJ.4 version and compile
+  - | 
+    if [[ $PROJSOURCE == "git" || $PROJSOURCE =~ "4."* ]]; then 
+      ci/travis/proj-dl-and-compile "$PROJSOURCE"
+      export PROJ_DIR="/tmp/proj_dl_install"
+    fi
+  # Download PROJ.4 repo and compile
+  # - if [[ $PROJSOURCE == "git" ]]; then ci/travis/proj4-git-download-and-compile; export PROJ_DIR="/tmp/proj_git_install"; fi
+  
 install:
   - python setup.py install
 
