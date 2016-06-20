@@ -396,6 +396,11 @@ cdef class Proj:
         pj_dalloc(c_def_string)
         return py_def_string
 
+    def __repr__(self):
+        return "{modname}.{classname}({srs!r}, preserve_units=True)".format(
+                   modname=self.__module__, classname=self.__class__.__name__,
+                   srs=self.srs)
+
 def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
     # private function to call pj_transform
     cdef void *xdata
@@ -498,10 +503,15 @@ cdef class Geod:
     cdef public object initstring
 
     def __cinit__(self, a, f, sphere, b, es):
-        self.initstring = '+a=%s +f=%s' % (a, f)
         geod_init(&self._geod_geodesic, <double> a, <double> f)
         self.a = a
         self.f = f
+        if isinstance(a, float) and a.is_integer():
+            # convert 'a' only for initstring
+            a = int(a)
+        if f == 0.0:
+            f = 0
+        self.initstring = '+a=%s +f=%s' % (a, f)
         self.sphere = sphere
         self.b = b
         self.es = es
@@ -668,3 +678,8 @@ cdef class Geod:
                 lats = lats + (plat2,)
                 lons = lons + (plon2,)
         return lons, lats
+
+    def __repr__(self):
+        return "{modname}.{classname}({init!r})".format(modname=self.__module__,
+                                              classname=self.__class__.__name__,
+                                              init=self.initstring)

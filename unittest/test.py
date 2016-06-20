@@ -15,7 +15,7 @@ else:
 import math
 
 from pyproj import Geod, Proj, transform
-from pyproj import pj_list # , pj_ellps
+from pyproj import pj_list, pj_ellps
 from pyproj import proj_version_str
 
 class BasicTest(unittest.TestCase):
@@ -184,6 +184,31 @@ class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
 
         az12,az21,dist_mercury = self.mercury.inv(boston_lon,boston_lat,portland_lon,portland_lat)
         self.assertLess(dist_mercury, dist_g)
+
+
+class ReprTests(unittest.TestCase):
+    # test __repr__ for Proj object
+    def test_repr(self):
+        p = Proj(proj='latlong', preserve_units=True)
+        expected = "pyproj.Proj('+proj=latlong ', preserve_units=True)"
+        self.assertEqual(repr(p), expected)
+
+    # test __repr__ for Geod object
+    def test_sphere(self):
+        # ellipse is Venus 2000 (IAU2000:29900), which is a sphere
+        g = Geod('+a=6051800 +b=6051800')
+        self.assertEqual(repr(g), "pyproj.Geod('+a=6051800 +f=0')")
+
+    # test __repr__ for Geod object
+    def test_ellps_name_round_trip(self):
+        # this could be done in a parameter fashion
+        for ellps_name in pj_ellps:
+            # skip tests, these ellipses NWL9D and WGS66 are the same
+            if ellps_name in ('NWL9D', 'WGS66'):
+                continue
+            p = Geod(ellps=ellps_name)
+            expected = "pyproj.Geod(ellps='{0}')".format(ellps_name)
+            self.assertEqual(repr(p), expected)
 
 
 class TestRadians(unittest.TestCase):
