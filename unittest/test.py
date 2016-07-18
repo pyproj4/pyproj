@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Rewrite part of test.py in pyproj in the form of unittests."""
 from __future__ import with_statement
 
@@ -14,6 +15,7 @@ else:
 
 import math
 
+import pyproj
 from pyproj import Geod, Proj, transform
 from pyproj import pj_list, pj_ellps
 from pyproj import proj_version_str
@@ -300,6 +302,23 @@ class TestRadians(unittest.TestCase):
         for index, dpoint in enumerate(points_d):
             self.assertAlmostEqual(dpoint[0], math.degrees(points_r[index][0]))
             self.assertAlmostEqual(dpoint[1], math.degrees(points_r[index][1]))
+
+
+class UnicodeTest(unittest.TestCase):
+    def setUp(self):
+        self.datadir_save = pyproj.datadir.pyproj_datadir
+
+    def tearDown(self):
+        # restore the original datapath, othwise this could cause other
+        # tests to have errors
+        pyproj.set_datapath(self.datadir_save)
+        
+    def test_utf8_set_datapath(self):
+        # Issue #83 reported that Unicode characters in the installation
+        # path this would cause a UnicodeEncodeError
+        # the path is fictious and not meant to be a real path
+        pyproj.set_datapath(u'göteborg')
+        
 
 if __name__ == '__main__':
     unittest.main()
