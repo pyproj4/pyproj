@@ -1,0 +1,6 @@
+[run]
+plugins = Cython.Coverage
+
+[report]
+# number of decimal points to report for coverage percentage
+precision = 2

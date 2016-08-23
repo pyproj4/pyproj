@@ -43,16 +43,17 @@ before_install:
       ci/travis/proj-dl-and-compile "$PROJSOURCE"
       export PROJ_DIR="/tmp/proj_dl_install"
     fi
-  # Download PROJ.4 repo and compile
-  # - if [[ $PROJSOURCE == "git" ]]; then ci/travis/proj4-git-download-and-compile; export PROJ_DIR="/tmp/proj_git_install"; fi
+
+  # add line to the top of _proj.pyx enabling coverage for Cython code
+  - ./ci/travis/add_line_proj_pyx.sh
   
 install:
-  - python setup.py install
+  # coverage report requires a local install
+  - PYPROJ_FULL_COVERAGE=YES pip install -e .
 
 script:
-    - python lib/pyproj/__init__.py
     - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
-    - python unittest/test.py -v
+    - nose2 -v
 
 notifications:
   email: false

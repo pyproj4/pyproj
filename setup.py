@@ -68,6 +68,10 @@ else:
     #macros.append(('HAVE_STRERROR',1))
     # for win32 threads
     #macros.append(('MUTEX_win32',1))
+    # Set environment variable PYPROJ_FULL_COVERAGE to any value
+    if os.environ.get('PYPROJ_FULL_COVERAGE') is not None:
+        # compiler flag required for Cython Coverage
+        macros.append(('CYTHON_TRACE',1))
     extensions = [Extension("pyproj._proj",deps+['_proj'+ext],
                   include_dirs=['src'],define_macros=macros)]
 

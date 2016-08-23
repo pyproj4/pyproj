@@ -3,6 +3,7 @@
 from __future__ import with_statement
 
 from distutils.version import LooseVersion
+import math
 from sys import version_info as sys_version_info
 
 if sys_version_info[:2] < (2 ,7):
@@ -13,7 +14,12 @@ else:
     import unittest
     from unittest import skipIf
 
-import math
+try:
+    import nose2
+    import nose2.tools
+    HAS_NOSE2 = True
+except ImportError:
+    HAS_NOSE2 = False
 
 import pyproj
 from pyproj import Geod, Proj, transform
@@ -134,28 +140,21 @@ class ProjLatLongTypeErrorTest(unittest.TestCase):
         # if not patched this line raises a "TypeError: p2 must be a Proj class"
         lon, lat = transform(p, p.to_latlong(), 200000, 400000)
 
+
+@unittest.skipUnless(HAS_NOSE2, 'nose2 is not installed')
 class ForwardInverseTest(unittest.TestCase):
-  pass
+    @nose2.tools.params(*pj_list.keys())
+    def test_fwd_inv(self, pj):
+        try:
+            p = Proj(proj=pj)
+            x,y = p(-30,40)
+            # note, for proj 4.9.2 or before the inverse projection may be missing
+            # and pyproj 1.9.5.1 or before does not test for this and will
+            # give a segmentation fault at this point:
+            lon,lat = p(x,y,inverse=True)
+        except RuntimeError:
+            pass
 
-def testcase(pj):
-  # print 'defining: ', pj
-  def TestOneProjection(self):
-    # print 'testing: ', pj
-    try:
-      p = Proj(proj=pj)
-      x,y = p(-30,40)
-      # note, for proj 4.9.2 or before the inverse projection may be missing
-      # and pyproj 1.9.5.1 or before does not test for this and will
-      # give a segmentation fault at this point:
-      lon,lat = p(x,y,inverse=True)
-    except RuntimeError:
-      pass
-  return TestOneProjection
-
-# maybe also add tests for pj_ellps?
-for pj in sorted(pj_list):
-  testname = 'test_'+pj
-  setattr(ForwardInverseTest, testname, testcase(pj))
 
 # Tests for shared memory between Geod objects
 class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
@@ -321,4 +320,7 @@ class UnicodeTest(unittest.TestCase):
         
 
 if __name__ == '__main__':
-    unittest.main()
+    if HAS_NOSE2 is True:
+        nose2.discover()
+    else:
+        unittest.main()
