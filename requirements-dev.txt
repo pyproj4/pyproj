@@ -1,2 +1,5 @@
 numpy
 cython>=0.23.5
+nose2
+cov-core
+coverage>=4.0

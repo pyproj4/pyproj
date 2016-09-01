@@ -1009,10 +1009,15 @@ class Geod(_proj.Geod):
 
         return self.__repr__() == other.__repr__()
 
-def test():
+def test(**kwargs):
     """run the examples in the docstrings using the doctest module"""
-    import doctest, pyproj
-    failure_count, test_count = doctest.testmod(pyproj,verbose=True)
+    import doctest
+    import pyproj
+
+    verbose = kwargs.get('verbose')
+    failure_count, test_count = doctest.testmod(pyproj, verbose=verbose)
+
     return failure_count
 
-if __name__ == "__main__": sys.exit(test())
+if __name__ == "__main__": 
+    sys.exit(test(verbose=True))

@@ -2,7 +2,10 @@ build/
 nad2bin*
 *.obj
 *.o
+*.pyc
+*.so
 _proj.c
+.coverage
 dist/
 lib/pyproj.egg-info/
 lib/pyproj/data/FL
