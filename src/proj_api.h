@@ -37,8 +37,19 @@
 extern "C" {
 #endif
 
-/* Try to update this every version! */
-#define PJ_VERSION 492
+/*
+ * This version number should be updated with every release!  The format of
+ * PJ_VERSION is
+ *
+ * * Before version 4.10.0: PJ_VERSION=MNP where M, N, and P are the major,
+ *   minor, and patch numbers; e.g., PJ_VERSION=493 for version 4.9.3.
+ *
+ * * Version 4.10.0 and later: PJ_VERSION=MMMNNNPP later where MMM, NNN, PP
+ *   are the major, minor, and patch numbers (the minor and patch numbers
+ *   are padded with leading zeros if necessary); e.g., PJ_VERSION=401000
+ *   for version 4.10.0.
+ */
+#define PJ_VERSION 493
 
 /* pj_init() and similar functions can be used with a non-C locale */
 /* Can be detected too at runtime if the symbol pj_atof exists */
@@ -119,6 +130,8 @@ char *pj_get_def(projPJ, int);
 projPJ pj_latlong_from_proj( projPJ );
 void *pj_malloc(size_t);
 void pj_dalloc(void *);
+void *pj_calloc (size_t n, size_t size);
+void *pj_dealloc (void *ptr);
 char *pj_strerrno(int);
 int *pj_get_errno_ref(void);
 const char *pj_get_release(void);
@@ -154,6 +167,9 @@ void   pj_ctx_fclose(projCtx ctx, PAFile file);
 char  *pj_ctx_fgets(projCtx ctx, char *line, int size, PAFile file);
 
 PAFile pj_open_lib(projCtx, const char *, const char *);
+
+int pj_run_selftests (int verbosity);
+
 
 #define PJ_LOG_NONE        0
 #define PJ_LOG_ERROR       1
