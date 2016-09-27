@@ -446,7 +446,7 @@ def _transform(Proj p1, Proj p2, inx, iny, inz, radians):
             xx[i] = xx[i]*_rad2dg
             yy[i] = yy[i]*_rad2dg
 
-cdef _strencode(pystr,encoding='ascii'):
+cdef _strencode(pystr,encoding='latin1'):
     # encode a string into bytes.  If already bytes, do nothing.
     try:
         return pystr.encode(encoding)
