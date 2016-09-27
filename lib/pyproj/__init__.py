@@ -255,7 +255,7 @@ pj_ellps={
 #    msg="proj data directory not found. Expecting it at: %s"%pyproj_datadir
 #    raise IOError(msg)
 
-set_datapath(pyproj_datadir)
+set_datapath(pyproj_datadir.encode(encoding="utf-8"))
 
 class Proj(_proj.Proj):
     """
