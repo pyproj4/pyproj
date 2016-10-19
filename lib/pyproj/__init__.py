@@ -115,7 +115,7 @@ pj_list={
 'healpix': "HEALPix",
 'rhealpix': "rHEALPix",
 'igh':  "Interrupted Goode Homolosine",
-'imw_p': "Internation Map of the World Polyconic",
+'imw_p': "International Map of the World Polyconic",
 'isea':  "Icosahedral Snyder Equal Area",
 'kav5': "Kavraisky V",
 'kav7': "Kavraisky VII",
