@@ -767,7 +767,7 @@ class Geod(_proj.Geod):
         Example usage:
 
         >>> from pyproj import Geod
-        >>> g = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
+        >>> g = Geod(ellps='clrk66') # Use Clarke 1866 ellipsoid.
         >>> # specify the lat/lons of some cities.
         >>> boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
         >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
@@ -931,7 +931,7 @@ class Geod(_proj.Geod):
         Example usage:
 
         >>> from pyproj import Geod
-        >>> g = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
+        >>> g = Geod(ellps='clrk66') # Use Clarke 1866 ellipsoid.
         >>> # specify the lat/lons of Boston and Portland.
         >>> boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
         >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
@@ -992,8 +992,8 @@ class Geod(_proj.Geod):
         Example usage:
 
         >>> from pyproj import Geod
-        >>> gclrk1 = Geod(ellps='clrk66') # Use Clarke 1966 ellipsoid.
-        >>> gclrk2 = Geod(a=6378206.4, b=6356583.8) # Define Clarke 1966 using parameters
+        >>> gclrk1 = Geod(ellps='clrk66') # Use Clarke 1866 ellipsoid.
+        >>> gclrk2 = Geod(a=6378206.4, b=6356583.8) # Define Clarke 1866 using parameters
         >>> gclrk1 == gclrk2
         True
         >>> gwgs66 = Geod('+ellps=WGS66')  # WGS 66 ellipsoid, Proj.4 style
@@ -1001,7 +1001,7 @@ class Geod(_proj.Geod):
         >>> # these ellipsoids are the same
         >>> gnwl9d == gwgs66
         True
-        >>> gclrk1 != gnwl9d  # Clark 1966 is unlike NWL9D
+        >>> gclrk1 != gnwl9d  # Clarke 1866 is unlike NWL9D
         True
         """
         if not isinstance(other, _proj.Geod):
