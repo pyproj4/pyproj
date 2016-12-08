@@ -98,6 +98,7 @@ int main(int argc, char **argv) {
 /*      Read the ASCII Table                                            */
 /* ==================================================================== */
 
+    memset(ct.id,0,MAX_TAB_ID);
     if ( NULL == fgets(ct.id, MAX_TAB_ID, stdin) ) {
         perror("fgets");
         exit(1);
@@ -349,8 +350,8 @@ int main(int argc, char **argv) {
                         + (ct.lim.lam - i - 1);
 
                     /* convert radians to seconds */
-                    row_buf[i*4+0] = cvs->phi * (3600.0 / (PI/180.0));
-                    row_buf[i*4+1] = cvs->lam * (3600.0 / (PI/180.0));
+                    row_buf[i*4+0] = cvs->phi * (3600.0 / (M_PI/180.0));
+                    row_buf[i*4+1] = cvs->lam * (3600.0 / (M_PI/180.0));
 
                     /* We leave the accuracy values as zero */
                 }
@@ -359,7 +360,7 @@ int main(int argc, char **argv) {
                     swap_words( row_buf, 4, ct.lim.lam * 4 );
 
                 if( fwrite( row_buf, sizeof(float), ct.lim.lam*4, fp ) 
-                    != 4 * ct.lim.lam )
+                    != (size_t)( 4 * ct.lim.lam ) )
                 {
                     perror( "write()" );
                     exit( 2 );

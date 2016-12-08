@@ -20,7 +20,7 @@ pj_inv(XY xy, PJ *P) {
 	xy.x = (xy.x * P->to_meter - P->x0) * P->ra; /* descale and de-offset */
 	xy.y = (xy.y * P->to_meter - P->y0) * P->ra;
 
-        //Check for NULL pointer
+        /* Check for NULL pointer */
         if (P->inv != NULL)
         {
 	    lp = (*P->inv)(xy, P); /* inverse project */
@@ -30,7 +30,7 @@ pj_inv(XY xy, PJ *P) {
 		lp.lam += P->lam0; /* reduce from del lp.lam */
 		if (!P->over)
 			lp.lam = adjlon(lp.lam); /* adjust longitude to CM */
-		if (P->geoc && fabs(fabs(lp.phi)-HALFPI) > EPS)
+		if (P->geoc && fabs(fabs(lp.phi)-M_HALFPI) > EPS)
 			lp.phi = atan(P->one_es * tan(lp.phi));
 	    }
         }
