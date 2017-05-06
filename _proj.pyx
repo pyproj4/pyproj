@@ -20,6 +20,8 @@ cdef extern from "math.h":
 cdef extern from "geodesic.h":
   struct geod_geodesic:
         pass
+  struct geod_geodesicline:
+        double s13
   void geod_init(geod_geodesic* g, double a, double f)
   void geod_direct(geod_geodesic* g,\
               double lat1, double lon1, double azi1, double s12,\
@@ -27,6 +29,12 @@ cdef extern from "geodesic.h":
   void geod_inverse(geod_geodesic* g,\
                double lat1, double lon1, double lat2, double lon2,\
                double* ps12, double* pazi1, double* pazi2)
+  void geod_inverseline(geod_geodesicline* l,\
+               geod_geodesic* g,\
+               double lat1, double lon1, double lat2, double lon2,\
+               unsigned caps)
+  void geod_position(geod_geodesicline* l, double s12,\
+               double* plat2, double* plon2, double* pazi2);
   cdef enum:
       GEODESIC_VERSION_MAJOR
       GEODESIC_VERSION_MINOR
@@ -656,25 +664,25 @@ cdef class Geod:
         """
  given initial and terminus lat/lon, find npts intermediate points."""
         cdef int i
-        cdef double del_s,ps12,pazi1,pazi2,s12,plon2,plat2
+        cdef double del_s,pazi2,s12,plon2,plat2
+        cdef geod_geodesicline line
         if radians:
             lon1 = _rad2dg*lon1
             lat1 = _rad2dg*lat1
             lon2 = _rad2dg*lon2
             lat2 = _rad2dg*lat2
         # do inverse computation to set azimuths, distance.
-        geod_inverse(&self._geod_geodesic, lat1, lon1,  lat2, lon2,
-                &ps12, &pazi1, &pazi2)
+        geod_inverseline(&line, &self._geod_geodesic,\
+                lat1, lon1, lat2, lon2, 0u)
         # distance increment.
-        del_s = ps12/(npts+1)
+        del_s = line.s13/(npts+1)
         # initialize output tuples.
         lats = ()
         lons = ()
         # loop over intermediate points, compute lat/lons.
         for i from 1 <= i < npts+1:
             s12 = i*del_s
-            geod_direct(&self._geod_geodesic, lat1, lon1, pazi1, s12,\
-                   &plat2, &plon2, &pazi2)
+            geod_position(&line, s12, &plat2, &plon2, &pazi2);
             if radians:
                 lats = lats + (_dg2rad*plat2,)
                 lons = lons + (_dg2rad*plon2,)
