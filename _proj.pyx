@@ -577,9 +577,6 @@ cdef class Geod:
                 pazi2 = pazi2-180.
             elif pazi2 <= 0:
                 pazi2 = pazi2+180.
-            # check for NaN.
-            if pazi2 != pazi2:
-                raise ValueError('undefined inverse geodesic (may be an antipodal point)')
             if not radians:
                 lonsdata[i] = plon2
                 latsdata[i] = plat2
@@ -622,7 +619,6 @@ cdef class Geod:
         latsdata = <double *>latdata
         azdata = <double *>azdat
         distdata = <double *>distdat
-        errmsg = 'undefined inverse geodesic (may be an antipodal point)'
         for i from 0 <= i < ndim:
             if radians:
                 lon1 = _rad2dg*lonsdata[i]
@@ -642,8 +638,6 @@ cdef class Geod:
                 pazi2 = pazi2-180.
             elif pazi2 <= 0:
                 pazi2 = pazi2+180.
-            if ps12 != ps12: # check for NaN
-                raise ValueError('undefined inverse geodesic (may be an antipodal point)')
             if radians:
                 lonsdata[i] = _dg2rad*pazi1
                 latsdata[i] = _dg2rad*pazi2
