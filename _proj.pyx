@@ -21,7 +21,7 @@ cdef extern from "geodesic.h":
   struct geod_geodesic:
         pass
   struct geod_geodesicline:
-        double s13
+        pass
   void geod_init(geod_geodesic* g, double a, double f)
   void geod_direct(geod_geodesic* g,\
               double lat1, double lon1, double azi1, double s12,\
@@ -29,10 +29,9 @@ cdef extern from "geodesic.h":
   void geod_inverse(geod_geodesic* g,\
                double lat1, double lon1, double lat2, double lon2,\
                double* ps12, double* pazi1, double* pazi2)
-  void geod_inverseline(geod_geodesicline* l,\
+  void geod_lineinit(geod_geodesicline* l,\
                geod_geodesic* g,\
-               double lat1, double lon1, double lat2, double lon2,\
-               unsigned caps)
+               double lat1, double lon1, double azi1, unsigned caps)
   void geod_position(geod_geodesicline* l, double s12,\
                double* plat2, double* plon2, double* pazi2);
   cdef enum:
@@ -664,7 +663,7 @@ cdef class Geod:
         """
  given initial and terminus lat/lon, find npts intermediate points."""
         cdef int i
-        cdef double del_s,pazi2,s12,plon2,plat2
+        cdef double del_s,ps12,pazi1,pazi2,s12,plon2,plat2
         cdef geod_geodesicline line
         if radians:
             lon1 = _rad2dg*lon1
@@ -672,10 +671,13 @@ cdef class Geod:
             lon2 = _rad2dg*lon2
             lat2 = _rad2dg*lat2
         # do inverse computation to set azimuths, distance.
-        geod_inverseline(&line, &self._geod_geodesic,\
-                lat1, lon1, lat2, lon2, 0u)
+        # in proj 4.9.3 and later the next two steps can be replace by a call
+        # to geod_inverseline with del_s = line.s13/(npts+1)
+        geod_inverse(&self._geod_geodesic, lat1, lon1,  lat2, lon2,
+                &ps12, &pazi1, &pazi2)
+        geod_lineinit(&line, &self._geod_geodesic, lat1, lon1, pazi1, 0u)
         # distance increment.
-        del_s = line.s13/(npts+1)
+        del_s = ps12/(npts+1)
         # initialize output tuples.
         lats = ()
         lons = ()
