@@ -318,6 +318,46 @@ class UnicodeTest(unittest.TestCase):
         # the path is fictious and not meant to be a real path
         pyproj.set_datapath(u'göteborg')
         
+class Geod_NaN_Issue112_Test(unittest.TestCase):
+   # Test for Issue #112; Geod should silently propagate NaNs in input
+   # to the output.
+   def test_geod_nans(self):
+       g = Geod(ellps='clrk66')
+       (azi1, azi2, s12) = g.inv(43, 10, float('nan'), 20)
+       self.assertTrue(azi1 != azi1)
+       self.assertTrue(azi2 != azi2)
+       self.assertTrue(s12 != s12)
+       (azi1, azi2, s12) = g.inv(43, 10, 53, float('nan'))
+       self.assertTrue(azi1 != azi1)
+       self.assertTrue(azi2 != azi2)
+       self.assertTrue(s12 != s12)
+       # Illegal latitude is treated as NaN
+       (azi1, azi2, s12) = g.inv(43, 10, 53, 91)
+       self.assertTrue(azi1 != azi1)
+       self.assertTrue(azi2 != azi2)
+       self.assertTrue(s12 != s12)
+       (lon2, lat2, azi2) = g.fwd(43, 10, float('nan'), 1e6)
+       self.assertTrue(lon2 != lon2)
+       self.assertTrue(lat2 != lat2)
+       self.assertTrue(azi2 != azi2)
+       (lon2, lat2, azi2) = g.fwd(43, 10, 20, float('nan'))
+       self.assertTrue(lon2 != lon2)
+       self.assertTrue(lat2 != lat2)
+       self.assertTrue(azi2 != azi2)
+       (lon2, lat2, azi2) = g.fwd(43, float('nan'), 20, 1e6)
+       self.assertTrue(lon2 != lon2)
+       self.assertTrue(lat2 != lat2)
+       self.assertTrue(azi2 != azi2)
+       # Illegal latitude is treated as NaN
+       (lon2, lat2, azi2) = g.fwd(43, 91, 20, 1e6)
+       self.assertTrue(lon2 != lon2)
+       self.assertTrue(lat2 != lat2)
+       self.assertTrue(azi2 != azi2)
+       # Only lon2 is NaN
+       (lon2, lat2, azi2) = g.fwd(float('nan'), 10, 20, 1e6)
+       self.assertTrue(lon2 != lon2)
+       self.assertTrue(lat2 == lat2)
+       self.assertTrue(azi2 == azi2)
 
 if __name__ == '__main__':
     if HAS_NOSE2 is True:
