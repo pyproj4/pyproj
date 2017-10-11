@@ -15,13 +15,12 @@ env:
 #    be caught early.
 matrix:
   include:
-    - python: 2.6
     - python: 2.7
-    - python: 3.3
+    - python: 3.4
       env: 
         - PROJSOURCE=4.9.2
-    - python: 3.4
     - python: 3.5
+    - python: 3.6
     - python: "nightly"
       env: 
         - PROJSOURCE=git
@@ -32,8 +31,6 @@ matrix:
 
 before_install:
   - pip install -r requirements-dev.txt
-  # extra requirements to support Python 2.6  
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2; fi
   
   - echo "PROJSOURCE is $PROJSOURCE"
   - pwd
