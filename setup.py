@@ -56,7 +56,7 @@ else:
     if os.path.isfile(datadirfile_save):
         shutil.move(datadirfile_save, datadirfile)
 
-    deps = glob.glob('src/*.c')
+    deps = sorted(glob.glob('src/*.c'))
     macros = []
     # these flags are set by configure when proj.4 lib is built.
     # enable pthreads support
