@@ -21,7 +21,9 @@ matrix:
         - PROJSOURCE=4.9.2
     - python: 3.5
     - python: 3.6
-    - python: 3.7-dev
+    - python: 3.7
+      dist: xenial
+      sudo: true
     - python: "nightly"
       env: 
         - PROJSOURCE=git
