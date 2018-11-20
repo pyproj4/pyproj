@@ -24,8 +24,8 @@ pip install cython
 pip install git+https://github.com/jswhit/pyproj.git
 ```
 
-You migh want to run pip with administrative privilegies (e.g. `sudo pip`) or
-perform an user only installation (e.g. `pip install --user`).
+You may need to run pip with administrative privileges (e.g. `sudo pip`) or
+perform a user only installation (e.g. `pip install --user`).
 
 Testing
 -------
