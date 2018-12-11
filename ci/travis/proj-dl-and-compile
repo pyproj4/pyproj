@@ -10,16 +10,22 @@ fi
 cd proj.4-$1
 
 # Download and extract grids
-wget http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
-cd nad
-unzip -o ../proj-datumgrid-1.5.zip
+wget http://download.osgeo.org/proj/proj-datumgrid-1.7.zip
+cd data
+unzip -o ../proj-datumgrid-1.7.zip
 cd ..
 
 # could be installed to a cached location (probably not git version)
 # seems to take only about 13 seconds of build time
-cmake . -DCMAKE_INSTALL_PREFIX=/tmp/proj_dl_install
-make -j3
+# build using autotools
+sh autogen.sh
+./configure --prefix=$PROJ_DIR
+make 
 make install
-find /tmp/proj_dl_install
-# export PROJ_DIR="/tmp/proj_git_install"
+# build using cmake
+#cmake . -DCMAKE_INSTALL_PREFIX=$PROJ_DIR
+#cmake --build .
+#make install
+find $PROJ_DIR
+# export PROJ_DIR="/tmp/proj_dl_install"
 cd ..

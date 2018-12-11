@@ -3,3 +3,4 @@ cython>=0.28.4
 nose2
 cov-core
 coverage>=4.0
+pyproj

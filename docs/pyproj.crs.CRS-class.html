@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pyproj.crs.CRS</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pyproj-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pyproj-module.html">Package&nbsp;pyproj</a> ::
+        <a href="pyproj.crs-module.html" onclick="show_private();">Module&nbsp;crs</a> ::
+        Class&nbsp;CRS
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class CRS</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj.crs-pysrc.html#CRS">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+object --+    
+         |    
+ _crs._CRS --+
+             |
+            <strong class="uidshort">CRS</strong>
+</pre>
+
+<hr />
+<pre class="literalblock">
+
+A pythonic Coordinate Reference System manager.
+
+The functionality is based on other fantastic projects:
+- https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py
+- https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx
+
+</pre>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.crs.CRS-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">projparams</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Initialize a CRS class instance with a WKT string, a proj,4 string, a
+      proj.4 dictionary, or with proj.4 keyword arguments.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.crs.CRS-class.html#__reduce__" class="summary-sig-name">__reduce__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      special method that allows CRS instance to be pickled</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.__reduce__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.crs.CRS-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      repr(x)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.__repr__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.crs.CRS-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      str(x)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.__str__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_geod"></a><span class="summary-sig-name">get_geod</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns
+-------
+:obj:`pyproj.Geod`: Geod object based on the CRS.ellipsoid.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.get_geod">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_crs._CRS</code></b>:
+      <code>__eq__</code>,
+      <code>__ge__</code>,
+      <code>__gt__</code>,
+      <code>__le__</code>,
+      <code>__lt__</code>,
+      <code>__ne__</code>,
+      <code>__new__</code>,
+      <code>__setstate__</code>,
+      <code>to_epsg</code>,
+      <code>to_geodetic</code>,
+      <code>to_string</code>,
+      <code>to_wkt</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS METHODS ==================== -->
+<a name="section-ClassMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.crs.CRS-class.html#from_epsg" class="summary-sig-name">from_epsg</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">code</span>)</span><br />
+      Make a CRS from an EPSG code</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.from_epsg">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.crs.CRS-class.html#from_string" class="summary-sig-name">from_string</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">proj_string</span>)</span><br />
+      Make a CRS from an EPSG, PROJ, or WKT string</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.from_string">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.crs.CRS-class.html#from_user_input" class="summary-sig-name">from_user_input</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">value</span>)</span><br />
+      Make a CRS from various input</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.from_user_input">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_crs._CRS</code></b>:
+      <code>area_of_use</code>,
+      <code>axis_info</code>,
+      <code>datum</code>,
+      <code>ellipsoid</code>,
+      <code>is_geocentric</code>,
+      <code>is_geographic</code>,
+      <code>is_projected</code>,
+      <code>is_valid</code>,
+      <code>name</code>,
+      <code>prime_meridian</code>,
+      <code>proj_version</code>,
+      <code>srs</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">projparams</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Initialize a CRS class instance with a WKT string, a proj,4 string, a 
+  proj.4 dictionary, or with proj.4 keyword arguments.</p>
+  <p>CRS projection control parameters must either be given in a dictionary
+  'projparams' or as keyword arguments. See the proj.4 documentation 
+  (https://github.com/OSGeo/proj.4/wiki) for more information about 
+  specifying projection parameters.</p>
+  <p>Example usage:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pyproj <span class="py-keyword">import</span> CRS
+<span class="py-prompt">&gt;&gt;&gt; </span>crs_utm = CRS.from_user_input(26915)
+<span class="py-prompt">&gt;&gt;&gt; </span>crs_utm
+<span class="py-output">&lt;CRS: epsg:26915&gt;</span>
+<span class="py-output">Name: NAD83 / UTM zone 15N</span>
+<span class="py-output">Ellipsoid:</span>
+<span class="py-output">- semi_major_metre: 6378137.00</span>
+<span class="py-output">- semi_minor_metre: 6356752.31</span>
+<span class="py-output">- inverse_flattening: 298.26</span>
+<span class="py-output">Area of Use:</span>
+<span class="py-output">- name: North America - 96&#176;W to 90&#176;W and NAD83 by country</span>
+<span class="py-output">- bounds: (-96.0, 25.61, -90.0, 84.0)</span>
+<span class="py-output">Prime Meridian:</span>
+<span class="py-output">- longitude: 0.0000</span>
+<span class="py-output">- unit_name: degree</span>
+<span class="py-output">- unit_conversion_factor: 0.01745329</span>
+<span class="py-output">Axis Info:</span>
+<span class="py-output">- Easting[E] (east) EPSG:9001 (metre)</span>
+<span class="py-output">- Northing[N] (north) EPSG:9001 (metre)</span>
+<span class="py-output">&lt;BLANKLINE&gt;</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs_utm.area_of_use.bounds
+<span class="py-output">(-96.0, 25.61, -90.0, 84.0)</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs_utm.ellipsoid.inverse_flattening
+<span class="py-output">298.257222101</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs_utm.ellipsoid.semi_major_metre
+<span class="py-output">6378137.0</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs_utm.ellipsoid.semi_minor_metre
+<span class="py-output">6356752.314140356</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs_utm.prime_meridian.unit_name
+<span class="py-output">'degree'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs_utm.prime_meridian.unit_conversion_factor
+<span class="py-output">0.017453292519943295</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs_utm.prime_meridian.longitude
+<span class="py-output">0.0</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs = CRS(proj=<span class="py-string">'utm'</span>, zone=10, ellps=<span class="py-string">'WGS84'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>crs.to_string()
+<span class="py-output">'+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs.to_wkt()
+<span class="py-output">'PROJCRS[&quot;unknown&quot;,BASEGEOGCRS[&quot;unknown&quot;,DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,7030]]],PRIMEM[&quot;Greenwich&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8901]]],CONVERSION[&quot;UTM zone 10N&quot;,METHOD[&quot;Transverse Mercator&quot;,ID[&quot;EPSG&quot;,9807]],PARAMETER[&quot;Latitude of natural origin&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8801]],PARAMETER[&quot;Longitude of natural origin&quot;,-123,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8802]],PARAMETER[&quot;Scale factor at natural origin&quot;,0.9996,SCALEUNIT[&quot;unity&quot;,1],ID[&quot;EPSG&quot;,8805]],PARAMETER[&quot;False easting&quot;,500000,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,8806]],PARAMETER[&quot;False northing&quot;,0,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,8807]],ID[&quot;EPSG&quot;,16010]],CS[Cartesian,2],AXIS[&quot;(E)&quot;,east,ORDER[1],LENGTHUNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,9001]]],AXIS[&quot;(N)&quot;,north,ORDER[2],LENGTHUNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,9001]]]]'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>geod = crs.get_geod()
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">&quot;+a={:.0f} +f={:.8f}&quot;</span>.format(geod.a, geod.f)
+<span class="py-output">'+a=6378137 +f=0.00335281'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs.is_projected
+<span class="py-output">True</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs.is_geographic
+<span class="py-output">False</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>crs.is_valid
+<span class="py-output">True</span></pre>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__reduce__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__reduce__</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.__reduce__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>special method that allows CRS instance to be pickled</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__reduce__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__repr__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.__repr__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>repr(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__repr__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__str__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Informal representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.__str__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>str(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__str__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="from_epsg"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">from_epsg</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">code</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.from_epsg">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+Make a CRS from an EPSG code
+
+Parameters
+----------
+code : int or str
+    An EPSG code. Strings will be converted to integers.
+
+Notes
+-----
+The input code is not validated against an EPSG database.
+
+Returns
+-------
+CRS
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="from_string"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">from_string</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">proj_string</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.from_string">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+Make a CRS from an EPSG, PROJ, or WKT string
+
+Parameters
+----------
+proj_string : str
+    An EPSG, PROJ, or WKT string.
+
+Returns
+-------
+CRS
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="from_user_input"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">from_user_input</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">value</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj.crs-pysrc.html#CRS.from_user_input">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+Make a CRS from various input
+
+Dispatches to from_epsg, from_proj, or from_string
+
+Parameters
+----------
+value : obj
+    A Python int, dict, or str.
+
+Returns
+-------
+CRS
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pyproj-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Jan 16 20:32:37 2019
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

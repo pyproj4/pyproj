@@ -1,18 +1,11 @@
 include README.md
 include MANIFEST.in
-include LICENSE_proj4
 include LICENSE
 include Changelog
 include create_docs.sh
-include _proj.pyx
-include _proj.c
-include nad2bin.c
-include src/*.c
-include src/*.h
-include src/*diff
-include lib/pyproj/*py
-include lib/pyproj/data/*
-include datumgrid/*.lla
+include pyproj/*.pyd
+include pyproj/*.pyx
+include pyproj/*.pxi
 include test/test.py
 include test/test2.py
 include test/sample.out
@@ -22,3 +15,6 @@ include test/geodtest.py
 include test/test_datum.py
 recursive-include docs *
 recursive-include unittest *
+prune proj.4/*
+prune pyproj/proj_dir
+prune */__pycache__/

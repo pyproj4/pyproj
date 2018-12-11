@@ -3,21 +3,40 @@ pyproj
 
 Installation
 ------------
-* clone github repo or download source release at http://python.org/pypi/pyproj.
-  * If you clone the github repo, [Cython](http://cython.org/) is a dependency.
-* python setup.py build
-* python setup.py install (with sudo if necessary).
 
-To use proj4 lib (and data files) that are already installed on the system, 
-set PROJ_DIR environment variable to point to location of proj4 installation
-before running setup.py. If PROJ_DIR is not set, the bundled proj4
-source code and data files are used.
+* clone github repo or download source release at http://python.org/pypi/pyproj.
+  * [Cython](http://cython.org/) is required for the installation.
+
+#### Setup PROJ.4
+
+Follow installation instructions at: https://github.com/OSGeo/proj.4
+
+Next, set the PROJ_DIR environment variable to point to location of proj4 installation before running setup.py if it is not already on the PATH.
 
 Examples of how to set the PROJ_DIR environment variable:
+
 * Windows - `C:\...> set PROJ_DIR=C:\OSGeo4W\`
 * Linux/OS X on most shells- `$ export PROJ_DIR=/lib/`
 
-An alternative way to install is with `pip`:
+#### Setup pyproj
+
+From pypi:
+
+```
+pip install pyproj
+```
+
+From github:
+
+```
+pip install cython
+python setup.py build
+python setup.py install
+```
+
+You may need to run `sudo python setup.py install` if you have permissions issues.
+
+From GitHub with `pip`:
 
 ```
 pip install cython
@@ -60,11 +79,6 @@ Travis-CI should be set up to measure this automatically.
 * Install Cython, and all  other testing requirements
 ```
   pip install -r requirements-dev.txt
-```
-
-* Add this line to top of _proj.pyx
-```
-  # cython: linetrace=True
 ```
 
 * Set the environment variable PYPROJ_FULL_COVERAGE to any value.  This

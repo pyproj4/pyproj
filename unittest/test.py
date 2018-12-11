@@ -6,7 +6,7 @@ from distutils.version import LooseVersion
 import math
 from sys import version_info as sys_version_info
 
-if sys_version_info[:2] < (2 ,7):
+if sys_version_info[:2] < (2, 7):
     # for Python 2.4 - 2.6 use the backport of unittest from Python 2.7 and onwards
     import unittest2 as unittest
     from unittest2 import skipIf
@@ -17,6 +17,7 @@ else:
 try:
     import nose2
     import nose2.tools
+
     HAS_NOSE2 = True
 except ImportError:
     HAS_NOSE2 = False
@@ -26,49 +27,71 @@ from pyproj import Geod, Proj, transform
 from pyproj import pj_list, pj_ellps
 from pyproj import proj_version_str
 
+
 class BasicTest(unittest.TestCase):
+    def testProj4Version(self):
+        awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
+        # self.assertEqual(awips221.proj_version, 4.9)
 
-  def testProj4Version(self):
-    awips221 = Proj(proj='lcc',R=6371200,lat_1=50,lat_2=50,lon_0=-107)
-    #self.assertEqual(awips221.proj_version, 4.9)
+    def testInitWithBackupString4(self):
+        # this fails unless backup of to_string(4) is used
+        pj = Proj(
+            "+proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@null +lon_0=0.0 +x_0=0.0 +y_0=0.0 +units=m +no_defs"
+        )
+        assert pj.crs.is_valid
 
-  def testProjAwips221(self):
-    # AWIPS is Advanced Weather Interactive Processing System
-    params = {'proj': 'lcc', 'R': 6371200, 'lat_1': 50, 'lat_2': 50,
-              'lon_0': -107}
-    nx = 349
-    ny = 277
-    awips221 = Proj(proj=params['proj'], R=params['R'],
-                    lat_1=params['lat_1'], lat_2=params['lat_2'],
-                    lon_0=params['lon_0'])
-    awips221_from_dict = Proj(params)
+    def testProjAwips221(self):
+        # AWIPS is Advanced Weather Interactive Processing System
+        params = {"proj": "lcc", "R": 6371200, "lat_1": 50, "lat_2": 50, "lon_0": -107}
+        nx = 349
+        ny = 277
+        awips221 = Proj(
+            proj=params["proj"],
+            R=params["R"],
+            lat_1=params["lat_1"],
+            lat_2=params["lat_2"],
+            lon_0=params["lon_0"],
+        )
+        awips221_from_dict = Proj(params)
 
-    items = sorted([val for val in awips221.srs.split() if val])
-    items_dict = sorted([val for val in awips221_from_dict.srs.split() if val])
-    self.assertEqual(items, items_dict)
+        items = sorted([val for val in awips221.crs.srs.split() if val])
+        items_dict = sorted([val for val in awips221_from_dict.crs.srs.split() if val])
+        self.assertEqual(items, items_dict)
 
-    expected = sorted(('+units=m', '+proj=lcc', '+lat_2=50', '+lat_1=50',
-                      '+lon_0=-107','+R=6371200'))
-    self.assertEqual(items, expected)
+        expected = sorted(
+            (
+                "+R=6371200",
+                "+lat_0=0",
+                "+lat_1=50",
+                "+lat_2=50",
+                "+lon_0=-107",
+                "+no_defs",
+                "+proj=lcc",
+                "+units=m",
+                "+x_0=0",
+                "+y_0=0",
+            )
+        )
+        self.assertEqual(items, expected)
 
-    point = awips221(-145.5,1.)
-    x, y = -5632642.22547495, 1636571.4883145525
-    self.assertAlmostEqual(point[0], x)
-    self.assertAlmostEqual(point[1], y)
+        point = awips221(-145.5, 1.0)
+        x, y = -5632642.22547495, 1636571.4883145525
+        self.assertAlmostEqual(point[0], x)
+        self.assertAlmostEqual(point[1], y)
 
-    pairs = [
-        [(-45,45), (4351601.20766915, 7606948.029327129)],
-        [(45,45), (5285389.07739382, 14223336.17467613)],
-        [(45,-45), (20394982.466924712, 21736546.456803113)],
-        [(-45,-45), (16791730.756976362, -3794425.4816524936)]
+        pairs = [
+            [(-45, 45), (4351601.20766915, 7606948.029327129)],
+            [(45, 45), (5285389.07739382, 14223336.17467613)],
+            [(45, -45), (20394982.466924712, 21736546.456803113)],
+            [(-45, -45), (16791730.756976362, -3794425.4816524936)],
         ]
-    for point_geog, expected in pairs:
-      point = awips221(*point_geog)
-      self.assertAlmostEqual(point[0], expected[0])
-      self.assertAlmostEqual(point[1], expected[1])
-      point_geog2 = awips221(*point, inverse=True)
-      self.assertAlmostEqual(point_geog[0], point_geog2[0])
-      self.assertAlmostEqual(point_geog[1], point_geog2[1])
+        for point_geog, expected in pairs:
+            point = awips221(*point_geog)
+            self.assertAlmostEqual(point[0], expected[0])
+            self.assertAlmostEqual(point[1], expected[1])
+            point_geog2 = awips221(*point, inverse=True)
+            self.assertAlmostEqual(point_geog[0], point_geog2[0])
+            self.assertAlmostEqual(point_geog[1], point_geog2[1])
 
 
 class InverseHammerTest(unittest.TestCase):
@@ -79,16 +102,18 @@ class InverseHammerTest(unittest.TestCase):
     # Therefore, different tests are to test the expected behavior on versions.
     @classmethod
     def setUpClass(self):
-        self.p = Proj(proj='hammer') # hammer proj
+        self.p = Proj(proj="hammer")  # hammer proj
         self.x, self.y = self.p(-30, 40)
 
     def test_forward(self):
         self.assertAlmostEqual(self.x, -2711575.083, places=3)
         self.assertAlmostEqual(self.y, 4395506.619, places=3)
 
-    @skipIf(proj_version_str > LooseVersion('4.9.2'),
-            'test is for PROJ.4 version 4.9.2 and below ({0} installed)'
-            ''.format(proj_version_str))
+    @skipIf(
+        proj_version_str > LooseVersion("4.9.2"),
+        "test is for PROJ.4 version 4.9.2 and below ({0} installed)"
+        "".format(proj_version_str),
+    )
     def test_inverse_proj_4_9_2_and_below(self):
         try:
             lon, lat = self.p(self.x, self.y, inverse=True)
@@ -97,9 +122,11 @@ class InverseHammerTest(unittest.TestCase):
         except RuntimeError:
             pass
 
-    @skipIf(proj_version_str <= LooseVersion('4.9.2'),
-            'test is for PROJ.4 versions above 4.9.2 ({0} installed)'
-            ''.format(proj_version_str))
+    @skipIf(
+        proj_version_str <= LooseVersion("4.9.2"),
+        "test is for PROJ.4 versions above 4.9.2 ({0} installed)"
+        "".format(proj_version_str),
+    )
     def test_inverse_above_proj_4_9_2(self):
         lon, lat = self.p(self.x, self.y, inverse=True)
         self.assertAlmostEqual(lon, -30.0, places=3)
@@ -111,47 +138,49 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
     # https://github.com/jswhit/pyproj/issues/8
 
     def setUp(self):
-       self.p = Proj(init='epsg:4269')
+        self.p = Proj(init="epsg:4269")
 
     def test_tranform_none_1st_parmeter(self):
-    # test should raise Type error if projections are not of Proj classes
-    # version 1.9.4 produced AttributeError, now should raise TypeError
-       with self.assertRaises(TypeError):
-          transform(None, self.p, -74, 39)
+        # test should raise Type error if projections are not of Proj classes
+        # version 1.9.4 produced AttributeError, now should raise TypeError
+        with self.assertRaises(TypeError):
+            transform(None, self.p, -74, 39)
 
     def test_tranform_none_2nd_parmeter(self):
-    # test should raise Type error if projections are not of Proj classes
-    # version 1.9.4 has a Segmentation Fault, now should raise TypeError
-       with self.assertRaises(TypeError):
-          transform(self.p, None, -74, 39)
+        # test should raise Type error if projections are not of Proj classes
+        # version 1.9.4 has a Segmentation Fault, now should raise TypeError
+        with self.assertRaises(TypeError):
+            transform(self.p, None, -74, 39)
+
 
 class Geod_NoDefs_Issue22_Test(unittest.TestCase):
-   # Test for Issue #22, Geod with "+no_defs" in initstring
-   # Before PR #23 merged 2015-10-07, having +no_defs in the initstring would result in a ValueError
-   def test_geod_nodefs(self):
-       Geod("+a=6378137 +b=6378137 +no_defs")
+    # Test for Issue #22, Geod with "+no_defs" in initstring
+    # Before PR #23 merged 2015-10-07, having +no_defs in the initstring would result in a ValueError
+    def test_geod_nodefs(self):
+        Geod("+a=6378137 +b=6378137 +no_defs")
+
 
 class ProjLatLongTypeErrorTest(unittest.TestCase):
     # .latlong() using in transform raised a TypeError in release 1.9.5.1
     # reported in issue #53, resolved in #73.
     def test_latlong_typeerror(self):
-        p = Proj('+proj=stere +lon_0=-39 +lat_0=90 +lat_ts=71.0 +ellps=WGS84')
+        p = Proj("+proj=stere +lon_0=-39 +lat_0=90 +lat_ts=71.0 +ellps=WGS84")
         self.assertTrue(isinstance(p, Proj))
         # if not patched this line raises a "TypeError: p2 must be a Proj class"
         lon, lat = transform(p, p.to_latlong(), 200000, 400000)
 
 
-@unittest.skipUnless(HAS_NOSE2, 'nose2 is not installed')
+@unittest.skipUnless(HAS_NOSE2, "nose2 is not installed")
 class ForwardInverseTest(unittest.TestCase):
     @nose2.tools.params(*pj_list.keys())
     def test_fwd_inv(self, pj):
         try:
             p = Proj(proj=pj)
-            x,y = p(-30,40)
+            x, y = p(-30, 40)
             # note, for proj 4.9.2 or before the inverse projection may be missing
             # and pyproj 1.9.5.1 or before does not test for this and will
             # give a segmentation fault at this point:
-            lon,lat = p(x,y,inverse=True)
+            lon, lat = p(x, y, inverse=True)
         except RuntimeError:
             pass
 
@@ -159,10 +188,10 @@ class ForwardInverseTest(unittest.TestCase):
 # Tests for shared memory between Geod objects
 class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
     def setUp(self):
-        self.g = Geod(ellps='clrk66')
+        self.g = Geod(ellps="clrk66")
         self.ga = self.g.a
-        self.mercury = Geod(a=2439700) # Mercury 2000 ellipsoid
-                                       # Mercury is much smaller than earth.
+        self.mercury = Geod(a=2439700)  # Mercury 2000 ellipsoid
+        # Mercury is much smaller than earth.
 
     def test_not_shared_memory(self):
         self.assertEqual(self.ga, self.g.a)
@@ -178,48 +207,58 @@ class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
 
     def test_distances(self):
         # note calculated distance was not an issue with #64, but it still a shared memory test
-        boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
-        portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
+        boston_lat = 42.0 + (15.0 / 60.0)
+        boston_lon = -71.0 - (7.0 / 60.0)
+        portland_lat = 45.0 + (31.0 / 60.0)
+        portland_lon = -123.0 - (41.0 / 60.0)
 
-        az12,az21,dist_g = self.g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+        az12, az21, dist_g = self.g.inv(
+            boston_lon, boston_lat, portland_lon, portland_lat
+        )
 
-        az12,az21,dist_mercury = self.mercury.inv(boston_lon,boston_lat,portland_lon,portland_lat)
+        az12, az21, dist_mercury = self.mercury.inv(
+            boston_lon, boston_lat, portland_lon, portland_lat
+        )
         self.assertLess(dist_mercury, dist_g)
 
 
 class ReprTests(unittest.TestCase):
     # test __repr__ for Proj object
     def test_repr(self):
-        p = Proj(proj='latlong', preserve_units=True)
-        expected = "pyproj.Proj('+proj=latlong ', preserve_units=True)"
+        p = Proj(proj="latlong", preserve_units=True)
+        expected = "Proj('+proj=latlong', preserve_units=True)"
         self.assertEqual(repr(p), expected)
 
     # test __repr__ for Geod object
     def test_sphere(self):
         # ellipse is Venus 2000 (IAU2000:29900), which is a sphere
-        g = Geod('+a=6051800 +b=6051800')
-        self.assertEqual(repr(g), "pyproj.Geod('+a=6051800 +f=0')")
+        g = Geod("+a=6051800 +b=6051800")
+        self.assertEqual(repr(g), "Geod('+a=6051800 +f=0')")
 
     # test __repr__ for Geod object
     def test_ellps_name_round_trip(self):
         # this could be done in a parameter fashion
         for ellps_name in pj_ellps:
             # skip tests, these ellipses NWL9D and WGS66 are the same
-            if ellps_name in ('NWL9D', 'WGS66'):
+            if ellps_name in ("NWL9D", "WGS66"):
                 continue
             p = Geod(ellps=ellps_name)
-            expected = "pyproj.Geod(ellps='{0}')".format(ellps_name)
+            expected = "Geod(ellps='{0}')".format(ellps_name)
             self.assertEqual(repr(p), expected)
 
 
 class TestRadians(unittest.TestCase):
     """Tests issue #84"""
+
     def setUp(self):
-        self.g = Geod(ellps='clrk66')
-        self.boston_d = (-71. - (7. / 60.), 42. + (15. / 60.))
+        self.g = Geod(ellps="clrk66")
+        self.boston_d = (-71.0 - (7.0 / 60.0), 42.0 + (15.0 / 60.0))
         self.boston_r = (math.radians(self.boston_d[0]), math.radians(self.boston_d[1]))
-        self.portland_d = (-123. - (41. / 60.), 45. + (31. / 60.))
-        self.portland_r = (math.radians(self.portland_d[0]), math.radians(self.portland_d[1]))
+        self.portland_d = (-123.0 - (41.0 / 60.0), 45.0 + (31.0 / 60.0))
+        self.portland_r = (
+            math.radians(self.portland_d[0]),
+            math.radians(self.portland_d[1]),
+        )
 
     def test_inv_radians(self):
 
@@ -229,7 +268,8 @@ class TestRadians(unittest.TestCase):
             self.boston_d[1],
             self.portland_d[0],
             self.portland_d[1],
-            radians=False)
+            radians=False,
+        )
 
         # Get bearings and distance from Boston to Portland in radians
         az12_r, az21_r, dist_r = self.g.inv(
@@ -237,7 +277,8 @@ class TestRadians(unittest.TestCase):
             self.boston_r[1],
             self.portland_r[0],
             self.portland_r[1],
-            radians=True)
+            radians=True,
+        )
 
         # Check they are equal
         self.assertAlmostEqual(az12_d, math.degrees(az12_r))
@@ -251,23 +292,18 @@ class TestRadians(unittest.TestCase):
             self.boston_d[1],
             self.portland_d[0],
             self.portland_d[1],
-            radians=False)
+            radians=False,
+        )
 
         # Calculate Portland's lon/lat from bearing and distance in degrees
         endlon_d, endlat_d, backaz_d = self.g.fwd(
-            self.boston_d[0],
-            self.boston_d[1],
-            az12_d,
-            dist,
-            radians=False)
+            self.boston_d[0], self.boston_d[1], az12_d, dist, radians=False
+        )
 
         # Calculate Portland's lon/lat from bearing and distance in radians
         endlon_r, endlat_r, backaz_r = self.g.fwd(
-            self.boston_r[0],
-            self.boston_r[1],
-            math.radians(az12_d),
-            dist,
-            radians=True)
+            self.boston_r[0], self.boston_r[1], math.radians(az12_d), dist, radians=True
+        )
 
         # Check they are equal
         self.assertAlmostEqual(endlon_d, math.degrees(endlon_r))
@@ -286,7 +322,8 @@ class TestRadians(unittest.TestCase):
             lon2=self.portland_d[0],
             lat2=self.portland_d[1],
             npts=10,
-            radians=False)
+            radians=False,
+        )
 
         # Calculate 10 points between Boston and Portland in radians
         points_r = self.g.npts(
@@ -295,7 +332,8 @@ class TestRadians(unittest.TestCase):
             lon2=self.portland_r[0],
             lat2=self.portland_r[1],
             npts=10,
-            radians=True)
+            radians=True,
+        )
 
         # Check they are equal
         for index, dpoint in enumerate(points_d):
@@ -303,63 +341,49 @@ class TestRadians(unittest.TestCase):
             self.assertAlmostEqual(dpoint[1], math.degrees(points_r[index][1]))
 
 
-class UnicodeTest(unittest.TestCase):
-    def setUp(self):
-        self.datadir_save = pyproj.datadir.pyproj_datadir
-
-    def tearDown(self):
-        # restore the original datapath, othwise this could cause other
-        # tests to have errors
-        pyproj.set_datapath(self.datadir_save)
-        
-    def test_utf8_set_datapath(self):
-        # Issue #83 reported that Unicode characters in the installation
-        # path this would cause a UnicodeEncodeError
-        # the path is fictious and not meant to be a real path
-        pyproj.set_datapath(u'göteborg')
-        
 class Geod_NaN_Issue112_Test(unittest.TestCase):
-   # Test for Issue #112; Geod should silently propagate NaNs in input
-   # to the output.
-   def test_geod_nans(self):
-       g = Geod(ellps='clrk66')
-       (azi1, azi2, s12) = g.inv(43, 10, float('nan'), 20)
-       self.assertTrue(azi1 != azi1)
-       self.assertTrue(azi2 != azi2)
-       self.assertTrue(s12 != s12)
-       (azi1, azi2, s12) = g.inv(43, 10, 53, float('nan'))
-       self.assertTrue(azi1 != azi1)
-       self.assertTrue(azi2 != azi2)
-       self.assertTrue(s12 != s12)
-       # Illegal latitude is treated as NaN
-       (azi1, azi2, s12) = g.inv(43, 10, 53, 91)
-       self.assertTrue(azi1 != azi1)
-       self.assertTrue(azi2 != azi2)
-       self.assertTrue(s12 != s12)
-       (lon2, lat2, azi2) = g.fwd(43, 10, float('nan'), 1e6)
-       self.assertTrue(lon2 != lon2)
-       self.assertTrue(lat2 != lat2)
-       self.assertTrue(azi2 != azi2)
-       (lon2, lat2, azi2) = g.fwd(43, 10, 20, float('nan'))
-       self.assertTrue(lon2 != lon2)
-       self.assertTrue(lat2 != lat2)
-       self.assertTrue(azi2 != azi2)
-       (lon2, lat2, azi2) = g.fwd(43, float('nan'), 20, 1e6)
-       self.assertTrue(lon2 != lon2)
-       self.assertTrue(lat2 != lat2)
-       self.assertTrue(azi2 != azi2)
-       # Illegal latitude is treated as NaN
-       (lon2, lat2, azi2) = g.fwd(43, 91, 20, 1e6)
-       self.assertTrue(lon2 != lon2)
-       self.assertTrue(lat2 != lat2)
-       self.assertTrue(azi2 != azi2)
-       # Only lon2 is NaN
-       (lon2, lat2, azi2) = g.fwd(float('nan'), 10, 20, 1e6)
-       self.assertTrue(lon2 != lon2)
-       self.assertTrue(lat2 == lat2)
-       self.assertTrue(azi2 == azi2)
+    # Test for Issue #112; Geod should silently propagate NaNs in input
+    # to the output.
+    def test_geod_nans(self):
+        g = Geod(ellps="clrk66")
+        (azi1, azi2, s12) = g.inv(43, 10, float("nan"), 20)
+        self.assertTrue(azi1 != azi1)
+        self.assertTrue(azi2 != azi2)
+        self.assertTrue(s12 != s12)
+        (azi1, azi2, s12) = g.inv(43, 10, 53, float("nan"))
+        self.assertTrue(azi1 != azi1)
+        self.assertTrue(azi2 != azi2)
+        self.assertTrue(s12 != s12)
+        # Illegal latitude is treated as NaN
+        (azi1, azi2, s12) = g.inv(43, 10, 53, 91)
+        self.assertTrue(azi1 != azi1)
+        self.assertTrue(azi2 != azi2)
+        self.assertTrue(s12 != s12)
+        (lon2, lat2, azi2) = g.fwd(43, 10, float("nan"), 1e6)
+        self.assertTrue(lon2 != lon2)
+        self.assertTrue(lat2 != lat2)
+        self.assertTrue(azi2 != azi2)
+        (lon2, lat2, azi2) = g.fwd(43, 10, 20, float("nan"))
+        self.assertTrue(lon2 != lon2)
+        self.assertTrue(lat2 != lat2)
+        self.assertTrue(azi2 != azi2)
+        (lon2, lat2, azi2) = g.fwd(43, float("nan"), 20, 1e6)
+        self.assertTrue(lon2 != lon2)
+        self.assertTrue(lat2 != lat2)
+        self.assertTrue(azi2 != azi2)
+        # Illegal latitude is treated as NaN
+        (lon2, lat2, azi2) = g.fwd(43, 91, 20, 1e6)
+        self.assertTrue(lon2 != lon2)
+        self.assertTrue(lat2 != lat2)
+        self.assertTrue(azi2 != azi2)
+        # Only lon2 is NaN
+        (lon2, lat2, azi2) = g.fwd(float("nan"), 10, 20, 1e6)
+        self.assertTrue(lon2 != lon2)
+        self.assertTrue(lat2 == lat2)
+        self.assertTrue(azi2 == azi2)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     if HAS_NOSE2 is True:
         nose2.discover()
     else:
