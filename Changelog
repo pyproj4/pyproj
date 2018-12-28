@@ -1,6 +1,7 @@
-since 1.9.5.1 release
+1.9.6
 * fix segfault when inverse projection not defined (issue #43, pull request
   #44).
+* supports python 3.7
 1.9.5.1
 * fix for issue #42 (compilation error with microsoft visual studio).
 1.9.5

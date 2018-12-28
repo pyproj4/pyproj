@@ -10,7 +10,7 @@ cdef double _dg2rad, _rad2dg
 _dg2rad = math.radians(1.)
 _rad2dg = math.degrees(1.)
 _doublesize = sizeof(double)
-__version__ = "1.9.5.1"
+__version__ = "1.9.6"
 
 cdef extern from "math.h":
     cdef enum:
