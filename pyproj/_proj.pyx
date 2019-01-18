@@ -336,7 +336,7 @@ def _transform(p1, p2, inx, iny, inz):
     cdef int errno = proj_errno(pj_trans.projpj)
     if errno:
         raise ProjError("proj_trans_generic error: {}".format(
-            proj_errno_string(errno)))
+            pystrdecode(proj_errno_string(errno))))
     if proj_angular_output(pj_trans.projpj, PJ_FWD):
         for i from 0 <= i < npts:
             xx[i] = xx[i]*_RAD2DG

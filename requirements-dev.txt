@@ -1,7 +1,5 @@
-numpy
 cython>=0.28.4
 nose2
 pytest
 cov-core
 coverage>=4.0
-pyproj

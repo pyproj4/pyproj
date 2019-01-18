@@ -1,5 +1,6 @@
 from __future__ import with_statement
 
+from glob import glob
 import os
 import sys
 from distutils.spawn import find_executable
@@ -24,7 +25,12 @@ INTERNAL_PROJ_DIR = os.path.join(CURRENT_FILE_PATH, "pyproj", BASE_INTERNAL_PROJ
 
 def check_proj_version(proj_dir):
     proj = os.path.join(proj_dir, "bin", "proj")
-    proj_version = subprocess.check_output([proj], stderr=subprocess.STDOUT)
+    try:
+        proj_version = subprocess.check_output([proj], stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        if os.name == "nt":
+            return
+        raise
     proj_version = proj_version.split()[1].split(b".")
     proj_version = tuple(int(v.strip(b",")) for v in proj_version)
     if proj_version < PROJ_MIN_VERSION:
@@ -58,7 +64,7 @@ elif proj_dir is None and not os.path.exists(INTERNAL_PROJ_DIR):
 elif proj_dir is not None and os.path.exists(proj_dir):
     print("PROJ_DIR is set, using existing proj4 installation..\n")
 else:
-    sys.exit("ERROR: Invalid path for PROJ_DIR")
+    sys.exit("ERROR: Invalid path for PROJ_DIR {}".format(proj_dir))
 
 # check_proj_version
 check_proj_version(proj_dir)
@@ -73,24 +79,41 @@ if os.environ.get("PYPROJ_FULL_COVERAGE"):
 proj_libdir = os.environ.get("PROJ_LIBDIR")
 libdirs = []
 if proj_libdir is None:
-    libdirs.append(os.path.join(proj_dir, "lib"))
-    libdirs.append(os.path.join(proj_dir, "lib64"))
+    if os.path.exists(os.path.join(proj_dir, "lib")):
+        libdirs.append(os.path.join(proj_dir, "lib"))
+        libdirs.append(os.path.join(proj_dir, "lib64"))
+    elif os.path.exists(os.path.join(proj_dir, "local", "lib")):
+        libdirs.append(os.path.join(proj_dir, "local", "lib"))
+    else:
+        sys.exit("ERROR: PROJ_LIBDIR dir not found. Please set PROJ_LIBDIR.")
 else:
     libdirs.append(proj_libdir)
 
 proj_incdir = os.environ.get("PROJ_INCDIR")
 incdirs = []
 if proj_incdir is None:
-    incdirs.append(os.path.join(proj_dir, "include"))
+    if os.path.exists(os.path.join(proj_dir, "include")):
+        incdirs.append(os.path.join(proj_dir, "include"))
+    elif os.path.exists(os.path.join(proj_dir, "local", "include")):
+        incdirs.append(os.path.join(proj_dir, "local", "include"))
+    else:
+        sys.exit("ERROR: PROJ_INCDIR dir not found. Please set PROJ_INCDIR.")
 else:
-    libdirs.append(proj_incdir)
+    incdirs.append(proj_incdir)
 
+libraries = ["proj"]
+if os.name == "nt":
+    for libdir in libdirs:
+        projlib = glob(os.path.join(libdir, "proj*.lib"))
+        if projlib:
+            libraries = [os.path.basename(projlib[0]).split(".lib")[0]]
+            break
 
 ext_options = dict(
     include_dirs=incdirs,
     library_dirs=libdirs,
-    runtime_library_dirs=libdirs,
-    libraries=["proj"],
+    runtime_library_dirs=libdirs if os.name != "nt" else None,
+    libraries=libraries,
 )
 
 ext_modules = cythonize(
