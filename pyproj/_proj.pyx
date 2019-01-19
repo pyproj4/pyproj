@@ -3,7 +3,7 @@
 include "base.pxi"
 
 from pyproj._crs import _CRS
-from pyproj.compat import cstrencode
+from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import ProjError
 
 
@@ -20,6 +20,7 @@ cdef class Proj:
         self.projpj = NULL
 
     def __init__(self, const char *projstring):
+        self.srs = pystrdecode(projstring)
         # initialize projection
         self.projctx = proj_context_create()
         proj_context_use_proj4_init_rules(self.projctx, 1)
@@ -249,7 +250,7 @@ cdef class Proj:
 #               llptr[i].v = _RAD2DG*projlonlatout.v
 
     def __repr__(self):
-        return "Proj('{srs}', preserve_units=True)".format(srs=self.crs.srs)
+        return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
 
 cdef class TransProj:
     def __cinit__(self):

@@ -302,14 +302,17 @@ cdef class _CRS:
         self._area_of_use = None
         self._prime_meridian = None
         # setup proj initialization string.
+        self.projctx = proj_context_create()
+        proj_context_use_proj4_init_rules(self.projctx, 1)
+
+        if not is_wkt(projstring) \
+                and not projstring.lower().startswith("epsg")\
+                and "type=crs" not in projstring:
+            projstring += " +type=crs"
+        self.projobj = proj_create(self.projctx, cstrencode(projstring))
+
         self.srs = pystrdecode(projstring)
         # initialize projection
-        self.projctx = proj_context_create()
-        cdef const char* options_proj4_mode[2]
-        options_proj4_mode[0] = "USE_PROJ4_INIT_RULES=YES"
-        options_proj4_mode[1] = NULL
-        self.projobj = proj_create_from_user_input(
-            self.projctx, cstrencode(projstring), options_proj4_mode)
         if self.projobj is NULL:
             raise CRSError(
                 "Invalid projection: {}".format(self.srs))

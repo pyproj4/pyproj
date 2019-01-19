@@ -67,6 +67,7 @@ class BasicTest(unittest.TestCase):
                 "+lon_0=-107",
                 "+no_defs",
                 "+proj=lcc",
+                "+type=crs",
                 "+units=m",
                 "+x_0=0",
                 "+y_0=0",
@@ -226,7 +227,7 @@ class ReprTests(unittest.TestCase):
     # test __repr__ for Proj object
     def test_repr(self):
         p = Proj(proj="latlong", preserve_units=True)
-        expected = "Proj('+proj=latlong', preserve_units=True)"
+        expected = "Proj('+proj=longlat +datum=WGS84 +no_defs', preserve_units=True)"
         self.assertEqual(repr(p), expected)
 
     # test __repr__ for Geod object

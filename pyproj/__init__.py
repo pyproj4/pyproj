@@ -58,7 +58,7 @@ import warnings
 from pyproj import _proj
 from pyproj.geod import Geod, pj_ellps, geodesic_version_str
 from pyproj.crs import CRS
-from pyproj.compat import string_types, cstrencode
+from pyproj.compat import string_types, cstrencode, pystrdecode
 from pyproj.datadir import pyproj_datadir
 from pyproj.exceptions import ProjError
 from pyproj.utils import _convertback, _copytobuffer, _copytobuffer_return_scalar
@@ -317,7 +317,9 @@ class Proj(_proj.Proj):
             projstring = re.sub(r"\s\+units=[\w-]+", "", projstring)
             projstring += " +units=m"
             self.crs = CRS(projstring)
-        super(Proj, self).__init__(cstrencode(self.crs.to_string()))
+        super(Proj, self).__init__(
+            cstrencode(self.crs.to_string().replace("+type=crs", "").strip())
+        )
 
     def __call__(self, *args, **kw):
         # ,lon,lat,inverse=False,errcheck=False):
@@ -385,13 +387,10 @@ class Proj(_proj.Proj):
         """Returns formal definition string for projection
 
         >>> Proj('+init=epsg:4326').definition_string()
-        '+proj=longlat +datum=WGS84 +no_defs'
+        'proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0'
         >>>
         """
-        warnings.warn(
-            "'definition_string()' is deprecated. Please use 'crs.to_string()'."
-        )
-        return self.crs.to_string(version=4)
+        return pystrdecode(self.definition)
 
     def to_latlong_def(self):
         """return the definition string of the geographic (lat/lon)

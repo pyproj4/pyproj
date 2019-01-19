@@ -106,10 +106,6 @@ cdef extern from "proj.h":
         PJ_COMP_EQUIVALENT
         PJ_COMP_EQUIVALENT_EXCEPT_AXIS_ORDER_GEOGCRS
 
-    PJ *proj_create_from_user_input(PJ_CONTEXT *ctx,
-                                    const char *text,
-                                    const char* const* options)
-
     void proj_destroy(PJ *obj)
     int proj_is_equivalent_to(const PJ *obj, const PJ* other,
                               PJ_COMPARISON_CRITERION criterion)

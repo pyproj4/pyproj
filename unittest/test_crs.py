@@ -7,8 +7,8 @@ from pyproj.exceptions import CRSError
 def test_from_proj4_json():
     json_str = '{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}'
     proj = CRS.from_string(json_str)
-    assert proj.to_string(4) == "+proj=longlat +datum=WGS84 +no_defs"
-    assert proj.to_string(5) == "+proj=longlat +datum=WGS84 +no_defs"
+    assert proj.to_string(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    assert proj.to_string(5) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     # Test with invalid JSON code
     with pytest.raises(CRSError):
         assert CRS.from_string("{foo: bar}")
@@ -34,10 +34,13 @@ def test_from_epsg_string():
 
 def test_from_string():
     wgs84_crs = CRS.from_string("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
-    assert wgs84_crs.to_string() == "+proj=longlat +datum=WGS84 +no_defs"
+    assert wgs84_crs.to_string() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     # Make sure this doesn't get handled using the from_epsg() even though 'epsg' is in the string
     epsg_init_crs = CRS.from_string("+init=epsg:26911 +units=m +no_defs=True")
-    assert epsg_init_crs.to_string() == "+init=epsg:26911 +units=m +no_defs=True"
+    assert (
+        epsg_init_crs.to_string()
+        == "+proj=utm +zone=11 +datum=NAD83 +units=m +no_defs +type=crs"
+    )
 
 
 def test_bare_parameters():
@@ -109,7 +112,8 @@ def test_is_same_crs():
 
 def test_to_string():
     assert (
-        CRS({"init": "EPSG:4326"}).to_string(4) == "+proj=longlat +datum=WGS84 +no_defs"
+        CRS({"init": "EPSG:4326"}).to_string(4)
+        == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     )
 
 
@@ -141,7 +145,7 @@ def test_has_wkt_property():
 
 def test_repr():
     assert repr(CRS({"init": "EPSG:4326"})) == (
-        "<CRS: +init=epsg:4326>\n"
+        "<CRS: +init=epsg:4326 +type=crs>\n"
         "Name: WGS 84\n"
         "Ellipsoid:\n"
         "- semi_major_metre: 6378137.00\n"
@@ -155,8 +159,8 @@ def test_repr():
         "- unit_name: degree\n"
         "- unit_conversion_factor: 0.01745329\n"
         "Axis Info:\n"
-        "- Longitude[lon] (east) EPSG:9101 (radian)\n"
-        "- Latitude[lat] (north) EPSG:9101 (radian)\n"
+        "- Longitude[lon] (east) EPSG:9122 (degree)\n"
+        "- Latitude[lat] (north) EPSG:9122 (degree)\n"
     )
 
 
@@ -176,8 +180,8 @@ def test_repr__long():
         "- unit_name: degree\n"
         "- unit_conversion_factor: 0.01745329\n"
         "Axis Info:\n"
-        "- Longitude[lon] (east) EPSG:9101 (radian)\n"
-        "- Latitude[lat] (north) EPSG:9101 (radian)\n"
+        "- Longitude[lon] (east) EPSG:9122 (degree)\n"
+        "- Latitude[lat] (north) EPSG:9122 (degree)\n"
     )
 
 
@@ -241,10 +245,10 @@ def test_epsg__no_code_available():
 def test_crs_OSR_equivalence():
     crs1 = CRS.from_string("+proj=longlat +datum=WGS84 +no_defs")
     crs2 = CRS.from_string("+proj=latlong +datum=WGS84 +no_defs")
-    # crs3 = CRS({'init': 'EPSG:4326'})
+    crs3 = CRS({"init": "EPSG:4326"})
     assert crs1 == crs2
     # these are not equivalent in proj.4 now as one uses degrees and the othe radians
-    # assert crs1 == crs3
+    assert crs1 == crs3
 
 
 def test_crs_OSR_no_equivalence():
@@ -295,7 +299,7 @@ def test_from_esri_wkt():
     assert proj_crs_str.to_string() == proj_crs_wkt.to_string()
     assert proj_crs_str.to_string(4) == (
         "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 "
-        "+lat_2=45.5 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs"
+        "+lat_2=45.5 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs"
     )
 
 
