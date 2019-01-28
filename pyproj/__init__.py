@@ -313,12 +313,12 @@ class Proj(_proj.Proj):
         self.crs = CRS.from_user_input(projparams if projparams is not None else kwargs)
         # make sure units are meters if preserve_units is False.
         if not preserve_units and self.crs.is_projected:
-            projstring = self.crs.to_string(4)
+            projstring = self.crs.to_proj4(4)
             projstring = re.sub(r"\s\+units=[\w-]+", "", projstring)
             projstring += " +units=m"
             self.crs = CRS(projstring)
         super(Proj, self).__init__(
-            cstrencode(self.crs.to_string().replace("+type=crs", "").strip())
+            cstrencode(self.crs.to_proj4().replace("+type=crs", "").strip())
         )
 
     def __call__(self, *args, **kw):
@@ -399,7 +399,7 @@ class Proj(_proj.Proj):
         # Maybe instead of this function the __cinit__ function can take a
         # Proj object and a type (where type = "geographic") as the libproj
         # java wrapper
-        return self.crs.to_geodetic().to_string(4)
+        return self.crs.to_geodetic().to_proj4(4)
 
     # deprecated : using in transform raised a TypeError in release 1.9.5.1
     # reported in issue #53, resolved in #73.

@@ -7,8 +7,8 @@ from pyproj.exceptions import CRSError
 def test_from_proj4_json():
     json_str = '{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}'
     proj = CRS.from_string(json_str)
-    assert proj.to_string(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
-    assert proj.to_string(5) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    assert proj.to_proj4(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    assert proj.to_proj4(5) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     # Test with invalid JSON code
     with pytest.raises(CRSError):
         assert CRS.from_string("{foo: bar}")
@@ -34,11 +34,11 @@ def test_from_epsg_string():
 
 def test_from_string():
     wgs84_crs = CRS.from_string("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
-    assert wgs84_crs.to_string() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    assert wgs84_crs.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     # Make sure this doesn't get handled using the from_epsg() even though 'epsg' is in the string
     epsg_init_crs = CRS.from_string("+init=epsg:26911 +units=m +no_defs=True")
     assert (
-        epsg_init_crs.to_string()
+        epsg_init_crs.to_proj4()
         == "+proj=utm +zone=11 +datum=NAD83 +units=m +no_defs +type=crs"
     )
 
@@ -52,13 +52,13 @@ def test_bare_parameters():
     proj = CRS.from_string(
         "+proj=lcc +lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
     )
-    assert "+no_defs" in proj.to_string(4)
+    assert "+no_defs" in proj.to_proj4(4)
 
     # TODO: THIS DOES NOT WORK
     proj = CRS.from_string(
         "+lon_0=-95 +ellps=GRS80 +proj=lcc +y_0=0 +no_defs=False +x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
     )
-    # assert "+no_defs" not in proj.to_string(4)
+    # assert "+no_defs" not in proj.to_proj4(4)
 
 
 def test_is_geographic():
@@ -96,9 +96,8 @@ def test_is_same_crs():
     assert crs1 == crs1
     assert crs1 != crs2
 
-    # TODO: THIS DOES NOT WORK
-    # wgs84_crs = CRS.from_string('+proj=longlat +ellps=WGS84 +datum=WGS84')
-    # assert crs1 == wgs84_crs
+    wgs84_crs = CRS.from_string("+proj=longlat +ellps=WGS84 +datum=WGS84")
+    assert crs1 == wgs84_crs
 
     # Make sure that same projection with different parameter are not equal
     lcc_crs1 = CRS.from_string(
@@ -110,9 +109,9 @@ def test_is_same_crs():
     assert lcc_crs1 != lcc_crs2
 
 
-def test_to_string():
+def test_to_proj4():
     assert (
-        CRS({"init": "EPSG:4326"}).to_string(4)
+        CRS({"init": "EPSG:4326"}).to_proj4(4)
         == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     )
 
@@ -271,7 +270,7 @@ def test_from_wkt_invalid():
 
 
 def test_from_user_input_epsg():
-    assert "+proj=longlat" in CRS.from_user_input("EPSG:4326").to_string(4)
+    assert "+proj=longlat" in CRS.from_user_input("EPSG:4326").to_proj4(4)
 
 
 def test_from_esri_wkt():
@@ -296,8 +295,8 @@ def test_from_esri_wkt():
     )
     proj_crs_str = CRS.from_string(projection_string)
     proj_crs_wkt = CRS(projection_string)
-    assert proj_crs_str.to_string() == proj_crs_wkt.to_string()
-    assert proj_crs_str.to_string(4) == (
+    assert proj_crs_str.to_proj4() == proj_crs_wkt.to_proj4()
+    assert proj_crs_str.to_proj4(4) == (
         "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 "
         "+lat_2=45.5 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs"
     )

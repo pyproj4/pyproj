@@ -397,14 +397,14 @@ cdef class _CRS:
         finally:
             proj_destroy(projobj) # deallocate temp proj
 
-    def to_string(self, version=5):
+    def to_proj4(self, version=4):
         """
         Convert the projection to a proj.4 string.
 
         Parameters
         ----------
         version: int
-            The version of the proj.4 output. Default is 5.
+            The version of the proj.4 output. Default is 4.
 
         Returns
         -------
