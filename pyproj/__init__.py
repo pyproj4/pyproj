@@ -253,7 +253,7 @@ class Proj(_proj.Proj):
     sequences and scalars.
     """
 
-    def __init__(self, projparams=None, preserve_units=False, **kwargs):
+    def __init__(self, projparams=None, preserve_units=True, **kwargs):
         """
         initialize a Proj class instance.
 
@@ -265,14 +265,14 @@ class Proj(_proj.Proj):
         projparams: int, str, dict, pyproj.CRS
             A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.
         preserve_units: bool
-            If false, will ensure +units=m
+            If false, will ensure +units=m.
         **kwargs:
             proj.4 projection parameters.
 
         Example usage:
 
         >>> from pyproj import Proj
-        >>> p = Proj(proj='utm',zone=10,ellps='WGS84') # use kwargs
+        >>> p = Proj(proj='utm',zone=10,ellps='WGS84', preserve_units=False) # use kwargs
         >>> x,y = p(-120.108, 34.36116666)
         >>> 'x=%9.3f y=%11.3f' % (x,y)
         'x=765975.641 y=3805993.134'
@@ -291,14 +291,14 @@ class Proj(_proj.Proj):
         'lons: -119.720 -118.400 -122.380'
         >>> 'lats: %8.3f %8.3f %8.3f' % lats
         'lats:   36.770   33.930   37.620'
-        >>> p2 = Proj('+proj=utm +zone=10 +ellps=WGS84') # use proj4 string
+        >>> p2 = Proj('+proj=utm +zone=10 +ellps=WGS84', preserve_units=False) # use proj4 string
         >>> x,y = p2(-120.108, 34.36116666)
         >>> 'x=%9.3f y=%11.3f' % (x,y)
         'x=765975.641 y=3805993.134'
-        >>> p = Proj(init="epsg:32667")
+        >>> p = Proj(init="epsg:32667", preserve_units=False)
         >>> 'x=%12.3f y=%12.3f (meters)' % p(-114.057222, 51.045)
         'x=-1783486.760 y= 6193833.196 (meters)'
-        >>> p = Proj("+init=epsg:32667", preserve_units=True)
+        >>> p = Proj("+init=epsg:32667")
         >>> 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
         'x=-5851322.810 y=20320934.409 (feet)'
         >>> # test data with radian inputs
@@ -445,9 +445,9 @@ def transform(p1, p2, x, y, z=None):
 
     >>> # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum
     >>> # (defined by epsg code 26915)
-    >>> p1 = Proj(init='epsg:26915')
+    >>> p1 = Proj(init='epsg:26915', preserve_units=False)
     >>> # projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum
-    >>> p2 = Proj(init='epsg:26715')
+    >>> p2 = Proj(init='epsg:26715', preserve_units=False)
     >>> # find x,y of Jefferson City, MO.
     >>> x1, y1 = p1(-92.199881,38.56694)
     >>> # transform this point to projection 2 coordinates.
@@ -476,7 +476,7 @@ def transform(p1, p2, x, y, z=None):
     >>> # test datum shifting, installation of extra datum grid files.
     >>> p1 = Proj(proj='latlong',datum='WGS84')
     >>> x1 = -111.5; y1 = 45.25919444444
-    >>> p2 = Proj(proj="utm",zone=10,datum='NAD27')
+    >>> p2 = Proj(proj="utm",zone=10,datum='NAD27', preserve_units=False)
     >>> x2, y2 = transform(p1, p2, x1, y1)
     >>> "%s  %s" % (str(x2)[:9],str(y2)[:9])
     '1402285.9  5076292.4'
@@ -545,9 +545,9 @@ def itransform(p1, p2, points, switch=False):
 
     >>> # projection 1: WGS84
     >>> # (defined by epsg code 4326)
-    >>> p1 = Proj(init='epsg:4326')
+    >>> p1 = Proj(init='epsg:4326', preserve_units=False)
     >>> # projection 2: GGRS87 / Greek Grid
-    >>> p2 = Proj(init='epsg:2100')
+    >>> p2 = Proj(init='epsg:2100', preserve_units=False)
     >>> # Three points with coordinates lon, lat in p1
     >>> points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]
     >>> # transform this point to projection 2 coordinates.

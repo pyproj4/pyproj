@@ -51,8 +51,9 @@ class BasicTest(unittest.TestCase):
             lat_1=params["lat_1"],
             lat_2=params["lat_2"],
             lon_0=params["lon_0"],
+            preserve_units=False,
         )
-        awips221_from_dict = Proj(params)
+        awips221_from_dict = Proj(params, preserve_units=False)
 
         items = sorted([val for val in awips221.crs.srs.split() if val])
         items_dict = sorted([val for val in awips221_from_dict.crs.srs.split() if val])
