@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
 
-
 # Python 2/3 compatibility
 if sys.version_info[0] == 2:  # Python 2
     string_types = (basestring,)
@@ -15,6 +14,8 @@ def cstrencode(pystr):
     """
     try:
         return pystr.encode("utf-8")
+    except UnicodeDecodeError:
+        return pystr.decode("utf-8").encode("utf-8")
     except AttributeError:
         return pystr  # already bytes
 

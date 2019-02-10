@@ -111,7 +111,7 @@ class InverseHammerTest(unittest.TestCase):
         self.assertAlmostEqual(self.y, 4395506.619, places=3)
 
     @skipIf(
-        proj_version_str > LooseVersion("4.9.2"),
+        LooseVersion(proj_version_str) > LooseVersion("4.9.2"),
         "test is for PROJ.4 version 4.9.2 and below ({0} installed)"
         "".format(proj_version_str),
     )
@@ -124,7 +124,7 @@ class InverseHammerTest(unittest.TestCase):
             pass
 
     @skipIf(
-        proj_version_str <= LooseVersion("4.9.2"),
+        LooseVersion(proj_version_str) <= LooseVersion("4.9.2"),
         "test is for PROJ.4 versions above 4.9.2 ({0} installed)"
         "".format(proj_version_str),
     )

@@ -1,5 +1,6 @@
 include "base.pxi"
 
+from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import GeodError
 
 geodesic_version_str = "{0}.{1}.{2}".format(
@@ -18,7 +19,7 @@ cdef class Geod:
             a = int(a)
         if f == 0.0:
             f = 0
-        self.initstring = '+a=%s +f=%s' % (a, f)
+        self.initstring = pystrdecode(cstrencode("+a=%s +f=%s" % (a, f)))
         self.sphere = sphere
         self.b = b
         self.es = es
