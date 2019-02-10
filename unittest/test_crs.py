@@ -318,3 +318,11 @@ def test_area_of_use():
     crs1 = CRS.from_epsg(4326)
     assert crs1.area_of_use.bounds == (-180.0, -90.0, 180.0, 90.0)
     assert crs1.area_of_use.name == "World"
+
+
+def test_from_user_input_custom_crs_class():
+    class CustomCRS(object):
+        def to_wkt(self):
+            return CRS.from_epsg(4326).to_wkt()
+
+    assert CRS.from_user_input(CustomCRS()) == CRS.from_epsg(4326)

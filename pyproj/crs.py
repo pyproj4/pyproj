@@ -217,6 +217,8 @@ class CRS(_CRS):
             return cls(**value)
         elif isinstance(value, string_types):
             return cls.from_string(value)
+        elif hasattr(value, "to_wkt"):
+            return cls(value.to_wkt())
         else:
             raise CRSError("CRS is invalid: {!r}".format(value))
 
