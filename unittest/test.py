@@ -2,9 +2,13 @@
 """Rewrite part of test.py in pyproj in the form of unittests."""
 from __future__ import with_statement
 
-from distutils.version import LooseVersion
 import math
+from distutils.version import LooseVersion
 from sys import version_info as sys_version_info
+
+import pyproj
+from pyproj import Geod, Proj, pj_ellps, pj_list, proj_version_str, transform
+from pyproj.crs import CRSError
 
 if sys_version_info[:2] < (2, 7):
     # for Python 2.4 - 2.6 use the backport of unittest from Python 2.7 and onwards
@@ -21,11 +25,6 @@ try:
     HAS_NOSE2 = True
 except ImportError:
     HAS_NOSE2 = False
-
-import pyproj
-from pyproj import Geod, Proj, transform
-from pyproj import pj_list, pj_ellps
-from pyproj import proj_version_str
 
 
 class BasicTest(unittest.TestCase):
@@ -145,13 +144,13 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
     def test_tranform_none_1st_parmeter(self):
         # test should raise Type error if projections are not of Proj classes
         # version 1.9.4 produced AttributeError, now should raise TypeError
-        with self.assertRaises(TypeError):
+        with self.assertRaises(CRSError):
             transform(None, self.p, -74, 39)
 
     def test_tranform_none_2nd_parmeter(self):
         # test should raise Type error if projections are not of Proj classes
         # version 1.9.4 has a Segmentation Fault, now should raise TypeError
-        with self.assertRaises(TypeError):
+        with self.assertRaises(CRSError):
             transform(self.p, None, -74, 39)
 
 

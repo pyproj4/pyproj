@@ -54,17 +54,16 @@ import os
 import re
 import sys
 import warnings
+from array import array
+from itertools import chain, islice
 
 from pyproj import _proj
-from pyproj.geod import Geod, pj_ellps, geodesic_version_str
+from pyproj.compat import cstrencode, pystrdecode, string_types
 from pyproj.crs import CRS
-from pyproj.compat import string_types, cstrencode, pystrdecode
 from pyproj.datadir import pyproj_datadir
 from pyproj.exceptions import ProjError
+from pyproj.geod import Geod, geodesic_version_str, pj_ellps
 from pyproj.utils import _convertback, _copytobuffer, _copytobuffer_return_scalar
-
-from array import array
-from itertools import islice, chain
 
 try:
     from future_builtins import zip  # python 2.6+
@@ -487,12 +486,15 @@ def transform(p1, p2, x, y, z=None):
     >>> x2, y2 = transform(c1, c2, x1, y1)
     >>> "%s  %s" % (str(x2)[:9],str(y2)[:9])
     '1402291.0  5076289.5'
+    >>> x3, y3 = transform("epsg:4326", "epsg:3857", 33, 98)
+    >>> "%.3f  %.3f" % (x3, y3)
+    '10909310.098  3895303.963'
     """
-    # check that p1 and p2 are from the Proj class
-    if not isinstance(p1, (Proj, CRS)):
-        raise TypeError("p1 must be a Proj or CRS class")
-    if not isinstance(p2, (Proj, CRS)):
-        raise TypeError("p2 must be a Proj or CRS class")
+    # check that p1 and p2 are valid
+    if not isinstance(p1, Proj):
+        p1 = CRS.from_user_input(p1)
+    if not isinstance(p2, Proj):
+        p2 = CRS.from_user_input(p2)
 
     # process inputs, making copies that support buffer API.
     inx, xisfloat, xislist, xistuple = _copytobuffer(x)

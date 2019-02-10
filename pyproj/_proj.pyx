@@ -2,7 +2,7 @@
 # c_numpy.import_array()
 include "base.pxi"
 
-from pyproj._crs import _CRS
+from pyproj.crs import CRS
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import ProjError
 
@@ -287,9 +287,7 @@ cdef class TransProj:
         """
         if isinstance(in_proj, Proj):
             return in_proj.definition
-        elif isinstance(in_proj, _CRS):
-            return cstrencode(in_proj.to_wkt())
-        raise ProjError("Invalid input. Must be a pypro.Proj or pyproj.CRS class.")
+        return cstrencode(CRS.from_user_input(in_proj).to_wkt())
 
 def _transform(p1, p2, inx, iny, inz):
     pj_trans =  TransProj(p1, p2)
