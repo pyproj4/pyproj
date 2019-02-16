@@ -68,7 +68,7 @@ before_install:
   # Download external PROJ.4 version and compile
   - export PROJ_DIR=/tmp/proj_dl_install
   - ci/travis/proj-dl-and-compile "$PROJSOURCE"
-  - export PROJ_DATA=$PROJ_DIR/share/proj
+  - export PROJ_LIB=$PROJ_DIR/share/proj
 
 install:
   # coverage report requires a local install
