@@ -17,6 +17,16 @@ Examples of how to set the PROJ_DIR environment variable:
 * Windows - `C:\...> set PROJ_DIR=C:\OSGeo4W\`
 * Linux/OS X on most shells- `$ export PROJ_DIR=/lib/`
 
+An alternative way to install is with `pip`:
+
+```
+pip install cython
+pip install git+https://github.com/jswhit/pyproj.git
+```
+
+You may need to run pip with administrative privileges (e.g. `sudo pip`) or
+perform a user only installation (e.g. `pip install --user`).
+
 Testing
 -------
 [nose2](https://github.com/nose-devs/nose2) is required to run some tests.
