@@ -1,12 +1,12 @@
 from __future__ import with_statement
 
-from glob import glob
 import os
+import subprocess
 import sys
 from distutils.spawn import find_executable
+from glob import glob
 
-import subprocess
-from setuptools import setup, Extension
+from setuptools import Extension, setup
 
 # Use Cython if available.
 try:
@@ -79,12 +79,14 @@ if os.environ.get("PYPROJ_FULL_COVERAGE"):
 proj_libdir = os.environ.get("PROJ_LIBDIR")
 libdirs = []
 if proj_libdir is None:
-    if os.path.exists(os.path.join(proj_dir, "lib")):
-        libdirs.append(os.path.join(proj_dir, "lib"))
-        libdirs.append(os.path.join(proj_dir, "lib64"))
-    elif os.path.exists(os.path.join(proj_dir, "local", "lib")):
-        libdirs.append(os.path.join(proj_dir, "local", "lib"))
-    else:
+    libdir_search_paths = (
+        os.path.join(proj_dir, "lib"),
+        os.path.join(proj_dir, "lib64"),
+    )
+    for libdir_search_path in libdir_search_paths:
+        if os.path.exists(libdir_search_path):
+            libdirs.append(libdir_search_path)
+    if not libdirs:
         sys.exit("ERROR: PROJ_LIBDIR dir not found. Please set PROJ_LIBDIR.")
 else:
     libdirs.append(proj_libdir)
@@ -94,8 +96,6 @@ incdirs = []
 if proj_incdir is None:
     if os.path.exists(os.path.join(proj_dir, "include")):
         incdirs.append(os.path.join(proj_dir, "include"))
-    elif os.path.exists(os.path.join(proj_dir, "local", "include")):
-        incdirs.append(os.path.join(proj_dir, "local", "include"))
     else:
         sys.exit("ERROR: PROJ_INCDIR dir not found. Please set PROJ_INCDIR.")
 else:

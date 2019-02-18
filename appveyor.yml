@@ -47,13 +47,13 @@ build_script:
   - if "%platform%" == "x86" SET BUILD_LIBPROJ_SHARED=OFF
   - echo "%VS_FULL%"
 #
-  - mkdir "build_%platform%"
-  - cd "build_%platform%"
+  - mkdir build
+  - cd build
   - set PROJ_DIR=%APPVEYOR_BUILD_FOLDER%\proj_dir
   - cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBPROJ_SHARED="%BUILD_LIBPROJ_SHARED%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
   - cmake --build . --config Release --target install
   - set PATH=%PATH%;%PROJ_DIR%\bin
-  - set PROJ_LIB=%PROJ_DIR%\share
+  - set PROJ_LIB=%PROJ_DIR%\share\proj
   - cd %PROJ_LIB%
   - curl -O http://download.osgeo.org/proj/proj-datumgrid-1.7.zip
   - 7z e -aoa -y proj-datumgrid-1.7.zip
