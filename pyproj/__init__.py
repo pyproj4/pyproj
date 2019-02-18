@@ -296,10 +296,10 @@ class Proj(_proj.Proj):
         'x=765975.641 y=3805993.134'
         >>> p = Proj(init="epsg:32667", preserve_units=False)
         >>> 'x=%12.3f y=%12.3f (meters)' % p(-114.057222, 51.045)
-        'x=-1783486.760 y= 6193833.196 (meters)'
+        'x=-1783506.250 y= 6193827.033 (meters)'
         >>> p = Proj("+init=epsg:32667")
         >>> 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
-        'x=-5851322.810 y=20320934.409 (feet)'
+        'x=-5851386.754 y=20320914.191 (feet)'
         >>> # test data with radian inputs
         >>> p1 = Proj(init="epsg:4214")
         >>> x1, y1 = p1(116.366, 39.867)
