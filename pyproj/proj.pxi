@@ -4,6 +4,7 @@ cdef extern from "proj.h":
         PROJ_VERSION_MAJOR
         PROJ_VERSION_MINOR
         PROJ_VERSION_PATCH
+    void proj_context_set_search_paths(PJ_CONTEXT *ctx, int count_paths, const char* const* paths);
 
     cdef struct PJ_INFO:
         int         major

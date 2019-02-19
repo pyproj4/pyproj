@@ -50,7 +50,6 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 __version__ = "2.0.0"
 __all__ = ["Proj", "Geod", "CRS", "transform", "itransform", "pj_ellps", "pj_list"]
 
-import os
 import re
 import sys
 import warnings
@@ -58,12 +57,11 @@ from array import array
 from itertools import chain, islice
 
 from pyproj import _proj
-from pyproj.compat import cstrencode, pystrdecode, string_types
+from pyproj.compat import cstrencode, pystrdecode
 from pyproj.crs import CRS
-from pyproj.datadir import pyproj_datadir
 from pyproj.exceptions import ProjError
 from pyproj.geod import Geod, geodesic_version_str, pj_ellps
-from pyproj.utils import _convertback, _copytobuffer, _copytobuffer_return_scalar
+from pyproj.utils import _convertback, _copytobuffer
 
 try:
     from future_builtins import zip  # python 2.6+
@@ -215,11 +213,6 @@ pj_list = {
     "wink2": "Winkel II",
     "wintri": "Winkel Tripel",
 }
-
-
-if not os.path.isdir(pyproj_datadir):
-    msg = "proj data directory not found. Expecting it at: %s" % pyproj_datadir
-    raise IOError(msg)
 
 
 class Proj(_proj.Proj):

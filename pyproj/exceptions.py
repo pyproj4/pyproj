@@ -14,3 +14,7 @@ class ProjError(RuntimeError):
 
 class GeodError(RuntimeError):
     """Raised when a Geod error occurs."""
+
+
+class DataDirError(RuntimeError):
+    """Raised when a the data directory was not found."""

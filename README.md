@@ -20,6 +20,16 @@ Examples of how to set the PROJ_DIR environment variable:
 
 #### Setup pyproj
 
+##### The data directory
+
+The order of preference for the data directory is:
+
+1. The one set by pyproj.datadir.set_data_dir (if exists & valid)
+2. The internal proj directory (if exists & valid)
+3. The directory in PROJ_LIB
+
+##### Install pyproj
+
 From pypi:
 
 ```
