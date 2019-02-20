@@ -63,7 +63,6 @@ before_install:
     else
       sudo apt-get install -qq sqlite3 libsqlite3-dev
     fi
-  - pip install -r requirements-dev.txt
   - echo "PROJSOURCE is $PROJSOURCE"
   # Download external PROJ.4 version and compile
   - export PROJ_DIR=/tmp/proj_dl_install
@@ -73,10 +72,11 @@ before_install:
 install:
   # coverage report requires a local install
   - PYPROJ_FULL_COVERAGE=YES pip install -e .
+  - pip install -r requirements-dev.txt
 
 script:
-    - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
-    - nose2 -v
+  - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
+  - nose2 -v
 
 notifications:
   email: false
