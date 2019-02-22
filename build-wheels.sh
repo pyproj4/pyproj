@@ -1,5 +1,5 @@
 #!/bin/bash
-# Run this command to build the wheels
+# Run this command to build the wheels:
 # docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/build-wheels.sh
 set -e -x
 
@@ -12,6 +12,7 @@ export PROJ_DIR=/io/pyproj/proj_dir
 /io/ci/travis/proj-dl-and-compile git
 
 # Compile wheels
+export PROJ_WHEEL=true
 for PYBIN in /opt/python/*/bin; do
     "${PYBIN}/pip" install -r /io/requirements-dev.txt
     "${PYBIN}/pip" wheel /io/ -w wheelhouse/

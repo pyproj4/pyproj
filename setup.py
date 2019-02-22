@@ -17,6 +17,7 @@ except ImportError:
         "Cython is required to build from a repo."
     )
 
+
 PROJ_MIN_VERSION = (6, 0, 0)
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 BASE_INTERNAL_PROJ_DIR = "proj_dir"
@@ -50,10 +51,12 @@ extensions = []
 proj_dir = os.environ.get("PROJ_DIR")
 package_data = {}
 
-if proj_dir is None and os.path.exists(INTERNAL_PROJ_DIR):
+if os.environ.get("PROJ_WHEEL") is not None and os.path.exists(INTERNAL_PROJ_DIR):
     package_data = {
         "pyproj": [os.path.join(BASE_INTERNAL_PROJ_DIR, "share", "proj", "*")]
     }
+
+if proj_dir is None and os.path.exists(INTERNAL_PROJ_DIR):
     proj_dir = INTERNAL_PROJ_DIR
     print("Internally compiled directory being used {}.".format(INTERNAL_PROJ_DIR))
 elif proj_dir is None and not os.path.exists(INTERNAL_PROJ_DIR):
