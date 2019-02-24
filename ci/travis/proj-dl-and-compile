@@ -1,16 +1,15 @@
 #!/bin/bash
 echo "Building PROJ.4 $1 version from source..."
-
 if [[ $1 == "git" ]]; then
-  git clone https://github.com/OSGeo/proj.4.git proj.4-git
+  git clone https://github.com/OSGeo/proj.4.git proj-git
 else
-  wget https://github.com/OSGeo/proj.4/archive/$1.tar.gz
-  tar zxf $1.tar.gz
+  curl https://download.osgeo.org/proj/proj-$1.tar.gz > "proj-${1:0:5}.tar.gz"
+  tar zxf "proj-${1:0:5}.tar.gz"
 fi
-cd proj.4-$1
+cd "proj-${1:0:5}"
 
 # Download and extract grids
-wget http://download.osgeo.org/proj/proj-datumgrid-1.7.zip
+curl http://download.osgeo.org/proj/proj-datumgrid-1.7.zip > proj-datumgrid-1.7.zip
 cd data
 unzip -o ../proj-datumgrid-1.7.zip
 cd ..

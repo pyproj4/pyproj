@@ -3,35 +3,34 @@ language: python
 sudo: false
 
 cache: pip
-
 env: 
   global: 
-    - PROJSOURCE=builtin
     - CYTHON_COVERAGE=True
+    - PROJSOURCE=6.0.0
 matrix:
   include:
     - language: cpp
       os: osx
       env:
         - PYTHON=3.6
-        - PROJSOURCE=git
+        - PROJSOURCE=6.0.0RC2
     - python: 2.7
       env:
-        - PROJSOURCE=git
+        - PROJSOURCE=6.0.0RC2
     - python: 3.4
       env:
-        - PROJSOURCE=git
+        - PROJSOURCE=6.0.0RC2
     - python: 3.5
       env:
-        - PROJSOURCE=git
+        - PROJSOURCE=6.0.0RC2
     - python: 3.6
       env:
-        - PROJSOURCE=git
+        - PROJSOURCE=6.0.0RC2
     - python: 3.7
       dist: xenial
       sudo: true
       env:
-        - PROJSOURCE=git
+        - PROJSOURCE=6.0.0RC2
     - python: "nightly"
       env:
         - PROJSOURCE=git

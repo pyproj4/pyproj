@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run this command to build the wheels:
-# docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/build-wheels.sh
+# docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/build-wheels.sh 6.0.0RC2
 set -e -x
 
 # install updated auditwheel
@@ -9,7 +9,7 @@ set -e -x
 # Install PROJ.4
 yum install -y sqlite sqlite-devel zlib-devel
 export PROJ_DIR=/io/pyproj/proj_dir
-/io/ci/travis/proj-dl-and-compile git
+/io/ci/travis/proj-dl-and-compile $1
 
 # Compile wheels
 export PROJ_WHEEL=true

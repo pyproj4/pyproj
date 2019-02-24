@@ -14,13 +14,22 @@ environment:
     # Pre-installed Python versions
     # See: http://www.appveyor.com/docs/installed-software#python
     # build is limited to 60 minutes, without caching each build takes 10-30 minutes
-    # with caching build takes less than 1 minute
-
+    # with caching build takes less than 1 minute     
     - PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PROJSOURCE: 6.0.0RC2
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+      VS_VERSION: Visual Studio 14
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PROJSOURCE: git
+matrix:
+  allow_failures:
+    - PROJSOURCE: git
 
 shallow_clone: true
 
@@ -39,8 +48,10 @@ build_script:
   - copy "%APPVEYOR_BUILD_FOLDER%"\sqlite-tools-win32-x86-3250100\sqlite3.exe %SQLITE3_BIN%
   - set PATH=%PATH%;%SQLITE3_BIN%
   # setup PROJ.4
-  - git clone https://github.com/OSGeo/proj.4.git
-  - cd "%APPVEYOR_BUILD_FOLDER%"\proj.4
+  - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/proj.4.git proj-git
+  - if not "%PROJSOURCE%" == "git" curl -o "proj-%PROJSOURCE:~0,5%.zip" "https://download.osgeo.org/proj/proj-%PROJSOURCE%.zip"
+  - if not "%PROJSOURCE%" == "git" 7z x -aoa -y "proj-%PROJSOURCE:~0,5%.zip"
+  - cd "%APPVEYOR_BUILD_FOLDER%\proj-%PROJSOURCE:~0,5%"
   - if "%platform%" == "x64" SET VS_FULL=%VS_VERSION% Win64
   - if "%platform%" == "x64" SET BUILD_LIBPROJ_SHARED=ON
   - if "%platform%" == "x86" SET VS_FULL=%VS_VERSION%
