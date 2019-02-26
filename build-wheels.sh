@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run this command to build the wheels:
-# docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/build-wheels.sh 6.0.0RC2
+# docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/build-wheels.sh 6.0.0RC4
 set -e -x
 
 # install updated auditwheel

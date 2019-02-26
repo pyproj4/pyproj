@@ -9,9 +9,9 @@ fi
 cd "proj-${1:0:5}"
 
 # Download and extract grids
-curl http://download.osgeo.org/proj/proj-datumgrid-1.7.zip > proj-datumgrid-1.7.zip
+curl http://download.osgeo.org/proj/proj-datumgrid-1.8.zip > proj-datumgrid-1.8.zip
 cd data
-unzip -o ../proj-datumgrid-1.7.zip
+unzip -o ../proj-datumgrid-1.8.zip
 cd ..
 
 # could be installed to a cached location (probably not git version)

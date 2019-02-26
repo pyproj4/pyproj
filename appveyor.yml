@@ -20,7 +20,7 @@ environment:
       PYTHON_ARCH: "64"
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 6.0.0RC2
+      PROJSOURCE: 6.0.0RC4
     - PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
@@ -66,8 +66,8 @@ build_script:
   - set PATH=%PATH%;%PROJ_DIR%\bin
   - set PROJ_LIB=%PROJ_DIR%\share\proj
   - cd %PROJ_LIB%
-  - curl -O http://download.osgeo.org/proj/proj-datumgrid-1.7.zip
-  - 7z e -aoa -y proj-datumgrid-1.7.zip
+  - curl -O http://download.osgeo.org/proj/proj-datumgrid-1.8.zip
+  - 7z e -aoa -y proj-datumgrid-1.8.zip
   - cd %APPVEYOR_BUILD_FOLDER%
   - proj
   # Build and install pyproj
