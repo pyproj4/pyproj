@@ -1,12 +1,23 @@
 pyproj
 ======
 
+[![Build Status](https://travis-ci.org/jswhit/pyproj.svg)](https://travis-ci.org/jswhit/pyproj)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/49t24ofdg16cl43d?svg=true)](https://ci.appveyor.com/project/jswhit/pyproj)
+
+[![PyPI version](https://badge.fury.io/py/pyproj.svg)](https://badge.fury.io/py/pyproj)
+
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyproj/badges/version.svg)](https://anaconda.org/conda-forge/pyproj)
+
+
 Installation
 ------------
 
 #### Setup PROJ.4
 
-Follow installation instructions at: https://github.com/OSGeo/proj.4
+PROJ.4 6.0.0 is required when building from source.
+You can download PROJ.4 from https://download.osgeo.org/proj.
+Installation instructions can be fount at https://github.com/OSGeo/proj.4.
 
 In the setup.py, the order for searching for PROJ.4 is:
 
