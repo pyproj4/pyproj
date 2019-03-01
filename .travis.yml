@@ -13,21 +13,21 @@ matrix:
       os: osx
       env:
         - PYTHON=3.6
-        - PROJSOURCE=6.0.0RC4
+        - PROJSOURCE=6.0.0
     - python: 2.7
       env:
-        - PROJSOURCE=6.0.0RC4
+        - PROJSOURCE=6.0.0
     - python: 3.5
       env:
-        - PROJSOURCE=6.0.0RC4
+        - PROJSOURCE=6.0.0
     - python: 3.6
       env:
-        - PROJSOURCE=6.0.0RC4
+        - PROJSOURCE=6.0.0
     - python: 3.7
       dist: xenial
       sudo: true
       env:
-        - PROJSOURCE=6.0.0RC4
+        - PROJSOURCE=6.0.0
     - python: "nightly"
       env:
         - PROJSOURCE=git
