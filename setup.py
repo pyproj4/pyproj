@@ -117,8 +117,9 @@ ext_options = dict(
     library_dirs=libdirs,
     runtime_library_dirs=libdirs if os.name != "nt" else None,
     libraries=libraries,
-    embedsignature=True,
 )
+if os.name != "nt":
+    ext_options["embedsignature"] = True
 
 ext_modules = cythonize(
     [
