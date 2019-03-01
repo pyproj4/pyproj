@@ -12,6 +12,7 @@ cd "proj-${1:0:5}"
 curl http://download.osgeo.org/proj/proj-datumgrid-1.8.zip > proj-datumgrid-1.8.zip
 cd data
 unzip -o ../proj-datumgrid-1.8.zip
+rm ../proj-datumgrid-1.8.zip
 cd ..
 
 # could be installed to a cached location (probably not git version)

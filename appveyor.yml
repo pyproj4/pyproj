@@ -80,6 +80,7 @@ build_script:
   - cd %PROJ_LIB%
   - curl -O http://download.osgeo.org/proj/proj-datumgrid-1.8.zip
   - 7z e -aoa -y proj-datumgrid-1.8.zip
+  - del proj-datumgrid-1.8.zip
   - cd %APPVEYOR_BUILD_FOLDER%
   - proj
   # Build and install pyproj
@@ -126,6 +127,7 @@ after_test:
   - "%CMD_IN_ENV% python setup.py bdist_wheel"
   # - "%CMD_IN_ENV% python setup.py bdist_wininst"
   # - "%CMD_IN_ENV% python setup.py bdist_msi"
+  - if %PROJSOURCE% == git del dist\*
   - ps: "ls dist"
 
 artifacts:
