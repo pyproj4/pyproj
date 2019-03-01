@@ -131,7 +131,7 @@ after_test:
   - pip install pyproj --ignore-installed --no-index -f dist
   - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
   # cleanup for test dir
-  - if %PROJSOURCE% == git del dist\*
+  - if %PROJSOURCE% == git del /F /Q dist\*
   - ps: "ls dist"
 
 artifacts:
