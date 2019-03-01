@@ -120,13 +120,12 @@ test_script:
 
 after_test:
   # If tests are successful, create binary packages for the project.
-  - if not %PROJSOURCE% == git mkdir pyproj\proj_dir\share\proj
-  - if not %PROJSOURCE% == git copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
-  - if not %PROJSOURCE% == git set PROJ_WHEEL=true
-  - if not %PROJSOURCE% == git "%CMD_IN_ENV% python setup.py bdist_wheel"
-  # - if not %PROJSOURCE% == git "%CMD_IN_ENV% python setup.py bdist_wininst"
-  # - if not %PROJSOURCE% == git "%CMD_IN_ENV% python setup.py bdist_msi"
-  - if %PROJSOURCE% == git mkdir dist
+  - mkdir pyproj\proj_dir\share\proj
+  - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
+  - set PROJ_WHEEL=true
+  - "%CMD_IN_ENV% python setup.py bdist_wheel"
+  # - "%CMD_IN_ENV% python setup.py bdist_wininst"
+  # - "%CMD_IN_ENV% python setup.py bdist_msi"
   - ps: "ls dist"
 
 artifacts:
