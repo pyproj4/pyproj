@@ -1,0 +1,420 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Proj &#8212; pyproj 2.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CRS" href="crs.html" />
+    <link rel="prev" title="API Documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="crs.html" title="CRS"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="API Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API Documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="proj">
+<h1>Proj<a class="headerlink" href="#proj" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyproj-proj">
+<h2>pyproj.Proj<a class="headerlink" href="#pyproj-proj" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.Proj">
+<em class="property">class </em><code class="descclassname">pyproj.</code><code class="descname">Proj</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>preserve_units=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj.Proj</span></code></p>
+<p>performs cartographic transformations (converts from
+longitude,latitude to native map projection x,y coordinates and
+vice versa) using proj (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>).</p>
+<p>A Proj class instance is initialized with proj map projection
+control parameter key/value pairs. The key/value pairs can
+either be passed in a dictionary, or as keyword arguments,
+or as a proj4 string (compatible with the proj command). See
+<a class="reference external" href="http://www.remotesensing.org/geotiff/proj_list">http://www.remotesensing.org/geotiff/proj_list</a> for examples of
+key/value pairs defining different map projections.</p>
+<p>Calling a Proj class instance with the arguments lon, lat will
+convert lon/lat (in degrees) to x/y native map projection
+coordinates (in meters).  If optional keyword ‘inverse’ is True
+(default is False), the inverse transformation from x/y to
+lon/lat is performed. If optional keyword ‘radians’ is True
+(default is False) lon/lat are interpreted as radians instead of
+degrees. If optional keyword ‘errcheck’ is True (default is
+False) an exception is raised if the transformation is invalid.
+If errcheck=False and the transformation is invalid, no
+exception is raised and 1.e30 is returned. If the optional keyword
+‘preserve_units’ is True, the units in map projection coordinates
+are not forced to be meters.</p>
+<p>Works with numpy and regular python array objects, python
+sequences and scalars.</p>
+<dl class="method">
+<dt id="pyproj.Proj.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calling a Proj class instance with the arguments lon, lat will
+convert lon/lat (in degrees) to x/y native map projection
+coordinates (in meters).  If optional keyword ‘inverse’ is True
+(default is False), the inverse transformation from x/y to
+lon/lat is performed.  If optional keyword ‘radians’ is True
+(default is False) the units of lon/lat are radians instead of
+degrees. If optional keyword ‘errcheck’ is True (default is
+False) an exception is raised if the transformation is invalid.
+If errcheck=False and the transformation is invalid, no
+exception is raised and 1.e30 is returned.</p>
+<p>Inputs should be doubles (they will be cast to doubles if they
+are not, causing a slight performance hit).</p>
+<p>Works with numpy and regular python array objects, python
+sequences and scalars, but is fastest for array objects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Proj.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>preserve_units=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize a Proj class instance.</p>
+<p>See the proj documentation (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>)
+for more information about projection parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>projparams</strong> (<em>int</em><em>, </em><em>str</em><em>, </em><em>dict</em><em>, </em><em>pyproj.CRS</em>) – A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.</li>
+<li><strong>preserve_units</strong> (<em>bool</em>) – If false, will ensure +units=m.</li>
+<li><strong>**kwargs</strong> – proj.4 projection parameters.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Proj</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;utm&#39;</span><span class="p">,</span><span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># use kwargs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">120.108</span><span class="p">,</span> <span class="mf">34.36116666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%9.3f</span><span class="s1"> y=</span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="go">&#39;x=765975.641 y=3805993.134&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;lon=</span><span class="si">%8.3f</span><span class="s1"> lat=</span><span class="si">%5.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39;lon=-120.108 lat=34.361&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># do 3 cities at a time in a tuple (Fresno, LA, SF)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">119.72</span><span class="p">,</span><span class="o">-</span><span class="mf">118.40</span><span class="p">,</span><span class="o">-</span><span class="mf">122.38</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">(</span><span class="mf">36.77</span><span class="p">,</span> <span class="mf">33.93</span><span class="p">,</span> <span class="mf">37.62</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x: </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span>
+<span class="go">&#39;x: 792763.863 925321.537 554714.301&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;y: </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">y</span>
+<span class="go">&#39;y: 4074377.617 3763936.941 4163835.303&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># inverse transform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;lons: </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lons</span>
+<span class="go">&#39;lons: -119.720 -118.400 -122.380&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;lats: </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lats</span>
+<span class="go">&#39;lats:   36.770   33.930   37.620&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;+proj=utm +zone=10 +ellps=WGS84&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># use proj4 string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p2</span><span class="p">(</span><span class="o">-</span><span class="mf">120.108</span><span class="p">,</span> <span class="mf">34.36116666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%9.3f</span><span class="s1"> y=</span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="go">&#39;x=765975.641 y=3805993.134&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:32667&quot;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%12.3f</span><span class="s1"> y=</span><span class="si">%12.3f</span><span class="s1"> (meters)&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">114.057222</span><span class="p">,</span> <span class="mf">51.045</span><span class="p">)</span>
+<span class="go">&#39;x=-1783506.250 y= 6193827.033 (meters)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;+init=epsg:32667&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%12.3f</span><span class="s1"> y=</span><span class="si">%12.3f</span><span class="s1"> (feet)&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">114.057222</span><span class="p">,</span> <span class="mf">51.045</span><span class="p">)</span>
+<span class="go">&#39;x=-5851386.754 y=20320914.191 (feet)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># test data with radian inputs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4214&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="mf">116.366</span><span class="p">,</span> <span class="mf">39.867</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="go">&#39;2.031 0.696&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+<span class="go">&#39;116.366 39.867&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Proj.definition_string">
+<code class="descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns formal definition string for projection</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;+init=epsg:4326&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
+<span class="go">&#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.Proj.has_inverse">
+<code class="descname">has_inverse</code><a class="headerlink" href="#pyproj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if this projection has an inverse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Proj.is_geocent">
+<code class="descname">is_geocent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.is_geocent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.is_geocent" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>bool</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">True if projection in geocentric (x/y) coordinates</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Proj.is_latlong">
+<code class="descname">is_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.is_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.is_latlong" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>bool</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">True if projection in geographic (lon/lat) coordinates.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Proj.to_latlong">
+<code class="descname">to_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.to_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.to_latlong" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a new Proj instance which is the geographic (lat/lon)
+coordinate version of the current projection</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Proj.to_latlong_def">
+<code class="descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the definition string of the geographic (lat/lon)
+coordinate version of the current projection</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-transform">
+<h2>pyproj.transform<a class="headerlink" href="#pyproj-transform" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyproj.transform">
+<code class="descclassname">pyproj.</code><code class="descname">transform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>x</em>, <em>y</em>, <em>z=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>x2, y2, z2 = transform(p1, p2, x1, y1, z1)</p>
+<p>Transform points between two coordinate systems defined by the
+Proj instances p1 and p2.</p>
+<p>The points x1,y1,z1 in the coordinate system defined by p1 are
+transformed to x2,y2,z2 in the coordinate system defined by p2.</p>
+<p>z1 is optional, if it is not set it is assumed to be zero (and
+only x2 and y2 are returned).</p>
+<p>In addition to converting between cartographic and geographic
+projection coordinates, this function can take care of datum
+shifts (which cannot be done using the __call__ method of the
+Proj instances). It also allows for one of the coordinate
+systems to be geographic (proj = ‘latlong’).</p>
+<p>If optional keyword ‘radians’ is True (default is False) and p1
+is defined in geographic coordinate (pj.is_latlong() is True),
+x1,y1 is interpreted as radians instead of the default degrees.
+Similarly, if p2 is defined in geographic coordinates and
+radians=True, x2, y2 are returned in radians instead of degrees.
+if p1.is_latlong() and p2.is_latlong() both are False, the
+radians keyword has no effect.</p>
+<p>x,y and z can be numpy or regular python arrays, python
+lists/tuples or scalars. Arrays are fastest.  For projections in
+geocentric coordinates, values of x and y are given in meters.
+z is always meters.</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: UTM zone 15, grs80 ellipse, NAD83 datum</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 26915)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s1">&#39;epsg:26915&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s1">&#39;epsg:26715&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># find x,y of Jefferson City, MO.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="o">-</span><span class="mf">92.199881</span><span class="p">,</span><span class="mf">38.56694</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># transform this point to projection 2 coordinates.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+<span class="go">&#39;569704.566 4269024.671&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">)</span>
+<span class="go">&#39;569722.342 4268814.028&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">p2</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39; -92.200 38.567&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># process 3 points at a time in a tuple</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">(</span><span class="mf">38.83</span><span class="p">,</span><span class="mf">39.32</span><span class="p">,</span><span class="mf">38.75</span><span class="p">)</span> <span class="c1"># Columbia, KC and StL Missouri</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">92.22</span><span class="p">,</span><span class="o">-</span><span class="mf">94.72</span><span class="p">,</span><span class="o">-</span><span class="mf">90.37</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span><span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">y1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
+<span class="go">&#39;567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">x2</span><span class="o">+</span><span class="n">y2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
+<span class="go">&#39;567721.149 351747.558 728569.133 4297989.112 4353489.645 4292106.305&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">p2</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">lons</span><span class="o">+</span><span class="n">lats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
+<span class="go">&#39; -92.220  -94.720  -90.370 38.830 39.320 38.750&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># test datum shifting, installation of extra datum grid files.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;latlong&#39;</span><span class="p">,</span><span class="n">datum</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">111.5</span><span class="p">;</span> <span class="n">y1</span> <span class="o">=</span> <span class="mf">45.25919444444</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s2">&quot;utm&quot;</span><span class="p">,</span><span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">datum</span><span class="o">=</span><span class="s1">&#39;NAD27&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x2</span><span class="p">)[:</span><span class="mi">9</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">y2</span><span class="p">)[:</span><span class="mi">9</span><span class="p">])</span>
+<span class="go">&#39;1402285.9  5076292.4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c1</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;latlong&#39;</span><span class="p">,</span><span class="n">datum</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">111.5</span><span class="p">;</span> <span class="n">y1</span> <span class="o">=</span> <span class="mf">45.25919444444</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s2">&quot;utm&quot;</span><span class="p">,</span><span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">datum</span><span class="o">=</span><span class="s1">&#39;NAD27&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x2</span><span class="p">)[:</span><span class="mi">9</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">y2</span><span class="p">)[:</span><span class="mi">9</span><span class="p">])</span>
+<span class="go">&#39;1402291.0  5076289.5&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:3857&quot;</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%.3f</span><span class="s2">  </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
+<span class="go">&#39;10909310.098  3895303.963&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-itransform">
+<h2>pyproj.itransform<a class="headerlink" href="#pyproj-itransform" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyproj.itransform">
+<code class="descclassname">pyproj.</code><code class="descname">itransform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>points</em>, <em>switch=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.itransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>points2 = transform(p1, p2, points1)
+Iterator/generator version of the function pyproj.transform.
+Transform points between two coordinate systems defined by the
+Proj instances p1 and p2. This function can be used as an alternative
+to pyproj.transform when there is a need to transform a big number of
+coordinates lazily, for example when reading and processing from a file.
+Points1 is an iterable/generator of coordinates x1,y1(,z1) or lon1,lat1(,z1)
+in the coordinate system defined by p1. Points2 is an iterator that returns tuples
+of x2,y2(,z2) or lon2,lat2(,z2) coordinates in the coordinate system defined by p2.
+z are provided optionally.</p>
+<dl class="docutils">
+<dt>Points1 can be:</dt>
+<dd><ul class="first last simple">
+<li>a tuple/list of tuples/lists i.e. for 2d points: [(xi,yi),(xj,yj),….(xn,yn)]</li>
+<li>a Nx3 or Nx2 2d numpy array where N is the point number</li>
+<li>a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d</li>
+</ul>
+</dd>
+</dl>
+<p>If optional keyword ‘switch’ is True (default is False) then x, y or lon,lat coordinates
+of points are switched to y, x or lat, lon.
+If optional keyword ‘radians’ is True (default is False) and p1
+is defined in geographic coordinate (pj.is_latlong() is True),
+x1,y1 is interpreted as radians instead of the default degrees.
+Similarly, if p2 is defined in geographic coordinates and
+radians=True, x2, y2 are returned in radians instead of degrees.
+if p1.is_latlong() and p2.is_latlong() both are False, the
+radians keyword has no effect.</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: WGS84</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 4326)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s1">&#39;epsg:4326&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 2: GGRS87 / Greek Grid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s1">&#39;epsg:2100&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Three points with coordinates lon, lat in p1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">22.95</span><span class="p">,</span> <span class="mf">40.63</span><span class="p">),</span> <span class="p">(</span><span class="mf">22.81</span><span class="p">,</span> <span class="mf">40.53</span><span class="p">),</span> <span class="p">(</span><span class="mf">23.51</span><span class="p">,</span> <span class="mf">40.86</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># transform this point to projection 2 coordinates.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">points</span><span class="p">):</span> <span class="s1">&#39;</span><span class="si">%6.3f</span><span class="s1"> </span><span class="si">%7.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">pt</span>
+<span class="go">&#39;411200.657 4498214.742&#39;</span>
+<span class="go">&#39;399210.500 4487264.963&#39;</span>
+<span class="go">&#39;458703.102 4523331.451&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Proj</a><ul>
+<li><a class="reference internal" href="#pyproj-proj">pyproj.Proj</a></li>
+<li><a class="reference internal" href="#pyproj-transform">pyproj.transform</a></li>
+<li><a class="reference internal" href="#pyproj-itransform">pyproj.itransform</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">API Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="crs.html"
+                        title="next chapter">CRS</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/proj.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="crs.html" title="CRS"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="API Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API Documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

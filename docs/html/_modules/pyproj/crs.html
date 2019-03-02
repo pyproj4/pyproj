@@ -1,0 +1,351 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pyproj.crs &#8212; pyproj 2.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyproj 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../pyproj.html" accesskey="U">pyproj</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyproj.crs</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module interfaces with proj.4 to produce a pythonic interface</span>
+<span class="sd">to the coordinate reference system (CRS) information through the CRS</span>
+<span class="sd">class.</span>
+
+<span class="sd">Original Author: Alan D. Snow [github.com/snowman2] (2019)</span>
+
+<span class="sd">Permission to use, copy, modify, and distribute this software</span>
+<span class="sd">and its documentation for any purpose and without fee is hereby</span>
+<span class="sd">granted, provided that the above copyright notice appear in all</span>
+<span class="sd">copies and that both the copyright notice and this permission</span>
+<span class="sd">notice appear in supporting documentation. THE AUTHOR DISCLAIMS</span>
+<span class="sd">ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL</span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT</span>
+<span class="sd">SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR</span>
+<span class="sd">CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM</span>
+<span class="sd">LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,</span>
+<span class="sd">NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN</span>
+<span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CRS&quot;</span><span class="p">,</span> <span class="s2">&quot;is_wkt&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">_CRS</span><span class="p">,</span> <span class="n">is_wkt</span>
+<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">string_types</span>
+<span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">CRSError</span>
+<span class="kn">from</span> <span class="nn">pyproj.geod</span> <span class="k">import</span> <span class="n">Geod</span>
+
+
+<span class="k">def</span> <span class="nf">_dict2string</span><span class="p">(</span><span class="n">projparams</span><span class="p">):</span>
+    <span class="c1"># convert a dict to a proj4 string.</span>
+    <span class="n">pjargs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">projparams</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">pjargs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pjargs</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CRS"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS">[docs]</a><span class="k">class</span> <span class="nc">CRS</span><span class="p">(</span><span class="n">_CRS</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A pythonic Coordinate Reference System manager.</span>
+
+<span class="sd">    The functionality is based on other fantastic projects:</span>
+
+<span class="sd">    * https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py</span>
+<span class="sd">    * https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CRS.__init__"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a CRS class instance with a WKT string,</span>
+<span class="sd">        a proj,4 string, a proj.4 dictionary, or with</span>
+<span class="sd">        proj.4 keyword arguments.</span>
+
+<span class="sd">        CRS projection control parameters must either be given in a</span>
+<span class="sd">        dictionary &#39;projparams&#39; or as keyword arguments. See the proj.4</span>
+<span class="sd">        documentation (https://github.com/OSGeo/proj.4/wiki) for more information</span>
+<span class="sd">        about specifying projection parameters.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import CRS</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm = CRS.from_user_input(26915)</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm</span>
+<span class="sd">        &lt;CRS: epsg:26915&gt;</span>
+<span class="sd">        Name: NAD83 / UTM zone 15N</span>
+<span class="sd">        Ellipsoid:</span>
+<span class="sd">        - semi_major_metre: 6378137.00</span>
+<span class="sd">        - semi_minor_metre: 6356752.31</span>
+<span class="sd">        - inverse_flattening: 298.26</span>
+<span class="sd">        Area of Use:</span>
+<span class="sd">        - name: North America - 96°W to 90°W and NAD83 by country</span>
+<span class="sd">        - bounds: (-96.0, 25.61, -90.0, 84.0)</span>
+<span class="sd">        Prime Meridian:</span>
+<span class="sd">        - longitude: 0.0000</span>
+<span class="sd">        - unit_name: degree</span>
+<span class="sd">        - unit_conversion_factor: 0.01745329</span>
+<span class="sd">        Axis Info:</span>
+<span class="sd">        - Easting[E] (east) EPSG:9001 (metre)</span>
+<span class="sd">        - Northing[N] (north) EPSG:9001 (metre)</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm.area_of_use.bounds</span>
+<span class="sd">        (-96.0, 25.61, -90.0, 84.0)</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm.ellipsoid.inverse_flattening</span>
+<span class="sd">        298.257222101</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm.ellipsoid.semi_major_metre</span>
+<span class="sd">        6378137.0</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm.ellipsoid.semi_minor_metre</span>
+<span class="sd">        6356752.314140356</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm.prime_meridian.unit_name</span>
+<span class="sd">        &#39;degree&#39;</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm.prime_meridian.unit_conversion_factor</span>
+<span class="sd">        0.017453292519943295</span>
+<span class="sd">        &gt;&gt;&gt; crs_utm.prime_meridian.longitude</span>
+<span class="sd">        0.0</span>
+<span class="sd">        &gt;&gt;&gt; crs = CRS(proj=&#39;utm&#39;, zone=10, ellps=&#39;WGS84&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; crs.to_proj4()</span>
+<span class="sd">        &#39;+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs&#39;</span>
+<span class="sd">        &gt;&gt;&gt; crs.to_wkt()</span>
+<span class="sd">        &#39;PROJCRS[&quot;unknown&quot;,BASEGEOGCRS[&quot;unknown&quot;,DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,7030]]],PRIMEM[&quot;Greenwich&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8901]]],CONVERSION[&quot;UTM zone 10N&quot;,METHOD[&quot;Transverse Mercator&quot;,ID[&quot;EPSG&quot;,9807]],PARAMETER[&quot;Latitude of natural origin&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8801]],PARAMETER[&quot;Longitude of natural origin&quot;,-123,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8802]],PARAMETER[&quot;Scale factor at natural origin&quot;,0.9996,SCALEUNIT[&quot;unity&quot;,1],ID[&quot;EPSG&quot;,8805]],PARAMETER[&quot;False easting&quot;,500000,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,8806]],PARAMETER[&quot;False northing&quot;,0,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,8807]],ID[&quot;EPSG&quot;,16010]],CS[Cartesian,2],AXIS[&quot;(E)&quot;,east,ORDER[1],LENGTHUNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,9001]]],AXIS[&quot;(N)&quot;,north,ORDER[2],LENGTHUNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,9001]]]]&#39;</span>
+<span class="sd">        &gt;&gt;&gt; geod = crs.get_geod()</span>
+<span class="sd">        &gt;&gt;&gt; &quot;+a={:.0f} +f={:.8f}&quot;.format(geod.a, geod.f)</span>
+<span class="sd">        &#39;+a=6378137 +f=0.00335281&#39;</span>
+<span class="sd">        &gt;&gt;&gt; crs.is_projected</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; crs.is_geographic</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; crs.is_valid</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if projparams is None, use kwargs.</span>
+        <span class="k">if</span> <span class="n">projparams</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;no projection control parameters specified&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">projstring</span> <span class="o">=</span> <span class="n">_dict2string</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="c1"># if projparams is a string or a unicode string, interpret as a proj4 init string.</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">projparams</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># projparams a dict</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_dict2string</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
+
+        <span class="c1"># make sure the projection starts with +proj or +init</span>
+        <span class="n">starting_params</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">projstring</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">):</span>
+            <span class="n">kvpairs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">first_item_inserted</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">kvpair</span> <span class="ow">in</span> <span class="n">projstring</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">first_item_inserted</span> <span class="ow">and</span> <span class="p">(</span><span class="n">kvpair</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">)):</span>
+                    <span class="n">kvpairs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvpair</span><span class="p">)</span>
+                    <span class="n">first_item_inserted</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">kvpairs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kvpair</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kvpairs</span><span class="p">)</span>
+        <span class="c1"># look for EPSG, replace with epsg (EPSG only works</span>
+        <span class="c1"># on case-insensitive filesystems).</span>
+        <span class="n">projstring</span> <span class="o">=</span> <span class="n">projstring</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+init=EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;+init=epsg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CRS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">projstring</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CRS.from_epsg"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_epsg">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_epsg</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a CRS from an EPSG code</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        code : int or str</span>
+<span class="sd">            An EPSG code. Strings will be converted to integers.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The input code is not validated against an EPSG database.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CRS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;EPSG codes are positive integers&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="s2">&quot;epsg:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">code</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CRS.from_string"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_string">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">proj_string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a CRS from an EPSG, PROJ, or WKT string</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        proj_string : str</span>
+<span class="sd">            An EPSG, PROJ, or WKT string.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CRS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">proj_string</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is empty or invalid: </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">proj_string</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">proj_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;EPSG:&quot;</span><span class="p">):</span>
+            <span class="n">auth</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">proj_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">val</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;Invalid CRS: </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">proj_string</span><span class="p">))</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="s2">&quot;{&quot;</span> <span class="ow">in</span> <span class="n">proj_string</span><span class="p">:</span>
+            <span class="c1"># may be json, try to decode it</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">proj_string</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS appears to be JSON but is not valid&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">val</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is empty JSON&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CRS.from_user_input"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_user_input">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_user_input</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a CRS from various input</span>
+
+<span class="sd">        Dispatches to from_epsg, from_proj, or from_string</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : obj</span>
+<span class="sd">            A Python int, dict, or str.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CRS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_CRS</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;to_wkt&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is invalid: </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CRS.get_geod"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.get_geod">[docs]</a>    <span class="k">def</span> <span class="nf">get_geod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :obj:`pyproj.Geod`: Geod object based on the CRS.ellipsoid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">ellipsoid_loaded</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">in_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_major_metre</span><span class="p">,</span>
+            <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">inverse_flattening</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">is_semi_minor_computed</span><span class="p">:</span>
+            <span class="n">in_kwargs</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_minor_metre</span>
+        <span class="k">return</span> <span class="n">Geod</span><span class="p">(</span><span class="o">**</span><span class="n">in_kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;special method that allows CRS instance to be pickled&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">srs</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">axis_info_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">axis_info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis_info</span><span class="p">:</span>
+            <span class="n">axis_info_list</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">axis_info</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">])</span>
+
+        <span class="n">axis_info_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">axis_info_list</span><span class="p">)</span>
+        <span class="n">string_repr</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;&lt;CRS: </span><span class="si">{srs}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Name: </span><span class="si">{name}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Ellipsoid:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="si">{ellipsoid}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Area of Use:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="si">{area_of_use}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Prime Meridian:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="si">{prime_meridian}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Axis Info:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="si">{axis_info_str}</span><span class="s2">&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">srs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">50</span> <span class="k">else</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">[:</span><span class="mi">50</span><span class="p">],</span> <span class="s2">&quot;...&quot;</span><span class="p">]),</span>
+            <span class="n">ellipsoid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span> <span class="ow">or</span> <span class="s2">&quot;- UNDEFINED&quot;</span><span class="p">,</span>
+            <span class="n">area_of_use</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">area_of_use</span> <span class="ow">or</span> <span class="s2">&quot;- UNDEFINED&quot;</span><span class="p">,</span>
+            <span class="n">prime_meridian</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prime_meridian</span> <span class="ow">or</span> <span class="s2">&quot;- UNDEFINED&quot;</span><span class="p">,</span>
+            <span class="n">axis_info_str</span><span class="o">=</span><span class="n">axis_info_str</span> <span class="ow">or</span> <span class="s2">&quot;- UNDEFINED&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">string_repr</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyproj 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../pyproj.html" >pyproj</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

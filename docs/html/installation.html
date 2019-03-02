@@ -1,0 +1,218 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Installation &#8212; pyproj 2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Documentation" href="api/index.html" />
+    <link rel="prev" title="pyproj Documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="api/index.html" title="API Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="pyproj Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The easiest methods for installing pyproj are:</p>
+<ol class="arabic simple">
+<li>Use the wheels on pypi or from <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>Use conda:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c conda-forge pyproj
+</pre></div>
+</div>
+</div></blockquote>
+<p>If that does not meet your needs, the section below provides further instructions
+for getting setup.</p>
+<div class="section" id="setup-proj-4">
+<h2>Setup PROJ.4<a class="headerlink" href="#setup-proj-4" title="Permalink to this headline">¶</a></h2>
+<p>PROJ.4 6.0.0 is required when building from source.
+You can download PROJ.4 from <a class="reference external" href="https://download.osgeo.org/proj">https://download.osgeo.org/proj</a>
+or from <a class="reference external" href="https://github.com/OSGeo/proj.4">https://github.com/OSGeo/proj.4</a>.
+Installation instructions can be fount at <a class="reference external" href="https://proj4.org/">https://proj4.org/</a>.</p>
+<p>In the setup.py, the order for searching for PROJ.4 is:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>The PROJ_DIR environment variable</li>
+<li>The internal PROJ.4 directory (pyproj/proj_dir)</li>
+<li>The <cite>proj</cite> executable on the PATH.</li>
+</ol>
+</div></blockquote>
+<p>For best results, set the PROJ_DIR environment variable to
+point to location of PROJ.4 installation before running setup.py.</p>
+<p>Examples of how to set the PROJ_DIR environment variable:</p>
+<p>Windows:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="nv">PROJ_DIR</span><span class="o">=</span>C:<span class="se">\O</span>SGeo4W<span class="se">\</span>
+</pre></div>
+</div>
+<p>Linux:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PROJ_DIR</span><span class="o">=</span>/usr/local
+</pre></div>
+</div>
+<p>If you have a previous version of PROJ.4 installed alongside the current
+version of PROJ.4 (6.0.0), the best way to avoid conflicts is to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Remove the previous PROJ.4 from PATH &amp; unset old PROJ_LIB environment variable (temporarily)</li>
+<li>Install PROJ.4 to the internal PROJ.4 directory (pyproj/proj_dir)</li>
+<li>Set the environment variable PROJ_DIR to point to the internal PROJ.4 directory</li>
+<li>Set the environment variable PROJ_WHEEL=true</li>
+<li>Build pyproj</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="setup-pyproj">
+<h2>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-data-directory">
+<h3>The data directory<a class="headerlink" href="#the-data-directory" title="Permalink to this headline">¶</a></h3>
+<p>The order of preference for the data directory is:</p>
+<ol class="arabic simple">
+<li>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</li>
+<li>The internal proj directory (if exists &amp; valid)</li>
+<li>The directory in the PROJ_LIB environment variable (if exists &amp; valid)</li>
+</ol>
+</div>
+<div class="section" id="install-pyproj">
+<h3>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference external" href="http://cython.org/">Cython</a> or pip&gt;=10.0.1 is required for the installation.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may need to run pip with administrative privileges (e.g. <cite>sudo pip</cite>) or
+perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
+</div>
+<div class="section" id="from-pypi">
+<h4>From pypi:<a class="headerlink" href="#from-pypi" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj --no-binary
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-github-with-pip">
+<h4>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/jswhit/pyproj.git
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-cloned-github-repo-for-development">
+<h4>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -e .
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#setup-proj-4">Setup PROJ.4</a></li>
+<li><a class="reference internal" href="#setup-pyproj">Setup pyproj</a><ul>
+<li><a class="reference internal" href="#the-data-directory">The data directory</a></li>
+<li><a class="reference internal" href="#install-pyproj">Install pyproj</a><ul>
+<li><a class="reference internal" href="#from-pypi">From pypi:</a></li>
+<li><a class="reference internal" href="#from-github-with-pip">From GitHub with <cite>pip</cite>:</a></li>
+<li><a class="reference internal" href="#from-cloned-github-repo-for-development">From cloned GitHub repo for development:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">pyproj Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api/index.html"
+                        title="next chapter">API Documentation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/installation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="api/index.html" title="API Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="pyproj Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

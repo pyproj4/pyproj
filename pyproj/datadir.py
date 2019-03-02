@@ -2,12 +2,21 @@
 Set the datadir path to the local data directory
 """
 import os
+
 from pyproj.exceptions import DataDirError
 
 _USER_PROJ_DATA = None
 
 
 def set_data_dir(proj_data_dir):
+    """
+    Set the data directory for PROJ.4 to use.
+
+    Parameters
+    ----------
+    proj_data_dir: str
+        The path to rhe PROJ.4 data directory.
+    """
     global _USER_PROJ_DATA
     _USER_PROJ_DATA = proj_data_dir
 
