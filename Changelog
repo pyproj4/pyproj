@@ -1,3 +1,11 @@
+2.0.0
+* Update to PROJ.4 version 6.0.0 & removed support for older PROJ.4 versions.
+* Added pyproj.CRS class.
+* Updated pyproj.Proj & pyproj.transform to accept any input from CRS.from_user_input.
+* Removed internal PROJ.4 source code.
+* Changed default for preserve_units to be True in pyproj.Proj class initialization.
+* Modified logic for searching for the PROJ.4 data directory to not conflict with older versions of PROJ.4.
+* Added pyproject.toml.
 1.9.6
 * fix segfault when inverse projection not defined (issue #43, pull request
   #44).
@@ -41,7 +49,7 @@
  * allow 'EPSG' init (as well as 'epsg'). This only worked on case-insensitive
    filesystems previously. Fixes issue 6.
  * added inverse to Hammer projection.
- * updated src/pj_mutex.c from proj4 svn to fix a threading issue on windows
+ * updated proj.4/src/pj_mutex.c from proj4 svn to fix a threading issue on windows
    (issue 25). Windows binary installers updated (version 1.8.8-1), courtesy
    Christoph Gohlke.
  * if inputs are NaNs, return huge number (1.e30).

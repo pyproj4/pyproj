@@ -48,12 +48,12 @@
     </td>
   </tr>
 </table>
-<!-- ==================== TYPE DESCRIPTION ==================== -->
-<h1 class="epydoc">type Proj</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj-pysrc.html#Proj">source&nbsp;code</a></span></p>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Proj</h1><p class="nomargin-top"><span class="codelink"><a href="pyproj-pysrc.html#Proj">source&nbsp;code</a></span></p>
 <pre class="base-tree">
 object --+    
          |    
-   ??.Proj --+
+_proj.Proj --+
              |
             <strong class="uidshort">Proj</strong>
 </pre>
@@ -117,8 +117,45 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">projparams</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">preserve_units</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      initialize a Proj class instance.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Proj.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#definition_string" class="summary-sig-name">definition_string</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns formal definition string for projection</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyproj-pysrc.html#Proj.definition_string">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pyproj.Proj-class.html#is_geocent" class="summary-sig-name">is_geocent</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      returns True if projection in geocentric (x/y) coordinates</td>
+      Returns...</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="pyproj-pysrc.html#Proj.is_geocent">source&nbsp;code</a></span>
             
@@ -134,8 +171,10 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#is_latlong" class="summary-sig-name">is_latlong</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      returns True if projection in geographic (lon/lat) coordinates</td>
+          <td><span class="summary-sig"><a name="is_latlong"></a><span class="summary-sig-name">is_latlong</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns
+-------
+bool: True if projection in geographic (lon/lat) coordinates.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="pyproj-pysrc.html#Proj.is_latlong">source&nbsp;code</a></span>
             
@@ -151,8 +190,9 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#to_latlong" class="summary-sig-name">to_latlong</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      returns an equivalent Proj in the corresponding lon/lat coordinates.</td>
+          <td><span class="summary-sig"><a name="to_latlong"></a><span class="summary-sig-name">to_latlong</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      return a new Proj instance which is the geographic (lat/lon) 
+      coordinate version of the current projection</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="pyproj-pysrc.html#Proj.to_latlong">source&nbsp;code</a></span>
             
@@ -162,40 +202,42 @@ object --+
       
     </td>
   </tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.Proj</code></b>:
-      <code>__reduce__</code>
-      </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== STATIC METHODS ==================== -->
-<a name="section-StaticMethods"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Static Methods</span></td>
-</tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">a new object with type S, a subtype of T</span>
+      <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pyproj.Proj-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">projparams</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">preserve_units</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      initialize a Proj class instance.</td>
+          <td><span class="summary-sig"><a name="to_latlong_def"></a><span class="summary-sig-name">to_latlong_def</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      return the definition string of the geographic (lat/lon) coordinate 
+      version of the current projection</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pyproj-pysrc.html#Proj.__new__">source&nbsp;code</a></span>
+            <span class="codelink"><a href="pyproj-pysrc.html#Proj.to_latlong_def">source&nbsp;code</a></span>
             
           </td>
         </tr>
       </table>
       
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_proj.Proj</code></b>:
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__repr__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
     </td>
   </tr>
 </table>
@@ -209,9 +251,13 @@ object --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.Proj</code></b>:
-      <code>proj_version</code>,
-      <code>srs</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_proj.Proj</code></b>:
+      <code>definition</code>,
+      <code>has_inverse</code>,
+      <code>proj_version</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
       </p>
     </td>
   </tr>
@@ -259,73 +305,109 @@ object --+
   </dl>
 </td></tr></table>
 </div>
-<a name="__new__"></a>
+<a name="__init__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">projparams</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">preserve_units</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">preserve_units</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">**kwargs</span>)</span>
-    <br /><em class="fname">Static Method</em>
+    <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.__new__">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.__init__">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>initialize a Proj class instance.</p>
-  <p>Proj4 projection control parameters must either be given in a 
-  dictionary 'projparams' or as keyword arguments. See the proj 
-  documentation (https://github.com/OSGeo/proj.4/wiki) for more information
-  about specifying projection parameters.</p>
-  <p>Example usage:</p>
-<pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pyproj <span class="py-keyword">import</span> Proj
-<span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(proj=<span class="py-string">'utm'</span>,zone=10,ellps=<span class="py-string">'WGS84'</span>) <span class="py-comment"># use kwargs</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>x,y = p(-120.108, 34.36116666)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%9.3f y=%11.3f'</span> % (x,y)
-<span class="py-output">'x=765975.641 y=3805993.134'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'lon=%8.3f lat=%5.3f'</span> % p(x,y,inverse=True)
-<span class="py-output">'lon=-120.108 lat=34.361'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># do 3 cities at a time in a tuple (Fresno, LA, SF)</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>lons = (-119.72,-118.40,-122.38)
-<span class="py-prompt">&gt;&gt;&gt; </span>lats = (36.77, 33.93, 37.62 )
-<span class="py-prompt">&gt;&gt;&gt; </span>x,y = p(lons, lats)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x: %9.3f %9.3f %9.3f'</span> % x
-<span class="py-output">'x: 792763.863 925321.537 554714.301'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'y: %9.3f %9.3f %9.3f'</span> % y
-<span class="py-output">'y: 4074377.617 3763936.941 4163835.303'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>lons, lats = p(x, y, inverse=True) <span class="py-comment"># inverse transform</span>
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'lons: %8.3f %8.3f %8.3f'</span> % lons
-<span class="py-output">'lons: -119.720 -118.400 -122.380'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'lats: %8.3f %8.3f %8.3f'</span> % lats
-<span class="py-output">'lats:   36.770   33.930   37.620'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p2 = Proj(<span class="py-string">'+proj=utm +zone=10 +ellps=WGS84'</span>) <span class="py-comment"># use proj4 string</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>x,y = p2(-120.108, 34.36116666)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%9.3f y=%11.3f'</span> % (x,y)
-<span class="py-output">'x=765975.641 y=3805993.134'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(init=<span class="py-string">&quot;epsg:32667&quot;</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%12.3f y=%12.3f (meters)'</span> % p(-114.057222, 51.045)
-<span class="py-output">'x=-1783486.760 y= 6193833.196 (meters)'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(<span class="py-string">&quot;+init=epsg:32667&quot;</span>,preserve_units=True)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%12.3f y=%12.3f (feet)'</span> % p(-114.057222, 51.045)
-<span class="py-output">'x=-5851322.810 y=20320934.409 (feet)'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>p = Proj(proj=<span class="py-string">'hammer'</span>) <span class="py-comment"># hammer proj and inverse</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>x,y = p(-30,40)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'x=%12.3f y=%12.3f'</span> % (x,y)
-<span class="py-output">'x=-2711575.083 y= 4395506.619'</span>
-<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>lon,lat = p(x,y,inverse=True)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-string">'lon=%9.3f lat=%9.3f (degrees)'</span> % (lon,lat)
-<span class="py-output">'lon=  -30.000 lat=   40.000 (degrees)'</span></pre>
+  <pre class="literalblock">
+
+initialize a Proj class instance.
+
+See the proj documentation (https://github.com/OSGeo/proj.4/wiki)
+for more information about projection parameters.
+
+Parameters
+----------
+projparams: int, str, dict, pyproj.CRS
+    A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.
+preserve_units: bool
+    If false, will ensure +units=m.
+**kwargs:
+    proj.4 projection parameters.
+
+Example usage:
+
+&gt;&gt;&gt; from pyproj import Proj
+&gt;&gt;&gt; p = Proj(proj='utm',zone=10,ellps='WGS84', preserve_units=False) # use kwargs
+&gt;&gt;&gt; x,y = p(-120.108, 34.36116666)
+&gt;&gt;&gt; 'x=%9.3f y=%11.3f' % (x,y)
+'x=765975.641 y=3805993.134'
+&gt;&gt;&gt; 'lon=%8.3f lat=%5.3f' % p(x,y,inverse=True)
+'lon=-120.108 lat=34.361'
+&gt;&gt;&gt; # do 3 cities at a time in a tuple (Fresno, LA, SF)
+&gt;&gt;&gt; lons = (-119.72,-118.40,-122.38)
+&gt;&gt;&gt; lats = (36.77, 33.93, 37.62 )
+&gt;&gt;&gt; x,y = p(lons, lats)
+&gt;&gt;&gt; 'x: %9.3f %9.3f %9.3f' % x
+'x: 792763.863 925321.537 554714.301'
+&gt;&gt;&gt; 'y: %9.3f %9.3f %9.3f' % y
+'y: 4074377.617 3763936.941 4163835.303'
+&gt;&gt;&gt; lons, lats = p(x, y, inverse=True) # inverse transform
+&gt;&gt;&gt; 'lons: %8.3f %8.3f %8.3f' % lons
+'lons: -119.720 -118.400 -122.380'
+&gt;&gt;&gt; 'lats: %8.3f %8.3f %8.3f' % lats
+'lats:   36.770   33.930   37.620'
+&gt;&gt;&gt; p2 = Proj('+proj=utm +zone=10 +ellps=WGS84', preserve_units=False) # use proj4 string
+&gt;&gt;&gt; x,y = p2(-120.108, 34.36116666)
+&gt;&gt;&gt; 'x=%9.3f y=%11.3f' % (x,y)
+'x=765975.641 y=3805993.134'
+&gt;&gt;&gt; p = Proj(init=&quot;epsg:32667&quot;, preserve_units=False)
+&gt;&gt;&gt; 'x=%12.3f y=%12.3f (meters)' % p(-114.057222, 51.045)
+'x=-1783506.250 y= 6193827.033 (meters)'
+&gt;&gt;&gt; p = Proj(&quot;+init=epsg:32667&quot;)
+&gt;&gt;&gt; 'x=%12.3f y=%12.3f (feet)' % p(-114.057222, 51.045)
+'x=-5851386.754 y=20320914.191 (feet)'
+&gt;&gt;&gt; # test data with radian inputs
+&gt;&gt;&gt; p1 = Proj(init=&quot;epsg:4214&quot;)
+&gt;&gt;&gt; x1, y1 = p1(116.366, 39.867)
+&gt;&gt;&gt; '{:.3f} {:.3f}'.format(x1, y1)
+'2.031 0.696'
+&gt;&gt;&gt; x2, y2 = p1(x1, y1, inverse=True)
+&gt;&gt;&gt; '{:.3f} {:.3f}'.format(x2, y2)
+'116.366 39.867'
+
+</pre>
   <dl class="fields">
-    <dt>Returns: a new object with type S, a subtype of T</dt>
     <dt>Overrides:
-        <i>unreachable</i>.Proj.__new__
+        object.__init__
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="definition_string"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">definition_string</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.definition_string">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns formal definition string for projection</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>Proj(<span class="py-string">'+init=epsg:4326'</span>).definition_string()
+<span class="py-output">'proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0'</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt;</span></pre>
+  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -343,56 +425,14 @@ object --+
     </td>
   </tr></table>
   
-  <p>returns True if projection in geocentric (x/y) coordinates</p>
+  <pre class="literalblock">
+
+Returns
+-------
+bool: True if projection in geocentric (x/y) coordinates
+
+</pre>
   <dl class="fields">
-    <dt>Overrides:
-        <i>unreachable</i>.Proj.is_geocent
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="is_latlong"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">is_latlong</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.is_latlong">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>returns True if projection in geographic (lon/lat) coordinates</p>
-  <dl class="fields">
-    <dt>Overrides:
-        <i>unreachable</i>.Proj.is_latlong
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="to_latlong"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to_latlong</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="pyproj-pysrc.html#Proj.to_latlong">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>returns an equivalent Proj in the corresponding lon/lat coordinates. 
-  (see pj_latlong_from_proj() in the Proj.4 C API)</p>
-  <dl class="fields">
-    <dt>Overrides:
-        <i>unreachable</i>.Proj.to_latlong
-    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -423,8 +463,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1
-    on Mon Jan 18 16:51:04 2016
+    Generated by Epydoc 3.0.1 on Sun Feb 24 19:04:18 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

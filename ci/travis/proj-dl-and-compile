@@ -1,25 +1,31 @@
 #!/bin/bash
 echo "Building PROJ.4 $1 version from source..."
-
 if [[ $1 == "git" ]]; then
-  git clone https://github.com/OSGeo/proj.4.git proj.4-git
+  git clone https://github.com/OSGeo/proj.4.git proj-git
 else
-  wget https://github.com/OSGeo/proj.4/archive/$1.tar.gz
-  tar zxf $1.tar.gz
+  curl https://download.osgeo.org/proj/proj-$1.tar.gz > "proj-${1:0:5}.tar.gz"
+  tar zxf "proj-${1:0:5}.tar.gz"
 fi
-cd proj.4-$1
+cd "proj-${1:0:5}"
 
 # Download and extract grids
-wget http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
-cd nad
-unzip -o ../proj-datumgrid-1.5.zip
+curl http://download.osgeo.org/proj/proj-datumgrid-1.8.zip > proj-datumgrid-1.8.zip
+cd data
+unzip -o ../proj-datumgrid-1.8.zip
+rm ../proj-datumgrid-1.8.zip
 cd ..
 
 # could be installed to a cached location (probably not git version)
 # seems to take only about 13 seconds of build time
-cmake . -DCMAKE_INSTALL_PREFIX=/tmp/proj_dl_install
-make -j3
+# build using autotools
+sh autogen.sh
+./configure --prefix=$PROJ_DIR
+make 
 make install
-find /tmp/proj_dl_install
-# export PROJ_DIR="/tmp/proj_git_install"
+# build using cmake
+#cmake . -DCMAKE_INSTALL_PREFIX=$PROJ_DIR
+#cmake --build .
+#make install
+find $PROJ_DIR
+# export PROJ_DIR="/tmp/proj_dl_install"
 cd ..

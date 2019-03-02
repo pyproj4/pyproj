@@ -1,5 +1,6 @@
-numpy
 cython>=0.28.4
+mock
 nose2
+pytest
 cov-core
 coverage>=4.0

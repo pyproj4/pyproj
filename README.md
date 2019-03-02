@@ -1,31 +1,83 @@
 pyproj
 ======
 
+[![Build Status](https://travis-ci.org/jswhit/pyproj.svg)](https://travis-ci.org/jswhit/pyproj)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/49t24ofdg16cl43d?svg=true)](https://ci.appveyor.com/project/jswhit/pyproj)
+
+[![PyPI version](https://badge.fury.io/py/pyproj.svg)](https://badge.fury.io/py/pyproj)
+
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyproj/badges/version.svg)](https://anaconda.org/conda-forge/pyproj)
+
+
 Installation
 ------------
-* clone github repo or download source release at http://python.org/pypi/pyproj.
-  * If you clone the github repo, [Cython](http://cython.org/) is a dependency.
-* python setup.py build
-* python setup.py install (with sudo if necessary).
 
-To use proj4 lib (and data files) that are already installed on the system, 
-set PROJ_DIR environment variable to point to location of proj4 installation
-before running setup.py. If PROJ_DIR is not set, the bundled proj4
-source code and data files are used.
+#### Setup PROJ.4
+
+PROJ.4 6.0.0 is required when building from source.
+You can download PROJ.4 from https://download.osgeo.org/proj.
+Installation instructions can be fount at https://github.com/OSGeo/proj.4.
+
+In the setup.py, the order for searching for PROJ.4 is:
+
+    1. The PROJ_DIR environment variable
+    2. The internal PROJ.4 directory (pyproj/proj_dir)
+    3. The `proj` executable on the PATH.
+
+For best results, set the PROJ_DIR environment variable to 
+point to location of PROJ.4 installation before running setup.py.
 
 Examples of how to set the PROJ_DIR environment variable:
+
 * Windows - `C:\...> set PROJ_DIR=C:\OSGeo4W\`
 * Linux/OS X on most shells- `$ export PROJ_DIR=/lib/`
 
-An alternative way to install is with `pip`:
+If you have a previous version of PROJ.4 installed alongside the current
+version of PROJ.4 (6.0.0), the best way to avoid conflicts is to:
+
+    1. Remove the previous PROJ.4 from PATH & unset old PROJ_LIB environment variable (temporarily)
+    2. Install PROJ.4 to the internal PROJ.4 directory (pyproj/proj_dir)
+    3. Set the environment variable PROJ_DIR to point to the internal PROJ.4 directory
+    4. Set the environment variable PROJ_WHEEL=true
+    5. Build pyproj
+
+#### Setup pyproj
+
+##### The data directory
+
+The order of preference for the data directory is:
+
+1. The one set by pyproj.datadir.set_data_dir (if exists & valid)
+2. The internal proj directory (if exists & valid)
+3. The directory in the PROJ_LIB environment variable (if exists & valid)
+
+##### Install pyproj
+
+* [Cython](http://cython.org/) or pip>=10.0.1 is required for the installation.
+
+Note: You may need to run pip with administrative privileges (e.g. `sudo pip`) or
+perform a user only installation (e.g. `pip install --user`).
+
+
+From pypi:
 
 ```
-pip install cython
+pip install pyproj
+```
+
+From GitHub with `pip`:
+
+```
 pip install git+https://github.com/jswhit/pyproj.git
 ```
 
-You may need to run pip with administrative privileges (e.g. `sudo pip`) or
-perform a user only installation (e.g. `pip install --user`).
+From cloned GitHub repo for development:
+
+```
+pip install -e .
+```
+
 
 Testing
 -------
@@ -60,11 +112,6 @@ Travis-CI should be set up to measure this automatically.
 * Install Cython, and all  other testing requirements
 ```
   pip install -r requirements-dev.txt
-```
-
-* Add this line to top of _proj.pyx
-```
-  # cython: linetrace=True
 ```
 
 * Set the environment variable PYPROJ_FULL_COVERAGE to any value.  This

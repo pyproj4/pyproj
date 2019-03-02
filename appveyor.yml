@@ -1,3 +1,6 @@
+platform:
+- x64
+
 # This is based on file and files in ci/appveyor are from 
 # https://github.com/ogrisel/python-appveyor-demo
 environment:
@@ -11,58 +14,85 @@ environment:
     # Pre-installed Python versions
     # See: http://www.appveyor.com/docs/installed-software#python
     # build is limited to 60 minutes, without caching each build takes 10-30 minutes
-    # with caching build takes less than 1 minute
-
-     # Python 2.6 will need to run this `pip install unittest2`
-#    - PYTHON: "C:\\Python26"
-#      PYTHON_VERSION: "2.6.x"
-#      PYTHON_ARCH: "32"
-
-#    - PYTHON: "C:\\Python26-x64"
-#      PYTHON_VERSION: "2.6.x"
-#      PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7.x"
+    # with caching build takes less than 1 minute     
+    # - PYTHON: "C:\\Python35-x64"
+    #   PYTHON_VERSION: "3.5"
+    #   PYTHON_ARCH: "64"
+    #   VS_VERSION: Visual Studio 14
+    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    #   PROJSOURCE: 6.0.0
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
+      VS_VERSION: Visual Studio 14
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PROJSOURCE: 6.0.0
+    # - PYTHON: "C:\\Python37-x64"
+    #   PYTHON_VERSION: "3.7"
+    #   PYTHON_ARCH: "64"
+    #   VS_VERSION: Visual Studio 14
+    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    #   PROJSOURCE: 6.0.0
+    # - PYTHON: "C:\\Python36-x64"
+    #   PYTHON_VERSION: "3.6"
+    #   PYTHON_ARCH: "64"
+    #   VS_VERSION: Visual Studio 14
+    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    #   PROJSOURCE: git
+matrix:
+  allow_failures:
+    - PROJSOURCE: git
 
-#    - PYTHON: "C:\\Python33"
-#      PYTHON_VERSION: "3.3.x"
-#      PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python33-x64"
-      PYTHON_VERSION: "3.3.x"
-      PYTHON_ARCH: "64"
-
-#    - PYTHON: "C:\\Python34"
-#      PYTHON_VERSION: "3.4.x"
-#      PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python34-x64"
-      PYTHON_VERSION: "3.4.x"
-      PYTHON_ARCH: "64"
-      
-    - PYTHON: "C:\\Python35"
-      PYTHON_VERSION: "3.5.x"
-      PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python35-x64"
-      PYTHON_VERSION: "3.5.x"
-      PYTHON_ARCH: "64"
+shallow_clone: true
 
 cache:
     - C:\Users\appveyor\AppData\Local\pip\Cache\wheels
 
+build_script:
+  # setup sqlite3
+  - vcpkg install sqlite3:"%platform%"-windows
+  - set SQLITE3_BIN=%APPVEYOR_BUILD_FOLDER%\sqlite3\bin
+  - mkdir %SQLITE3_BIN%
+  - copy c:\tools\vcpkg\installed\"%platform%"-windows\bin\sqlite3.dll %SQLITE3_BIN%
+  - ps: |
+        appveyor DownloadFile https://sqlite.org/2018/sqlite-tools-win32-x86-3250100.zip
+        7z x sqlite-tools-win32-x86-3250100.zip
+  - copy "%APPVEYOR_BUILD_FOLDER%"\sqlite-tools-win32-x86-3250100\sqlite3.exe %SQLITE3_BIN%
+  - set PATH=%PATH%;%SQLITE3_BIN%
+  # setup PROJ.4
+  - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/proj.4.git proj-git
+  - if not "%PROJSOURCE%" == "git" curl -o "proj-%PROJSOURCE:~0,5%.zip" "https://download.osgeo.org/proj/proj-%PROJSOURCE%.zip"
+  - if not "%PROJSOURCE%" == "git" 7z x -aoa -y "proj-%PROJSOURCE:~0,5%.zip"
+  - cd "%APPVEYOR_BUILD_FOLDER%\proj-%PROJSOURCE:~0,5%"
+  - if "%platform%" == "x64" SET VS_FULL=%VS_VERSION% Win64
+  - if "%platform%" == "x64" SET BUILD_LIBPROJ_SHARED=ON
+  - if "%platform%" == "x86" SET VS_FULL=%VS_VERSION%
+  - if "%platform%" == "x86" SET BUILD_LIBPROJ_SHARED=OFF
+  - echo "%VS_FULL%"
+#
+  - mkdir build
+  - cd build
+  - set PROJ_DIR=%APPVEYOR_BUILD_FOLDER%\proj_dir
+  - cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBPROJ_SHARED="%BUILD_LIBPROJ_SHARED%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
+  - cmake --build . --config Release --target install
+  - set PATH=%PATH%;%PROJ_DIR%\bin
+  - set PROJ_LIB=%PROJ_DIR%\share\proj
+  - cd %PROJ_LIB%
+  - curl -O http://download.osgeo.org/proj/proj-datumgrid-1.8.zip
+  - 7z e -aoa -y proj-datumgrid-1.8.zip
+  - del proj-datumgrid-1.8.zip
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - proj
+  # Build and install pyproj
+  - "%CMD_IN_ENV% pip install \"pip>=10.0.1\""
+  - set PYPROJ_FULL_COVERAGE=YES
+  - "%CMD_IN_ENV% pip install -e ."
+  - "%CMD_IN_ENV% pip install -r requirements-dev.txt"
+
+
 install:
   - ECHO "Filesystem root:"
   - ps: "ls \"C:/\""
-
-  - ECHO "Installed SDKs:"
-  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
 
   # Install Python (from the official .msi of http://python.org) and pip when
   # not already installed.
@@ -82,35 +112,35 @@ install:
   - "pip install --disable-pip-version-check --user --upgrade pip"
   
   # install wheel, caching
-  - "pip install wheel"
-
-  # Install the build dependencies of the project. If some dependencies contain
-  # compiled extensions and are not provided as pre-built wheel packages,
-  # pip will build them from source using the MSVC compiler matching the
-  # target Python version and architecture
-  - "%CMD_IN_ENV% pip install -r requirements-dev.txt"
-
-build_script:
-  # Build and install pyproj
-  # - "%CMD_IN_ENV% python setup.py install"
-  - "%CMD_IN_ENV% pip install ."
+  - "%CMD_IN_ENV% pip install wheel"
 
 test_script:
   # Run the project tests
-  - "%CMD_IN_ENV% python lib/pyproj/__init__.py"
   - "%CMD_IN_ENV% python -c \"import pyproj; pyproj.Proj(init='epsg:4269')\""
   - "%CMD_IN_ENV% python unittest/test.py -v"
 
-#after_test:
+after_test:
   # If tests are successful, create binary packages for the project.
-  # - "%CMD_IN_ENV% python setup.py bdist_wheel"
+  - mkdir pyproj\proj_dir\share\proj
+  - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
+  - mkdir pyproj\proj_dir\lib
+  - copy %PROJ_DIR%\lib\* pyproj\proj_dir\lib
+  - copy c:\tools\vcpkg\installed\"%platform%"-windows\bin\sqlite3.dll pyproj\proj_dir\lib
+  - set PROJ_LIBDIR=proj_dir\lib
+  - set PROJ_WHEEL=true
+  - "%CMD_IN_ENV% python setup.py bdist_wheel"
   # - "%CMD_IN_ENV% python setup.py bdist_wininst"
   # - "%CMD_IN_ENV% python setup.py bdist_msi"
-  # - ps: "ls dist"
+  # test wheel
+  - pip install pyproj --ignore-installed --no-index -f dist
+  - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
+  # cleanup for test dir
+  - if %PROJSOURCE% == git del /F /Q dist\*
+  - ps: "ls dist"
 
-#artifacts:
+artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
-  # - path: dist\*
+  - path: dist\*
 
 #on_success:
 #  - TODO: upload the content of dist/*.whl to a public wheelhouse

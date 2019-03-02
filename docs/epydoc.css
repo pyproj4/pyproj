@@ -162,8 +162,8 @@ table.summary a.summary-sig-name:visited
 
 /* Subclass list
  */
-ul.subclass-list { display: inline; margin: 0; padding: 0; }
-ul.subclass-list li { display: inline; margin: 0; padding: 0; }
+ul.subclass-list { display: inline; }
+ul.subclass-list li { display: inline; }
 
 /* To render variables, classes etc. like functions */
 table.summary .summary-name { color: #006080; font-weight: bold;

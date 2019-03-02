@@ -3,57 +3,77 @@ language: python
 sudo: false
 
 cache: pip
-
 env: 
   global: 
-    - PROJSOURCE=builtin
-
-# External version of PROJ.4 installed:
-#  * 4.9.2 is installed due to it having easy binary install on
-#    Ubuntu Linux 16.04 Long Term Support (LTS) (April 2016).
-#  * git repository test for future compatibility changes to PROJ.4 may
-#    be caught early.
+    - CYTHON_COVERAGE=True
+    - PROJSOURCE=6.0.0
 matrix:
   include:
+    - language: cpp
+      os: osx
+      env:
+        - PYTHON=3.6
+        - PROJSOURCE=6.0.0
     - python: 2.7
-    - python: 3.4
-      env: 
-        - PROJSOURCE=4.9.2
+      env:
+        - PROJSOURCE=6.0.0
     - python: 3.5
+      env:
+        - PROJSOURCE=6.0.0
     - python: 3.6
+      env:
+        - PROJSOURCE=6.0.0
     - python: 3.7
       dist: xenial
       sudo: true
+      env:
+        - PROJSOURCE=6.0.0
     - python: "nightly"
-      env: 
+      env:
         - PROJSOURCE=git
     
   allow_failures:
     - python: "nightly"
-
+    - env: PROJSOURCE=git
 
 before_install:
-  - pip install -r requirements-dev.txt
-  
-  - echo "PROJSOURCE is $PROJSOURCE"
-  - pwd
-  # Download external PROJ.4 version and compile
-  - | 
-    if [[ $PROJSOURCE == "git" || $PROJSOURCE =~ "4."* ]]; then 
-      ci/travis/proj-dl-and-compile "$PROJSOURCE"
-      export PROJ_DIR="/tmp/proj_dl_install"
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew update
+      brew install sqlite3 wget openssl readline
+      # from https://pythonhosted.org/CodeChat/.travis.yml.html
+      brew outdated pyenv || brew upgrade pyenv
+      # virtualenv doesn't work without pyenv knowledge. venv in Python 3.3
+      # doesn't provide Pip by default. So, use `pyenv-virtualenv <https://github.com/yyuu/pyenv-virtualenv/blob/master/README.md>`_.
+      brew install pyenv-virtualenv
+      pyenv install $PYTHON
+      # I would expect something like ``pyenv init; pyenv local $PYTHON`` or
+      # ``pyenv shell $PYTHON`` would work, but ``pyenv init`` doesn't seem to
+      # modify the Bash environment. ??? So, I hand-set the variables instead.
+      export PYENV_VERSION=$PYTHON
+      export PATH="/Users/travis/.pyenv/shims:${PATH}"
+      pyenv-virtualenv venv
+      source venv/bin/activate
+      # A manual check that the correct version of Python is running.
+      python --version
+    else
+      sudo apt-get install -qq sqlite3 libsqlite3-dev
     fi
+  - echo "PROJSOURCE is $PROJSOURCE"
+  # Download external PROJ.4 version and compile
+  - export PROJ_DIR=/tmp/proj_dl_install
+  - ci/travis/proj-dl-and-compile "$PROJSOURCE"
+  - export PROJ_LIB=$PROJ_DIR/share/proj
 
-  # add line to the top of _proj.pyx enabling coverage for Cython code
-  - ./ci/travis/add_line_proj_pyx.sh
-  
 install:
   # coverage report requires a local install
+  - pip install "pip>=10.0.1"
   - PYPROJ_FULL_COVERAGE=YES pip install -e .
+  - pip install -r requirements-dev.txt
 
 script:
-    - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
-    - nose2 -v
+  - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
+  - nose2 -v
 
 notifications:
   email: false
