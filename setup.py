@@ -3,6 +3,7 @@ from __future__ import with_statement
 import os
 import subprocess
 import sys
+from collections import defaultdict
 from distutils.spawn import find_executable
 from glob import glob
 
@@ -49,12 +50,12 @@ libraries = []
 extra_link_args = []
 extensions = []
 proj_dir = os.environ.get("PROJ_DIR")
-package_data = {}
+package_data = defaultdict(list)
 
 if os.environ.get("PROJ_WHEEL") is not None and os.path.exists(INTERNAL_PROJ_DIR):
-    package_data = {
-        "pyproj": [os.path.join(BASE_INTERNAL_PROJ_DIR, "share", "proj", "*")]
-    }
+    package_data["pyproj"].append(
+        os.path.join(BASE_INTERNAL_PROJ_DIR, "share", "proj", "*")
+    )
 
 if proj_dir is None and os.path.exists(INTERNAL_PROJ_DIR):
     proj_dir = INTERNAL_PROJ_DIR
@@ -111,6 +112,9 @@ if os.name == "nt":
         if projlib:
             libraries = [os.path.basename(projlib[0]).split(".lib")[0]]
             break
+    if os.environ.get("PROJ_WHEEL") is not None:
+        package_data["pyproj"].append(os.path.basename(projlib[0]))
+        package_data["pyproj"].append("sqlite3.dll")
 
 ext_options = dict(
     include_dirs=incdirs,

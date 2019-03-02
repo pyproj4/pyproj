@@ -15,30 +15,30 @@ environment:
     # See: http://www.appveyor.com/docs/installed-software#python
     # build is limited to 60 minutes, without caching each build takes 10-30 minutes
     # with caching build takes less than 1 minute     
-    - PYTHON: "C:\\Python35-x64"
-      PYTHON_VERSION: "3.5"
-      PYTHON_ARCH: "64"
-      VS_VERSION: Visual Studio 14
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 6.0.0
+    # - PYTHON: "C:\\Python35-x64"
+    #   PYTHON_VERSION: "3.5"
+    #   PYTHON_ARCH: "64"
+    #   VS_VERSION: Visual Studio 14
+    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    #   PROJSOURCE: 6.0.0
     - PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PROJSOURCE: 6.0.0
-    - PYTHON: "C:\\Python37-x64"
-      PYTHON_VERSION: "3.7"
-      PYTHON_ARCH: "64"
-      VS_VERSION: Visual Studio 14
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 6.0.0
-    - PYTHON: "C:\\Python36-x64"
-      PYTHON_VERSION: "3.6"
-      PYTHON_ARCH: "64"
-      VS_VERSION: Visual Studio 14
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: git
+    # - PYTHON: "C:\\Python37-x64"
+    #   PYTHON_VERSION: "3.7"
+    #   PYTHON_ARCH: "64"
+    #   VS_VERSION: Visual Studio 14
+    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    #   PROJSOURCE: 6.0.0
+    # - PYTHON: "C:\\Python36-x64"
+    #   PYTHON_VERSION: "3.6"
+    #   PYTHON_ARCH: "64"
+    #   VS_VERSION: Visual Studio 14
+    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    #   PROJSOURCE: git
 matrix:
   allow_failures:
     - PROJSOURCE: git
@@ -123,6 +123,8 @@ after_test:
   # If tests are successful, create binary packages for the project.
   - mkdir pyproj\proj_dir\share\proj
   - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
+  - copy %PROJ_DIR%\lib\proj*.lib pyproj\
+  - copy c:\tools\vcpkg\installed\"%platform%"-windows\bin\sqlite3.dll pyproj\
   - set PROJ_WHEEL=true
   - "%CMD_IN_ENV% python setup.py bdist_wheel"
   # - "%CMD_IN_ENV% python setup.py bdist_wininst"
