@@ -95,6 +95,12 @@ if proj_libdir is None:
 else:
     libdirs.append(proj_libdir)
 
+if os.environ.get("PROJ_WHEEL") is not None and os.path.exists(
+    os.path.join(BASE_INTERNAL_PROJ_DIR, "lib")
+):
+    package_data["pyproj"].append(os.path.join(BASE_INTERNAL_PROJ_DIR, "lib", "*"))
+
+
 proj_incdir = os.environ.get("PROJ_INCDIR")
 incdirs = []
 if proj_incdir is None:
@@ -112,9 +118,6 @@ if os.name == "nt":
         if projlib:
             libraries = [os.path.basename(projlib[0]).split(".lib")[0]]
             break
-    if os.environ.get("PROJ_WHEEL") is not None:
-        package_data["pyproj"].append(os.path.basename(projlib[0]))
-        package_data["pyproj"].append("sqlite3.dll")
 
 ext_options = dict(
     include_dirs=incdirs,
