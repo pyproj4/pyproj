@@ -1,0 +1,308 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Geod &#8212; pyproj 2.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Directory" href="datadir.html" />
+    <link rel="prev" title="CRS" href="crs.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="datadir.html" title="Data Directory"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="crs.html" title="CRS"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API Documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geod">
+<h1>Geod<a class="headerlink" href="#geod" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyproj-geod">
+<h2>pyproj.Geod<a class="headerlink" href="#pyproj-geod" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.Geod">
+<em class="property">class </em><code class="descclassname">pyproj.</code><code class="descname">Geod</code><span class="sig-paren">(</span><em>initstring=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._geod.Geod</span></code></p>
+<p>performs forward and inverse geodetic, or Great Circle,
+computations.  The forward computation (using the ‘fwd’ method)
+involves determining latitude, longitude and back azimuth of a
+computations.  The forward computation (using the ‘fwd’ method)
+involves determining latitude, longitude and back azimuth of a
+terminus point given the latitude and longitude of an initial
+point, plus azimuth and distance. The inverse computation (using
+the ‘inv’ method) involves determining the forward and back
+azimuths and distance given the latitudes and longitudes of an
+initial and terminus point.</p>
+<dl class="method">
+<dt id="pyproj.Geod.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>initstring=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize a Geod class instance.</p>
+<p>Geodetic parameters for specifying the ellipsoid
+can be given in a dictionary ‘initparams’, as keyword arguments,
+or as as proj4 geod initialization string.
+Following is a list of the ellipsoids that may be defined using the
+‘ellps’ keyword (these are stored in the model variable pj_ellps):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MERIT</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378137.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.257</span>       <span class="n">MERIT</span> <span class="mi">1983</span>
+<span class="n">SGS85</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378136.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.257</span>       <span class="n">Soviet</span> <span class="n">Geodetic</span> <span class="n">System</span> <span class="mi">85</span>
+<span class="n">GRS80</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378137.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.257222101</span> <span class="n">GRS</span> <span class="mi">1980</span><span class="p">(</span><span class="n">IUGG</span><span class="p">,</span> <span class="mi">1980</span><span class="p">)</span>
+<span class="n">IAU76</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378140.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.257</span>       <span class="n">IAU</span> <span class="mi">1976</span>
+<span class="n">airy</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377563.396</span>     <span class="n">b</span><span class="o">=</span><span class="mf">6356256.910</span>    <span class="n">Airy</span> <span class="mi">1830</span>
+<span class="n">APL4</span><span class="o">.</span><span class="mi">9</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378137.0</span><span class="o">.</span>    <span class="n">rf</span><span class="o">=</span><span class="mf">298.25</span>        <span class="n">Appl</span><span class="o">.</span> <span class="n">Physics</span><span class="o">.</span> <span class="mi">1965</span>
+<span class="n">airy</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377563.396</span>     <span class="n">b</span><span class="o">=</span><span class="mf">6356256.910</span>    <span class="n">Airy</span> <span class="mi">1830</span>
+<span class="n">APL4</span><span class="o">.</span><span class="mi">9</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378137.0</span><span class="o">.</span>    <span class="n">rf</span><span class="o">=</span><span class="mf">298.25</span>        <span class="n">Appl</span><span class="o">.</span> <span class="n">Physics</span><span class="o">.</span> <span class="mi">1965</span>
+<span class="n">NWL9D</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378145.0</span><span class="o">.</span>     <span class="n">rf</span><span class="o">=</span><span class="mf">298.25</span>        <span class="n">Naval</span> <span class="n">Weapons</span> <span class="n">Lab</span><span class="o">.</span><span class="p">,</span> <span class="mi">1965</span>
+<span class="n">mod_airy</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377340.189</span> <span class="n">b</span><span class="o">=</span><span class="mf">6356034.446</span>    <span class="n">Modified</span> <span class="n">Airy</span>
+<span class="n">andrae</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377104.43</span>    <span class="n">rf</span><span class="o">=</span><span class="mf">300.0</span>         <span class="n">Andrae</span> <span class="mi">1876</span> <span class="p">(</span><span class="n">Den</span><span class="o">.</span><span class="p">,</span> <span class="n">Iclnd</span><span class="o">.</span><span class="p">)</span>
+<span class="n">aust_SA</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378160.0</span>    <span class="n">rf</span><span class="o">=</span><span class="mf">298.25</span>        <span class="n">Australian</span> <span class="n">Natl</span> <span class="o">&amp;</span> <span class="n">S</span><span class="o">.</span> <span class="n">Amer</span><span class="o">.</span> <span class="mi">1969</span>
+<span class="n">GRS67</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378160.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.247167427</span> <span class="n">GRS</span> <span class="mi">67</span><span class="p">(</span><span class="n">IUGG</span> <span class="mi">1967</span><span class="p">)</span>
+<span class="n">bessel</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377397.155</span>   <span class="n">rf</span><span class="o">=</span><span class="mf">299.1528128</span>   <span class="n">Bessel</span> <span class="mi">1841</span>
+<span class="n">bess_nam</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377483.865</span> <span class="n">rf</span><span class="o">=</span><span class="mf">299.1528128</span>   <span class="n">Bessel</span> <span class="mi">1841</span> <span class="p">(</span><span class="n">Namibia</span><span class="p">)</span>
+<span class="n">clrk66</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378206.4</span>     <span class="n">b</span><span class="o">=</span><span class="mf">6356583.8</span>      <span class="n">Clarke</span> <span class="mi">1866</span>
+<span class="n">clrk80</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378249.145</span>   <span class="n">rf</span><span class="o">=</span><span class="mf">293.4663</span>      <span class="n">Clarke</span> <span class="mi">1880</span> <span class="n">mod</span><span class="o">.</span>
+<span class="n">CPM</span> <span class="n">a</span><span class="o">=</span><span class="mf">6375738.7</span>        <span class="n">rf</span><span class="o">=</span><span class="mf">334.29</span>        <span class="n">Comm</span><span class="o">.</span> <span class="n">des</span> <span class="n">Poids</span> <span class="n">et</span> <span class="n">Mesures</span> <span class="mi">1799</span>
+<span class="n">delmbr</span> <span class="n">a</span><span class="o">=</span><span class="mf">6376428.</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">311.5</span>         <span class="n">Delambre</span> <span class="mi">1810</span> <span class="p">(</span><span class="n">Belgium</span><span class="p">)</span>
+<span class="n">engelis</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378136.05</span>   <span class="n">rf</span><span class="o">=</span><span class="mf">298.2566</span>      <span class="n">Engelis</span> <span class="mi">1985</span>
+<span class="n">evrst30</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377276.345</span>  <span class="n">rf</span><span class="o">=</span><span class="mf">300.8017</span>      <span class="n">Everest</span> <span class="mi">1830</span>
+<span class="n">evrst48</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377304.063</span>  <span class="n">rf</span><span class="o">=</span><span class="mf">300.8017</span>      <span class="n">Everest</span> <span class="mi">1948</span>
+<span class="n">evrst56</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377301.243</span>  <span class="n">rf</span><span class="o">=</span><span class="mf">300.8017</span>      <span class="n">Everest</span> <span class="mi">1956</span>
+<span class="n">evrst69</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377295.664</span>  <span class="n">rf</span><span class="o">=</span><span class="mf">300.8017</span>      <span class="n">Everest</span> <span class="mi">1969</span>
+<span class="n">evrstSS</span> <span class="n">a</span><span class="o">=</span><span class="mf">6377298.556</span>  <span class="n">rf</span><span class="o">=</span><span class="mf">300.8017</span>      <span class="n">Everest</span> <span class="p">(</span><span class="n">Sabah</span> <span class="o">&amp;</span> <span class="n">Sarawak</span><span class="p">)</span>
+<span class="n">fschr60</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378166.</span>     <span class="n">rf</span><span class="o">=</span><span class="mf">298.3</span>         <span class="n">Fischer</span> <span class="p">(</span><span class="n">Mercury</span> <span class="n">Datum</span><span class="p">)</span> <span class="mi">1960</span>
+<span class="n">fschr60m</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378155.</span>    <span class="n">rf</span><span class="o">=</span><span class="mf">298.3</span>         <span class="n">Modified</span> <span class="n">Fischer</span> <span class="mi">1960</span>
+<span class="n">fschr68</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378150.</span>     <span class="n">rf</span><span class="o">=</span><span class="mf">298.3</span>         <span class="n">Fischer</span> <span class="mi">1968</span>
+<span class="n">helmert</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378200.</span>     <span class="n">rf</span><span class="o">=</span><span class="mf">298.3</span>         <span class="n">Helmert</span> <span class="mi">1906</span>
+<span class="n">hough</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378270.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">297.</span>          <span class="n">Hough</span>
+<span class="n">helmert</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378200.</span>     <span class="n">rf</span><span class="o">=</span><span class="mf">298.3</span>         <span class="n">Helmert</span> <span class="mi">1906</span>
+<span class="n">hough</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378270.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">297.</span>          <span class="n">Hough</span>
+<span class="n">intl</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378388.0</span>       <span class="n">rf</span><span class="o">=</span><span class="mf">297.</span>          <span class="n">International</span> <span class="mi">1909</span> <span class="p">(</span><span class="n">Hayford</span><span class="p">)</span>
+<span class="n">krass</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378245.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.3</span>         <span class="n">Krassovsky</span><span class="p">,</span> <span class="mi">1942</span>
+<span class="n">kaula</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378163.</span>       <span class="n">rf</span><span class="o">=</span><span class="mf">298.24</span>        <span class="n">Kaula</span> <span class="mi">1961</span>
+<span class="n">lerch</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378139.</span>       <span class="n">rf</span><span class="o">=</span><span class="mf">298.257</span>       <span class="n">Lerch</span> <span class="mi">1979</span>
+<span class="n">mprts</span> <span class="n">a</span><span class="o">=</span><span class="mf">6397300.</span>       <span class="n">rf</span><span class="o">=</span><span class="mf">191.</span>          <span class="n">Maupertius</span> <span class="mi">1738</span>
+<span class="n">new_intl</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378157.5</span>   <span class="n">b</span><span class="o">=</span><span class="mf">6356772.2</span>      <span class="n">New</span> <span class="n">International</span> <span class="mi">1967</span>
+<span class="n">plessis</span> <span class="n">a</span><span class="o">=</span><span class="mf">6376523.</span>     <span class="n">b</span><span class="o">=</span><span class="mf">6355863.</span>       <span class="n">Plessis</span> <span class="mi">1817</span> <span class="p">(</span><span class="n">France</span><span class="p">)</span>
+<span class="n">SEasia</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378155.0</span>     <span class="n">b</span><span class="o">=</span><span class="mf">6356773.3205</span>   <span class="n">Southeast</span> <span class="n">Asia</span>
+<span class="n">walbeck</span> <span class="n">a</span><span class="o">=</span><span class="mf">6376896.0</span>    <span class="n">b</span><span class="o">=</span><span class="mf">6355834.8467</span>   <span class="n">Walbeck</span>
+<span class="n">WGS60</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378165.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.3</span>         <span class="n">WGS</span> <span class="mi">60</span>
+<span class="n">WGS66</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378145.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.25</span>        <span class="n">WGS</span> <span class="mi">66</span>
+<span class="n">WGS72</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378135.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.26</span>        <span class="n">WGS</span> <span class="mi">72</span>
+<span class="n">WGS84</span> <span class="n">a</span><span class="o">=</span><span class="mf">6378137.0</span>      <span class="n">rf</span><span class="o">=</span><span class="mf">298.257223563</span> <span class="n">WGS</span> <span class="mi">84</span>
+<span class="n">sphere</span> <span class="n">a</span><span class="o">=</span><span class="mf">6370997.0</span>     <span class="n">b</span><span class="o">=</span><span class="mf">6370997.0</span>      <span class="n">Normal</span> <span class="n">Sphere</span> <span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">6370997</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The parameters of the ellipsoid may also be set directly using
+the ‘a’ (semi-major or equatorial axis radius) keyword, and
+any one of the following keywords: ‘b’ (semi-minor,
+or polar axis radius), ‘e’ (eccentricity), ‘es’ (eccentricity
+squared), ‘f’ (flattening), or ‘rf’ (reciprocal flattening).</p>
+<p>See the proj documentation (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>) for more
+information about specifying ellipsoid parameters (specifically,
+the chapter ‘Specifying the Earth’s figure’ in the main Proj
+users manual).</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># specify the lat/lons of some cities.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boston_lat</span> <span class="o">=</span> <span class="mf">42.</span><span class="o">+</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">boston_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">71.</span><span class="o">-</span><span class="p">(</span><span class="mf">7.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">portland_lat</span> <span class="o">=</span> <span class="mf">45.</span><span class="o">+</span><span class="p">(</span><span class="mf">31.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">portland_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">123.</span><span class="o">-</span><span class="p">(</span><span class="mf">41.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newyork_lat</span> <span class="o">=</span> <span class="mf">40.</span><span class="o">+</span><span class="p">(</span><span class="mf">47.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">newyork_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">73.</span><span class="o">-</span><span class="p">(</span><span class="mf">58.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">london_lat</span> <span class="o">=</span> <span class="mf">51.</span><span class="o">+</span><span class="p">(</span><span class="mf">32.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">london_lon</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mf">5.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute forward and back azimuths, plus distance</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># between Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%7.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%12.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span><span class="p">)</span>
+<span class="go">&#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute latitude, longitude and back azimuth of Portland,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># given Boston lat/lon, forward azimuth and distance to Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">endlon</span><span class="p">,</span> <span class="n">endlat</span><span class="p">,</span> <span class="n">backaz</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">fwd</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span> <span class="n">boston_lat</span><span class="p">,</span> <span class="n">az12</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%6.3f</span><span class="s2">  </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%13.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">endlat</span><span class="p">,</span><span class="n">endlon</span><span class="p">,</span><span class="n">backaz</span><span class="p">)</span>
+<span class="go">&#39;45.517  -123.683        75.654&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute the azimuths, distances from New York to several</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># cities (pass a list)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons1</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">[</span><span class="n">newyork_lon</span><span class="p">];</span> <span class="n">lats1</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">[</span><span class="n">newyork_lat</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons2</span> <span class="o">=</span> <span class="p">[</span><span class="n">boston_lon</span><span class="p">,</span> <span class="n">portland_lon</span><span class="p">,</span> <span class="n">london_lon</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats2</span> <span class="o">=</span> <span class="p">[</span><span class="n">boston_lat</span><span class="p">,</span> <span class="n">portland_lat</span><span class="p">,</span> <span class="n">london_lat</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">lons1</span><span class="p">,</span><span class="n">lats1</span><span class="p">,</span><span class="n">lons2</span><span class="p">,</span><span class="n">lats2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">faz</span><span class="p">,</span><span class="n">baz</span><span class="p">,</span><span class="n">d</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span><span class="p">)):</span> <span class="s2">&quot;</span><span class="si">%7.3f</span><span class="s2"> </span><span class="si">%7.3f</span><span class="s2"> </span><span class="si">%9.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">faz</span><span class="p">,</span><span class="n">baz</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+<span class="go">&#39; 54.663 -123.448 288303.720&#39;</span>
+<span class="go">&#39;-65.463  79.342 4013037.318&#39;</span>
+<span class="go">&#39; 51.254 -71.576 5579916.651&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g2</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+ellps=clrk66&#39;</span><span class="p">)</span> <span class="c1"># use proj4 style initialization string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g2</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%7.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%12.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span><span class="p">)</span>
+<span class="go">&#39;-66.531 75.654  4164192.708&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Geod.fwd">
+<code class="descname">fwd</code><span class="sig-paren">(</span><em>lons</em>, <em>lats</em>, <em>az</em>, <em>dist</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.fwd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.fwd" title="Permalink to this definition">¶</a></dt>
+<dd><p>forward transformation - Returns longitudes, latitudes and back
+azimuths of terminus points given longitudes (lons) and
+latitudes (lats) of initial points, plus forward azimuths (az)
+and distances (dist).
+latitudes (lats) of initial points, plus forward azimuths (az)
+and distances (dist).</p>
+<p>Works with numpy and regular python array objects, python
+sequences and scalars.</p>
+<p>if radians=True, lons/lats and azimuths are radians instead of
+degrees. Distances are in meters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Geod.inv">
+<code class="descname">inv</code><span class="sig-paren">(</span><em>lons1</em>, <em>lats1</em>, <em>lons2</em>, <em>lats2</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.inv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.inv" title="Permalink to this definition">¶</a></dt>
+<dd><p>inverse transformation - Returns forward and back azimuths, plus
+distances between initial points (specified by lons1, lats1) and
+terminus points (specified by lons2, lats2).</p>
+<p>Works with numpy and regular python array objects, python
+sequences and scalars.</p>
+<p>if radians=True, lons/lats and azimuths are radians instead of
+degrees. Distances are in meters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Geod.npts">
+<code class="descname">npts</code><span class="sig-paren">(</span><em>lon1</em>, <em>lat1</em>, <em>lon2</em>, <em>lat2</em>, <em>npts</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.npts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.npts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a single initial point and terminus point (specified by
+python floats lon1,lat1 and lon2,lat2), returns a list of
+longitude/latitude pairs describing npts equally spaced
+intermediate points along the geodesic between the initial and
+terminus points.</p>
+<p>if radians=True, lons/lats are radians instead of degrees.</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># specify the lat/lons of Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boston_lat</span> <span class="o">=</span> <span class="mf">42.</span><span class="o">+</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">boston_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">71.</span><span class="o">-</span><span class="p">(</span><span class="mf">7.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">portland_lat</span> <span class="o">=</span> <span class="mf">45.</span><span class="o">+</span><span class="p">(</span><span class="mf">31.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">portland_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">123.</span><span class="o">-</span><span class="p">(</span><span class="mf">41.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># find ten equally spaced points between Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lonlats</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">npts</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="n">lonlats</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%6.3f</span><span class="s1">  </span><span class="si">%7.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span>
+<span class="go">&#39;43.528  -75.414&#39;</span>
+<span class="go">&#39;44.637  -79.883&#39;</span>
+<span class="go">&#39;45.565  -84.512&#39;</span>
+<span class="go">&#39;46.299  -89.279&#39;</span>
+<span class="go">&#39;46.830  -94.156&#39;</span>
+<span class="go">&#39;47.149  -99.112&#39;</span>
+<span class="go">&#39;47.251  -104.106&#39;</span>
+<span class="go">&#39;47.136  -109.100&#39;</span>
+<span class="go">&#39;46.805  -114.051&#39;</span>
+<span class="go">&#39;46.262  -118.924&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># test with radians=True (inputs/outputs in radians, not degrees)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dg2rad</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rad2dg</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lonlats</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">npts</span><span class="p">(</span><span class="n">dg2rad</span><span class="o">*</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">dg2rad</span><span class="o">*</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">dg2rad</span><span class="o">*</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">dg2rad</span><span class="o">*</span><span class="n">portland_lat</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="n">lonlats</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%6.3f</span><span class="s1">  </span><span class="si">%7.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lat</span><span class="p">,</span> <span class="n">rad2dg</span><span class="o">*</span><span class="n">lon</span><span class="p">)</span>
+<span class="go">&#39;43.528  -75.414&#39;</span>
+<span class="go">&#39;44.637  -79.883&#39;</span>
+<span class="go">&#39;45.565  -84.512&#39;</span>
+<span class="go">&#39;46.299  -89.279&#39;</span>
+<span class="go">&#39;46.830  -94.156&#39;</span>
+<span class="go">&#39;47.149  -99.112&#39;</span>
+<span class="go">&#39;47.251  -104.106&#39;</span>
+<span class="go">&#39;47.136  -109.100&#39;</span>
+<span class="go">&#39;46.805  -114.051&#39;</span>
+<span class="go">&#39;46.262  -118.924&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Geod</a><ul>
+<li><a class="reference internal" href="#pyproj-geod">pyproj.Geod</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="crs.html"
+                        title="previous chapter">CRS</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="datadir.html"
+                        title="next chapter">Data Directory</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/geod.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="datadir.html" title="Data Directory"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="crs.html" title="CRS"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API Documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

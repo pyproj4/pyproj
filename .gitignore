@@ -5,6 +5,8 @@ nad2bin*
 *.pyc
 *.so
 *.c*
+!*.css
+docs/doctrees/
 .coverage
 dist/
 venv/
@@ -12,3 +14,4 @@ pyproj.egg-info/
 pyproj/proj_dir/
 pyproj/datadir.py.save
 .idea/
+.vscode/

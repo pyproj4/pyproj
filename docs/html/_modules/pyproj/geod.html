@@ -1,0 +1,530 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pyproj.geod &#8212; pyproj 2.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyproj 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../pyproj.html" accesskey="U">pyproj</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyproj.geod</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cython wrapper to provide python interfaces to</span>
+<span class="sd">PROJ.4 (https://github.com/OSGeo/proj.4/wiki) functions.</span>
+
+<span class="sd">Performs geodetic computations.</span>
+
+<span class="sd">The Geod class can perform forward and inverse geodetic, or</span>
+<span class="sd">Great Circle, computations.  The forward computation involves</span>
+<span class="sd">determining latitude, longitude and back azimuth of a terminus</span>
+<span class="sd">point given the latitude and longitude of an initial point, plus</span>
+<span class="sd">azimuth and distance. The inverse computation involves</span>
+<span class="sd">determining the forward and back azimuths and distance given the</span>
+<span class="sd">latitudes and longitudes of an initial and terminus point.</span>
+
+<span class="sd">Contact:  Jeffrey Whitaker &lt;jeffrey.s.whitaker@noaa.gov</span>
+
+<span class="sd">copyright (c) 2006 by Jeffrey Whitaker.</span>
+
+<span class="sd">Permission to use, copy, modify, and distribute this software</span>
+<span class="sd">and its documentation for any purpose and without fee is hereby</span>
+<span class="sd">granted, provided that the above copyright notice appear in all</span>
+<span class="sd">copies and that both the copyright notice and this permission</span>
+<span class="sd">notice appear in supporting documentation. THE AUTHOR DISCLAIMS</span>
+<span class="sd">ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL</span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT</span>
+<span class="sd">SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR</span>
+<span class="sd">CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM</span>
+<span class="sd">LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,</span>
+<span class="sd">NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN</span>
+<span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. &quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Geod&quot;</span><span class="p">,</span> <span class="s2">&quot;pj_ellps&quot;</span><span class="p">,</span> <span class="s2">&quot;geodesic_version_str&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="k">import</span> <span class="n">Geod</span> <span class="k">as</span> <span class="n">_Geod</span>
+<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="k">import</span> <span class="n">geodesic_version_str</span>
+<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
+
+<span class="n">pj_ellps</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;MERIT&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.257</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;MERIT 1983&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;SGS85&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378136.0</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.257</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Soviet Geodetic System 85&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;GRS80&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.257222101</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;GRS 1980(IUGG, 1980)&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;IAU76&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378140.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.257</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;IAU 1976&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;airy&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377563.396</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356256.910</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Airy 1830&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;APL4.9&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.25</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Appl. Physics. 1965&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;NWL9D&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378145.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.25</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot; Naval Weapons Lab., 1965&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;mod_airy&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377340.189</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356034.446</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Modified Airy&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;andrae&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377104.43</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">300.0</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Andrae 1876 (Den., Iclnd.)&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;aust_SA&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378160.0</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.25</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Australian Natl &amp; S. Amer. 1969&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;GRS67&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378160.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.2471674270</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;GRS 67(IUGG 1967)&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;bessel&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377397.155</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">299.1528128</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Bessel 1841&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;bess_nam&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377483.865</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">299.1528128</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Bessel 1841 (Namibia)&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;clrk66&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378206.4</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356583.8</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Clarke 1866&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;clrk80&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378249.145</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">293.4663</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Clarke 1880 mod.&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;CPM&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6375738.7</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">334.29</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Comm. des Poids et Mesures 1799&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;delmbr&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6376428.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">311.5</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Delambre 1810 (Belgium)&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;engelis&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378136.05</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.2566</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Engelis 1985&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;evrst30&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377276.345</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">300.8017</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Everest 1830&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;evrst48&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377304.063</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">300.8017</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Everest 1948&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;evrst56&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377301.243</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">300.8017</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Everest 1956&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;evrst69&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377295.664</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">300.8017</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Everest 1969&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;evrstSS&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377298.556</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">300.8017</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Everest (Sabah &amp; Sarawak)&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;fschr60&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378166.0</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.3</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Fischer (Mercury Datum) 1960&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;fschr60m&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378155.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.3</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Modified Fischer 1960&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;fschr68&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378150.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.3</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Fischer 1968&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;helmert&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378200.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.3</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Helmert 1906&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;hough&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378270.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">297.0</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Hough&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;intl&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378388.0</span><span class="p">,</span>
+        <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">297.0</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;International 1909 (Hayford)&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;krass&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378245.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.3</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Krassovsky, 1942&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;kaula&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378163.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.24</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Kaula 1961&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;lerch&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378139.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.257</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Lerch 1979&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;mprts&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6397300.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">191.0</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Maupertius 1738&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;new_intl&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378157.5</span><span class="p">,</span>
+        <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356772.2</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;New International 1967&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;plessis&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6376523.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6355863.0</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Plessis 1817 (France)&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;SEasia&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378155.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356773.3205</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Southeast Asia&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;walbeck&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6376896.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6355834.8467</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Walbeck&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;WGS60&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378165.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.3</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;WGS 60&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;WGS66&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378145.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.25</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;WGS 66&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;WGS72&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378135.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.26</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;WGS 72&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;WGS84&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="mf">298.257223563</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;WGS 84&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;sphere&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6370997.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6370997.0</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Normal Sphere&quot;</span><span class="p">},</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="Geod"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod">[docs]</a><span class="k">class</span> <span class="nc">Geod</span><span class="p">(</span><span class="n">_Geod</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    performs forward and inverse geodetic, or Great Circle,</span>
+<span class="sd">    computations.  The forward computation (using the &#39;fwd&#39; method)</span>
+<span class="sd">    involves determining latitude, longitude and back azimuth of a</span>
+<span class="sd">    computations.  The forward computation (using the &#39;fwd&#39; method)</span>
+<span class="sd">    involves determining latitude, longitude and back azimuth of a</span>
+<span class="sd">    terminus point given the latitude and longitude of an initial</span>
+<span class="sd">    point, plus azimuth and distance. The inverse computation (using</span>
+<span class="sd">    the &#39;inv&#39; method) involves determining the forward and back</span>
+<span class="sd">    azimuths and distance given the latitudes and longitudes of an</span>
+<span class="sd">    initial and terminus point.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Geod.__init__"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initstring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        initialize a Geod class instance.</span>
+
+<span class="sd">        Geodetic parameters for specifying the ellipsoid</span>
+<span class="sd">        can be given in a dictionary &#39;initparams&#39;, as keyword arguments,</span>
+<span class="sd">        or as as proj4 geod initialization string.</span>
+<span class="sd">        Following is a list of the ellipsoids that may be defined using the</span>
+<span class="sd">        &#39;ellps&#39; keyword (these are stored in the model variable pj_ellps)::</span>
+
+<span class="sd">           MERIT a=6378137.0      rf=298.257       MERIT 1983</span>
+<span class="sd">           SGS85 a=6378136.0      rf=298.257       Soviet Geodetic System 85</span>
+<span class="sd">           GRS80 a=6378137.0      rf=298.257222101 GRS 1980(IUGG, 1980)</span>
+<span class="sd">           IAU76 a=6378140.0      rf=298.257       IAU 1976</span>
+<span class="sd">           airy a=6377563.396     b=6356256.910    Airy 1830</span>
+<span class="sd">           APL4.9 a=6378137.0.    rf=298.25        Appl. Physics. 1965</span>
+<span class="sd">           airy a=6377563.396     b=6356256.910    Airy 1830</span>
+<span class="sd">           APL4.9 a=6378137.0.    rf=298.25        Appl. Physics. 1965</span>
+<span class="sd">           NWL9D a=6378145.0.     rf=298.25        Naval Weapons Lab., 1965</span>
+<span class="sd">           mod_airy a=6377340.189 b=6356034.446    Modified Airy</span>
+<span class="sd">           andrae a=6377104.43    rf=300.0         Andrae 1876 (Den., Iclnd.)</span>
+<span class="sd">           aust_SA a=6378160.0    rf=298.25        Australian Natl &amp; S. Amer. 1969</span>
+<span class="sd">           GRS67 a=6378160.0      rf=298.247167427 GRS 67(IUGG 1967)</span>
+<span class="sd">           bessel a=6377397.155   rf=299.1528128   Bessel 1841</span>
+<span class="sd">           bess_nam a=6377483.865 rf=299.1528128   Bessel 1841 (Namibia)</span>
+<span class="sd">           clrk66 a=6378206.4     b=6356583.8      Clarke 1866</span>
+<span class="sd">           clrk80 a=6378249.145   rf=293.4663      Clarke 1880 mod.</span>
+<span class="sd">           CPM a=6375738.7        rf=334.29        Comm. des Poids et Mesures 1799</span>
+<span class="sd">           delmbr a=6376428.      rf=311.5         Delambre 1810 (Belgium)</span>
+<span class="sd">           engelis a=6378136.05   rf=298.2566      Engelis 1985</span>
+<span class="sd">           evrst30 a=6377276.345  rf=300.8017      Everest 1830</span>
+<span class="sd">           evrst48 a=6377304.063  rf=300.8017      Everest 1948</span>
+<span class="sd">           evrst56 a=6377301.243  rf=300.8017      Everest 1956</span>
+<span class="sd">           evrst69 a=6377295.664  rf=300.8017      Everest 1969</span>
+<span class="sd">           evrstSS a=6377298.556  rf=300.8017      Everest (Sabah &amp; Sarawak)</span>
+<span class="sd">           fschr60 a=6378166.     rf=298.3         Fischer (Mercury Datum) 1960</span>
+<span class="sd">           fschr60m a=6378155.    rf=298.3         Modified Fischer 1960</span>
+<span class="sd">           fschr68 a=6378150.     rf=298.3         Fischer 1968</span>
+<span class="sd">           helmert a=6378200.     rf=298.3         Helmert 1906</span>
+<span class="sd">           hough a=6378270.0      rf=297.          Hough</span>
+<span class="sd">           helmert a=6378200.     rf=298.3         Helmert 1906</span>
+<span class="sd">           hough a=6378270.0      rf=297.          Hough</span>
+<span class="sd">           intl a=6378388.0       rf=297.          International 1909 (Hayford)</span>
+<span class="sd">           krass a=6378245.0      rf=298.3         Krassovsky, 1942</span>
+<span class="sd">           kaula a=6378163.       rf=298.24        Kaula 1961</span>
+<span class="sd">           lerch a=6378139.       rf=298.257       Lerch 1979</span>
+<span class="sd">           mprts a=6397300.       rf=191.          Maupertius 1738</span>
+<span class="sd">           new_intl a=6378157.5   b=6356772.2      New International 1967</span>
+<span class="sd">           plessis a=6376523.     b=6355863.       Plessis 1817 (France)</span>
+<span class="sd">           SEasia a=6378155.0     b=6356773.3205   Southeast Asia</span>
+<span class="sd">           walbeck a=6376896.0    b=6355834.8467   Walbeck</span>
+<span class="sd">           WGS60 a=6378165.0      rf=298.3         WGS 60</span>
+<span class="sd">           WGS66 a=6378145.0      rf=298.25        WGS 66</span>
+<span class="sd">           WGS72 a=6378135.0      rf=298.26        WGS 72</span>
+<span class="sd">           WGS84 a=6378137.0      rf=298.257223563 WGS 84</span>
+<span class="sd">           sphere a=6370997.0     b=6370997.0      Normal Sphere (r=6370997)</span>
+
+<span class="sd">        The parameters of the ellipsoid may also be set directly using</span>
+<span class="sd">        the &#39;a&#39; (semi-major or equatorial axis radius) keyword, and</span>
+<span class="sd">        any one of the following keywords: &#39;b&#39; (semi-minor,</span>
+<span class="sd">        or polar axis radius), &#39;e&#39; (eccentricity), &#39;es&#39; (eccentricity</span>
+<span class="sd">        squared), &#39;f&#39; (flattening), or &#39;rf&#39; (reciprocal flattening).</span>
+
+<span class="sd">        See the proj documentation (https://github.com/OSGeo/proj.4/wiki) for more</span>
+<span class="sd">        information about specifying ellipsoid parameters (specifically,</span>
+<span class="sd">        the chapter &#39;Specifying the Earth&#39;s figure&#39; in the main Proj</span>
+<span class="sd">        users manual).</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; g = Geod(ellps=&#39;clrk66&#39;) # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; # specify the lat/lons of some cities.</span>
+<span class="sd">        &gt;&gt;&gt; boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)</span>
+<span class="sd">        &gt;&gt;&gt; portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)</span>
+<span class="sd">        &gt;&gt;&gt; newyork_lat = 40.+(47./60.); newyork_lon = -73.-(58./60.)</span>
+<span class="sd">        &gt;&gt;&gt; london_lat = 51.+(32./60.); london_lon = -(5./60.)</span>
+<span class="sd">        &gt;&gt;&gt; # compute forward and back azimuths, plus distance</span>
+<span class="sd">        &gt;&gt;&gt; # between Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%7.3f %6.3f %12.3f&quot; % (az12,az21,dist)</span>
+<span class="sd">        &#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # compute latitude, longitude and back azimuth of Portland,</span>
+<span class="sd">        &gt;&gt;&gt; # given Boston lat/lon, forward azimuth and distance to Portland.</span>
+<span class="sd">        &gt;&gt;&gt; endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%6.3f  %6.3f %13.3f&quot; % (endlat,endlon,backaz)</span>
+<span class="sd">        &#39;45.517  -123.683        75.654&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # compute the azimuths, distances from New York to several</span>
+<span class="sd">        &gt;&gt;&gt; # cities (pass a list)</span>
+<span class="sd">        &gt;&gt;&gt; lons1 = 3*[newyork_lon]; lats1 = 3*[newyork_lat]</span>
+<span class="sd">        &gt;&gt;&gt; lons2 = [boston_lon, portland_lon, london_lon]</span>
+<span class="sd">        &gt;&gt;&gt; lats2 = [boston_lat, portland_lat, london_lat]</span>
+<span class="sd">        &gt;&gt;&gt; az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)</span>
+<span class="sd">        &gt;&gt;&gt; for faz,baz,d in list(zip(az12,az21,dist)): &quot;%7.3f %7.3f %9.3f&quot; % (faz,baz,d)</span>
+<span class="sd">        &#39; 54.663 -123.448 288303.720&#39;</span>
+<span class="sd">        &#39;-65.463  79.342 4013037.318&#39;</span>
+<span class="sd">        &#39; 51.254 -71.576 5579916.651&#39;</span>
+<span class="sd">        &gt;&gt;&gt; g2 = Geod(&#39;+ellps=clrk66&#39;) # use proj4 style initialization string</span>
+<span class="sd">        &gt;&gt;&gt; az12,az21,dist = g2.inv(boston_lon,boston_lat,portland_lon,portland_lat)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%7.3f %6.3f %12.3f&quot; % (az12,az21,dist)</span>
+<span class="sd">        &#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if initparams is a proj-type init string,</span>
+        <span class="c1"># convert to dict.</span>
+        <span class="n">ellpsd</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">initstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">kvpair</span> <span class="ow">in</span> <span class="n">initstring</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+                <span class="c1"># Actually only +a and +b are needed</span>
+                <span class="c1"># We can ignore safely any parameter that doesn&#39;t have a value</span>
+                <span class="k">if</span> <span class="n">kvpair</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">kvpair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;es&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">]:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">ellpsd</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="c1"># merge this dict with kwargs dict.</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">ellpsd</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="n">sphere</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="s2">&quot;ellps&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="c1"># ellipse name given, look up in pj_ellps dict</span>
+            <span class="n">ellps_dict</span> <span class="o">=</span> <span class="n">pj_ellps</span><span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ellps&quot;</span><span class="p">]]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Normal Sphere&quot;</span><span class="p">:</span>
+                <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># a (semi-major axis) and one of</span>
+            <span class="c1"># b the semi-minor axis</span>
+            <span class="c1"># rf the reciprocal flattening</span>
+            <span class="c1"># f flattening</span>
+            <span class="c1"># es eccentricity squared</span>
+            <span class="c1"># must be given.</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;f&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="k">elif</span> <span class="s2">&quot;es&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;es&quot;</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">es</span> <span class="o">*</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">elif</span> <span class="s2">&quot;e&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;e&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">es</span> <span class="o">*</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="c1"># msg=&#39;ellipse name or a, plus one of f,es,b must be given&#39;</span>
+                <span class="c1"># raise ValueError(msg)</span>
+        <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-8</span><span class="p">:</span>
+            <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">az</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        forward transformation - Returns longitudes, latitudes and back</span>
+<span class="sd">        azimuths of terminus points given longitudes (lons) and</span>
+<span class="sd">        latitudes (lats) of initial points, plus forward azimuths (az)</span>
+<span class="sd">        and distances (dist).</span>
+<span class="sd">        latitudes (lats) of initial points, plus forward azimuths (az)</span>
+<span class="sd">        and distances (dist).</span>
+
+<span class="sd">        Works with numpy and regular python array objects, python</span>
+<span class="sd">        sequences and scalars.</span>
+
+<span class="sd">        if radians=True, lons/lats and azimuths are radians instead of</span>
+<span class="sd">        degrees. Distances are in meters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
+        <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
+        <span class="n">ind</span><span class="p">,</span> <span class="n">disfloat</span><span class="p">,</span> <span class="n">dislist</span><span class="p">,</span> <span class="n">distuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
+
+<div class="viewcode-block" id="Geod.inv"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons1</span><span class="p">,</span> <span class="n">lats1</span><span class="p">,</span> <span class="n">lons2</span><span class="p">,</span> <span class="n">lats2</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        inverse transformation - Returns forward and back azimuths, plus</span>
+<span class="sd">        distances between initial points (specified by lons1, lats1) and</span>
+<span class="sd">        terminus points (specified by lons2, lats2).</span>
+
+<span class="sd">        Works with numpy and regular python array objects, python</span>
+<span class="sd">        sequences and scalars.</span>
+
+<span class="sd">        if radians=True, lons/lats and azimuths are radians instead of</span>
+<span class="sd">        degrees. Distances are in meters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">)</span>
+        <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons2</span><span class="p">)</span>
+        <span class="n">ind</span><span class="p">,</span> <span class="n">disfloat</span><span class="p">,</span> <span class="n">dislist</span><span class="p">,</span> <span class="n">distuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
+
+<div class="viewcode-block" id="Geod.npts"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.npts">[docs]</a>    <span class="k">def</span> <span class="nf">npts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a single initial point and terminus point (specified by</span>
+<span class="sd">        python floats lon1,lat1 and lon2,lat2), returns a list of</span>
+<span class="sd">        longitude/latitude pairs describing npts equally spaced</span>
+<span class="sd">        intermediate points along the geodesic between the initial and</span>
+<span class="sd">        terminus points.</span>
+
+<span class="sd">        if radians=True, lons/lats are radians instead of degrees.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; g = Geod(ellps=&#39;clrk66&#39;) # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; # specify the lat/lons of Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)</span>
+<span class="sd">        &gt;&gt;&gt; portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)</span>
+<span class="sd">        &gt;&gt;&gt; # find ten equally spaced points between Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10)</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: &#39;%6.3f  %7.3f&#39; % (lat, lon)</span>
+<span class="sd">        &#39;43.528  -75.414&#39;</span>
+<span class="sd">        &#39;44.637  -79.883&#39;</span>
+<span class="sd">        &#39;45.565  -84.512&#39;</span>
+<span class="sd">        &#39;46.299  -89.279&#39;</span>
+<span class="sd">        &#39;46.830  -94.156&#39;</span>
+<span class="sd">        &#39;47.149  -99.112&#39;</span>
+<span class="sd">        &#39;47.251  -104.106&#39;</span>
+<span class="sd">        &#39;47.136  -109.100&#39;</span>
+<span class="sd">        &#39;46.805  -114.051&#39;</span>
+<span class="sd">        &#39;46.262  -118.924&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # test with radians=True (inputs/outputs in radians, not degrees)</span>
+<span class="sd">        &gt;&gt;&gt; import math</span>
+<span class="sd">        &gt;&gt;&gt; dg2rad = math.radians(1.)</span>
+<span class="sd">        &gt;&gt;&gt; rad2dg = math.degrees(1.)</span>
+<span class="sd">        &gt;&gt;&gt; lonlats = g.npts(dg2rad*boston_lon,dg2rad*boston_lat,dg2rad*portland_lon,dg2rad*portland_lat,10,radians=True)</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: &#39;%6.3f  %7.3f&#39; % (rad2dg*lat, rad2dg*lon)</span>
+<span class="sd">        &#39;43.528  -75.414&#39;</span>
+<span class="sd">        &#39;44.637  -79.883&#39;</span>
+<span class="sd">        &#39;45.565  -84.512&#39;</span>
+<span class="sd">        &#39;46.299  -89.279&#39;</span>
+<span class="sd">        &#39;46.830  -94.156&#39;</span>
+<span class="sd">        &#39;47.149  -99.112&#39;</span>
+<span class="sd">        &#39;47.251  -104.106&#39;</span>
+<span class="sd">        &#39;47.136  -109.100&#39;</span>
+<span class="sd">        &#39;46.805  -114.051&#39;</span>
+<span class="sd">        &#39;46.262  -118.924&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_npts</span><span class="p">(</span>
+            <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># search for ellipse name</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">ellps</span><span class="p">,</span> <span class="n">vals</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pj_ellps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="n">vals</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">rf</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="c1"># self.sphere is True when self.f is zero or very close to</span>
+                <span class="c1"># zero (0), so prevent divide by zero.</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span> <span class="ow">and</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">rf</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{classname}</span><span class="s2">(ellps=</span><span class="si">{ellps!r}</span><span class="s2">)&quot;</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">classname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">ellps</span><span class="o">=</span><span class="n">ellps</span>
+                    <span class="p">)</span>
+
+        <span class="c1"># no ellipse name found, call super class</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        equality operator == for Geod objects</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; gclrk1 = Geod(ellps=&#39;clrk66&#39;) # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; gclrk2 = Geod(a=6378206.4, b=6356583.8) # Define Clarke 1866 using parameters</span>
+<span class="sd">        &gt;&gt;&gt; gclrk1 == gclrk2</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; gwgs66 = Geod(&#39;+ellps=WGS66&#39;)  # WGS 66 ellipsoid, Proj.4 style</span>
+<span class="sd">        &gt;&gt;&gt; gnwl9d = Geod(&#39;+ellps=NWL9D&#39;)  # Naval Weapons Lab., 1965 ellipsoid</span>
+<span class="sd">        &gt;&gt;&gt; # these ellipsoids are the same</span>
+<span class="sd">        &gt;&gt;&gt; gnwl9d == gwgs66</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; gclrk1 != gnwl9d  # Clarke 1866 is unlike NWL9D</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">_Geod</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyproj 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../pyproj.html" >pyproj</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

@@ -279,6 +279,7 @@ class Proj(_proj.Proj):
         **kwargs:
             proj.4 projection parameters.
 
+ 
         Example usage:
 
         >>> from pyproj import Proj
