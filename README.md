@@ -3,7 +3,8 @@ pyproj
 
 [![Build Status](https://travis-ci.org/jswhit/pyproj.svg)](https://travis-ci.org/jswhit/pyproj)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/49t24ofdg16cl43d?svg=true)](https://ci.appveyor.com/project/jswhit/pyproj)
+[![Build status](https://ci.appveyor.com/api/projects/status/8xkka4s97uwhkc64/branch/master?svg=true
+)](https://ci.appveyor.com/project/jswhit/pyproj)
 
 [![PyPI version](https://badge.fury.io/py/pyproj.svg)](https://badge.fury.io/py/pyproj)
 
