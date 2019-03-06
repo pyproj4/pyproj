@@ -57,11 +57,10 @@ cdef class Proj:
 
     def _fwd(self, object lons, object lats, errcheck=False):
         """
- forward transformation - lons,lats to x,y (done in place).
- if radians=True, lons/lats are radians instead of degrees.
- if errcheck=True, an exception is raised if the forward transformation is invalid.
- if errcheck=False and the forward transformation is invalid, no exception is
- raised and 1.e30 is returned.
+        forward transformation - lons,lats to x,y (done in place).
+        if errcheck=True, an exception is raised if the forward transformation is invalid.
+        if errcheck=False and the forward transformation is invalid, no exception is
+        raised and 1.e30 is returned.
         """
         cdef PJ_COORD projxyout
         cdef PJ_COORD projlonlatin
@@ -117,11 +116,10 @@ cdef class Proj:
 
     def _inv(self, object x, object y, errcheck=False):
         """
- inverse transformation - x,y to lons,lats (done in place).
- if radians=True, lons/lats are radians instead of degrees.
- if errcheck=True, an exception is raised if the inverse transformation is invalid.
- if errcheck=False and the inverse transformation is invalid, no exception is
- raised and 1.e30 is returned.
+        inverse transformation - x,y to lons,lats (done in place).
+        if errcheck=True, an exception is raised if the inverse transformation is invalid.
+        if errcheck=False and the inverse transformation is invalid, no exception is
+        raised and 1.e30 is returned.
         """
         if not self.has_inverse:
             raise ProjError('inverse projection undefined')

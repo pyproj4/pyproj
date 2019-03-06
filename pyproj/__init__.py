@@ -250,9 +250,7 @@ class Proj(_proj.Proj):
     convert lon/lat (in degrees) to x/y native map projection
     coordinates (in meters).  If optional keyword 'inverse' is True
     (default is False), the inverse transformation from x/y to
-    lon/lat is performed. If optional keyword 'radians' is True
-    (default is False) lon/lat are interpreted as radians instead of
-    degrees. If optional keyword 'errcheck' is True (default is
+    lon/lat is performed. If optional keyword 'errcheck' is True (default is
     False) an exception is raised if the transformation is invalid.
     If errcheck=False and the transformation is invalid, no
     exception is raised and 1.e30 is returned. If the optional keyword
@@ -339,9 +337,7 @@ class Proj(_proj.Proj):
         convert lon/lat (in degrees) to x/y native map projection
         coordinates (in meters).  If optional keyword 'inverse' is True
         (default is False), the inverse transformation from x/y to
-        lon/lat is performed.  If optional keyword 'radians' is True
-        (default is False) the units of lon/lat are radians instead of
-        degrees. If optional keyword 'errcheck' is True (default is
+        lon/lat is performed. If optional keyword 'errcheck' is True (default is
         False) an exception is raised if the transformation is invalid.
         If errcheck=False and the transformation is invalid, no
         exception is raised and 1.e30 is returned.
@@ -438,14 +434,6 @@ def transform(p1, p2, x, y, z=None):
     shifts (which cannot be done using the __call__ method of the
     Proj instances). It also allows for one of the coordinate
     systems to be geographic (proj = 'latlong').
-
-    If optional keyword 'radians' is True (default is False) and p1
-    is defined in geographic coordinate (pj.is_latlong() is True),
-    x1,y1 is interpreted as radians instead of the default degrees.
-    Similarly, if p2 is defined in geographic coordinates and
-    radians=True, x2, y2 are returned in radians instead of degrees.
-    if p1.is_latlong() and p2.is_latlong() both are False, the
-    radians keyword has no effect.
 
     x,y and z can be numpy or regular python arrays, python
     lists/tuples or scalars. Arrays are fastest.  For projections in
@@ -547,13 +535,7 @@ def itransform(p1, p2, points, switch=False):
 
     If optional keyword 'switch' is True (default is False) then x, y or lon,lat coordinates
     of points are switched to y, x or lat, lon.
-    If optional keyword 'radians' is True (default is False) and p1
-    is defined in geographic coordinate (pj.is_latlong() is True),
-    x1,y1 is interpreted as radians instead of the default degrees.
-    Similarly, if p2 is defined in geographic coordinates and
-    radians=True, x2, y2 are returned in radians instead of degrees.
-    if p1.is_latlong() and p2.is_latlong() both are False, the
-    radians keyword has no effect.
+
 
     Example usage:
 
