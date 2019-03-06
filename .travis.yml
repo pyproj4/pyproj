@@ -76,12 +76,14 @@ install:
   - pip install "pip>=10.0.1"
   - PYPROJ_FULL_COVERAGE=YES pip install -e .
   - pip install -r requirements-dev.txt
+  - pip install coveralls
 
 script:
   - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
-  - nose2 -v
+  - nose2 -v --coverage pyproj --coverage-report xml
 
 after_success:
+- coveralls
 # Build manylinux wheels & upload to Rackspace container
 - |
   if [ "$TRAVIS_OS_NAME" != "osx" ] && [ "$TRAVIS_TAG" == "$TRAVIS_BRANCH" ]; then
