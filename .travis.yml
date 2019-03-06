@@ -81,5 +81,14 @@ script:
   - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
   - nose2 -v
 
+after_success:
+# Build manylinux wheels & upload to Rackspace container
+- |
+  if [ "$TRAVIS_OS_NAME" != "osx" ] && [ "$TRAVIS_TAG" == "$TRAVIS_BRANCH" ]; then
+    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/build-wheels.sh ${PROJSOURCE} ${TRAVIS_PYTHON_VERSION}
+    pip install wheelhouse-uploader
+    python -m wheelhouse_uploader upload --local-folder ${TRAVIS_BUILD_DIR}/wheelhouse/ --no-update-index wheels
+  fi
+
 notifications:
   email: false
