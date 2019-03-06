@@ -346,7 +346,7 @@ def _transform(p1, p2, inx, iny, inz):
             yy[i] = yy[i]*_RAD2DG
 
 
-def _transform_sequence(Proj p1, Proj p2, Py_ssize_t stride, inseq, bint switch):
+def _transform_sequence(p1, p2, Py_ssize_t stride, inseq, bint switch):
     pj_trans =  TransProj(p1, p2)
     # private function to itransform function
     cdef:
