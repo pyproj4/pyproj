@@ -569,11 +569,15 @@ def itransform(p1, p2, points, switch=False):
     '411200.657 4498214.742'
     '399210.500 4487264.963'
     '458703.102 4523331.451'
+    >>> for pt in itransform(4326, 2100, points): '{:.3f} {:.3f}'.format(*pt)
+    '2221638.801 2637034.372'
+    '2212924.125 2619851.898'
+    '2238294.779 2703763.736'
     """
     if not isinstance(p1, Proj):
-        raise TypeError("p1 must be a Proj class")
+        p1 = CRS.from_user_input(p1)
     if not isinstance(p2, Proj):
-        raise TypeError("p2 must be a Proj class")
+        p2 = CRS.from_user_input(p2)
 
     it = iter(points)  # point iterator
     # get first point to check stride

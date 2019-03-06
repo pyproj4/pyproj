@@ -605,11 +605,15 @@
 <span class="sd">    &#39;411200.657 4498214.742&#39;</span>
 <span class="sd">    &#39;399210.500 4487264.963&#39;</span>
 <span class="sd">    &#39;458703.102 4523331.451&#39;</span>
+<span class="sd">    &gt;&gt;&gt; for pt in itransform(4326, 2100, points): &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
+<span class="sd">    &#39;2221638.801 2637034.372&#39;</span>
+<span class="sd">    &#39;2212924.125 2619851.898&#39;</span>
+<span class="sd">    &#39;2238294.779 2703763.736&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;p1 must be a Proj class&quot;</span><span class="p">)</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;p2 must be a Proj class&quot;</span><span class="p">)</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
 
     <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># point iterator</span>
     <span class="c1"># get first point to check stride</span>
