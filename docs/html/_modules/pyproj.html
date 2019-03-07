@@ -286,9 +286,7 @@
 <span class="sd">    convert lon/lat (in degrees) to x/y native map projection</span>
 <span class="sd">    coordinates (in meters).  If optional keyword &#39;inverse&#39; is True</span>
 <span class="sd">    (default is False), the inverse transformation from x/y to</span>
-<span class="sd">    lon/lat is performed. If optional keyword &#39;radians&#39; is True</span>
-<span class="sd">    (default is False) lon/lat are interpreted as radians instead of</span>
-<span class="sd">    degrees. If optional keyword &#39;errcheck&#39; is True (default is</span>
+<span class="sd">    lon/lat is performed. If optional keyword &#39;errcheck&#39; is True (default is</span>
 <span class="sd">    False) an exception is raised if the transformation is invalid.</span>
 <span class="sd">    If errcheck=False and the transformation is invalid, no</span>
 <span class="sd">    exception is raised and 1.e30 is returned. If the optional keyword</span>
@@ -375,9 +373,7 @@
 <span class="sd">        convert lon/lat (in degrees) to x/y native map projection</span>
 <span class="sd">        coordinates (in meters).  If optional keyword &#39;inverse&#39; is True</span>
 <span class="sd">        (default is False), the inverse transformation from x/y to</span>
-<span class="sd">        lon/lat is performed.  If optional keyword &#39;radians&#39; is True</span>
-<span class="sd">        (default is False) the units of lon/lat are radians instead of</span>
-<span class="sd">        degrees. If optional keyword &#39;errcheck&#39; is True (default is</span>
+<span class="sd">        lon/lat is performed. If optional keyword &#39;errcheck&#39; is True (default is</span>
 <span class="sd">        False) an exception is raised if the transformation is invalid.</span>
 <span class="sd">        If errcheck=False and the transformation is invalid, no</span>
 <span class="sd">        exception is raised and 1.e30 is returned.</span>
@@ -474,14 +470,6 @@
 <span class="sd">    shifts (which cannot be done using the __call__ method of the</span>
 <span class="sd">    Proj instances). It also allows for one of the coordinate</span>
 <span class="sd">    systems to be geographic (proj = &#39;latlong&#39;).</span>
-
-<span class="sd">    If optional keyword &#39;radians&#39; is True (default is False) and p1</span>
-<span class="sd">    is defined in geographic coordinate (pj.is_latlong() is True),</span>
-<span class="sd">    x1,y1 is interpreted as radians instead of the default degrees.</span>
-<span class="sd">    Similarly, if p2 is defined in geographic coordinates and</span>
-<span class="sd">    radians=True, x2, y2 are returned in radians instead of degrees.</span>
-<span class="sd">    if p1.is_latlong() and p2.is_latlong() both are False, the</span>
-<span class="sd">    radians keyword has no effect.</span>
 
 <span class="sd">    x,y and z can be numpy or regular python arrays, python</span>
 <span class="sd">    lists/tuples or scalars. Arrays are fastest.  For projections in</span>
@@ -583,13 +571,7 @@
 
 <span class="sd">    If optional keyword &#39;switch&#39; is True (default is False) then x, y or lon,lat coordinates</span>
 <span class="sd">    of points are switched to y, x or lat, lon.</span>
-<span class="sd">    If optional keyword &#39;radians&#39; is True (default is False) and p1</span>
-<span class="sd">    is defined in geographic coordinate (pj.is_latlong() is True),</span>
-<span class="sd">    x1,y1 is interpreted as radians instead of the default degrees.</span>
-<span class="sd">    Similarly, if p2 is defined in geographic coordinates and</span>
-<span class="sd">    radians=True, x2, y2 are returned in radians instead of degrees.</span>
-<span class="sd">    if p1.is_latlong() and p2.is_latlong() both are False, the</span>
-<span class="sd">    radians keyword has no effect.</span>
+
 
 <span class="sd">    Example usage:</span>
 
