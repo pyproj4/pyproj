@@ -2,7 +2,6 @@ include README.md
 include MANIFEST.in
 include pyproject.toml
 include LICENSE
-include Changelog
 include create_docs.sh
 include pyproj/*.pyd
 include pyproj/*.pyx
