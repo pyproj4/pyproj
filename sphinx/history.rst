@@ -3,7 +3,7 @@ Change Log
 2.0.1
 ~~~~~
 * Ensure data path set properly for TransProj (pull request #179, addressed
-issue #176).
+  issue #176).
 
 2.0.0
 ~~~~~
