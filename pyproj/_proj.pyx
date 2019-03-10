@@ -263,6 +263,12 @@ cdef class TransProj:
         self.projctx = NULL
 
     def __init__(self, p1, p2):
+        # set up the context
+        self.projctx = proj_context_create()
+        py_data_dir = cstrencode(get_data_dir())
+        cdef const char* data_dir = py_data_dir
+        proj_context_set_search_paths(self.projctx, 1, &data_dir)
+
         self.projpj = proj_create_crs_to_crs(
             self.projctx,
             TransProj.definition_from_object(p1),
