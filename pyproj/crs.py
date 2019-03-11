@@ -33,7 +33,10 @@ def _dict2string(projparams):
     # convert a dict to a proj4 string.
     pjargs = []
     for key, value in projparams.items():
-        pjargs.append("+" + key + "=" + str(value) + " ")
+        if type(value) == bool and value == True:
+            pjargs.append("+" + key + " ")
+        else:
+            pjargs.append("+" + key + "=" + str(value) + " ")
     return "".join(pjargs)
 
 
