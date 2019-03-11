@@ -94,6 +94,30 @@ class BasicTest(unittest.TestCase):
             self.assertAlmostEqual(point_geog[0], point_geog2[0])
             self.assertAlmostEqual(point_geog[1], point_geog2[1])
 
+    def test_from_dict_with_bool(self):
+        # issue #183
+        p_d = {'proj': 'omerc',
+               'lat_2': 80.27942,
+               'lat_0': 62.87671,
+               'lat_1': 42.751232,
+               'ellps': 'WGS84',
+               'no_rot': True,
+               'lon_1': 33.793186,
+               'lon_2': -18.374414}
+        p=Proj(p_d)
+        self.assertTrue('+no_rot' in p.srs.split())
+        p_d = {'proj': 'omerc',
+               'lat_2': 80.27942,
+               'lat_0': 62.87671,
+               'lat_1': 42.751232,
+               'ellps': 'WGS84',
+               'no_rot': False,
+               'lon_1': 33.793186,
+               'lon_2': -18.374414}
+        p=Proj(p_d)
+        self.assertFalse('+no_rot' in p.srs.split())
+
+
 
 class InverseHammerTest(unittest.TestCase):
     # This is a unit test of the inverse of the hammer projection, which
