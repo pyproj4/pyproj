@@ -1,5 +1,10 @@
 Change Log
 ==========
+2.0.2
+~~~~~
+* add filter for boolean values in dict2string so "no_rot=True" works (issue #183).
+* make sure .pxd files included in source tarball.
+
 2.0.1
 ~~~~~
 * Ensure data path set properly for TransProj (pull request #179, addressed

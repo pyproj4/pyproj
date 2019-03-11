@@ -33,7 +33,13 @@ def _dict2string(projparams):
     # convert a dict to a proj4 string.
     pjargs = []
     for key, value in projparams.items():
-        pjargs.append("+" + key + "=" + str(value) + " ")
+        # issue 183 (+ no_rot)
+        if value is None or value is True:
+            pjargs.append("+" + key + " ")
+        elif value is False:
+            pass
+        else:
+            pjargs.append("+" + key + "=" + str(value) + " ")
     return "".join(pjargs)
 
 
