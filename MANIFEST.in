@@ -5,6 +5,7 @@ include LICENSE
 include create_docs.sh
 include pyproj/*.pyd
 include pyproj/*.pyx
+include pyproj/*.pxd
 include pyproj/*.pxi
 include test/test.py
 include test/test2.py
