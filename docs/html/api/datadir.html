@@ -1,18 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Data Directory &#8212; pyproj 2.0.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>Data Directory &#8212; pyproj 2.0.2 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Change Log" href="../history.html" />
@@ -30,7 +29,7 @@
         <li class="right" >
           <a href="geod.html" title="Geod"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API Documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -49,20 +48,18 @@
 <code class="descclassname">pyproj.datadir.</code><code class="descname">get_data_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/datadir.html#get_data_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.datadir.get_data_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>The order of preference for the data directory is:</p>
 <ol class="arabic simple">
-<li>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</li>
-<li>The internal proj directory (if exists &amp; valid)</li>
-<li>The directory in PROJ_LIB</li>
+<li><p>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</p></li>
+<li><p>The internal proj directory (if exists &amp; valid)</p></li>
+<li><p>The directory in PROJ_LIB</p></li>
 </ol>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">The valid data directory.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>str</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The valid data directory.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -72,14 +69,11 @@
 <dt id="pyproj.datadir.set_data_dir">
 <code class="descclassname">pyproj.datadir.</code><code class="descname">set_data_dir</code><span class="sig-paren">(</span><em>proj_data_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/datadir.html#set_data_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.datadir.set_data_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the data directory for PROJ.4 to use.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proj_data_dir</strong> (<em>str</em>) – The path to rhe PROJ.4 data directory.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>proj_data_dir</strong> (<em>str</em>) – The path to rhe PROJ.4 data directory.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -91,7 +85,7 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Data Directory</a><ul>
 <li><a class="reference internal" href="#pyproj-datadir-get-data-dir">pyproj.datadir.get_data_dir</a></li>
@@ -119,8 +113,6 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -141,13 +133,13 @@
         <li class="right" >
           <a href="geod.html" title="Geod"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >API Documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Jeffrey Whitaker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/db78402.
     </div>
   </body>
 </html>

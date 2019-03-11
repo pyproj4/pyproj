@@ -1,18 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Installation &#8212; pyproj 2.0.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>Installation &#8212; pyproj 2.0.2 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API Documentation" href="api/index.html" />
@@ -30,7 +29,7 @@
         <li class="right" >
           <a href="index.html" title="pyproj Documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.0.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -43,7 +42,7 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>The easiest methods for installing pyproj are:</p>
 <ol class="arabic simple">
-<li>Use the wheels on pypi or from <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a></li>
+<li><p>Use the wheels on pypi or from <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a></p></li>
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj
@@ -51,7 +50,7 @@
 </div>
 </div></blockquote>
 <ol class="arabic simple" start="2">
-<li>Use conda:</li>
+<li><p>Use conda:</p></li>
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c conda-forge pyproj
@@ -69,9 +68,9 @@ Installation instructions can be fount at <a class="reference external" href="ht
 <p>In the setup.py, the order for searching for PROJ.4 is:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>The PROJ_DIR environment variable</li>
-<li>The internal PROJ.4 directory (pyproj/proj_dir)</li>
-<li>The <cite>proj</cite> executable on the PATH.</li>
+<li><p>The PROJ_DIR environment variable</p></li>
+<li><p>The internal PROJ.4 directory (pyproj/proj_dir)</p></li>
+<li><p>The <cite>proj</cite> executable on the PATH.</p></li>
 </ol>
 </div></blockquote>
 <p>For best results, set the PROJ_DIR environment variable to
@@ -89,11 +88,11 @@ point to location of PROJ.4 installation before running setup.py.</p>
 version of PROJ.4 (6.0.0), the best way to avoid conflicts is to:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>Remove the previous PROJ.4 from PATH &amp; unset old PROJ_LIB environment variable (temporarily)</li>
-<li>Install PROJ.4 to the internal PROJ.4 directory (pyproj/proj_dir)</li>
-<li>Set the environment variable PROJ_DIR to point to the internal PROJ.4 directory</li>
-<li>Set the environment variable PROJ_WHEEL=true</li>
-<li>Build pyproj</li>
+<li><p>Remove the previous PROJ.4 from PATH &amp; unset old PROJ_LIB environment variable (temporarily)</p></li>
+<li><p>Install PROJ.4 to the internal PROJ.4 directory (pyproj/proj_dir)</p></li>
+<li><p>Set the environment variable PROJ_DIR to point to the internal PROJ.4 directory</p></li>
+<li><p>Set the environment variable PROJ_WHEEL=true</p></li>
+<li><p>Build pyproj</p></li>
 </ol>
 </div></blockquote>
 </div>
@@ -103,20 +102,20 @@ version of PROJ.4 (6.0.0), the best way to avoid conflicts is to:</p>
 <h3>The data directory<a class="headerlink" href="#the-data-directory" title="Permalink to this headline">¶</a></h3>
 <p>The order of preference for the data directory is:</p>
 <ol class="arabic simple">
-<li>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</li>
-<li>The internal proj directory (if exists &amp; valid)</li>
-<li>The directory in the PROJ_LIB environment variable (if exists &amp; valid)</li>
+<li><p>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</p></li>
+<li><p>The internal proj directory (if exists &amp; valid)</p></li>
+<li><p>The directory in the PROJ_LIB environment variable (if exists &amp; valid)</p></li>
 </ol>
 </div>
 <div class="section" id="install-pyproj">
 <h3>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last"><a class="reference external" href="http://cython.org/">Cython</a> or pip&gt;=10.0.1 is required for the installation.</p>
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="http://cython.org/">Cython</a> or pip&gt;=10.0.1 is required for the installation.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">You may need to run pip with administrative privileges (e.g. <cite>sudo pip</cite>) or
+<p class="admonition-title">Note</p>
+<p>You may need to run pip with administrative privileges (e.g. <cite>sudo pip</cite>) or
 perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
 </div>
 <div class="section" id="from-pypi">
@@ -147,7 +146,7 @@ perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Installation</a><ul>
 <li><a class="reference internal" href="#setup-proj-4">Setup PROJ.4</a></li>
@@ -184,8 +183,6 @@ perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -206,12 +203,12 @@ perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
         <li class="right" >
           <a href="index.html" title="pyproj Documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.0.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Jeffrey Whitaker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/db78402.
     </div>
   </body>
 </html>
