@@ -416,7 +416,7 @@ class Proj(_proj.Proj):
         return Proj(self.crs.to_geodetic())
 
 
-def transform(p1, p2, x, y, z=None):
+def transform(p1, p2, x, y, z=None, radians=False):
     """
     x2, y2, z2 = transform(p1, p2, x1, y1, z1)
 
@@ -427,7 +427,10 @@ def transform(p1, p2, x, y, z=None):
     transformed to x2,y2,z2 in the coordinate system defined by p2.
 
     z1 is optional, if it is not set it is assumed to be zero (and
-    only x2 and y2 are returned).
+    only x2 and y2 are returned). If the optional keyword 
+    'radians' is True (default is False), then all input and 
+    output coordinates will be in radians instead of the default 
+    of degrees for geographic input/output projections.
 
     In addition to converting between cartographic and geographic
     projection coordinates, this function can take care of datum
@@ -489,6 +492,11 @@ def transform(p1, p2, x, y, z=None):
     >>> x3, y3 = transform("epsg:4326", "epsg:3857", 33, 98)
     >>> "%.3f  %.3f" % (x3, y3)
     '10909310.098  3895303.963'
+    >>> pj = Proj(init="epsg:4214")
+    >>> pjx, pjy = pj(116.366, 39.867)
+    >>> xr, yr = transform(pj, Proj(4326), pjx, pjy, radians=True)
+    >>> "%.3f %.3f" % (xr, yr)
+    '2.031 0.696'
     """
     # check that p1 and p2 are valid
     if not isinstance(p1, Proj):
@@ -504,7 +512,7 @@ def transform(p1, p2, x, y, z=None):
     else:
         inz = None
     # call pj_transform.  inx,iny,inz buffers modified in place.
-    _proj._transform(p1, p2, inx, iny, inz)
+    _proj._transform(p1, p2, inx, iny, inz, radians)
     # if inputs were lists, tuples or floats, convert back.
     outx = _convertback(xisfloat, xislist, xistuple, inx)
     outy = _convertback(yisfloat, yislist, xistuple, iny)
@@ -515,7 +523,7 @@ def transform(p1, p2, x, y, z=None):
         return outx, outy
 
 
-def itransform(p1, p2, points, switch=False):
+def itransform(p1, p2, points, switch=False, radians=False):
     """
     points2 = transform(p1, p2, points1)
     Iterator/generator version of the function pyproj.transform.
@@ -534,7 +542,9 @@ def itransform(p1, p2, points, switch=False):
         - a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d
 
     If optional keyword 'switch' is True (default is False) then x, y or lon,lat coordinates
-    of points are switched to y, x or lat, lon.
+    of points are switched to y, x or lat, lon. If the optional keyword 'radians' is True
+    (default is False), then all input and output coordinates will be in radians instead
+    of the default of degrees for geographic input/output projections.
 
 
     Example usage:
@@ -555,6 +565,10 @@ def itransform(p1, p2, points, switch=False):
     '2221638.801 2637034.372'
     '2212924.125 2619851.898'
     '2238294.779 2703763.736'
+    >>> pj = Proj(init="epsg:4214")
+    >>> pjx, pjy = pj(116.366, 39.867)
+    >>> for pt in itransform(pj, Proj(4326), [(pjx, pjy)]): '{:.3f} {:.3f}'.format(*pt)
+    '2.031 0.696'
     """
     if not isinstance(p1, Proj):
         p1 = CRS.from_user_input(p1)
@@ -582,7 +596,7 @@ def itransform(p1, p2, points, switch=False):
         if len(buff) == 0:
             break
 
-        _proj._transform_sequence(p1, p2, stride, buff, switch)
+        _proj._transform_sequence(p1, p2, stride, buff, switch, radians)
 
         for pt in zip(*([iter(buff)] * stride)):
             yield pt

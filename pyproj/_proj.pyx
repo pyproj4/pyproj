@@ -298,7 +298,14 @@ cdef class TransProj:
             return in_proj.definition
         return cstrencode(CRS.from_user_input(in_proj).to_wkt())
 
-def _transform(p1, p2, inx, iny, inz):
+
+def is_geographic(proj):
+    if hasattr(proj, "crs"):
+        proj = proj.crs
+    return proj.is_geographic
+
+
+def _transform(p1, p2, inx, iny, inz, radians):
     pj_trans =  TransProj(p1, p2)
     # private function to call pj_transform
     cdef void *xdata
@@ -327,10 +334,11 @@ def _transform(p1, p2, inx, iny, inz):
     else:
         zz = NULL
     npts = buflenx//8
-    if proj_angular_input(pj_trans.projpj, PJ_FWD):
+
+    if radians and is_geographic(p1):
         for i from 0 <= i < npts:
-            xx[i] = xx[i]*_DG2RAD
-            yy[i] = yy[i]*_DG2RAD
+            xx[i] = xx[i]*_RAD2DG
+            yy[i] = yy[i]*_RAD2DG
 
     proj_trans_generic(
         pj_trans.projpj,
@@ -344,13 +352,13 @@ def _transform(p1, p2, inx, iny, inz):
     if errno:
         raise ProjError("proj_trans_generic error: {}".format(
             pystrdecode(proj_errno_string(errno))))
-    if proj_angular_output(pj_trans.projpj, PJ_FWD):
+
+    if radians and is_geographic(p2):
         for i from 0 <= i < npts:
-            xx[i] = xx[i]*_RAD2DG
-            yy[i] = yy[i]*_RAD2DG
+            xx[i] = xx[i]*_DG2RAD
+            yy[i] = yy[i]*_DG2RAD
 
-
-def _transform_sequence(p1, p2, Py_ssize_t stride, inseq, bint switch):
+def _transform_sequence(p1, p2, Py_ssize_t stride, inseq, bint switch, radians):
     pj_trans =  TransProj(p1, p2)
     # private function to itransform function
     cdef:
@@ -370,11 +378,11 @@ def _transform_sequence(p1, p2, Py_ssize_t stride, inseq, bint switch):
     coords = <double*>buffer
     npts = buflen // (stride * _DOUBLESIZE)
 
-    if proj_angular_input(pj_trans.projpj, PJ_FWD):
+    if radians and is_geographic(p1):
         for i from 0 <= i < npts:
             j = stride*i
-            coords[j] *= _DG2RAD
-            coords[j+1] *= _DG2RAD
+            coords[j] *= _RAD2DG
+            coords[j+1] *= _RAD2DG
 
     if not switch:
         x = coords
@@ -402,8 +410,8 @@ def _transform_sequence(p1, p2, Py_ssize_t stride, inseq, bint switch):
         raise ProjError("proj_trans_generic error: {}".format(
             proj_errno_string(errno)))
 
-    if proj_angular_output(pj_trans.projpj, PJ_FWD):
+    if radians and is_geographic(p2):
         for i from 0 <= i < npts:
             j = stride*i
-            coords[j] *= _RAD2DG
-            coords[j+1] *= _RAD2DG
+            coords[j] *= _DG2RAD
+            coords[j+1] *= _DG2RAD
