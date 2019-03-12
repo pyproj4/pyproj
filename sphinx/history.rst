@@ -4,6 +4,7 @@ Change Log
 ~~~~~
 * add filter for boolean values in dict2string so "no_rot=True" works (issue #183).
 * make sure .pxd files included in source tarball.
+* add radians flag back in for transform/itransform (issue #185).
 
 2.0.1
 ~~~~~
