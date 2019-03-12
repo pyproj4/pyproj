@@ -450,7 +450,7 @@
         <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_geodetic</span><span class="p">())</span></div></div>
 
 
-<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../api/proj.html#pyproj.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../api/proj.html#pyproj.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    x2, y2, z2 = transform(p1, p2, x1, y1, z1)</span>
 
@@ -461,7 +461,10 @@
 <span class="sd">    transformed to x2,y2,z2 in the coordinate system defined by p2.</span>
 
 <span class="sd">    z1 is optional, if it is not set it is assumed to be zero (and</span>
-<span class="sd">    only x2 and y2 are returned).</span>
+<span class="sd">    only x2 and y2 are returned). If the optional keyword </span>
+<span class="sd">    &#39;radians&#39; is True (default is False), then all input and </span>
+<span class="sd">    output coordinates will be in radians instead of the default </span>
+<span class="sd">    of degrees for geographic input/output projections.</span>
 
 <span class="sd">    In addition to converting between cartographic and geographic</span>
 <span class="sd">    projection coordinates, this function can take care of datum</span>
@@ -523,6 +526,11 @@
 <span class="sd">    &gt;&gt;&gt; x3, y3 = transform(&quot;epsg:4326&quot;, &quot;epsg:3857&quot;, 33, 98)</span>
 <span class="sd">    &gt;&gt;&gt; &quot;%.3f  %.3f&quot; % (x3, y3)</span>
 <span class="sd">    &#39;10909310.098  3895303.963&#39;</span>
+<span class="sd">    &gt;&gt;&gt; pj = Proj(init=&quot;epsg:4214&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pjx, pjy = pj(116.366, 39.867)</span>
+<span class="sd">    &gt;&gt;&gt; xr, yr = transform(pj, Proj(4326), pjx, pjy, radians=True)</span>
+<span class="sd">    &gt;&gt;&gt; &quot;%.3f %.3f&quot; % (xr, yr)</span>
+<span class="sd">    &#39;2.031 0.696&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># check that p1 and p2 are valid</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
@@ -538,7 +546,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">inz</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1"># call pj_transform.  inx,iny,inz buffers modified in place.</span>
-    <span class="n">_proj</span><span class="o">.</span><span class="n">_transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
+    <span class="n">_proj</span><span class="o">.</span><span class="n">_transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">radians</span><span class="p">)</span>
     <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
     <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
     <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
@@ -549,7 +557,7 @@
         <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span></div>
 
 
-<div class="viewcode-block" id="itransform"><a class="viewcode-back" href="../api/proj.html#pyproj.itransform">[docs]</a><span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">switch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="itransform"><a class="viewcode-back" href="../api/proj.html#pyproj.itransform">[docs]</a><span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">switch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    points2 = transform(p1, p2, points1)</span>
 <span class="sd">    Iterator/generator version of the function pyproj.transform.</span>
@@ -568,7 +576,9 @@
 <span class="sd">        - a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d</span>
 
 <span class="sd">    If optional keyword &#39;switch&#39; is True (default is False) then x, y or lon,lat coordinates</span>
-<span class="sd">    of points are switched to y, x or lat, lon.</span>
+<span class="sd">    of points are switched to y, x or lat, lon. If the optional keyword &#39;radians&#39; is True</span>
+<span class="sd">    (default is False), then all input and output coordinates will be in radians instead</span>
+<span class="sd">    of the default of degrees for geographic input/output projections.</span>
 
 
 <span class="sd">    Example usage:</span>
@@ -589,6 +599,10 @@
 <span class="sd">    &#39;2221638.801 2637034.372&#39;</span>
 <span class="sd">    &#39;2212924.125 2619851.898&#39;</span>
 <span class="sd">    &#39;2238294.779 2703763.736&#39;</span>
+<span class="sd">    &gt;&gt;&gt; pj = Proj(init=&quot;epsg:4214&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pjx, pjy = pj(116.366, 39.867)</span>
+<span class="sd">    &gt;&gt;&gt; for pt in itransform(pj, Proj(4326), [(pjx, pjy)]): &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
+<span class="sd">    &#39;2.031 0.696&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
@@ -616,7 +630,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">break</span>
 
-        <span class="n">_proj</span><span class="o">.</span><span class="n">_transform_sequence</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="n">switch</span><span class="p">)</span>
+        <span class="n">_proj</span><span class="o">.</span><span class="n">_transform_sequence</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="n">switch</span><span class="p">,</span> <span class="n">radians</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="nb">iter</span><span class="p">(</span><span class="n">buff</span><span class="p">)]</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)):</span>
             <span class="k">yield</span> <span class="n">pt</span></div>
@@ -670,7 +684,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Jeffrey Whitaker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/db78402.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/8eb43d6.
     </div>
   </body>
 </html>
