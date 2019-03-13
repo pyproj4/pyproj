@@ -81,7 +81,6 @@ if "clean" not in sys.argv:
         cythonize_options["compiler_directives"] = {"linetrace": True}
         cythonize_options["annotate"] = True
 
-
     proj_libdir = os.environ.get("PROJ_LIBDIR")
     libdirs = []
     if proj_libdir is None:
@@ -101,7 +100,6 @@ if "clean" not in sys.argv:
         os.path.join(BASE_INTERNAL_PROJ_DIR, "lib")
     ):
         package_data["pyproj"].append(os.path.join(BASE_INTERNAL_PROJ_DIR, "lib", "*"))
-
 
     proj_incdir = os.environ.get("PROJ_INCDIR")
     incdirs = []
@@ -135,6 +133,9 @@ if "clean" not in sys.argv:
             Extension("pyproj._proj", ["pyproj/_proj.pyx"], **ext_options),
             Extension("pyproj._geod", ["pyproj/_geod.pyx"], **ext_options),
             Extension("pyproj._crs", ["pyproj/_crs.pyx"], **ext_options),
+            Extension(
+                "pyproj._transformer", ["pyproj/_transformer.pyx"], **ext_options
+            ),
         ],
         quiet=True,
         **cythonize_options
