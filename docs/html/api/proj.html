@@ -1,18 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Proj &#8212; pyproj 2.0.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>Proj &#8212; pyproj 2.0.2 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CRS" href="crs.html" />
@@ -30,7 +29,7 @@
         <li class="right" >
           <a href="index.html" title="API Documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API Documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -92,19 +91,15 @@ sequences and scalars, but is fastest for array objects.</p>
 <dd><p>initialize a Proj class instance.</p>
 <p>See the proj documentation (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>)
 for more information about projection parameters.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>projparams</strong> (<em>int</em><em>, </em><em>str</em><em>, </em><em>dict</em><em>, </em><em>pyproj.CRS</em>) – A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.</li>
-<li><strong>preserve_units</strong> (<em>bool</em>) – If false, will ensure +units=m.</li>
-<li><strong>**kwargs</strong> – proj.4 projection parameters.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projparams</strong> (<em>int</em><em>, </em><em>str</em><em>, </em><em>dict</em><em>, </em><em>pyproj.CRS</em>) – A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.</p></li>
+<li><p><strong>preserve_units</strong> (<em>bool</em>) – If false, will ensure +units=m.</p></li>
+<li><p><strong>**kwargs</strong> – proj.4 projection parameters.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Example usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Proj</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;utm&#39;</span><span class="p">,</span><span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># use kwargs</span>
@@ -168,31 +163,27 @@ for more information about projection parameters.</p>
 <dl class="method">
 <dt id="pyproj.Proj.is_geocent">
 <code class="descname">is_geocent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.is_geocent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.is_geocent" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>bool</strong></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">True if projection in geocentric (x/y) coordinates</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>True if projection in geocentric (x/y) coordinates</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.Proj.is_latlong">
 <code class="descname">is_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#Proj.is_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.is_latlong" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>bool</strong></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">True if projection in geographic (lon/lat) coordinates.</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>True if projection in geographic (lon/lat) coordinates.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -216,14 +207,17 @@ coordinate version of the current projection</p>
 <h2>pyproj.transform<a class="headerlink" href="#pyproj-transform" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.transform">
-<code class="descclassname">pyproj.</code><code class="descname">transform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>x</em>, <em>y</em>, <em>z=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyproj.</code><code class="descname">transform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>x</em>, <em>y</em>, <em>z=None</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>x2, y2, z2 = transform(p1, p2, x1, y1, z1)</p>
 <p>Transform points between two coordinate systems defined by the
 Proj instances p1 and p2.</p>
 <p>The points x1,y1,z1 in the coordinate system defined by p1 are
 transformed to x2,y2,z2 in the coordinate system defined by p2.</p>
 <p>z1 is optional, if it is not set it is assumed to be zero (and
-only x2 and y2 are returned).</p>
+only x2 and y2 are returned). If the optional keyword
+‘radians’ is True (default is False), then all input and
+output coordinates will be in radians instead of the default
+of degrees for geographic input/output projections.</p>
 <p>In addition to converting between cartographic and geographic
 projection coordinates, this function can take care of datum
 shifts (which cannot be done using the __call__ method of the
@@ -281,6 +275,11 @@ z is always meters.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:3857&quot;</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%.3f</span><span class="s2">  </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
 <span class="go">&#39;10909310.098  3895303.963&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pj</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4214&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pjx</span><span class="p">,</span> <span class="n">pjy</span> <span class="o">=</span> <span class="n">pj</span><span class="p">(</span><span class="mf">116.366</span><span class="p">,</span> <span class="mf">39.867</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xr</span><span class="p">,</span> <span class="n">yr</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">pj</span><span class="p">,</span> <span class="n">Proj</span><span class="p">(</span><span class="mi">4326</span><span class="p">),</span> <span class="n">pjx</span><span class="p">,</span> <span class="n">pjy</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%.3f</span><span class="s2"> </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">xr</span><span class="p">,</span> <span class="n">yr</span><span class="p">)</span>
+<span class="go">&#39;2.031 0.696&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -290,7 +289,7 @@ z is always meters.</p>
 <h2>pyproj.itransform<a class="headerlink" href="#pyproj-itransform" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.itransform">
-<code class="descclassname">pyproj.</code><code class="descname">itransform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>points</em>, <em>switch=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.itransform" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyproj.</code><code class="descname">itransform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>points</em>, <em>switch=False</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj.html#itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.itransform" title="Permalink to this definition">¶</a></dt>
 <dd><p>points2 = transform(p1, p2, points1)
 Iterator/generator version of the function pyproj.transform.
 Transform points between two coordinate systems defined by the
@@ -301,17 +300,18 @@ Points1 is an iterable/generator of coordinates x1,y1(,z1) or lon1,lat1(,z1)
 in the coordinate system defined by p1. Points2 is an iterator that returns tuples
 of x2,y2(,z2) or lon2,lat2(,z2) coordinates in the coordinate system defined by p2.
 z are provided optionally.</p>
-<dl class="docutils">
-<dt>Points1 can be:</dt>
-<dd><ul class="first last simple">
-<li>a tuple/list of tuples/lists i.e. for 2d points: [(xi,yi),(xj,yj),….(xn,yn)]</li>
-<li>a Nx3 or Nx2 2d numpy array where N is the point number</li>
-<li>a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d</li>
+<dl class="simple">
+<dt>Points1 can be:</dt><dd><ul class="simple">
+<li><p>a tuple/list of tuples/lists i.e. for 2d points: [(xi,yi),(xj,yj),….(xn,yn)]</p></li>
+<li><p>a Nx3 or Nx2 2d numpy array where N is the point number</p></li>
+<li><p>a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d</p></li>
 </ul>
 </dd>
 </dl>
 <p>If optional keyword ‘switch’ is True (default is False) then x, y or lon,lat coordinates
-of points are switched to y, x or lat, lon.</p>
+of points are switched to y, x or lat, lon. If the optional keyword ‘radians’ is True
+(default is False), then all input and output coordinates will be in radians instead
+of the default of degrees for geographic input/output projections.</p>
 <p>Example usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: WGS84</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 4326)</span>
@@ -329,6 +329,10 @@ of points are switched to y, x or lat, lon.</p>
 <span class="go">&#39;2221638.801 2637034.372&#39;</span>
 <span class="go">&#39;2212924.125 2619851.898&#39;</span>
 <span class="go">&#39;2238294.779 2703763.736&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pj</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4214&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pjx</span><span class="p">,</span> <span class="n">pjy</span> <span class="o">=</span> <span class="n">pj</span><span class="p">(</span><span class="mf">116.366</span><span class="p">,</span> <span class="mf">39.867</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="n">pj</span><span class="p">,</span> <span class="n">Proj</span><span class="p">(</span><span class="mi">4326</span><span class="p">),</span> <span class="p">[(</span><span class="n">pjx</span><span class="p">,</span> <span class="n">pjy</span><span class="p">)]):</span> <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;2.031 0.696&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -342,7 +346,7 @@ of points are switched to y, x or lat, lon.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Proj</a><ul>
 <li><a class="reference internal" href="#pyproj-proj">pyproj.Proj</a></li>
@@ -371,8 +375,6 @@ of points are switched to y, x or lat, lon.</p>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -393,13 +395,13 @@ of points are switched to y, x or lat, lon.</p>
         <li class="right" >
           <a href="index.html" title="API Documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >API Documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Jeffrey Whitaker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/8eb43d6.
     </div>
   </body>
 </html>

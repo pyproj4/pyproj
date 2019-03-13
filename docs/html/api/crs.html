@@ -1,18 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>CRS &#8212; pyproj 2.0.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>CRS &#8212; pyproj 2.0.2 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Geod" href="geod.html" />
@@ -30,7 +29,7 @@
         <li class="right" >
           <a href="proj.html" title="Proj"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API Documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -51,8 +50,8 @@
 <p>A pythonic Coordinate Reference System manager.</p>
 <p>The functionality is based on other fantastic projects:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py">https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py</a></li>
-<li><a class="reference external" href="https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx">https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx</a></li>
+<li><p><a class="reference external" href="https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py">https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx">https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx</a></p></li>
 </ul>
 <dl class="method">
 <dt id="pyproj.crs.CRS.__init__">
@@ -84,7 +83,7 @@ about specifying projection parameters.</p>
 <span class="go">Axis Info:</span>
 <span class="go">- Easting[E] (east) EPSG:9001 (metre)</span>
 <span class="go">- Northing[N] (north) EPSG:9001 (metre)</span>
-
+<span class="go">&lt;BLANKLINE&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">area_of_use</span><span class="o">.</span><span class="n">bounds</span>
 <span class="go">(-96.0, 25.61, -90.0, 84.0)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">inverse_flattening</span>
@@ -149,44 +148,38 @@ about specifying projection parameters.</p>
 <dt id="pyproj.crs.CRS.from_epsg">
 <em class="property">classmethod </em><code class="descname">from_epsg</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_epsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from an EPSG code</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>int</em><em> or </em><em>str</em>) – An EPSG code. Strings will be converted to integers.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>code</strong> (<em>int</em><em> or </em><em>str</em>) – An EPSG code. Strings will be converted to integers.</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>The input code is not validated against an EPSG database.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="pyproj.crs.CRS.from_string">
 <em class="property">classmethod </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>proj_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from an EPSG, PROJ, or WKT string</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proj_string</strong> (<em>str</em>) – An EPSG, PROJ, or WKT string.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>proj_string</strong> (<em>str</em>) – An EPSG, PROJ, or WKT string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="classmethod">
@@ -194,33 +187,30 @@ about specifying projection parameters.</p>
 <em class="property">classmethod </em><code class="descname">from_user_input</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_user_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_user_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from various input</p>
 <p>Dispatches to from_epsg, from_proj, or from_string</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> (<em>obj</em>) – A Python int, dict, or str.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>obj</em>) – A Python int, dict, or str.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.get_geod">
 <code class="descname">get_geod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.get_geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.get_geod" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>:obj:`pyproj.Geod`</strong></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Geod object based on the CRS.ellipsoid.</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>:obj:`pyproj.Geod`</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Geod object based on the CRS.ellipsoid.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -262,18 +252,17 @@ about specifying projection parameters.</p>
 <dt id="pyproj.crs.CRS.to_epsg">
 <code class="descname">to_epsg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the EPSG code best matching the projection.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>int or None</strong></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">The best matching EPSG code matching the confidence level.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>int or None</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The best matching EPSG code matching the confidence level.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -287,36 +276,34 @@ coordinate version of the current projection</p>
 <dt id="pyproj.crs.CRS.to_proj4">
 <code class="descname">to_proj4</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_proj4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a proj.4 string.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>version</strong> (<em>int</em>) – The version of the proj.4 output. Default is 4.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">The proj.4 string.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>version</strong> (<em>int</em>) – The version of the proj.4 output. Default is 4.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>str</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The proj.4 string.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_wkt">
 <code class="descname">to_wkt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>version</strong> (<em>str</em>) – The version of the WKT output. Default is WKT2_2018.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">The WKT string.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>version</strong> (<em>str</em>) – The version of the WKT output. Default is WKT2_2018.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>str</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The WKT string.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -328,18 +315,17 @@ coordinate version of the current projection</p>
 <dt id="pyproj.crs.is_wkt">
 <code class="descclassname">pyproj.crs.</code><code class="descname">is_wkt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the input projection string is in the Well-Known Text format.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proj_string</strong> (<em>str</em>) – The projection string.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>bool</strong></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">True if the string is in the Well-Known Text format</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>proj_string</strong> (<em>str</em>) – The projection string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>True if the string is in the Well-Known Text format</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -351,7 +337,7 @@ coordinate version of the current projection</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">CRS</a><ul>
 <li><a class="reference internal" href="#pyproj-crs">pyproj.CRS</a></li>
@@ -379,8 +365,6 @@ coordinate version of the current projection</p>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -401,13 +385,13 @@ coordinate version of the current projection</p>
         <li class="right" >
           <a href="proj.html" title="Proj"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >API Documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Jeffrey Whitaker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/8eb43d6.
     </div>
   </body>
 </html>
