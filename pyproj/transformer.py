@@ -288,14 +288,14 @@ def transform(p1, p2, x, y, z=None, radians=False):
     >>> p2 = Proj(proj="utm",zone=10,datum='NAD27', preserve_units=False)
     >>> x2, y2 = transform(p1, p2, x1, y1)
     >>> "%s  %s" % (str(x2)[:9],str(y2)[:9])
-    '1402285.9  5076292.4'
+    '1402291.0  5076289.5'
     >>> from pyproj import CRS
     >>> c1 = CRS(proj='latlong',datum='WGS84')
     >>> x1 = -111.5; y1 = 45.25919444444
     >>> c2 = CRS(proj="utm",zone=10,datum='NAD27')
     >>> x2, y2 = transform(c1, c2, x1, y1)
     >>> "%s  %s" % (str(x2)[:9],str(y2)[:9])
-    '1402285.9  5076292.4'
+    '1402291.0  5076289.5'
     >>> pj = Proj(init="epsg:4214")
     >>> pjx, pjy = pj(116.366, 39.867)
     >>> xr, yr = transform(pj, Proj(4326), pjx, pjy, radians=True)

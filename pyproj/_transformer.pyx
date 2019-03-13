@@ -77,8 +77,6 @@ cdef class _Transformer:
         transformer.to_geographic = False
         return transformer
 
-
-
     @staticmethod
     def _definition_from_object(in_proj):
         """
@@ -92,8 +90,8 @@ cdef class _Transformer:
 
         """
         if isinstance(in_proj, Proj):
-            return in_proj.definition
-        return cstrencode(CRS.from_user_input(in_proj).to_wkt())
+            return cstrencode(in_proj.srs)
+        return cstrencode(in_proj.to_wkt())
 
     def _transform(self, inx, iny, inz, radians):
         # private function to call pj_transform
