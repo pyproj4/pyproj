@@ -123,10 +123,10 @@ after_test:
   # If tests are successful, create binary packages for the project.
   - mkdir pyproj\proj_dir\share\proj
   - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
-  - mkdir pyproj\proj_dir\lib
-  - copy %PROJ_DIR%\lib\* pyproj\proj_dir\lib
-  - copy c:\tools\vcpkg\installed\"%platform%"-windows\bin\sqlite3.dll pyproj\proj_dir\lib
-  - set PROJ_LIBDIR=proj_dir\lib
+  - mkdir pyproj\.lib
+  - copy %PROJ_DIR%\lib\* pyproj\.lib
+  - copy c:\tools\vcpkg\installed\"%platform%"-windows\bin\sqlite3.dll pyproj\.lib
+  - set PROJ_LIBDIR=.lib
   - set PROJ_WHEEL=true
   - "%CMD_IN_ENV% python setup.py bdist_wheel"
   # - "%CMD_IN_ENV% python setup.py bdist_wininst"
