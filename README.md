@@ -15,10 +15,10 @@ pyproj
 Python interface to [PROJ.4](https://github.com/OSGeo/proj.4).
 
 
-[Installation](https://jswhit.github.io/pyproj/html/installation.html)
+[Installation](https://pyproj4.github.io/pyproj/html/installation.html)
 ------------
 
-[Documentation](http://jswhit.github.io/pyproj)
+[Documentation](http://pyproj4.github.io/pyproj)
 -------------
 
 Bugs/Questions
