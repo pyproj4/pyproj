@@ -1,5 +1,12 @@
 Change Log
 ==========
+
+2.1.0
+~~~~~
+* Added :class:`pyproj.Transformer` to make repetitive transformations more efficient (#187)
+* Added fix for using local datumgrids with transform (issue #191)
+* Added :class:`pyproj.Transformer.from_pipeline` to support pipeline transformations.
+
 2.0.2
 ~~~~~
 * add filter for boolean values in dict2string so "no_rot=True" works (issue #183).
