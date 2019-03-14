@@ -1,7 +1,7 @@
 pyproj
 ======
 
-[![Build Status](https://travis-ci.org/jswhit/pyproj.svg)](https://travis-ci.org/jswhit/pyproj)
+[![Build Status](https://travis-ci.org/pyproj4/pyproj.svg)](https://travis-ci.org/pyproj4/pyproj)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/8xkka4s97uwhkc64/branch/master?svg=true
 )](https://ci.appveyor.com/project/jswhit/pyproj)
