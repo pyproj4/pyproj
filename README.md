@@ -23,4 +23,4 @@ Python interface to [PROJ.4](https://github.com/OSGeo/proj.4).
 
 Bugs/Questions
 --------------
-Report bugs/ask questions at https://github.com/jswhit/pyproj/issues.
+Report bugs/ask questions at https://github.com/pyproj4/pyproj/issues.
