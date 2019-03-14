@@ -8,4 +8,5 @@ API Documentation
    proj
    crs
    geod
+   transformer
    datadir
