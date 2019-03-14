@@ -92,7 +92,7 @@ From GitHub with `pip`:
 
 .. code-block:: bash
 
-    pip install git+https://github.com/jswhit/pyproj.git
+    pip install git+https://github.com/pyproj4/pyproj.git
 
 From cloned GitHub repo for development:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -3,7 +3,7 @@ pyproj Documentation
 
 Python interface to  `PROJ.4 <https://proj4.org/>`_.
 
-GitHub Repository: https://github.com/jswhit/pyproj
+GitHub Repository: https://github.com/pyproj4/pyproj
 
 
 .. toctree::
