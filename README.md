@@ -6,6 +6,8 @@ pyproj
 [![Build status](https://ci.appveyor.com/api/projects/status/8xkka4s97uwhkc64/branch/master?svg=true
 )](https://ci.appveyor.com/project/jswhit/pyproj)
 
+[![Coverage Status](https://coveralls.io/repos/github/pyproj4/pyproj/badge.svg?branch=master)](https://coveralls.io/github/pyproj4/pyproj?branch=master)
+
 [![PyPI version](https://badge.fury.io/py/pyproj.svg)](https://badge.fury.io/py/pyproj)
 
 [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyproj/badges/version.svg)](https://anaconda.org/conda-forge/pyproj)
