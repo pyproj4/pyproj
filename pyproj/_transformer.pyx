@@ -10,8 +10,11 @@ cdef class _Transformer:
     def __cinit__(self):
         self.projpj = NULL
         self.projctx = NULL
-        self.from_geographic = False
-        self.to_geographic = False
+        self.input_geographic = False
+        self.output_geographic = False
+        self.input_radians = False
+        self.output_radians = False
+        self.is_pipeline = False
 
     def __init__(self):
         # set up the context
@@ -37,15 +40,10 @@ cdef class _Transformer:
             NULL)
         if transformer.projpj is NULL:
             raise ProjError("Error creating CRS to CRS.")
-        transformer.from_geographic = _Transformer._is_geographic(proj_from)
-        transformer.to_geographic = _Transformer._is_geographic(proj_to)
+        transformer.input_radians = proj_angular_input(transformer.projpj, PJ_FWD)
+        transformer.output_radians = proj_angular_output(transformer.projpj, PJ_FWD)
+        transformer.is_pipeline = False
         return transformer
-
-    @staticmethod
-    def _is_geographic(proj):
-        if hasattr(proj, "crs"):
-            return proj.crs.is_geographic
-        return proj.is_geographic
 
     @staticmethod
     def from_proj(proj_from, proj_to):
@@ -53,7 +51,10 @@ cdef class _Transformer:
             proj_from = Proj(proj_from)
         if not isinstance(proj_to, Proj):
             proj_to = Proj(proj_to)
-        return _Transformer._init_crs_to_crs(proj_from, proj_to)
+        transformer = _Transformer._init_crs_to_crs(proj_from, proj_to)
+        transformer.input_geographic = proj_from.crs.is_geographic
+        transformer.output_geographic = proj_to.crs.is_geographic
+        return transformer
 
     @staticmethod
     def from_crs(crs_from, crs_to):
@@ -61,7 +62,10 @@ cdef class _Transformer:
             crs_from = CRS.from_user_input(crs_from)
         if not isinstance(crs_to, CRS):
             crs_to = CRS.from_user_input(crs_to)
-        return _Transformer._init_crs_to_crs(crs_from, crs_to)
+        transformer = _Transformer._init_crs_to_crs(crs_from, crs_to)
+        transformer.input_geographic = crs_from.is_geographic
+        transformer.output_geographic = crs_to.is_geographic
+        return transformer
 
     @staticmethod
     def from_pipeline(const char *proj_pipeline):
@@ -71,10 +75,9 @@ cdef class _Transformer:
         transformer.projpj = proj_create(transformer.projctx, proj_pipeline)
         if transformer.projpj is NULL:
             raise ProjError("Invalid projection {}.".format(proj_pipeline))
-
-        # disable radians as it should be handled in the pipeline
-        transformer.from_geographic = False
-        transformer.to_geographic = False
+        transformer.input_radians = proj_angular_input(transformer.projpj, PJ_FWD)
+        transformer.output_radians = proj_angular_output(transformer.projpj, PJ_FWD)
+        transformer.is_pipeline = True
         return transformer
 
     @staticmethod
@@ -122,7 +125,13 @@ cdef class _Transformer:
             zz = NULL
         npts = buflenx//8
 
-        if radians and self.from_geographic:
+        # degrees to radians
+        if not self.is_pipeline and not radians and self.input_radians:
+            for i from 0 <= i < npts:
+                xx[i] = xx[i]*_DG2RAD
+                yy[i] = yy[i]*_DG2RAD
+        # radians to degrees
+        elif not self.is_pipeline and radians and not self.input_radians and self.input_geographic:
             for i from 0 <= i < npts:
                 xx[i] = xx[i]*_RAD2DG
                 yy[i] = yy[i]*_RAD2DG
@@ -140,10 +149,17 @@ cdef class _Transformer:
             raise ProjError("proj_trans_generic error: {}".format(
                 pystrdecode(proj_errno_string(errno))))
 
-        if radians and self.to_geographic:
+        # radians to degrees
+        if not self.is_pipeline and not radians and self.output_radians:
+            for i from 0 <= i < npts:
+                xx[i] = xx[i]*_RAD2DG
+                yy[i] = yy[i]*_RAD2DG
+        # degrees to radians
+        elif not self.is_pipeline and radians and not self.output_radians and self.output_geographic:
             for i from 0 <= i < npts:
                 xx[i] = xx[i]*_DG2RAD
                 yy[i] = yy[i]*_DG2RAD
+
 
     def _transform_sequence(self, Py_ssize_t stride, inseq, bint switch, radians):
         # private function to itransform function
@@ -164,7 +180,14 @@ cdef class _Transformer:
         coords = <double*>buffer
         npts = buflen // (stride * _DOUBLESIZE)
 
-        if radians and self.from_geographic:
+        # degrees to radians
+        if not self.is_pipeline and not radians and self.input_radians:
+            for i from 0 <= i < npts:
+                j = stride*i
+                coords[j] *= _DG2RAD
+                coords[j+1] *= _DG2RAD
+        # radians to degrees
+        elif not self.is_pipeline and radians and not self.input_radians and self.input_geographic:
             for i from 0 <= i < npts:
                 j = stride*i
                 coords[j] *= _RAD2DG
@@ -196,7 +219,14 @@ cdef class _Transformer:
             raise ProjError("proj_trans_generic error: {}".format(
                 proj_errno_string(errno)))
 
-        if radians and self.to_geographic:
+        # radians to degrees
+        if not self.is_pipeline and not radians and self.output_radians:
+            for i from 0 <= i < npts:
+                j = stride*i
+                coords[j] *= _RAD2DG
+                coords[j+1] *= _RAD2DG
+        # degrees to radians
+        elif not self.is_pipeline and radians and not self.output_radians and self.output_geographic:
             for i from 0 <= i < npts:
                 j = stride*i
                 coords[j] *= _DG2RAD

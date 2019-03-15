@@ -114,7 +114,8 @@ class Transformer(object):
             Input z coordinate(s).
         radians: boolean, optional
             If True, will expect input data to be in radians and will return radians
-            if the projection is geographic. Default is False (degrees).
+            if the projection is geographic. Default is False (degrees). Ignored for
+            pipeline transformations.
 
 
         Example:
@@ -171,7 +172,8 @@ class Transformer(object):
             or lat, lon. Default is False.
         radians: boolean, optional
             If True, will expect input data to be in radians and will return radians
-            if the projection is geographic. Default is False (degrees).
+            if the projection is geographic. Default is False (degrees). Ignored for
+            pipeline transformations.
 
 
         Example:

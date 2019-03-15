@@ -3,9 +3,10 @@ Change Log
 
 2.1.0
 ~~~~~
-* Added :class:`pyproj.Transformer` to make repetitive transformations more efficient (#187)
+* Added :class:`pyproj.Transformer` to make repetitive transformations more efficient (issue #187)
 * Added fix for using local datumgrids with transform (issue #191)
 * Added :class:`pyproj.Transformer.from_pipeline` to support pipeline transformations.
+* Added fix for conversion between radians/degrees for transformations (issues #192 & #195)
 
 2.0.2
 ~~~~~
