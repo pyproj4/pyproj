@@ -96,7 +96,7 @@ cdef class _Transformer:
             return cstrencode(in_proj.srs)
         return cstrencode(in_proj.to_wkt())
 
-    def _transform(self, inx, iny, inz, radians):
+    def _transform(self, inx, iny, inz, radians, errcheck=False):
         # private function to call pj_transform
         cdef void *xdata
         cdef void *ydata
@@ -145,7 +145,7 @@ cdef class _Transformer:
             NULL, 0, 0,
         )
         cdef int errno = proj_errno(self.projpj)
-        if errno:
+        if errno and errcheck:
             raise ProjError("proj_trans_generic error: {}".format(
                 pystrdecode(proj_errno_string(errno))))
 
@@ -161,7 +161,8 @@ cdef class _Transformer:
                 yy[i] = yy[i]*_DG2RAD
 
 
-    def _transform_sequence(self, Py_ssize_t stride, inseq, bint switch, radians):
+    def _transform_sequence(self, Py_ssize_t stride, inseq, bint switch,
+            radians, errcheck=False):
         # private function to itransform function
         cdef:
             void *buffer
@@ -215,7 +216,7 @@ cdef class _Transformer:
         )
 
         cdef int errno = proj_errno(self.projpj)
-        if errno:
+        if errno and errcheck:
             raise ProjError("proj_trans_generic error: {}".format(
                 proj_errno_string(errno)))
 

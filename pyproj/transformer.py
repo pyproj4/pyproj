@@ -100,7 +100,7 @@ class Transformer(object):
         transformer._transformer = _Transformer.from_pipeline(cstrencode(proj_pipeline))
         return transformer
 
-    def transform(self, xx, yy, zz=None, radians=False):
+    def transform(self, xx, yy, zz=None, radians=False, errcheck=False):
         """
         Transform points between two coordinate systems.
 
@@ -148,7 +148,7 @@ class Transformer(object):
         else:
             inz = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
-        self._transformer._transform(inx, iny, inz, radians)
+        self._transformer._transform(inx, iny, inz, radians, errcheck=errcheck)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
         outy = _convertback(yisfloat, yislist, xistuple, iny)
@@ -158,7 +158,7 @@ class Transformer(object):
         else:
             return outx, outy
 
-    def itransform(self, points, switch=False, radians=False):
+    def itransform(self, points, switch=False, radians=False, errcheck=False):
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
 
@@ -218,13 +218,14 @@ class Transformer(object):
             if len(buff) == 0:
                 break
 
-            self._transformer._transform_sequence(stride, buff, switch, radians)
+            self._transformer._transform_sequence(stride, buff, switch,
+                    radians, errcheck=errcheck)
 
             for pt in zip(*([iter(buff)] * stride)):
                 yield pt
 
 
-def transform(p1, p2, x, y, z=None, radians=False):
+def transform(p1, p2, x, y, z=None, radians=False, errcheck=False):
     """
     x2, y2, z2 = transform(p1, p2, x1, y1, z1)
 
@@ -304,10 +305,11 @@ def transform(p1, p2, x, y, z=None, radians=False):
     >>> "%.3f %.3f" % (xr, yr)
     '2.031 0.696'
     """
-    return Transformer.from_proj(p1, p2).transform(x, y, z, radians)
+    return Transformer.from_proj(p1, p2).transform(x, y, z, radians,
+            errcheck=errcheck)
 
 
-def itransform(p1, p2, points, switch=False, radians=False):
+def itransform(p1, p2, points, switch=False, radians=False, errcheck=False):
     """
     points2 = itransform(p1, p2, points1)
     Iterator/generator version of the function pyproj.transform.
@@ -351,4 +353,5 @@ def itransform(p1, p2, points, switch=False, radians=False):
     >>> for pt in itransform(pj, Proj(4326), [(pjx, pjy)], radians=True): '{:.3f} {:.3f}'.format(*pt)
     '2.031 0.696'
     """
-    return Transformer.from_proj(p1, p2).itransform(points, switch, radians)
+    return Transformer.from_proj(p1, p2).itransform(points, switch, radians,
+            errcheck=errcheck)
