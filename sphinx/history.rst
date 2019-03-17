@@ -1,5 +1,10 @@
 Change Log
 ==========
+2.1.1
+~~~~~
+* Restore behavior of 1.9.6 when illegal projection transformation requested
+  (return `inf` instead of raising an exception).  kwarg `errcheck` added
+  to transform (default `False`), when `True` and exception is raised.
 
 2.1.0
 ~~~~~
