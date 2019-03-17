@@ -1,4 +1,7 @@
 import pyproj
+import numpy as np
+from numpy.testing import assert_equal
+from pyproj.exceptions import ProjError
 
 
 def test_tranform_wgs84_to_custom():
@@ -18,3 +21,16 @@ def test_transform_wgs84_to_alaska():
     test = (-179.72638, 49.752533)
     xx, yy = pyproj.transform(lat_lon_proj, alaska_aea_proj, *test)
     assert "{:.3f} {:.3f}".format(xx, yy) == "-1824924.495 330822.800"
+
+def test_illegal_transformation():
+    # issue 202
+    p1 = pyproj.Proj(init='epsg:4326')
+    p2 = pyproj.Proj(init='epsg:3857')
+    xx, yy = pyproj.transform(p1,p2,(-180,-180,180,180,-180),(-90,90,90,-90,-90))
+    assert np.all(np.isinf(xx))
+    assert np.all(np.isinf(yy))
+    try:
+        xx,yy = pyproj.transform(p1,p2,(-180,-180,180,180,-180),(-90,90,90,-90,-90),errcheck=True)
+        assert_equal(None, 'Should throw an exception when errcheck=True')
+    except ProjError:
+        pass
