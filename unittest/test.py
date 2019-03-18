@@ -1,22 +1,11 @@
 # -*- coding: utf-8 -*-
 """Rewrite part of test.py in pyproj in the form of unittests."""
-from __future__ import with_statement
 
 import math
-from distutils.version import LooseVersion
-from sys import version_info as sys_version_info
+import unittest
 
-import pyproj
-from pyproj import Geod, Proj, pj_ellps, pj_list, proj_version_str, transform
+from pyproj import Geod, Proj, pj_ellps, pj_list, transform
 from pyproj.crs import CRSError
-
-if sys_version_info[:2] < (2, 7):
-    # for Python 2.4 - 2.6 use the backport of unittest from Python 2.7 and onwards
-    import unittest2 as unittest
-    from unittest2 import skipIf
-else:
-    import unittest
-    from unittest import skipIf
 
 try:
     import nose2
@@ -121,10 +110,7 @@ class BasicTest(unittest.TestCase):
 
 class InverseHammerTest(unittest.TestCase):
     # This is a unit test of the inverse of the hammer projection, which
-    # was added to the PROJ.4 repository on 2015-12-13.
-    # PROJ.4 versions 4.9.2 and below do not contain this feature but future
-    # releases of PROJ.4 should support the inverse of the hammer projection.
-    # Therefore, different tests are to test the expected behavior on versions.
+    # was added in the 4.9.3 version of PROJ (then PROJ.4).
     @classmethod
     def setUpClass(self):
         self.p = Proj(proj="hammer")  # hammer proj
@@ -134,25 +120,7 @@ class InverseHammerTest(unittest.TestCase):
         self.assertAlmostEqual(self.x, -2711575.083, places=3)
         self.assertAlmostEqual(self.y, 4395506.619, places=3)
 
-    @skipIf(
-        LooseVersion(proj_version_str) > LooseVersion("4.9.2"),
-        "test is for PROJ.4 version 4.9.2 and below ({0} installed)"
-        "".format(proj_version_str),
-    )
-    def test_inverse_proj_4_9_2_and_below(self):
-        try:
-            lon, lat = self.p(self.x, self.y, inverse=True)
-            self.assertAlmostEqual(lon, -30.0, places=3)
-            self.assertAlmostEqual(lat, 40.0, places=3)
-        except RuntimeError:
-            pass
-
-    @skipIf(
-        LooseVersion(proj_version_str) <= LooseVersion("4.9.2"),
-        "test is for PROJ.4 versions above 4.9.2 ({0} installed)"
-        "".format(proj_version_str),
-    )
-    def test_inverse_above_proj_4_9_2(self):
+    def test_inverse(self):
         lon, lat = self.p(self.x, self.y, inverse=True)
         self.assertAlmostEqual(lon, -30.0, places=3)
         self.assertAlmostEqual(lat, 40.0, places=3)
