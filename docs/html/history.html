@@ -41,8 +41,9 @@
 <h2>2.1.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Restore behavior of 1.9.6 when illegal projection transformation requested
-(return <cite>inf</cite> instead of raising an exception).  kwarg <cite>errcheck</cite> added
-to transform (default <cite>False</cite>), when <cite>True</cite> and exception is raised.</li>
+(return <code class="docutils literal notranslate"><span class="pre">inf</span></code> instead of raising an exception, issue #202).  kwarg <code class="docutils literal notranslate"><span class="pre">errcheck</span></code>
+added to <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.transform()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.itransform()</span></code>
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>). When <code class="docutils literal notranslate"><span class="pre">errcheck=True</span></code> an exception is raised.</li>
 </ul>
 </div>
 <div class="section" id="id2">

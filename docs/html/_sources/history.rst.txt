@@ -3,8 +3,9 @@ Change Log
 2.1.1
 ~~~~~
 * Restore behavior of 1.9.6 when illegal projection transformation requested
-  (return `inf` instead of raising an exception).  kwarg `errcheck` added
-  to transform (default `False`), when `True` and exception is raised.
+  (return ``inf`` instead of raising an exception, issue #202).  kwarg ``errcheck``
+  added to :func:`pyproj.transform` and :func:`pyproj.itransform`
+  (default ``False``). When ``errcheck=True`` an exception is raised.
 
 2.1.0
 ~~~~~
