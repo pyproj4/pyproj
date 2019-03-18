@@ -15,6 +15,7 @@ cdef class _Transformer:
         self.input_radians = False
         self.output_radians = False
         self.is_pipeline = False
+        self.projections_equivalent = False
 
     def __init__(self):
         # set up the context
@@ -30,8 +31,12 @@ cdef class _Transformer:
         if self.projctx is not NULL:
             proj_context_destroy(self.projctx)
 
+    def set_radians_io(self):
+        self.input_radians = proj_angular_input(self.projpj, PJ_FWD)
+        self.output_radians = proj_angular_output(self.projpj, PJ_FWD)
+
     @staticmethod
-    def _init_crs_to_crs(proj_from, proj_to):
+    def _init_crs_to_crs(proj_from, proj_to, skip_equivalent=False):
         cdef _Transformer transformer = _Transformer()
         transformer.projpj = proj_create_crs_to_crs(
             transformer.projctx,
@@ -40,29 +45,29 @@ cdef class _Transformer:
             NULL)
         if transformer.projpj is NULL:
             raise ProjError("Error creating CRS to CRS.")
-        transformer.input_radians = proj_angular_input(transformer.projpj, PJ_FWD)
-        transformer.output_radians = proj_angular_output(transformer.projpj, PJ_FWD)
+        transformer.set_radians_io()
+        transformer.projections_equivalent = (proj_from == proj_to) and skip_equivalent
         transformer.is_pipeline = False
         return transformer
 
     @staticmethod
-    def from_proj(proj_from, proj_to):
+    def from_proj(proj_from, proj_to, skip_equivalent=False):
         if not isinstance(proj_from, Proj):
             proj_from = Proj(proj_from)
         if not isinstance(proj_to, Proj):
             proj_to = Proj(proj_to)
-        transformer = _Transformer._init_crs_to_crs(proj_from, proj_to)
+        transformer = _Transformer._init_crs_to_crs(proj_from, proj_to, skip_equivalent=skip_equivalent)
         transformer.input_geographic = proj_from.crs.is_geographic
         transformer.output_geographic = proj_to.crs.is_geographic
         return transformer
 
     @staticmethod
-    def from_crs(crs_from, crs_to):
+    def from_crs(crs_from, crs_to, skip_equivalent=False):
         if not isinstance(crs_from, CRS):
             crs_from = CRS.from_user_input(crs_from)
         if not isinstance(crs_to, CRS):
             crs_to = CRS.from_user_input(crs_to)
-        transformer = _Transformer._init_crs_to_crs(crs_from, crs_to)
+        transformer = _Transformer._init_crs_to_crs(crs_from, crs_to, skip_equivalent=skip_equivalent)
         transformer.input_geographic = crs_from.is_geographic
         transformer.output_geographic = crs_to.is_geographic
         return transformer
@@ -75,8 +80,7 @@ cdef class _Transformer:
         transformer.projpj = proj_create(transformer.projctx, proj_pipeline)
         if transformer.projpj is NULL:
             raise ProjError("Invalid projection {}.".format(proj_pipeline))
-        transformer.input_radians = proj_angular_input(transformer.projpj, PJ_FWD)
-        transformer.output_radians = proj_angular_output(transformer.projpj, PJ_FWD)
+        transformer.set_radians_io()
         transformer.is_pipeline = True
         return transformer
 
@@ -97,6 +101,8 @@ cdef class _Transformer:
         return cstrencode(in_proj.to_wkt())
 
     def _transform(self, inx, iny, inz, radians, errcheck=False):
+        if self.projections_equivalent:
+            return
         # private function to call pj_transform
         cdef void *xdata
         cdef void *ydata
@@ -163,6 +169,8 @@ cdef class _Transformer:
 
     def _transform_sequence(self, Py_ssize_t stride, inseq, bint switch,
             radians, errcheck=False):
+        if self.projections_equivalent:
+            return
         # private function to itransform function
         cdef:
             void *buffer

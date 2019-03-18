@@ -174,3 +174,8 @@ cdef class Proj:
 
     def __repr__(self):
         return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
+
+    def __eq__(self, Proj other):
+        """Compares projections to see if they are equivalent."""
+        return proj_is_equivalent_to(
+            self.projpj, other.projpj, PJ_COMP_EQUIVALENT) == 1
