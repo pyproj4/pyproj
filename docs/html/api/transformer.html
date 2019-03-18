@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Transformer &#8212; pyproj 2.1.0 documentation</title>
+    <title>Transformer &#8212; pyproj 2.1.1 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="geod.html" title="Geod"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API Documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -120,7 +120,7 @@ is to make repeated transforms faster.</p>
 
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.itransform">
-<code class="descname">itransform</code><span class="sig-paren">(</span><em>points</em>, <em>switch=False</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.itransform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itransform</code><span class="sig-paren">(</span><em>points</em>, <em>switch=False</em>, <em>radians=False</em>, <em>errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.itransform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterator/generator version of the function pyproj.Transformer.transform.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -131,7 +131,11 @@ is to make repeated transforms faster.</p>
 <li><strong>switch</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True x, y or lon,lat coordinates of points are switched to y, x
 or lat, lon. Default is False.</li>
 <li><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
-if the projection is geographic. Default is False (degrees).</li>
+if the projection is geographic. Default is False (degrees). Ignored for
+pipeline transformations.</li>
+<li><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If True an exception is raised if the transformation is invalid.
+By default errcheck=False and an invalid transformation
+returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</li>
 </ul>
 </td>
 </tr>
@@ -161,7 +165,7 @@ if the projection is geographic. Default is False (degrees).</li>
 
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>xx</em>, <em>yy</em>, <em>zz=None</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>xx</em>, <em>yy</em>, <em>zz=None</em>, <em>radians=False</em>, <em>errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform points between two coordinate systems.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -172,7 +176,11 @@ if the projection is geographic. Default is False (degrees).</li>
 <li><strong>yy</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input y coordinate(s).</li>
 <li><strong>zz</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em><em>, </em><em>optional</em>) – Input z coordinate(s).</li>
 <li><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
-if the projection is geographic. Default is False (degrees).</li>
+if the projection is geographic. Default is False (degrees). Ignored for
+pipeline transformations.</li>
+<li><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If True an exception is raised if the transformation is invalid.
+By default errcheck=False and an invalid transformation
+returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</li>
 </ul>
 </td>
 </tr>
@@ -208,7 +216,7 @@ if the projection is geographic. Default is False (degrees).</li>
 <h2>pyproj.transform<a class="headerlink" href="#pyproj-transform" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.transformer.transform">
-<code class="descclassname">pyproj.transformer.</code><code class="descname">transform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>x</em>, <em>y</em>, <em>z=None</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyproj.transformer.</code><code class="descname">transform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>x</em>, <em>y</em>, <em>z=None</em>, <em>radians=False</em>, <em>errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>x2, y2, z2 = transform(p1, p2, x1, y1, z1)</p>
 <p>Transform points between two coordinate systems defined by the
 Proj instances p1 and p2.</p>
@@ -218,7 +226,11 @@ transformed to x2,y2,z2 in the coordinate system defined by p2.</p>
 only x2 and y2 are returned). If the optional keyword
 ‘radians’ is True (default is False), then all input and
 output coordinates will be in radians instead of the default
-of degrees for geographic input/output projections.</p>
+of degrees for geographic input/output projections.
+If the optional keyword ‘errcheck’ is set to True an
+exception is raised if the transformation is
+invalid. By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for an
+invalid transformation (and no exception is raised).</p>
 <p>In addition to converting between cartographic and geographic
 projection coordinates, this function can take care of datum
 shifts (which cannot be done using the __call__ method of the
@@ -288,7 +300,7 @@ z is always meters.</p>
 <h2>pyproj.itransform<a class="headerlink" href="#pyproj-itransform" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.transformer.itransform">
-<code class="descclassname">pyproj.transformer.</code><code class="descname">itransform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>points</em>, <em>switch=False</em>, <em>radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.itransform" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyproj.transformer.</code><code class="descname">itransform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>points</em>, <em>switch=False</em>, <em>radians=False</em>, <em>errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.itransform" title="Permalink to this definition">¶</a></dt>
 <dd><p>points2 = itransform(p1, p2, points1)
 Iterator/generator version of the function pyproj.transform.
 Transform points between two coordinate systems defined by the
@@ -394,7 +406,7 @@ of the default of degrees for geographic input/output projections.</p>
         <li class="right" >
           <a href="geod.html" title="Geod"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >API Documentation</a> &#187;</li> 
       </ul>
     </div>
