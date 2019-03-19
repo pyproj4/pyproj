@@ -584,6 +584,11 @@ cdef class _CRS:
         """
         return self.proj_type == PJ_TYPE_GEOCENTRIC_CRS
 
+    def is_exact_same(self, _CRS other):
+        """Compares projections to see if they are exactly the same."""
+        return proj_is_equivalent_to(
+            self.projobj, other.projobj, PJ_COMP_STRICT) == 1
+
     def __eq__(self, _CRS other):
         """Compares projections to see if they are equivalent."""
         return proj_is_equivalent_to(

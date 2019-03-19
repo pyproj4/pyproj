@@ -40,29 +40,11 @@ Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops
 Tranforming with the same projections
 -------------------------------------
 
-If you sometimes throw in the same projections, `skip_equivalent` can help speed things up.
+pyproj will skip transformations if they are exacly the same by default. However, if you
+sometimes throw in the projections that are about the same and the results being close enough
+is what you want, the `skip_equivalent` option can help.
 
-.. code-block:: python
-
-    import numpy as np                                                      
-    from pyproj import Transformer
-
-    in_coords = np.random.randint(80000, 120000, 1000000) 
-
-Example without `skip_equivalent`:
-
-.. code-block:: python
-
-   transformer = Transformer.from_proj(4326, 4326)
-   transformer.transform(in_coords, in_coords)                                             
-
-Results: 90.5 ms ± 6.46 ms per loop (mean ± std. dev. of 5 runs, 5 loops each)
-
-Example with `skip_equivalent`:
-
-.. code-block:: python
-
-   transformer = Transformer.from_proj(4326, 4326, skip_equivalent=True)
-   transformer.transform(in_coords, in_coords)                                             
-
-Results: 15.9 ms ± 5.76 ms per loop (mean ± std. dev. of 5 runs, 5 loops each)
+.. note:: From PROJ code: The objects are equivalent for the purpose of coordinate operations.
+    They can differ by the name of their objects, identifiers, other metadata.
+    Parameters may be expressed in different units, provided that the value is 
+    (with some tolerance) the same once expressed in a common unit.

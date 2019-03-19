@@ -16,6 +16,7 @@ cdef class _Transformer:
         self.output_radians = False
         self.is_pipeline = False
         self.projections_equivalent = False
+        self.projections_exact_same = False
 
     def __init__(self):
         # set up the context
@@ -46,6 +47,7 @@ cdef class _Transformer:
         if transformer.projpj is NULL:
             raise ProjError("Error creating CRS to CRS.")
         transformer.set_radians_io()
+        transformer.projections_exact_same = proj_from.is_exact_same(proj_to)
         transformer.projections_equivalent = (proj_from == proj_to) and skip_equivalent
         transformer.is_pipeline = False
         return transformer
@@ -101,7 +103,7 @@ cdef class _Transformer:
         return cstrencode(in_proj.to_wkt())
 
     def _transform(self, inx, iny, inz, radians, errcheck=False):
-        if self.projections_equivalent:
+        if self.projections_exact_same or self.projections_equivalent:
             return
         # private function to call pj_transform
         cdef void *xdata
@@ -169,7 +171,7 @@ cdef class _Transformer:
 
     def _transform_sequence(self, Py_ssize_t stride, inseq, bint switch,
             radians, errcheck=False):
-        if self.projections_equivalent:
+        if self.projections_exact_same or self.projections_equivalent:
             return
         # private function to itransform function
         cdef:
