@@ -8,6 +8,7 @@ cdef class _Transformer:
     cdef public object input_radians
     cdef public object output_radians
     cdef public object is_pipeline
+    cdef public object skip_equivalent
     cdef public object projections_equivalent
     cdef public object projections_exact_same
     

@@ -47,16 +47,19 @@ def test_equivalent_crs():
     transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
     assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
+    assert transformer._transformer.skip_equivalent
 
 
 def test_equivalent_crs__disabled():
     transformer = Transformer.from_crs("epsg:4326", 4326)
-    assert not transformer._transformer.projections_equivalent
+    assert not transformer._transformer.skip_equivalent
+    assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
 
 
 def test_equivalent_crs__different():
     transformer = Transformer.from_crs("epsg:4326", 3857, skip_equivalent=True)
+    assert transformer._transformer.skip_equivalent
     assert not transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same
 
@@ -65,18 +68,21 @@ def test_equivalent_proj():
     transformer = Transformer.from_proj(
         "+init=epsg:4326", pyproj.Proj(4326).crs.to_proj4(), skip_equivalent=True
     )
+    assert transformer._transformer.skip_equivalent
     assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
 
 
 def test_equivalent_proj__disabled():
     transformer = Transformer.from_proj(3857, pyproj.Proj(3857).crs.to_proj4())
-    assert not transformer._transformer.projections_equivalent
+    assert not transformer._transformer.skip_equivalent
+    assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
 
 
 def test_equivalent_proj__different():
     transformer = Transformer.from_proj(3857, 4326, skip_equivalent=True)
+    assert transformer._transformer.skip_equivalent
     assert not transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same
 
@@ -86,5 +92,6 @@ def test_equivalent_pipeline():
         "+proj=pipeline +step +proj=longlat +ellps=WGS84 +step "
         "+proj=unitconvert +xy_in=rad +xy_out=deg"
     )
+    assert not transformer._transformer.skip_equivalent
     assert not transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same
