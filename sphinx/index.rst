@@ -12,6 +12,7 @@ GitHub Repository: https://github.com/pyproj4/pyproj
 
    installation
    api/index
+   optimize_transformations
    history
 
 Indices and tables

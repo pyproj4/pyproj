@@ -40,7 +40,7 @@ class Transformer(object):
     """
 
     @staticmethod
-    def from_proj(proj_from, proj_to):
+    def from_proj(proj_from, proj_to, skip_equivalent=False):
         """Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.
 
         Parameters
@@ -49,6 +49,9 @@ class Transformer(object):
             Projection of input data.
         proj_from: :obj:`pyproj.Proj` or input used to create one
             Projection of output data.
+        skip_equivalent: bool, optional
+            If true, will skip the transformation operation if input and output 
+            projections are equivalent. Default is false.
 
         Returns
         -------
@@ -57,11 +60,13 @@ class Transformer(object):
         """
 
         transformer = Transformer()
-        transformer._transformer = _Transformer.from_proj(proj_from, proj_to)
+        transformer._transformer = _Transformer.from_proj(
+            proj_from, proj_to, skip_equivalent
+        )
         return transformer
 
     @staticmethod
-    def from_crs(crs_from, crs_to):
+    def from_crs(crs_from, crs_to, skip_equivalent=False):
         """Make a Transformer from a :obj:`pyproj.CRS` or input used to create one.
 
         Parameters
@@ -70,6 +75,9 @@ class Transformer(object):
             Projection of input data.
         proj_from: :obj:`pyproj.CRS` or input used to create one
             Projection of output data.
+        skip_equivalent: bool, optional
+            If true, will skip the transformation operation if input and output
+            projections are equivalent. Default is false.
 
         Returns
         -------
@@ -77,7 +85,9 @@ class Transformer(object):
 
         """
         transformer = Transformer()
-        transformer._transformer = _Transformer.from_crs(crs_from, crs_to)
+        transformer._transformer = _Transformer.from_crs(
+            crs_from, crs_to, skip_equivalent
+        )
         return transformer
 
     @staticmethod
@@ -142,6 +152,10 @@ class Transformer(object):
         >>> xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)
         >>> "%.3f %.3f %.3f" % (xpjr, ypjr, zpjr)
         '-2704026.010 -4253051.810 3895878.820'
+        >>> transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
+        >>> xeq, yeq = transformer.transform(33, 98)
+        >>> "%.0f  %.0f" % (xeq, yeq)
+        '33  98'
 
         """
         # process inputs, making copies that support buffer API.
@@ -203,6 +217,9 @@ class Transformer(object):
         >>> transprojr = Transformer.from_proj('+init=EPSG:4326', {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'})
         >>> for pt in transprojr.itransform([(-2.137, 0.661, -20.531)], radians=True): '{:.3f} {:.3f} {:.3f}'.format(*pt)
         '-2704214.394 -4254414.478 3894270.731'
+        >>> transproj_eq = Transformer.from_proj('+init=EPSG:4326', 4326, skip_equivalent=True)
+        >>> for pt in transproj_eq.itransform([(-2.137, 0.661)]): '{:.3f} {:.3f}'.format(*pt)
+        '-2.137 0.661'
 
         """
         it = iter(points)  # point iterator
@@ -226,14 +243,17 @@ class Transformer(object):
             if len(buff) == 0:
                 break
 
-            self._transformer._transform_sequence(stride, buff, switch,
-                    radians, errcheck=errcheck)
+            self._transformer._transform_sequence(
+                stride, buff, switch, radians, errcheck=errcheck
+            )
 
             for pt in zip(*([iter(buff)] * stride)):
                 yield pt
 
 
-def transform(p1, p2, x, y, z=None, radians=False, errcheck=False):
+def transform(
+    p1, p2, x, y, z=None, radians=False, errcheck=False, skip_equivalent=False
+):
     """
     x2, y2, z2 = transform(p1, p2, x1, y1, z1)
 
@@ -252,6 +272,9 @@ def transform(p1, p2, x, y, z=None, radians=False, errcheck=False):
     exception is raised if the transformation is
     invalid. By default errcheck=False and ``inf`` is returned for an
     invalid transformation (and no exception is raised).
+    If the optional kwarg skip_equivalent is true (default is False), 
+    it will skip the transformation operation if input and output 
+    projections are equivalent.
 
     In addition to converting between cartographic and geographic
     projection coordinates, this function can take care of datum
@@ -316,12 +339,18 @@ def transform(p1, p2, x, y, z=None, radians=False, errcheck=False):
     >>> xr, yr = transform(pj, Proj(4326), pjx, pjy, radians=True)
     >>> "%.3f %.3f" % (xr, yr)
     '2.031 0.696'
+    >>> xeq, yeq = transform(4326, 4326, 30, 60, skip_equivalent=True)
+    >>> "%.0f %.0f" % (xeq, yeq)
+    '30 60'
     """
-    return Transformer.from_proj(p1, p2).transform(x, y, z, radians,
-            errcheck=errcheck)
+    return Transformer.from_proj(p1, p2, skip_equivalent=skip_equivalent).transform(
+        x, y, z, radians, errcheck=errcheck
+    )
 
 
-def itransform(p1, p2, points, switch=False, radians=False, errcheck=False):
+def itransform(
+    p1, p2, points, switch=False, radians=False, errcheck=False, skip_equivalent=False
+):
     """
     points2 = itransform(p1, p2, points1)
     Iterator/generator version of the function pyproj.transform.
@@ -343,6 +372,13 @@ def itransform(p1, p2, points, switch=False, radians=False, errcheck=False):
     of points are switched to y, x or lat, lon. If the optional keyword 'radians' is True
     (default is False), then all input and output coordinates will be in radians instead
     of the default of degrees for geographic input/output projections.
+    If the optional keyword 'errcheck' is set to True an 
+    exception is raised if the transformation is
+    invalid. By default errcheck=False and ``inf`` is returned for an
+    invalid transformation (and no exception is raised).
+    If the optional kwarg skip_equivalent is true (default is False), 
+    it will skip the transformation operation if input and output 
+    projections are equivalent.
 
 
     Example usage:
@@ -364,6 +400,10 @@ def itransform(p1, p2, points, switch=False, radians=False, errcheck=False):
     >>> pjx, pjy = pj(116.366, 39.867)
     >>> for pt in itransform(pj, Proj(4326), [(pjx, pjy)], radians=True): '{:.3f} {:.3f}'.format(*pt)
     '2.031 0.696'
+    >>> for pt in itransform(4326, 4326, [(30, 60)], skip_equivalent=True): '{:.0f} {:.0f}'.format(*pt)
+    '30 60'
+
     """
-    return Transformer.from_proj(p1, p2).itransform(points, switch, radians,
-            errcheck=errcheck)
+    return Transformer.from_proj(p1, p2, skip_equivalent=skip_equivalent).itransform(
+        points, switch, radians, errcheck=errcheck
+    )

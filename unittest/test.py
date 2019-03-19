@@ -408,6 +408,12 @@ class Geod_NaN_Issue112_Test(unittest.TestCase):
         self.assertTrue(azi2 == azi2)
 
 
+def test_proj_equals():
+    assert Proj(4326) == Proj("epsg:4326")
+    assert Proj(4326) != Proj("epsg:3857")
+    assert Proj(4326) == Proj(Proj("epsg:4326").crs.to_proj4())
+
+
 if __name__ == "__main__":
     if HAS_NOSE2 is True:
         nose2.discover()
