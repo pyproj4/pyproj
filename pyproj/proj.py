@@ -294,7 +294,7 @@ class Proj(_proj.Proj):
         """
         self.crs = CRS.from_user_input(projparams if projparams is not None else kwargs)
         # make sure units are meters if preserve_units is False.
-        if not preserve_units and self.crs.is_projected:
+        if not preserve_units and "foot" in self.crs.axis_info[0].unit_name:
             projstring = self.crs.to_proj4(4)
             projstring = re.sub(r"\s\+units=[\w-]+", "", projstring)
             projstring += " +units=m"

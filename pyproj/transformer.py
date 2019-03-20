@@ -336,9 +336,9 @@ def transform(
     '1402291.0  5076289.5'
     >>> pj = Proj(init="epsg:4214")
     >>> pjx, pjy = pj(116.366, 39.867)
-    >>> xr, yr = transform(pj, Proj(4326), pjx, pjy, radians=True)
+    >>> xr, yr = transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
     >>> "%.3f %.3f" % (xr, yr)
-    '2.031 0.696'
+    '0.696 2.031'
     >>> xeq, yeq = transform(4326, 4326, 30, 60, skip_equivalent=True)
     >>> "%.0f %.0f" % (xeq, yeq)
     '30 60'
@@ -393,13 +393,13 @@ def itransform(
     >>> points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]
     >>> # transform this point to projection 2 coordinates.
     >>> for pt in itransform(p1,p2,points): '%6.3f %7.3f' % pt
-    '411200.657 4498214.742'
-    '399210.500 4487264.963'
-    '458703.102 4523331.451'
+    '411050.470 4497928.574'
+    '399060.236 4486978.710'
+    '458553.243 4523045.485'
     >>> pj = Proj(init="epsg:4214")
     >>> pjx, pjy = pj(116.366, 39.867)
-    >>> for pt in itransform(pj, Proj(4326), [(pjx, pjy)], radians=True): '{:.3f} {:.3f}'.format(*pt)
-    '2.031 0.696'
+    >>> for pt in itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True): '{:.3f} {:.3f}'.format(*pt)
+    '0.696 2.031'
     >>> for pt in itransform(4326, 4326, [(30, 60)], skip_equivalent=True): '{:.0f} {:.0f}'.format(*pt)
     '30 60'
 
