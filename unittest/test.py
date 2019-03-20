@@ -48,19 +48,14 @@ class BasicTest(unittest.TestCase):
         self.assertEqual(items, items_dict)
 
         expected = sorted(
-            (
+            [
+                "+proj=lcc",
                 "+R=6371200",
-                "+lat_0=0",
                 "+lat_1=50",
                 "+lat_2=50",
                 "+lon_0=-107",
-                "+no_defs",
-                "+proj=lcc",
                 "+type=crs",
-                "+units=m",
-                "+x_0=0",
-                "+y_0=0",
-            )
+            ]
         )
         self.assertEqual(items, expected)
 

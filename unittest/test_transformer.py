@@ -1,5 +1,5 @@
 import numpy as np
-from numpy.testing import assert_equal
+from numpy.testing import assert_almost_equal, assert_equal
 
 import pyproj
 from pyproj import Transformer
@@ -41,6 +41,19 @@ def test_illegal_transformation():
         assert_equal(None, "Should throw an exception when errcheck=True")
     except ProjError:
         pass
+
+
+def test_lambert_conformal_transform():
+    # issue 207
+    Midelt = pyproj.Proj(init="epsg:26191")
+    WGS84 = pyproj.Proj(init="epsg:4326")
+
+    E = 567623.931
+    N = 256422.787
+    h = 1341.467
+
+    Long1, Lat1, H1 = pyproj.transform(Midelt, WGS84, E, N, h, radians=False)
+    assert_almost_equal((Long1, Lat1, H1), (-4.6753456, 32.902199, 1341.467), decimal=5)
 
 
 def test_equivalent_crs():

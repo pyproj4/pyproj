@@ -25,6 +25,7 @@ cdef class _Transformer:
         py_data_dir = cstrencode(get_data_dir())
         cdef const char* data_dir = py_data_dir
         proj_context_set_search_paths(self.projctx, 1, &data_dir)
+        proj_context_use_proj4_init_rules(self.projctx, 1)
 
     def __dealloc__(self):
         """destroy projection definition"""
@@ -101,8 +102,8 @@ cdef class _Transformer:
 
         """
         if isinstance(in_proj, Proj):
-            return cstrencode(in_proj.srs)
-        return cstrencode(in_proj.to_wkt())
+            return cstrencode(in_proj.crs.srs)
+        return cstrencode(in_proj.srs)
 
     def _transform(self, inx, iny, inz, radians, errcheck=False):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
