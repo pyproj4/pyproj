@@ -1,11 +1,10 @@
-from __future__ import with_statement
-
 import os
 import subprocess
 import sys
 from collections import defaultdict
 from distutils.spawn import find_executable
 from glob import glob
+from pkg_resources import parse_version
 
 from setuptools import Extension, setup
 
@@ -20,28 +19,30 @@ if "clean" not in sys.argv:
         )
 
 
-PROJ_MIN_VERSION = (6, 0, 0)
+PROJ_MIN_VERSION = parse_version("6.0.0")
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 BASE_INTERNAL_PROJ_DIR = "proj_dir"
 INTERNAL_PROJ_DIR = os.path.join(CURRENT_FILE_PATH, "pyproj", BASE_INTERNAL_PROJ_DIR)
 
 
 def check_proj_version(proj_dir):
+    """checks that the PROJ library meets the minimum version"""
     proj = os.path.join(proj_dir, "bin", "proj")
     try:
-        proj_version = subprocess.check_output([proj], stderr=subprocess.STDOUT)
+        proj_ver_bytes = subprocess.check_output([proj], stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
         if os.name == "nt":
             return
         raise
-    proj_version = proj_version.split()[1].split(b".")
-    proj_version = tuple(int(v.strip(b",")) for v in proj_version)
+    proj_ver_bytes = (proj_ver_bytes.decode("ascii").split()[1]).strip(",")
+    proj_version = parse_version(proj_ver_bytes)
     if proj_version < PROJ_MIN_VERSION:
         sys.exit(
-            "ERROR: Minimum supported proj version is {}.".format(
-                ".".join([str(version_part) for version_part in PROJ_MIN_VERSION])
-            )
+            "ERROR: Minimum supported proj version is {}, installed "
+            "version is {}.".format(PROJ_MIN_VERSION, proj_version)
         )
+
+    return proj_version
 
 
 # By default we'll try to get options PROJ_DIR or the local version of proj
