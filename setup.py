@@ -4,8 +4,8 @@ import sys
 from collections import defaultdict
 from distutils.spawn import find_executable
 from glob import glob
-from pkg_resources import parse_version
 
+from pkg_resources import parse_version
 from setuptools import Extension, setup
 
 # Use Cython if available.
@@ -137,6 +137,7 @@ if "clean" not in sys.argv:
             Extension(
                 "pyproj._transformer", ["pyproj/_transformer.pyx"], **ext_options
             ),
+            Extension("pyproj._datadir", ["pyproj/_datadir.pyx"], **ext_options),
         ],
         quiet=True,
         **cythonize_options

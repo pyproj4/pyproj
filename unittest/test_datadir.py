@@ -5,8 +5,8 @@ import unittest
 from contextlib import contextmanager
 
 import pytest
-
 from mock import patch
+
 from pyproj.datadir import DataDirError, get_data_dir, set_data_dir
 
 
@@ -44,7 +44,7 @@ def temporary_directory():
 def test_get_data_dir__missing():
     with proj_env(), pytest.raises(DataDirError), patch(
         "pyproj.datadir.os.path.abspath", return_value="INVALID"
-    ):
+    ), patch("pyproj.datadir.find_executable", return_value=None):
         set_data_dir(None)
         os.environ.pop("PROJ_LIB", None)
         get_data_dir()
@@ -84,5 +84,27 @@ def test_get_data_dir__from_env_var():
     ):
         set_data_dir(None)
         os.environ["PROJ_LIB"] = tmpdir
+        create_projdb(tmpdir)
+        assert get_data_dir() == tmpdir
+
+
+@unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
+def test_get_data_dir__from_env_var__multiple():
+    with proj_env(), temporary_directory() as tmpdir, patch(
+        "pyproj.datadir.os.path.abspath", return_value="INVALID"
+    ):
+        set_data_dir(None)
+        os.environ["PROJ_LIB"] = ";".join([tmpdir, tmpdir, tmpdir])
+        create_projdb(tmpdir)
+        assert get_data_dir() == ";".join([tmpdir, tmpdir, tmpdir])
+
+
+def test_get_data_dir__from_path():
+    with proj_env(), temporary_directory() as tmpdir, patch(
+        "pyproj.datadir.os.path.abspath", return_value="INVALID"
+    ), patch("pyproj.datadir.find_executable") as find_exe:
+        set_data_dir(None)
+        os.environ.pop("PROJ_LIB", None)
+        find_exe.return_value = os.path.join(tmpdir, "bin", "proj")
         create_projdb(tmpdir)
         assert get_data_dir() == tmpdir

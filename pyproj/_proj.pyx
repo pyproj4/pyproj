@@ -1,7 +1,7 @@
 include "base.pxi"
 
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj.datadir import get_data_dir
+from pyproj._datadir cimport get_pyproj_context
 from pyproj.exceptions import ProjError
 
 
@@ -20,11 +20,7 @@ cdef class Proj:
     def __init__(self, const char *projstring):
         self.srs = pystrdecode(projstring)
         # setup the context
-        self.projctx = proj_context_create()
-        py_data_dir = cstrencode(get_data_dir())
-        cdef const char* data_dir = py_data_dir
-        proj_context_set_search_paths(self.projctx, 1, &data_dir)
-        proj_context_use_proj4_init_rules(self.projctx, 1)
+        self.projctx = get_pyproj_context()
         # initialize projection
         self.projpj = proj_create(self.projctx, projstring)
         if self.projpj is NULL:
