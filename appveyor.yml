@@ -124,7 +124,9 @@ after_test:
   - mkdir pyproj\proj_dir\share\proj
   - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
   - mkdir pyproj\.lib
+  - mkdir .lib
   - copy %PROJ_DIR%\lib\* pyproj\.lib
+  - copy %PROJ_DIR%\lib\* .lib
   - copy c:\tools\vcpkg\installed\"%platform%"-windows\bin\sqlite3.dll pyproj\.lib
   - set PROJ_LIBDIR=.lib
   - set PROJ_WHEEL=true
