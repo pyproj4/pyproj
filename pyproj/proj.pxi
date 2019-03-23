@@ -24,6 +24,16 @@ cdef extern from "proj.h":
     ctypedef struct PJ_CONTEXT
     PJ_CONTEXT *proj_context_create ()
     PJ_CONTEXT *proj_context_destroy (PJ_CONTEXT *ctx)
+
+    ctypedef enum PJ_LOG_LEVEL:
+        PJ_LOG_NONE  = 0
+        PJ_LOG_ERROR = 1
+        PJ_LOG_DEBUG = 2
+        PJ_LOG_TRACE = 3
+        PJ_LOG_TELL  = 4
+    ctypedef void (*PJ_LOG_FUNCTION)(void *, int, const char *)
+    void proj_log_func (PJ_CONTEXT *ctx, void *app_data, PJ_LOG_FUNCTION logf)
+
     int  proj_errno (const PJ *P)
     int proj_context_errno (PJ_CONTEXT *ctx)
     const char * proj_errno_string (int err)
