@@ -4,12 +4,25 @@ Exceptions for pyproj
 """
 
 
-class CRSError(RuntimeError):
-    """Raised when a CRS error occurs."""
-
-
 class ProjError(RuntimeError):
     """Raised when a Proj error occurs."""
+
+    internal_proj_error = None
+
+    def __init__(self, error_message):
+        if self.internal_proj_error is not None:
+            error_message = (
+                "{error_message}: (Internal Proj Error: {internal_proj_error})"
+            ).format(
+                error_message=error_message,
+                internal_proj_error=self.internal_proj_error,
+            )
+            self.internal_proj_error = None
+        super(ProjError, self).__init__(error_message)
+
+
+class CRSError(ProjError):
+    """Raised when a CRS error occurs."""
 
 
 class GeodError(RuntimeError):
