@@ -227,7 +227,7 @@ cdef class _Transformer:
         cdef int errno = proj_errno(self.projpj)
         if errno and errcheck:
             raise ProjError("proj_trans_generic error: {}".format(
-                proj_errno_string(errno)))
+                pystrdecode(proj_errno_string(errno))))
 
         # radians to degrees
         if not self.is_pipeline and not radians and self.output_radians:
