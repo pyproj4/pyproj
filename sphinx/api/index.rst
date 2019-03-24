@@ -10,3 +10,4 @@ API Documentation
    geod
    transformer
    datadir
+   exceptions

@@ -5,8 +5,9 @@ Change Log
 ~~~~~
 * Updated to use the CRS definition for Proj instances in transforms (issue #207)
 * Add option to skip tranformation operation if input and output projections are equivalent
- and always skip if the input and output projections are exact (issue #128)
- * Update setup.py method for checking PROJ version (pull #211)
+  and always skip if the input and output projections are exact (issue #128)
+* Update setup.py method for checking PROJ version (pull #211)
+* Add internal proj error log messages to exceptions (pull #215)
 
 2.1.1
 ~~~~~

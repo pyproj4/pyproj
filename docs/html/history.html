@@ -6,16 +6,17 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Change Log &#8212; pyproj 2.1.1 documentation</title>
+    <title>Change Log &#8212; pyproj 2.1.2 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Data Directory" href="api/datadir.html" /> 
+    <link rel="prev" title="Optimize Transformations" href="optimize_transformations.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -24,9 +25,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="api/datadir.html" title="Data Directory"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optimize_transformations.html" title="Optimize Transformations"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.1.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -38,7 +42,17 @@
   <div class="section" id="change-log">
 <h1>Change Log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>2.1.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>2.1.2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Updated to use the CRS definition for Proj instances in transforms (issue #207)</li>
+<li>Add option to skip tranformation operation if input and output projections are equivalent
+and always skip if the input and output projections are exact (issue #128)</li>
+<li>Update setup.py method for checking PROJ version (pull #211)</li>
+<li>Add internal proj error log messages to exceptions (pull #215)</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>2.1.1<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Restore behavior of 1.9.6 when illegal projection transformation requested
 (return <code class="docutils literal notranslate"><span class="pre">inf</span></code> instead of raising an exception, issue #202).  kwarg <code class="docutils literal notranslate"><span class="pre">errcheck</span></code>
@@ -46,8 +60,8 @@ added to <code class="xref py py-func docutils literal notranslate"><span class=
 (default <code class="docutils literal notranslate"><span class="pre">False</span></code>). When <code class="docutils literal notranslate"><span class="pre">errcheck=True</span></code> an exception is raised.</li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h2>2.1.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>2.1.0<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Transformer</span></code> to make repetitive transformations more efficient (issue #187)</li>
 <li>Added fix for using local datumgrids with transform (issue #191)</li>
@@ -55,23 +69,23 @@ added to <code class="xref py py-func docutils literal notranslate"><span class=
 <li>Added fix for conversion between radians/degrees for transformations (issues #192 &amp; #195)</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>2.0.2<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>2.0.2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>add filter for boolean values in dict2string so “no_rot=True” works (issue #183).</li>
 <li>make sure .pxd files included in source tarball.</li>
 <li>add radians flag back in for transform/itransform (issue #185).</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h2>2.0.1<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>2.0.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Ensure data path set properly for TransProj (pull request #179, addressed
 issue #176).</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>2.0.0<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>2.0.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Update to PROJ.4 version 6.0.0 &amp; removed support for older PROJ.4 versions.</li>
 <li>Added pyproj.CRS class.</li>
@@ -82,22 +96,22 @@ issue #176).</li>
 <li>Added pyproject.toml.</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h2>1.9.6<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>1.9.6<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>fix segfault when inverse projection not defined (issue #43, pull request
 #44).</li>
 <li>supports python 3.7</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h2>1.9.5.1<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2>1.9.5.1<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>fix for issue #42 (compilation error with microsoft visual studio).</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h2>1.9.5<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>1.9.5<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>update proj4 source to latest github master (commit 953cc00fd87425395cabe37641cda905c4b587c1).</li>
 <li>port of basemap fix for input arrays in fortran order</li>
@@ -233,8 +247,8 @@ transform (if errcheck=False).</li>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id9">
-<h2>1.8.2<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h2>1.8.2<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li>added ‘srs’ (spatial reference system) instance variable to Proj.</li>
@@ -251,8 +265,8 @@ from M. v. Loewis:
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id10">
-<h2>1.8.1<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2>1.8.1<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li>if given tuples, returns tuples (instead of lists).</li>
@@ -268,8 +282,8 @@ This is necessary when pyrex 0.9.5 is used.</li>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id11">
-<h2>1.8.0<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2>1.8.0<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li>Better error handling Proj.__init__.</li>
@@ -278,8 +292,8 @@ This is necessary when pyrex 0.9.5 is used.</li>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id12">
-<h2>1.7.3<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h2>1.7.3<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li>python 2.5 support.</li>
@@ -294,17 +308,18 @@ This is necessary when pyrex 0.9.5 is used.</li>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Change Log</a><ul>
-<li><a class="reference internal" href="#id1">2.1.1</a></li>
-<li><a class="reference internal" href="#id2">2.1.0</a></li>
-<li><a class="reference internal" href="#id3">2.0.2</a></li>
-<li><a class="reference internal" href="#id4">2.0.1</a></li>
-<li><a class="reference internal" href="#id5">2.0.0</a></li>
-<li><a class="reference internal" href="#id6">1.9.6</a></li>
-<li><a class="reference internal" href="#id7">1.9.5.1</a></li>
-<li><a class="reference internal" href="#id8">1.9.5</a></li>
+<li><a class="reference internal" href="#id1">2.1.2</a></li>
+<li><a class="reference internal" href="#id2">2.1.1</a></li>
+<li><a class="reference internal" href="#id3">2.1.0</a></li>
+<li><a class="reference internal" href="#id4">2.0.2</a></li>
+<li><a class="reference internal" href="#id5">2.0.1</a></li>
+<li><a class="reference internal" href="#id6">2.0.0</a></li>
+<li><a class="reference internal" href="#id7">1.9.6</a></li>
+<li><a class="reference internal" href="#id8">1.9.5.1</a></li>
+<li><a class="reference internal" href="#id9">1.9.5</a></li>
 <li><a class="reference internal" href="#git-tag-v1-9-4rel">1.9.4 (git tag v1.9.4rel)</a></li>
 <li><a class="reference internal" href="#svn-revision-327">1.9.3 (svn revision 327)</a></li>
 <li><a class="reference internal" href="#svn-revision-301">1.9.2 (svn revision 301)</a></li>
@@ -317,17 +332,17 @@ This is necessary when pyrex 0.9.5 is used.</li>
 <li><a class="reference internal" href="#svn-revision-155">1.8.5 (svn revision 155)</a></li>
 <li><a class="reference internal" href="#svn-revision-151">1.8.4 (svn revision 151)</a></li>
 <li><a class="reference internal" href="#svn-revision-146">1.8.3 (svn revision 146)</a></li>
-<li><a class="reference internal" href="#id9">1.8.2</a></li>
-<li><a class="reference internal" href="#id10">1.8.1</a></li>
-<li><a class="reference internal" href="#id11">1.8.0</a></li>
-<li><a class="reference internal" href="#id12">1.7.3</a></li>
+<li><a class="reference internal" href="#id10">1.8.2</a></li>
+<li><a class="reference internal" href="#id11">1.8.1</a></li>
+<li><a class="reference internal" href="#id12">1.8.0</a></li>
+<li><a class="reference internal" href="#id13">1.7.3</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="api/datadir.html"
-                        title="previous chapter">Data Directory</a></p>
+  <p class="topless"><a href="optimize_transformations.html"
+                        title="previous chapter">Optimize Transformations</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -358,14 +373,17 @@ This is necessary when pyrex 0.9.5 is used.</li>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="api/datadir.html" title="Data Directory"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optimize_transformations.html" title="Optimize Transformations"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.1.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Jeffrey Whitaker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

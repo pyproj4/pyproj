@@ -68,7 +68,8 @@ The order of preference for the data directory is:
 
 1. The one set by pyproj.datadir.set_data_dir (if exists & valid)
 2. The internal proj directory (if exists & valid)
-3. The directory in the PROJ_LIB environment variable (if exists & valid)
+3. The directory in PROJ_LIB (if exists & valid)
+4. The directory on the PATH (if exists & valid)
 
 Install pyproj
 ~~~~~~~~~~~~~~

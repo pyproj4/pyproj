@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>API Documentation &#8212; pyproj 2.1.2 documentation</title>
+    <title>Exceptions &#8212; pyproj 2.1.2 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -15,9 +15,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Proj" href="proj.html" />
-    <link rel="prev" title="Installation" href="../installation.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -28,12 +26,6 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="proj.html" title="Proj"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../installation.html" title="Installation"
-             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.1.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -43,39 +35,33 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="api-documentation">
-<h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="proj.html">Proj</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="proj.html#pyproj-proj">pyproj.Proj</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="crs.html">CRS</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="crs.html#pyproj-crs">pyproj.CRS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="crs.html#pyproj-crs-is-wkt">pyproj.crs.is_wkt</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="geod.html">Geod</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="geod.html#pyproj-geod">pyproj.Geod</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="transformer.html">Transformer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-transformer">pyproj.Transformer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-transform">pyproj.transform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-itransform">pyproj.itransform</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="datadir.html">Data Directory</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="datadir.html#pyproj-datadir-get-data-dir">pyproj.datadir.get_data_dir</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datadir.html#pyproj-datadir-set-data-dir">pyproj.datadir.set_data_dir</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datadir.html#pyproj-datadir-append-data-dir">pyproj.datadir.append_data_dir</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
-</ul>
-</div>
+  <div class="section" id="module-pyproj.exceptions">
+<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-pyproj.exceptions" title="Permalink to this headline">¶</a></h1>
+<p>Exceptions for pyproj</p>
+<dl class="exception">
+<dt id="pyproj.exceptions.CRSError">
+<em class="property">exception </em><code class="descclassname">pyproj.exceptions.</code><code class="descname">CRSError</code><span class="sig-paren">(</span><em>error_message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/exceptions.html#CRSError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.CRSError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when a CRS error occurs.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyproj.exceptions.DataDirError">
+<em class="property">exception </em><code class="descclassname">pyproj.exceptions.</code><code class="descname">DataDirError</code><a class="reference internal" href="../_modules/pyproj/exceptions.html#DataDirError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.DataDirError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when a the data directory was not found.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyproj.exceptions.GeodError">
+<em class="property">exception </em><code class="descclassname">pyproj.exceptions.</code><code class="descname">GeodError</code><a class="reference internal" href="../_modules/pyproj/exceptions.html#GeodError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.GeodError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when a Geod error occurs.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyproj.exceptions.ProjError">
+<em class="property">exception </em><code class="descclassname">pyproj.exceptions.</code><code class="descname">ProjError</code><span class="sig-paren">(</span><em>error_message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/exceptions.html#ProjError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.ProjError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when a Proj error occurs.</p>
+</dd></dl>
+
 </div>
 
 
@@ -84,16 +70,10 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../installation.html"
-                        title="previous chapter">Installation</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="proj.html"
-                        title="next chapter">Proj</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/index.rst.txt"
+      <li><a href="../_sources/api/exceptions.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -122,12 +102,6 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="proj.html" title="Proj"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../installation.html" title="Installation"
-             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.1.2 documentation</a> &#187;</li> 
       </ul>
     </div>
