@@ -2,6 +2,7 @@
 """Rewrite part of test.py in pyproj in the form of unittests."""
 
 import math
+import sys
 import unittest
 
 from pyproj import Geod, Proj, pj_ellps, pj_list, transform
@@ -9,7 +10,6 @@ from pyproj.crs import CRSError
 
 try:
     import nose2
-    import nose2.tools
 
     HAS_NOSE2 = True
 except ImportError:
@@ -158,19 +158,20 @@ class ProjLatLongTypeErrorTest(unittest.TestCase):
         lon, lat = transform(p, p.to_latlong(), 200000, 400000)
 
 
-@unittest.skipUnless(HAS_NOSE2, "nose2 is not installed")
+@unittest.skipIf(sys.version_info < (3, 4), "Python 3.4 or newer required for subTest()")
 class ForwardInverseTest(unittest.TestCase):
-    @nose2.tools.params(*pj_list.keys())
-    def test_fwd_inv(self, pj):
-        try:
-            p = Proj(proj=pj)
-            x, y = p(-30, 40)
-            # note, for proj 4.9.2 or before the inverse projection may be missing
-            # and pyproj 1.9.5.1 or before does not test for this and will
-            # give a segmentation fault at this point:
-            lon, lat = p(x, y, inverse=True)
-        except RuntimeError:
-            pass
+    def test_fwd_inv(self):
+        for pj in pj_list.keys():
+            with self.subTest(pj=pj):
+                try:
+                    p = Proj(proj=pj)
+                    x, y = p(-30, 40)
+                    # note, for proj 4.9.2 or before the inverse projection may be missing
+                    # and pyproj 1.9.5.1 or before does not test for this and will
+                    # give a segmentation fault at this point:
+                    lon, lat = p(x, y, inverse=True)
+                except RuntimeError:
+                    pass
 
 
 # Tests for shared memory between Geod objects
