@@ -91,7 +91,7 @@ cdef class Proj:
             if errcheck:
                 err = proj_errno(self.projpj)
                 if err != 0:
-                     raise ProjError(proj_errno_string(err))
+                     raise ProjError(pystrdecode(proj_errno_string(err)))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -149,7 +149,7 @@ cdef class Proj:
             if errcheck:
                 err = proj_errno(self.projpj)
                 if err != 0:
-                     raise ProjError(proj_errno_string(err))
+                     raise ProjError(pystrdecode(proj_errno_string(err)))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
