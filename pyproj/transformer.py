@@ -110,7 +110,7 @@ class Transformer(object):
         transformer._transformer = _Transformer.from_pipeline(cstrencode(proj_pipeline))
         return transformer
 
-    def transform(self, xx, yy, zz=None, radians=False, errcheck=False):
+    def transform(self, xx, yy, zz=None, tt=None, radians=False, errcheck=False):
         """
         Transform points between two coordinate systems.
 
@@ -122,6 +122,8 @@ class Transformer(object):
             Input y coordinate(s).
         zz: scalar or array (numpy or python), optional
             Input z coordinate(s).
+        tt: scalar or array (numpy or python), optional
+            Input time coordinate(s).
         radians: boolean, optional
             If True, will expect input data to be in radians and will return radians
             if the projection is geographic. Default is False (degrees). Ignored for
@@ -165,18 +167,27 @@ class Transformer(object):
             inz, zisfloat, zislist, zistuple = _copytobuffer(zz)
         else:
             inz = None
+        if tt is not None:
+            intime, tisfloat, tislist, tistuple = _copytobuffer(tt)
+        else:
+            intime = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
-        self._transformer._transform(inx, iny, inz, radians, errcheck=errcheck)
+        self._transformer._transform(
+            inx, iny, inz=inz, intime=intime, radians=radians, errcheck=errcheck
+        )
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
         outy = _convertback(yisfloat, yislist, xistuple, iny)
+        return_data = (outx, outy)
         if inz is not None:
-            outz = _convertback(zisfloat, zislist, zistuple, inz)
-            return outx, outy, outz
-        else:
-            return outx, outy
+            return_data += (_convertback(zisfloat, zislist, zistuple, inz),)
+        if intime is not None:
+            return_data += (_convertback(tisfloat, tislist, tistuple, intime),)
+        return return_data
 
-    def itransform(self, points, switch=False, radians=False, errcheck=False):
+    def itransform(
+        self, points, switch=False, time_3rd=False, radians=False, errcheck=False
+    ):
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
 
@@ -188,6 +199,8 @@ class Transformer(object):
         switch: boolean, optional
             If True x, y or lon,lat coordinates of points are switched to y, x 
             or lat, lon. Default is False.
+        time_3rd: boolean, optional
+            If the input coordinates are 3 dimensional and the 3rd dimension is time.
         radians: boolean, optional
             If True, will expect input data to be in radians and will return radians
             if the projection is geographic. Default is False (degrees). Ignored for
@@ -230,8 +243,11 @@ class Transformer(object):
             raise ValueError("iterable must contain at least one point")
 
         stride = len(fst_pt)
-        if stride not in (2, 3):
-            raise ValueError("points can contain up to 3 coordinates")
+        if stride not in (2, 3, 4):
+            raise ValueError("points can contain up to 4 coordinates")
+
+        if time_3rd and stride != 3:
+            raise ValueError("'time_3rd' is only valid for 3 coordinates.")
 
         # create a coordinate sequence generator etc. x1,y1,z1,x2,y2,z2,....
         # chain so the generator returns the first point that was already acquired
@@ -244,7 +260,12 @@ class Transformer(object):
                 break
 
             self._transformer._transform_sequence(
-                stride, buff, switch, radians, errcheck=errcheck
+                stride,
+                buff,
+                switch=switch,
+                time_3rd=time_3rd,
+                radians=radians,
+                errcheck=errcheck,
             )
 
             for pt in zip(*([iter(buff)] * stride)):
@@ -252,7 +273,7 @@ class Transformer(object):
 
 
 def transform(
-    p1, p2, x, y, z=None, radians=False, errcheck=False, skip_equivalent=False
+    p1, p2, x, y, z=None, tt=None, radians=False, errcheck=False, skip_equivalent=False
 ):
     """
     x2, y2, z2 = transform(p1, p2, x1, y1, z1)
@@ -344,12 +365,19 @@ def transform(
     '30 60'
     """
     return Transformer.from_proj(p1, p2, skip_equivalent=skip_equivalent).transform(
-        x, y, z, radians, errcheck=errcheck
+        xx=x, yy=y, zz=z, tt=tt, radians=radians, errcheck=errcheck
     )
 
 
 def itransform(
-    p1, p2, points, switch=False, radians=False, errcheck=False, skip_equivalent=False
+    p1,
+    p2,
+    points,
+    switch=False,
+    time_3rd=False,
+    radians=False,
+    errcheck=False,
+    skip_equivalent=False,
 ):
     """
     points2 = itransform(p1, p2, points1)
@@ -405,5 +433,5 @@ def itransform(
 
     """
     return Transformer.from_proj(p1, p2, skip_equivalent=skip_equivalent).itransform(
-        points, switch, radians, errcheck=errcheck
+        points, switch=switch, time_3rd=time_3rd, radians=radians, errcheck=errcheck
     )

@@ -1,8 +1,9 @@
 import numpy as np
+import pytest
 from numpy.testing import assert_almost_equal, assert_equal
 
 import pyproj
-from pyproj import Transformer
+from pyproj import Transformer, itransform, transform
 from pyproj.exceptions import ProjError
 
 
@@ -108,3 +109,120 @@ def test_equivalent_pipeline():
     assert not transformer._transformer.skip_equivalent
     assert not transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same
+
+
+def test_4d_transform():
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert_almost_equal(
+        transformer.transform(
+            xx=3513638.19380, yy=778956.45250, zz=5248216.46900, tt=2008.75
+        ),
+        (3513638.1999428216, 778956.4532640711, 5248216.453456361, 2008.75),
+    )
+
+
+def test_2d_with_time_transform():
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert_almost_equal(
+        transformer.transform(xx=3513638.19380, yy=778956.45250, tt=2008.75),
+        (3513638.1999428216, 778956.4532640711, 2008.75),
+    )
+
+
+def test_4d_transform_crs_obs1():
+    transformer = Transformer.from_proj(7789, 8401)
+    assert_almost_equal(
+        transformer.transform(
+            xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0
+        ),
+        (3496737.2679, 743254.4507, 5264462.962, 2019.0),
+    )
+
+
+def test_4d_transform_orginal_crs_obs1():
+    assert_almost_equal(
+        transform(7789, 8401, x=3496737.2679, y=743254.4507, z=5264462.9620, tt=2019.0),
+        (3496737.2679, 743254.4507, 5264462.962, 2019.0),
+    )
+
+
+def test_4d_transform_crs_obs2():
+    transformer = Transformer.from_proj(4896, 7930)
+    assert_almost_equal(
+        transformer.transform(
+            xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0
+        ),
+        (3496737.2679, 743254.4507, 5264462.962, 2019.0),
+    )
+
+
+def test_2d_with_time_transform_crs_obs2():
+    transformer = Transformer.from_proj(4896, 7930)
+    assert_almost_equal(
+        transformer.transform(xx=3496737.2679, yy=743254.4507, tt=2019.0),
+        (3496737.2679, 743254.4507, 2019.0),
+    )
+
+
+def test_2d_with_time_transform_original_crs_obs2():
+    assert_almost_equal(
+        transform(4896, 7930, x=3496737.2679, y=743254.4507, tt=2019.0),
+        (3496737.2679, 743254.4507, 2019.0),
+    )
+
+
+def test_4d_itransform():
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert_almost_equal(
+        list(
+            transformer.itransform(
+                [(3513638.19380, 778956.45250, 5248216.46900, 2008.75)]
+            )
+        ),
+        [(3513638.1999428216, 778956.4532640711, 5248216.453456361, 2008.75)],
+    )
+
+
+def test_3d_time_itransform():
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert_almost_equal(
+        list(
+            transformer.itransform(
+                [(3513638.19380, 778956.45250, 2008.75)], time_3rd=True
+            )
+        ),
+        [(3513638.1999428216, 778956.4532640711, 2008.75)],
+    )
+
+
+def test_4d_itransform_orginal_crs_obs1():
+    assert_almost_equal(
+        list(
+            itransform(7789, 8401, [(3496737.2679, 743254.4507, 5264462.9620, 2019.0)])
+        ),
+        [(3496737.2679, 743254.4507, 5264462.962, 2019.0)],
+    )
+
+
+def test_2d_with_time_itransform_original_crs_obs2():
+    assert_almost_equal(
+        list(
+            itransform(4896, 7930, [(3496737.2679, 743254.4507, 2019.0)], time_3rd=True)
+        ),
+        [(3496737.2679, 743254.4507, 2019.0)],
+    )
+
+
+def test_itransform_time_3rd_invalid():
+
+    with pytest.raises(ValueError, match="'time_3rd' is only valid for 3 coordinates."):
+        list(
+            itransform(
+                7789,
+                8401,
+                [(3496737.2679, 743254.4507, 5264462.9620, 2019.0)],
+                time_3rd=True,
+            )
+        )
+    with pytest.raises(ValueError, match="'time_3rd' is only valid for 3 coordinates."):
+        list(itransform(7789, 8401, [(3496737.2679, 743254.4507)], time_3rd=True))
