@@ -1,6 +1,6 @@
 """run test.py first!"""
 from pyproj import Proj
-import time, cPickle
+import time, pickle
 import numpy as N
 
 nx = 349
@@ -21,7 +21,7 @@ dx = (urcrnrx - llcrnrx) / (nx - 1)
 dy = (urcrnry - llcrnry) / (ny - 1)
 x = llcrnrx + dx * N.indices((ny, nx), "f")[1, :, :]
 y = llcrnry + dy * N.indices((ny, nx), "f")[0, :, :]
-awips221 = cPickle.load(open("test.pickle", "rb"))
+awips221 = pickle.load(open("test.pickle", "rb"))
 t1 = time.clock()
 lons, lats = awips221(x, y, inverse=True, radians=True)
 t2 = time.clock()

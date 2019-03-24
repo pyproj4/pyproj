@@ -1,5 +1,5 @@
 from pyproj import Geod
-import commands, cPickle
+import subprocess, pickle
 
 g = Geod(ellps="clrk66")
 lat1pt = 42.0 + (15.0 / 60.0)
@@ -10,8 +10,9 @@ print(lat1pt, lon1pt, lat2pt, lon2pt)
 print("inverse transform")
 print("from proj.4 invgeod:")
 print(
-    commands.getoutput(
-        "echo \"42d15'N 71d07'W 45d31'N 123d41'W\" | geod +ellps=clrk66 -I -f \"%.3f\""
+    subprocess.check_output(
+        "echo \"42d15'N 71d07'W 45d31'N 123d41'W\" | geod +ellps=clrk66 -I -f \"%.3f\"",
+        shell=True
     )
 )
 print("from pyproj.Geod.inv:")
@@ -20,8 +21,9 @@ print("%7.3f %6.3f %12.3f" % (az12, az21, dist))
 print("forward transform")
 print("from proj.4 geod:")
 print(
-    commands.getoutput(
-        'echo "42d15\'N 71d07\'W -66d31\'50.141 4164192.708" | geod +ellps=clrk66 -f "%.3f"'
+    subprocess.check_output(
+        'echo "42d15\'N 71d07\'W -66d31\'50.141 4164192.708" | geod +ellps=clrk66 -f "%.3f"',
+        shell=True
     )
 )
 endlon, endlat, backaz = g.fwd(lon1pt, lat1pt, az12, dist)
@@ -31,7 +33,7 @@ print("intermediate points:")
 print("from geod with +lat_1,+lon_1,+lat_2,+lon_2,+n_S:")
 points = "+lon_1=%s +lat_1=%s +lon_2=%s +lat_2=%s" % (lon1pt, lat1pt, lon2pt, lat2pt)
 print(points)
-print(commands.getoutput('geod +ellps=clrk66 -f "%.3f" +n_S=5 ' + points))
+print(subprocess.check_output('geod +ellps=clrk66 -f "%.3f" +n_S=5 ' + points, shell=True))
 print("from pyproj.Geod.npts:")
 npts = 4
 lonlats = g.npts(lon1pt, lat1pt, lon2pt, lat2pt, npts)
@@ -57,9 +59,9 @@ newyork_lon = -73.0 - (58.0 / 60.0)
 london_lat = 51.0 + (32.0 / 60.0)
 london_lon = -(5.0 / 60.0)
 g1 = Geod(ellps="clrk66")
-cPickle.dump(g1, open("geod1.pickle", "wb"), -1)
+pickle.dump(g1, open("geod1.pickle", "wb"), -1)
 g2 = Geod(ellps="WGS84")
-cPickle.dump(g2, open("geod2.pickle", "wb"), -1)
+pickle.dump(g2, open("geod2.pickle", "wb"), -1)
 az12, az21, dist = g1.inv(boston_lon, boston_lat, portland_lon, portland_lat)
 print("distance between boston and portland, clrk66:")
 print("%7.3f %6.3f %12.3f" % (az12, az21, dist))
@@ -67,8 +69,8 @@ print("distance between boston and portland, WGS84:")
 az12, az21, dist = g2.inv(boston_lon, boston_lat, portland_lon, portland_lat)
 print("%7.3f %6.3f %12.3f" % (az12, az21, dist))
 print("testing pickling of Geod instance")
-g3 = cPickle.load(open("geod1.pickle", "rb"))
-g4 = cPickle.load(open("geod2.pickle", "rb"))
+g3 = pickle.load(open("geod1.pickle", "rb"))
+g4 = pickle.load(open("geod2.pickle", "rb"))
 az12, az21, dist = g3.inv(boston_lon, boston_lat, portland_lon, portland_lat)
 print("distance between boston and portland, clrk66 (from pickle):")
 print("%7.3f %6.3f %12.3f" % (az12, az21, dist))
@@ -79,8 +81,9 @@ g3 = Geod("+ellps=clrk66")  # proj4 style init string
 print("inverse transform")
 print("from proj.4 invgeod:")
 print(
-    commands.getoutput(
-        "echo \"42d15'N 71d07'W 45d31'N 123d41'W\" | geod +ellps=clrk66 -I -f \"%.3f\""
+    subprocess.check_output(
+        "echo \"42d15'N 71d07'W 45d31'N 123d41'W\" | geod +ellps=clrk66 -I -f \"%.3f\"",
+        shell=True
     )
 )
 print("from pyproj.Geod.inv:")
