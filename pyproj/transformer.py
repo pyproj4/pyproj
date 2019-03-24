@@ -334,7 +334,7 @@ def transform(
     >>> x2, y2 = transform(c1, c2, x1, y1)
     >>> "%s  %s" % (str(x2)[:9],str(y2)[:9])
     '1402291.0  5076289.5'
-    >>> pj = Proj(init="epsg:4214")
+    >>> pj = Proj(init="epsg:4555")
     >>> pjx, pjy = pj(116.366, 39.867)
     >>> xr, yr = transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
     >>> "%.3f %.3f" % (xr, yr)
@@ -396,7 +396,7 @@ def itransform(
     '411050.470 4497928.574'
     '399060.236 4486978.710'
     '458553.243 4523045.485'
-    >>> pj = Proj(init="epsg:4214")
+    >>> pj = Proj(init="epsg:4555")
     >>> pjx, pjy = pj(116.366, 39.867)
     >>> for pt in itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True): '{:.3f} {:.3f}'.format(*pt)
     '0.696 2.031'
