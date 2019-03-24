@@ -1,5 +1,5 @@
 from pyproj import Proj
-import time, cPickle, array
+import time, pickle, array
 import numpy as N
 
 params = {}
@@ -94,6 +94,6 @@ print(N.maximum.reduce(N.fabs(N.ravel(x - xx))))
 print("max abs error for y")
 print(N.maximum.reduce(N.fabs(N.ravel(x - xx))))
 print("took", t2 - t1, "secs")
-cPickle.dump(awips221, open("test.pickle", "wb"), -1)
+pickle.dump(awips221, open("test.pickle", "wb"), -1)
 print("compare output with sample.out")
 print("now run test2.py to test pickling")
