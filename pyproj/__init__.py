@@ -79,7 +79,7 @@ def test(**kwargs):
         pyproj.transformer, verbose=verbose
     )
 
-    return failure_count + failure_count_crs + failure_count_geod
+    return failure_count + failure_count_crs + failure_count_geod + failure_count_transform
 
 
 if __name__ == "__main__":
