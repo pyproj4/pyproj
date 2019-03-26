@@ -101,17 +101,19 @@ cdef class _Transformer:
             return cstrencode(in_proj.crs.srs)
         return cstrencode(in_proj.srs)
 
-    def _transform(self, inx, iny, inz, radians, errcheck=False):
+    def _transform(self, inx, iny, inz, intime, radians, errcheck=False):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
         # private function to call pj_transform
         cdef void *xdata
         cdef void *ydata
         cdef void *zdata
+        cdef void *tdata
         cdef double *xx
         cdef double *yy
         cdef double *zz
-        cdef Py_ssize_t buflenx, bufleny, buflenz, npts, i
+        cdef double *tt
+        cdef Py_ssize_t buflenx, bufleny, buflenz, buflent, npts, iii
         cdef int err
         if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
             raise ProjError
@@ -122,26 +124,36 @@ cdef class _Transformer:
                 raise ProjError
         else:
             buflenz = bufleny
-        if not (buflenx == bufleny == buflenz):
-            raise ProjError('x,y and z must be same size')
+        if intime is not None:
+            if PyObject_AsWriteBuffer(intime, &tdata, &buflent) <> 0:
+                raise ProjError
+        else:
+            buflent = bufleny
+
+        if not (buflenx == bufleny == buflenz == buflent):
+            raise ProjError('x,y,z, and time must be same size')
         xx = <double *>xdata
         yy = <double *>ydata
         if inz is not None:
             zz = <double *>zdata
         else:
             zz = NULL
+        if intime is not None:
+            tt = <double *>tdata
+        else:
+            tt = NULL
         npts = buflenx//8
 
         # degrees to radians
         if not self.is_pipeline and not radians and self.input_radians:
-            for i from 0 <= i < npts:
-                xx[i] = xx[i]*_DG2RAD
-                yy[i] = yy[i]*_DG2RAD
+            for iii from 0 <= iii < npts:
+                xx[iii] = xx[iii]*_DG2RAD
+                yy[iii] = yy[iii]*_DG2RAD
         # radians to degrees
         elif not self.is_pipeline and radians and not self.input_radians and self.input_geographic:
-            for i from 0 <= i < npts:
-                xx[i] = xx[i]*_RAD2DG
-                yy[i] = yy[i]*_RAD2DG
+            for iii from 0 <= iii < npts:
+                xx[iii] = xx[iii]*_RAD2DG
+                yy[iii] = yy[iii]*_RAD2DG
 
         proj_trans_generic(
             self.projpj,
@@ -149,7 +161,7 @@ cdef class _Transformer:
             xx, _DOUBLESIZE, npts,
             yy, _DOUBLESIZE, npts,
             zz, _DOUBLESIZE, npts,
-            NULL, 0, 0,
+            tt, _DOUBLESIZE, npts,
         )
         cdef int errno = proj_errno(self.projpj)
         if errno and errcheck:
@@ -158,18 +170,18 @@ cdef class _Transformer:
 
         # radians to degrees
         if not self.is_pipeline and not radians and self.output_radians:
-            for i from 0 <= i < npts:
-                xx[i] = xx[i]*_RAD2DG
-                yy[i] = yy[i]*_RAD2DG
+            for iii from 0 <= iii < npts:
+                xx[iii] = xx[iii]*_RAD2DG
+                yy[iii] = yy[iii]*_RAD2DG
         # degrees to radians
         elif not self.is_pipeline and radians and not self.output_radians and self.output_geographic:
-            for i from 0 <= i < npts:
-                xx[i] = xx[i]*_DG2RAD
-                yy[i] = yy[i]*_DG2RAD
+            for iii from 0 <= iii < npts:
+                xx[iii] = xx[iii]*_DG2RAD
+                yy[iii] = yy[iii]*_DG2RAD
 
 
     def _transform_sequence(self, Py_ssize_t stride, inseq, bint switch,
-            radians, errcheck=False):
+            time_3rd, radians, errcheck=False):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
         # private function to itransform function
@@ -179,7 +191,8 @@ cdef class _Transformer:
             double *x
             double *y
             double *z
-            Py_ssize_t buflen, npts, i, j
+            double *tt
+            Py_ssize_t buflen, npts, iii, jjj
             int err
 
         if stride < 2:
@@ -192,16 +205,16 @@ cdef class _Transformer:
 
         # degrees to radians
         if not self.is_pipeline and not radians and self.input_radians:
-            for i from 0 <= i < npts:
-                j = stride*i
-                coords[j] *= _DG2RAD
-                coords[j+1] *= _DG2RAD
+            for iii from 0 <= iii < npts:
+                jjj = stride*iii
+                coords[jjj] *= _DG2RAD
+                coords[jjj+1] *= _DG2RAD
         # radians to degrees
         elif not self.is_pipeline and radians and not self.input_radians and self.input_geographic:
-            for i from 0 <= i < npts:
-                j = stride*i
-                coords[j] *= _RAD2DG
-                coords[j+1] *= _RAD2DG
+            for iii from 0 <= iii < npts:
+                jjj = stride*iii
+                coords[jjj] *= _RAD2DG
+                coords[jjj+1] *= _RAD2DG
 
         if not switch:
             x = coords
@@ -210,10 +223,18 @@ cdef class _Transformer:
             x = coords + 1
             y = coords
 
-        if stride == 2:
-            z = NULL
-        else:
+        # z coordinate
+        if stride == 4 or (stride == 3 and not time_3rd):
             z = coords + 2
+        else:
+            z = NULL
+        # time
+        if stride == 3 and time_3rd:
+            tt = coords + 2
+        elif stride == 4:
+            tt = coords + 3
+        else:
+            tt = NULL
 
         proj_trans_generic (
             self.projpj,
@@ -221,7 +242,7 @@ cdef class _Transformer:
             x, stride*_DOUBLESIZE, npts,
             y, stride*_DOUBLESIZE, npts,
             z, stride*_DOUBLESIZE, npts,
-            NULL, 0, 0,
+            tt, stride*_DOUBLESIZE, npts,
         )
 
         cdef int errno = proj_errno(self.projpj)
@@ -231,13 +252,13 @@ cdef class _Transformer:
 
         # radians to degrees
         if not self.is_pipeline and not radians and self.output_radians:
-            for i from 0 <= i < npts:
-                j = stride*i
-                coords[j] *= _RAD2DG
-                coords[j+1] *= _RAD2DG
+            for iii from 0 <= iii < npts:
+                jjj = stride*iii
+                coords[jjj] *= _RAD2DG
+                coords[jjj+1] *= _RAD2DG
         # degrees to radians
         elif not self.is_pipeline and radians and not self.output_radians and self.output_geographic:
-            for i from 0 <= i < npts:
-                j = stride*i
-                coords[j] *= _DG2RAD
-                coords[j+1] *= _DG2RAD
+            for iii from 0 <= iii < npts:
+                jjj = stride*iii
+                coords[jjj] *= _DG2RAD
+                coords[jjj+1] *= _DG2RAD
