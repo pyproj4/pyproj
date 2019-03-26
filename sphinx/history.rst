@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2.1.3
+~~~~~
+* Added support for 4D (time) transformations (issue #208)
+
 2.1.2
 ~~~~~
 * Updated to use the CRS definition for Proj instances in transforms (issue #207)
