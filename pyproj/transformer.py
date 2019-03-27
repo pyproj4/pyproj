@@ -47,7 +47,7 @@ class Transformer(object):
         ----------
         proj_from: :obj:`pyproj.Proj` or input used to create one
             Projection of input data.
-        proj_from: :obj:`pyproj.Proj` or input used to create one
+        proj_to: :obj:`pyproj.Proj` or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output 
@@ -71,9 +71,9 @@ class Transformer(object):
 
         Parameters
         ----------
-        proj_from: :obj:`pyproj.CRS` or input used to create one
+        crs_from: :obj:`pyproj.CRS` or input used to create one
             Projection of input data.
-        proj_from: :obj:`pyproj.CRS` or input used to create one
+        crs_to: :obj:`pyproj.CRS` or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
