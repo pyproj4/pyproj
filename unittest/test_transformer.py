@@ -240,3 +240,51 @@ def test_itransform_error():
     pjx, pjy = pj(116.366, 39.867)
     with pytest.raises(ProjError):
         list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
+
+
+def test_transform_radians():
+    WGS84 = pyproj.Proj("+init=EPSG:4326")
+    ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
+    assert_almost_equal(
+        pyproj.transform(
+            ECEF, WGS84, -2704026.010, -4253051.810, 3895878.820, radians=True
+        ),
+        (-2.137113493845668, 0.6613203738996222, -20.531156923621893),
+    )
+
+    assert_almost_equal(
+        pyproj.transform(
+            WGS84,
+            ECEF,
+            -2.137113493845668,
+            0.6613203738996222,
+            -20.531156923621893,
+            radians=True,
+        ),
+        (-2704026.010, -4253051.810, 3895878.820),
+    )
+
+
+def test_itransform_radians():
+    WGS84 = pyproj.Proj("+init=EPSG:4326")
+    ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
+    assert_almost_equal(
+        list(
+            pyproj.itransform(
+                ECEF, WGS84, [(-2704026.010, -4253051.810, 3895878.820)], radians=True
+            )
+        ),
+        [(-2.137113493845668, 0.6613203738996222, -20.531156923621893)],
+    )
+
+    assert_almost_equal(
+        list(
+            pyproj.itransform(
+                WGS84,
+                ECEF,
+                [(-2.137113493845668, 0.6613203738996222, -20.531156923621893)],
+                radians=True,
+            )
+        ),
+        [(-2704026.010, -4253051.810, 3895878.820)],
+    )
