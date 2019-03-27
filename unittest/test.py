@@ -8,13 +8,6 @@ import unittest
 from pyproj import Geod, Proj, pj_ellps, pj_list, transform
 from pyproj.crs import CRSError
 
-try:
-    import nose2
-
-    HAS_NOSE2 = True
-except ImportError:
-    HAS_NOSE2 = False
-
 
 class BasicTest(unittest.TestCase):
     def testProj4Version(self):
@@ -379,7 +372,4 @@ def test_proj_equals():
 
 
 if __name__ == "__main__":
-    if HAS_NOSE2 is True:
-        nose2.discover()
-    else:
-        unittest.main()
+    unittest.main()

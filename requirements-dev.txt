@@ -1,7 +1,5 @@
 cython>=0.28.4
 mock
-nose2[coverage_plugin]>=0.6.5
 pytest
-cov-core
-coverage>=4.0
+pytest-cov
 numpy
