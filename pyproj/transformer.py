@@ -84,11 +84,7 @@ class Transformer(object):
         :obj:`pyproj.Transformer`
 
         """
-        transformer = Transformer()
-        transformer._transformer = _Transformer.from_crs(
-            crs_from, crs_to, skip_equivalent
-        )
-        return transformer
+        return Transformer.from_proj(crs_from, crs_to, skip_equivalent=skip_equivalent)
 
     @staticmethod
     def from_pipeline(proj_pipeline):
@@ -154,7 +150,7 @@ class Transformer(object):
         >>> xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)
         >>> "%.3f %.3f %.3f" % (xpjr, ypjr, zpjr)
         '-2704026.010 -4253051.810 3895878.820'
-        >>> transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
+        >>> transformer = Transformer.from_proj("epsg:4326", 4326, skip_equivalent=True)
         >>> xeq, yeq = transformer.transform(33, 98)
         >>> "%.0f  %.0f" % (xeq, yeq)
         '33  98'
@@ -230,7 +226,7 @@ class Transformer(object):
         >>> transprojr = Transformer.from_proj('+init=EPSG:4326', {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'})
         >>> for pt in transprojr.itransform([(-2.137, 0.661, -20.531)], radians=True): '{:.3f} {:.3f} {:.3f}'.format(*pt)
         '-2704214.394 -4254414.478 3894270.731'
-        >>> transproj_eq = Transformer.from_proj('+init=EPSG:4326', 4326, skip_equivalent=True)
+        >>> transproj_eq = Transformer.from_proj('+init=EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs +type=crs', skip_equivalent=True)
         >>> for pt in transproj_eq.itransform([(-2.137, 0.661)]): '{:.3f} {:.3f}'.format(*pt)
         '-2.137 0.661'
 

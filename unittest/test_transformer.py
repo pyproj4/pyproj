@@ -84,14 +84,14 @@ def test_equivalent_proj():
     )
     assert transformer._transformer.skip_equivalent
     assert transformer._transformer.projections_equivalent
-    assert transformer._transformer.projections_exact_same
+    assert not transformer._transformer.projections_exact_same
 
 
 def test_equivalent_proj__disabled():
     transformer = Transformer.from_proj(3857, pyproj.Proj(3857).crs.to_proj4())
     assert not transformer._transformer.skip_equivalent
-    assert transformer._transformer.projections_equivalent
-    assert transformer._transformer.projections_exact_same
+    assert not transformer._transformer.projections_equivalent
+    assert not transformer._transformer.projections_exact_same
 
 
 def test_equivalent_proj__different():
@@ -135,14 +135,14 @@ def test_4d_transform_crs_obs1():
         transformer.transform(
             xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0
         ),
-        (3496737.2679, 743254.4507, 5264462.962, 2019.0),
+        (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0),
     )
 
 
 def test_4d_transform_orginal_crs_obs1():
     assert_almost_equal(
         transform(7789, 8401, x=3496737.2679, y=743254.4507, z=5264462.9620, tt=2019.0),
-        (3496737.2679, 743254.4507, 5264462.962, 2019.0),
+        (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0),
     )
 
 
@@ -152,7 +152,7 @@ def test_4d_transform_crs_obs2():
         transformer.transform(
             xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0
         ),
-        (3496737.2679, 743254.4507, 5264462.962, 2019.0),
+        (3496737.7857162016, 743254.0394113371, 5264462.643659916, 2019.0),
     )
 
 
@@ -160,14 +160,14 @@ def test_2d_with_time_transform_crs_obs2():
     transformer = Transformer.from_proj(4896, 7930)
     assert_almost_equal(
         transformer.transform(xx=3496737.2679, yy=743254.4507, tt=2019.0),
-        (3496737.2679, 743254.4507, 2019.0),
+        (3496737.4105305015, 743254.1014318303, 2019.0),
     )
 
 
 def test_2d_with_time_transform_original_crs_obs2():
     assert_almost_equal(
         transform(4896, 7930, x=3496737.2679, y=743254.4507, tt=2019.0),
-        (3496737.2679, 743254.4507, 2019.0),
+        (3496737.4105305015, 743254.1014318303, 2019.0),
     )
 
 
@@ -200,7 +200,7 @@ def test_4d_itransform_orginal_crs_obs1():
         list(
             itransform(7789, 8401, [(3496737.2679, 743254.4507, 5264462.9620, 2019.0)])
         ),
-        [(3496737.2679, 743254.4507, 5264462.962, 2019.0)],
+        [(3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)],
     )
 
 
@@ -209,7 +209,7 @@ def test_2d_with_time_itransform_original_crs_obs2():
         list(
             itransform(4896, 7930, [(3496737.2679, 743254.4507, 2019.0)], time_3rd=True)
         ),
-        [(3496737.2679, 743254.4507, 2019.0)],
+        [(3496737.4105305015, 743254.1014318303, 2019.0)],
     )
 
 
