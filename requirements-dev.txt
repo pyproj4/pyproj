@@ -1,5 +1,5 @@
 cython>=0.28.4
 mock
-pytest
+pytest>3.6
 pytest-cov
 numpy
