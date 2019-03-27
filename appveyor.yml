@@ -117,7 +117,7 @@ install:
 test_script:
   # Run the project tests
   - "%CMD_IN_ENV% python -c \"import pyproj; pyproj.Proj(init='epsg:4269')\""
-  - "%CMD_IN_ENV% python unittest/test.py -v"
+  - "%CMD_IN_ENV% py.test --cov-report term-missing --cov=pyproj -v -s"
 
 after_test:
   # If tests are successful, create binary packages for the project.
