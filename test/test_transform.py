@@ -23,13 +23,13 @@ def test_transform():
         x_0=-llcrnrx,
         y_0=-llcrnry,
     )
-    assert_allclose(awips221(-145.5, 1), (0, 0), atol=1e-7)
+    assert_allclose(awips221(-145.5, 1), (0, 0), atol=1e-4)
     awips218 = Proj(proj="lcc", R=6371200, lat_1=25, lat_2=25, lon_0=-95)
     llcrnrx, llcrnry = awips218(-133.459, 12.19)
     awips218 = Proj(
         proj="lcc", R=6371200, lat_1=25, lat_2=25, lon_0=-95, x_0=-llcrnrx, y_0=-llcrnry
     )
-    assert_allclose(awips218(-133.459, 12.19), (0, 0), atol=1e-7)
+    assert_allclose(awips218(-133.459, 12.19), (0, 0), atol=1e-4)
     x1 = dx * numpy.indices((ny, nx), "f")[1, :, :]
     y1 = dy * numpy.indices((ny, nx), "f")[0, :, :]
     print("max/min x and y for awips218 grid")
@@ -42,7 +42,7 @@ def test_transform():
     x3, y3 = transform(awips221, awips218, x2, y2)
     print("error for reverse transformation back to awips218 coords")
     print("(should be close to zero)")
-    assert_allclose(numpy.minimum.reduce(numpy.ravel(x3 - x1)), 0, atol=1e-7)
-    assert_allclose(numpy.maximum.reduce(numpy.ravel(x3 - x1)), 0, atol=1e-7)
-    assert_allclose(numpy.minimum.reduce(numpy.ravel(y3 - y1)), 0, atol=1e-7)
-    assert_allclose(numpy.maximum.reduce(numpy.ravel(y3 - y1)), 0, atol=1e-7)
+    assert_allclose(numpy.minimum.reduce(numpy.ravel(x3 - x1)), 0, atol=1e-4)
+    assert_allclose(numpy.maximum.reduce(numpy.ravel(x3 - x1)), 0, atol=1e-4)
+    assert_allclose(numpy.minimum.reduce(numpy.ravel(y3 - y1)), 0, atol=1e-4)
+    assert_allclose(numpy.maximum.reduce(numpy.ravel(y3 - y1)), 0, atol=1e-4)

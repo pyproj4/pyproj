@@ -108,6 +108,6 @@ def test_awips221():
     print("max abs error for y")
     max_abs_err_y = numpy.maximum.reduce(numpy.fabs(numpy.ravel(y - yy)))
     print(max_abs_err_y)
-    assert_allclose(max_abs_err_y, 0, atol=1e-7)
+    assert_allclose(max_abs_err_y, 0, atol=1e-4)
     print("took", t2 - t1, "secs")
     print("compare output with sample.out")
