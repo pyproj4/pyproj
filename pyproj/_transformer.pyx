@@ -39,14 +39,14 @@ cdef class _Transformer:
         cdef _Transformer transformer = _Transformer()
         transformer.projpj = proj_create_crs_to_crs(
             transformer.projctx,
-            _Transformer._definition_from_object(proj_from),
-            _Transformer._definition_from_object(proj_to),
+            cstrencode(proj_from.crs.srs),
+            cstrencode(proj_to.crs.srs),
             NULL)
         if transformer.projpj is NULL:
             raise ProjError("Error creating CRS to CRS.")
         transformer.set_radians_io()
-        transformer.projections_exact_same = proj_from.is_exact_same(proj_to)
-        transformer.projections_equivalent = proj_from == proj_to
+        transformer.projections_exact_same = proj_from.crs.is_exact_same(proj_to.crs)
+        transformer.projections_equivalent = proj_from.crs == proj_to.crs
         transformer.skip_equivalent = skip_equivalent
         transformer.is_pipeline = False
         return transformer
@@ -63,17 +63,6 @@ cdef class _Transformer:
         return transformer
 
     @staticmethod
-    def from_crs(crs_from, crs_to, skip_equivalent=False):
-        if not isinstance(crs_from, CRS):
-            crs_from = CRS.from_user_input(crs_from)
-        if not isinstance(crs_to, CRS):
-            crs_to = CRS.from_user_input(crs_to)
-        transformer = _Transformer._init_crs_to_crs(crs_from, crs_to, skip_equivalent=skip_equivalent)
-        transformer.input_geographic = crs_from.is_geographic
-        transformer.output_geographic = crs_to.is_geographic
-        return transformer
-
-    @staticmethod
     def from_pipeline(const char *proj_pipeline):
         cdef _Transformer transformer = _Transformer()
 
@@ -84,22 +73,6 @@ cdef class _Transformer:
         transformer.set_radians_io()
         transformer.is_pipeline = True
         return transformer
-
-    @staticmethod
-    def _definition_from_object(in_proj):
-        """
-        Parameters
-        ----------
-        in_proj: :obj:`pyproj.Proj` or :obj:`pyproj.CRS`
-
-        Returns
-        -------
-        char*: Definition string for `proj_create_crs_to_crs`.
-
-        """
-        if isinstance(in_proj, Proj):
-            return cstrencode(in_proj.crs.srs)
-        return cstrencode(in_proj.srs)
 
     def _transform(self, inx, iny, inz, intime, radians, errcheck=False):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
@@ -130,7 +103,7 @@ cdef class _Transformer:
         else:
             buflent = bufleny
 
-        if not (buflenx == bufleny == buflenz == buflent):
+        if not buflenx or not (buflenx == bufleny == buflenz == buflent):
             raise ProjError('x,y,z, and time must be same size')
         xx = <double *>xdata
         yy = <double *>ydata
