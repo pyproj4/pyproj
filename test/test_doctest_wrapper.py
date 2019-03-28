@@ -1,6 +1,6 @@
 """
 This is a wrapper for the doctests in lib/pyproj/__init__.py so that
-nose2 can conveniently run all the tests in a single command line.
+pytest can conveniently run all the tests in a single command line.
 """
 
 import pyproj

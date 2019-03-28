@@ -80,8 +80,7 @@ install:
 
 script:
   - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
-  - nose2 -v
-  - nose2 --coverage pyproj --coverage-report xml # coverage report on separate line as does not show failures
+  - py.test --cov-report term-missing --cov=pyproj -v -s
 
 after_success:
 - coveralls
