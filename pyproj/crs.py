@@ -160,7 +160,7 @@ class CRS(_CRS):
 
         Returns
         -------
-        CRS
+        ~CRS
         """
         if int(code) <= 0:
             raise CRSError("EPSG codes are positive integers")
@@ -177,7 +177,7 @@ class CRS(_CRS):
 
         Returns
         -------
-        CRS
+        ~CRS
         """
         if not proj_string:
             raise CRSError("CRS is empty or invalid: {!r}".format(proj_string))
@@ -214,7 +214,7 @@ class CRS(_CRS):
 
         Returns
         -------
-        CRS
+        ~CRS
         """
         if isinstance(value, _CRS):
             return value
@@ -233,7 +233,7 @@ class CRS(_CRS):
         """
         Returns
         -------
-        :obj:`pyproj.Geod`: Geod object based on the CRS.ellipsoid.
+        ~pyproj.geod.Geod: Geod object based on the ellipsoid.
         """
         if self.ellipsoid is None or not self.ellipsoid.ellipsoid_loaded:
             return None

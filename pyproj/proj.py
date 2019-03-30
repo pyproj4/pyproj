@@ -351,7 +351,10 @@ class Proj(_proj.Proj):
         -------
         bool: True if projection in geographic (lon/lat) coordinates.
         """
-        warnings.warn("'is_latlong()' is deprecated. Please use 'crs.is_geographic'.")
+        warnings.warn(
+            "'is_latlong()' is deprecated and will be removed in version 2.2.0. "
+            "Please use 'crs.is_geographic'."
+        )
         return self.crs.is_geographic
 
     def is_geocent(self):
@@ -360,7 +363,10 @@ class Proj(_proj.Proj):
         -------
         bool: True if projection in geocentric (x/y) coordinates
         """
-        warnings.warn("'is_geocent()' is deprecated. Please use 'crs.is_geocent'.")
+        warnings.warn(
+            "'is_geocent()' is deprecated and will be removed in version 2.2.0. "
+            "Please use 'crs.is_geocent'."
+        )
         return self.is_geocent
 
     def definition_string(self):
