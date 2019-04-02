@@ -17,6 +17,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE."""
 
+import warnings
 from array import array
 from itertools import chain, islice
 
@@ -41,13 +42,13 @@ class Transformer(object):
 
     @staticmethod
     def from_proj(proj_from, proj_to, skip_equivalent=False):
-        """Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.
+        """Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.
 
         Parameters
         ----------
-        proj_from: :obj:`pyproj.Proj` or input used to create one
+        proj_from: :obj:`~pyproj.proj.Proj` or input used to create one
             Projection of input data.
-        proj_to: :obj:`pyproj.Proj` or input used to create one
+        proj_to: :obj:`~pyproj.proj.Proj` or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output 
@@ -55,7 +56,7 @@ class Transformer(object):
 
         Returns
         -------
-        :obj:`pyproj.Transformer`
+        :obj:`~Transformer`
 
         """
 
@@ -67,13 +68,16 @@ class Transformer(object):
 
     @staticmethod
     def from_crs(crs_from, crs_to, skip_equivalent=False):
-        """Make a Transformer from a :obj:`pyproj.CRS` or input used to create one.
+        """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
+
+        .. warning:: `from_crs` is deprecated and will be removed in 2.2.0.
+            Please use :meth:`~Transformer.from_proj` instead.
 
         Parameters
         ----------
-        crs_from: :obj:`pyproj.CRS` or input used to create one
+        crs_from: ~pyproj.crs.CRS or input used to create one
             Projection of input data.
-        crs_to: :obj:`pyproj.CRS` or input used to create one
+        crs_to: ~pyproj.crs.CRS or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
@@ -81,9 +85,13 @@ class Transformer(object):
 
         Returns
         -------
-        :obj:`pyproj.Transformer`
+        :obj:`~Transformer`
 
         """
+        warnings.warn(
+            "`from_crs` is deprecated and will be removed in 2.2.0. "
+            "Please use `from_proj` instead."
+        )
         return Transformer.from_proj(crs_from, crs_to, skip_equivalent=skip_equivalent)
 
     @staticmethod
@@ -99,7 +107,7 @@ class Transformer(object):
 
         Returns
         -------
-        :obj:`pyproj.Transformer`
+        ~Transformer
 
         """
         transformer = Transformer()

@@ -351,7 +351,7 @@ cdef class _CRS:
         """
         Returns
         -------
-        Ellipsoid: The CRS ellipsoid object with associated attributes.
+        Ellipsoid: The ellipsoid object with associated attributes.
         """
         if self._ellipsoid is not None:
             return self._ellipsoid
@@ -363,7 +363,7 @@ cdef class _CRS:
         """
         Returns
         -------
-        AreaOfUse: The CRS area of use object with associated attributes.
+        AreaOfUse: The area of use object with associated attributes.
         """
         if self._area_of_use is not None:
             return self._area_of_use
@@ -387,7 +387,7 @@ cdef class _CRS:
         """
         Returns
         -------
-        :obj:`pyproj.CRS`: The datum as a CRS.
+        pyproj.CRS: The datum as a CRS.
         """
         cdef PJ *projobj = proj_crs_get_datum(self.projctx, self.projobj)
         if projobj == NULL:
@@ -436,8 +436,13 @@ cdef class _CRS:
         return None
 
     def to_geodetic(self):
-        """return a new CRS instance which is the geographic (lat/lon)
-        coordinate version of the current projection"""
+        """
+
+        Returns
+        -------
+        pyproj.CRS: The geographic (lat/lon) CRS from the current CRS.
+
+        """
         cdef PJ * projobj
         projobj = proj_crs_get_geodetic_crs(self.projctx, self.projobj)
         if projobj == NULL:
@@ -451,11 +456,20 @@ cdef class _CRS:
         """
         Convert the projection to a WKT string.
 
+        Version options:
+          - WKT2_2015
+          - WKT2_2015_SIMPLIFIED
+          - WKT2_2018
+          - WKT2_2018_SIMPLIFIED
+          - WKT1_GDAL
+          - WKT1_ESRI
+
+
         Parameters
         ----------
         version: str
             The version of the WKT output. Default is WKT2_2018.
-
+ 
         Returns
         -------
         str: The WKT string.

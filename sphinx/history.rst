@@ -3,7 +3,11 @@ Change Log
 
 2.1.3
 ~~~~~
-* Added support for 4D (time) transformations (issue #208)
+* Added support for time transformations (issue #208)
+* Fixed projection equivalence testing for transformations (pull #231).
+* Switch to pytest for testing (pull #230)
+* Various testing fixes (pull #223, #222, #221, #220)
+* Convert PROJ error messages from bytes to strings (pull #219)
 
 2.1.2
 ~~~~~
@@ -17,14 +21,14 @@ Change Log
 ~~~~~
 * Restore behavior of 1.9.6 when illegal projection transformation requested
   (return ``inf`` instead of raising an exception, issue #202).  kwarg ``errcheck``
-  added to :func:`pyproj.transform` and :func:`pyproj.itransform`
+  added to :func:`~pyproj.transformer.transform` and :func:`~pyproj.transformer.itransform`
   (default ``False``). When ``errcheck=True`` an exception is raised.
 
 2.1.0
 ~~~~~
-* Added :class:`pyproj.Transformer` to make repetitive transformations more efficient (issue #187)
+* Added :class:`~pyproj.transformer.Transformer` to make repetitive transformations more efficient (issue #187)
 * Added fix for using local datumgrids with transform (issue #191)
-* Added :class:`pyproj.Transformer.from_pipeline` to support pipeline transformations.
+* Added :meth:`~pyproj.transformer.Transformer.from_pipeline` to support pipeline transformations.
 * Added fix for conversion between radians/degrees for transformations (issues #192 & #195)
 
 2.0.2
