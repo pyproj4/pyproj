@@ -35,7 +35,7 @@ def append_data_dir(proj_data_dir):
     proj_data_dir: str
         The path to rhe PROJ.4 data directory.
     """
-    set_data_dir(";".join([get_data_dir(), proj_data_dir]))
+    set_data_dir(os.pathsep.join([get_data_dir(), proj_data_dir]))
 
 
 def get_data_dir():
@@ -73,7 +73,7 @@ def get_data_dir():
     def valid_data_dirs(potential_data_dirs):
         if potential_data_dirs is None:
             return False
-        for proj_data_dir in potential_data_dirs.split(";"):
+        for proj_data_dir in potential_data_dirs.split(os.pathsep):
             if valid_data_dir(proj_data_dir):
                 return True
                 break

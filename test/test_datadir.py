@@ -6,7 +6,6 @@ from contextlib import contextmanager
 
 import pytest
 from mock import patch
-
 from pyproj.datadir import DataDirError, append_data_dir, get_data_dir, set_data_dir
 
 
@@ -94,9 +93,9 @@ def test_get_data_dir__from_env_var__multiple():
         "pyproj.datadir.os.path.abspath", return_value="INVALID"
     ):
         set_data_dir(None)
-        os.environ["PROJ_LIB"] = ";".join([tmpdir, tmpdir, tmpdir])
+        os.environ["PROJ_LIB"] = os.pathsep.join([tmpdir, tmpdir, tmpdir])
         create_projdb(tmpdir)
-        assert get_data_dir() == ";".join([tmpdir, tmpdir, tmpdir])
+        assert get_data_dir() == os.pathsep.join([tmpdir, tmpdir, tmpdir])
 
 
 @unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
@@ -125,4 +124,4 @@ def test_append_data_dir__internal():
         with patch("pyproj.datadir.os.path.abspath") as abspath_mock:
             abspath_mock.return_value = os.path.join(tmpdir, "randomfilename.py")
             append_data_dir(extra_datadir)
-            assert get_data_dir() == ";".join([internal_proj_dir, extra_datadir])
+            assert get_data_dir() == os.pathsep.join([internal_proj_dir, extra_datadir])
