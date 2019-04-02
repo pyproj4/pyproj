@@ -1,3 +1,4 @@
+import os
 
 from libc.stdlib cimport malloc, free
 
@@ -15,7 +16,7 @@ cdef void pyproj_log_function(void *user_data, int level, const char *error_msg)
 
 cdef PJ_CONTEXT* get_pyproj_context():
     data_dir = get_data_dir()
-    data_dir_list = data_dir.split(";")
+    data_dir_list = data_dir.split(os.pathsep)
     cdef PJ_CONTEXT* pyproj_context = NULL
     cdef char **c_data_dir = <char **>malloc(len(data_dir_list) * sizeof(char*))
     try:
