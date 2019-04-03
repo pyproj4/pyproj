@@ -8,6 +8,7 @@ Change Log
 * Switch to pytest for testing (pull #230)
 * Various testing fixes (pull #223, #222, #221, #220)
 * Convert PROJ error messages from bytes to strings (pull #219)
+* Fix data dir path separator to be (;) for windows and (:) for linux (pull #234)
 
 2.1.2
 ~~~~~
