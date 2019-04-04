@@ -20,7 +20,7 @@ optimize your transformations.
     y_coords = np.random.randint(200000, 250000) 
 
 
-Example with `pyproj.transform`:
+Example with :func:`~pyproj.transformer.transform`:
 
 .. code-block:: python
 
@@ -28,7 +28,7 @@ Example with `pyproj.transform`:
 
 Results: 160 ms ± 3.68 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 
-Example with :class:`pyproj.Transformer`:
+Example with :class:`~pyproj.transformer.Transformer`:
 
 .. code-block:: python
 
