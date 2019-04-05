@@ -24,6 +24,8 @@ def proj_env():
     try:
         yield
     finally:
+        # make sure the data dir is cleared
+        set_data_dir(None)
         if proj_lib is not None:
             # add it back if it used to be there
             os.environ["PROJ_LIB"] = proj_lib
@@ -51,7 +53,7 @@ def test_get_data_dir__missing():
     ), patch("pyproj.datadir.find_executable", return_value=None):
         set_data_dir(None)
         os.environ.pop("PROJ_LIB", None)
-        get_data_dir()
+        assert get_data_dir() is None
 
 
 def test_get_data_dir__from_user():
