@@ -6,6 +6,7 @@ from contextlib import contextmanager
 
 import pytest
 from mock import patch
+
 from pyproj.datadir import DataDirError, append_data_dir, get_data_dir, set_data_dir
 
 
@@ -23,8 +24,12 @@ def proj_env():
     try:
         yield
     finally:
-        if proj_lib:
+        if proj_lib is not None:
+            # add it back if it used to be there
             os.environ["PROJ_LIB"] = proj_lib
+        else:
+            # remove it if it wasn't there previously
+            os.environ.pop("PROJ_LIB", None)
 
 
 @contextmanager
