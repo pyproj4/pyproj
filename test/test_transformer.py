@@ -35,13 +35,10 @@ def test_illegal_transformation():
     )
     assert np.all(np.isinf(xx))
     assert np.all(np.isinf(yy))
-    try:
-        xx, yy = pyproj.transform(
+    with pytest.raises(ProjError):
+        pyproj.transform(
             p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90), errcheck=True
         )
-        assert_equal(None, "Should throw an exception when errcheck=True")
-    except ProjError:
-        pass
 
 
 def test_lambert_conformal_transform():
