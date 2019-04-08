@@ -18,7 +18,7 @@ matrix:
     - language: cpp
       os: osx
       env:
-        - PYTHON=3.6
+        - PYTHON=3.6.8
         - PROJSOURCE=6.0.0
     - python: 2.7
       env:
@@ -31,7 +31,6 @@ matrix:
         - PROJSOURCE=6.0.0
     - python: 3.7
       dist: xenial
-      sudo: true
       env:
         - PROJSOURCE=6.0.0
     - python: "nightly"
