@@ -231,3 +231,31 @@ cdef extern from "proj.h":
 
     PJ_GUESSED_WKT_DIALECT proj_context_guess_wkt_dialect(PJ_CONTEXT *ctx,
                                                           const char *wkt)
+
+    ctypedef struct PJ_OPERATIONS:
+        const char  *id
+        PJ          *(*proj)(PJ *)
+        const char  * const *descr
+
+    const PJ_OPERATIONS *proj_list_operations()
+
+    ctypedef struct PJ_UNITS:
+        const char  *id
+        const char  *to_meter
+        const char  *name
+        double      factor
+    const PJ_UNITS *proj_list_units()
+    const PJ_UNITS *proj_list_angular_units()
+
+    ctypedef struct PJ_ELLPS:
+        const char  *id   # ellipse keyword name
+        const char  *major  # a= value
+        const char  *ell  # elliptical parameter
+        const char  *name  # comments
+    const PJ_ELLPS *proj_list_ellps()
+
+    ctypedef struct PJ_PRIME_MERIDIANS:
+        const char  *id
+        const char  *defn
+    const PJ_PRIME_MERIDIANS *proj_list_prime_meridians()
+

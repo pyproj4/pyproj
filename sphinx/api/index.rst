@@ -9,5 +9,6 @@ API Documentation
    crs
    geod
    transformer
+   list
    datadir
    exceptions

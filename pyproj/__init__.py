@@ -57,13 +57,26 @@ __all__ = [
     "itransform",
     "pj_ellps",
     "pj_list",
+    "get_angular_units_map",
+    "get_ellps_map",
+    "get_prime_meridians_map",
+    "get_proj_operations_map",
+    "get_units_map",
 ]
+import sys
 
-from pyproj.crs import CRS
-from pyproj.exceptions import ProjError
-from pyproj.geod import Geod, geodesic_version_str, pj_ellps
-from pyproj.proj import Proj, pj_list, proj_version_str
-from pyproj.transformer import Transformer, itransform, transform
+from pyproj._list import (  # noqa
+    get_angular_units_map,
+    get_ellps_map,
+    get_prime_meridians_map,
+    get_proj_operations_map,
+    get_units_map,
+)
+from pyproj.crs import CRS  # noqa
+from pyproj.exceptions import ProjError  # noqa
+from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa
+from pyproj.proj import Proj, pj_list, proj_version_str  # noqa
+from pyproj.transformer import Transformer, itransform, transform  # noqa
 
 
 def test(**kwargs):
@@ -79,7 +92,9 @@ def test(**kwargs):
         pyproj.transformer, verbose=verbose
     )
 
-    return failure_count + failure_count_crs + failure_count_geod + failure_count_transform
+    return (
+        failure_count + failure_count_crs + failure_count_geod + failure_count_transform
+    )
 
 
 if __name__ == "__main__":

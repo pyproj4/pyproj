@@ -35,92 +35,10 @@ import math
 
 from pyproj._geod import Geod as _Geod
 from pyproj._geod import geodesic_version_str
+from pyproj._list import get_ellps_map
 from pyproj.utils import _convertback, _copytobuffer
 
-pj_ellps = {
-    "MERIT": {"a": 6378137.0, "rf": 298.257, "description": "MERIT 1983"},
-    "SGS85": {
-        "a": 6378136.0,
-        "rf": 298.257,
-        "description": "Soviet Geodetic System 85",
-    },
-    "GRS80": {
-        "a": 6378137.0,
-        "rf": 298.257222101,
-        "description": "GRS 1980(IUGG, 1980)",
-    },
-    "IAU76": {"a": 6378140.0, "rf": 298.257, "description": "IAU 1976"},
-    "airy": {"a": 6377563.396, "b": 6356256.910, "description": "Airy 1830"},
-    "APL4.9": {"a": 6378137.0, "rf": 298.25, "description": "Appl. Physics. 1965"},
-    "NWL9D": {"a": 6378145.0, "rf": 298.25, "description": " Naval Weapons Lab., 1965"},
-    "mod_airy": {"a": 6377340.189, "b": 6356034.446, "description": "Modified Airy"},
-    "andrae": {
-        "a": 6377104.43,
-        "rf": 300.0,
-        "description": "Andrae 1876 (Den., Iclnd.)",
-    },
-    "aust_SA": {
-        "a": 6378160.0,
-        "rf": 298.25,
-        "description": "Australian Natl & S. Amer. 1969",
-    },
-    "GRS67": {"a": 6378160.0, "rf": 298.2471674270, "description": "GRS 67(IUGG 1967)"},
-    "bessel": {"a": 6377397.155, "rf": 299.1528128, "description": "Bessel 1841"},
-    "bess_nam": {
-        "a": 6377483.865,
-        "rf": 299.1528128,
-        "description": "Bessel 1841 (Namibia)",
-    },
-    "clrk66": {"a": 6378206.4, "b": 6356583.8, "description": "Clarke 1866"},
-    "clrk80": {"a": 6378249.145, "rf": 293.4663, "description": "Clarke 1880 mod."},
-    "CPM": {
-        "a": 6375738.7,
-        "rf": 334.29,
-        "description": "Comm. des Poids et Mesures 1799",
-    },
-    "delmbr": {"a": 6376428.0, "rf": 311.5, "description": "Delambre 1810 (Belgium)"},
-    "engelis": {"a": 6378136.05, "rf": 298.2566, "description": "Engelis 1985"},
-    "evrst30": {"a": 6377276.345, "rf": 300.8017, "description": "Everest 1830"},
-    "evrst48": {"a": 6377304.063, "rf": 300.8017, "description": "Everest 1948"},
-    "evrst56": {"a": 6377301.243, "rf": 300.8017, "description": "Everest 1956"},
-    "evrst69": {"a": 6377295.664, "rf": 300.8017, "description": "Everest 1969"},
-    "evrstSS": {
-        "a": 6377298.556,
-        "rf": 300.8017,
-        "description": "Everest (Sabah & Sarawak)",
-    },
-    "fschr60": {
-        "a": 6378166.0,
-        "rf": 298.3,
-        "description": "Fischer (Mercury Datum) 1960",
-    },
-    "fschr60m": {"a": 6378155.0, "rf": 298.3, "description": "Modified Fischer 1960"},
-    "fschr68": {"a": 6378150.0, "rf": 298.3, "description": "Fischer 1968"},
-    "helmert": {"a": 6378200.0, "rf": 298.3, "description": "Helmert 1906"},
-    "hough": {"a": 6378270.0, "rf": 297.0, "description": "Hough"},
-    "intl": {
-        "a": 6378388.0,
-        "rf": 297.0,
-        "description": "International 1909 (Hayford)",
-    },
-    "krass": {"a": 6378245.0, "rf": 298.3, "description": "Krassovsky, 1942"},
-    "kaula": {"a": 6378163.0, "rf": 298.24, "description": "Kaula 1961"},
-    "lerch": {"a": 6378139.0, "rf": 298.257, "description": "Lerch 1979"},
-    "mprts": {"a": 6397300.0, "rf": 191.0, "description": "Maupertius 1738"},
-    "new_intl": {
-        "a": 6378157.5,
-        "b": 6356772.2,
-        "description": "New International 1967",
-    },
-    "plessis": {"a": 6376523.0, "b": 6355863.0, "description": "Plessis 1817 (France)"},
-    "SEasia": {"a": 6378155.0, "b": 6356773.3205, "description": "Southeast Asia"},
-    "walbeck": {"a": 6376896.0, "b": 6355834.8467, "description": "Walbeck"},
-    "WGS60": {"a": 6378165.0, "rf": 298.3, "description": "WGS 60"},
-    "WGS66": {"a": 6378145.0, "rf": 298.25, "description": "WGS 66"},
-    "WGS72": {"a": 6378135.0, "rf": 298.26, "description": "WGS 72"},
-    "WGS84": {"a": 6378137.0, "rf": 298.257223563, "description": "WGS 84"},
-    "sphere": {"a": 6370997.0, "b": 6370997.0, "description": "Normal Sphere"},
-}
+pj_ellps = get_ellps_map()
 
 
 class Geod(_Geod):
@@ -144,55 +62,9 @@ class Geod(_Geod):
         Geodetic parameters for specifying the ellipsoid
         can be given in a dictionary 'initparams', as keyword arguments,
         or as as proj4 geod initialization string.
-        Following is a list of the ellipsoids that may be defined using the
-        'ellps' keyword (these are stored in the model variable pj_ellps)::
-
-           MERIT a=6378137.0      rf=298.257       MERIT 1983
-           SGS85 a=6378136.0      rf=298.257       Soviet Geodetic System 85
-           GRS80 a=6378137.0      rf=298.257222101 GRS 1980(IUGG, 1980)
-           IAU76 a=6378140.0      rf=298.257       IAU 1976
-           airy a=6377563.396     b=6356256.910    Airy 1830
-           APL4.9 a=6378137.0.    rf=298.25        Appl. Physics. 1965
-           airy a=6377563.396     b=6356256.910    Airy 1830
-           APL4.9 a=6378137.0.    rf=298.25        Appl. Physics. 1965
-           NWL9D a=6378145.0.     rf=298.25        Naval Weapons Lab., 1965
-           mod_airy a=6377340.189 b=6356034.446    Modified Airy
-           andrae a=6377104.43    rf=300.0         Andrae 1876 (Den., Iclnd.)
-           aust_SA a=6378160.0    rf=298.25        Australian Natl & S. Amer. 1969
-           GRS67 a=6378160.0      rf=298.247167427 GRS 67(IUGG 1967)
-           bessel a=6377397.155   rf=299.1528128   Bessel 1841
-           bess_nam a=6377483.865 rf=299.1528128   Bessel 1841 (Namibia)
-           clrk66 a=6378206.4     b=6356583.8      Clarke 1866
-           clrk80 a=6378249.145   rf=293.4663      Clarke 1880 mod.
-           CPM a=6375738.7        rf=334.29        Comm. des Poids et Mesures 1799
-           delmbr a=6376428.      rf=311.5         Delambre 1810 (Belgium)
-           engelis a=6378136.05   rf=298.2566      Engelis 1985
-           evrst30 a=6377276.345  rf=300.8017      Everest 1830
-           evrst48 a=6377304.063  rf=300.8017      Everest 1948
-           evrst56 a=6377301.243  rf=300.8017      Everest 1956
-           evrst69 a=6377295.664  rf=300.8017      Everest 1969
-           evrstSS a=6377298.556  rf=300.8017      Everest (Sabah & Sarawak)
-           fschr60 a=6378166.     rf=298.3         Fischer (Mercury Datum) 1960
-           fschr60m a=6378155.    rf=298.3         Modified Fischer 1960
-           fschr68 a=6378150.     rf=298.3         Fischer 1968
-           helmert a=6378200.     rf=298.3         Helmert 1906
-           hough a=6378270.0      rf=297.          Hough
-           helmert a=6378200.     rf=298.3         Helmert 1906
-           hough a=6378270.0      rf=297.          Hough
-           intl a=6378388.0       rf=297.          International 1909 (Hayford)
-           krass a=6378245.0      rf=298.3         Krassovsky, 1942
-           kaula a=6378163.       rf=298.24        Kaula 1961
-           lerch a=6378139.       rf=298.257       Lerch 1979
-           mprts a=6397300.       rf=191.          Maupertius 1738
-           new_intl a=6378157.5   b=6356772.2      New International 1967
-           plessis a=6376523.     b=6355863.       Plessis 1817 (France)
-           SEasia a=6378155.0     b=6356773.3205   Southeast Asia
-           walbeck a=6376896.0    b=6355834.8467   Walbeck
-           WGS60 a=6378165.0      rf=298.3         WGS 60
-           WGS66 a=6378145.0      rf=298.25        WGS 66
-           WGS72 a=6378135.0      rf=298.26        WGS 72
-           WGS84 a=6378137.0      rf=298.257223563 WGS 84
-           sphere a=6370997.0     b=6370997.0      Normal Sphere (r=6370997)
+        
+        You can get a dictionary of ellipsoids using :func:`~pyproj.get_ellps_map`
+        or with the variable `pyproj.pj_ellps`.
 
         The parameters of the ellipsoid may also be set directly using
         the 'a' (semi-major or equatorial axis radius) keyword, and
@@ -200,10 +72,8 @@ class Geod(_Geod):
         or polar axis radius), 'e' (eccentricity), 'es' (eccentricity
         squared), 'f' (flattening), or 'rf' (reciprocal flattening).
 
-        See the proj documentation (https://github.com/OSGeo/proj.4/wiki) for more
-        information about specifying ellipsoid parameters (specifically,
-        the chapter 'Specifying the Earth's figure' in the main Proj
-        users manual).
+        See the proj documentation (https://proj4.org) for more
+        information about specifying ellipsoid parameters.
 
         Example usage:
 
