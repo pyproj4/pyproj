@@ -35,13 +35,10 @@ def test_illegal_transformation():
     )
     assert np.all(np.isinf(xx))
     assert np.all(np.isinf(yy))
-    try:
-        xx, yy = pyproj.transform(
+    with pytest.raises(ProjError):
+        pyproj.transform(
             p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90), errcheck=True
         )
-        assert_equal(None, "Should throw an exception when errcheck=True")
-    except ProjError:
-        pass
 
 
 def test_lambert_conformal_transform():
@@ -58,21 +55,24 @@ def test_lambert_conformal_transform():
 
 
 def test_equivalent_crs():
-    transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
+    with pytest.warns(UserWarning):
+        transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
     assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
     assert transformer._transformer.skip_equivalent
 
 
 def test_equivalent_crs__disabled():
-    transformer = Transformer.from_crs("epsg:4326", 4326)
+    with pytest.warns(UserWarning):
+        transformer = Transformer.from_crs("epsg:4326", 4326)
     assert not transformer._transformer.skip_equivalent
     assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
 
 
 def test_equivalent_crs__different():
-    transformer = Transformer.from_crs("epsg:4326", 3857, skip_equivalent=True)
+    with pytest.warns(UserWarning):
+        transformer = Transformer.from_crs("epsg:4326", 3857, skip_equivalent=True)
     assert transformer._transformer.skip_equivalent
     assert not transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same
@@ -228,18 +228,29 @@ def test_itransform_time_3rd_invalid():
         list(itransform(7789, 8401, [(3496737.2679, 743254.4507)], time_3rd=True))
 
 
-def test_transform_error():
+def test_transform_no_error():
     pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
-    with pytest.raises(ProjError):
-        transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
+    transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
 
 
-def test_itransform_error():
+def test_itransform_no_error():
     pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
+    list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
+
+
+def test_transform_exception():
+    transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
     with pytest.raises(ProjError):
-        list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
+        transformer.transform(100000, 100000, errcheck=True)
+
+
+def test_transform_no_exception():
+    # issue 249
+    transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
+    transformer.transform(1.716073972, 52.658007833, errcheck=True)
+    transformer.itransform([(1.716073972, 52.658007833)], errcheck=True)
 
 
 def test_transform_radians():

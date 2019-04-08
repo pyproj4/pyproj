@@ -141,7 +141,7 @@ class Transformer(object):
         Example:
 
         >>> from pyproj import Transformer
-        >>> transformer = Transformer.from_crs("epsg:4326", "epsg:3857")
+        >>> transformer = Transformer.from_proj("epsg:4326", "epsg:3857")
         >>> x3, y3 = transformer.transform(33, 98)
         >>> "%.3f  %.3f" % (x3, y3)
         '10909310.098  3895303.963'
@@ -218,7 +218,7 @@ class Transformer(object):
         Example:
 
         >>> from pyproj import Transformer
-        >>> transformer = Transformer.from_crs(4326, 2100)
+        >>> transformer = Transformer.from_proj(4326, 2100)
         >>> points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]
         >>> for pt in transformer.itransform(points): '{:.3f} {:.3f}'.format(*pt)
         '2221638.801 2637034.372'
