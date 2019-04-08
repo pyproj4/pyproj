@@ -1,5 +1,9 @@
 import array
-import time
+
+try:
+    from time import perf_counter
+except ImportError:
+    from time import clock as perf_counter
 
 import numpy
 from numpy.testing import assert_allclose
@@ -59,11 +63,11 @@ def test_awips221():
     dy = (urcrnry - llcrnry) / (ny - 1)
     x = llcrnrx + dx * numpy.indices((ny, nx), "f")[1, :, :]
     y = llcrnry + dy * numpy.indices((ny, nx), "f")[0, :, :]
-    t1 = time.clock()
+    t1 = perf_counter()
     lons, lats = awips221(
         numpy.ravel(x).tolist(), numpy.ravel(y).tolist(), inverse=True
     )
-    t2 = time.clock()
+    t2 = perf_counter()
     print("data in lists:")
     print("compute lats/lons for all points on AWIPS 221 grid (%sx%s)" % (nx, ny))
     print("max/min lons")
@@ -73,9 +77,9 @@ def test_awips221():
     print("took", t2 - t1, "secs")
     xa = array.array("f", numpy.ravel(x).tolist())
     ya = array.array("f", numpy.ravel(y).tolist())
-    t1 = time.clock()
+    t1 = perf_counter()
     lons, lats = awips221(xa, ya, inverse=True)
-    t2 = time.clock()
+    t2 = perf_counter()
     print("data in python arrays:")
     print("compute lats/lons for all points on AWIPS 221 grid (%sx%s)" % (nx, ny))
     print("max/min lons")
@@ -83,9 +87,9 @@ def test_awips221():
     print("max/min lats")
     print(min(lats), max(lats))
     print("took", t2 - t1, "secs")
-    t1 = time.clock()
+    t1 = perf_counter()
     lons, lats = awips221(x, y, inverse=True)
-    t2 = time.clock()
+    t2 = perf_counter()
     print("data in a numpy array:")
     print("compute lats/lons for all points on AWIPS 221 grid (%sx%s)" % (nx, ny))
     print("max/min lons")
@@ -98,9 +102,9 @@ def test_awips221():
     )
     print("took", t2 - t1, "secs")
     # reverse transformation.
-    t1 = time.clock()
+    t1 = perf_counter()
     xx, yy = awips221(lons, lats)
-    t2 = time.clock()
+    t2 = perf_counter()
     print("max abs error for x")
     max_abs_err_x = numpy.maximum.reduce(numpy.fabs(numpy.ravel(x - xx)))
     print(max_abs_err_x)
