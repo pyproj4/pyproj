@@ -161,6 +161,7 @@ def get_extension_modules():
                 "pyproj._transformer", ["pyproj/_transformer.pyx"], **ext_options
             ),
             Extension("pyproj._datadir", ["pyproj/_datadir.pyx"], **ext_options),
+            Extension("pyproj._list", ["pyproj/_list.pyx"], **ext_options),
         ],
         quiet=True,
         **get_cythonize_options()
