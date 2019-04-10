@@ -75,6 +75,16 @@ class Proj(_proj.Proj):
 
     Works with numpy and regular python array objects, python
     sequences and scalars.
+
+    Attributes
+    ----------
+    srs: str
+        The string form of the user input used to create the Proj.
+    crs: ~pyproj.crs.CRS
+        The CRS object associated with the Proj.
+    proj_version: int
+        The major version number for PROJ.
+
     """
 
     def __init__(self, projparams=None, preserve_units=True, **kwargs):

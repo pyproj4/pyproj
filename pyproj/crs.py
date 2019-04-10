@@ -64,6 +64,13 @@ class CRS(_CRS):
     * `rasterio <https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx>`_
     * `opendatacube <https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py>`_
 
+    Attributes
+    ----------
+    srs: str
+        The string form of the user input used to create the CRS.
+    name: str
+        The name of the CRS (from `proj_get_name <https://proj4.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
+    
     """
 
     def __init__(self, projparams=None, **kwargs):
