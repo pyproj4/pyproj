@@ -142,6 +142,12 @@ def test_has_wkt_property():
     )
 
 
+def test_to_wkt_pretty():
+    crs = CRS.from_epsg(4326)
+    assert "\n" in crs.to_wkt(pretty=True)
+    assert "\n" not in crs.to_wkt()
+
+
 def test_repr():
     assert repr(CRS({"init": "EPSG:4326"})) == (
         "<CRS: +init=epsg:4326 +type=crs>\n"
