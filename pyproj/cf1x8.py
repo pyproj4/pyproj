@@ -39,7 +39,7 @@ INVERSE_GRID_MAPPING_NAME_MAP = {
 }
 
 PROJ_PARAM_MAP = {
-    "azimuth_of_central_line": "gamma",
+    "azimuth_of_central_line": "alpha",
     "earth_radius": "R",
     "fase_easting": "x_0",
     "fase_northing": "y_0",
@@ -65,7 +65,7 @@ PROJ_PARAM_MAP = {
 
 
 INVERSE_PROJ_PARAM_MAP = {value: key for key, value in PROJ_PARAM_MAP.items()}
-
+INVERSE_PROJ_PARAM_MAP.update(lonc="longitude_of_projection_origin")
 
 LON_0_MAP = {
     "DEFAULT": "longitude_of_projection_origin",

@@ -407,6 +407,11 @@ class CRS(_CRS):
         proj_dict = {"proj": proj_name}
         if grid_mapping_name == "rotated_latitude_longitude":
             proj_dict["o_proj"] = "latlon"
+        elif grid_mapping_name == "oblique_mercator":
+            try:
+                proj_dict["lonc"] = in_cf.pop("longitude_of_projection_origin")
+            except KeyError:
+                pass
 
         if "standard_parallel" in in_cf:
             standard_parallel = in_cf.pop("standard_parallel")

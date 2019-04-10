@@ -253,6 +253,65 @@ def test_cf_lambert_conformal_conic_2sp():
     }
 
 
+def test_oblique_mercator():
+    crs = CRS.from_cf(
+        dict(
+            grid_mapping_name="oblique_mercator",
+            azimuth_of_central_line=0.35,
+            latitude_of_projection_origin=10,
+            longitude_of_projection_origin=15,
+            reference_ellipsoid_name="WGS84",
+            false_easting=0.0,
+            false_northing=0.0,
+        )
+    )
+    cf_dict = crs.to_cf()
+    assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
+    assert cf_dict == {
+        "grid_mapping_name": "oblique_mercator",
+        "latitude_of_projection_origin": 10,
+        "longitude_of_projection_origin": 15,
+        "azimuth_of_central_line": 0.35,
+        "fase_easting": 0,
+        "fase_northing": 0,
+        "reference_ellipsoid_name": "WGS84",
+        "unit": "m",
+    }
+    assert crs.to_proj4_dict() == {
+        "proj": "omerc",
+        "lat_0": 10,
+        "lonc": 15,
+        "alpha": 0.35,
+        "gamma": 0.35,
+        "k": 1,
+        "x_0": 0,
+        "y_0": 0,
+        "ellps": "WGS84",
+        "units": "m",
+        "no_defs": None,
+        "type": "crs",
+    }
+    # test CRS with input as lon_0 from the user
+    lon0crs_cf = CRS(
+        {
+            "proj": "omerc",
+            "lat_0": 10,
+            "lon_0": 15,
+            "alpha": 0.35,
+            "gamma": 0.35,
+            "k": 1,
+            "x_0": 0,
+            "y_0": 0,
+            "ellps": "WGS84",
+            "units": "m",
+            "no_defs": None,
+            "type": "crs",
+        }
+    ).to_cf()
+    assert lon0crs_cf.pop("crs_wkt").startswith("PROJCRS[")
+    assert lon0crs_cf == cf_dict
+
+
 def test_cf_from_invalid():
     with pytest.raises(CRSError):
         CRS.from_cf(
