@@ -326,3 +326,8 @@ def test_from_user_input_custom_crs_class():
             return CRS.from_epsg(4326).to_wkt()
 
     assert CRS.from_user_input(CustomCRS()) == CRS.from_epsg(4326)
+
+
+def test_datum_to_epsg():
+    crs = CRS.from_epsg(31370)
+    assert crs.datum.to_epsg() is None

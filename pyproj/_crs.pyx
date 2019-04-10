@@ -520,7 +520,8 @@ cdef class _CRS:
                 NULL,
                 &out_confidence_list
             )
-            num_proj_objects = proj_list_get_count(proj_list)
+            if proj_list != NULL:
+                num_proj_objects = proj_list_get_count(proj_list)
             if out_confidence_list != NULL and num_proj_objects>0:
                 out_confidence = out_confidence_list[0]
         finally:
