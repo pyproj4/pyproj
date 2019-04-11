@@ -39,7 +39,7 @@ def test_to_cf_transverse_mercator():
 
 
 def test_from_cf_transverse_mercator():
-    towgs84_test = [-122.74, -34.27, -22.83, -1.884, -3.4, -3.03, -15.62]
+    towgs84_test = (-122.74, -34.27, -22.83, -1.884, -3.4, -3.03, -15.62)
     crs = CRS.from_cf(
         {
             "grid_mapping_name": "transverse_mercator",
@@ -63,7 +63,7 @@ def test_from_cf_transverse_mercator():
     assert cf_dict["fase_northing"] == 0
     assert cf_dict["reference_ellipsoid_name"] == "intl"
     assert cf_dict["unit"] == "m"
-    assert_almost_equal(cf_dict["towgs84"], towgs84_test)
+    assert_almost_equal(cf_dict["towgs84"], list(towgs84_test))
 
 
 def test_cf_from_latlon():
