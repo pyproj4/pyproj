@@ -46,7 +46,6 @@ cdef class _CRS:
     cdef PJ_CONTEXT * projctx
     cdef PJ_TYPE proj_type
     cdef PJ_PROJ_INFO projpj_info
-    cdef public object proj_version
     cdef char *pjinitstring
     cdef public object name
     cdef public object srs
