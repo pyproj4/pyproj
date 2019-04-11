@@ -30,9 +30,8 @@ cdef class AxisInfo:
         self.unit_code = None
 
     def __str__(self):
-        return "- {name}[{abbrev}] ({direction}) {unit_auth_code}:{unit_code} ({unit_name})".format(
+        return "- {direction}: {name} [{unit_auth_code}:{unit_code}] ({unit_name})".format(
             name=self.name,
-            abbrev=self.abbrev,
             direction=self.direction,
             unit_name=self.unit_name,
             unit_auth_code=self.unit_auth_code,
@@ -125,7 +124,75 @@ cdef class AreaOfUse:
         return self.west, self.south, self.east, self.north
 
 
-cdef class Ellipsoid:
+cdef class Base:
+    def __cinit__(self):
+        self.projobj = NULL
+        self.projctx = NULL
+        self.name = "undefined"
+
+    def __dealloc__(self):
+        """destroy projection definition"""
+        if self.projobj != NULL:
+            proj_destroy(self.projobj)
+        if self.projctx != NULL:
+            proj_context_destroy(self.projctx)
+
+    def _post_setup(self):
+        """
+        Setup to run after create
+        """
+        if self.projobj == NULL:
+            return
+        cdef const char* proj_name = proj_get_name(self.projobj)
+        if proj_name != NULL:
+            self.name = pystrdecode(proj_name)
+        self.projctx = get_pyproj_context()
+
+    def to_wkt(self, version="WKT2_2018", pretty=False):
+        """
+        Convert the projection to a WKT string.
+
+        Version options:
+          - WKT2_2015
+          - WKT2_2015_SIMPLIFIED
+          - WKT2_2018
+          - WKT2_2018_SIMPLIFIED
+          - WKT1_GDAL
+          - WKT1_ESRI
+
+
+        Parameters
+        ----------
+        version: str
+            The version of the WKT output. Default is WKT2_2018.
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
+ 
+        Returns
+        -------
+        str: The WKT string.
+        """
+        return _to_wkt(self.projctx, self.projobj, version, pretty=pretty)
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.to_wkt(pretty=True)
+
+    def is_exact_same(self, Base other):
+        """Compares projections to see if they are exactly the same."""
+        return proj_is_equivalent_to(
+            self.projobj, other.projobj, PJ_COMP_STRICT) == 1
+
+    def __eq__(self, Base other):
+        """Compares projections to see if they are equivalent."""
+        return proj_is_equivalent_to(
+            self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
+
+
+
+cdef class Ellipsoid(Base):
     def __init__(self):
         # load in ellipsoid information if applicable
         self._semi_major_metre = float("NaN")
@@ -134,43 +201,24 @@ cdef class Ellipsoid:
         self._inv_flattening = float("NaN")
         self.ellipsoid_loaded = False
 
-
-    def __str__(self):
-        return "- semi_major_metre: {semi_major_metre:.2f}\n" \
-               "- semi_minor_metre: {semi_minor_metre:.2f}\n" \
-               "- inverse_flattening: {inverse_flattening:.2f}".format(
-            semi_major_metre=self.semi_major_metre,
-            semi_minor_metre=self.semi_minor_metre,
-            inverse_flattening=self.inverse_flattening
-        )
-
-    def __repr__(self):
-        return "Ellipsoid(semi_major_metre={semi_major_metre:.2f}, " \
-               "semi_minor_metre={semi_minor_metre:.2f}, " \
-               "inverse_flattening={inverse_flattening:.2f})".format(
-            semi_major_metre=self.semi_major_metre,
-            semi_minor_metre=self.semi_minor_metre,
-            inverse_flattening=self.inverse_flattening
-        )
-
     @staticmethod
     cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
         cdef Ellipsoid ellips = Ellipsoid()
-        cdef PJ * ellips_prod = NULL
-        ellips_prod = proj_get_ellipsoid(projcontext, projobj)
-        if ellips_prod == NULL:
+        ellips.projobj = proj_get_ellipsoid(projcontext, projobj)
+        if ellips.projobj == NULL:
             return None
         try:
             proj_ellipsoid_get_parameters(
                 projcontext,
-                ellips_prod,
+                ellips.projobj,
                 &ellips._semi_major_metre,
                 &ellips._semi_minor_metre,
                 &ellips.is_semi_minor_computed,
                 &ellips._inv_flattening)
             ellips.ellipsoid_loaded = True
-        finally:
-            proj_destroy(ellips_prod)
+        except:
+            pass
+        ellips._post_setup()
         return ellips
 
     @property
@@ -215,50 +263,75 @@ cdef class Ellipsoid:
         return float("NaN")
 
 
-cdef class PrimeMeridian:
+cdef class PrimeMeridian(Base):
     def __init__(self):
         self.unit_name = None
-
-    def __str__(self):
-        return ("- longitude: {longitude:.4f}\n"
-                "- unit_name: {unit_name}\n"
-                "- unit_conversion_factor: {unit_conversion_factor:.8f}").format(
-            longitude=self.longitude,
-            unit_name=self.unit_name,
-            unit_conversion_factor=self.unit_conversion_factor,
-        )
-
-    def __repr__(self):
-        return ("PrimeMeridian(longitude={longitude:.4f}, "
-                "unit_name={unit_name}, "
-                "unit_conversion_factor={unit_conversion_factor:.8f})").format(
-            longitude=self.longitude,
-            unit_name=self.unit_name,
-            unit_conversion_factor=self.unit_conversion_factor
-        )
 
     @staticmethod
     cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
         cdef PrimeMeridian prime_meridian = PrimeMeridian()
-        cdef PJ * prime_meridian_prod = NULL
-        prime_meridian_prod = proj_get_prime_meridian(projcontext, projobj)
-        if prime_meridian_prod == NULL:
+        prime_meridian.projobj = proj_get_prime_meridian(projcontext, projobj)
+        if prime_meridian.projobj == NULL:
             return None
-
+ 
         cdef const char * unit_name
         if not proj_prime_meridian_get_parameters(
                 projcontext,
-                prime_meridian_prod,
+                prime_meridian.projobj,
                 &prime_meridian.longitude,
                 &prime_meridian.unit_conversion_factor,
                 &unit_name):
             return None
 
         prime_meridian.unit_name = pystrdecode(unit_name)
+        prime_meridian._post_setup()
         return prime_meridian
 
 
-cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, PJ_WKT_TYPE wkt_out_type=PJ_WKT2_2018, pretty=False):
+cdef class Datum(Base):
+    def __init__(self):
+        self._ellipsoid = None
+        self._prime_meridian = None
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int horizontal):
+        cdef Datum datum = Datum()
+        if not horizontal:
+            datum.projobj = proj_crs_get_datum(projcontext, projobj)
+        else:
+            datum.projobj = proj_crs_get_horizontal_datum(projcontext, projobj)
+
+        if datum.projobj == NULL:
+            return None
+        datum._post_setup()
+        return datum
+
+    @property
+    def ellipsoid(self):
+        """
+        Returns
+        -------
+        Ellipsoid: The ellipsoid object with associated attributes.
+        """
+        if self._ellipsoid is not None:
+            return self._ellipsoid
+        self._ellipsoid = Ellipsoid.create(self.projctx, self.projobj)
+        return self._ellipsoid
+
+    @property
+    def prime_meridian(self):
+        """
+        Returns
+        -------
+        PrimeMeridian: The CRS prime meridian object with associated attributes.
+        """
+        if self._prime_meridian is not None:
+            return self._prime_meridian
+        self._prime_meridian = PrimeMeridian.create(self.projctx, self.projobj)
+        return self._prime_meridian
+
+
+cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version="WKT2_2018", pretty=False):
     """
     Convert a PJ object to a wkt string.
 
@@ -273,6 +346,25 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, PJ_WKT_TYPE wkt_out_type=PJ_WKT2_
     ------
     str or None
     """
+    # get the output WKT format
+    supported_wkt_types = {
+        "WKT2_2015": PJ_WKT2_2015,
+        "WKT2_2015_SIMPLIFIED": PJ_WKT2_2015_SIMPLIFIED,
+        "WKT2_2018": PJ_WKT2_2018,
+        "WKT2_2018_SIMPLIFIED": PJ_WKT2_2018_SIMPLIFIED,
+        "WKT1_GDAL": PJ_WKT1_GDAL,
+        "WKT1_ESRI": PJ_WKT1_ESRI
+    }
+    cdef PJ_WKT_TYPE wkt_out_type
+    try:
+        wkt_out_type = supported_wkt_types[version.upper()]
+    except KeyError:
+        raise ValueError(
+            "Invalid version supplied '{}'. "
+            "Only {} are supported."
+            .format(version, tuple(supported_wkt_types)))
+
+
     cdef const char* options_wkt[2]
     multiline = b"MULTILINE=NO"
     if pretty:
@@ -289,23 +381,16 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, PJ_WKT_TYPE wkt_out_type=PJ_WKT2_
         return pystrdecode(proj_string)
     return None
 
-cdef class _CRS:
+
+cdef class _CRS(Base):
     def __cinit__(self):
-        self.projobj = NULL
-        self.projctx = NULL
-
-    def __dealloc__(self):
-        """destroy projection definition"""
-        if self.projobj != NULL:
-            proj_destroy(self.projobj)
-        if self.projctx != NULL:
-            proj_context_destroy(self.projctx)
-
-    def __init__(self, projstring):
         self._axis_info = None
         self._ellipsoid = None
         self._area_of_use = None
         self._prime_meridian = None
+        self._datum = None
+
+    def __init__(self, projstring):
         # setup the context
         self.projctx = get_pyproj_context()
         # setup proj initialization string.
@@ -391,15 +476,14 @@ cdef class _CRS:
         """
         Returns
         -------
-        pyproj.CRS: The datum as a CRS.
+        Datum: The datum.
         """
-        cdef PJ *projobj = proj_crs_get_datum(self.projctx, self.projobj)
-        if projobj == NULL:
-            return None
-        try:
-            return self.__class__(_to_wkt(self.projctx, projobj))
-        finally:
-            proj_destroy(projobj) # deallocate temp proj
+        if self._datum is not None:
+            return self._datum
+        self._datum = Datum.create(self.projctx, self.projobj, horizontal=0)
+        if self._datum is None:
+            self._datum = Datum.create(self.projctx, self.projobj, horizontal=1)
+        return self._datum
 
     def to_proj4(self, version=4):
         """
@@ -456,50 +540,6 @@ cdef class _CRS:
         finally:
             proj_destroy(projobj) # deallocate temp proj
 
-    def to_wkt(self, version="WKT2_2018", pretty=False):
-        """
-        Convert the projection to a WKT string.
-
-        Version options:
-          - WKT2_2015
-          - WKT2_2015_SIMPLIFIED
-          - WKT2_2018
-          - WKT2_2018_SIMPLIFIED
-          - WKT1_GDAL
-          - WKT1_ESRI
-
-
-        Parameters
-        ----------
-        version: str
-            The version of the WKT output. Default is WKT2_2018.
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
- 
-        Returns
-        -------
-        str: The WKT string.
-        """
-        # get the output WKT format
-        supported_wkt_types = {
-            "WKT2_2015": PJ_WKT2_2015,
-            "WKT2_2015_SIMPLIFIED": PJ_WKT2_2015_SIMPLIFIED,
-            "WKT2_2018": PJ_WKT2_2018,
-            "WKT2_2018_SIMPLIFIED": PJ_WKT2_2018_SIMPLIFIED,
-            "WKT1_GDAL": PJ_WKT1_GDAL,
-            "WKT1_ESRI": PJ_WKT1_ESRI
-        }
-        cdef PJ_WKT_TYPE proj_out_type
-        try:
-            proj_out_type = supported_wkt_types[version.upper()]
-        except KeyError:
-            raise ValueError(
-                "Invalid version supplied '{}'. "
-                "Only {} are supported."
-                .format(version, tuple(supported_wkt_types)))
-
-        return _to_wkt(self.projctx, self.projobj, proj_out_type, pretty=pretty)
-
     def to_epsg(self, min_confidence=70):
         """
         Return the EPSG code best matching the projection.
@@ -528,7 +568,7 @@ cdef class _CRS:
             )
             if proj_list != NULL:
                 num_proj_objects = proj_list_get_count(proj_list)
-            if out_confidence_list != NULL and num_proj_objects>0:
+            if out_confidence_list != NULL and num_proj_objects > 0:
                 out_confidence = out_confidence_list[0]
         finally:
             if out_confidence_list != NULL:
@@ -599,13 +639,3 @@ cdef class _CRS:
         bool: True if projection in geocentric (x/y) coordinates
         """
         return self.proj_type == PJ_TYPE_GEOCENTRIC_CRS
-
-    def is_exact_same(self, _CRS other):
-        """Compares projections to see if they are exactly the same."""
-        return proj_is_equivalent_to(
-            self.projobj, other.projobj, PJ_COMP_STRICT) == 1
-
-    def __eq__(self, _CRS other):
-        """Compares projections to see if they are equivalent."""
-        return proj_is_equivalent_to(
-            self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1

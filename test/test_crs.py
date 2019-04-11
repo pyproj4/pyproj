@@ -152,20 +152,19 @@ def test_repr():
     assert repr(CRS({"init": "EPSG:4326"})) == (
         "<CRS: +init=epsg:4326 +type=crs>\n"
         "Name: WGS 84\n"
-        "Ellipsoid:\n"
-        "- semi_major_metre: 6378137.00\n"
-        "- semi_minor_metre: 6356752.31\n"
-        "- inverse_flattening: 298.26\n"
+        "EPSG: undefined\n"
+        "Axis Info:\n"
+        "- east: Longitude [EPSG:9122] (degree)\n"
+        "- north: Latitude [EPSG:9122] (degree)\n"
         "Area of Use:\n"
         "- name: World\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
+        "Datum:\n"
+        "- World Geodetic System 1984\n"
+        "Ellipsoid:\n"
+        "- WGS 84\n"
         "Prime Meridian:\n"
-        "- longitude: 0.0000\n"
-        "- unit_name: degree\n"
-        "- unit_conversion_factor: 0.01745329\n"
-        "Axis Info:\n"
-        "- Longitude[lon] (east) EPSG:9122 (degree)\n"
-        "- Latitude[lat] (north) EPSG:9122 (degree)\n"
+        "- Greenwich\n"
     )
 
 
@@ -173,20 +172,19 @@ def test_repr__long():
     assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
         '<CRS: GEOGCRS["WGS 84",DATUM["World Geodetic System 1984 ...>\n'
         "Name: WGS 84\n"
-        "Ellipsoid:\n"
-        "- semi_major_metre: 6378137.00\n"
-        "- semi_minor_metre: 6356752.31\n"
-        "- inverse_flattening: 298.26\n"
+        "EPSG: undefined\n"
+        "Axis Info:\n"
+        "- east: Longitude [EPSG:9122] (degree)\n"
+        "- north: Latitude [EPSG:9122] (degree)\n"
         "Area of Use:\n"
         "- name: World\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
+        "Datum:\n"
+        "- World Geodetic System 1984\n"
+        "Ellipsoid:\n"
+        "- WGS 84\n"
         "Prime Meridian:\n"
-        "- longitude: 0.0000\n"
-        "- unit_name: degree\n"
-        "- unit_conversion_factor: 0.01745329\n"
-        "Axis Info:\n"
-        "- Longitude[lon] (east) EPSG:9122 (degree)\n"
-        "- Latitude[lat] (north) EPSG:9122 (degree)\n"
+        "- Greenwich\n"
     )
 
 
@@ -199,18 +197,17 @@ def test_repr__undefined():
     ) == (
         "<CRS: +proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@nu ...>\n"
         "Name: unknown\n"
-        "Ellipsoid:\n"
-        "- semi_major_metre: 6378137.00\n"
-        "- semi_minor_metre: nan\n"
-        "- inverse_flattening: 0.00\n"
-        "Area of Use:\n"
-        "- UNDEFINED\n"
-        "Prime Meridian:\n"
-        "- longitude: 0.0000\n"
-        "- unit_name: degree\n"
-        "- unit_conversion_factor: 0.01745329\n"
+        "EPSG: undefined\n"
         "Axis Info:\n"
-        "- UNDEFINED"
+        "- undefined\n"
+        "Area of Use:\n"
+        "- undefined\n"
+        "Datum:\n"
+        "- unknown\n"
+        "Ellipsoid:\n"
+        "- unknown\n"
+        "Prime Meridian:\n"
+        "- Greenwich\n"
     )
 
 
@@ -227,11 +224,26 @@ def test_epsg():
 
 
 def test_datum():
-    assert CRS.from_epsg(4326).datum == CRS(
-        'DATUM["World Geodetic System 1984",'
-        'ELLIPSOID["WGS 84",6378137,298.257223563,'
-        'LENGTHUNIT["metre",1]],ID["EPSG",6326]]'
+    datum = CRS.from_epsg(4326).datum
+    assert repr(datum).startswith('DATUM["World Geodetic System 1984"')
+    assert "\n" in repr(datum)
+    assert datum.to_wkt().startswith('DATUM["World Geodetic System 1984"')
+    assert datum == datum
+    assert datum.is_exact_same(datum)
+
+
+def test_datum_horizontal():
+    assert CRS.from_epsg(5972).datum == CRS.from_epsg(25832).datum
+
+
+def test_datum_unknown():
+    crs = CRS(
+        "+proj=omerc +lat_0=-36.10360962430914 "
+        "+lonc=147.06322917270154 +alpha=-54.786229796129035 "
+        "+k=1 +x_0=0 +y_0=0 +gamma=0 +ellps=WGS84 "
+        "+towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
     )
+    assert crs.datum.name == "Unknown based on WGS84 ellipsoid"
 
 
 def test_epsg__not_found():
@@ -332,8 +344,3 @@ def test_from_user_input_custom_crs_class():
             return CRS.from_epsg(4326).to_wkt()
 
     assert CRS.from_user_input(CustomCRS()) == CRS.from_epsg(4326)
-
-
-def test_datum_to_epsg():
-    crs = CRS.from_epsg(31370)
-    assert crs.datum.to_epsg() is None

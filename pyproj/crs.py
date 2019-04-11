@@ -84,20 +84,19 @@ class CRS(_CRS):
         >>> crs_utm
         <CRS: epsg:26915>
         Name: NAD83 / UTM zone 15N
-        Ellipsoid:
-        - semi_major_metre: 6378137.00
-        - semi_minor_metre: 6356752.31
-        - inverse_flattening: 298.26
+        EPSG: 26915
+        Axis Info:
+        - east: Easting [EPSG:9001] (metre)
+        - north: Northing [EPSG:9001] (metre)
         Area of Use:
         - name: North America - 96°W to 90°W and NAD83 by country
         - bounds: (-96.0, 25.61, -90.0, 84.0)
+        Datum:
+        - North American Datum 1983
+        Ellipsoid:
+        - GRS 1980
         Prime Meridian:
-        - longitude: 0.0000
-        - unit_name: degree
-        - unit_conversion_factor: 0.01745329
-        Axis Info:
-        - Easting[E] (east) EPSG:9001 (metre)
-        - Northing[N] (north) EPSG:9001 (metre)
+        - Greenwich
         <BLANKLINE>
         >>> crs_utm.area_of_use.bounds
         (-96.0, 25.61, -90.0, 84.0)
@@ -451,20 +450,25 @@ class CRS(_CRS):
         string_repr = (
             "<CRS: {srs}>\n"
             "Name: {name}\n"
-            "Ellipsoid:\n"
-            "{ellipsoid}\n"
-            "Area of Use:\n"
-            "{area_of_use}\n"
-            "Prime Meridian:\n"
-            "{prime_meridian}\n"
+            "EPSG: {epsg}\n"
             "Axis Info:\n"
             "{axis_info_str}"
+            "Area of Use:\n"
+            "{area_of_use}\n"
+            "Datum:\n"
+            "- {datum}\n"
+            "Ellipsoid:\n"
+            "- {ellipsoid}\n"
+            "Prime Meridian:\n"
+            "- {prime_meridian}\n"
         ).format(
-            name=self.name,
             srs=self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."]),
-            ellipsoid=self.ellipsoid or "- UNDEFINED",
-            area_of_use=self.area_of_use or "- UNDEFINED",
-            prime_meridian=self.prime_meridian or "- UNDEFINED",
-            axis_info_str=axis_info_str or "- UNDEFINED",
+            name=self.name,
+            epsg=self.to_epsg() or "undefined",
+            datum=self.datum or "undefined",
+            ellipsoid=self.ellipsoid or "undefined",
+            area_of_use=self.area_of_use or "- undefined",
+            prime_meridian=self.prime_meridian or "undefined",
+            axis_info_str=axis_info_str or "- undefined\n",
         )
         return string_repr

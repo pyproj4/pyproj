@@ -181,7 +181,8 @@ cdef extern from "proj.h":
     PJ_TYPE proj_get_type(const PJ *obj)
     const char * proj_get_name(const PJ *obj)
 
-    PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs);
+    PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs)
+    PJ *proj_crs_get_horizontal_datum(PJ_CONTEXT *ctx, const PJ *crs)
     PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs)
     int proj_cs_get_axis_count(PJ_CONTEXT *ctx,
                                const PJ *cs)
