@@ -258,22 +258,26 @@ cdef class PrimeMeridian:
         return prime_meridian
 
 
-cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, PJ_WKT_TYPE wkt_out_type=PJ_WKT2_2018):
+cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, PJ_WKT_TYPE wkt_out_type=PJ_WKT2_2018, pretty=False):
     """
     Convert a PJ object to a wkt string.
 
     Parameters
     ----------
-    projctx: 
-    projobj: 
-    wkt_out_type:
-    
+    projctx: PJ_CONTEXT*
+    projobj: PJ*
+    wkt_out_type: PJ_WKT_TYPE
+    pretty: bool
+
     Return
     ------
     str or None
     """
     cdef const char* options_wkt[2]
-    options_wkt[0] = "MULTILINE=NO"
+    multiline = b"MULTILINE=NO"
+    if pretty:
+        multiline = b"MULTILINE=YES"
+    options_wkt[0] = multiline
     options_wkt[1] = NULL
     cdef const char* proj_string
     proj_string = proj_as_wkt(
@@ -452,7 +456,7 @@ cdef class _CRS:
         finally:
             proj_destroy(projobj) # deallocate temp proj
 
-    def to_wkt(self, version="WKT2_2018"):
+    def to_wkt(self, version="WKT2_2018", pretty=False):
         """
         Convert the projection to a WKT string.
 
@@ -469,6 +473,8 @@ cdef class _CRS:
         ----------
         version: str
             The version of the WKT output. Default is WKT2_2018.
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
  
         Returns
         -------
@@ -492,7 +498,7 @@ cdef class _CRS:
                 "Only {} are supported."
                 .format(version, tuple(supported_wkt_types)))
 
-        return _to_wkt(self.projctx, self.projobj, proj_out_type)
+        return _to_wkt(self.projctx, self.projobj, proj_out_type, pretty=pretty)
 
     def to_epsg(self, min_confidence=70):
         """
