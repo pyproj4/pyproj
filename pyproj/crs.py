@@ -22,8 +22,17 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 __all__ = ["CRS", "is_wkt"]
 
 import json
+import warnings
 
 from pyproj._crs import _CRS, is_wkt
+from pyproj.cf1x8 import (
+    GRID_MAPPING_NAME_MAP,
+    INVERSE_GRID_MAPPING_NAME_MAP,
+    INVERSE_PROJ_PARAM_MAP,
+    K_0_MAP,
+    LON_0_MAP,
+    PROJ_PARAM_MAP,
+)
 from pyproj.compat import string_types
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
@@ -33,6 +42,9 @@ def _dict2string(projparams):
     # convert a dict to a proj4 string.
     pjargs = []
     for key, value in projparams.items():
+        # the towgs84 as list
+        if isinstance(value, (list, tuple)):
+            value = ",".join([str(val) for val in value])
         # issue 183 (+ no_rot)
         if value is None or value is True:
             pjargs.append("+" + key + " ")
@@ -49,8 +61,8 @@ class CRS(_CRS):
 
     The functionality is based on other fantastic projects:
 
-    * https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py
-    * https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx
+    * `rasterio <https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx>`_
+    * `opendatacube <https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py>`_
 
     """
 
@@ -244,6 +256,184 @@ class CRS(_CRS):
         if self.ellipsoid.is_semi_minor_computed:
             in_kwargs["b"] = self.ellipsoid.semi_minor_metre
         return Geod(**in_kwargs)
+
+    def to_proj4_dict(self):
+        """
+        Converts the PROJ string to a dict.
+
+        Returns
+        -------
+        dict: PROJ params in dict format.
+
+        """
+
+        def parse(val):
+            if val.lower() == "true":
+                return True
+            elif val.lower() == "false":
+                return False
+            try:
+                return int(val)
+            except ValueError:
+                pass
+            try:
+                return float(val)
+            except ValueError:
+                pass
+            val_split = val.split(",")
+            if len(val_split) > 1:
+                val = [float(sval.strip()) for sval in val_split]
+            return val
+
+        items = map(
+            lambda kv: len(kv) == 2 and (kv[0], parse(kv[1])) or (kv[0], None),
+            (
+                part.lstrip("+").split("=", 1)
+                for part in self.to_proj4().strip().split()
+            ),
+        )
+
+        return {key: value for key, value in items if value is not False}
+
+    def to_cf(self, wkt_version="WKT2_2018", errcheck=False):
+        """
+        This converts a :obj:`~pyproj.crs.CRS` object
+        to a CF-1.8 dict.
+
+        .. warning:: The full projection will be stored in the
+            crs_wkt attribute. However, other parameters may be lost
+            if a mapping to the CF parameter is not found.
+
+        Parameters
+        ----------
+        wkt_version: str
+            Version of WKT supported by ~CRS.to_wkt.
+        errcheck: bool, optional
+            If True, will warn when parameters are ignored. Defaults to False.
+
+        Returns
+        -------
+        dict: CF-1.8 version of the projection.
+
+        """
+
+        cf_dict = {"crs_wkt": self.to_wkt(wkt_version)}
+        if self.is_geographic and self.name != "unknown":
+            cf_dict["geographic_crs_name"] = self.name
+        elif self.is_projected and self.name != "unknown":
+            cf_dict["projected_crs_name"] = self.name
+
+        proj_dict = self.to_proj4_dict()
+        proj_name = proj_dict.pop("proj")
+        if proj_name in ("lonlat", "latlon", "longlat", "latlong"):
+            grid_mapping_name = "latitude_longitude"
+        else:
+            grid_mapping_name = INVERSE_GRID_MAPPING_NAME_MAP.get(proj_name, "unknown")
+        cf_dict["grid_mapping_name"] = grid_mapping_name
+
+        # get best match for lon_0 value for projetion name
+        lon_0 = proj_dict.pop("lon_0", None)
+        if lon_0 is not None:
+            try:
+                cf_dict[LON_0_MAP[grid_mapping_name]] = lon_0
+            except KeyError:
+                cf_dict[LON_0_MAP["DEFAULT"]] = lon_0
+
+        # get best match for k_0 value for projetion name
+        k_0 = proj_dict.pop("k_0", None)
+        if k_0 is not None:
+            try:
+                cf_dict[K_0_MAP[grid_mapping_name]] = k_0
+            except KeyError:
+                cf_dict[K_0_MAP["DEFAULT"]] = k_0
+
+        # format the lat_1 and lat_2 for the standard parallel
+        if "lat_1" in proj_dict and "lat_2" in proj_dict:
+            cf_dict["standard_parallel"] = [
+                proj_dict.pop("lat_1"),
+                proj_dict.pop("lat_2"),
+            ]
+        elif "lat_1" in proj_dict:
+            cf_dict["standard_parallel"] = proj_dict.pop("lat_1")
+
+        skipped_params = []
+        for proj_param, proj_val in proj_dict.items():
+            try:
+                cf_dict[INVERSE_PROJ_PARAM_MAP[proj_param]] = proj_val
+            except KeyError:
+                skipped_params.append(proj_param)
+
+        if errcheck and skipped_params:
+            warnings.warn(
+                "PROJ parameters not mapped to CF: {}".format(tuple(skipped_params))
+            )
+        return cf_dict
+
+    @staticmethod
+    def from_cf(in_cf, errcheck=False):
+        """
+        This converts a CF-1.8 dict to a
+        :obj:`~pyproj.crs.CRS` object.
+
+        .. warning:: Parameters may be lost if a mapping 
+            from the CF parameter is not found. For best results
+            store the WKT of the projection in the crs_wkt attribute.
+
+        Parameters
+        ----------
+        in_cf: dict
+            CF version of the projection.
+        errcheck: bool, optional
+            If True, will warn when parameters are ignored. Defaults to False.
+
+        Returns
+        -------
+        ~pyproj.crs.CRS: CRS object.
+        """
+        in_cf = in_cf.copy()  # preserve user input
+        if "crs_wkt" in in_cf:
+            return CRS(in_cf["crs_wkt"])
+        elif "spatial_ref" in in_cf:  # for previous supported WKT key
+            return CRS(in_cf["spatial_ref"])
+
+        grid_mapping_name = in_cf.pop("grid_mapping_name", None)
+        if grid_mapping_name is None:
+            raise CRSError("CF projection parameters missing 'grid_mapping_name'")
+        proj_name = GRID_MAPPING_NAME_MAP.get(grid_mapping_name)
+        if proj_name is None:
+            raise CRSError(
+                "Unsupported grid mapping name: {}".format(grid_mapping_name)
+            )
+        proj_dict = {"proj": proj_name}
+        if grid_mapping_name == "rotated_latitude_longitude":
+            proj_dict["o_proj"] = "latlon"
+        elif grid_mapping_name == "oblique_mercator":
+            try:
+                proj_dict["lonc"] = in_cf.pop("longitude_of_projection_origin")
+            except KeyError:
+                pass
+
+        if "standard_parallel" in in_cf:
+            standard_parallel = in_cf.pop("standard_parallel")
+            if isinstance(standard_parallel, list):
+                proj_dict["lat_1"] = standard_parallel[0]
+                proj_dict["lat_2"] = standard_parallel[1]
+            else:
+                proj_dict["lat_1"] = standard_parallel
+
+        skipped_params = []
+        for cf_param, proj_val in in_cf.items():
+            try:
+                proj_dict[PROJ_PARAM_MAP[cf_param]] = proj_val
+            except KeyError:
+                skipped_params.append(cf_param)
+
+        if errcheck and skipped_params:
+            warnings.warn(
+                "CF parameters not mapped to PROJ: {}".format(tuple(skipped_params))
+            )
+
+        return CRS(proj_dict)
 
     def __reduce__(self):
         """special method that allows CRS instance to be pickled"""
