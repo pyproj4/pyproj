@@ -344,3 +344,12 @@ def test_from_user_input_custom_crs_class():
             return CRS.from_epsg(4326).to_wkt()
 
     assert CRS.from_user_input(CustomCRS()) == CRS.from_epsg(4326)
+
+
+def test_non_crs_error():
+    with pytest.raises(CRSError, match="Input is not a CRS"):
+        CRS(
+            "+proj=pipeline +ellps=GRS80 +step +proj=merc "
+            "+step +proj=axisswap +order=2,1"
+        )
+

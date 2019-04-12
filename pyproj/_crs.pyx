@@ -407,6 +407,9 @@ cdef class _CRS(Base):
                 "Invalid projection: {}".format(self.srs))
         # get proj information
         self.proj_type = proj_get_type(self.projobj)
+        # make sure the input is a CRS
+        if not proj_is_crs(self.projobj):
+            raise CRSError("Input is not a CRS: {}".format(self.srs))
         cdef const char* proj_name = proj_get_name(self.projobj)
         self.name = pystrdecode(proj_name)
 
