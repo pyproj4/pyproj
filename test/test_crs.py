@@ -152,7 +152,6 @@ def test_repr():
     assert repr(CRS({"init": "EPSG:4326"})) == (
         "<CRS: +init=epsg:4326 +type=crs>\n"
         "Name: WGS 84\n"
-        "EPSG: undefined\n"
         "Axis Info:\n"
         "- east: Longitude [EPSG:9122] (degree)\n"
         "- north: Latitude [EPSG:9122] (degree)\n"
@@ -172,10 +171,28 @@ def test_repr__long():
     assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
         '<CRS: GEOGCRS["WGS 84",DATUM["World Geodetic System 1984 ...>\n'
         "Name: WGS 84\n"
-        "EPSG: undefined\n"
         "Axis Info:\n"
         "- east: Longitude [EPSG:9122] (degree)\n"
         "- north: Latitude [EPSG:9122] (degree)\n"
+        "Area of Use:\n"
+        "- name: World\n"
+        "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
+        "Datum:\n"
+        "- World Geodetic System 1984\n"
+        "Ellipsoid:\n"
+        "- WGS 84\n"
+        "Prime Meridian:\n"
+        "- Greenwich\n"
+    )
+
+
+def test_repr_epsg():
+    assert repr(CRS(CRS("EPSG:4326").to_wkt())) == (
+        "<CRS: epsg:4326>\n"
+        "Name: WGS 84\n"
+        "Axis Info:\n"
+        "- north: Geodetic latitude [EPSG:9122] (degree)\n"
+        "- east: Geodetic longitude [EPSG:9122] (degree)\n"
         "Area of Use:\n"
         "- name: World\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
@@ -197,7 +214,6 @@ def test_repr__undefined():
     ) == (
         "<CRS: +proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@nu ...>\n"
         "Name: unknown\n"
-        "EPSG: undefined\n"
         "Axis Info:\n"
         "- undefined\n"
         "Area of Use:\n"

@@ -84,7 +84,6 @@ class CRS(_CRS):
         >>> crs_utm
         <CRS: epsg:26915>
         Name: NAD83 / UTM zone 15N
-        EPSG: 26915
         Axis Info:
         - east: Easting [EPSG:9001] (metre)
         - north: Northing [EPSG:9001] (metre)
@@ -447,10 +446,17 @@ class CRS(_CRS):
             axis_info_list.extend([str(axis_info), "\n"])
 
         axis_info_str = "".join(axis_info_list)
+
+        epsg = self.to_epsg(100)
+        if epsg:
+            srs_repr = "epsg:{}".format(epsg)
+        else:
+            srs_repr = (
+                self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."])
+            )
         string_repr = (
-            "<CRS: {srs}>\n"
+            "<CRS: {srs_repr}>\n"
             "Name: {name}\n"
-            "EPSG: {epsg}\n"
             "Axis Info:\n"
             "{axis_info_str}"
             "Area of Use:\n"
@@ -462,9 +468,8 @@ class CRS(_CRS):
             "Prime Meridian:\n"
             "- {prime_meridian}\n"
         ).format(
-            srs=self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."]),
+            srs_repr=srs_repr,
             name=self.name,
-            epsg=self.to_epsg() or "undefined",
             datum=self.datum or "undefined",
             ellipsoid=self.ellipsoid or "undefined",
             area_of_use=self.area_of_use or "- undefined",
