@@ -66,3 +66,5 @@ cdef class _CRS(Base):
     cdef public object _prime_meridian
     cdef public object _axis_info
     cdef public object _datum
+    cdef public object _sub_crs_list
+    cdef public object _source_crs

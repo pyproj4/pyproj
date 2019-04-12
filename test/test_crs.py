@@ -353,3 +353,16 @@ def test_non_crs_error():
             "+step +proj=axisswap +order=2,1"
         )
 
+
+def test_sub_crs():
+    crs = CRS.from_epsg(5972)
+    sub_crs_list = crs.sub_crs_list
+    assert len(sub_crs_list) == 2
+    assert sub_crs_list[0] == CRS.from_epsg(25832)
+    assert sub_crs_list[1] == CRS.from_epsg(5941)
+    assert crs.is_projected
+    assert not crs.is_geographic
+
+
+def test_sub_crs__none():
+    assert CRS.from_epsg(4326).sub_crs_list == []

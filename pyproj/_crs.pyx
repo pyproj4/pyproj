@@ -389,6 +389,8 @@ cdef class _CRS(Base):
         self._area_of_use = None
         self._prime_meridian = None
         self._datum = None
+        self._sub_crs_list = None
+        self._source_crs = None
 
     def __init__(self, projstring):
         # setup the context
@@ -487,6 +489,51 @@ cdef class _CRS(Base):
         if self._datum is None:
             self._datum = Datum.create(self.projctx, self.projobj, horizontal=1)
         return self._datum
+
+    @property
+    def source_crs(self):
+        """
+        Returns
+        -------
+        CRS: The source CRS.
+        """
+        if self._source_crs is not None:
+            return self._source_crs
+        cdef PJ * projobj
+        projobj = proj_get_source_crs(self.projctx, self.projobj)
+        if projobj == NULL:
+            self._source_crs = 1
+            return None
+        try:
+            self._source_crs = self.__class__(_to_wkt(self.projctx, projobj))
+        finally:
+            proj_destroy(projobj) # deallocate temp proj
+        return self._source_crs
+
+    @property
+    def sub_crs_list(self):
+        """
+        If the CRS is a compound CRS, it will return a list of sub CRS objects.
+
+        Returns
+        -------
+        list[CRS]
+
+        """
+        if self._sub_crs_list is not None:
+            return self._sub_crs_list
+        cdef int iii = 0
+        cdef PJ * projobj = proj_crs_get_sub_crs(self.projctx, self.projobj, iii)
+        self._sub_crs_list = []
+        while projobj != NULL:
+            try:
+                self._sub_crs_list.append(self.__class__(_to_wkt(self.projctx, projobj)))
+            finally:
+                proj_destroy(projobj) # deallocate temp proj
+            iii += 1
+            projobj = proj_crs_get_sub_crs(self.projctx, self.projobj, iii)
+
+        return self._sub_crs_list
 
     def to_proj4(self, version=4):
         """
@@ -610,27 +657,52 @@ cdef class _CRS(Base):
         -------
         bool: True if projection in geographic (lon/lat) coordinates.
         """
-        return self.proj_type in (
-            PJ_TYPE_GEOGRAPHIC_CRS,
-            PJ_TYPE_GEOGRAPHIC_2D_CRS,
-            PJ_TYPE_GEOGRAPHIC_3D_CRS
-        )
+        if self.sub_crs_list:
+            sub_crs = self.sub_crs_list[0]
+            if sub_crs.is_bound:
+                is_geographic = sub_crs.source_crs.is_geographic
+            else:
+                is_geographic = sub_crs.is_geographic
+        else:
+            is_geographic = self.proj_type in (
+                PJ_TYPE_GEOGRAPHIC_CRS,
+                PJ_TYPE_GEOGRAPHIC_2D_CRS,
+                PJ_TYPE_GEOGRAPHIC_3D_CRS
+            )
+        return is_geographic
 
     @property
     def is_projected(self):
         """
         Returns
         -------
-        bool: True if projection is a projected type.
+        bool: True if projection is a projected CRS.
         """
-        return self.proj_type == PJ_TYPE_PROJECTED_CRS
+        if self.sub_crs_list:
+            sub_crs = self.sub_crs_list[0]
+            if sub_crs.is_bound:
+                is_projected = sub_crs.source_crs.is_projected
+            else:
+                is_projected = sub_crs.is_projected
+        else:
+            is_projected = self.proj_type == PJ_TYPE_PROJECTED_CRS
+        return is_projected 
+
+    @property
+    def is_bound(self):
+        """
+        Returns
+        -------
+        bool: True if projection is a bound CRS.
+        """
+        return self.proj_type == PJ_TYPE_BOUND_CRS
 
     @property
     def is_valid(self):
         """
         Returns
         -------
-        bool: True if projection is a valid type.
+        bool: True if projection is a valid CRS.
         """
         return self.proj_type != PJ_TYPE_UNKNOWN
 

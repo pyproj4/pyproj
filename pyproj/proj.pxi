@@ -210,6 +210,8 @@ cdef extern from "proj.h":
                                            double *out_longitude,
                                            double *out_unit_conv_factor,
                                            const char **out_unit_name)
+    PJ *proj_crs_get_sub_crs(PJ_CONTEXT *ctx, const PJ *crs, int index)
+    PJ *proj_get_source_crs(PJ_CONTEXT *ctx, const PJ *obj)
 
     ctypedef struct PJ_OBJ_LIST
     PJ_OBJ_LIST *proj_identify(PJ_CONTEXT *ctx,
