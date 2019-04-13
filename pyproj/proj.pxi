@@ -278,3 +278,61 @@ cdef extern from "proj.h":
         const char  *defn
     const PJ_PRIME_MERIDIANS *proj_list_prime_meridians()
 
+    PJ *proj_crs_get_coordoperation(PJ_CONTEXT *ctx,
+                                    const PJ *crs);
+
+    int proj_coordoperation_get_method_info(PJ_CONTEXT *ctx,
+                                            const PJ *coordoperation,
+                                            const char **out_method_name,
+                                            const char **out_method_auth_name,
+                                            const char **out_method_code);
+
+    int proj_coordoperation_is_instantiable(PJ_CONTEXT *ctx,
+                                            const PJ *coordoperation);
+
+    int proj_coordoperation_has_ballpark_transformation(PJ_CONTEXT *ctx,
+                                                        const PJ *coordoperation);
+
+    int proj_coordoperation_get_param_count(PJ_CONTEXT *ctx,
+                                            const PJ *coordoperation);
+
+    int proj_coordoperation_get_param_index(PJ_CONTEXT *ctx,
+                                            const PJ *coordoperation,
+                                            const char *name);
+
+    int proj_coordoperation_get_param(PJ_CONTEXT *ctx,
+                                      const PJ *coordoperation,
+                                      int index,
+                                      const char **out_name,
+                                      const char **out_auth_name,
+                                      const char **out_code,
+                                      double *out_value,
+                                      const char **out_value_string,
+                                      double *out_unit_conv_factor,
+                                      const char **out_unit_name,
+                                      const char **out_unit_auth_name,
+                                      const char **out_unit_code,
+                                      const char **out_unit_category);
+
+    int proj_coordoperation_get_grid_used_count(PJ_CONTEXT *ctx,
+                                                        const PJ *coordoperation);
+
+    int proj_coordoperation_get_grid_used(PJ_CONTEXT *ctx,
+                                          const PJ *coordoperation,
+                                          int index,
+                                          const char **out_short_name,
+                                          const char **out_full_name,
+                                          const char **out_package_name,
+                                          const char **out_url,
+                                          int *out_direct_download,
+                                          int *out_open_license,
+                                          int *out_available);
+
+    double proj_coordoperation_get_accuracy(PJ_CONTEXT *ctx,
+                                            const PJ *obj);
+
+    int proj_coordoperation_get_towgs84_values(PJ_CONTEXT *ctx,
+                                               const PJ *coordoperation,
+                                               double *out_values,
+                                               int value_count,
+                                               int emit_error_if_incompatible);

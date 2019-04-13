@@ -62,6 +62,49 @@ cdef class CoordinateSystem(Base):
     @staticmethod
     cdef create(PJ_CONTEXT* projcontext, PJ* projobj)
 
+cdef class Param:
+    cdef public object name
+    cdef public object auth_name
+    cdef public object code
+    cdef public object value
+    cdef public double value_double
+    cdef public object value_string
+    cdef public double unit_conversion_factor
+    cdef public object unit_name
+    cdef public object unit_auth_name
+    cdef public object unit_code
+    cdef public object unit_category
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int param_idx)
+
+
+cdef class Grid:
+    cdef public object short_name
+    cdef public object full_name
+    cdef public object package_name
+    cdef public object url
+    cdef public int direct_download
+    cdef public int open_license
+    cdef public int available
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int grid_idx)
+
+
+cdef class CoordinateOperation(Base):
+    cdef public object _params
+    cdef public object _grids
+    cdef public object method_name
+    cdef public object method_auth_name
+    cdef public object method_code
+    cdef public double accuracy
+    cdef public int is_instantiable
+    cdef public int has_ballpark_transformation
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj)
+
 
 cdef class _CRS(Base):
     cdef PJ_TYPE _proj_type
@@ -75,3 +118,4 @@ cdef class _CRS(Base):
     cdef public object _sub_crs_list
     cdef public object _source_crs
     cdef public object _coordinate_system
+    cdef public object _coordinate_operation

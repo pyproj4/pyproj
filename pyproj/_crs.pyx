@@ -2,6 +2,17 @@ from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.exceptions import CRSError
 
+cdef cstrdecode(const char *instring):
+    if instring != NULL:
+        return pystrdecode(instring)
+    return None
+
+cdef decode_or_undefined(const char* instring):
+    pystr = cstrdecode(instring)
+    if pystr is None:
+        return "undefined"
+    return pystr
+
 def is_wkt(proj_string):
     """
     Check if the input projection string is in the Well-Known Text format.
@@ -65,20 +76,55 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version="WKT2_2018", pretty=False
         projobj,
         wkt_out_type,
         options_wkt)
-    if proj_string != NULL:
-        return pystrdecode(proj_string)
-    return None
+    return cstrdecode(proj_string)
+
+
+cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=4):
+    """
+    Convert the projection to a PROJ.4 string.
+
+    Parameters
+    ----------
+    version: int
+        The version of the PROJ.4 output. Default is 4.
+
+    Returns
+    -------
+    str: The PROJ.4 string.
+    """
+    # get the output PROJ.4 format
+    supported_prj_types = {
+        4: PJ_PROJ_4,
+        5: PJ_PROJ_5,
+    }
+    cdef PJ_PROJ_STRING_TYPE proj_out_type
+    try:
+        proj_out_type = supported_prj_types[version]
+    except KeyError:
+        raise ValueError(
+            "Invalid version supplied '{}'. "
+            "Only {} are supported."
+            .format(version, tuple(supported_prj_types)))
+
+    # convert projection to string
+    cdef const char* proj_string
+    proj_string = proj_as_proj_string(
+        projctx,
+        projobj,
+        proj_out_type,
+        NULL)
+    return cstrdecode(proj_string)
 
 
 cdef class AxisInfo:
     def __init__(self):
-        self.name = None
-        self.abbrev = None
-        self.direction = None
+        self.name = "undefined"
+        self.abbrev = "undefined"
+        self.direction = "undefined"
         self.unit_conversion_factor = float("NaN")
-        self.unit_name = None
-        self.unit_auth_code = None
-        self.unit_code = None
+        self.unit_name = "undefined"
+        self.unit_auth_code = "undefined"
+        self.unit_code = "undefined"
 
     def __str__(self):
         return "- {direction}: {name} [{unit_auth_code}:{unit_code}] ({unit_name})".format(
@@ -122,12 +168,12 @@ cdef class AxisInfo:
                 &unit_auth_code,
                 &unit_code):
             return None
-        axis_info.name = pystrdecode(name)
-        axis_info.abbrev = pystrdecode(abbrev)
-        axis_info.direction = pystrdecode(direction)
-        axis_info.unit_name = pystrdecode(unit_name)
-        axis_info.unit_auth_code = pystrdecode(unit_auth_code)
-        axis_info.unit_code = pystrdecode(unit_code)
+        axis_info.name = decode_or_undefined(name)
+        axis_info.abbrev = decode_or_undefined(abbrev)
+        axis_info.direction = decode_or_undefined(direction)
+        axis_info.unit_name = decode_or_undefined(unit_name)
+        axis_info.unit_auth_code = decode_or_undefined(unit_auth_code)
+        axis_info.unit_code = decode_or_undefined(unit_code)
         return axis_info
 
 
@@ -167,7 +213,7 @@ cdef class AreaOfUse:
                 &area_of_use.north,
                 &area_name):
             return None
-        area_of_use.name = pystrdecode(area_name)
+        area_of_use.name = decode_or_undefined(area_name)
         return area_of_use
 
     @property
@@ -195,8 +241,7 @@ cdef class Base:
         if self.projobj == NULL:
             return
         cdef const char* proj_name = proj_get_name(self.projobj)
-        if proj_name != NULL:
-            self.name = pystrdecode(proj_name)
+        self.name = decode_or_undefined(proj_name)
         self.projctx = get_pyproj_context()
 
     def to_wkt(self, version="WKT2_2018", pretty=False):
@@ -398,7 +443,7 @@ cdef class PrimeMeridian(Base):
                 &unit_name):
             return None
 
-        prime_meridian.unit_name = pystrdecode(unit_name)
+        prime_meridian.unit_name = decode_or_undefined(unit_name)
         prime_meridian._post_setup()
         return prime_meridian
 
@@ -446,6 +491,269 @@ cdef class Datum(Base):
         return self._prime_meridian
 
 
+cdef class Param:
+    def __cinit__(self):
+        self.name = "undefined"
+        self.auth_name = "undefined"
+        self.code = "undefined"
+        self.value = "undefined"
+        self.value_double = float("nan")
+        self.value_string = None
+        self.unit_conversion_factor = float("nan")
+        self.unit_name = "undefined"
+        self.unit_auth_name = "undefined"
+        self.unit_code = "undefined"
+        self.unit_category = "undefined"
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int param_idx):
+        cdef Param param = Param()
+        cdef char *out_name
+        cdef char *out_auth_name
+        cdef char *out_code
+        cdef char *out_value
+        cdef char *out_value_string
+        cdef char *out_unit_name
+        cdef char *out_unit_auth_name
+        cdef char *out_unit_code
+        cdef char *out_unit_category
+        proj_coordoperation_get_param(
+            projcontext,
+            projobj,
+            param_idx,
+            &out_name,
+            &out_auth_name,
+            &out_code,
+            &param.value_double,
+            &out_value_string,
+            &param.unit_conversion_factor,
+            &out_unit_name,
+            &out_unit_auth_name,
+            &out_unit_code,
+            &out_unit_category
+        )
+        param.name = decode_or_undefined(out_name)
+        param.auth_name = decode_or_undefined(out_auth_name)
+        param.code = decode_or_undefined(out_code)
+        param.value_string = cstrdecode(out_value_string)
+        param.unit_name = decode_or_undefined(out_unit_name)
+        param.unit_auth_name = decode_or_undefined(out_unit_auth_name)
+        param.unit_code = decode_or_undefined(out_unit_code)
+        param.unit_category = decode_or_undefined(out_unit_category)
+        param.value = param.value_double if param.value_string is None else param.value_string
+        return param
+
+    def __str__(self):
+        return "{auth_name}:{auth_code}".format(self.auth_name, self.auth_code)
+
+    def __repr__(self):
+        return ("Param(name={name}, auth_name={auth_name}, code={code}, "
+                "value={value}, unit_name={unit_name}, unit_auth_name={unit_auth_name}, "
+                "unit_code={unit_code}, unit_category={unit_category})").format(
+            name=self.name,
+            auth_name=self.auth_name,
+            code=self.code,
+            value=self.value,
+            unit_name=self.unit_name,
+            unit_auth_name=self.unit_auth_name,
+            unit_code=self.unit_code,
+            unit_category=self.unit_category,
+        )
+
+
+
+cdef class Grid:
+    def __cinit__(self):
+        self.short_name = "undefined"
+        self.full_name = "undefined"
+        self.package_name = "undefined"
+        self.url = "undefined"
+        self.unit_category = "undefined"
+        self.direct_download = 0
+        self.open_license = 0
+        self.available = 0
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int grid_idx):
+        cdef Grid grid = Grid()
+        cdef char *out_short_name
+        cdef char *out_full_name
+        cdef char *out_package_name
+        cdef char *out_url
+        proj_coordoperation_get_grid_used(
+            projcontext,
+            projobj,
+            grid_idx,
+            &out_short_name,
+            &out_full_name,
+            &out_package_name,
+            &out_url,
+            &grid.direct_download,
+            &grid.open_license,
+            &grid.available
+        )
+        grid.short_name = decode_or_undefined(out_short_name)
+        grid.full_name = decode_or_undefined(out_full_name)
+        grid.package_name = decode_or_undefined(out_package_name)
+        grid.url = decode_or_undefined(out_url)
+        return grid
+
+    def __str__(self):
+        return self.full_name
+
+    def __repr__(self):
+        return ("Grid(short_name={short_name}, full_name={full_name}, package_name={package_name}, "
+                "url={url}, unit_auth_code={unit_auth_code}, unit_code={unit_code}, "
+                "direct_download={direct_download}, open_license={open_license}, "
+                "available={available})").format(
+            short_name=self.short_name,
+            full_name=self.full_name,
+            package_name=self.package_name,
+            url=self.unit_name,
+            unit_auth_code=self.unit_auth_code,
+            unit_code=self.unit_code,
+            direct_download=self.direct_download,
+            open_license=self.open_license,
+            available=self.available
+        )
+
+
+cdef class CoordinateOperation(Base):
+    def __cinit__(self):
+        self._params = None
+        self._grids = None
+        self.method_name = "undefined"
+        self.method_auth_name = "undefined"
+        self.method_code = "undefined"
+        self.is_instantiable = False
+        self.has_ballpark_transformation = False
+        self.accuracy = float("nan")
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
+        cdef CoordinateOperation coord_operation = CoordinateOperation()
+        coord_operation.projobj = proj_crs_get_coordoperation(
+            projcontext,
+            projobj
+        )
+        if coord_operation.projobj == NULL:
+            return None
+
+        cdef char *out_method_name = NULL
+        cdef char *out_method_auth_name = NULL
+        cdef char *out_method_code = NULL
+        proj_coordoperation_get_method_info(
+            projcontext,
+            coord_operation.projobj,
+            &out_method_name,
+            &out_method_auth_name,
+            &out_method_code
+        )
+        coord_operation.method_name = decode_or_undefined(out_method_name)
+        coord_operation.method_auth_name = decode_or_undefined(out_method_auth_name)
+        coord_operation.method_code = decode_or_undefined(out_method_code)
+        coord_operation.name = "{method_name} [{method_auth_name}:{method_code}]".format(
+            method_name=coord_operation.method_name,
+            method_auth_name=coord_operation.method_auth_name,
+            method_code=coord_operation.method_code,
+        )
+        coord_operation.accuracy = proj_coordoperation_get_accuracy(
+            projcontext,
+            coord_operation.projobj
+        )
+        coord_operation.is_instantiable = proj_coordoperation_is_instantiable(
+            projcontext,
+            coord_operation.projobj
+        )
+        coord_operation.has_ballpark_transformation = \
+            proj_coordoperation_has_ballpark_transformation(
+                projcontext,
+                coord_operation.projobj
+            )
+
+        # TODO: How do you get the value count?
+        # The example in the PROJ test just says 7 ....
+        # cdef double *out_values
+        # cdef int value_count = ?
+        # cdef int emit_error_if_incompatible = 0
+        # proj_coordoperation_get_towgs84_values(
+        #     projcontext,
+        #     coord_operation.projobj,
+        #     double *out_values,
+        #     int value_count,
+        #     int emit_error_if_incompatible
+        # )
+
+        coord_operation.projctx = get_pyproj_context()
+        return coord_operation
+
+    @property
+    def params(self):
+        """
+        Returns
+        -------
+        list[Param]: The coordinate operation parameters.
+        """
+        if self._params is not None:
+            return self._params
+        self._params = []
+        cdef int num_params = 0
+        num_params = proj_coordoperation_get_param_count(
+            self.projctx,
+            self.projobj
+        )
+        for param_idx from 0 <= param_idx < num_params:
+            self._params.append(
+                Param.create(
+                    self.projctx,
+                    self.projobj,
+                    param_idx
+                )
+            )
+        return self._params
+
+    @property
+    def grids(self):
+        """
+        Returns
+        -------
+        list[Grid]: The coordinate operation grids.
+        """
+        if self._grids is not None:
+            return self._grids
+        self._grids = []
+        cdef int num_grids = 0
+        num_grids = proj_coordoperation_get_grid_used_count(
+            self.projctx,
+            self.projobj
+        )
+        for grid_idx from 0 < grid_idx < num_grids:
+            self._grids.append(
+                Grid.create(
+                    self.projctx,
+                    self.projobj,
+                    grid_idx
+                )
+            )
+        return self._grids
+
+    def to_proj4(self, version=5):
+        """
+        Convert the projection to a PROJ.4 string.
+
+        Parameters
+        ----------
+        version: int
+            The version of the PROJ.4 string. Default is 5.
+
+        Returns
+        -------
+        str: The PROJ.4 string.
+        """
+        return _to_proj4(self.projctx, self.projobj, version)
+
+
+
 cdef class _CRS(Base):
     def __cinit__(self):
         self._proj_type = PJ_TYPE_UNKNOWN
@@ -456,6 +764,7 @@ cdef class _CRS(Base):
         self._sub_crs_list = None
         self._source_crs = None
         self._coordinate_system = None
+        self._coordinate_operation = None
 
     def __init__(self, projstring):
         # setup the context
@@ -478,7 +787,7 @@ cdef class _CRS(Base):
         if not proj_is_crs(self.projobj):
             raise CRSError("Input is not a CRS: {}".format(self.srs))
         cdef const char* proj_name = proj_get_name(self.projobj)
-        self.name = pystrdecode(proj_name)
+        self.name = decode_or_undefined(proj_name)
 
     @property
     def axis_info(self):
@@ -555,6 +864,21 @@ cdef class _CRS(Base):
         return self._coordinate_system
 
     @property
+    def coordinate_operation(self):
+        """
+        Returns
+        -------
+        CoordinateOperation: The coordinate operation.
+        """
+        if self._coordinate_operation is not None:
+            return self._coordinate_operation
+        self._coordinate_operation = CoordinateOperation.create(
+            self.projctx,
+            self.projobj
+        )
+        return self._coordinate_operation
+
+    @property
     def source_crs(self):
         """
         Returns
@@ -601,41 +925,18 @@ cdef class _CRS(Base):
 
     def to_proj4(self, version=4):
         """
-        Convert the projection to a proj.4 string.
+        Convert the projection to a PROJ.4 string.
 
         Parameters
         ----------
         version: int
-            The version of the proj.4 output. Default is 4.
+            The version of the PROJ.4 output. Default is 4.
 
         Returns
         -------
-        str: The proj.4 string.
+        str: The PROJ.4 string.
         """
-        # get the output proj.4 format
-        supported_prj_types = {
-            4: PJ_PROJ_4,
-            5: PJ_PROJ_5,
-        }
-        cdef PJ_PROJ_STRING_TYPE proj_out_type
-        try:
-            proj_out_type = supported_prj_types[version]
-        except KeyError:
-            raise ValueError(
-                "Invalid version supplied '{}'. "
-                "Only {} are supported."
-                .format(version, tuple(supported_prj_types)))
-
-        # convert projection to string
-        cdef const char* proj_string
-        proj_string = proj_as_proj_string(
-            self.projctx,
-            self.projobj,
-            proj_out_type,
-            NULL)
-        if proj_string != NULL:
-            return pystrdecode(proj_string)
-        return None
+        return _to_proj4(self.projctx, self.projobj, version)
 
     def to_geodetic(self):
         """

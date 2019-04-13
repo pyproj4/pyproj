@@ -92,6 +92,8 @@ class CRS(_CRS):
         - bounds: (-96.0, 25.61, -90.0, 84.0)
         Coordinate System:
         - cartesian
+        Coordinate Operation:
+        - Transverse Mercator [EPSG:9807]
         Datum:
         - North American Datum 1983
         Ellipsoid:
@@ -465,6 +467,8 @@ class CRS(_CRS):
             "{area_of_use}\n"
             "Coordinate System:\n"
             "- {coordinate_system}\n"
+            "Coordinate Operation:\n"
+            "- {coordinate_operation}\n"
             "Datum:\n"
             "- {datum}\n"
             "Ellipsoid:\n"
@@ -474,11 +478,12 @@ class CRS(_CRS):
         ).format(
             srs_repr=srs_repr,
             name=self.name,
-            coordinate_system=self.coordinate_system or "undefined",
             axis_info_str=axis_info_str or "- undefined\n",
+            area_of_use=self.area_of_use or "- undefined",
+            coordinate_system=self.coordinate_system or "undefined",
+            coordinate_operation=self.coordinate_operation or "undefined",
             datum=self.datum or "undefined",
             ellipsoid=self.ellipsoid or "undefined",
-            area_of_use=self.area_of_use or "- undefined",
             prime_meridian=self.prime_meridian or "undefined",
         )
         return string_repr

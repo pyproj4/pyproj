@@ -160,6 +160,8 @@ def test_repr():
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
         "Coordinate System:\n"
         "- ellipsoidal\n"
+        "Coordinate Operation:\n"
+        "- undefined\n"
         "Datum:\n"
         "- World Geodetic System 1984\n"
         "Ellipsoid:\n"
@@ -181,6 +183,8 @@ def test_repr__long():
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
         "Coordinate System:\n"
         "- ellipsoidal\n"
+        "Coordinate Operation:\n"
+        "- undefined\n"
         "Datum:\n"
         "- World Geodetic System 1984\n"
         "Ellipsoid:\n"
@@ -202,6 +206,8 @@ def test_repr_epsg():
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
         "Coordinate System:\n"
         "- ellipsoidal\n"
+        "Coordinate Operation:\n"
+        "- undefined\n"
         "Datum:\n"
         "- World Geodetic System 1984\n"
         "Ellipsoid:\n"
@@ -226,6 +232,8 @@ def test_repr__undefined():
         "- undefined\n"
         "Coordinate System:\n"
         "- undefined\n"
+        "Coordinate Operation:\n"
+        "- NTv2 [EPSG:9615]\n"
         "Datum:\n"
         "- unknown\n"
         "Ellipsoid:\n"
@@ -390,3 +398,59 @@ def test_sub_crs():
 
 def test_sub_crs__none():
     assert CRS.from_epsg(4326).sub_crs_list == []
+
+
+def test_coordinate_system():
+    crs = CRS.from_epsg(26915)
+    assert repr(crs.coordinate_system).startswith("CS[Cartesian")
+    assert crs.coordinate_system.name == "cartesian"
+    assert crs.coordinate_system.name == str(crs.coordinate_system)
+    assert crs.coordinate_system.axis_list == crs.axis_info
+    assert len(crs.coordinate_system.axis_list) == 2
+
+
+def test_coordinate_system_geog():
+    crs = CRS.from_epsg(4326)
+    assert repr(crs.coordinate_system).startswith("CS[ellipsoidal")
+    assert crs.coordinate_system.name == "ellipsoidal"
+    assert crs.coordinate_system.name == str(crs.coordinate_system)
+    assert crs.coordinate_system.axis_list == crs.axis_info
+    assert repr(crs.coordinate_system.axis_list) == (
+        "[AxisInfo(name=Geodetic latitude, abbrev=Lat, direction=north, "
+        "unit_auth_code=EPSG, unit_code=9122, unit_name=degree), "
+        "AxisInfo(name=Geodetic longitude, abbrev=Lon, direction=east, "
+        "unit_auth_code=EPSG, unit_code=9122, unit_name=degree)]"
+    )
+
+
+def test_coordinate_operation():
+    crs = CRS.from_epsg(26915)
+    assert repr(crs.coordinate_operation).startswith('CONVERSION["UTM zone 15N"')
+    assert crs.coordinate_operation.method_name == "Transverse Mercator"
+    assert crs.coordinate_operation.name == str(crs.coordinate_operation)
+    assert crs.coordinate_operation.method_auth_name == "EPSG"
+    assert crs.coordinate_operation.method_code == "9807"
+    assert crs.coordinate_operation.is_instantiable == 1
+    assert crs.coordinate_operation.has_ballpark_transformation == 0
+    assert crs.coordinate_operation.accuracy == -1.0
+    assert repr(crs.coordinate_operation.params) == (
+        "[Param(name=Latitude of natural origin, auth_name=EPSG, code=8801, "
+        "value=0.0, unit_name=degree, unit_auth_name=EPSG, "
+        "unit_code=9102, unit_category=angular), "
+        "Param(name=Longitude of natural origin, auth_name=EPSG, code=8802, "
+        "value=-93.0, unit_name=degree, unit_auth_name=EPSG, "
+        "unit_code=9102, unit_category=angular), "
+        "Param(name=Scale factor at natural origin, auth_name=EPSG, code=8805, "
+        "value=0.9996, unit_name=unity, unit_auth_name=EPSG, "
+        "unit_code=9201, unit_category=scale), "
+        "Param(name=False easting, auth_name=EPSG, code=8806, value=500000.0, "
+        "unit_name=metre, unit_auth_name=EPSG, unit_code=9001, unit_category=linear), "
+        "Param(name=False northing, auth_name=EPSG, code=8807, value=0.0, "
+        "unit_name=metre, unit_auth_name=EPSG, unit_code=9001, unit_category=linear)]"
+    )
+    assert crs.coordinate_operation.grids == []
+
+
+def test_coordinate_operation__missing():
+    crs = CRS.from_epsg(4326)
+    assert crs.coordinate_operation is None
