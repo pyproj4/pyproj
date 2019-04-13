@@ -56,15 +56,22 @@ cdef class Datum(Base):
     cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int horizontal)
 
 
+cdef class CoordinateSystem(Base):
+    cdef public object _axis_list
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj)
+
+
 cdef class _CRS(Base):
-    cdef PJ_TYPE proj_type
+    cdef PJ_TYPE _proj_type
     cdef PJ_PROJ_INFO projpj_info
     cdef char *pjinitstring
     cdef public object srs
     cdef public object _ellipsoid
     cdef public object _area_of_use
     cdef public object _prime_meridian
-    cdef public object _axis_info
     cdef public object _datum
     cdef public object _sub_crs_list
     cdef public object _source_crs
+    cdef public object _coordinate_system

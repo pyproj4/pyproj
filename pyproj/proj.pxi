@@ -184,7 +184,22 @@ cdef extern from "proj.h":
     int proj_is_crs(const PJ *obj)
     PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs)
     PJ *proj_crs_get_horizontal_datum(PJ_CONTEXT *ctx, const PJ *crs)
+
+    ctypedef enum PJ_COORDINATE_SYSTEM_TYPE:
+        PJ_CS_TYPE_UNKNOWN
+        PJ_CS_TYPE_CARTESIAN
+        PJ_CS_TYPE_ELLIPSOIDAL
+        PJ_CS_TYPE_VERTICAL
+        PJ_CS_TYPE_SPHERICAL
+        PJ_CS_TYPE_ORDINAL
+        PJ_CS_TYPE_PARAMETRIC
+        PJ_CS_TYPE_DATETIMETEMPORAL
+        PJ_CS_TYPE_TEMPORALCOUNT
+        PJ_CS_TYPE_TEMPORALMEASURE
+
     PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs)
+    PJ_COORDINATE_SYSTEM_TYPE proj_cs_get_type(PJ_CONTEXT *ctx,
+                                               const PJ *cs)
     int proj_cs_get_axis_count(PJ_CONTEXT *ctx,
                                const PJ *cs)
     int proj_cs_get_axis_info(PJ_CONTEXT *ctx,

@@ -19,6 +19,57 @@ def is_wkt(proj_string):
     return proj_context_guess_wkt_dialect(NULL, tmp_string) != PJ_GUESSED_NOT_WKT
 
 
+cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version="WKT2_2018", pretty=False):
+    """
+    Convert a PJ object to a wkt string.
+
+    Parameters
+    ----------
+    projctx: PJ_CONTEXT*
+    projobj: PJ*
+    wkt_out_type: PJ_WKT_TYPE
+    pretty: bool
+
+    Return
+    ------
+    str or None
+    """
+    # get the output WKT format
+    supported_wkt_types = {
+        "WKT2_2015": PJ_WKT2_2015,
+        "WKT2_2015_SIMPLIFIED": PJ_WKT2_2015_SIMPLIFIED,
+        "WKT2_2018": PJ_WKT2_2018,
+        "WKT2_2018_SIMPLIFIED": PJ_WKT2_2018_SIMPLIFIED,
+        "WKT1_GDAL": PJ_WKT1_GDAL,
+        "WKT1_ESRI": PJ_WKT1_ESRI
+    }
+    cdef PJ_WKT_TYPE wkt_out_type
+    try:
+        wkt_out_type = supported_wkt_types[version.upper()]
+    except KeyError:
+        raise ValueError(
+            "Invalid version supplied '{}'. "
+            "Only {} are supported."
+            .format(version, tuple(supported_wkt_types)))
+
+
+    cdef const char* options_wkt[2]
+    multiline = b"MULTILINE=NO"
+    if pretty:
+        multiline = b"MULTILINE=YES"
+    options_wkt[0] = multiline
+    options_wkt[1] = NULL
+    cdef const char* proj_string
+    proj_string = proj_as_wkt(
+        projctx,
+        projobj,
+        wkt_out_type,
+        options_wkt)
+    if proj_string != NULL:
+        return pystrdecode(proj_string)
+    return None
+
+
 cdef class AxisInfo:
     def __init__(self):
         self.name = None
@@ -191,6 +242,70 @@ cdef class Base:
             self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
 
 
+_COORD_SYSTEM_TYPE_MAP = {
+    PJ_CS_TYPE_UNKNOWN: "unknown",
+    PJ_CS_TYPE_CARTESIAN: "cartesian",
+    PJ_CS_TYPE_ELLIPSOIDAL: "ellipsoidal",
+    PJ_CS_TYPE_VERTICAL: "vertical",
+    PJ_CS_TYPE_SPHERICAL: "spherical",
+    PJ_CS_TYPE_ORDINAL: "ordinal",
+    PJ_CS_TYPE_PARAMETRIC: "parametric",
+    PJ_CS_TYPE_DATETIMETEMPORAL: "datetimetemporal",
+    PJ_CS_TYPE_TEMPORALCOUNT: "temporalcount",
+    PJ_CS_TYPE_TEMPORALMEASURE: "temporalmeasure",
+}
+
+cdef class CoordinateSystem(Base):
+    """
+    Coordinate System for CRS
+    """
+    def __init__(self):
+        self._axis_list = None
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
+        cdef CoordinateSystem coord_system = CoordinateSystem()
+        coord_system.projobj = proj_crs_get_coordinate_system(
+            projcontext,
+            projobj
+        )
+        if coord_system.projobj == NULL:
+            return None
+
+        cdef PJ_COORDINATE_SYSTEM_TYPE cs_type = proj_cs_get_type(
+            coord_system.projctx,
+            coord_system.projobj
+        )
+        coord_system.name = _COORD_SYSTEM_TYPE_MAP[cs_type]
+        coord_system.projctx = get_pyproj_context()
+        return coord_system
+
+
+    @property
+    def axis_list(self):
+        """
+        Returns
+        -------
+        list[Axis]: The Axis list for the coordinate system.
+        """
+        if self._axis_list is not None:
+            return self._axis_list
+        self._axis_list = []
+        cdef int num_axes = 0
+        num_axes = proj_cs_get_axis_count(
+            self.projctx,
+            self.projobj
+        )
+        for axis_idx from 0 <= axis_idx < num_axes:
+            self._axis_list.append(
+                Axis.create(
+                    self.projctx,
+                    self.projobj,
+                    axis_idx
+                )
+            )
+        return self._axis_list
+
 
 cdef class Ellipsoid(Base):
     def __init__(self):
@@ -331,66 +446,16 @@ cdef class Datum(Base):
         return self._prime_meridian
 
 
-cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version="WKT2_2018", pretty=False):
-    """
-    Convert a PJ object to a wkt string.
-
-    Parameters
-    ----------
-    projctx: PJ_CONTEXT*
-    projobj: PJ*
-    wkt_out_type: PJ_WKT_TYPE
-    pretty: bool
-
-    Return
-    ------
-    str or None
-    """
-    # get the output WKT format
-    supported_wkt_types = {
-        "WKT2_2015": PJ_WKT2_2015,
-        "WKT2_2015_SIMPLIFIED": PJ_WKT2_2015_SIMPLIFIED,
-        "WKT2_2018": PJ_WKT2_2018,
-        "WKT2_2018_SIMPLIFIED": PJ_WKT2_2018_SIMPLIFIED,
-        "WKT1_GDAL": PJ_WKT1_GDAL,
-        "WKT1_ESRI": PJ_WKT1_ESRI
-    }
-    cdef PJ_WKT_TYPE wkt_out_type
-    try:
-        wkt_out_type = supported_wkt_types[version.upper()]
-    except KeyError:
-        raise ValueError(
-            "Invalid version supplied '{}'. "
-            "Only {} are supported."
-            .format(version, tuple(supported_wkt_types)))
-
-
-    cdef const char* options_wkt[2]
-    multiline = b"MULTILINE=NO"
-    if pretty:
-        multiline = b"MULTILINE=YES"
-    options_wkt[0] = multiline
-    options_wkt[1] = NULL
-    cdef const char* proj_string
-    proj_string = proj_as_wkt(
-        projctx,
-        projobj,
-        wkt_out_type,
-        options_wkt)
-    if proj_string != NULL:
-        return pystrdecode(proj_string)
-    return None
-
-
 cdef class _CRS(Base):
     def __cinit__(self):
-        self._axis_info = None
+        self._proj_type = PJ_TYPE_UNKNOWN
         self._ellipsoid = None
         self._area_of_use = None
         self._prime_meridian = None
         self._datum = None
         self._sub_crs_list = None
         self._source_crs = None
+        self._coordinate_system = None
 
     def __init__(self, projstring):
         # setup the context
@@ -408,7 +473,7 @@ cdef class _CRS(Base):
             raise CRSError(
                 "Invalid projection: {}".format(self.srs))
         # get proj information
-        self.proj_type = proj_get_type(self.projobj)
+        self._proj_type = proj_get_type(self.projobj)
         # make sure the input is a CRS
         if not proj_is_crs(self.projobj):
             raise CRSError("Input is not a CRS: {}".format(self.srs))
@@ -422,23 +487,7 @@ cdef class _CRS(Base):
         -------
         list[AxisInfo]: The list of axis information.
         """
-        if self._axis_info is not None:
-            return self._axis_info
-        self._axis_info = []
-
-        cdef PJ * coord_system = NULL
-        coord_system = proj_crs_get_coordinate_system(self.projctx, self.projobj)
-        if coord_system == NULL:
-            return self._axis_info
-
-        cdef int num_axes = 0
-        try:
-            num_axes = proj_cs_get_axis_count(self.projctx, coord_system)
-            for axis_idx from 0 <= axis_idx < num_axes:
-                self._axis_info.append(AxisInfo.create(self.projctx, coord_system, axis_idx))
-        finally:
-            proj_destroy(coord_system)
-        return self._axis_info
+        return self.coordinate_system.axis_list if self.coordinate_system else []
 
     @property
     def ellipsoid(self):
@@ -491,6 +540,21 @@ cdef class _CRS(Base):
         return self._datum
 
     @property
+    def coordinate_system(self):
+        """
+        Returns
+        -------
+        CoordinateSystem: The coordinate system.
+        """
+        if self._coordinate_system is not None:
+            return self._coordinate_system
+        self._coordinate_system = CoordinateSystem.create(
+            self.projctx,
+            self.projobj
+        )
+        return self._coordinate_system
+
+    @property
     def source_crs(self):
         """
         Returns
@@ -498,7 +562,7 @@ cdef class _CRS(Base):
         CRS: The source CRS.
         """
         if self._source_crs is not None:
-            return self._source_crs
+            return None if self._source_crs == 1 else self._source_crs
         cdef PJ * projobj
         projobj = proj_get_source_crs(self.projctx, self.projobj)
         if projobj == NULL:
@@ -664,7 +728,7 @@ cdef class _CRS(Base):
             else:
                 is_geographic = sub_crs.is_geographic
         else:
-            is_geographic = self.proj_type in (
+            is_geographic = self._proj_type in (
                 PJ_TYPE_GEOGRAPHIC_CRS,
                 PJ_TYPE_GEOGRAPHIC_2D_CRS,
                 PJ_TYPE_GEOGRAPHIC_3D_CRS
@@ -685,7 +749,7 @@ cdef class _CRS(Base):
             else:
                 is_projected = sub_crs.is_projected
         else:
-            is_projected = self.proj_type == PJ_TYPE_PROJECTED_CRS
+            is_projected = self._proj_type == PJ_TYPE_PROJECTED_CRS
         return is_projected 
 
     @property
@@ -695,7 +759,7 @@ cdef class _CRS(Base):
         -------
         bool: True if projection is a bound CRS.
         """
-        return self.proj_type == PJ_TYPE_BOUND_CRS
+        return self._proj_type == PJ_TYPE_BOUND_CRS
 
     @property
     def is_valid(self):
@@ -704,7 +768,7 @@ cdef class _CRS(Base):
         -------
         bool: True if projection is a valid CRS.
         """
-        return self.proj_type != PJ_TYPE_UNKNOWN
+        return self._proj_type != PJ_TYPE_UNKNOWN
 
     @property
     def is_geocentric(self):
@@ -713,4 +777,4 @@ cdef class _CRS(Base):
         -------
         bool: True if projection in geocentric (x/y) coordinates
         """
-        return self.proj_type == PJ_TYPE_GEOCENTRIC_CRS
+        return self._proj_type == PJ_TYPE_GEOCENTRIC_CRS

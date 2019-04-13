@@ -90,6 +90,8 @@ class CRS(_CRS):
         Area of Use:
         - name: North America - 96°W to 90°W and NAD83 by country
         - bounds: (-96.0, 25.61, -90.0, 84.0)
+        Coordinate System:
+        - cartesian
         Datum:
         - North American Datum 1983
         Ellipsoid:
@@ -461,6 +463,8 @@ class CRS(_CRS):
             "{axis_info_str}"
             "Area of Use:\n"
             "{area_of_use}\n"
+            "Coordinate System:\n"
+            "- {coordinate_system}\n"
             "Datum:\n"
             "- {datum}\n"
             "Ellipsoid:\n"
@@ -470,10 +474,11 @@ class CRS(_CRS):
         ).format(
             srs_repr=srs_repr,
             name=self.name,
+            coordinate_system=self.coordinate_system or "undefined",
+            axis_info_str=axis_info_str or "- undefined\n",
             datum=self.datum or "undefined",
             ellipsoid=self.ellipsoid or "undefined",
             area_of_use=self.area_of_use or "- undefined",
             prime_meridian=self.prime_meridian or "undefined",
-            axis_info_str=axis_info_str or "- undefined\n",
         )
         return string_repr
