@@ -1,6 +1,6 @@
 include "proj.pxi"
 
-cdef class AxisInfo:
+cdef class Axis:
     cdef public object name
     cdef public object abbrev
     cdef public object direction

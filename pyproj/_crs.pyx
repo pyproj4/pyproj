@@ -116,7 +116,7 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=4):
     return cstrdecode(proj_string)
 
 
-cdef class AxisInfo:
+cdef class Axis:
     def __init__(self):
         self.name = "undefined"
         self.abbrev = "undefined"
@@ -136,7 +136,7 @@ cdef class AxisInfo:
         )
 
     def __repr__(self):
-        return ("AxisInfo(name={name}, abbrev={abbrev}, direction={direction}, "
+        return ("Axis(name={name}, abbrev={abbrev}, direction={direction}, "
                 "unit_auth_code={unit_auth_code}, unit_code={unit_code}, "
                 "unit_name={unit_name})").format(
             name=self.name,
@@ -149,7 +149,7 @@ cdef class AxisInfo:
 
     @staticmethod
     cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int index):
-        cdef AxisInfo axis_info = AxisInfo()
+        cdef Axis axis_info = Axis()
         cdef const char * name = NULL
         cdef const char * abbrev = NULL
         cdef const char * direction = NULL
@@ -794,7 +794,7 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        list[AxisInfo]: The list of axis information.
+        list[Axis]: The list of axis information.
         """
         return self.coordinate_system.axis_list if self.coordinate_system else []
 

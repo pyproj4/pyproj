@@ -416,9 +416,9 @@ def test_coordinate_system_geog():
     assert crs.coordinate_system.name == str(crs.coordinate_system)
     assert crs.coordinate_system.axis_list == crs.axis_info
     assert repr(crs.coordinate_system.axis_list) == (
-        "[AxisInfo(name=Geodetic latitude, abbrev=Lat, direction=north, "
+        "[Axis(name=Geodetic latitude, abbrev=Lat, direction=north, "
         "unit_auth_code=EPSG, unit_code=9122, unit_name=degree), "
-        "AxisInfo(name=Geodetic longitude, abbrev=Lon, direction=east, "
+        "Axis(name=Geodetic longitude, abbrev=Lon, direction=east, "
         "unit_auth_code=EPSG, unit_code=9122, unit_name=degree)]"
     )
 
