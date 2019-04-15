@@ -447,7 +447,7 @@ class CRS(_CRS):
     def __repr__(self):
         axis_info_list = []
         for axis_info in self.axis_info:
-            axis_info_list.extend([str(axis_info), "\n"])
+            axis_info_list.extend(["- ", str(axis_info), "\n"])
 
         axis_info_str = "".join(axis_info_list)
 

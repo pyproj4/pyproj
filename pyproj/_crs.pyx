@@ -127,7 +127,7 @@ cdef class Axis:
         self.unit_code = "undefined"
 
     def __str__(self):
-        return "- {direction}: {name} [{unit_auth_code}:{unit_code}] ({unit_name})".format(
+        return "{direction}: {name} [{unit_auth_code}:{unit_code}] ({unit_name})".format(
             name=self.name,
             direction=self.direction,
             unit_name=self.unit_name,
