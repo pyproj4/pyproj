@@ -67,8 +67,6 @@ cdef class Param:
     cdef public object auth_name
     cdef public object code
     cdef public object value
-    cdef public double value_double
-    cdef public object value_string
     cdef public double unit_conversion_factor
     cdef public object unit_name
     cdef public object unit_auth_name

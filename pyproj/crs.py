@@ -103,18 +103,61 @@ class CRS(_CRS):
         <BLANKLINE>
         >>> crs_utm.area_of_use.bounds
         (-96.0, 25.61, -90.0, 84.0)
+        >>> crs_utm.ellipsoid
+        ELLIPSOID["GRS 1980",6378137,298.257222101,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",7019]]
         >>> crs_utm.ellipsoid.inverse_flattening
         298.257222101
         >>> crs_utm.ellipsoid.semi_major_metre
         6378137.0
         >>> crs_utm.ellipsoid.semi_minor_metre
         6356752.314140356
+        >>> crs_utm.prime_meridian
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8901]]
         >>> crs_utm.prime_meridian.unit_name
         'degree'
         >>> crs_utm.prime_meridian.unit_conversion_factor
         0.017453292519943295
         >>> crs_utm.prime_meridian.longitude
         0.0
+        >>> crs_utm.datum
+        DATUM["North American Datum 1983",
+            ELLIPSOID["GRS 1980",6378137,298.257222101,
+                LENGTHUNIT["metre",1]],
+            ID["EPSG",6269]]
+        >>> crs_utm.coordinate_system
+        CS[Cartesian,2],
+            AXIS["(E)",east,
+                ORDER[1],
+                LENGTHUNIT["metre",1,
+                    ID["EPSG",9001]]],
+            AXIS["(N)",north,
+                ORDER[2],
+                LENGTHUNIT["metre",1,
+                    ID["EPSG",9001]]]
+        >>> crs_utm.coordinate_operation
+        CONVERSION["UTM zone 15N",
+            METHOD["Transverse Mercator",
+                ID["EPSG",9807]],
+            PARAMETER["Latitude of natural origin",0,
+                ANGLEUNIT["degree",0.0174532925199433],
+                ID["EPSG",8801]],
+            PARAMETER["Longitude of natural origin",-93,
+                ANGLEUNIT["degree",0.0174532925199433],
+                ID["EPSG",8802]],
+            PARAMETER["Scale factor at natural origin",0.9996,
+                SCALEUNIT["unity",1],
+                ID["EPSG",8805]],
+            PARAMETER["False easting",500000,
+                LENGTHUNIT["metre",1],
+                ID["EPSG",8806]],
+            PARAMETER["False northing",0,
+                LENGTHUNIT["metre",1],
+                ID["EPSG",8807]],
+            ID["EPSG",16015]]
         >>> crs = CRS(proj='utm', zone=10, ellps='WGS84')
         >>> crs.to_proj4()
         '+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs'

@@ -117,6 +117,20 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=4):
 
 
 cdef class Axis:
+    """
+    Coordinate System Axis
+
+    Attributes
+    ----------
+    name: str
+    abbrev: str
+    direction: str
+    unit_conversion_factor: float
+    unit_name: str
+    unit_auth_code: str
+    unit_code: str
+
+    """
     def __init__(self):
         self.name = "undefined"
         self.abbrev = "undefined"
@@ -178,12 +192,29 @@ cdef class Axis:
 
 
 cdef class AreaOfUse:
+    """
+    Area of Use for CRS
+
+    Attributes
+    ----------
+    west: float
+        West bound of area of use.
+    south: float
+        South bound of area of use.
+    east: float
+        East bound of area of use.
+    north: float
+        North bound of area of use.
+    name: str
+        Name of area of use.
+
+    """
     def __init__(self):
         self.west = float("NaN")
         self.south = float("NaN")
         self.east = float("NaN")
         self.north = float("NaN")
-        self.name = None
+        self.name = "undefined"
 
     def __str__(self):
         return "- name: {name}\n" \
@@ -303,6 +334,12 @@ _COORD_SYSTEM_TYPE_MAP = {
 cdef class CoordinateSystem(Base):
     """
     Coordinate System for CRS
+
+    Attributes
+    ----------
+    name: str
+        The name of the coordinate system.
+
     """
     def __init__(self):
         self._axis_list = None
@@ -353,6 +390,19 @@ cdef class CoordinateSystem(Base):
 
 
 cdef class Ellipsoid(Base):
+    """
+    Ellipsoid for CRS
+
+    Attributes
+    ----------
+    name: str
+        The name of the ellipsoid.
+    is_semi_minor_computed: int
+        1 if True, 0 if False
+    ellipsoid_loaded: bool
+        True if it is loaded without errors.
+
+    """
     def __init__(self):
         # load in ellipsoid information if applicable
         self._semi_major_metre = float("NaN")
@@ -424,6 +474,17 @@ cdef class Ellipsoid(Base):
 
 
 cdef class PrimeMeridian(Base):
+    """
+    Prime Meridian for CRS
+
+    Attributes
+    ----------
+    name: str
+        The name of the prime meridian.
+    unit_name: str
+        The unit name for the prime meridian.
+
+    """
     def __init__(self):
         self.unit_name = None
 
@@ -449,6 +510,15 @@ cdef class PrimeMeridian(Base):
 
 
 cdef class Datum(Base):
+    """
+    Datum for CRS. If it is a compound CRS it is the horizontal datum.
+
+    Attributes
+    ----------
+    name: str
+        The name of the datum.
+
+    """
     def __init__(self):
         self._ellipsoid = None
         self._prime_meridian = None
@@ -492,13 +562,37 @@ cdef class Datum(Base):
 
 
 cdef class Param:
+    """
+    Coordinate operation parameter.
+
+    Attributes
+    ----------
+    name: str
+        The name of the parameter.
+    auth_name: str
+        The authority name of the parameter (i.e. EPSG).
+    code: str
+        The code of the parameter (i.e. 9807).
+    value: str or double
+        The value of the parameter.
+    unit_conversion_factor: double
+        The factor to convert to meters.
+    unit_name: str
+        The name of the unit.
+    unit_auth_name: str
+        The authority name of the unit (i.e. EPSG).
+    unit_code: str
+        The code of the unit (i.e. 9807).
+    unit_category: str
+        The category of the unit (“unknown”, “none”, “linear”, 
+        “angular”, “scale”, “time” or “parametric”).
+
+    """
     def __cinit__(self):
         self.name = "undefined"
         self.auth_name = "undefined"
         self.code = "undefined"
         self.value = "undefined"
-        self.value_double = float("nan")
-        self.value_string = None
         self.unit_conversion_factor = float("nan")
         self.unit_name = "undefined"
         self.unit_auth_name = "undefined"
@@ -517,6 +611,7 @@ cdef class Param:
         cdef char *out_unit_auth_name
         cdef char *out_unit_code
         cdef char *out_unit_category
+        cdef double value_double
         proj_coordoperation_get_param(
             projcontext,
             projobj,
@@ -524,7 +619,7 @@ cdef class Param:
             &out_name,
             &out_auth_name,
             &out_code,
-            &param.value_double,
+            &value_double,
             &out_value_string,
             &param.unit_conversion_factor,
             &out_unit_name,
@@ -535,12 +630,12 @@ cdef class Param:
         param.name = decode_or_undefined(out_name)
         param.auth_name = decode_or_undefined(out_auth_name)
         param.code = decode_or_undefined(out_code)
-        param.value_string = cstrdecode(out_value_string)
         param.unit_name = decode_or_undefined(out_unit_name)
         param.unit_auth_name = decode_or_undefined(out_unit_auth_name)
         param.unit_code = decode_or_undefined(out_unit_code)
         param.unit_category = decode_or_undefined(out_unit_category)
-        param.value = param.value_double if param.value_string is None else param.value_string
+        value_string = cstrdecode(out_value_string)
+        param.value = value_double if value_string is None else value_string
         return param
 
     def __str__(self):
@@ -563,12 +658,32 @@ cdef class Param:
 
 
 cdef class Grid:
+    """
+    Coordinate operation grid.
+
+    Attributes
+    ----------
+    short_name: str
+        The short name of the grid.
+    full_name: str
+        The full name of the grid.
+    package_name: str
+        The the package name where the grid might be found.
+    url: str
+        The grid URL or the package URL where the grid might be found.
+    direct_download: int
+        If 1, *url* can be downloaded directly.
+    open_license: int
+        If 1, the grid is released with an open license.
+    available: int
+        If 1, the grid is available at runtime. 
+
+    """
     def __cinit__(self):
         self.short_name = "undefined"
         self.full_name = "undefined"
         self.package_name = "undefined"
         self.url = "undefined"
-        self.unit_category = "undefined"
         self.direct_download = 0
         self.open_license = 0
         self.available = 0
@@ -603,15 +718,12 @@ cdef class Grid:
 
     def __repr__(self):
         return ("Grid(short_name={short_name}, full_name={full_name}, package_name={package_name}, "
-                "url={url}, unit_auth_code={unit_auth_code}, unit_code={unit_code}, "
-                "direct_download={direct_download}, open_license={open_license}, "
+                "url={url}, direct_download={direct_download}, open_license={open_license}, "
                 "available={available})").format(
             short_name=self.short_name,
             full_name=self.full_name,
             package_name=self.package_name,
             url=self.unit_name,
-            unit_auth_code=self.unit_auth_code,
-            unit_code=self.unit_code,
             direct_download=self.direct_download,
             open_license=self.open_license,
             available=self.available
@@ -619,6 +731,29 @@ cdef class Grid:
 
 
 cdef class CoordinateOperation(Base):
+    """
+    Coordinate operation for CRS.
+
+    Attributes
+    ----------
+    name: str
+        The name of the method(projection) with authority information.
+    method_name: str
+        The method (projection) name.
+    method_auth_name: str
+        The method authority name.
+    method_code: str
+        The method code.
+    is_instantiable: int
+        If 1, a coordinate operation can be instantiated as a PROJ pipeline.
+        This also checks that referenced grids are available. 
+    has_ballpark_transformation: int
+        If 1, the coordinate operation has a “ballpark” transformation, 
+        that is a very approximate one, due to lack of more accurate transformations. 
+    accuracy: float
+        The accuracy (in metre) of a coordinate operation. 
+
+    """
     def __cinit__(self):
         self._params = None
         self._grids = None
@@ -755,6 +890,10 @@ cdef class CoordinateOperation(Base):
 
 
 cdef class _CRS(Base):
+    """
+    The cython CRS class to be used as the base for the
+    python CRS class.
+    """
     def __cinit__(self):
         self._proj_type = PJ_TYPE_UNKNOWN
         self._ellipsoid = None
