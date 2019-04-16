@@ -131,7 +131,7 @@ cdef class Axis:
     unit_code: str
 
     """
-    def __init__(self):
+    def __cinit__(self):
         self.name = "undefined"
         self.abbrev = "undefined"
         self.direction = "undefined"
@@ -255,7 +255,7 @@ cdef class AreaOfUse:
 cdef class Base:
     def __cinit__(self):
         self.projobj = NULL
-        self.projctx = NULL
+        self.projctx = get_pyproj_context()
         self.name = "undefined"
 
     def __dealloc__(self):
@@ -265,15 +265,13 @@ cdef class Base:
         if self.projctx != NULL:
             proj_context_destroy(self.projctx)
 
-    def _post_setup(self):
+    def _set_name(self):
         """
-        Setup to run after create
+        Set the name of the PJ
         """
-        if self.projobj == NULL:
-            return
+        # get proj information
         cdef const char* proj_name = proj_get_name(self.projobj)
         self.name = decode_or_undefined(proj_name)
-        self.projctx = get_pyproj_context()
 
     def to_wkt(self, version="WKT2_2018", pretty=False):
         """
@@ -345,21 +343,17 @@ cdef class CoordinateSystem(Base):
         self._axis_list = None
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
+    cdef create(PJ* coord_system_pj):
         cdef CoordinateSystem coord_system = CoordinateSystem()
-        coord_system.projobj = proj_crs_get_coordinate_system(
-            projcontext,
-            projobj
-        )
-        if coord_system.projobj == NULL:
-            return None
-
+        coord_system.projobj = coord_system_pj
         cdef PJ_COORDINATE_SYSTEM_TYPE cs_type = proj_cs_get_type(
             coord_system.projctx,
-            coord_system.projobj
+            coord_system.projobj,
         )
-        coord_system.name = _COORD_SYSTEM_TYPE_MAP[cs_type]
-        coord_system.projctx = get_pyproj_context()
+        try:
+            coord_system.name = _COORD_SYSTEM_TYPE_MAP[cs_type]
+        except KeyError:
+            raise CRSError("Not a coordinate system.")
         return coord_system
 
 
@@ -412,23 +406,21 @@ cdef class Ellipsoid(Base):
         self.ellipsoid_loaded = False
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
+    cdef create(PJ* ellipsoid_pj):
         cdef Ellipsoid ellips = Ellipsoid()
-        ellips.projobj = proj_get_ellipsoid(projcontext, projobj)
-        if ellips.projobj == NULL:
-            return None
+        ellips.projobj = ellipsoid_pj
         try:
             proj_ellipsoid_get_parameters(
-                projcontext,
+                ellips.projctx,
                 ellips.projobj,
                 &ellips._semi_major_metre,
                 &ellips._semi_minor_metre,
                 &ellips.is_semi_minor_computed,
                 &ellips._inv_flattening)
             ellips.ellipsoid_loaded = True
-        except:
+        except Exception:
             pass
-        ellips._post_setup()
+        ellips._set_name()
         return ellips
 
     @property
@@ -489,24 +481,21 @@ cdef class PrimeMeridian(Base):
         self.unit_name = None
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
+    cdef create(PJ* prime_meridian_pj):
         cdef PrimeMeridian prime_meridian = PrimeMeridian()
-        prime_meridian.projobj = proj_get_prime_meridian(projcontext, projobj)
-        if prime_meridian.projobj == NULL:
-            return None
- 
+        prime_meridian.projobj = prime_meridian_pj
         cdef const char * unit_name
-        if not proj_prime_meridian_get_parameters(
-                projcontext,
-                prime_meridian.projobj,
-                &prime_meridian.longitude,
-                &prime_meridian.unit_conversion_factor,
-                &unit_name):
-            return None
-
+        proj_prime_meridian_get_parameters(
+            prime_meridian.projctx,
+            prime_meridian.projobj,
+            &prime_meridian.longitude,
+            &prime_meridian.unit_conversion_factor,
+            &unit_name,
+        )
         prime_meridian.unit_name = decode_or_undefined(unit_name)
-        prime_meridian._post_setup()
+        prime_meridian._set_name()
         return prime_meridian
+
 
 
 cdef class Datum(Base):
@@ -524,16 +513,10 @@ cdef class Datum(Base):
         self._prime_meridian = None
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int horizontal):
+    cdef create(PJ* datum_pj):
         cdef Datum datum = Datum()
-        if not horizontal:
-            datum.projobj = proj_crs_get_datum(projcontext, projobj)
-        else:
-            datum.projobj = proj_crs_get_horizontal_datum(projcontext, projobj)
-
-        if datum.projobj == NULL:
-            return None
-        datum._post_setup()
+        datum.projobj = datum_pj
+        datum._set_name()
         return datum
 
     @property
@@ -544,8 +527,12 @@ cdef class Datum(Base):
         Ellipsoid: The ellipsoid object with associated attributes.
         """
         if self._ellipsoid is not None:
-            return self._ellipsoid
-        self._ellipsoid = Ellipsoid.create(self.projctx, self.projobj)
+            return None if self._ellipsoid is False else self._ellipsoid
+        cdef PJ* ellipsoid_pj = proj_get_ellipsoid(self.projctx, self.projobj)
+        if ellipsoid_pj == NULL:
+            self._ellipsoid = False
+            return None
+        self._ellipsoid = Ellipsoid.create(ellipsoid_pj)
         return self._ellipsoid
 
     @property
@@ -556,8 +543,12 @@ cdef class Datum(Base):
         PrimeMeridian: The CRS prime meridian object with associated attributes.
         """
         if self._prime_meridian is not None:
-            return self._prime_meridian
-        self._prime_meridian = PrimeMeridian.create(self.projctx, self.projobj)
+            return None if self._prime_meridian is False else self._prime_meridian
+        cdef PJ* prime_meridian_pj = proj_get_prime_meridian(self.projctx, self.projobj)
+        if prime_meridian_pj == NULL:
+            self._prime_meridian = False
+            return None
+        self._prime_meridian = PrimeMeridian.create(prime_meridian_pj)
         return self._prime_meridian
 
 
@@ -754,7 +745,7 @@ cdef class CoordinateOperation(Base):
         The accuracy (in metre) of a coordinate operation. 
 
     """
-    def __cinit__(self):
+    def __init__(self):
         self._params = None
         self._grids = None
         self.method_name = "undefined"
@@ -765,20 +756,14 @@ cdef class CoordinateOperation(Base):
         self.accuracy = float("nan")
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
+    cdef create(PJ* coord_operation_pj):
         cdef CoordinateOperation coord_operation = CoordinateOperation()
-        coord_operation.projobj = proj_crs_get_coordoperation(
-            projcontext,
-            projobj
-        )
-        if coord_operation.projobj == NULL:
-            return None
-
+        coord_operation.projobj = coord_operation_pj
         cdef char *out_method_name = NULL
         cdef char *out_method_auth_name = NULL
         cdef char *out_method_code = NULL
         proj_coordoperation_get_method_info(
-            projcontext,
+            coord_operation.projctx,
             coord_operation.projobj,
             &out_method_name,
             &out_method_auth_name,
@@ -793,16 +778,16 @@ cdef class CoordinateOperation(Base):
             method_code=coord_operation.method_code,
         )
         coord_operation.accuracy = proj_coordoperation_get_accuracy(
-            projcontext,
+            coord_operation.projctx,
             coord_operation.projobj
         )
         coord_operation.is_instantiable = proj_coordoperation_is_instantiable(
-            projcontext,
+            coord_operation.projctx,
             coord_operation.projobj
         )
         coord_operation.has_ballpark_transformation = \
             proj_coordoperation_has_ballpark_transformation(
-                projcontext,
+                coord_operation.projctx,
                 coord_operation.projobj
             )
 
@@ -812,14 +797,13 @@ cdef class CoordinateOperation(Base):
         # cdef int value_count = ?
         # cdef int emit_error_if_incompatible = 0
         # proj_coordoperation_get_towgs84_values(
-        #     projcontext,
+        #     coord_operation.projctx,
         #     coord_operation.projobj,
         #     double *out_values,
         #     int value_count,
         #     int emit_error_if_incompatible
         # )
 
-        coord_operation.projctx = get_pyproj_context()
         return coord_operation
 
     @property
@@ -895,7 +879,6 @@ cdef class _CRS(Base):
     python CRS class.
     """
     def __cinit__(self):
-        self._proj_type = PJ_TYPE_UNKNOWN
         self._ellipsoid = None
         self._area_of_use = None
         self._prime_meridian = None
@@ -906,27 +889,23 @@ cdef class _CRS(Base):
         self._coordinate_operation = None
 
     def __init__(self, projstring):
-        # setup the context
-        self.projctx = get_pyproj_context()
         # setup proj initialization string.
         if not is_wkt(projstring) \
                 and not projstring.lower().startswith("epsg")\
                 and "type=crs" not in projstring:
             projstring += " +type=crs"
-        self.projobj = proj_create(self.projctx, cstrencode(projstring))
-
-        self.srs = pystrdecode(projstring)
         # initialize projection
+        self.projobj = proj_create(self.projctx, cstrencode(projstring))
         if self.projobj is NULL:
             raise CRSError(
                 "Invalid projection: {}".format(self.srs))
-        # get proj information
-        self._proj_type = proj_get_type(self.projobj)
         # make sure the input is a CRS
         if not proj_is_crs(self.projobj):
             raise CRSError("Input is not a CRS: {}".format(self.srs))
-        cdef const char* proj_name = proj_get_name(self.projobj)
-        self.name = decode_or_undefined(proj_name)
+        # set proj information
+        self.srs = pystrdecode(projstring)
+        self._type = proj_get_type(self.projobj)
+        self._set_name()
 
     @property
     def axis_info(self):
@@ -936,18 +915,6 @@ cdef class _CRS(Base):
         list[Axis]: The list of axis information.
         """
         return self.coordinate_system.axis_list if self.coordinate_system else []
-
-    @property
-    def ellipsoid(self):
-        """
-        Returns
-        -------
-        Ellipsoid: The ellipsoid object with associated attributes.
-        """
-        if self._ellipsoid is not None:
-            return self._ellipsoid
-        self._ellipsoid = Ellipsoid.create(self.projctx, self.projobj)
-        return self._ellipsoid
 
     @property
     def area_of_use(self):
@@ -962,6 +929,22 @@ cdef class _CRS(Base):
         return self._area_of_use
 
     @property
+    def ellipsoid(self):
+        """
+        Returns
+        -------
+        Ellipsoid: The ellipsoid object with associated attributes.
+        """
+        if self._ellipsoid is not None:
+            return None if self._ellipsoid is False else self._ellipsoid
+        cdef PJ* ellipsoid_pj = proj_get_ellipsoid(self.projctx, self.projobj)
+        if ellipsoid_pj == NULL:
+            self._ellipsoid = False
+            return None
+        self._ellipsoid = Ellipsoid.create(ellipsoid_pj)
+        return self._ellipsoid
+
+    @property
     def prime_meridian(self):
         """
         Returns
@@ -969,8 +952,12 @@ cdef class _CRS(Base):
         PrimeMeridian: The CRS prime meridian object with associated attributes.
         """
         if self._prime_meridian is not None:
-            return self._prime_meridian
-        self._prime_meridian = PrimeMeridian.create(self.projctx, self.projobj)
+            return None if self._prime_meridian is True else self._prime_meridian
+        cdef PJ* prime_meridian_pj = proj_get_prime_meridian(self.projctx, self.projobj)
+        if prime_meridian_pj == NULL:
+            self._prime_meridian = False
+            return None
+        self._prime_meridian = PrimeMeridian.create(prime_meridian_pj)
         return self._prime_meridian
 
     @property
@@ -981,10 +968,14 @@ cdef class _CRS(Base):
         Datum: The datum.
         """
         if self._datum is not None:
-            return self._datum
-        self._datum = Datum.create(self.projctx, self.projobj, horizontal=0)
-        if self._datum is None:
-            self._datum = Datum.create(self.projctx, self.projobj, horizontal=1)
+            return None if self._datum is False else self._datum
+        cdef PJ* datum_pj = proj_crs_get_datum(self.projctx, self.projobj)
+        if datum_pj == NULL:
+            datum_pj = proj_crs_get_horizontal_datum(self.projctx, self.projobj)
+        if datum_pj == NULL:
+            self._datum = False
+            return None
+        self._datum = Datum.create(datum_pj)
         return self._datum
 
     @property
@@ -995,11 +986,17 @@ cdef class _CRS(Base):
         CoordinateSystem: The coordinate system.
         """
         if self._coordinate_system is not None:
-            return self._coordinate_system
-        self._coordinate_system = CoordinateSystem.create(
+            return None if self._coordinate_system is False else self._coordinate_system
+
+        cdef PJ* coord_system_pj = proj_crs_get_coordinate_system(
             self.projctx,
             self.projobj
         )
+        if coord_system_pj == NULL:
+            self._coordinate_system = False
+            return None
+
+        self._coordinate_system = CoordinateSystem.create(coord_system_pj)
         return self._coordinate_system
 
     @property
@@ -1010,11 +1007,16 @@ cdef class _CRS(Base):
         CoordinateOperation: The coordinate operation.
         """
         if self._coordinate_operation is not None:
-            return self._coordinate_operation
-        self._coordinate_operation = CoordinateOperation.create(
+            return None if self._coordinate_operation is False else self._coordinate_operation
+        cdef PJ* coord_pj = NULL
+        coord_pj = proj_crs_get_coordoperation(
             self.projctx,
             self.projobj
         )
+        if coord_pj == NULL:
+            self._coordinate_operation = False
+            return None
+        self._coordinate_operation = CoordinateOperation.create(coord_pj)
         return self._coordinate_operation
 
     @property
@@ -1025,11 +1027,11 @@ cdef class _CRS(Base):
         CRS: The source CRS.
         """
         if self._source_crs is not None:
-            return None if self._source_crs == 1 else self._source_crs
+            return None if self._source_crs is False else self._source_crs
         cdef PJ * projobj
         projobj = proj_get_source_crs(self.projctx, self.projobj)
         if projobj == NULL:
-            self._source_crs = 1
+            self._source_crs = False
             return None
         try:
             self._source_crs = self.__class__(_to_wkt(self.projctx, projobj))
@@ -1168,7 +1170,7 @@ cdef class _CRS(Base):
             else:
                 is_geographic = sub_crs.is_geographic
         else:
-            is_geographic = self._proj_type in (
+            is_geographic = self._type in (
                 PJ_TYPE_GEOGRAPHIC_CRS,
                 PJ_TYPE_GEOGRAPHIC_2D_CRS,
                 PJ_TYPE_GEOGRAPHIC_3D_CRS
@@ -1189,7 +1191,7 @@ cdef class _CRS(Base):
             else:
                 is_projected = sub_crs.is_projected
         else:
-            is_projected = self._proj_type == PJ_TYPE_PROJECTED_CRS
+            is_projected = self._type == PJ_TYPE_PROJECTED_CRS
         return is_projected 
 
     @property
@@ -1199,7 +1201,7 @@ cdef class _CRS(Base):
         -------
         bool: True if projection is a bound CRS.
         """
-        return self._proj_type == PJ_TYPE_BOUND_CRS
+        return self._type == PJ_TYPE_BOUND_CRS
 
     @property
     def is_valid(self):
@@ -1208,7 +1210,7 @@ cdef class _CRS(Base):
         -------
         bool: True if projection is a valid CRS.
         """
-        return self._proj_type != PJ_TYPE_UNKNOWN
+        return self._type != PJ_TYPE_UNKNOWN
 
     @property
     def is_geocentric(self):
@@ -1217,4 +1219,4 @@ cdef class _CRS(Base):
         -------
         bool: True if projection in geocentric (x/y) coordinates
         """
-        return self._proj_type == PJ_TYPE_GEOCENTRIC_CRS
+        return self._type == PJ_TYPE_GEOCENTRIC_CRS

@@ -37,7 +37,7 @@ cdef class Ellipsoid(Base):
     cdef public int ellipsoid_loaded
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj)
+    cdef create(PJ* ellipsoid_pj)
 
 cdef class PrimeMeridian(Base):
     cdef public double longitude
@@ -45,7 +45,7 @@ cdef class PrimeMeridian(Base):
     cdef public object unit_name
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj)
+    cdef create(PJ* prime_meridian_pj)
 
 
 cdef class Datum(Base):
@@ -53,14 +53,14 @@ cdef class Datum(Base):
     cdef public object _prime_meridian
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int horizontal)
+    cdef create(PJ* datum_pj)
 
 
 cdef class CoordinateSystem(Base):
     cdef public object _axis_list
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj)
+    cdef create(PJ* coordinate_system_pj)
 
 cdef class Param:
     cdef public object name
@@ -101,11 +101,11 @@ cdef class CoordinateOperation(Base):
     cdef public int has_ballpark_transformation
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj)
+    cdef create(PJ* coordinate_operation_pj)
 
 
 cdef class _CRS(Base):
-    cdef PJ_TYPE _proj_type
+    cdef PJ_TYPE _type
     cdef PJ_PROJ_INFO projpj_info
     cdef char *pjinitstring
     cdef public object srs
