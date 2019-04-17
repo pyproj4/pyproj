@@ -1,6 +1,7 @@
 import pytest
 
 from pyproj import CRS
+from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.exceptions import CRSError
 
 
@@ -454,3 +455,45 @@ def test_coordinate_operation():
 def test_coordinate_operation__missing():
     crs = CRS.from_epsg(4326)
     assert crs.coordinate_operation is None
+
+
+def test_coordinate_operation__from_epsg():
+    cc = CoordinateOperation.from_epsg(16031)
+    assert cc.method_auth_name == "EPSG"
+    assert cc.method_code == "9807"
+
+
+def test_coordinate_operation__from_epsg__empty():
+    CoordinateOperation.from_epsg(1) is None
+
+
+def test_datum__from_epsg():
+    assert Datum.from_epsg("6326").to_wkt() == (
+        'DATUM["World Geodetic System 1984",'
+        'ELLIPSOID["WGS 84",6378137,298.257223563,'
+        'LENGTHUNIT["metre",1]],ID["EPSG",6326]]'
+    )
+
+
+def test_datum__from_epsg__empty():
+    Datum.from_epsg(1) is None
+
+
+def test_prime_meridian__from_epsg():
+    assert PrimeMeridian.from_epsg(8903).to_wkt() == (
+        'PRIMEM["Paris",2.5969213,ANGLEUNIT["grad",0.0157079632679489],ID["EPSG",8903]]'
+    )
+
+
+def test_prime_meridian__from_epsg__empty():
+    PrimeMeridian.from_epsg(1) is None
+
+
+def test_ellipsoid__from_epsg():
+    assert Ellipsoid.from_epsg(7030).to_wkt() == (
+        'ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1],ID["EPSG",7030]]'
+    )
+
+
+def test_ellipsoid__from_epsg__empty():
+    assert Ellipsoid.from_epsg(1) is None

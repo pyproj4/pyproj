@@ -19,11 +19,22 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """
-__all__ = ["CRS", "is_wkt"]
+__all__ = [
+    "CRS",
+    "CoordinateOperation",
+    "Datum",
+    "Ellipsoid",
+    "PrimeMeridian",
+    "is_wkt",
+]
 
 import json
 import warnings
 
+from pyproj._crs import CoordinateOperation  # noqa
+from pyproj._crs import Datum  # noqa
+from pyproj._crs import Ellipsoid  # noqa
+from pyproj._crs import PrimeMeridian  # noqa
 from pyproj._crs import _CRS, is_wkt
 from pyproj.cf1x8 import (
     GRID_MAPPING_NAME_MAP,

@@ -335,4 +335,17 @@ cdef extern from "proj.h":
                                                const PJ *coordoperation,
                                                double *out_values,
                                                int value_count,
-                                               int emit_error_if_incompatible);
+                                               int emit_error_if_incompatible)
+
+    ctypedef enum PJ_CATEGORY:
+        PJ_CATEGORY_ELLIPSOID,
+        PJ_CATEGORY_PRIME_MERIDIAN,
+        PJ_CATEGORY_DATUM,
+        PJ_CATEGORY_CRS,
+        PJ_CATEGORY_COORDINATE_OPERATION
+    PJ *proj_create_from_database(PJ_CONTEXT *ctx,
+                                  const char *auth_name,
+                                  const char *code,
+                                  PJ_CATEGORY category,
+                                  int usePROJAlternativeGridNames,
+                                  const char* const *options)

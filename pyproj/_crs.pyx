@@ -116,6 +116,20 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=4):
     return cstrdecode(proj_string)
 
 
+cdef PJ* _from_authority(auth_name, code, PJ_CATEGORY category):
+    b_auth_name = cstrencode(auth_name)
+    cdef char *c_auth_name = b_auth_name
+    b_code = cstrencode(str(code))
+    cdef char *c_code = b_code
+    return proj_create_from_database(
+        get_pyproj_context(),
+        c_auth_name,
+        c_code,
+        category,
+        False,
+        NULL
+    )
+
 cdef class Axis:
     """
     Coordinate System Axis
@@ -209,7 +223,7 @@ cdef class AreaOfUse:
         Name of area of use.
 
     """
-    def __init__(self):
+    def __cinit__(self):
         self.west = float("NaN")
         self.south = float("NaN")
         self.east = float("NaN")
@@ -339,7 +353,7 @@ cdef class CoordinateSystem(Base):
         The name of the coordinate system.
 
     """
-    def __init__(self):
+    def __cinit__(self):
         self._axis_list = None
 
     @staticmethod
@@ -355,7 +369,6 @@ cdef class CoordinateSystem(Base):
         except KeyError:
             raise CRSError("Not a coordinate system.")
         return coord_system
-
 
     @property
     def axis_list(self):
@@ -397,7 +410,7 @@ cdef class Ellipsoid(Base):
         True if it is loaded without errors.
 
     """
-    def __init__(self):
+    def __cinit__(self):
         # load in ellipsoid information if applicable
         self._semi_major_metre = float("NaN")
         self._semi_minor_metre = float("NaN")
@@ -422,6 +435,47 @@ cdef class Ellipsoid(Base):
             pass
         ellips._set_name()
         return ellips
+
+    @staticmethod
+    def from_authority(auth_name, code):
+        """
+        Create an Ellipsoid from an authority code.
+
+        Parameters
+        ----------
+        auth_name: str
+            Name ot the authority.
+        code: str or int
+            The code used by the authority.
+
+        Returns
+        -------
+        Ellipsoid
+        """
+        cdef PJ* ellipsoid_pj = _from_authority(
+            auth_name,
+            code,
+            PJ_CATEGORY_ELLIPSOID,
+        )
+        if ellipsoid_pj == NULL:
+            return None
+        return Ellipsoid.create(ellipsoid_pj)
+
+    @staticmethod
+    def from_epsg(code):
+        """
+        Create an Ellipsoid from an EPSG code.
+
+        Parameters
+        ----------
+        code: str or int
+            The code used by the EPSG.
+
+        Returns
+        -------
+        Ellipsoid
+        """
+        return Ellipsoid.from_authority("EPSG", code)
 
     @property
     def semi_major_metre(self):
@@ -477,7 +531,7 @@ cdef class PrimeMeridian(Base):
         The unit name for the prime meridian.
 
     """
-    def __init__(self):
+    def __cinit__(self):
         self.unit_name = None
 
     @staticmethod
@@ -496,6 +550,47 @@ cdef class PrimeMeridian(Base):
         prime_meridian._set_name()
         return prime_meridian
 
+    @staticmethod
+    def from_authority(auth_name, code):
+        """
+        Create a PrimeMeridian from an authority code.
+
+        Parameters
+        ----------
+        auth_name: str
+            Name ot the authority.
+        code: str or int
+            The code used by the authority.
+
+        Returns
+        -------
+        PrimeMeridian
+        """
+        cdef PJ* prime_meridian_pj = _from_authority(
+            auth_name,
+            code,
+            PJ_CATEGORY_PRIME_MERIDIAN,
+        )
+        if prime_meridian_pj == NULL:
+            return None
+        return PrimeMeridian.create(prime_meridian_pj)
+
+    @staticmethod
+    def from_epsg(code):
+        """
+        Create a PrimeMeridian from an EPSG code.
+
+        Parameters
+        ----------
+        code: str or int
+            The code used by EPSG.
+
+        Returns
+        -------
+        PrimeMeridian
+        """
+        return PrimeMeridian.from_authority("EPSG", code)
+
 
 
 cdef class Datum(Base):
@@ -508,7 +603,7 @@ cdef class Datum(Base):
         The name of the datum.
 
     """
-    def __init__(self):
+    def __cinit__(self):
         self._ellipsoid = None
         self._prime_meridian = None
 
@@ -518,6 +613,47 @@ cdef class Datum(Base):
         datum.projobj = datum_pj
         datum._set_name()
         return datum
+
+    @staticmethod
+    def from_authority(auth_name, code):
+        """
+        Create a Datum from an authority code.
+
+        Parameters
+        ----------
+        auth_name: str
+            Name ot the authority.
+        code: str or int
+            The code used by the authority.
+
+        Returns
+        -------
+        Datum
+        """
+        cdef PJ* datum_pj = _from_authority(
+            auth_name,
+            code,
+            PJ_CATEGORY_DATUM,
+        )
+        if datum_pj == NULL:
+            return None
+        return Datum.create(datum_pj)
+
+    @staticmethod
+    def from_epsg(code):
+        """
+        Create a Datum from an EPSG code.
+
+        Parameters
+        ----------
+        code: str or int
+            The code used by EPSG.
+
+        Returns
+        -------
+        Datum
+        """
+        return Datum.from_authority("EPSG", code)
 
     @property
     def ellipsoid(self):
@@ -745,7 +881,7 @@ cdef class CoordinateOperation(Base):
         The accuracy (in metre) of a coordinate operation. 
 
     """
-    def __init__(self):
+    def __cinit__(self):
         self._params = None
         self._grids = None
         self.method_name = "undefined"
@@ -805,6 +941,47 @@ cdef class CoordinateOperation(Base):
         # )
 
         return coord_operation
+
+    @staticmethod
+    def from_authority(auth_name, code):
+        """
+        Create a CoordinateOperation from an authority code.
+
+        Parameters
+        ----------
+        auth_name: str
+            Name ot the authority.
+        code: str or int
+            The code used by the authority.
+
+        Returns
+        -------
+        CoordinateOperation
+        """
+        cdef PJ* coord_operation_pj = _from_authority(
+            auth_name,
+            code,
+            PJ_CATEGORY_COORDINATE_OPERATION,
+        )
+        if coord_operation_pj == NULL:
+            return None
+        return CoordinateOperation.create(coord_operation_pj)
+
+    @staticmethod
+    def from_epsg(code):
+        """
+        Create a CoordinateOperation from an EPSG code.
+
+        Parameters
+        ----------
+        code: str or int
+            The code used by EPSG.
+
+        Returns
+        -------
+        CoordinateOperation
+        """
+        return CoordinateOperation.from_authority("EPSG", code)
 
     @property
     def params(self):
@@ -888,22 +1065,22 @@ cdef class _CRS(Base):
         self._coordinate_system = None
         self._coordinate_operation = None
 
-    def __init__(self, projstring):
+    def __init__(self, proj_string):
         # setup proj initialization string.
-        if not is_wkt(projstring) \
-                and not projstring.lower().startswith("epsg")\
-                and "type=crs" not in projstring:
-            projstring += " +type=crs"
+        if not is_wkt(proj_string) \
+                and not proj_string.lower().startswith("epsg")\
+                and "type=crs" not in proj_string:
+            proj_string += " +type=crs"
         # initialize projection
-        self.projobj = proj_create(self.projctx, cstrencode(projstring))
+        self.projobj = proj_create(self.projctx, cstrencode(proj_string))
         if self.projobj is NULL:
             raise CRSError(
-                "Invalid projection: {}".format(self.srs))
+                "Invalid projection: {}".format(pystrdecode(proj_string)))
         # make sure the input is a CRS
         if not proj_is_crs(self.projobj):
-            raise CRSError("Input is not a CRS: {}".format(self.srs))
+            raise CRSError("Input is not a CRS: {}".format(proj_string))
         # set proj information
-        self.srs = pystrdecode(projstring)
+        self.srs = pystrdecode(proj_string)
         self._type = proj_get_type(self.projobj)
         self._set_name()
 

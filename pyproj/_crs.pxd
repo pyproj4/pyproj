@@ -62,6 +62,7 @@ cdef class CoordinateSystem(Base):
     @staticmethod
     cdef create(PJ* coordinate_system_pj)
 
+
 cdef class Param:
     cdef public object name
     cdef public object auth_name
