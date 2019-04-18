@@ -32,9 +32,9 @@ cdef class Base:
 cdef class Ellipsoid(Base):
     cdef double _semi_major_metre
     cdef double _semi_minor_metre
-    cdef public int is_semi_minor_computed
+    cdef public object is_semi_minor_computed
     cdef double _inv_flattening
-    cdef public int ellipsoid_loaded
+    cdef public object ellipsoid_loaded
 
     @staticmethod
     cdef create(PJ* ellipsoid_pj)
@@ -83,9 +83,9 @@ cdef class Grid:
     cdef public object full_name
     cdef public object package_name
     cdef public object url
-    cdef public int direct_download
-    cdef public int open_license
-    cdef public int available
+    cdef public object direct_download
+    cdef public object open_license
+    cdef public object available
 
     @staticmethod
     cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int grid_idx)
@@ -98,8 +98,8 @@ cdef class CoordinateOperation(Base):
     cdef public object method_auth_name
     cdef public object method_code
     cdef public double accuracy
-    cdef public int is_instantiable
-    cdef public int has_ballpark_transformation
+    cdef public object is_instantiable
+    cdef public object has_ballpark_transformation
 
     @staticmethod
     cdef create(PJ* coordinate_operation_pj)

@@ -414,7 +414,7 @@ cdef class Ellipsoid(Base):
         # load in ellipsoid information if applicable
         self._semi_major_metre = float("NaN")
         self._semi_minor_metre = float("NaN")
-        self.is_semi_minor_computed = 0
+        self.is_semi_minor_computed = False
         self._inv_flattening = float("NaN")
         self.ellipsoid_loaded = False
 
@@ -422,15 +422,17 @@ cdef class Ellipsoid(Base):
     cdef create(PJ* ellipsoid_pj):
         cdef Ellipsoid ellips = Ellipsoid()
         ellips.projobj = ellipsoid_pj
+        cdef int is_semi_minor_computed = 0
         try:
             proj_ellipsoid_get_parameters(
                 ellips.projctx,
                 ellips.projobj,
                 &ellips._semi_major_metre,
                 &ellips._semi_minor_metre,
-                &ellips.is_semi_minor_computed,
+                &is_semi_minor_computed,
                 &ellips._inv_flattening)
             ellips.ellipsoid_loaded = True
+            ellips.is_semi_minor_computed = is_semi_minor_computed == 1
         except Exception:
             pass
         ellips._set_name()
@@ -811,9 +813,9 @@ cdef class Grid:
         self.full_name = "undefined"
         self.package_name = "undefined"
         self.url = "undefined"
-        self.direct_download = 0
-        self.open_license = 0
-        self.available = 0
+        self.direct_download = False
+        self.open_license = False
+        self.available = False
 
     @staticmethod
     cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int grid_idx):
@@ -822,6 +824,9 @@ cdef class Grid:
         cdef char *out_full_name
         cdef char *out_package_name
         cdef char *out_url
+        cdef int direct_download = 0
+        cdef int open_license = 0
+        cdef int available = 0
         proj_coordoperation_get_grid_used(
             projcontext,
             projobj,
@@ -830,14 +835,17 @@ cdef class Grid:
             &out_full_name,
             &out_package_name,
             &out_url,
-            &grid.direct_download,
-            &grid.open_license,
-            &grid.available
+            &direct_download,
+            &open_license,
+            &available
         )
         grid.short_name = decode_or_undefined(out_short_name)
         grid.full_name = decode_or_undefined(out_full_name)
         grid.package_name = decode_or_undefined(out_package_name)
         grid.url = decode_or_undefined(out_url)
+        grid.direct_download = direct_download == 1
+        grid.open_license = open_license == 1
+        grid.available = available == 1
         return grid
 
     def __str__(self):
@@ -916,12 +924,12 @@ cdef class CoordinateOperation(Base):
         coord_operation.is_instantiable = proj_coordoperation_is_instantiable(
             coord_operation.projctx,
             coord_operation.projobj
-        )
+        ) == 1
         coord_operation.has_ballpark_transformation = \
             proj_coordoperation_has_ballpark_transformation(
                 coord_operation.projctx,
                 coord_operation.projobj
-            )
+            ) == 1
 
         # TODO: How do you get the value count?
         # The example in the PROJ test just says 7 ....
