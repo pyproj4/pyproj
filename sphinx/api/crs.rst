@@ -37,7 +37,7 @@ Coordinate System
 Coordinate Operation
 --------------------
 
-.. autoclass:: pyproj._crs.CoordinateOperation
+.. autoclass:: pyproj.crs.CoordinateOperation
     :members:
     :inherited-members:
 
@@ -50,14 +50,14 @@ Coordinate Operation
 Datum
 -----
 
-.. autoclass:: pyproj._crs.Datum
+.. autoclass:: pyproj.crs.Datum
     :members:
     :inherited-members:
 
 Ellipsoid
 ---------
 
-.. autoclass:: pyproj._crs.Ellipsoid
+.. autoclass:: pyproj.crs.Ellipsoid
     :members:
     :inherited-members:
 
@@ -65,6 +65,6 @@ Ellipsoid
 Prime Meridian
 --------------
 
-.. autoclass:: pyproj._crs.PrimeMeridian
+.. autoclass:: pyproj.crs.PrimeMeridian
     :members:
     :inherited-members:
