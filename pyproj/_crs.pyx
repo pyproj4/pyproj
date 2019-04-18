@@ -1,3 +1,5 @@
+from libc.stdlib cimport malloc, free
+
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.exceptions import CRSError
@@ -898,6 +900,7 @@ cdef class CoordinateOperation(Base):
         self.is_instantiable = False
         self.has_ballpark_transformation = False
         self.accuracy = float("nan")
+        # self.towgs84 = []
 
     @staticmethod
     cdef create(PJ* coord_operation_pj):
@@ -931,19 +934,24 @@ cdef class CoordinateOperation(Base):
                 coord_operation.projobj
             ) == 1
 
-        # TODO: How do you get the value count?
-        # The example in the PROJ test just says 7 ....
-        # cdef double *out_values
-        # cdef int value_count = ?
+        # cdef int value_count = 7
+        # cdef double* out_values = <double *>malloc(value_count * sizeof(double))
         # cdef int emit_error_if_incompatible = 0
-        # proj_coordoperation_get_towgs84_values(
-        #     coord_operation.projctx,
-        #     coord_operation.projobj,
-        #     double *out_values,
-        #     int value_count,
-        #     int emit_error_if_incompatible
-        # )
-
+        # cdef int iii = 0
+        # try:
+        #     proj_coordoperation_get_towgs84_values(
+        #         coord_operation.projctx,
+        #         coord_operation.projobj,
+        #         out_values,
+        #         value_count,
+        #         False,
+        #     )
+        #     iii = 0
+        #     while out_values[iii] == out_values[iii] and iii < value_count:
+        #         coord_operation.towgs84.append(out_values[iii])
+        #         iii += 1
+        # finally:
+        #     free(out_values)
         return coord_operation
 
     @staticmethod

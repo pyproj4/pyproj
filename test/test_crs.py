@@ -497,3 +497,8 @@ def test_ellipsoid__from_epsg():
 
 def test_ellipsoid__from_epsg__empty():
     assert Ellipsoid.from_epsg(1) is None
+
+
+# def test_coordinate_operation_towgs84():
+#     crs = CRS("+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62")
+#     assert crs.coordinate_operation.towgs84 == [-199.87, 74.79, 246.62]
