@@ -1358,6 +1358,8 @@ cdef class _CRS(Base):
                 is_geographic = sub_crs.source_crs.is_geographic
             else:
                 is_geographic = sub_crs.is_geographic
+        elif self.is_bound:
+            is_geographic = self.source_crs.is_geographic
         else:
             is_geographic = self._type in (
                 PJ_TYPE_GEOGRAPHIC_CRS,
@@ -1379,6 +1381,8 @@ cdef class _CRS(Base):
                 is_projected = sub_crs.source_crs.is_projected
             else:
                 is_projected = sub_crs.is_projected
+        elif self.is_bound:
+            is_projected = self.source_crs.is_projected
         else:
             is_projected = self._type == PJ_TYPE_PROJECTED_CRS
         return is_projected 
