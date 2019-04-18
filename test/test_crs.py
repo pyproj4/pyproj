@@ -234,7 +234,7 @@ def test_repr__undefined():
         "Coordinate System:\n"
         "- undefined\n"
         "Coordinate Operation:\n"
-        "- NTv2 [EPSG:9615]\n"
+        "- unknown to WGS84\n"
         "Datum:\n"
         "- unknown\n"
         "Ellipsoid:\n"

@@ -104,7 +104,7 @@ class CRS(_CRS):
         Coordinate System:
         - cartesian
         Coordinate Operation:
-        - Transverse Mercator [EPSG:9807]
+        - UTM zone 15N
         Datum:
         - North American Datum 1983
         Ellipsoid:

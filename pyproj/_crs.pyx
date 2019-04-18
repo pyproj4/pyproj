@@ -905,14 +905,10 @@ cdef class CoordinateOperation(Base):
             &out_method_auth_name,
             &out_method_code
         )
+        coord_operation._set_name()
         coord_operation.method_name = decode_or_undefined(out_method_name)
         coord_operation.method_auth_name = decode_or_undefined(out_method_auth_name)
         coord_operation.method_code = decode_or_undefined(out_method_code)
-        coord_operation.name = "{method_name} [{method_auth_name}:{method_code}]".format(
-            method_name=coord_operation.method_name,
-            method_auth_name=coord_operation.method_auth_name,
-            method_code=coord_operation.method_code,
-        )
         coord_operation.accuracy = proj_coordoperation_get_accuracy(
             coord_operation.projctx,
             coord_operation.projobj
