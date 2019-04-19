@@ -1,4 +1,4 @@
-from libc.stdlib cimport malloc, free
+from collections import OrderedDict
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
@@ -900,7 +900,7 @@ cdef class CoordinateOperation(Base):
         self.is_instantiable = False
         self.has_ballpark_transformation = False
         self.accuracy = float("nan")
-        self.towgs84 = []
+        self._towgs84 = None
 
     @staticmethod
     cdef create(PJ* coord_operation_pj):
@@ -934,23 +934,6 @@ cdef class CoordinateOperation(Base):
                 coord_operation.projobj
             ) == 1
 
-        cdef int value_count = 7
-        cdef double* out_values = <double *>malloc(value_count * sizeof(double))
-        cdef int iii = 0
-        try:
-            proj_coordoperation_get_towgs84_values(
-                coord_operation.projctx,
-                coord_operation.projobj,
-                out_values,
-                value_count,
-                False,
-            )
-            iii = 0
-            while out_values[iii] == out_values[iii] and iii < value_count:
-                coord_operation.towgs84.append(out_values[iii])
-                iii += 1
-        finally:
-            free(out_values)
         return coord_operation
 
     @staticmethod
@@ -1059,8 +1042,33 @@ cdef class CoordinateOperation(Base):
         """
         return _to_proj4(self.projctx, self.projobj, version)
 
-
-
+    @property
+    def towgs84(self):
+        """
+        Returns
+        -------
+        list(float): A list of 3 or 7 towgs84 values if they exist.
+            Otherwise an empty list.
+        """
+        if self._towgs84 is not None:
+            return self._towgs84
+        towgs84_dict = OrderedDict(
+            (
+                ('X-axis translation', None), 
+                ('Y-axis translation', None),
+                ('Z-axis translation', None),
+                ('X-axis rotation', None),
+                ('Y-axis rotation', None),
+                ('Z-axis rotation', None),
+                ('Scale difference', None),
+            )
+        )
+        for param in self.params:
+            if param.name in towgs84_dict:
+                towgs84_dict[param.name] = param.value
+        self._towgs84 = [val for val in towgs84_dict.values() if val is not None]
+        return self._towgs84
+ 
 cdef class _CRS(Base):
     """
     The cython CRS class to be used as the base for the

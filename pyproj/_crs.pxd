@@ -100,7 +100,7 @@ cdef class CoordinateOperation(Base):
     cdef public double accuracy
     cdef public object is_instantiable
     cdef public object has_ballpark_transformation
-    cdef public object towgs84
+    cdef public object _towgs84
 
     @staticmethod
     cdef create(PJ* coordinate_operation_pj)
