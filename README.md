@@ -12,7 +12,7 @@ pyproj
 
 [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyproj/badges/version.svg)](https://anaconda.org/conda-forge/pyproj)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2592232.svg)](https://doi.org/10.5281/zenodo.2592232)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2592232.svg)](https://doi.org/10.5281/zenodo.2592232) [![Join the chat at https://gitter.im/pyproj4-pyproj/community](https://badges.gitter.im/pyproj4-pyproj/community.svg)](https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Python interface to [PROJ.4](https://github.com/OSGeo/proj.4).
 
