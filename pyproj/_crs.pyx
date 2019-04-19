@@ -860,7 +860,7 @@ cdef class Grid:
             short_name=self.short_name,
             full_name=self.full_name,
             package_name=self.package_name,
-            url=self.unit_name,
+            url=self.url,
             direct_download=self.direct_download,
             open_license=self.open_license,
             available=self.available
@@ -1017,7 +1017,7 @@ cdef class CoordinateOperation(Base):
             self.projctx,
             self.projobj
         )
-        for grid_idx from 0 < grid_idx < num_grids:
+        for grid_idx from 0 <= grid_idx < num_grids:
             self._grids.append(
                 Grid.create(
                     self.projctx,

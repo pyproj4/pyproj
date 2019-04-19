@@ -452,6 +452,15 @@ def test_coordinate_operation():
     assert crs.coordinate_operation.grids == []
 
 
+def test_coordinate_operation_grids():
+    cc = CoordinateOperation.from_epsg(1312)
+    assert (
+        repr(cc.grids)
+        == "[Grid(short_name=NTv1_0.gsb, full_name=, package_name=, url=, "
+        "direct_download=False, open_license=False, available=False)]"
+    )
+
+
 def test_coordinate_operation__missing():
     crs = CRS.from_epsg(4326)
     assert crs.coordinate_operation is None
