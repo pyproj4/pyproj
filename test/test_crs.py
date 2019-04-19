@@ -505,6 +505,6 @@ def test_bound_crs_is_geographic():
     ).is_geographic
 
 
-# def test_coordinate_operation_towgs84():
-#     crs = CRS("+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62")
-#     assert crs.coordinate_operation.towgs84 == [-199.87, 74.79, 246.62]
+def test_coordinate_operation_towgs84():
+    crs = CRS("+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62")
+    assert crs.coordinate_operation.towgs84 == [-199.87, 74.79, 246.62, 0, 0, 0, 0]

@@ -900,7 +900,7 @@ cdef class CoordinateOperation(Base):
         self.is_instantiable = False
         self.has_ballpark_transformation = False
         self.accuracy = float("nan")
-        # self.towgs84 = []
+        self.towgs84 = []
 
     @staticmethod
     cdef create(PJ* coord_operation_pj):
@@ -934,24 +934,23 @@ cdef class CoordinateOperation(Base):
                 coord_operation.projobj
             ) == 1
 
-        # cdef int value_count = 7
-        # cdef double* out_values = <double *>malloc(value_count * sizeof(double))
-        # cdef int emit_error_if_incompatible = 0
-        # cdef int iii = 0
-        # try:
-        #     proj_coordoperation_get_towgs84_values(
-        #         coord_operation.projctx,
-        #         coord_operation.projobj,
-        #         out_values,
-        #         value_count,
-        #         False,
-        #     )
-        #     iii = 0
-        #     while out_values[iii] == out_values[iii] and iii < value_count:
-        #         coord_operation.towgs84.append(out_values[iii])
-        #         iii += 1
-        # finally:
-        #     free(out_values)
+        cdef int value_count = 7
+        cdef double* out_values = <double *>malloc(value_count * sizeof(double))
+        cdef int iii = 0
+        try:
+            proj_coordoperation_get_towgs84_values(
+                coord_operation.projctx,
+                coord_operation.projobj,
+                out_values,
+                value_count,
+                False,
+            )
+            iii = 0
+            while out_values[iii] == out_values[iii] and iii < value_count:
+                coord_operation.towgs84.append(out_values[iii])
+                iii += 1
+        finally:
+            free(out_values)
         return coord_operation
 
     @staticmethod
