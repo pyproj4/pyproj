@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from numpy.testing import assert_almost_equal, assert_equal
+from numpy.testing import assert_almost_equal
 
 import pyproj
 from pyproj import Proj, Transformer, itransform, transform
@@ -55,24 +55,21 @@ def test_lambert_conformal_transform():
 
 
 def test_equivalent_crs():
-    with pytest.warns(UserWarning):
-        transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
+    transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
     assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
     assert transformer._transformer.skip_equivalent
 
 
 def test_equivalent_crs__disabled():
-    with pytest.warns(UserWarning):
-        transformer = Transformer.from_crs("epsg:4326", 4326)
+    transformer = Transformer.from_crs("epsg:4326", 4326)
     assert not transformer._transformer.skip_equivalent
     assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
 
 
 def test_equivalent_crs__different():
-    with pytest.warns(UserWarning):
-        transformer = Transformer.from_crs("epsg:4326", 3857, skip_equivalent=True)
+    transformer = Transformer.from_crs("epsg:4326", 3857, skip_equivalent=True)
     assert transformer._transformer.skip_equivalent
     assert not transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same

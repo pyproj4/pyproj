@@ -35,31 +35,26 @@ cdef class _Transformer:
         self.output_radians = proj_angular_output(self.projpj, PJ_FWD)
 
     @staticmethod
-    def _init_crs_to_crs(proj_from, proj_to, skip_equivalent=False):
+    def from_crs(crs_from, crs_to, skip_equivalent=False):
+        crs_from = CRS.from_user_input(crs_from)
+        crs_to = CRS.from_user_input(crs_to)
+
         cdef _Transformer transformer = _Transformer()
         transformer.projpj = proj_create_crs_to_crs(
             transformer.projctx,
-            cstrencode(proj_from.crs.srs),
-            cstrencode(proj_to.crs.srs),
+            cstrencode(crs_from.srs),
+            cstrencode(crs_to.srs),
             NULL)
         if transformer.projpj is NULL:
             raise ProjError("Error creating CRS to CRS.")
+
         transformer.set_radians_io()
-        transformer.projections_exact_same = proj_from.crs.is_exact_same(proj_to.crs)
-        transformer.projections_equivalent = proj_from.crs == proj_to.crs
+        transformer.projections_exact_same = crs_from.is_exact_same(crs_to)
+        transformer.projections_equivalent = crs_from == crs_to
+        transformer.input_geographic = crs_from.is_geographic
+        transformer.output_geographic = crs_to.is_geographic
         transformer.skip_equivalent = skip_equivalent
         transformer.is_pipeline = False
-        return transformer
-
-    @staticmethod
-    def from_proj(proj_from, proj_to, skip_equivalent=False):
-        if not isinstance(proj_from, Proj):
-            proj_from = Proj(proj_from)
-        if not isinstance(proj_to, Proj):
-            proj_to = Proj(proj_to)
-        transformer = _Transformer._init_crs_to_crs(proj_from, proj_to, skip_equivalent=skip_equivalent)
-        transformer.input_geographic = proj_from.crs.is_geographic
-        transformer.output_geographic = proj_to.crs.is_geographic
         return transformer
 
     @staticmethod

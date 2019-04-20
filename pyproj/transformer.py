@@ -17,7 +17,6 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE."""
 
-import warnings
 from array import array
 from itertools import chain, islice
 
@@ -59,19 +58,22 @@ class Transformer(object):
         :obj:`~Transformer`
 
         """
+        from pyproj.proj import Proj
+
+        if not isinstance(proj_from, Proj):
+            proj_from = Proj(proj_from)
+        if not isinstance(proj_to, Proj):
+            proj_to = Proj(proj_to)
 
         transformer = Transformer()
-        transformer._transformer = _Transformer.from_proj(
-            proj_from, proj_to, skip_equivalent
+        transformer._transformer = _Transformer.from_crs(
+            proj_from.crs, proj_to.crs, skip_equivalent=skip_equivalent
         )
         return transformer
 
     @staticmethod
     def from_crs(crs_from, crs_to, skip_equivalent=False):
         """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
-
-        .. warning:: `from_crs` is deprecated and will be removed in 2.2.0.
-            Please use :meth:`~Transformer.from_proj` instead.
 
         Parameters
         ----------
@@ -88,11 +90,11 @@ class Transformer(object):
         :obj:`~Transformer`
 
         """
-        warnings.warn(
-            "`from_crs` is deprecated and will be removed in 2.2.0. "
-            "Please use `from_proj` instead."
+        transformer = Transformer()
+        transformer._transformer = _Transformer.from_crs(
+            crs_from, crs_to, skip_equivalent=skip_equivalent
         )
-        return Transformer.from_proj(crs_from, crs_to, skip_equivalent=skip_equivalent)
+        return transformer
 
     @staticmethod
     def from_pipeline(proj_pipeline):
@@ -141,7 +143,7 @@ class Transformer(object):
         Example:
 
         >>> from pyproj import Transformer
-        >>> transformer = Transformer.from_proj("epsg:4326", "epsg:3857")
+        >>> transformer = Transformer.from_crs("epsg:4326", "epsg:3857")
         >>> x3, y3 = transformer.transform(33, 98)
         >>> "%.3f  %.3f" % (x3, y3)
         '10909310.098  3895303.963'
@@ -218,7 +220,7 @@ class Transformer(object):
         Example:
 
         >>> from pyproj import Transformer
-        >>> transformer = Transformer.from_proj(4326, 2100)
+        >>> transformer = Transformer.from_crs(4326, 2100)
         >>> points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]
         >>> for pt in transformer.itransform(points): '{:.3f} {:.3f}'.format(*pt)
         '2221638.801 2637034.372'
