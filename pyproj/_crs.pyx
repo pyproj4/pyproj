@@ -118,7 +118,9 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=4):
     return cstrdecode(proj_string)
 
 
-cdef PJ* _from_authority(auth_name, code, PJ_CATEGORY category):
+cdef PJ* _from_authority(
+    auth_name, code, PJ_CATEGORY category, int use_proj_alternative_grid_names=False
+):
     b_auth_name = cstrencode(auth_name)
     cdef char *c_auth_name = b_auth_name
     b_code = cstrencode(str(code))
@@ -128,7 +130,7 @@ cdef PJ* _from_authority(auth_name, code, PJ_CATEGORY category):
         c_auth_name,
         c_code,
         category,
-        False,
+        use_proj_alternative_grid_names,
         NULL
     )
 
@@ -937,7 +939,7 @@ cdef class CoordinateOperation(Base):
         return coord_operation
 
     @staticmethod
-    def from_authority(auth_name, code):
+    def from_authority(auth_name, code, use_proj_alternative_grid_names=False):
         """
         Create a CoordinateOperation from an authority code.
 
@@ -947,6 +949,8 @@ cdef class CoordinateOperation(Base):
             Name ot the authority.
         code: str or int
             The code used by the authority.
+        use_proj_alternative_grid_names: bool, optional
+            Use the PROJ alternative grid names. Default is False.
 
         Returns
         -------
@@ -956,13 +960,14 @@ cdef class CoordinateOperation(Base):
             auth_name,
             code,
             PJ_CATEGORY_COORDINATE_OPERATION,
+            use_proj_alternative_grid_names,
         )
         if coord_operation_pj == NULL:
             return None
         return CoordinateOperation.create(coord_operation_pj)
 
     @staticmethod
-    def from_epsg(code):
+    def from_epsg(code, use_proj_alternative_grid_names=False):
         """
         Create a CoordinateOperation from an EPSG code.
 
@@ -970,12 +975,16 @@ cdef class CoordinateOperation(Base):
         ----------
         code: str or int
             The code used by EPSG.
+        use_proj_alternative_grid_names: bool, optional
+            Use the PROJ alternative grid names. Default is False.
 
         Returns
         -------
         CoordinateOperation
         """
-        return CoordinateOperation.from_authority("EPSG", code)
+        return CoordinateOperation.from_authority(
+            "EPSG", code, use_proj_alternative_grid_names
+        )
 
     @property
     def params(self):
