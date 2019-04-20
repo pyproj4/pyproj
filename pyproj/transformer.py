@@ -20,6 +20,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE."""
 from array import array
 from itertools import chain, islice
 
+from pyproj import Proj
 from pyproj._transformer import _Transformer
 from pyproj.compat import cstrencode
 from pyproj.utils import _convertback, _copytobuffer
@@ -40,7 +41,7 @@ class Transformer(object):
     """
 
     @staticmethod
-    def from_proj(proj_from, proj_to, skip_equivalent=False):
+    def from_proj(proj_from, proj_to, skip_equivalent=False, direction="forward"):
         """Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.
 
         Parameters
@@ -52,14 +53,14 @@ class Transformer(object):
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output 
             projections are equivalent. Default is false.
+        direction: str, option
+            The direction of the transform ("forward", "inverse", "ident").
 
         Returns
         -------
         :obj:`~Transformer`
 
         """
-        from pyproj.proj import Proj
-
         if not isinstance(proj_from, Proj):
             proj_from = Proj(proj_from)
         if not isinstance(proj_to, Proj):
@@ -67,12 +68,15 @@ class Transformer(object):
 
         transformer = Transformer()
         transformer._transformer = _Transformer.from_crs(
-            proj_from.crs, proj_to.crs, skip_equivalent=skip_equivalent
+            proj_from.crs,
+            proj_to.crs,
+            skip_equivalent=skip_equivalent,
+            direction=direction,
         )
         return transformer
 
     @staticmethod
-    def from_crs(crs_from, crs_to, skip_equivalent=False):
+    def from_crs(crs_from, crs_to, skip_equivalent=False, direction="forward"):
         """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
 
         Parameters
@@ -84,6 +88,8 @@ class Transformer(object):
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
             projections are equivalent. Default is false.
+        direction: str, option
+            The direction of the transform ("forward", "inverse", "ident").
 
         Returns
         -------
@@ -92,12 +98,12 @@ class Transformer(object):
         """
         transformer = Transformer()
         transformer._transformer = _Transformer.from_crs(
-            crs_from, crs_to, skip_equivalent=skip_equivalent
+            crs_from, crs_to, skip_equivalent=skip_equivalent, direction=direction
         )
         return transformer
 
     @staticmethod
-    def from_pipeline(proj_pipeline):
+    def from_pipeline(proj_pipeline, direction="forward"):
         """Make a Transformer from a PROJ pipeline string.
 
         https://proj4.org/operations/pipeline.html
@@ -106,6 +112,8 @@ class Transformer(object):
         ----------
         proj_pipeline: str
             Projection pipeline string.
+        direction: str, option
+            The direction of the transform ("forward", "inverse", "ident").
 
         Returns
         -------
@@ -113,7 +121,9 @@ class Transformer(object):
 
         """
         transformer = Transformer()
-        transformer._transformer = _Transformer.from_pipeline(cstrencode(proj_pipeline))
+        transformer._transformer = _Transformer.from_pipeline(
+            cstrencode(proj_pipeline), direction=direction
+        )
         return transformer
 
     def transform(self, xx, yy, zz=None, tt=None, radians=False, errcheck=False):

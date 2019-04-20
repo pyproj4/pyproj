@@ -1,10 +1,16 @@
 include "base.pxi"
 
 from pyproj.crs import CRS
-from pyproj.proj import Proj
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.exceptions import ProjError
+
+
+_PJ_DIRECTION_MAP = {
+    "forward": PJ_FWD,
+    "inverse": PJ_INV,
+    "ident": PJ_IDENT,
+}
 
 cdef class _Transformer:
     def __cinit__(self):
@@ -18,6 +24,7 @@ cdef class _Transformer:
         self.skip_equivalent = False
         self.projections_equivalent = False
         self.projections_exact_same = False
+        self.pj_direction = PJ_IDENT
 
     def __init__(self):
         # set up the context
@@ -30,12 +37,21 @@ cdef class _Transformer:
         if self.projctx is not NULL:
             proj_context_destroy(self.projctx)
 
-    def set_radians_io(self):
-        self.input_radians = proj_angular_input(self.projpj, PJ_FWD)
-        self.output_radians = proj_angular_output(self.projpj, PJ_FWD)
+    def _set_direction(self, direction):
+        try:
+            self.pj_direction = _PJ_DIRECTION_MAP[direction]
+        except KeyError:
+            raise ValueError(
+                "Invalid direction supplied '{}'. "
+                "Only {} are supported."
+                .format(direction, tuple(_PJ_DIRECTION_MAP)))
+
+    def _set_radians_io(self):
+        self.input_radians = proj_angular_input(self.projpj, self.pj_direction)
+        self.output_radians = proj_angular_output(self.projpj, self.pj_direction)
 
     @staticmethod
-    def from_crs(crs_from, crs_to, skip_equivalent=False):
+    def from_crs(crs_from, crs_to, skip_equivalent=False, direction="forward"):
         crs_from = CRS.from_user_input(crs_from)
         crs_to = CRS.from_user_input(crs_to)
 
@@ -48,7 +64,8 @@ cdef class _Transformer:
         if transformer.projpj is NULL:
             raise ProjError("Error creating CRS to CRS.")
 
-        transformer.set_radians_io()
+        transformer._set_direction(direction)
+        transformer._set_radians_io()
         transformer.projections_exact_same = crs_from.is_exact_same(crs_to)
         transformer.projections_equivalent = crs_from == crs_to
         transformer.input_geographic = crs_from.is_geographic
@@ -58,14 +75,15 @@ cdef class _Transformer:
         return transformer
 
     @staticmethod
-    def from_pipeline(const char *proj_pipeline):
+    def from_pipeline(const char *proj_pipeline, direction="forward"):
         cdef _Transformer transformer = _Transformer()
 
         # initialize projection
         transformer.projpj = proj_create(transformer.projctx, proj_pipeline)
         if transformer.projpj is NULL:
             raise ProjError("Invalid projection {}.".format(proj_pipeline))
-        transformer.set_radians_io()
+        transformer._set_direction(direction)
+        transformer._set_radians_io()
         transformer.is_pipeline = True
         return transformer
 
@@ -125,7 +143,7 @@ cdef class _Transformer:
 
         cdef int trans_success_count = proj_trans_generic(
             self.projpj,
-            PJ_FWD,
+            self.pj_direction,
             xx, _DOUBLESIZE, npts,
             yy, _DOUBLESIZE, npts,
             zz, _DOUBLESIZE, npts,
@@ -208,7 +226,7 @@ cdef class _Transformer:
 
         cdef int trans_success_count = proj_trans_generic (
             self.projpj,
-            PJ_FWD,
+            self.pj_direction,
             x, stride*_DOUBLESIZE, npts,
             y, stride*_DOUBLESIZE, npts,
             z, stride*_DOUBLESIZE, npts,

@@ -3,6 +3,7 @@ include "proj.pxi"
 cdef class _Transformer:
     cdef PJ * projpj
     cdef PJ_CONTEXT * projctx
+    cdef PJ_DIRECTION pj_direction
     cdef public object input_geographic
     cdef public object output_geographic
     cdef public object input_radians
