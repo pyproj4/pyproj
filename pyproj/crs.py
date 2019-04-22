@@ -214,6 +214,29 @@ class CRS(_CRS):
         super(CRS, self).__init__(projstring)
 
     @classmethod
+    def from_auth(cls, auth_name, code):
+        """Make a CRS from an EPSG code
+
+        Parameters
+        ----------
+        auth_name: str
+            The name of the authority.
+        code : int or str
+            The code used by the authority. Strings will be converted to integers.
+
+        Notes
+        -----
+        The input code is not validated against an EPSG database.
+
+        Returns
+        -------
+        ~CRS
+        """
+        if int(code) <= 0:
+            raise CRSError("Authority codes are positive integers")
+        return cls("{}:{}".format(auth_name, code))
+
+    @classmethod
     def from_epsg(cls, code):
         """Make a CRS from an EPSG code
 
@@ -230,9 +253,7 @@ class CRS(_CRS):
         -------
         ~CRS
         """
-        if int(code) <= 0:
-            raise CRSError("EPSG codes are positive integers")
-        return cls("epsg:{}".format(code))
+        return cls.from_auth("epsg", code)
 
     @classmethod
     def from_string(cls, proj_string):

@@ -1,3 +1,4 @@
+import re
 from collections import OrderedDict
 
 from pyproj.compat import cstrencode, pystrdecode
@@ -1096,7 +1097,7 @@ cdef class _CRS(Base):
     def __init__(self, proj_string):
         # setup proj initialization string.
         if not is_wkt(proj_string) \
-                and not proj_string.lower().startswith("epsg")\
+                and not re.match("^\w+:\d+$", proj_string.strip())\
                 and "type=crs" not in proj_string:
             proj_string += " +type=crs"
         # initialize projection
