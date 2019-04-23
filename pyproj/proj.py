@@ -143,7 +143,9 @@ class Proj(_proj.Proj):
             projstring += " +units=m"
             self.crs = CRS(projstring)
         super(Proj, self).__init__(
-            cstrencode(self.crs.to_proj4().replace("+type=crs", "").strip())
+            cstrencode(
+                (self.crs.to_proj4() or self.crs.srs).replace("+type=crs", "").strip()
+            )
         )
 
     def __call__(self, *args, **kw):
