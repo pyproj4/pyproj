@@ -87,7 +87,7 @@ script:
   - set -e
   - |
     if [ "$DOC" ]; then
-      pip install sphinx
+      pip install sphinx sphinx_rtd_theme
       cd sphinx
       make html
       cd ..
