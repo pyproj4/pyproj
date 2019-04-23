@@ -41,7 +41,7 @@ class Transformer(object):
     """
 
     @staticmethod
-    def from_proj(proj_from, proj_to, skip_equivalent=False, direction="forward"):
+    def from_proj(proj_from, proj_to, skip_equivalent=False):
         """Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.
 
         Parameters
@@ -53,8 +53,6 @@ class Transformer(object):
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output 
             projections are equivalent. Default is false.
-        direction: str, option
-            The direction of the transform ("forward", "inverse", "ident").
 
         Returns
         -------
@@ -68,15 +66,12 @@ class Transformer(object):
 
         transformer = Transformer()
         transformer._transformer = _Transformer.from_crs(
-            proj_from.crs,
-            proj_to.crs,
-            skip_equivalent=skip_equivalent,
-            direction=direction,
+            proj_from.crs, proj_to.crs, skip_equivalent=skip_equivalent
         )
         return transformer
 
     @staticmethod
-    def from_crs(crs_from, crs_to, skip_equivalent=False, direction="forward"):
+    def from_crs(crs_from, crs_to, skip_equivalent=False):
         """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
 
         Parameters
@@ -88,8 +83,6 @@ class Transformer(object):
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
             projections are equivalent. Default is false.
-        direction: str, option
-            The direction of the transform ("forward", "inverse", "ident").
 
         Returns
         -------
@@ -98,12 +91,12 @@ class Transformer(object):
         """
         transformer = Transformer()
         transformer._transformer = _Transformer.from_crs(
-            crs_from, crs_to, skip_equivalent=skip_equivalent, direction=direction
+            crs_from, crs_to, skip_equivalent=skip_equivalent
         )
         return transformer
 
     @staticmethod
-    def from_pipeline(proj_pipeline, direction="forward"):
+    def from_pipeline(proj_pipeline):
         """Make a Transformer from a PROJ pipeline string.
 
         https://proj4.org/operations/pipeline.html
@@ -112,8 +105,6 @@ class Transformer(object):
         ----------
         proj_pipeline: str
             Projection pipeline string.
-        direction: str, option
-            The direction of the transform ("forward", "inverse", "ident").
 
         Returns
         -------
@@ -121,12 +112,19 @@ class Transformer(object):
 
         """
         transformer = Transformer()
-        transformer._transformer = _Transformer.from_pipeline(
-            cstrencode(proj_pipeline), direction=direction
-        )
+        transformer._transformer = _Transformer.from_pipeline(cstrencode(proj_pipeline))
         return transformer
 
-    def transform(self, xx, yy, zz=None, tt=None, radians=False, errcheck=False):
+    def transform(
+        self,
+        xx,
+        yy,
+        zz=None,
+        tt=None,
+        radians=False,
+        errcheck=False,
+        direction="forward",
+    ):
         """
         Transform points between two coordinate systems.
 
@@ -148,6 +146,9 @@ class Transformer(object):
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation 
             returns ``inf`` and no exception is raised.
+        direction: str, optional
+            The direction of the transform ("forward", "inverse", "ident").
+            Default is "forward".
 
 
         Example:
@@ -189,7 +190,13 @@ class Transformer(object):
             intime = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
         self._transformer._transform(
-            inx, iny, inz=inz, intime=intime, radians=radians, errcheck=errcheck
+            inx,
+            iny,
+            inz=inz,
+            intime=intime,
+            direction=direction,
+            radians=radians,
+            errcheck=errcheck,
         )
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
@@ -202,7 +209,13 @@ class Transformer(object):
         return return_data
 
     def itransform(
-        self, points, switch=False, time_3rd=False, radians=False, errcheck=False
+        self,
+        points,
+        switch=False,
+        time_3rd=False,
+        radians=False,
+        errcheck=False,
+        direction="forward",
     ):
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
@@ -225,6 +238,9 @@ class Transformer(object):
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation 
             returns ``inf`` and no exception is raised.
+        direction: str, optional
+            The direction of the transform ("forward", "inverse", "ident").
+            Default is "forward".
 
 
         Example:
@@ -279,6 +295,7 @@ class Transformer(object):
                 stride,
                 buff,
                 switch=switch,
+                direction=direction,
                 time_3rd=time_3rd,
                 radians=radians,
                 errcheck=errcheck,

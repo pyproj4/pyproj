@@ -299,23 +299,14 @@ def test_itransform_radians():
 
 
 def test_4d_transform__inverse():
-    transformer = Transformer.from_pipeline(
-        "+init=ITRF2008:ITRF2000", direction="inverse"
-    )
-    print(
-        transformer.transform(
-            xx=3513638.1999428216,
-            yy=778956.4532640711,
-            zz=5248216.453456361,
-            tt=2008.75,
-        )
-    )
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_almost_equal(
         transformer.transform(
             xx=3513638.1999428216,
             yy=778956.4532640711,
             zz=5248216.453456361,
             tt=2008.75,
+            direction="inverse",
         ),
         (3513638.19380, 778956.45250, 5248216.46900, 2008.75),
     )
@@ -323,9 +314,9 @@ def test_4d_transform__inverse():
 
 def test_transform_direction():
     forward_transformer = Transformer.from_crs(4326, 3857)
-    inverse_transformer = Transformer.from_crs(3857, 4326, direction="inverse")
-    assert inverse_transformer.transform(-33, 24) == forward_transformer.transform(
-        -33, 24
-    )
-    ident_transformer = Transformer.from_crs(4326, 3857, direction="ident")
-    ident_transformer.transform(-33, 24) == (-33, 24)
+    inverse_transformer = Transformer.from_crs(3857, 4326)
+    assert inverse_transformer.transform(
+        -33, 24, direction="inverse"
+    ) == forward_transformer.transform(-33, 24)
+    ident_transformer = Transformer.from_crs(4326, 3857)
+    ident_transformer.transform(-33, 24, direction="ident") == (-33, 24)

@@ -47,11 +47,19 @@ cdef class _Transformer:
                 .format(direction, tuple(_PJ_DIRECTION_MAP)))
 
     def _set_radians_io(self):
-        self.input_radians = proj_angular_input(self.projpj, self.pj_direction)
-        self.output_radians = proj_angular_output(self.projpj, self.pj_direction)
+        self.input_radians = {
+            PJ_FWD: proj_angular_input(self.projpj, PJ_FWD) == 1,
+            PJ_INV: proj_angular_input(self.projpj, PJ_INV) == 1,
+            PJ_IDENT: proj_angular_input(self.projpj, PJ_IDENT) == 1,
+        }
+        self.output_radians = {
+            PJ_FWD: proj_angular_output(self.projpj, PJ_FWD) == 1,
+            PJ_INV: proj_angular_output(self.projpj, PJ_INV) == 1,
+            PJ_IDENT: proj_angular_output(self.projpj, PJ_IDENT) == 1,
+        }
 
     @staticmethod
-    def from_crs(crs_from, crs_to, skip_equivalent=False, direction="forward"):
+    def from_crs(crs_from, crs_to, skip_equivalent=False):
         crs_from = CRS.from_user_input(crs_from)
         crs_to = CRS.from_user_input(crs_to)
 
@@ -64,7 +72,6 @@ cdef class _Transformer:
         if transformer.projpj is NULL:
             raise ProjError("Error creating CRS to CRS.")
 
-        transformer._set_direction(direction)
         transformer._set_radians_io()
         transformer.projections_exact_same = crs_from.is_exact_same(crs_to)
         transformer.projections_equivalent = crs_from == crs_to
@@ -75,21 +82,21 @@ cdef class _Transformer:
         return transformer
 
     @staticmethod
-    def from_pipeline(const char *proj_pipeline, direction="forward"):
+    def from_pipeline(const char *proj_pipeline):
         cdef _Transformer transformer = _Transformer()
 
         # initialize projection
         transformer.projpj = proj_create(transformer.projctx, proj_pipeline)
         if transformer.projpj is NULL:
             raise ProjError("Invalid projection {}.".format(proj_pipeline))
-        transformer._set_direction(direction)
         transformer._set_radians_io()
         transformer.is_pipeline = True
         return transformer
 
-    def _transform(self, inx, iny, inz, intime, radians, errcheck=False):
+    def _transform(self, inx, iny, inz, intime, direction, radians, errcheck):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
+        self._set_direction(direction)
         # private function to call pj_transform
         cdef void *xdata
         cdef void *ydata
@@ -131,12 +138,15 @@ cdef class _Transformer:
         npts = buflenx//8
 
         # degrees to radians
-        if not self.is_pipeline and not radians and self.input_radians:
+        if not self.is_pipeline and not radians\
+                and self.input_radians[self.pj_direction]:
             for iii from 0 <= iii < npts:
                 xx[iii] = xx[iii]*_DG2RAD
                 yy[iii] = yy[iii]*_DG2RAD
         # radians to degrees
-        elif not self.is_pipeline and radians and not self.input_radians and self.input_geographic:
+        elif not self.is_pipeline and radians\
+                and not self.input_radians[self.pj_direction]\
+                and self.input_geographic:
             for iii from 0 <= iii < npts:
                 xx[iii] = xx[iii]*_RAD2DG
                 yy[iii] = yy[iii]*_RAD2DG
@@ -157,21 +167,27 @@ cdef class _Transformer:
             raise ProjError("{} proj_trans_generic error(s)".format(npts-trans_success_count))
 
         # radians to degrees
-        if not self.is_pipeline and not radians and self.output_radians:
+        if not self.is_pipeline and not radians\
+                and self.output_radians[self.pj_direction]:
             for iii from 0 <= iii < npts:
                 xx[iii] = xx[iii]*_RAD2DG
                 yy[iii] = yy[iii]*_RAD2DG
         # degrees to radians
-        elif not self.is_pipeline and radians and not self.output_radians and self.output_geographic:
+        elif not self.is_pipeline and radians\
+                and not self.output_radians[self.pj_direction]\
+                and self.output_geographic:
             for iii from 0 <= iii < npts:
                 xx[iii] = xx[iii]*_DG2RAD
                 yy[iii] = yy[iii]*_DG2RAD
 
 
-    def _transform_sequence(self, Py_ssize_t stride, inseq, bint switch,
-            time_3rd, radians, errcheck=False):
+    def _transform_sequence(
+        self, Py_ssize_t stride, inseq, bint switch,
+        direction, time_3rd, radians, errcheck
+    ):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
+        self._set_direction(direction)
         # private function to itransform function
         cdef:
             void *buffer
@@ -192,13 +208,16 @@ cdef class _Transformer:
         npts = buflen // (stride * _DOUBLESIZE)
 
         # degrees to radians
-        if not self.is_pipeline and not radians and self.input_radians:
+        if not self.is_pipeline and not radians\
+                and self.input_radians[self.pj_direction]:
             for iii from 0 <= iii < npts:
                 jjj = stride*iii
                 coords[jjj] *= _DG2RAD
                 coords[jjj+1] *= _DG2RAD
         # radians to degrees
-        elif not self.is_pipeline and radians and not self.input_radians and self.input_geographic:
+        elif not self.is_pipeline and radians\
+                and not self.input_radians[self.pj_direction]\
+                and self.input_geographic:
             for iii from 0 <= iii < npts:
                 jjj = stride*iii
                 coords[jjj] *= _RAD2DG
@@ -241,13 +260,16 @@ cdef class _Transformer:
 
 
         # radians to degrees
-        if not self.is_pipeline and not radians and self.output_radians:
+        if not self.is_pipeline and not radians\
+                and self.output_radians[self.pj_direction]:
             for iii from 0 <= iii < npts:
                 jjj = stride*iii
                 coords[jjj] *= _RAD2DG
                 coords[jjj+1] *= _RAD2DG
         # degrees to radians
-        elif not self.is_pipeline and radians and not self.output_radians and self.output_geographic:
+        elif not self.is_pipeline and radians\
+                and not self.output_radians[self.pj_direction]\
+                and self.output_geographic:
             for iii from 0 <= iii < npts:
                 jjj = stride*iii
                 coords[jjj] *= _DG2RAD
