@@ -88,7 +88,7 @@ script:
   - |
     if [ "$DOC" ]; then
       pip install sphinx sphinx_rtd_theme
-      cd sphinx
+      cd docs
       make html
       cd ..
       pip install doctr
@@ -97,7 +97,7 @@ script:
       else
         DEPLOY_DIR="$TRAVIS_TAG";
       fi
-      doctr deploy --build-tags --built-docs sphinx/_build/html $DEPLOY_DIR
+      doctr deploy --build-tags --built-docs docs/_build/html $DEPLOY_DIR
     fi
 
 after_success:
