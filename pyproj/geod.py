@@ -53,6 +53,22 @@ class Geod(_Geod):
     the 'inv' method) involves determining the forward and back
     azimuths and distance given the latitudes and longitudes of an
     initial and terminus point.
+
+    Attributes
+    ----------
+    initstring: str
+        The string form of the user input used to create the Geod.
+    sphere: bool
+        If True, it is a sphere.
+    a: float
+        The ellipsoid equatorial radius, or semi-major axis.
+    b: float
+        The ellipsoid polar radius, or semi-minor axis.
+    es: float
+        The 'eccentricity' of the ellipse, squared (1-b2/a2).
+    f: float
+        The ellipsoid 'flattening' parameter ( (a-b)/a ).
+
     """
 
     def __init__(self, initstring=None, **kwargs):
