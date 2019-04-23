@@ -97,7 +97,7 @@ script:
       else
         DEPLOY_DIR="$TRAVIS_TAG";
       fi
-      doctr deploy --build-tags --built-docs docs/html $DEPLOY_DIR
+      doctr deploy --build-tags --built-docs sphinx/_build/html $DEPLOY_DIR
     fi
 
 after_success:

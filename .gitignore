@@ -13,5 +13,6 @@ venv/
 pyproj.egg-info/
 pyproj/proj_dir/
 pyproj/datadir.py.save
+sphinx/_build
 .idea/
 .vscode/
