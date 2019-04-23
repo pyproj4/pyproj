@@ -19,11 +19,22 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """
-__all__ = ["CRS", "is_wkt"]
+__all__ = [
+    "CRS",
+    "CoordinateOperation",
+    "Datum",
+    "Ellipsoid",
+    "PrimeMeridian",
+    "is_wkt",
+]
 
 import json
 import warnings
 
+from pyproj._crs import CoordinateOperation  # noqa
+from pyproj._crs import Datum  # noqa
+from pyproj._crs import Ellipsoid  # noqa
+from pyproj._crs import PrimeMeridian  # noqa
 from pyproj._crs import _CRS, is_wkt
 from pyproj.cf1x8 import (
     GRID_MAPPING_NAME_MAP,
@@ -96,35 +107,80 @@ class CRS(_CRS):
         >>> crs_utm
         <CRS: epsg:26915>
         Name: NAD83 / UTM zone 15N
-        Ellipsoid:
-        - semi_major_metre: 6378137.00
-        - semi_minor_metre: 6356752.31
-        - inverse_flattening: 298.26
+        Axis Info:
+        - east: Easting [EPSG:9001] (metre)
+        - north: Northing [EPSG:9001] (metre)
         Area of Use:
         - name: North America - 96°W to 90°W and NAD83 by country
         - bounds: (-96.0, 25.61, -90.0, 84.0)
+        Coordinate System:
+        - cartesian
+        Coordinate Operation:
+        - UTM zone 15N
+        Datum:
+        - North American Datum 1983
+        Ellipsoid:
+        - GRS 1980
         Prime Meridian:
-        - longitude: 0.0000
-        - unit_name: degree
-        - unit_conversion_factor: 0.01745329
-        Axis Info:
-        - Easting[E] (east) EPSG:9001 (metre)
-        - Northing[N] (north) EPSG:9001 (metre)
+        - Greenwich
         <BLANKLINE>
         >>> crs_utm.area_of_use.bounds
         (-96.0, 25.61, -90.0, 84.0)
+        >>> crs_utm.ellipsoid
+        ELLIPSOID["GRS 1980",6378137,298.257222101,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",7019]]
         >>> crs_utm.ellipsoid.inverse_flattening
         298.257222101
         >>> crs_utm.ellipsoid.semi_major_metre
         6378137.0
         >>> crs_utm.ellipsoid.semi_minor_metre
         6356752.314140356
+        >>> crs_utm.prime_meridian
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8901]]
         >>> crs_utm.prime_meridian.unit_name
         'degree'
         >>> crs_utm.prime_meridian.unit_conversion_factor
         0.017453292519943295
         >>> crs_utm.prime_meridian.longitude
         0.0
+        >>> crs_utm.datum
+        DATUM["North American Datum 1983",
+            ELLIPSOID["GRS 1980",6378137,298.257222101,
+                LENGTHUNIT["metre",1]],
+            ID["EPSG",6269]]
+        >>> crs_utm.coordinate_system
+        CS[Cartesian,2],
+            AXIS["(E)",east,
+                ORDER[1],
+                LENGTHUNIT["metre",1,
+                    ID["EPSG",9001]]],
+            AXIS["(N)",north,
+                ORDER[2],
+                LENGTHUNIT["metre",1,
+                    ID["EPSG",9001]]]
+        >>> crs_utm.coordinate_operation
+        CONVERSION["UTM zone 15N",
+            METHOD["Transverse Mercator",
+                ID["EPSG",9807]],
+            PARAMETER["Latitude of natural origin",0,
+                ANGLEUNIT["degree",0.0174532925199433],
+                ID["EPSG",8801]],
+            PARAMETER["Longitude of natural origin",-93,
+                ANGLEUNIT["degree",0.0174532925199433],
+                ID["EPSG",8802]],
+            PARAMETER["Scale factor at natural origin",0.9996,
+                SCALEUNIT["unity",1],
+                ID["EPSG",8805]],
+            PARAMETER["False easting",500000,
+                LENGTHUNIT["metre",1],
+                ID["EPSG",8806]],
+            PARAMETER["False northing",0,
+                LENGTHUNIT["metre",1],
+                ID["EPSG",8807]],
+            ID["EPSG",16015]]
         >>> crs = CRS(proj='utm', zone=10, ellps='WGS84')
         >>> crs.to_proj4()
         '+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs'
@@ -170,6 +226,29 @@ class CRS(_CRS):
         super(CRS, self).__init__(projstring)
 
     @classmethod
+    def from_auth(cls, auth_name, code):
+        """Make a CRS from an EPSG code
+
+        Parameters
+        ----------
+        auth_name: str
+            The name of the authority.
+        code : int or str
+            The code used by the authority. Strings will be converted to integers.
+
+        Notes
+        -----
+        The input code is not validated against an EPSG database.
+
+        Returns
+        -------
+        ~CRS
+        """
+        if int(code) <= 0:
+            raise CRSError("Authority codes are positive integers")
+        return cls("{}:{}".format(auth_name, code))
+
+    @classmethod
     def from_epsg(cls, code):
         """Make a CRS from an EPSG code
 
@@ -186,9 +265,7 @@ class CRS(_CRS):
         -------
         ~CRS
         """
-        if int(code) <= 0:
-            raise CRSError("EPSG codes are positive integers")
-        return cls("epsg:{}".format(code))
+        return cls.from_auth("epsg", code)
 
     @classmethod
     def from_string(cls, proj_string):
@@ -457,26 +534,43 @@ class CRS(_CRS):
     def __repr__(self):
         axis_info_list = []
         for axis_info in self.axis_info:
-            axis_info_list.extend([str(axis_info), "\n"])
+            axis_info_list.extend(["- ", str(axis_info), "\n"])
 
         axis_info_str = "".join(axis_info_list)
+
+        epsg = self.to_epsg(100)
+        if epsg:
+            srs_repr = "epsg:{}".format(epsg)
+        else:
+            srs_repr = (
+                self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."])
+            )
         string_repr = (
-            "<CRS: {srs}>\n"
+            "<CRS: {srs_repr}>\n"
             "Name: {name}\n"
-            "Ellipsoid:\n"
-            "{ellipsoid}\n"
-            "Area of Use:\n"
-            "{area_of_use}\n"
-            "Prime Meridian:\n"
-            "{prime_meridian}\n"
             "Axis Info:\n"
             "{axis_info_str}"
+            "Area of Use:\n"
+            "{area_of_use}\n"
+            "Coordinate System:\n"
+            "- {coordinate_system}\n"
+            "Coordinate Operation:\n"
+            "- {coordinate_operation}\n"
+            "Datum:\n"
+            "- {datum}\n"
+            "Ellipsoid:\n"
+            "- {ellipsoid}\n"
+            "Prime Meridian:\n"
+            "- {prime_meridian}\n"
         ).format(
+            srs_repr=srs_repr,
             name=self.name,
-            srs=self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."]),
-            ellipsoid=self.ellipsoid or "- UNDEFINED",
-            area_of_use=self.area_of_use or "- UNDEFINED",
-            prime_meridian=self.prime_meridian or "- UNDEFINED",
-            axis_info_str=axis_info_str or "- UNDEFINED",
+            axis_info_str=axis_info_str or "- undefined\n",
+            area_of_use=self.area_of_use or "- undefined",
+            coordinate_system=self.coordinate_system or "undefined",
+            coordinate_operation=self.coordinate_operation or "undefined",
+            datum=self.datum or "undefined",
+            ellipsoid=self.ellipsoid or "undefined",
+            prime_meridian=self.prime_meridian or "undefined",
         )
         return string_repr

@@ -1,6 +1,7 @@
 import pytest
 
 from pyproj import CRS
+from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.exceptions import CRSError
 
 
@@ -152,20 +153,22 @@ def test_repr():
     assert repr(CRS({"init": "EPSG:4326"})) == (
         "<CRS: +init=epsg:4326 +type=crs>\n"
         "Name: WGS 84\n"
-        "Ellipsoid:\n"
-        "- semi_major_metre: 6378137.00\n"
-        "- semi_minor_metre: 6356752.31\n"
-        "- inverse_flattening: 298.26\n"
+        "Axis Info:\n"
+        "- east: Longitude [EPSG:9122] (degree)\n"
+        "- north: Latitude [EPSG:9122] (degree)\n"
         "Area of Use:\n"
         "- name: World\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
+        "Coordinate System:\n"
+        "- ellipsoidal\n"
+        "Coordinate Operation:\n"
+        "- undefined\n"
+        "Datum:\n"
+        "- World Geodetic System 1984\n"
+        "Ellipsoid:\n"
+        "- WGS 84\n"
         "Prime Meridian:\n"
-        "- longitude: 0.0000\n"
-        "- unit_name: degree\n"
-        "- unit_conversion_factor: 0.01745329\n"
-        "Axis Info:\n"
-        "- Longitude[lon] (east) EPSG:9122 (degree)\n"
-        "- Latitude[lat] (north) EPSG:9122 (degree)\n"
+        "- Greenwich\n"
     )
 
 
@@ -173,20 +176,45 @@ def test_repr__long():
     assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
         '<CRS: GEOGCRS["WGS 84",DATUM["World Geodetic System 1984 ...>\n'
         "Name: WGS 84\n"
-        "Ellipsoid:\n"
-        "- semi_major_metre: 6378137.00\n"
-        "- semi_minor_metre: 6356752.31\n"
-        "- inverse_flattening: 298.26\n"
+        "Axis Info:\n"
+        "- east: Longitude [EPSG:9122] (degree)\n"
+        "- north: Latitude [EPSG:9122] (degree)\n"
         "Area of Use:\n"
         "- name: World\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
+        "Coordinate System:\n"
+        "- ellipsoidal\n"
+        "Coordinate Operation:\n"
+        "- undefined\n"
+        "Datum:\n"
+        "- World Geodetic System 1984\n"
+        "Ellipsoid:\n"
+        "- WGS 84\n"
         "Prime Meridian:\n"
-        "- longitude: 0.0000\n"
-        "- unit_name: degree\n"
-        "- unit_conversion_factor: 0.01745329\n"
+        "- Greenwich\n"
+    )
+
+
+def test_repr_epsg():
+    assert repr(CRS(CRS("EPSG:4326").to_wkt())) == (
+        "<CRS: epsg:4326>\n"
+        "Name: WGS 84\n"
         "Axis Info:\n"
-        "- Longitude[lon] (east) EPSG:9122 (degree)\n"
-        "- Latitude[lat] (north) EPSG:9122 (degree)\n"
+        "- north: Geodetic latitude [EPSG:9122] (degree)\n"
+        "- east: Geodetic longitude [EPSG:9122] (degree)\n"
+        "Area of Use:\n"
+        "- name: World\n"
+        "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
+        "Coordinate System:\n"
+        "- ellipsoidal\n"
+        "Coordinate Operation:\n"
+        "- undefined\n"
+        "Datum:\n"
+        "- World Geodetic System 1984\n"
+        "Ellipsoid:\n"
+        "- WGS 84\n"
+        "Prime Meridian:\n"
+        "- Greenwich\n"
     )
 
 
@@ -199,18 +227,20 @@ def test_repr__undefined():
     ) == (
         "<CRS: +proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@nu ...>\n"
         "Name: unknown\n"
-        "Ellipsoid:\n"
-        "- semi_major_metre: 6378137.00\n"
-        "- semi_minor_metre: nan\n"
-        "- inverse_flattening: 0.00\n"
-        "Area of Use:\n"
-        "- UNDEFINED\n"
-        "Prime Meridian:\n"
-        "- longitude: 0.0000\n"
-        "- unit_name: degree\n"
-        "- unit_conversion_factor: 0.01745329\n"
         "Axis Info:\n"
-        "- UNDEFINED"
+        "- undefined\n"
+        "Area of Use:\n"
+        "- undefined\n"
+        "Coordinate System:\n"
+        "- undefined\n"
+        "Coordinate Operation:\n"
+        "- unknown to WGS84\n"
+        "Datum:\n"
+        "- unknown\n"
+        "Ellipsoid:\n"
+        "- unknown\n"
+        "Prime Meridian:\n"
+        "- Greenwich\n"
     )
 
 
@@ -227,11 +257,26 @@ def test_epsg():
 
 
 def test_datum():
-    assert CRS.from_epsg(4326).datum == CRS(
-        'DATUM["World Geodetic System 1984",'
-        'ELLIPSOID["WGS 84",6378137,298.257223563,'
-        'LENGTHUNIT["metre",1]],ID["EPSG",6326]]'
+    datum = CRS.from_epsg(4326).datum
+    assert repr(datum).startswith('DATUM["World Geodetic System 1984"')
+    assert "\n" in repr(datum)
+    assert datum.to_wkt().startswith('DATUM["World Geodetic System 1984"')
+    assert datum == datum
+    assert datum.is_exact_same(datum)
+
+
+def test_datum_horizontal():
+    assert CRS.from_epsg(5972).datum == CRS.from_epsg(25832).datum
+
+
+def test_datum_unknown():
+    crs = CRS(
+        "+proj=omerc +lat_0=-36.10360962430914 "
+        "+lonc=147.06322917270154 +alpha=-54.786229796129035 "
+        "+k=1 +x_0=0 +y_0=0 +gamma=0 +ellps=WGS84 "
+        "+towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
     )
+    assert crs.datum.name == "Unknown based on WGS84 ellipsoid"
 
 
 def test_epsg__not_found():
@@ -334,6 +379,174 @@ def test_from_user_input_custom_crs_class():
     assert CRS.from_user_input(CustomCRS()) == CRS.from_epsg(4326)
 
 
-def test_datum_to_epsg():
-    crs = CRS.from_epsg(31370)
-    assert crs.datum.to_epsg() is None
+def test_non_crs_error():
+    with pytest.raises(CRSError, match="Input is not a CRS"):
+        CRS(
+            "+proj=pipeline +ellps=GRS80 +step +proj=merc "
+            "+step +proj=axisswap +order=2,1"
+        )
+
+
+def test_sub_crs():
+    crs = CRS.from_epsg(5972)
+    sub_crs_list = crs.sub_crs_list
+    assert len(sub_crs_list) == 2
+    assert sub_crs_list[0] == CRS.from_epsg(25832)
+    assert sub_crs_list[1] == CRS.from_epsg(5941)
+    assert crs.is_projected
+    assert not crs.is_geographic
+
+
+def test_sub_crs__none():
+    assert CRS.from_epsg(4326).sub_crs_list == []
+
+
+def test_coordinate_system():
+    crs = CRS.from_epsg(26915)
+    assert repr(crs.coordinate_system).startswith("CS[Cartesian")
+    assert crs.coordinate_system.name == "cartesian"
+    assert crs.coordinate_system.name == str(crs.coordinate_system)
+    assert crs.coordinate_system.axis_list == crs.axis_info
+    assert len(crs.coordinate_system.axis_list) == 2
+
+
+def test_coordinate_system_geog():
+    crs = CRS.from_epsg(4326)
+    assert repr(crs.coordinate_system).startswith("CS[ellipsoidal")
+    assert crs.coordinate_system.name == "ellipsoidal"
+    assert crs.coordinate_system.name == str(crs.coordinate_system)
+    assert crs.coordinate_system.axis_list == crs.axis_info
+    assert repr(crs.coordinate_system.axis_list) == (
+        "[Axis(name=Geodetic latitude, abbrev=Lat, direction=north, "
+        "unit_auth_code=EPSG, unit_code=9122, unit_name=degree), "
+        "Axis(name=Geodetic longitude, abbrev=Lon, direction=east, "
+        "unit_auth_code=EPSG, unit_code=9122, unit_name=degree)]"
+    )
+
+
+def test_coordinate_operation():
+    crs = CRS.from_epsg(26915)
+    assert repr(crs.coordinate_operation).startswith('CONVERSION["UTM zone 15N"')
+    assert crs.coordinate_operation.method_name == "Transverse Mercator"
+    assert crs.coordinate_operation.name == str(crs.coordinate_operation)
+    assert crs.coordinate_operation.method_auth_name == "EPSG"
+    assert crs.coordinate_operation.method_code == "9807"
+    assert crs.coordinate_operation.is_instantiable == 1
+    assert crs.coordinate_operation.has_ballpark_transformation == 0
+    assert crs.coordinate_operation.accuracy == -1.0
+    assert repr(crs.coordinate_operation.params) == (
+        "[Param(name=Latitude of natural origin, auth_name=EPSG, code=8801, "
+        "value=0.0, unit_name=degree, unit_auth_name=EPSG, "
+        "unit_code=9102, unit_category=angular), "
+        "Param(name=Longitude of natural origin, auth_name=EPSG, code=8802, "
+        "value=-93.0, unit_name=degree, unit_auth_name=EPSG, "
+        "unit_code=9102, unit_category=angular), "
+        "Param(name=Scale factor at natural origin, auth_name=EPSG, code=8805, "
+        "value=0.9996, unit_name=unity, unit_auth_name=EPSG, "
+        "unit_code=9201, unit_category=scale), "
+        "Param(name=False easting, auth_name=EPSG, code=8806, value=500000.0, "
+        "unit_name=metre, unit_auth_name=EPSG, unit_code=9001, unit_category=linear), "
+        "Param(name=False northing, auth_name=EPSG, code=8807, value=0.0, "
+        "unit_name=metre, unit_auth_name=EPSG, unit_code=9001, unit_category=linear)]"
+    )
+    assert crs.coordinate_operation.grids == []
+
+
+def test_coordinate_operation_grids():
+    cc = CoordinateOperation.from_epsg(1312)
+    assert (
+        repr(cc.grids)
+        == "[Grid(short_name=NTv1_0.gsb, full_name=, package_name=, url=, "
+        "direct_download=False, open_license=False, available=False)]"
+    )
+
+
+def test_coordinate_operation_grids__alternative_grid_name():
+    cc = CoordinateOperation.from_epsg(1312, True)
+    assert len(cc.grids) == 1
+    grid = cc.grids[0]
+    assert grid.short_name == "ntv1_can.dat"
+    assert grid.full_name.endswith(grid.short_name)
+    assert grid.package_name == "proj-datumgrid"
+    assert grid.url.startswith("https://download.osgeo.org/proj/proj-datumgrid")
+    assert grid.direct_download is True
+    assert grid.open_license is True
+    assert grid.available is True
+
+
+def test_coordinate_operation__missing():
+    crs = CRS.from_epsg(4326)
+    assert crs.coordinate_operation is None
+
+
+def test_coordinate_operation__from_epsg():
+    cc = CoordinateOperation.from_epsg(16031)
+    assert cc.method_auth_name == "EPSG"
+    assert cc.method_code == "9807"
+
+
+def test_coordinate_operation__from_epsg__empty():
+    CoordinateOperation.from_epsg(1) is None
+
+
+def test_datum__from_epsg():
+    assert Datum.from_epsg("6326").to_wkt() == (
+        'DATUM["World Geodetic System 1984",'
+        'ELLIPSOID["WGS 84",6378137,298.257223563,'
+        'LENGTHUNIT["metre",1]],ID["EPSG",6326]]'
+    )
+
+
+def test_datum__from_epsg__empty():
+    Datum.from_epsg(1) is None
+
+
+def test_prime_meridian__from_epsg():
+    assert PrimeMeridian.from_epsg(8903).to_wkt() == (
+        'PRIMEM["Paris",2.5969213,ANGLEUNIT["grad",0.0157079632679489],ID["EPSG",8903]]'
+    )
+
+
+def test_prime_meridian__from_epsg__empty():
+    PrimeMeridian.from_epsg(1) is None
+
+
+def test_ellipsoid__from_epsg():
+    assert Ellipsoid.from_epsg(7030).to_wkt() == (
+        'ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1],ID["EPSG",7030]]'
+    )
+
+
+def test_ellipsoid__from_epsg__empty():
+    assert Ellipsoid.from_epsg(1) is None
+
+
+def test_bound_crs_is_geographic():
+    assert CRS(
+        "proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0"
+    ).is_geographic
+
+
+def test_coordinate_operation_towgs84_three():
+    crs = CRS("+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62")
+    assert crs.coordinate_operation.towgs84 == [-199.87, 74.79, 246.62]
+
+
+def test_coordinate_operation_towgs84_seven():
+    crs = CRS(
+        init="epsg:3004", towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
+    )
+    assert crs.coordinate_operation.towgs84 == [
+        -122.74,
+        -34.27,
+        -22.83,
+        -1.884,
+        -3.4,
+        -3.03,
+        -15.62,
+    ]
+
+
+def test_coordinate_operation_towgs84_missing():
+    crs = CRS(init="epsg:3004")
+    assert crs.coordinate_operation.towgs84 == []

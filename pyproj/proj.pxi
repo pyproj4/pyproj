@@ -181,8 +181,25 @@ cdef extern from "proj.h":
     PJ_TYPE proj_get_type(const PJ *obj)
     const char * proj_get_name(const PJ *obj)
 
-    PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs);
+    int proj_is_crs(const PJ *obj)
+    PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs)
+    PJ *proj_crs_get_horizontal_datum(PJ_CONTEXT *ctx, const PJ *crs)
+
+    ctypedef enum PJ_COORDINATE_SYSTEM_TYPE:
+        PJ_CS_TYPE_UNKNOWN
+        PJ_CS_TYPE_CARTESIAN
+        PJ_CS_TYPE_ELLIPSOIDAL
+        PJ_CS_TYPE_VERTICAL
+        PJ_CS_TYPE_SPHERICAL
+        PJ_CS_TYPE_ORDINAL
+        PJ_CS_TYPE_PARAMETRIC
+        PJ_CS_TYPE_DATETIMETEMPORAL
+        PJ_CS_TYPE_TEMPORALCOUNT
+        PJ_CS_TYPE_TEMPORALMEASURE
+
     PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs)
+    PJ_COORDINATE_SYSTEM_TYPE proj_cs_get_type(PJ_CONTEXT *ctx,
+                                               const PJ *cs)
     int proj_cs_get_axis_count(PJ_CONTEXT *ctx,
                                const PJ *cs)
     int proj_cs_get_axis_info(PJ_CONTEXT *ctx,
@@ -208,6 +225,8 @@ cdef extern from "proj.h":
                                            double *out_longitude,
                                            double *out_unit_conv_factor,
                                            const char **out_unit_name)
+    PJ *proj_crs_get_sub_crs(PJ_CONTEXT *ctx, const PJ *crs, int index)
+    PJ *proj_get_source_crs(PJ_CONTEXT *ctx, const PJ *obj)
 
     ctypedef struct PJ_OBJ_LIST
     PJ_OBJ_LIST *proj_identify(PJ_CONTEXT *ctx,
@@ -259,3 +278,74 @@ cdef extern from "proj.h":
         const char  *defn
     const PJ_PRIME_MERIDIANS *proj_list_prime_meridians()
 
+    PJ *proj_crs_get_coordoperation(PJ_CONTEXT *ctx,
+                                    const PJ *crs);
+
+    int proj_coordoperation_get_method_info(PJ_CONTEXT *ctx,
+                                            const PJ *coordoperation,
+                                            const char **out_method_name,
+                                            const char **out_method_auth_name,
+                                            const char **out_method_code);
+
+    int proj_coordoperation_is_instantiable(PJ_CONTEXT *ctx,
+                                            const PJ *coordoperation);
+
+    int proj_coordoperation_has_ballpark_transformation(PJ_CONTEXT *ctx,
+                                                        const PJ *coordoperation);
+
+    int proj_coordoperation_get_param_count(PJ_CONTEXT *ctx,
+                                            const PJ *coordoperation);
+
+    int proj_coordoperation_get_param_index(PJ_CONTEXT *ctx,
+                                            const PJ *coordoperation,
+                                            const char *name);
+
+    int proj_coordoperation_get_param(PJ_CONTEXT *ctx,
+                                      const PJ *coordoperation,
+                                      int index,
+                                      const char **out_name,
+                                      const char **out_auth_name,
+                                      const char **out_code,
+                                      double *out_value,
+                                      const char **out_value_string,
+                                      double *out_unit_conv_factor,
+                                      const char **out_unit_name,
+                                      const char **out_unit_auth_name,
+                                      const char **out_unit_code,
+                                      const char **out_unit_category);
+
+    int proj_coordoperation_get_grid_used_count(PJ_CONTEXT *ctx,
+                                                        const PJ *coordoperation);
+
+    int proj_coordoperation_get_grid_used(PJ_CONTEXT *ctx,
+                                          const PJ *coordoperation,
+                                          int index,
+                                          const char **out_short_name,
+                                          const char **out_full_name,
+                                          const char **out_package_name,
+                                          const char **out_url,
+                                          int *out_direct_download,
+                                          int *out_open_license,
+                                          int *out_available);
+
+    double proj_coordoperation_get_accuracy(PJ_CONTEXT *ctx,
+                                            const PJ *obj);
+
+    int proj_coordoperation_get_towgs84_values(PJ_CONTEXT *ctx,
+                                               const PJ *coordoperation,
+                                               double *out_values,
+                                               int value_count,
+                                               int emit_error_if_incompatible)
+
+    ctypedef enum PJ_CATEGORY:
+        PJ_CATEGORY_ELLIPSOID,
+        PJ_CATEGORY_PRIME_MERIDIAN,
+        PJ_CATEGORY_DATUM,
+        PJ_CATEGORY_CRS,
+        PJ_CATEGORY_COORDINATE_OPERATION
+    PJ *proj_create_from_database(PJ_CONTEXT *ctx,
+                                  const char *auth_name,
+                                  const char *code,
+                                  PJ_CATEGORY category,
+                                  int usePROJAlternativeGridNames,
+                                  const char* const *options)
