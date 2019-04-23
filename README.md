@@ -1,5 +1,7 @@
 pyproj
 ======
+ 
+[![Join the chat at https://gitter.im/pyproj4-pyproj/community](https://badges.gitter.im/pyproj4-pyproj/community.svg)](https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Build Status](https://travis-ci.org/pyproj4/pyproj.svg)](https://travis-ci.org/pyproj4/pyproj)
 
