@@ -96,12 +96,15 @@ def get_proj_incdirs(proj_dir):
 
 def get_cythonize_options():
     """
-    This function gets the options to cythinize with
+    This function gets the options to cythonize with
     """
     # Configure optional Cython coverage.
-    cythonize_options = {"language_level": sys.version_info[0]}
+    cythonize_options = {
+        "language_level": sys.version_info[0],
+        "compiler_directives": {"embedsignature": True}
+    }
     if os.environ.get("PYPROJ_FULL_COVERAGE"):
-        cythonize_options["compiler_directives"] = {"linetrace": True}
+        cythonize_options["compiler_directives"].update(linetrace=True)
         cythonize_options["annotate"] = True
     return cythonize_options
 
@@ -148,8 +151,6 @@ def get_extension_modules():
         runtime_library_dirs=library_dirs if os.name != "nt" else None,
         libraries=get_libraries(library_dirs),
     )
-    if os.name != "nt":
-        ext_options["embedsignature"] = True
 
     # setup cythonized modules
     return cythonize(
