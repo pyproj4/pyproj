@@ -87,10 +87,7 @@ script:
   - set -e
   - |
     if [ "$DOC" ]; then
-      pip install sphinx sphinx_rtd_theme
-      cd docs
-      make html
-      cd ..
+      bash create_docs.sh
       pip install doctr
       if [[ -z "$TRAVIS_TAG" ]]; then
         DEPLOY_DIR=dev;
