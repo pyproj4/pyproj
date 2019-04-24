@@ -85,9 +85,9 @@ build_script:
   - proj
   # Build and install pyproj
   - "%CMD_IN_ENV% pip install \"pip>=10.0.1\""
+  - "%CMD_IN_ENV% pip install -r requirements-dev.txt"
   - set PYPROJ_FULL_COVERAGE=YES
   - "%CMD_IN_ENV% pip install -e . --no-use-pep517"
-  - "%CMD_IN_ENV% pip install -r requirements-dev.txt"
 
 
 install:
