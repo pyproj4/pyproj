@@ -151,70 +151,49 @@ def test_to_wkt_pretty():
 
 def test_repr():
     assert repr(CRS({"init": "EPSG:4326"})) == (
-        "<CRS: +init=epsg:4326 +type=crs>\n"
+        "<Geographic 2D CRS: +init=epsg:4326 +type=crs>\n"
         "Name: WGS 84\n"
-        "Axis Info:\n"
-        "- east: Longitude [EPSG:9122] (degree)\n"
-        "- north: Latitude [EPSG:9122] (degree)\n"
+        "Axis Info [ellipsoidal]:\n"
+        "- lon[east]: Longitude (degree)\n"
+        "- lat[north]: Latitude (degree)\n"
         "Area of Use:\n"
         "- name: World\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
-        "Coordinate System:\n"
-        "- ellipsoidal\n"
-        "Coordinate Operation:\n"
-        "- undefined\n"
-        "Datum:\n"
-        "- World Geodetic System 1984\n"
-        "Ellipsoid:\n"
-        "- WGS 84\n"
-        "Prime Meridian:\n"
-        "- Greenwich\n"
+        "Datum: World Geodetic System 1984\n"
+        "- Ellipsoid: WGS 84\n"
+        "- Prime Meridian: Greenwich\n"
     )
 
 
 def test_repr__long():
     assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
-        '<CRS: GEOGCRS["WGS 84",DATUM["World Geodetic System 1984 ...>\n'
+        '<Geographic 2D CRS: GEOGCRS["WGS 84",DATUM["World Geodetic System 1984 ...>\n'
         "Name: WGS 84\n"
-        "Axis Info:\n"
-        "- east: Longitude [EPSG:9122] (degree)\n"
-        "- north: Latitude [EPSG:9122] (degree)\n"
+        "Axis Info [ellipsoidal]:\n"
+        "- lon[east]: Longitude (degree)\n"
+        "- lat[north]: Latitude (degree)\n"
         "Area of Use:\n"
         "- name: World\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
-        "Coordinate System:\n"
-        "- ellipsoidal\n"
-        "Coordinate Operation:\n"
-        "- undefined\n"
-        "Datum:\n"
-        "- World Geodetic System 1984\n"
-        "Ellipsoid:\n"
-        "- WGS 84\n"
-        "Prime Meridian:\n"
-        "- Greenwich\n"
+        "Datum: World Geodetic System 1984\n"
+        "- Ellipsoid: WGS 84\n"
+        "- Prime Meridian: Greenwich\n"
     )
 
 
 def test_repr_epsg():
     assert repr(CRS(CRS("EPSG:4326").to_wkt())) == (
-        "<CRS: epsg:4326>\n"
+        "<Geographic 2D CRS: epsg:4326>\n"
         "Name: WGS 84\n"
-        "Axis Info:\n"
-        "- north: Geodetic latitude [EPSG:9122] (degree)\n"
-        "- east: Geodetic longitude [EPSG:9122] (degree)\n"
+        "Axis Info [ellipsoidal]:\n"
+        "- Lat[north]: Geodetic latitude (degree)\n"
+        "- Lon[east]: Geodetic longitude (degree)\n"
         "Area of Use:\n"
         "- name: World\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
-        "Coordinate System:\n"
-        "- ellipsoidal\n"
-        "Coordinate Operation:\n"
-        "- undefined\n"
-        "Datum:\n"
-        "- World Geodetic System 1984\n"
-        "Ellipsoid:\n"
-        "- WGS 84\n"
-        "Prime Meridian:\n"
-        "- Greenwich\n"
+        "Datum: World Geodetic System 1984\n"
+        "- Ellipsoid: WGS 84\n"
+        "- Prime Meridian: Greenwich\n"
     )
 
 
@@ -225,23 +204,44 @@ def test_repr__undefined():
             " +lon_0=0.0 +x_0=0.0 +y_0=0.0 +units=m +no_defs"
         )
     ) == (
-        "<CRS: +proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@nu ...>\n"
+        "<Bound CRS: +proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@nu ...>\n"
         "Name: unknown\n"
-        "Axis Info:\n"
-        "- undefined\n"
+        "Axis Info [cartesian]:\n"
+        "- E[east]: Easting (metre)\n"
+        "- N[north]: Northing (metre)\n"
         "Area of Use:\n"
         "- undefined\n"
-        "Coordinate System:\n"
-        "- undefined\n"
         "Coordinate Operation:\n"
-        "- unknown to WGS84\n"
-        "Datum:\n"
-        "- unknown\n"
-        "Ellipsoid:\n"
-        "- unknown\n"
-        "Prime Meridian:\n"
-        "- Greenwich\n"
+        "- name: unknown to WGS84\n"
+        "- method: NTv2\n"
+        "Datum: unknown\n"
+        "- Ellipsoid: unknown\n"
+        "- Prime Meridian: Greenwich\n"
+        "Source CRS: unknown\n"
     )
+
+
+def test_repr_compound():
+    assert repr(
+        CRS.from_epsg(3901)
+    ) == (
+        "<Compound CRS: epsg:3901>\n"
+        "Name: KKJ / Finland Uniform Coordinate System + N60 height\n"
+        "Axis Info [cartesian|vertical]:\n"
+        "- X[north]: Northing (metre)\n"
+        "- Y[east]: Easting (metre)\n"
+        "- H[up]: Gravity-related height (metre)\n"
+        "Area of Use:\n"
+        "- name: Finland - onshore\n"
+        "- bounds: (19.24, 59.75, 31.59, 70.09)\n"
+        "Datum: Kartastokoordinaattijarjestelma (1966)\n"
+        "- Ellipsoid: International 1924\n"
+        "- Prime Meridian: Greenwich\n"
+        "Sub CRS:\n"
+        "- KKJ / Finland Uniform Coordinate System\n"
+        "- N60 height\n"
+    )
+
 
 
 def test_dunder_str():

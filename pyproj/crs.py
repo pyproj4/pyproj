@@ -86,7 +86,9 @@ class CRS(_CRS):
         The string form of the user input used to create the CRS.
     name: str
         The name of the CRS (from `proj_get_name <https://proj4.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
-    
+    type_name: str
+        The name of the type of the CRS object.
+
     """
 
     def __init__(self, projparams=None, **kwargs):
@@ -105,24 +107,20 @@ class CRS(_CRS):
         >>> from pyproj import CRS
         >>> crs_utm = CRS.from_user_input(26915)
         >>> crs_utm
-        <CRS: epsg:26915>
+        <Projected CRS: epsg:26915>
         Name: NAD83 / UTM zone 15N
-        Axis Info:
-        - east: Easting [EPSG:9001] (metre)
-        - north: Northing [EPSG:9001] (metre)
+        Axis Info [cartesian]:
+        - E[east]: Easting (metre)
+        - N[north]: Northing (metre)
         Area of Use:
         - name: North America - 96°W to 90°W and NAD83 by country
         - bounds: (-96.0, 25.61, -90.0, 84.0)
-        Coordinate System:
-        - cartesian
         Coordinate Operation:
-        - UTM zone 15N
-        Datum:
-        - North American Datum 1983
-        Ellipsoid:
-        - GRS 1980
-        Prime Meridian:
-        - Greenwich
+        - name: UTM zone 15N
+        - method: Transverse Mercator
+        Datum: North American Datum 1983
+        - Ellipsoid: GRS 1980
+        - Prime Meridian: Greenwich
         <BLANKLINE>
         >>> crs_utm.area_of_use.bounds
         (-96.0, 25.61, -90.0, 84.0)
@@ -532,12 +530,43 @@ class CRS(_CRS):
         return self.srs
 
     def __repr__(self):
+        # get axis/coordinate system information
         axis_info_list = []
-        for axis_info in self.axis_info:
-            axis_info_list.extend(["- ", str(axis_info), "\n"])
 
+        def extent_axis(axis_list):
+            for axis_info in axis_list:
+                axis_info_list.extend(["- ", str(axis_info), "\n"])
+
+        source_crs_repr = ""
+        sub_crs_repr = ""
+        if self.axis_info:
+            extent_axis(self.axis_info)
+            coordinate_system_name = str(self.coordinate_system)
+        elif self.is_bound:
+            extent_axis(self.source_crs.axis_info)
+            coordinate_system_name = str(self.source_crs.coordinate_system)
+            source_crs_repr = "Source CRS: {}\n".format(self.source_crs.name)
+        else:
+            coordinate_system_names = []
+            sub_crs_repr_list = ["Sub CRS:\n"]
+            for sub_crs in self.sub_crs_list:
+                extent_axis(sub_crs.axis_info)
+                coordinate_system_names.append(str(sub_crs.coordinate_system))
+                sub_crs_repr_list.extend(["- ", sub_crs.name, "\n"])
+            coordinate_system_name = "|".join(coordinate_system_names)
+            sub_crs_repr = "".join(sub_crs_repr_list)
         axis_info_str = "".join(axis_info_list)
 
+        # get coordinate operation repr
+        coordinate_operation = ""
+        if self.coordinate_operation:
+            coordinate_operation = "".join([
+                "Coordinate Operation:\n",
+                "- name: ", str(self.coordinate_operation), "\n"
+                "- method: ", str(self.coordinate_operation.method_name), "\n"
+            ])
+
+        # get SRS representation
         epsg = self.to_epsg(100)
         if epsg:
             srs_repr = "epsg:{}".format(epsg)
@@ -546,31 +575,30 @@ class CRS(_CRS):
                 self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."])
             )
         string_repr = (
-            "<CRS: {srs_repr}>\n"
+            "<{type_name}: {srs_repr}>\n"
             "Name: {name}\n"
-            "Axis Info:\n"
+            "Axis Info [{coordinate_system}]:\n"
             "{axis_info_str}"
             "Area of Use:\n"
             "{area_of_use}\n"
-            "Coordinate System:\n"
-            "- {coordinate_system}\n"
-            "Coordinate Operation:\n"
-            "- {coordinate_operation}\n"
-            "Datum:\n"
-            "- {datum}\n"
-            "Ellipsoid:\n"
-            "- {ellipsoid}\n"
-            "Prime Meridian:\n"
-            "- {prime_meridian}\n"
+            "{coordinate_operation}"
+            "Datum: {datum}\n"
+            "- Ellipsoid: {ellipsoid}\n"
+            "- Prime Meridian: {prime_meridian}\n"
+            "{source_crs_repr}"
+            "{sub_crs_repr}"
         ).format(
+            type_name=self.type_name,
             srs_repr=srs_repr,
             name=self.name,
             axis_info_str=axis_info_str or "- undefined\n",
             area_of_use=self.area_of_use or "- undefined",
-            coordinate_system=self.coordinate_system or "undefined",
-            coordinate_operation=self.coordinate_operation or "undefined",
-            datum=self.datum or "undefined",
+            coordinate_system=coordinate_system_name or "undefined",
+            coordinate_operation=coordinate_operation,
+            datum=self.datum,
             ellipsoid=self.ellipsoid or "undefined",
             prime_meridian=self.prime_meridian or "undefined",
+            source_crs_repr=source_crs_repr,
+            sub_crs_repr=sub_crs_repr,
         )
         return string_repr
