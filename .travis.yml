@@ -73,7 +73,7 @@ before_install:
 install:
   # coverage report requires a local install
   - pip install "pip>=10.0.1"
-  - PYPROJ_FULL_COVERAGE=YES pip install -e .
+  - PYPROJ_FULL_COVERAGE=YES pip install -e . --no-use-pep517
   - pip install -r requirements-dev.txt
   - pip install coveralls
 
