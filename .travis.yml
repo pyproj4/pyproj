@@ -73,9 +73,9 @@ before_install:
 install:
   # coverage report requires a local install
   - pip install "pip>=10.0.1"
-  - pip install -r requirements-dev.txt
-  - PYPROJ_FULL_COVERAGE=YES pip install -e . --no-use-pep517
+  - PYPROJ_FULL_COVERAGE=YES pip install .
   - pip install coveralls
+  - pip install -r requirements-dev.txt
 
 script:
   - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
