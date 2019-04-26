@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>pyproj.proj &#8212; pyproj 2.1.3 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyproj 2.1.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyproj.proj</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cython wrapper to provide python interfaces to</span>
+<span class="sd">PROJ.4 (https://github.com/OSGeo/proj.4/wiki) functions.</span>
+
+<span class="sd">Performs cartographic transformations and geodetic computations.</span>
+
+<span class="sd">The Proj class can convert from geographic (longitude,latitude)</span>
+<span class="sd">to native map projection (x,y) coordinates and vice versa, or</span>
+<span class="sd">from one map projection coordinate system directly to another.</span>
+<span class="sd">The module variable pj_list is a dictionary containing all the</span>
+<span class="sd">available projections and their descriptions.</span>
+
+<span class="sd">Input coordinates can be given as python arrays, lists/tuples,</span>
+<span class="sd">scalars or numpy/Numeric/numarray arrays. Optimized for objects</span>
+<span class="sd">that support the Python buffer protocol (regular python and</span>
+<span class="sd">numpy array objects).</span>
+
+<span class="sd">Download: http://python.org/pypi/pyproj</span>
+
+<span class="sd">Contact:  Jeffrey Whitaker &lt;jeffrey.s.whitaker@noaa.gov</span>
+
+<span class="sd">copyright (c) 2006 by Jeffrey Whitaker.</span>
+
+<span class="sd">Permission to use, copy, modify, and distribute this software</span>
+<span class="sd">and its documentation for any purpose and without fee is hereby</span>
+<span class="sd">granted, provided that the above copyright notice appear in all</span>
+<span class="sd">copies and that both the copyright notice and this permission</span>
+<span class="sd">notice appear in supporting documentation. THE AUTHOR DISCLAIMS</span>
+<span class="sd">ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL</span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT</span>
+<span class="sd">SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR</span>
+<span class="sd">CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM</span>
+<span class="sd">LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,</span>
+<span class="sd">NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN</span>
+<span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">_proj</span>
+<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">cstrencode</span><span class="p">,</span> <span class="n">pystrdecode</span>
+<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
+
+<span class="c1"># import numpy as np</span>
+<span class="n">proj_version_str</span> <span class="o">=</span> <span class="n">_proj</span><span class="o">.</span><span class="n">proj_version_str</span>
+
+<span class="n">pj_list</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;aea&quot;</span><span class="p">:</span> <span class="s2">&quot;Albers Equal Area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;aeqd&quot;</span><span class="p">:</span> <span class="s2">&quot;Azimuthal Equidistant&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;affine&quot;</span><span class="p">:</span> <span class="s2">&quot;Affine transformation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;airy&quot;</span><span class="p">:</span> <span class="s2">&quot;Airy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;aitoff&quot;</span><span class="p">:</span> <span class="s2">&quot;Aitoff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;alsk&quot;</span><span class="p">:</span> <span class="s2">&quot;Mod. Stererographics of Alaska&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;apian&quot;</span><span class="p">:</span> <span class="s2">&quot;Apian Globular I&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;august&quot;</span><span class="p">:</span> <span class="s2">&quot;August Epicycloidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bacon&quot;</span><span class="p">:</span> <span class="s2">&quot;Bacon Globular&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bertin1953&quot;</span><span class="p">:</span> <span class="s2">&quot;Bertin 1953&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bipc&quot;</span><span class="p">:</span> <span class="s2">&quot;Bipolar conic of western hemisphere&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;boggs&quot;</span><span class="p">:</span> <span class="s2">&quot;Boggs Eumorphic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bonne&quot;</span><span class="p">:</span> <span class="s2">&quot;Bonne (Werner lat_1=90)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;calcofi&quot;</span><span class="p">:</span> <span class="s2">&quot;Cal Coop Ocean Fish Invest Lines/Stations&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cart&quot;</span><span class="p">:</span> <span class="s2">&quot;Geodetic/cartesian conversions&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cass&quot;</span><span class="p">:</span> <span class="s2">&quot;Cassini&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cc&quot;</span><span class="p">:</span> <span class="s2">&quot;Central Cylindrical&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ccon&quot;</span><span class="p">:</span> <span class="s2">&quot;Central Conic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cea&quot;</span><span class="p">:</span> <span class="s2">&quot;Equal Area Cylindrical&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;chamb&quot;</span><span class="p">:</span> <span class="s2">&quot;Chamberlin Trimetric&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;collg&quot;</span><span class="p">:</span> <span class="s2">&quot;Collignon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;comill&quot;</span><span class="p">:</span> <span class="s2">&quot;Compact Miller&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;crast&quot;</span><span class="p">:</span> <span class="s2">&quot;Craster Parabolic (Putnins P4)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;deformation&quot;</span><span class="p">:</span> <span class="s2">&quot;Kinematic grid shift&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;denoy&quot;</span><span class="p">:</span> <span class="s2">&quot;Denoyer Semi-Elliptical&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eck1&quot;</span><span class="p">:</span> <span class="s2">&quot;Eckert I&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eck2&quot;</span><span class="p">:</span> <span class="s2">&quot;Eckert II&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eck3&quot;</span><span class="p">:</span> <span class="s2">&quot;Eckert III&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eck4&quot;</span><span class="p">:</span> <span class="s2">&quot;Eckert IV&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eck5&quot;</span><span class="p">:</span> <span class="s2">&quot;Eckert V&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eck6&quot;</span><span class="p">:</span> <span class="s2">&quot;Eckert VI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eqc&quot;</span><span class="p">:</span> <span class="s2">&quot;Equidistant Cylindrical (Plate Caree)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eqdc&quot;</span><span class="p">:</span> <span class="s2">&quot;Equidistant Conic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;euler&quot;</span><span class="p">:</span> <span class="s2">&quot;Euler&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;etmerc&quot;</span><span class="p">:</span> <span class="s2">&quot;Extended Transverse Mercator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fahey&quot;</span><span class="p">:</span> <span class="s2">&quot;Fahey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fouc&quot;</span><span class="p">:</span> <span class="s2">&quot;Foucaut&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fouc_s&quot;</span><span class="p">:</span> <span class="s2">&quot;Foucaut Sinusoidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gall&quot;</span><span class="p">:</span> <span class="s2">&quot;Gall (Gall Stereographic)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geoc&quot;</span><span class="p">:</span> <span class="s2">&quot;Geocentric Latitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geocent&quot;</span><span class="p">:</span> <span class="s2">&quot;Geocentric&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geogoffset&quot;</span><span class="p">:</span> <span class="s2">&quot;Geographic Offset&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geos&quot;</span><span class="p">:</span> <span class="s2">&quot;Geostationary Satellite View&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gins8&quot;</span><span class="p">:</span> <span class="s2">&quot;Ginsburg VIII (TsNIIGAiK)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gn_sinu&quot;</span><span class="p">:</span> <span class="s2">&quot;General Sinusoidal Series&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gnom&quot;</span><span class="p">:</span> <span class="s2">&quot;Gnomonic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;goode&quot;</span><span class="p">:</span> <span class="s2">&quot;Goode Homolosine&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gs48&quot;</span><span class="p">:</span> <span class="s2">&quot;Mod. Stererographics of 48 U.S.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gs50&quot;</span><span class="p">:</span> <span class="s2">&quot;Mod. Stererographics of 50 U.S.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hammer&quot;</span><span class="p">:</span> <span class="s2">&quot;Hammer &amp; Eckert-Greifendorff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hatano&quot;</span><span class="p">:</span> <span class="s2">&quot;Hatano Asymmetrical Equal Area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;healpix&quot;</span><span class="p">:</span> <span class="s2">&quot;HEALPix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rhealpix&quot;</span><span class="p">:</span> <span class="s2">&quot;rHEALPix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;helmert&quot;</span><span class="p">:</span> <span class="s2">&quot;3- and 7-parameter Helmert shift&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hgridshift&quot;</span><span class="p">:</span> <span class="s2">&quot;Horizontal grid shift&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;horner&quot;</span><span class="p">:</span> <span class="s2">&quot;Horner polynomial evaluation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;igh&quot;</span><span class="p">:</span> <span class="s2">&quot;Interrupted Goode Homolosine&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;imw_p&quot;</span><span class="p">:</span> <span class="s2">&quot;International Map of the World Polyconic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;isea&quot;</span><span class="p">:</span> <span class="s2">&quot;Icosahedral Snyder Equal Area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kav5&quot;</span><span class="p">:</span> <span class="s2">&quot;Kavraisky V&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kav7&quot;</span><span class="p">:</span> <span class="s2">&quot;Kavraisky VII&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;krovak&quot;</span><span class="p">:</span> <span class="s2">&quot;Krovak&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;labrd&quot;</span><span class="p">:</span> <span class="s2">&quot;Laborde&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;laea&quot;</span><span class="p">:</span> <span class="s2">&quot;Lambert Azimuthal Equal Area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lagrng&quot;</span><span class="p">:</span> <span class="s2">&quot;Lagrange&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;larr&quot;</span><span class="p">:</span> <span class="s2">&quot;Larrivee&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lask&quot;</span><span class="p">:</span> <span class="s2">&quot;Laskowski&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lonlat&quot;</span><span class="p">:</span> <span class="s2">&quot;Lat/long (Geodetic)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;latlon&quot;</span><span class="p">:</span> <span class="s2">&quot;Lat/long (Geodetic alias)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;latlong&quot;</span><span class="p">:</span> <span class="s2">&quot;Lat/long (Geodetic alias)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;longlat&quot;</span><span class="p">:</span> <span class="s2">&quot;Lat/long (Geodetic alias)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lcc&quot;</span><span class="p">:</span> <span class="s2">&quot;Lambert Conformal Conic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lcca&quot;</span><span class="p">:</span> <span class="s2">&quot;Lambert Conformal Conic Alternative&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;leac&quot;</span><span class="p">:</span> <span class="s2">&quot;Lambert Equal Area Conic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lee_os&quot;</span><span class="p">:</span> <span class="s2">&quot;Lee Oblated Stereographic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;loxim&quot;</span><span class="p">:</span> <span class="s2">&quot;Loximuthal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lsat&quot;</span><span class="p">:</span> <span class="s2">&quot;Space oblique for LANDSAT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mbt_s&quot;</span><span class="p">:</span> <span class="s2">&quot;McBryde-Thomas Flat-Polar Sine&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mbt_fps&quot;</span><span class="p">:</span> <span class="s2">&quot;McBryde-Thomas Flat-Pole Sine (No. 2)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mbtfpp&quot;</span><span class="p">:</span> <span class="s2">&quot;McBride-Thomas Flat-Polar Parabolic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mbtfpq&quot;</span><span class="p">:</span> <span class="s2">&quot;McBryde-Thomas Flat-Polar Quartic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mbtfps&quot;</span><span class="p">:</span> <span class="s2">&quot;McBryde-Thomas Flat-Polar Sinusoidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;merc&quot;</span><span class="p">:</span> <span class="s2">&quot;Mercator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mil_os&quot;</span><span class="p">:</span> <span class="s2">&quot;Miller Oblated Stereographic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mill&quot;</span><span class="p">:</span> <span class="s2">&quot;Miller Cylindrical&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;misrsom&quot;</span><span class="p">:</span> <span class="s2">&quot;Space oblique for MISR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;moll&quot;</span><span class="p">:</span> <span class="s2">&quot;Mollweide&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;molobadekas&quot;</span><span class="p">:</span> <span class="s2">&quot;Molodensky-Badekas transform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;molodensky&quot;</span><span class="p">:</span> <span class="s2">&quot;Molodensky transform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;murd1&quot;</span><span class="p">:</span> <span class="s2">&quot;Murdoch I&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;murd2&quot;</span><span class="p">:</span> <span class="s2">&quot;Murdoch II&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;murd3&quot;</span><span class="p">:</span> <span class="s2">&quot;Murdoch III&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;natearth&quot;</span><span class="p">:</span> <span class="s2">&quot;Natural Earth&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;natearth2&quot;</span><span class="p">:</span> <span class="s2">&quot;Natural Earth 2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nell&quot;</span><span class="p">:</span> <span class="s2">&quot;Nell&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nell_h&quot;</span><span class="p">:</span> <span class="s2">&quot;Nell-Hammer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nicol&quot;</span><span class="p">:</span> <span class="s2">&quot;Nicolosi Globular&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nsper&quot;</span><span class="p">:</span> <span class="s2">&quot;Near-sided perspective&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nzmg&quot;</span><span class="p">:</span> <span class="s2">&quot;New Zealand Map Grid&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ob_tran&quot;</span><span class="p">:</span> <span class="s2">&quot;General Oblique Transformation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ocea&quot;</span><span class="p">:</span> <span class="s2">&quot;Oblique Cylindrical Equal Area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;oea&quot;</span><span class="p">:</span> <span class="s2">&quot;Oblated Equal Area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;omerc&quot;</span><span class="p">:</span> <span class="s2">&quot;Oblique Mercator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ortel&quot;</span><span class="p">:</span> <span class="s2">&quot;Ortelius Oval&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ortho&quot;</span><span class="p">:</span> <span class="s2">&quot;Orthographic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;patterson&quot;</span><span class="p">:</span> <span class="s2">&quot;Patterson Cylindrical&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pconic&quot;</span><span class="p">:</span> <span class="s2">&quot;Perspective Conic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pipeline&quot;</span><span class="p">:</span> <span class="s2">&quot;Transformation pipeline manager&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;poly&quot;</span><span class="p">:</span> <span class="s2">&quot;Polyconic (American)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pop&quot;</span><span class="p">:</span> <span class="s2">&quot;Retrieve coordinate value from pipeline stack&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp1&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp2&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp3&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp3p&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P3&#39;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp4p&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P4&#39;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp5&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P5&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp5p&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P5&#39;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp6&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P6&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;putp6p&quot;</span><span class="p">:</span> <span class="s2">&quot;Putnins P6&#39;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;qua_aut&quot;</span><span class="p">:</span> <span class="s2">&quot;Quartic Authalic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;robin&quot;</span><span class="p">:</span> <span class="s2">&quot;Robinson&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rouss&quot;</span><span class="p">:</span> <span class="s2">&quot;Roussilhe Stereographic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rpoly&quot;</span><span class="p">:</span> <span class="s2">&quot;Rectangular Polyconic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sch&quot;</span><span class="p">:</span> <span class="s2">&quot;Spherical Cross-track Height&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sinu&quot;</span><span class="p">:</span> <span class="s2">&quot;Sinusoidal (Sanson-Flamsteed)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;somerc&quot;</span><span class="p">:</span> <span class="s2">&quot;Swiss. Obl. Mercator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;stere&quot;</span><span class="p">:</span> <span class="s2">&quot;Stereographic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sterea&quot;</span><span class="p">:</span> <span class="s2">&quot;Oblique Stereographic Alternative&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gstmerc&quot;</span><span class="p">:</span> <span class="s2">&quot;Gauss-Schreiber Transverse Mercator (aka Gauss-Laborde Reunion)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tcc&quot;</span><span class="p">:</span> <span class="s2">&quot;Transverse Central Cylindrical&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tcea&quot;</span><span class="p">:</span> <span class="s2">&quot;Transverse Cylindrical Equal Area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;times&quot;</span><span class="p">:</span> <span class="s2">&quot;Times&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tissot&quot;</span><span class="p">:</span> <span class="s2">&quot;Tissot Conic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tmerc&quot;</span><span class="p">:</span> <span class="s2">&quot;Transverse Mercator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tpeqd&quot;</span><span class="p">:</span> <span class="s2">&quot;Two Point Equidistant&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tpers&quot;</span><span class="p">:</span> <span class="s2">&quot;Tilted perspective&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ups&quot;</span><span class="p">:</span> <span class="s2">&quot;Universal Polar Stereographic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;urm5&quot;</span><span class="p">:</span> <span class="s2">&quot;Urmaev V&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;urmfps&quot;</span><span class="p">:</span> <span class="s2">&quot;Urmaev Flat-Polar Sinusoidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;utm&quot;</span><span class="p">:</span> <span class="s2">&quot;Universal Transverse Mercator (UTM)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vandg&quot;</span><span class="p">:</span> <span class="s2">&quot;van der Grinten (I)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vandg2&quot;</span><span class="p">:</span> <span class="s2">&quot;van der Grinten II&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vandg3&quot;</span><span class="p">:</span> <span class="s2">&quot;van der Grinten III&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vandg4&quot;</span><span class="p">:</span> <span class="s2">&quot;van der Grinten IV&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vitk1&quot;</span><span class="p">:</span> <span class="s2">&quot;Vitkovsky I&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wag1&quot;</span><span class="p">:</span> <span class="s2">&quot;Wagner I (Kavraisky VI)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wag2&quot;</span><span class="p">:</span> <span class="s2">&quot;Wagner II&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wag3&quot;</span><span class="p">:</span> <span class="s2">&quot;Wagner III&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wag4&quot;</span><span class="p">:</span> <span class="s2">&quot;Wagner IV&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wag5&quot;</span><span class="p">:</span> <span class="s2">&quot;Wagner V&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wag6&quot;</span><span class="p">:</span> <span class="s2">&quot;Wagner VI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wag7&quot;</span><span class="p">:</span> <span class="s2">&quot;Wagner VII&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;webmerc&quot;</span><span class="p">:</span> <span class="s2">&quot;Web Mercator / Pseudo Mercator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;weren&quot;</span><span class="p">:</span> <span class="s2">&quot;Werenskiold I&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wink1&quot;</span><span class="p">:</span> <span class="s2">&quot;Winkel I&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wink2&quot;</span><span class="p">:</span> <span class="s2">&quot;Winkel II&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wintri&quot;</span><span class="p">:</span> <span class="s2">&quot;Winkel Tripel&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="Proj"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj">[docs]</a><span class="k">class</span> <span class="nc">Proj</span><span class="p">(</span><span class="n">_proj</span><span class="o">.</span><span class="n">Proj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    performs cartographic transformations (converts from</span>
+<span class="sd">    longitude,latitude to native map projection x,y coordinates and</span>
+<span class="sd">    vice versa) using proj (https://github.com/OSGeo/proj.4/wiki).</span>
+
+<span class="sd">    A Proj class instance is initialized with proj map projection</span>
+<span class="sd">    control parameter key/value pairs. The key/value pairs can</span>
+<span class="sd">    either be passed in a dictionary, or as keyword arguments,</span>
+<span class="sd">    or as a proj4 string (compatible with the proj command). See</span>
+<span class="sd">    http://www.remotesensing.org/geotiff/proj_list for examples of</span>
+<span class="sd">    key/value pairs defining different map projections.</span>
+
+<span class="sd">    Calling a Proj class instance with the arguments lon, lat will</span>
+<span class="sd">    convert lon/lat (in degrees) to x/y native map projection</span>
+<span class="sd">    coordinates (in meters).  If optional keyword &#39;inverse&#39; is True</span>
+<span class="sd">    (default is False), the inverse transformation from x/y to</span>
+<span class="sd">    lon/lat is performed. If optional keyword &#39;errcheck&#39; is True (default is</span>
+<span class="sd">    False) an exception is raised if the transformation is invalid.</span>
+<span class="sd">    If errcheck=False and the transformation is invalid, no</span>
+<span class="sd">    exception is raised and 1.e30 is returned. If the optional keyword</span>
+<span class="sd">    &#39;preserve_units&#39; is True, the units in map projection coordinates</span>
+<span class="sd">    are not forced to be meters.</span>
+
+<span class="sd">    Works with numpy and regular python array objects, python</span>
+<span class="sd">    sequences and scalars.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Proj.__init__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        initialize a Proj class instance.</span>
+
+<span class="sd">        See the proj documentation (https://github.com/OSGeo/proj.4/wiki)</span>
+<span class="sd">        for more information about projection parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        projparams: int, str, dict, pyproj.CRS</span>
+<span class="sd">            A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.</span>
+<span class="sd">        preserve_units: bool</span>
+<span class="sd">            If false, will ensure +units=m.</span>
+<span class="sd">        **kwargs:</span>
+<span class="sd">            proj.4 projection parameters.</span>
+
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Proj</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(proj=&#39;utm&#39;,zone=10,ellps=&#39;WGS84&#39;, preserve_units=False) # use kwargs</span>
+<span class="sd">        &gt;&gt;&gt; x,y = p(-120.108, 34.36116666)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x=%9.3f y=%11.3f&#39; % (x,y)</span>
+<span class="sd">        &#39;x=765975.641 y=3805993.134&#39;</span>
+<span class="sd">        &gt;&gt;&gt; &#39;lon=%8.3f lat=%5.3f&#39; % p(x,y,inverse=True)</span>
+<span class="sd">        &#39;lon=-120.108 lat=34.361&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # do 3 cities at a time in a tuple (Fresno, LA, SF)</span>
+<span class="sd">        &gt;&gt;&gt; lons = (-119.72,-118.40,-122.38)</span>
+<span class="sd">        &gt;&gt;&gt; lats = (36.77, 33.93, 37.62 )</span>
+<span class="sd">        &gt;&gt;&gt; x,y = p(lons, lats)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x: %9.3f %9.3f %9.3f&#39; % x</span>
+<span class="sd">        &#39;x: 792763.863 925321.537 554714.301&#39;</span>
+<span class="sd">        &gt;&gt;&gt; &#39;y: %9.3f %9.3f %9.3f&#39; % y</span>
+<span class="sd">        &#39;y: 4074377.617 3763936.941 4163835.303&#39;</span>
+<span class="sd">        &gt;&gt;&gt; lons, lats = p(x, y, inverse=True) # inverse transform</span>
+<span class="sd">        &gt;&gt;&gt; &#39;lons: %8.3f %8.3f %8.3f&#39; % lons</span>
+<span class="sd">        &#39;lons: -119.720 -118.400 -122.380&#39;</span>
+<span class="sd">        &gt;&gt;&gt; &#39;lats: %8.3f %8.3f %8.3f&#39; % lats</span>
+<span class="sd">        &#39;lats:   36.770   33.930   37.620&#39;</span>
+<span class="sd">        &gt;&gt;&gt; p2 = Proj(&#39;+proj=utm +zone=10 +ellps=WGS84&#39;, preserve_units=False) # use proj4 string</span>
+<span class="sd">        &gt;&gt;&gt; x,y = p2(-120.108, 34.36116666)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x=%9.3f y=%11.3f&#39; % (x,y)</span>
+<span class="sd">        &#39;x=765975.641 y=3805993.134&#39;</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(init=&quot;epsg:32667&quot;, preserve_units=False)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x=%12.3f y=%12.3f (meters)&#39; % p(-114.057222, 51.045)</span>
+<span class="sd">        &#39;x=-1783506.250 y= 6193827.033 (meters)&#39;</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(&quot;+init=epsg:32667&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x=%12.3f y=%12.3f (feet)&#39; % p(-114.057222, 51.045)</span>
+<span class="sd">        &#39;x=-5851386.754 y=20320914.191 (feet)&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # test data with radian inputs</span>
+<span class="sd">        &gt;&gt;&gt; p1 = Proj(init=&quot;epsg:4214&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; x1, y1 = p1(116.366, 39.867)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;{:.3f} {:.3f}&#39;.format(x1, y1)</span>
+<span class="sd">        &#39;2.031 0.696&#39;</span>
+<span class="sd">        &gt;&gt;&gt; x2, y2 = p1(x1, y1, inverse=True)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;{:.3f} {:.3f}&#39;.format(x2, y2)</span>
+<span class="sd">        &#39;116.366 39.867&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">projparams</span> <span class="k">if</span> <span class="n">projparams</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># make sure units are meters if preserve_units is False.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">preserve_units</span> <span class="ow">and</span> <span class="s2">&quot;foot&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">axis_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit_name</span><span class="p">:</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+units=[\w-]+&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">projstring</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">+=</span> <span class="s2">&quot; +units=m&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">projstring</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Proj</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">cstrencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+type=crs&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Proj.__call__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="c1"># ,lon,lat,inverse=False,errcheck=False):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calling a Proj class instance with the arguments lon, lat will</span>
+<span class="sd">        convert lon/lat (in degrees) to x/y native map projection</span>
+<span class="sd">        coordinates (in meters).  If optional keyword &#39;inverse&#39; is True</span>
+<span class="sd">        (default is False), the inverse transformation from x/y to</span>
+<span class="sd">        lon/lat is performed. If optional keyword &#39;errcheck&#39; is True (default is</span>
+<span class="sd">        False) an exception is raised if the transformation is invalid.</span>
+<span class="sd">        If errcheck=False and the transformation is invalid, no</span>
+<span class="sd">        exception is raised and 1.e30 is returned.</span>
+
+<span class="sd">        Inputs should be doubles (they will be cast to doubles if they</span>
+<span class="sd">        are not, causing a slight performance hit).</span>
+
+<span class="sd">        Works with numpy and regular python array objects, python</span>
+<span class="sd">        sequences and scalars, but is fastest for array objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inverse</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;inverse&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">errcheck</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;errcheck&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># if len(args) == 1:</span>
+        <span class="c1">#    latlon = np.array(args[0], copy=True,</span>
+        <span class="c1">#                      order=&#39;C&#39;, dtype=float, ndmin=2)</span>
+        <span class="c1">#    if inverse:</span>
+        <span class="c1">#        _proj.Proj._invn(self, latlon, radians=radians, errcheck=errcheck)</span>
+        <span class="c1">#    else:</span>
+        <span class="c1">#        _proj.Proj._fwdn(self, latlon, radians=radians, errcheck=errcheck)</span>
+        <span class="c1">#    return latlon</span>
+        <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+        <span class="c1"># call proj4 functions. inx and iny modified in place.</span>
+        <span class="k">if</span> <span class="n">inverse</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span></div>
+
+<div class="viewcode-block" id="Proj.is_latlong"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.is_latlong">[docs]</a>    <span class="k">def</span> <span class="nf">is_latlong</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool: True if projection in geographic (lon/lat) coordinates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;&#39;is_latlong()&#39; is deprecated and will be removed in version 2.2.0. &quot;</span>
+            <span class="s2">&quot;Please use &#39;crs.is_geographic&#39;.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">is_geographic</span></div>
+
+<div class="viewcode-block" id="Proj.is_geocent"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.is_geocent">[docs]</a>    <span class="k">def</span> <span class="nf">is_geocent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool: True if projection in geocentric (x/y) coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;&#39;is_geocent()&#39; is deprecated and will be removed in version 2.2.0. &quot;</span>
+            <span class="s2">&quot;Please use &#39;crs.is_geocent&#39;.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_geocent</span></div>
+
+<div class="viewcode-block" id="Proj.definition_string"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.definition_string">[docs]</a>    <span class="k">def</span> <span class="nf">definition_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns formal definition string for projection</span>
+
+<span class="sd">        &gt;&gt;&gt; Proj(&#39;+init=epsg:4326&#39;).definition_string()</span>
+<span class="sd">        &#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pystrdecode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Proj.to_latlong_def"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong_def">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong_def</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;return the definition string of the geographic (lat/lon)</span>
+<span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
+        <span class="c1"># This is a little hacky way of getting a latlong proj object</span>
+        <span class="c1"># Maybe instead of this function the __cinit__ function can take a</span>
+        <span class="c1"># Proj object and a type (where type = &quot;geographic&quot;) as the libproj</span>
+        <span class="c1"># java wrapper</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_geodetic</span><span class="p">()</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span></div>
+
+    <span class="c1"># deprecated : using in transform raised a TypeError in release 1.9.5.1</span>
+    <span class="c1"># reported in issue #53, resolved in #73.</span>
+<div class="viewcode-block" id="Proj.to_latlong"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;return a new Proj instance which is the geographic (lat/lon)</span>
+<span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_geodetic</span><span class="p">())</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyproj 2.1.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/38269d0.
+    </div>
+  </body>
+</html>
