@@ -27,8 +27,8 @@ cdef class _Transformer:
         self.projctx = NULL
         self.input_geographic = False
         self.output_geographic = False
-        self.input_radians = False
-        self.output_radians = False
+        self._input_radians = False
+        self._output_radians = False
         self.is_pipeline = False
         self.skip_equivalent = False
         self.projections_equivalent = False
@@ -46,12 +46,12 @@ cdef class _Transformer:
             proj_context_destroy(self.projctx)
 
     def _set_radians_io(self):
-        self.input_radians = {
+        self._input_radians = {
             PJ_FWD: proj_angular_input(self.projpj, PJ_FWD),
             PJ_INV: proj_angular_input(self.projpj, PJ_INV),
             PJ_IDENT: proj_angular_input(self.projpj, PJ_IDENT),
         }
-        self.output_radians = {
+        self._output_radians = {
             PJ_FWD: proj_angular_output(self.projpj, PJ_FWD),
             PJ_INV: proj_angular_output(self.projpj, PJ_INV),
             PJ_IDENT: proj_angular_output(self.projpj, PJ_IDENT),
@@ -138,13 +138,13 @@ cdef class _Transformer:
 
         # degrees to radians
         if not self.is_pipeline and not radians\
-                and self.input_radians[pj_direction]:
+                and self._input_radians[pj_direction]:
             for iii from 0 <= iii < npts:
                 xx[iii] = xx[iii]*_DG2RAD
                 yy[iii] = yy[iii]*_DG2RAD
         # radians to degrees
         elif not self.is_pipeline and radians\
-                and not self.input_radians[pj_direction]\
+                and not self._input_radians[pj_direction]\
                 and self.input_geographic:
             for iii from 0 <= iii < npts:
                 xx[iii] = xx[iii]*_RAD2DG
@@ -167,13 +167,13 @@ cdef class _Transformer:
 
         # radians to degrees
         if not self.is_pipeline and not radians\
-                and self.output_radians[pj_direction]:
+                and self._output_radians[pj_direction]:
             for iii from 0 <= iii < npts:
                 xx[iii] = xx[iii]*_RAD2DG
                 yy[iii] = yy[iii]*_RAD2DG
         # degrees to radians
         elif not self.is_pipeline and radians\
-                and not self.output_radians[pj_direction]\
+                and not self._output_radians[pj_direction]\
                 and self.output_geographic:
             for iii from 0 <= iii < npts:
                 xx[iii] = xx[iii]*_DG2RAD
@@ -208,14 +208,14 @@ cdef class _Transformer:
 
         # degrees to radians
         if not self.is_pipeline and not radians\
-                and self.input_radians[pj_direction]:
+                and self._input_radians[pj_direction]:
             for iii from 0 <= iii < npts:
                 jjj = stride*iii
                 coords[jjj] *= _DG2RAD
                 coords[jjj+1] *= _DG2RAD
         # radians to degrees
         elif not self.is_pipeline and radians\
-                and not self.input_radians[pj_direction]\
+                and not self._input_radians[pj_direction]\
                 and self.input_geographic:
             for iii from 0 <= iii < npts:
                 jjj = stride*iii
@@ -260,14 +260,14 @@ cdef class _Transformer:
 
         # radians to degrees
         if not self.is_pipeline and not radians\
-                and self.output_radians[pj_direction]:
+                and self._output_radians[pj_direction]:
             for iii from 0 <= iii < npts:
                 jjj = stride*iii
                 coords[jjj] *= _RAD2DG
                 coords[jjj+1] *= _RAD2DG
         # degrees to radians
         elif not self.is_pipeline and radians\
-                and not self.output_radians[pj_direction]\
+                and not self._output_radians[pj_direction]\
                 and self.output_geographic:
             for iii from 0 <= iii < npts:
                 jjj = stride*iii
