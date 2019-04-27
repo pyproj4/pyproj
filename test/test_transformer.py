@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from numpy.testing import assert_almost_equal, assert_equal
+from numpy.testing import assert_almost_equal
 
 import pyproj
 from pyproj import Proj, Transformer, itransform, transform
@@ -55,24 +55,21 @@ def test_lambert_conformal_transform():
 
 
 def test_equivalent_crs():
-    with pytest.warns(UserWarning):
-        transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
+    transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
     assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
     assert transformer._transformer.skip_equivalent
 
 
 def test_equivalent_crs__disabled():
-    with pytest.warns(UserWarning):
-        transformer = Transformer.from_crs("epsg:4326", 4326)
+    transformer = Transformer.from_crs("epsg:4326", 4326)
     assert not transformer._transformer.skip_equivalent
     assert transformer._transformer.projections_equivalent
     assert transformer._transformer.projections_exact_same
 
 
 def test_equivalent_crs__different():
-    with pytest.warns(UserWarning):
-        transformer = Transformer.from_crs("epsg:4326", 3857, skip_equivalent=True)
+    transformer = Transformer.from_crs("epsg:4326", 3857, skip_equivalent=True)
     assert transformer._transformer.skip_equivalent
     assert not transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same
@@ -299,3 +296,27 @@ def test_itransform_radians():
         ),
         [(-2704026.010, -4253051.810, 3895878.820)],
     )
+
+
+def test_4d_transform__inverse():
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert_almost_equal(
+        transformer.transform(
+            xx=3513638.1999428216,
+            yy=778956.4532640711,
+            zz=5248216.453456361,
+            tt=2008.75,
+            direction="inverse",
+        ),
+        (3513638.19380, 778956.45250, 5248216.46900, 2008.75),
+    )
+
+
+def test_transform_direction():
+    forward_transformer = Transformer.from_crs(4326, 3857)
+    inverse_transformer = Transformer.from_crs(3857, 4326)
+    assert inverse_transformer.transform(
+        -33, 24, direction="inverse"
+    ) == forward_transformer.transform(-33, 24)
+    ident_transformer = Transformer.from_crs(4326, 3857)
+    ident_transformer.transform(-33, 24, direction="ident") == (-33, 24)

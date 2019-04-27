@@ -7,7 +7,3 @@ cdef class Proj:
     cdef char *pjinitstring
     cdef public object proj_version
 
-cdef class TransProj:
-    cdef PJ * projpj
-    cdef PJ_CONTEXT * projctx
-    cdef public object error_str

@@ -17,10 +17,10 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE."""
 
-import warnings
 from array import array
 from itertools import chain, islice
 
+from pyproj import CRS, Proj
 from pyproj._transformer import _Transformer
 from pyproj.compat import cstrencode
 from pyproj.utils import _convertback, _copytobuffer
@@ -59,19 +59,20 @@ class Transformer(object):
         :obj:`~Transformer`
 
         """
+        if not isinstance(proj_from, Proj):
+            proj_from = Proj(proj_from)
+        if not isinstance(proj_to, Proj):
+            proj_to = Proj(proj_to)
 
         transformer = Transformer()
-        transformer._transformer = _Transformer.from_proj(
-            proj_from, proj_to, skip_equivalent
+        transformer._transformer = _Transformer.from_crs(
+            proj_from.crs, proj_to.crs, skip_equivalent=skip_equivalent
         )
         return transformer
 
     @staticmethod
     def from_crs(crs_from, crs_to, skip_equivalent=False):
         """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
-
-        .. warning:: `from_crs` is deprecated and will be removed in 2.2.0.
-            Please use :meth:`~Transformer.from_proj` instead.
 
         Parameters
         ----------
@@ -88,11 +89,13 @@ class Transformer(object):
         :obj:`~Transformer`
 
         """
-        warnings.warn(
-            "`from_crs` is deprecated and will be removed in 2.2.0. "
-            "Please use `from_proj` instead."
+        transformer = Transformer()
+        transformer._transformer = _Transformer.from_crs(
+            CRS.from_user_input(crs_from),
+            CRS.from_user_input(crs_to),
+            skip_equivalent=skip_equivalent,
         )
-        return Transformer.from_proj(crs_from, crs_to, skip_equivalent=skip_equivalent)
+        return transformer
 
     @staticmethod
     def from_pipeline(proj_pipeline):
@@ -114,7 +117,16 @@ class Transformer(object):
         transformer._transformer = _Transformer.from_pipeline(cstrencode(proj_pipeline))
         return transformer
 
-    def transform(self, xx, yy, zz=None, tt=None, radians=False, errcheck=False):
+    def transform(
+        self,
+        xx,
+        yy,
+        zz=None,
+        tt=None,
+        radians=False,
+        errcheck=False,
+        direction="forward",
+    ):
         """
         Transform points between two coordinate systems.
 
@@ -136,12 +148,15 @@ class Transformer(object):
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation 
             returns ``inf`` and no exception is raised.
+        direction: str, optional
+            The direction of the transform ("forward", "inverse", "ident").
+            Default is "forward".
 
 
         Example:
 
         >>> from pyproj import Transformer
-        >>> transformer = Transformer.from_proj("epsg:4326", "epsg:3857")
+        >>> transformer = Transformer.from_crs("epsg:4326", "epsg:3857")
         >>> x3, y3 = transformer.transform(33, 98)
         >>> "%.3f  %.3f" % (x3, y3)
         '10909310.098  3895303.963'
@@ -177,7 +192,13 @@ class Transformer(object):
             intime = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
         self._transformer._transform(
-            inx, iny, inz=inz, intime=intime, radians=radians, errcheck=errcheck
+            inx,
+            iny,
+            inz=inz,
+            intime=intime,
+            direction=direction,
+            radians=radians,
+            errcheck=errcheck,
         )
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
@@ -190,7 +211,13 @@ class Transformer(object):
         return return_data
 
     def itransform(
-        self, points, switch=False, time_3rd=False, radians=False, errcheck=False
+        self,
+        points,
+        switch=False,
+        time_3rd=False,
+        radians=False,
+        errcheck=False,
+        direction="forward",
     ):
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
@@ -213,12 +240,15 @@ class Transformer(object):
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation 
             returns ``inf`` and no exception is raised.
+        direction: str, optional
+            The direction of the transform ("forward", "inverse", "ident").
+            Default is "forward".
 
 
         Example:
 
         >>> from pyproj import Transformer
-        >>> transformer = Transformer.from_proj(4326, 2100)
+        >>> transformer = Transformer.from_crs(4326, 2100)
         >>> points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]
         >>> for pt in transformer.itransform(points): '{:.3f} {:.3f}'.format(*pt)
         '2221638.801 2637034.372'
@@ -267,6 +297,7 @@ class Transformer(object):
                 stride,
                 buff,
                 switch=switch,
+                direction=direction,
                 time_3rd=time_3rd,
                 radians=radians,
                 errcheck=errcheck,
