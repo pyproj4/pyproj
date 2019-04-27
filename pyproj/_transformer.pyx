@@ -27,8 +27,8 @@ cdef class _Transformer:
         self.projctx = NULL
         self.input_geographic = False
         self.output_geographic = False
-        self._input_radians = False
-        self._output_radians = False
+        self._input_radians = {}
+        self._output_radians = {}
         self.is_pipeline = False
         self.skip_equivalent = False
         self.projections_equivalent = False
@@ -46,16 +46,16 @@ cdef class _Transformer:
             proj_context_destroy(self.projctx)
 
     def _set_radians_io(self):
-        self._input_radians = {
+        self._input_radians.update({
             PJ_FWD: proj_angular_input(self.projpj, PJ_FWD),
             PJ_INV: proj_angular_input(self.projpj, PJ_INV),
             PJ_IDENT: proj_angular_input(self.projpj, PJ_IDENT),
-        }
-        self._output_radians = {
+        })
+        self._output_radians.update({
             PJ_FWD: proj_angular_output(self.projpj, PJ_FWD),
             PJ_INV: proj_angular_output(self.projpj, PJ_INV),
             PJ_IDENT: proj_angular_output(self.projpj, PJ_IDENT),
-        }
+        })
 
     @staticmethod
     def from_crs(crs_from, crs_to, skip_equivalent=False):
