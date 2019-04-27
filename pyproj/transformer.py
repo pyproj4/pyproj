@@ -20,7 +20,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE."""
 from array import array
 from itertools import chain, islice
 
-from pyproj import Proj
+from pyproj import CRS, Proj
 from pyproj._transformer import _Transformer
 from pyproj.compat import cstrencode
 from pyproj.utils import _convertback, _copytobuffer
@@ -91,7 +91,9 @@ class Transformer(object):
         """
         transformer = Transformer()
         transformer._transformer = _Transformer.from_crs(
-            crs_from, crs_to, skip_equivalent=skip_equivalent
+            CRS.from_user_input(crs_from),
+            CRS.from_user_input(crs_to),
+            skip_equivalent=skip_equivalent,
         )
         return transformer
 
