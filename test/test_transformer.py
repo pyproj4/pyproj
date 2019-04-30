@@ -322,3 +322,27 @@ def test_transform_direction():
     ident_transformer = Transformer.from_crs(4326, 3857)
     ident_transformer.transform(-33, 24, direction=TransformDirection.IDENT) ==\
         (-33, 24)
+
+
+def test_always_xy__transformer():
+    transformer = Transformer.from_crs(2193, 4326, always_xy=True)
+    assert_almost_equal(
+        transformer.transform(1625350, 5504853),
+        (173.29964730317386, -40.60674802693758),
+    )
+
+
+def test_always_xy__transform():
+    assert_almost_equal(
+        transform(2193, 4326, 1625350, 5504853, always_xy=True),
+        (173.29964730317386, -40.60674802693758),
+    )
+
+
+def test_always_xy__itransform():
+    assert_almost_equal(
+        list(
+            itransform(2193, 4326, [(1625350, 5504853)], always_xy=True)
+        ),
+        [(173.29964730317386, -40.60674802693758)],
+    )
