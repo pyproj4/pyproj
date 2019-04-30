@@ -21,20 +21,20 @@ matrix:
       os: osx
       env:
         - PYTHON=3.6.8
-        - PROJSOURCE=6.0.0
+        - PROJSOURCE=6.1.0RC2
     - python: 2.7
       env:
-        - PROJSOURCE=6.0.0
+        - PROJSOURCE=6.1.0RC2
     - python: 3.5
       env:
-        - PROJSOURCE=6.0.0
+        - PROJSOURCE=6.1.0RC2
     - python: 3.6
       env:
-        - PROJSOURCE=6.0.0
+        - PROJSOURCE=6.1.0RC2
     - python: 3.7
       dist: xenial
       env:
-        - PROJSOURCE=6.0.0
+        - PROJSOURCE=6.1.0RC2
         - DOC=true
     - python: "nightly"
       env:

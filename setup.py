@@ -8,7 +8,7 @@ from glob import glob
 from pkg_resources import parse_version
 from setuptools import Extension, setup
 
-PROJ_MIN_VERSION = parse_version("6.0.0")
+PROJ_MIN_VERSION = parse_version("6.1.0")
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 BASE_INTERNAL_PROJ_DIR = "proj_dir"
 INTERNAL_PROJ_DIR = os.path.join(CURRENT_FILE_PATH, "pyproj", BASE_INTERNAL_PROJ_DIR)
@@ -101,7 +101,7 @@ def get_cythonize_options():
     # Configure optional Cython coverage.
     cythonize_options = {
         "language_level": sys.version_info[0],
-        "compiler_directives": {"embedsignature": True}
+        "compiler_directives": {"embedsignature": True},
     }
     if os.environ.get("PYPROJ_FULL_COVERAGE"):
         cythonize_options["compiler_directives"].update(linetrace=True)

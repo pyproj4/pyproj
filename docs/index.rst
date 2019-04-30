@@ -3,6 +3,8 @@ pyproj Documentation
 
 Python interface to  `PROJ.4 <https://proj4.org/>`_.
 
+.. info:: Minimum supported PROJ version is 6.1.0
+
 GitHub Repository: https://github.com/pyproj4/pyproj
 
 
