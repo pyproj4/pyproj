@@ -238,17 +238,16 @@ def test_itransform_no_error():
     list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
 
 
-def test_transform_exception():
-    transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
-    with pytest.raises(ProjError):
-        transformer.transform(100000, 100000, errcheck=True)
-
-
 def test_transform_no_exception():
     # issue 249
     transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
     transformer.transform(1.716073972, 52.658007833, errcheck=True)
     transformer.itransform([(1.716073972, 52.658007833)], errcheck=True)
+
+
+def test_transform__out_of_bounds():
+    transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
+    assert np.all(np.isinf(transformer.transform(100000, 100000, errcheck=True)))
 
 
 def test_transform_radians():
