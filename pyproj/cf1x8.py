@@ -82,3 +82,21 @@ K_0_MAP = {
     "DEFAULT": "scale_factor_at_projection_origin",
     "transverse_mercator": "scale_factor_at_central_meridian",
 }
+
+
+METHOD_NAME_TO_CF_MAP = {"Transverse Mercator": "transverse_mercator"}
+
+
+PARAM_TO_CF_MAP = {
+    "Latitude of natural origin": "latitude_of_projection_origin",
+    "Longitude of natural origin": "longitude_of_central_meridian",
+    "Latitude of false origin": "latitude_of_projection_origin",
+    "Longitude of false origin": "longitude_of_central_meridian",
+    "Scale factor at natural origin": "scale_factor_at_central_meridian",
+    "Easting at projection centre": "false_easting",
+    "Northing at projection centre": "false_northing",
+    "Easting at false origin": "fase_easting",
+    "Northing at false origin": "fase_northing",
+    "False easting": "false_easting",
+    "False northing": "false_northing",
+}

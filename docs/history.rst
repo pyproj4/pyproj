@@ -9,6 +9,7 @@ Change Log
 * Keep `no_defs` in input PROJ string as it does not hurt/help anything in current code (pull #359)
 * Made public properties on C classes readonly (pull #359)
 * Update data dir exception handling to prevent ignoring errors (pull #361)
+* :meth:`~pyproj.crs.CRS.to_cf` export transverse mercator parameters for UTM zones (pull #362)
 
 2.2.1
 ~~~~~

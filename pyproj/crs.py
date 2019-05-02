@@ -45,6 +45,8 @@ from pyproj.cf1x8 import (
     K_0_MAP,
     LON_0_MAP,
     PROJ_PARAM_MAP,
+    PARAM_TO_CF_MAP,
+    METHOD_NAME_TO_CF_MAP,
 )
 from pyproj.compat import string_types
 from pyproj.exceptions import CRSError
@@ -545,6 +547,18 @@ class CRS(_CRS):
         if grid_mapping_name == "rotated_latitude_longitude":
             if proj_dict.pop("o_proj") not in lonlat_possible_names:
                 grid_mapping_name = "unknown"
+
+        # derive parameters from the coordinate operation
+        if (
+            grid_mapping_name == "unknown"
+            and self.coordinate_operation
+            and self.coordinate_operation.method_name in METHOD_NAME_TO_CF_MAP
+        ):
+            grid_mapping_name = METHOD_NAME_TO_CF_MAP[
+                self.coordinate_operation.method_name
+            ]
+            for param in self.coordinate_operation.params:
+                cf_dict[PARAM_TO_CF_MAP[param.name]] = param.value
 
         cf_dict["grid_mapping_name"] = grid_mapping_name
 
