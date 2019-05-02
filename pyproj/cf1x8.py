@@ -61,6 +61,7 @@ PROJ_PARAM_MAP = {
     "semi_major_axis": "a",
     "semi_minor_axis": "b",
     "inverse_flattening": "rf",
+    "sweep_angle_axis": "sweep",
 }
 
 
