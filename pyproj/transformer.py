@@ -23,6 +23,7 @@ from itertools import chain, islice
 from pyproj import CRS, Proj
 from pyproj._transformer import _Transformer
 from pyproj.compat import cstrencode
+from pyproj.enums import TransformDirection
 from pyproj.utils import _convertback, _copytobuffer
 
 try:
@@ -125,7 +126,7 @@ class Transformer(object):
         tt=None,
         radians=False,
         errcheck=False,
-        direction="forward",
+        direction=TransformDirection.FORWARD,
     ):
         """
         Transform points between two coordinate systems.
@@ -148,9 +149,9 @@ class Transformer(object):
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation 
             returns ``inf`` and no exception is raised.
-        direction: str, optional
-            The direction of the transform ("forward", "inverse", "ident").
-            Default is "forward".
+        direction: ~pyproj.enums.TransformDirection, optional
+            The direction of the transform.
+            Default is :attr:`~pyproj.enums.TransformDirection.FORWARD`.
 
 
         Example:
@@ -217,7 +218,7 @@ class Transformer(object):
         time_3rd=False,
         radians=False,
         errcheck=False,
-        direction="forward",
+        direction=TransformDirection.FORWARD,
     ):
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
@@ -240,9 +241,9 @@ class Transformer(object):
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation 
             returns ``inf`` and no exception is raised.
-        direction: str, optional
-            The direction of the transform ("forward", "inverse", "ident").
-            Default is "forward".
+        direction: ~pyproj.enums.TransformDirection, optional
+            The direction of the transform.
+            Default is :attr:`~pyproj.enums.TransformDirection.FORWARD`.
 
 
         Example:

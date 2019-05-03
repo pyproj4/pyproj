@@ -2,6 +2,7 @@ import pytest
 
 from pyproj import CRS
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
+from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 
 
@@ -550,3 +551,20 @@ def test_coordinate_operation_towgs84_seven():
 def test_coordinate_operation_towgs84_missing():
     crs = CRS(init="epsg:3004")
     assert crs.coordinate_operation.towgs84 == []
+
+
+def test_to_wkt_enum():
+    crs = CRS.from_epsg(4326)
+    assert crs.to_wkt("WKT1_GDAL") == crs.to_wkt(WktVersion.WKT1_GDAL)
+    assert crs.to_wkt("WKT2_2018") == crs.to_wkt(WktVersion.WKT2_2018)
+    assert crs.to_wkt("WKT2_2018_SIMPLIFIED") == \
+        crs.to_wkt(WktVersion.WKT2_2018_SIMPLIFIED)
+    assert crs.to_wkt("WKT2_2015") == crs.to_wkt(WktVersion.WKT2_2015)
+    assert crs.to_wkt("WKT2_2015_SIMPLIFIED") == \
+        crs.to_wkt(WktVersion.WKT2_2015_SIMPLIFIED)
+
+
+def test_to_proj4_enum():
+    crs = CRS.from_epsg(4326)
+    assert crs.to_proj4(4) == crs.to_proj4(ProjVersion.PROJ_4)
+    assert crs.to_proj4(5) == crs.to_proj4(ProjVersion.PROJ_5)

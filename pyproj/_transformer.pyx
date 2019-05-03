@@ -1,25 +1,11 @@
 include "base.pxi"
 
 from pyproj._crs cimport _CRS
-from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
+from pyproj.compat import cstrencode, pystrdecode
+from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 
-
-_PJ_DIRECTION_MAP = {
-    "forward": PJ_FWD,
-    "inverse": PJ_INV,
-    "ident": PJ_IDENT,
-}
-
-cdef PJ_DIRECTION get_direction(direction):
-    try:
-        return _PJ_DIRECTION_MAP[direction]
-    except KeyError:
-        raise ValueError(
-            "Invalid direction supplied '{}'. "
-            "Only {} are supported."
-            .format(direction, tuple(_PJ_DIRECTION_MAP)))
 
 cdef class _Transformer:
     def __cinit__(self):
@@ -92,7 +78,7 @@ cdef class _Transformer:
     def _transform(self, inx, iny, inz, intime, direction, radians, errcheck):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
-        cdef PJ_DIRECTION pj_direction = get_direction(direction)
+        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>direction
         # private function to call pj_transform
         cdef void *xdata
         cdef void *ydata
@@ -183,7 +169,7 @@ cdef class _Transformer:
     ):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
-        cdef PJ_DIRECTION pj_direction = get_direction(direction)
+        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>direction
         # private function to itransform function
         cdef:
             void *buffer

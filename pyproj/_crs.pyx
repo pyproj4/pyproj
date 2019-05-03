@@ -3,18 +3,22 @@ from collections import OrderedDict
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
+from pyproj.enums import WktVersion, ProjVersion
 from pyproj.exceptions import CRSError
+
 
 cdef cstrdecode(const char *instring):
     if instring != NULL:
         return pystrdecode(instring)
     return None
 
+
 cdef decode_or_undefined(const char* instring):
     pystr = cstrdecode(instring)
     if pystr is None:
         return "undefined"
     return pystr
+
 
 def is_wkt(proj_string):
     """
@@ -33,7 +37,7 @@ def is_wkt(proj_string):
     return proj_context_guess_wkt_dialect(NULL, tmp_string) != PJ_GUESSED_NOT_WKT
 
 
-cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version="WKT2_2018", pretty=False):
+cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version=WktVersion.WKT2_2018, pretty=False):
     """
     Convert a PJ object to a wkt string.
 
@@ -50,16 +54,16 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version="WKT2_2018", pretty=False
     """
     # get the output WKT format
     supported_wkt_types = {
-        "WKT2_2015": PJ_WKT2_2015,
-        "WKT2_2015_SIMPLIFIED": PJ_WKT2_2015_SIMPLIFIED,
-        "WKT2_2018": PJ_WKT2_2018,
-        "WKT2_2018_SIMPLIFIED": PJ_WKT2_2018_SIMPLIFIED,
-        "WKT1_GDAL": PJ_WKT1_GDAL,
-        "WKT1_ESRI": PJ_WKT1_ESRI
+        WktVersion.WKT2_2015: PJ_WKT2_2015,
+        WktVersion.WKT2_2015_SIMPLIFIED: PJ_WKT2_2015_SIMPLIFIED,
+        WktVersion.WKT2_2018: PJ_WKT2_2018,
+        WktVersion.WKT2_2018_SIMPLIFIED: PJ_WKT2_2018_SIMPLIFIED,
+        WktVersion.WKT1_GDAL: PJ_WKT1_GDAL,
+        WktVersion.WKT1_ESRI: PJ_WKT1_ESRI
     }
     cdef PJ_WKT_TYPE wkt_out_type
     try:
-        wkt_out_type = supported_wkt_types[version.upper()]
+        wkt_out_type = supported_wkt_types[WktVersion(version)]
     except KeyError:
         raise ValueError(
             "Invalid version supplied '{}'. "
@@ -82,14 +86,15 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version="WKT2_2018", pretty=False
     return cstrdecode(proj_string)
 
 
-cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=4):
+cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=ProjVersion.PROJ_4):
     """
     Convert the projection to a PROJ.4 string.
 
     Parameters
     ----------
-    version: int
-        The version of the PROJ.4 output. Default is 4.
+    version: ~pyproj.enums.ProjVersion
+        The version of the PROJ.4 output. 
+        Default is :attr:`~pyproj.enums.ProjVersion.PROJ_4`.
 
     Returns
     -------
@@ -97,12 +102,12 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=4):
     """
     # get the output PROJ.4 format
     supported_prj_types = {
-        4: PJ_PROJ_4,
-        5: PJ_PROJ_5,
+        ProjVersion.PROJ_4: PJ_PROJ_4,
+        ProjVersion.PROJ_5: PJ_PROJ_5,
     }
     cdef PJ_PROJ_STRING_TYPE proj_out_type
     try:
-        proj_out_type = supported_prj_types[version]
+        proj_out_type = supported_prj_types[ProjVersion(version)]
     except KeyError:
         raise ValueError(
             "Invalid version supplied '{}'. "
@@ -306,8 +311,9 @@ cdef class Base:
 
         Parameters
         ----------
-        version: str
-            The version of the WKT output. Default is WKT2_2018.
+        version: ~pyproj.enums.WktVersion
+            The version of the WKT output.
+            Default is :attr:`~pyproj.enums.WktVersion.WKT2_2018`.
         pretty: bool
             If True, it will set the output to be a multiline string. Defaults to False.
  
@@ -1036,14 +1042,15 @@ cdef class CoordinateOperation(Base):
             )
         return self._grids
 
-    def to_proj4(self, version=5):
+    def to_proj4(self, version=ProjVersion.PROJ_5):
         """
         Convert the projection to a PROJ.4 string.
 
         Parameters
         ----------
-        version: int
-            The version of the PROJ.4 string. Default is 5.
+        version: ~pyproj.enums.ProjVersion
+            The version of the PROJ.4 output. 
+            Default is :attr:`~pyproj.enums.ProjVersion.PROJ_5`.
 
         Returns
         -------
@@ -1291,14 +1298,15 @@ cdef class _CRS(Base):
 
         return self._sub_crs_list
 
-    def to_proj4(self, version=4):
+    def to_proj4(self, version=ProjVersion.PROJ_4):
         """
         Convert the projection to a PROJ.4 string.
 
         Parameters
         ----------
-        version: int
-            The version of the PROJ.4 output. Default is 4.
+        version: ~pyproj.enums.ProjVersion
+            The version of the PROJ.4 output. 
+            Default is :attr:`~pyproj.enums.ProjVersion.PROJ_4`.
 
         Returns
         -------
