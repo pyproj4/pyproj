@@ -1124,7 +1124,7 @@ cdef class _CRS(Base):
     def __init__(self, proj_string):
         # setup proj initialization string.
         if not is_wkt(proj_string) \
-                and not re.match("^\w+:\d+$", proj_string.strip())\
+                and "=" in proj_string\
                 and "type=crs" not in proj_string:
             proj_string += " +type=crs"
         # initialize projection
