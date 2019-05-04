@@ -680,3 +680,18 @@ def test_deprecated_to_geodetic():
     cc = CRS("epsg:3004")
     with pytest.warns(UserWarning):
         assert cc.to_geodetic().to_epsg() == 4265
+
+
+def test_itrf_init():
+    crs = CRS("ITRF2000")
+    assert crs.name == "ITRF2000"
+
+
+def test_compound_crs_init():
+    crs = CRS("EPSG:2393+5717")
+    assert crs.name == "KKJ / Finland Uniform Coordinate System + N60 height"
+
+
+def test_compound_crs_urn_init():
+    crs = CRS("urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717")
+    assert crs.name == "KKJ / Finland Uniform Coordinate System + N60 height"
