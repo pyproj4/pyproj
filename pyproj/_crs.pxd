@@ -111,6 +111,7 @@ cdef class _CRS(Base):
     cdef PJ_PROJ_INFO projpj_info
     cdef char *pjinitstring
     cdef public object srs
+    cdef public object type_name
     cdef public object _ellipsoid
     cdef public object _area_of_use
     cdef public object _prime_meridian

@@ -160,12 +160,11 @@ cdef class Axis:
         self.unit_code = "undefined"
 
     def __str__(self):
-        return "{direction}: {name} [{unit_auth_code}:{unit_code}] ({unit_name})".format(
+        return "{abbrev}[{direction}]: {name} ({unit_name})".format(
             name=self.name,
             direction=self.direction,
+            abbrev=self.abbrev,
             unit_name=self.unit_name,
-            unit_auth_code=self.unit_auth_code,
-            unit_code=self.unit_code,
         )
 
     def __repr__(self):
@@ -1079,6 +1078,26 @@ cdef class CoordinateOperation(Base):
         self._towgs84 = [val for val in towgs84_dict.values() if val is not None]
         return self._towgs84
  
+
+_CRS_TYPE_MAP = {
+    PJ_TYPE_UNKNOWN: "Unknown CRS",
+    PJ_TYPE_CRS: "CRS",
+    PJ_TYPE_GEODETIC_CRS: "Geodetic CRS",
+    PJ_TYPE_GEOCENTRIC_CRS: "Geocentric CRS",
+    PJ_TYPE_GEOGRAPHIC_CRS: "Geographic CRS",
+    PJ_TYPE_GEOGRAPHIC_2D_CRS: "Geographic 2D CRS",
+    PJ_TYPE_GEOGRAPHIC_3D_CRS: "Geographic 3D CRS",
+    PJ_TYPE_VERTICAL_CRS: "Vertical CRS",
+    PJ_TYPE_PROJECTED_CRS: "Projected CRS",
+    PJ_TYPE_COMPOUND_CRS: "Compound CRS",
+    PJ_TYPE_TEMPORAL_CRS: "Temporal CRS",
+    PJ_TYPE_ENGINEERING_CRS: "Engineering CRS",
+    PJ_TYPE_BOUND_CRS: "Bound CRS",
+    PJ_TYPE_OTHER_CRS: "Other CRS",
+}
+
+
+
 cdef class _CRS(Base):
     """
     The cython CRS class to be used as the base for the
@@ -1093,6 +1112,7 @@ cdef class _CRS(Base):
         self._source_crs = None
         self._coordinate_system = None
         self._coordinate_operation = None
+        self.type_name = "undefined"
 
     def __init__(self, proj_string):
         # setup proj initialization string.
@@ -1111,6 +1131,7 @@ cdef class _CRS(Base):
         # set proj information
         self.srs = pystrdecode(proj_string)
         self._type = proj_get_type(self.projobj)
+        self.type_name = _CRS_TYPE_MAP[self._type]
         self._set_name()
 
     @property
