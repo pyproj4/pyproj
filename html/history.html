@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Change Log &#8212; pyproj 2.1.3 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Optimize Transformations" href="optimize_transformations.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optimize_transformations.html" title="Optimize Transformations"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.1.3 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="change-log">
+<h1>Change Log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>2.1.3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added support for time transformations (issue #208)</p></li>
+<li><p>Fixed projection equivalence testing for transformations (pull #231).</p></li>
+<li><p>Switch to pytest for testing (pull #230)</p></li>
+<li><p>Various testing fixes (pull #223, #222, #221, #220)</p></li>
+<li><p>Convert PROJ error messages from bytes to strings (pull #219)</p></li>
+<li><p>Fix data dir path separator to be (;) for windows and (:) for linux (pull #234)</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>2.1.2<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Updated to use the CRS definition for Proj instances in transforms (issue #207)</p></li>
+<li><p>Add option to skip tranformation operation if input and output projections are equivalent
+and always skip if the input and output projections are exact (issue #128)</p></li>
+<li><p>Update setup.py method for checking PROJ version (pull #211)</p></li>
+<li><p>Add internal proj error log messages to exceptions (pull #215)</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>2.1.1<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Restore behavior of 1.9.6 when illegal projection transformation requested
+(return <code class="docutils literal notranslate"><span class="pre">inf</span></code> instead of raising an exception, issue #202).  kwarg <code class="docutils literal notranslate"><span class="pre">errcheck</span></code>
+added to <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform()</span></code></a> and <a class="reference internal" href="api/transformer.html#pyproj.transformer.itransform" title="pyproj.transformer.itransform"><code class="xref py py-func docutils literal notranslate"><span class="pre">itransform()</span></code></a>
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>). When <code class="docutils literal notranslate"><span class="pre">errcheck=True</span></code> an exception is raised.</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>2.1.0<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> to make repetitive transformations more efficient (issue #187)</p></li>
+<li><p>Added fix for using local datumgrids with transform (issue #191)</p></li>
+<li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_pipeline" title="pyproj.transformer.Transformer.from_pipeline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_pipeline()</span></code></a> to support pipeline transformations.</p></li>
+<li><p>Added fix for conversion between radians/degrees for transformations (issues #192 &amp; #195)</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>2.0.2<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>add filter for boolean values in dict2string so “no_rot=True” works (issue #183).</p></li>
+<li><p>make sure .pxd files included in source tarball.</p></li>
+<li><p>add radians flag back in for transform/itransform (issue #185).</p></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2>2.0.1<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Ensure data path set properly for TransProj (pull request #179, addressed
+issue #176).</p></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h2>2.0.0<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Update to PROJ.4 version 6.0.0 &amp; removed support for older PROJ.4 versions.</p></li>
+<li><p>Added pyproj.CRS class.</p></li>
+<li><p>Updated pyproj.Proj &amp; pyproj.transform to accept any input from CRS.from_user_input.</p></li>
+<li><p>Removed internal PROJ.4 source code.</p></li>
+<li><p>Changed default for preserve_units to be True in pyproj.Proj class initialization.</p></li>
+<li><p>Modified logic for searching for the PROJ.4 data directory to not conflict with older versions of PROJ.4.</p></li>
+<li><p>Added pyproject.toml.</p></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h2>1.9.6<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>fix segfault when inverse projection not defined (issue #43, pull request
+#44).</p></li>
+<li><p>supports python 3.7</p></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h2>1.9.5.1<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>fix for issue #42 (compilation error with microsoft visual studio).</p></li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h2>1.9.5<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>update proj4 source to latest github master (commit 953cc00fd87425395cabe37641cda905c4b587c1).</p></li>
+<li><p>port of basemap fix for input arrays in fortran order</p></li>
+<li><p>restore inverse Hammer patch that was lost when proj4 source code was updated.</p></li>
+</ul>
+</div>
+<div class="section" id="git-tag-v1-9-4rel">
+<h2>1.9.4 (git tag v1.9.4rel)<a class="headerlink" href="#git-tag-v1-9-4rel" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>migrate to github from googlecode.</p></li>
+<li><p>update proj4 source code from svn r2595 (version 4.9.0RC2).</p></li>
+<li><p>include runtime_library_dirs in setup-proj.py.</p></li>
+<li><p>added to_latlong method (issue 51).</p></li>
+<li><p>fix back azimuth when lon1 and lon2 are identical.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-327">
+<h2>1.9.3 (svn revision 327)<a class="headerlink" href="#svn-revision-327" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Geod now uses C code adapted from geographiclib now included in proj4 source,
+instead of pure python code directly from geographiclib.</p></li>
+<li><p>make radians=True work with Geod.npts (issue 47).</p></li>
+<li><p>allow PROJ_DIR env var to control location of proj data (issue 40).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-301">
+<h2>1.9.2 (svn revision 301)<a class="headerlink" href="#svn-revision-301" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>updated proj4 src to 4.8.0 - includes two new map projections (natearth and
+isea).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-285">
+<h2>1.9.1 (svn revision 285)<a class="headerlink" href="#svn-revision-285" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>restore compatibility with python 2.4/2.5, which was broken by the addition
+of the geographiclib geodesic module (issue 36).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-282">
+<h2>1.9.0 (svn revision 282)<a class="headerlink" href="#svn-revision-282" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>use pure python geographiclib for geodesic computation codes instead of proj4.</p></li>
+<li><p>don’t use global variable pj_errno for return codes, use pj_ctx_get_errno instead.</p></li>
+<li><p>use new projCtx structure for thread safety in proj lib.</p></li>
+<li><p>update C source and data from proj4 svn (r2140).</p></li>
+<li><p>add pj_list and pj_ellps module level variables (a dict mapping short names to longer descriptions, e.g. pyproj.pj_list[‘aea’] = ‘Albers Equal Area’).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-222">
+<h2>1.8.9 (svn revision 222)<a class="headerlink" href="#svn-revision-222" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Python 3 now supported.</p></li>
+<li><p>allow ‘EPSG’ init (as well as ‘epsg’). This only worked on case-insensitive
+filesystems previously. Fixes issue 6.</p></li>
+<li><p>added inverse to Hammer projection.</p></li>
+<li><p>updated proj.4/src/pj_mutex.c from proj4 svn to fix a threading issue on windows
+(issue 25). Windows binary installers updated (version 1.8.8-1), courtesy
+Christoph Gohlke.</p></li>
+<li><p>if inputs are NaNs, return huge number (1.e30).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-196">
+<h2>1.8.8 (svn revision 196)<a class="headerlink" href="#svn-revision-196" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>add extra datum shift files, added test/test_datum.py (fixes issue 22).
+datum shifts now work correctly in transform function.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-175">
+<h2>1.8.7 (svn revision 175)<a class="headerlink" href="#svn-revision-175" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>reverted pj_init.c to old version (from proj4 4.6.1) because version in
+4.7.0 includes caching code that can cause segfaults in pyproj (issue 19).</p></li>
+<li><p>added ‘preserve_units’ keyword to Proj.__init__ to suppress conversion
+to meters.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-169">
+<h2>1.8.6 (svn revision 169)<a class="headerlink" href="#svn-revision-169" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>now works with ms vs2008, vs2003 (fixed missing isnan).</p></li>
+<li><p>updated to proj 4.7.0 (fixes a problem coexisting with pyqt).</p></li>
+<li><p>allow Geod instance to be initialized using a proj4 string</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-155">
+<h2>1.8.5 (svn revision 155)<a class="headerlink" href="#svn-revision-155" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>allow Proj instance to be initialized using a proj4 string
+(instead of just a dict or kwargs).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-151">
+<h2>1.8.4 (svn revision 151)<a class="headerlink" href="#svn-revision-151" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>updated proj4 sources to version 4.6.0</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-146">
+<h2>1.8.3 (svn revision 146)<a class="headerlink" href="#svn-revision-146" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>fixed bug in Geod class that caused erroneous error message
+“undefined inverse geodesic (may be an antipodal point)”.</p></li>
+<li><p>fix __reduce__ method of Geod class so instances can be pickled.</p></li>
+<li><p>make sure points outside projection limb are set to 1.e30 on inverse
+transform (if errcheck=False).</p></li>
+<li><p>fixed small setup.py bug.</p></li>
+<li><p>generate C source with Cython 0.9.6.6 (pycompat.h no longer needed).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id11">
+<h2>1.8.2<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>added ‘srs’ (spatial reference system) instance variable to Proj.</p></li>
+<li><p>instead of returning HUGE_VAL (usually ‘inf’) when projection not defined
+and errcheck=False, return 1.e30.</p></li>
+<li><p>added Geod class for geodesic (i.e. Great Circle) computations.
+Includes doctests (which can be run with pyproj.test()).</p></li>
+<li><p>proj.4 source code now included, thus removing proj.4 lib
+dependency. Version 4.5.0 is included, with a patch to
+create an API for geodesic computations.</p></li>
+<li><p>python 2.4 compatibility patch (suggested by Andrew Straw)
+from M. v. Loewis:
+<a class="reference external" href="http://mail.python.org/pipermail/python-dev/2006-March/062561.html">http://mail.python.org/pipermail/python-dev/2006-March/062561.html</a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id12">
+<h2>1.8.1<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>if given tuples, returns tuples (instead of lists).</p></li>
+<li><p>test for numpy arrays first.</p></li>
+<li><p>Fixed error in docstring example.</p></li>
+<li><p>README.html contains html docstrings generated by pydoc.</p></li>
+<li><p>Renamed pyproj.so to _pyproj.so, created a new python module
+called pyproj.py.  Moved as code as possible from _pyproj.so to
+pyproj.py.</p></li>
+<li><p>docstring examples now executed by doctest when ‘pyproj.test()’ is run.</p></li>
+<li><p>added test to _pyproj.c which defines Py_ssize_t for python &lt; 2.5.
+This is necessary when pyrex 0.9.5 is used.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id13">
+<h2>1.8.0<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Better error handling Proj.__init__.</p></li>
+<li><p>Added optional keyword ‘errcheck’ to __call__ method.</p></li>
+<li><p>If True, an exception is raised if the transformation is invalid.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id14">
+<h2>1.7.3<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>python 2.5 support.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Change Log</a><ul>
+<li><a class="reference internal" href="#id1">2.1.3</a></li>
+<li><a class="reference internal" href="#id2">2.1.2</a></li>
+<li><a class="reference internal" href="#id3">2.1.1</a></li>
+<li><a class="reference internal" href="#id4">2.1.0</a></li>
+<li><a class="reference internal" href="#id5">2.0.2</a></li>
+<li><a class="reference internal" href="#id6">2.0.1</a></li>
+<li><a class="reference internal" href="#id7">2.0.0</a></li>
+<li><a class="reference internal" href="#id8">1.9.6</a></li>
+<li><a class="reference internal" href="#id9">1.9.5.1</a></li>
+<li><a class="reference internal" href="#id10">1.9.5</a></li>
+<li><a class="reference internal" href="#git-tag-v1-9-4rel">1.9.4 (git tag v1.9.4rel)</a></li>
+<li><a class="reference internal" href="#svn-revision-327">1.9.3 (svn revision 327)</a></li>
+<li><a class="reference internal" href="#svn-revision-301">1.9.2 (svn revision 301)</a></li>
+<li><a class="reference internal" href="#svn-revision-285">1.9.1 (svn revision 285)</a></li>
+<li><a class="reference internal" href="#svn-revision-282">1.9.0 (svn revision 282)</a></li>
+<li><a class="reference internal" href="#svn-revision-222">1.8.9 (svn revision 222)</a></li>
+<li><a class="reference internal" href="#svn-revision-196">1.8.8 (svn revision 196)</a></li>
+<li><a class="reference internal" href="#svn-revision-175">1.8.7 (svn revision 175)</a></li>
+<li><a class="reference internal" href="#svn-revision-169">1.8.6 (svn revision 169)</a></li>
+<li><a class="reference internal" href="#svn-revision-155">1.8.5 (svn revision 155)</a></li>
+<li><a class="reference internal" href="#svn-revision-151">1.8.4 (svn revision 151)</a></li>
+<li><a class="reference internal" href="#svn-revision-146">1.8.3 (svn revision 146)</a></li>
+<li><a class="reference internal" href="#id11">1.8.2</a></li>
+<li><a class="reference internal" href="#id12">1.8.1</a></li>
+<li><a class="reference internal" href="#id13">1.8.0</a></li>
+<li><a class="reference internal" href="#id14">1.7.3</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="optimize_transformations.html"
+                        title="previous chapter">Optimize Transformations</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/history.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optimize_transformations.html" title="Optimize Transformations"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyproj 2.1.3 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/38269d0.
+    </div>
+  </body>
+</html>
