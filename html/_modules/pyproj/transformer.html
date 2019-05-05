@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>pyproj.transformer &#8212; pyproj 2.1.3 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyproj 2.1.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyproj.transformer</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The transformer module is for performing cartographic transformations.</span>
+
+<span class="sd">Copyright (c) 2019 pyproj Contributors.</span>
+
+<span class="sd">Permission to use, copy, modify, and distribute this software</span>
+<span class="sd">and its documentation for any purpose and without fee is hereby</span>
+<span class="sd">granted, provided that the above copyright notice appear in all</span>
+<span class="sd">copies and that both the copyright notice and this permission</span>
+<span class="sd">notice appear in supporting documentation. THE AUTHOR DISCLAIMS</span>
+<span class="sd">ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL</span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT</span>
+<span class="sd">SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR</span>
+<span class="sd">CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM</span>
+<span class="sd">LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,</span>
+<span class="sd">NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN</span>
+<span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">array</span> <span class="k">import</span> <span class="n">array</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
+
+<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="n">_Transformer</span>
+<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">cstrencode</span>
+<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">future_builtins</span> <span class="k">import</span> <span class="nb">zip</span>  <span class="c1"># python 2.6+</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>  <span class="c1"># python 3.x</span>
+
+
+<div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Transformer class is for facilitating re-using</span>
+<span class="sd">    transforms without needing to re-create them. The goal</span>
+<span class="sd">    is to make repeated transforms faster.</span>
+
+<span class="sd">    Additionally, it provides multiple methods for initialization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Transformer.from_proj"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_proj">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_proj</span><span class="p">(</span><span class="n">proj_from</span><span class="p">,</span> <span class="n">proj_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        proj_from: :obj:`~pyproj.proj.Proj` or input used to create one</span>
+<span class="sd">            Projection of input data.</span>
+<span class="sd">        proj_to: :obj:`~pyproj.proj.Proj` or input used to create one</span>
+<span class="sd">            Projection of output data.</span>
+<span class="sd">        skip_equivalent: bool, optional</span>
+<span class="sd">            If true, will skip the transformation operation if input and output </span>
+<span class="sd">            projections are equivalent. Default is false.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :obj:`~Transformer`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">()</span>
+        <span class="n">transformer</span><span class="o">.</span><span class="n">_transformer</span> <span class="o">=</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span>
+            <span class="n">proj_from</span><span class="p">,</span> <span class="n">proj_to</span><span class="p">,</span> <span class="n">skip_equivalent</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">transformer</span></div>
+
+<div class="viewcode-block" id="Transformer.from_crs"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_crs">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_crs</span><span class="p">(</span><span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.</span>
+
+<span class="sd">        .. warning:: `from_crs` is deprecated and will be removed in 2.2.0.</span>
+<span class="sd">            Please use :meth:`~Transformer.from_proj` instead.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        crs_from: ~pyproj.crs.CRS or input used to create one</span>
+<span class="sd">            Projection of input data.</span>
+<span class="sd">        crs_to: ~pyproj.crs.CRS or input used to create one</span>
+<span class="sd">            Projection of output data.</span>
+<span class="sd">        skip_equivalent: bool, optional</span>
+<span class="sd">            If true, will skip the transformation operation if input and output</span>
+<span class="sd">            projections are equivalent. Default is false.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :obj:`~Transformer`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;`from_crs` is deprecated and will be removed in 2.2.0. &quot;</span>
+            <span class="s2">&quot;Please use `from_proj` instead.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Transformer.from_pipeline"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_pipeline">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_pipeline</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a Transformer from a PROJ pipeline string.</span>
+
+<span class="sd">        https://proj4.org/operations/pipeline.html</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        proj_pipeline: str</span>
+<span class="sd">            Projection pipeline string.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ~Transformer</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">()</span>
+        <span class="n">transformer</span><span class="o">.</span><span class="n">_transformer</span> <span class="o">=</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">transformer</span></div>
+
+<div class="viewcode-block" id="Transformer.transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform points between two coordinate systems.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xx: scalar or array (numpy or python)</span>
+<span class="sd">            Input x coordinate(s).</span>
+<span class="sd">        yy: scalar or array (numpy or python)</span>
+<span class="sd">            Input y coordinate(s).</span>
+<span class="sd">        zz: scalar or array (numpy or python), optional</span>
+<span class="sd">            Input z coordinate(s).</span>
+<span class="sd">        tt: scalar or array (numpy or python), optional</span>
+<span class="sd">            Input time coordinate(s).</span>
+<span class="sd">        radians: boolean, optional</span>
+<span class="sd">            If True, will expect input data to be in radians and will return radians</span>
+<span class="sd">            if the projection is geographic. Default is False (degrees). Ignored for</span>
+<span class="sd">            pipeline transformations.</span>
+<span class="sd">        errcheck: boolean, optional (default False)</span>
+<span class="sd">            If True an exception is raised if the transformation is invalid.</span>
+<span class="sd">            By default errcheck=False and an invalid transformation </span>
+<span class="sd">            returns ``inf`` and no exception is raised.</span>
+
+
+<span class="sd">        Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Transformer</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(&quot;epsg:4326&quot;, &quot;epsg:3857&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; x3, y3 = transformer.transform(33, 98)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%.3f  %.3f&quot; % (x3, y3)</span>
+<span class="sd">        &#39;10909310.098  3895303.963&#39;</span>
+<span class="sd">        &gt;&gt;&gt; pipeline_str = &quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 +step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="sd">        &gt;&gt;&gt; pipe_trans = Transformer.from_pipeline(pipeline_str)</span>
+<span class="sd">        &gt;&gt;&gt; xt, yt = pipe_trans.transform(2.1, 0.001)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%.3f  %.3f&quot; % (xt, yt)</span>
+<span class="sd">        &#39;120.321  0.057&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_proj({&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;}, &#39;+init=EPSG:4326&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; xpj, ypj, zpj = transproj.transform(-2704026.010, -4253051.810, 3895878.820, radians=True)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%.3f %.3f %.3f&quot; % (xpj, ypj, zpj)</span>
+<span class="sd">        &#39;-2.137 0.661 -20.531&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transprojr = Transformer.from_proj(&#39;+init=EPSG:4326&#39;, {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;})</span>
+<span class="sd">        &gt;&gt;&gt; xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%.3f %.3f %.3f&quot; % (xpjr, ypjr, zpjr)</span>
+<span class="sd">        &#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_proj(&quot;epsg:4326&quot;, 4326, skip_equivalent=True)</span>
+<span class="sd">        &gt;&gt;&gt; xeq, yeq = transformer.transform(33, 98)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%.0f  %.0f&quot; % (xeq, yeq)</span>
+<span class="sd">        &#39;33  98&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">zz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">zz</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">inz</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">tt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">intime</span><span class="p">,</span> <span class="n">tisfloat</span><span class="p">,</span> <span class="n">tislist</span><span class="p">,</span> <span class="n">tistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">intime</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># call pj_transform.  inx,iny,inz buffers modified in place.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_transform</span><span class="p">(</span>
+            <span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="o">=</span><span class="n">inz</span><span class="p">,</span> <span class="n">intime</span><span class="o">=</span><span class="n">intime</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span>
+        <span class="p">)</span>
+        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="n">return_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">return_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">_convertback</span><span class="p">(</span><span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span><span class="p">,</span> <span class="n">inz</span><span class="p">),)</span>
+        <span class="k">if</span> <span class="n">intime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">return_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">_convertback</span><span class="p">(</span><span class="n">tisfloat</span><span class="p">,</span> <span class="n">tislist</span><span class="p">,</span> <span class="n">tistuple</span><span class="p">,</span> <span class="n">intime</span><span class="p">),)</span>
+        <span class="k">return</span> <span class="n">return_data</span></div>
+
+<div class="viewcode-block" id="Transformer.itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.itransform">[docs]</a>    <span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">switch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">time_3rd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterator/generator version of the function pyproj.Transformer.transform.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        points: list</span>
+<span class="sd">            List of point tuples.</span>
+<span class="sd">        switch: boolean, optional</span>
+<span class="sd">            If True x, y or lon,lat coordinates of points are switched to y, x </span>
+<span class="sd">            or lat, lon. Default is False.</span>
+<span class="sd">        time_3rd: boolean, optional</span>
+<span class="sd">            If the input coordinates are 3 dimensional and the 3rd dimension is time.</span>
+<span class="sd">        radians: boolean, optional</span>
+<span class="sd">            If True, will expect input data to be in radians and will return radians</span>
+<span class="sd">            if the projection is geographic. Default is False (degrees). Ignored for</span>
+<span class="sd">            pipeline transformations.</span>
+<span class="sd">        errcheck: boolean, optional (default False)</span>
+<span class="sd">            If True an exception is raised if the transformation is invalid.</span>
+<span class="sd">            By default errcheck=False and an invalid transformation </span>
+<span class="sd">            returns ``inf`` and no exception is raised.</span>
+
+
+<span class="sd">        Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Transformer</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(4326, 2100)</span>
+<span class="sd">        &gt;&gt;&gt; points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]</span>
+<span class="sd">        &gt;&gt;&gt; for pt in transformer.itransform(points): &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
+<span class="sd">        &#39;2221638.801 2637034.372&#39;</span>
+<span class="sd">        &#39;2212924.125 2619851.898&#39;</span>
+<span class="sd">        &#39;2238294.779 2703763.736&#39;</span>
+<span class="sd">        &gt;&gt;&gt; pipeline_str = &quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 +step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="sd">        &gt;&gt;&gt; pipe_trans = Transformer.from_pipeline(pipeline_str)</span>
+<span class="sd">        &gt;&gt;&gt; for pt in pipe_trans.itransform([(2.1, 0.001)]): &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
+<span class="sd">        &#39;120.321 0.057&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_proj({&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;}, &#39;+init=EPSG:4326&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for pt in transproj.itransform([(-2704026.010, -4253051.810, 3895878.820)], radians=True): &#39;{:.3f} {:.3f} {:.3f}&#39;.format(*pt)</span>
+<span class="sd">        &#39;-2.137 0.661 -20.531&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transprojr = Transformer.from_proj(&#39;+init=EPSG:4326&#39;, {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;})</span>
+<span class="sd">        &gt;&gt;&gt; for pt in transprojr.itransform([(-2.137, 0.661, -20.531)], radians=True): &#39;{:.3f} {:.3f} {:.3f}&#39;.format(*pt)</span>
+<span class="sd">        &#39;-2704214.394 -4254414.478 3894270.731&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transproj_eq = Transformer.from_proj(&#39;+init=EPSG:4326&#39;, &#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;, skip_equivalent=True)</span>
+<span class="sd">        &gt;&gt;&gt; for pt in transproj_eq.itransform([(-2.137, 0.661)]): &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
+<span class="sd">        &#39;-2.137 0.661&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># point iterator</span>
+        <span class="c1"># get first point to check stride</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">fst_pt</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;iterable must contain at least one point&quot;</span><span class="p">)</span>
+
+        <span class="n">stride</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fst_pt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stride</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;points can contain up to 4 coordinates&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">time_3rd</span> <span class="ow">and</span> <span class="n">stride</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;time_3rd&#39; is only valid for 3 coordinates.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># create a coordinate sequence generator etc. x1,y1,z1,x2,y2,z2,....</span>
+        <span class="c1"># chain so the generator returns the first point that was already acquired</span>
+        <span class="n">coord_gen</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">fst_pt</span><span class="p">,</span> <span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">coords</span> <span class="ow">in</span> <span class="n">it</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stride</span><span class="p">)))</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># create a temporary buffer storage for the next 64 points (64*stride*8 bytes)</span>
+            <span class="n">buff</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">islice</span><span class="p">(</span><span class="n">coord_gen</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span> <span class="o">*</span> <span class="n">stride</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_transform_sequence</span><span class="p">(</span>
+                <span class="n">stride</span><span class="p">,</span>
+                <span class="n">buff</span><span class="p">,</span>
+                <span class="n">switch</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span>
+                <span class="n">time_3rd</span><span class="o">=</span><span class="n">time_3rd</span><span class="p">,</span>
+                <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+                <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="nb">iter</span><span class="p">(</span><span class="n">buff</span><span class="p">)]</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)):</span>
+                <span class="k">yield</span> <span class="n">pt</span></div></div>
+
+
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+    <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    x2, y2, z2 = transform(p1, p2, x1, y1, z1)</span>
+
+<span class="sd">    Transform points between two coordinate systems defined by the</span>
+<span class="sd">    Proj instances p1 and p2.</span>
+
+<span class="sd">    The points x1,y1,z1 in the coordinate system defined by p1 are</span>
+<span class="sd">    transformed to x2,y2,z2 in the coordinate system defined by p2.</span>
+
+<span class="sd">    z1 is optional, if it is not set it is assumed to be zero (and</span>
+<span class="sd">    only x2 and y2 are returned). If the optional keyword </span>
+<span class="sd">    &#39;radians&#39; is True (default is False), then all input and </span>
+<span class="sd">    output coordinates will be in radians instead of the default </span>
+<span class="sd">    of degrees for geographic input/output projections.</span>
+<span class="sd">    If the optional keyword &#39;errcheck&#39; is set to True an </span>
+<span class="sd">    exception is raised if the transformation is</span>
+<span class="sd">    invalid. By default errcheck=False and ``inf`` is returned for an</span>
+<span class="sd">    invalid transformation (and no exception is raised).</span>
+<span class="sd">    If the optional kwarg skip_equivalent is true (default is False), </span>
+<span class="sd">    it will skip the transformation operation if input and output </span>
+<span class="sd">    projections are equivalent.</span>
+
+<span class="sd">    In addition to converting between cartographic and geographic</span>
+<span class="sd">    projection coordinates, this function can take care of datum</span>
+<span class="sd">    shifts (which cannot be done using the __call__ method of the</span>
+<span class="sd">    Proj instances). It also allows for one of the coordinate</span>
+<span class="sd">    systems to be geographic (proj = &#39;latlong&#39;).</span>
+
+<span class="sd">    x,y and z can be numpy or regular python arrays, python</span>
+<span class="sd">    lists/tuples or scalars. Arrays are fastest.  For projections in</span>
+<span class="sd">    geocentric coordinates, values of x and y are given in meters.</span>
+<span class="sd">    z is always meters.</span>
+
+<span class="sd">    Example usage:</span>
+
+<span class="sd">    &gt;&gt;&gt; from pyproj import Proj, transform </span>
+<span class="sd">    &gt;&gt;&gt; # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum</span>
+<span class="sd">    &gt;&gt;&gt; # (defined by epsg code 26915)</span>
+<span class="sd">    &gt;&gt;&gt; p1 = Proj(init=&#39;epsg:26915&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; # projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum</span>
+<span class="sd">    &gt;&gt;&gt; p2 = Proj(init=&#39;epsg:26715&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; # find x,y of Jefferson City, MO.</span>
+<span class="sd">    &gt;&gt;&gt; x1, y1 = p1(-92.199881,38.56694)</span>
+<span class="sd">    &gt;&gt;&gt; # transform this point to projection 2 coordinates.</span>
+<span class="sd">    &gt;&gt;&gt; x2, y2 = transform(p1,p2,x1,y1)</span>
+<span class="sd">    &gt;&gt;&gt; &#39;%9.3f %11.3f&#39; % (x1,y1)</span>
+<span class="sd">    &#39;569704.566 4269024.671&#39;</span>
+<span class="sd">    &gt;&gt;&gt; &#39;%9.3f %11.3f&#39; % (x2,y2)</span>
+<span class="sd">    &#39;569722.342 4268814.028&#39;</span>
+<span class="sd">    &gt;&gt;&gt; &#39;%8.3f %5.3f&#39; % p2(x2,y2,inverse=True)</span>
+<span class="sd">    &#39; -92.200 38.567&#39;</span>
+<span class="sd">    &gt;&gt;&gt; # process 3 points at a time in a tuple</span>
+<span class="sd">    &gt;&gt;&gt; lats = (38.83,39.32,38.75) # Columbia, KC and StL Missouri</span>
+<span class="sd">    &gt;&gt;&gt; lons = (-92.22,-94.72,-90.37)</span>
+<span class="sd">    &gt;&gt;&gt; x1, y1 = p1(lons,lats)</span>
+<span class="sd">    &gt;&gt;&gt; x2, y2 = transform(p1,p2,x1,y1)</span>
+<span class="sd">    &gt;&gt;&gt; xy = x1+y1</span>
+<span class="sd">    &gt;&gt;&gt; &#39;%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f&#39; % xy</span>
+<span class="sd">    &#39;567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005&#39;</span>
+<span class="sd">    &gt;&gt;&gt; xy = x2+y2</span>
+<span class="sd">    &gt;&gt;&gt; &#39;%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f&#39; % xy</span>
+<span class="sd">    &#39;567721.149 351747.558 728569.133 4297989.112 4353489.645 4292106.305&#39;</span>
+<span class="sd">    &gt;&gt;&gt; lons, lats = p2(x2,y2,inverse=True)</span>
+<span class="sd">    &gt;&gt;&gt; xy = lons+lats</span>
+<span class="sd">    &gt;&gt;&gt; &#39;%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f&#39; % xy</span>
+<span class="sd">    &#39; -92.220  -94.720  -90.370 38.830 39.320 38.750&#39;</span>
+<span class="sd">    &gt;&gt;&gt; # test datum shifting, installation of extra datum grid files.</span>
+<span class="sd">    &gt;&gt;&gt; p1 = Proj(proj=&#39;latlong&#39;,datum=&#39;WGS84&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; x1 = -111.5; y1 = 45.25919444444</span>
+<span class="sd">    &gt;&gt;&gt; p2 = Proj(proj=&quot;utm&quot;,zone=10,datum=&#39;NAD27&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; x2, y2 = transform(p1, p2, x1, y1)</span>
+<span class="sd">    &gt;&gt;&gt; &quot;%s  %s&quot; % (str(x2)[:9],str(y2)[:9])</span>
+<span class="sd">    &#39;1402291.0  5076289.5&#39;</span>
+<span class="sd">    &gt;&gt;&gt; from pyproj import CRS</span>
+<span class="sd">    &gt;&gt;&gt; c1 = CRS(proj=&#39;latlong&#39;,datum=&#39;WGS84&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; x1 = -111.5; y1 = 45.25919444444</span>
+<span class="sd">    &gt;&gt;&gt; c2 = CRS(proj=&quot;utm&quot;,zone=10,datum=&#39;NAD27&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; x2, y2 = transform(c1, c2, x1, y1)</span>
+<span class="sd">    &gt;&gt;&gt; &quot;%s  %s&quot; % (str(x2)[:9],str(y2)[:9])</span>
+<span class="sd">    &#39;1402291.0  5076289.5&#39;</span>
+<span class="sd">    &gt;&gt;&gt; xeq, yeq = transform(4326, 4326, 30, 60, skip_equivalent=True)</span>
+<span class="sd">    &gt;&gt;&gt; &quot;%.0f %.0f&quot; % (xeq, yeq)</span>
+<span class="sd">    &#39;30 60&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+        <span class="n">xx</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.itransform">[docs]</a><span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>
+    <span class="n">p1</span><span class="p">,</span>
+    <span class="n">p2</span><span class="p">,</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">switch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">time_3rd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    points2 = itransform(p1, p2, points1)</span>
+<span class="sd">    Iterator/generator version of the function pyproj.transform.</span>
+<span class="sd">    Transform points between two coordinate systems defined by the</span>
+<span class="sd">    Proj instances p1 and p2. This function can be used as an alternative</span>
+<span class="sd">    to pyproj.transform when there is a need to transform a big number of</span>
+<span class="sd">    coordinates lazily, for example when reading and processing from a file.</span>
+<span class="sd">    Points1 is an iterable/generator of coordinates x1,y1(,z1) or lon1,lat1(,z1)</span>
+<span class="sd">    in the coordinate system defined by p1. Points2 is an iterator that returns tuples</span>
+<span class="sd">    of x2,y2(,z2) or lon2,lat2(,z2) coordinates in the coordinate system defined by p2.</span>
+<span class="sd">    z are provided optionally.</span>
+
+<span class="sd">    Points1 can be:</span>
+<span class="sd">        - a tuple/list of tuples/lists i.e. for 2d points: [(xi,yi),(xj,yj),....(xn,yn)]</span>
+<span class="sd">        - a Nx3 or Nx2 2d numpy array where N is the point number</span>
+<span class="sd">        - a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d</span>
+
+<span class="sd">    If optional keyword &#39;switch&#39; is True (default is False) then x, y or lon,lat coordinates</span>
+<span class="sd">    of points are switched to y, x or lat, lon. If the optional keyword &#39;radians&#39; is True</span>
+<span class="sd">    (default is False), then all input and output coordinates will be in radians instead</span>
+<span class="sd">    of the default of degrees for geographic input/output projections.</span>
+<span class="sd">    If the optional keyword &#39;errcheck&#39; is set to True an </span>
+<span class="sd">    exception is raised if the transformation is</span>
+<span class="sd">    invalid. By default errcheck=False and ``inf`` is returned for an</span>
+<span class="sd">    invalid transformation (and no exception is raised).</span>
+<span class="sd">    If the optional kwarg skip_equivalent is true (default is False), </span>
+<span class="sd">    it will skip the transformation operation if input and output </span>
+<span class="sd">    projections are equivalent.</span>
+
+
+<span class="sd">    Example usage:</span>
+
+<span class="sd">    &gt;&gt;&gt; from pyproj import Proj, itransform </span>
+<span class="sd">    &gt;&gt;&gt; # projection 1: WGS84</span>
+<span class="sd">    &gt;&gt;&gt; # (defined by epsg code 4326)</span>
+<span class="sd">    &gt;&gt;&gt; p1 = Proj(init=&#39;epsg:4326&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; # projection 2: GGRS87 / Greek Grid</span>
+<span class="sd">    &gt;&gt;&gt; p2 = Proj(init=&#39;epsg:2100&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; # Three points with coordinates lon, lat in p1</span>
+<span class="sd">    &gt;&gt;&gt; points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]</span>
+<span class="sd">    &gt;&gt;&gt; # transform this point to projection 2 coordinates.</span>
+<span class="sd">    &gt;&gt;&gt; for pt in itransform(p1,p2,points): &#39;%6.3f %7.3f&#39; % pt</span>
+<span class="sd">    &#39;411050.470 4497928.574&#39;</span>
+<span class="sd">    &#39;399060.236 4486978.710&#39;</span>
+<span class="sd">    &#39;458553.243 4523045.485&#39;</span>
+<span class="sd">    &gt;&gt;&gt; for pt in itransform(4326, 4326, [(30, 60)], skip_equivalent=True): &#39;{:.0f} {:.0f}&#39;.format(*pt)</span>
+<span class="sd">    &#39;30 60&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">)</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
+        <span class="n">points</span><span class="p">,</span> <span class="n">switch</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">time_3rd</span><span class="o">=</span><span class="n">time_3rd</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyproj 2.1.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/38269d0.
+    </div>
+  </body>
+</html>

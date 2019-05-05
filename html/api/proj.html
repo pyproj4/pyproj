@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Proj &#8212; pyproj 2.1.3 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CRS" href="crs.html" />
+    <link rel="prev" title="API Documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="crs.html" title="CRS"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="API Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.1.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API Documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="proj">
+<h1>Proj<a class="headerlink" href="#proj" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyproj-proj">
+<h2>pyproj.Proj<a class="headerlink" href="#pyproj-proj" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.proj.Proj">
+<em class="property">class </em><code class="descclassname">pyproj.proj.</code><code class="descname">Proj</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>preserve_units=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj.Proj</span></code></p>
+<p>performs cartographic transformations (converts from
+longitude,latitude to native map projection x,y coordinates and
+vice versa) using proj (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>).</p>
+<p>A Proj class instance is initialized with proj map projection
+control parameter key/value pairs. The key/value pairs can
+either be passed in a dictionary, or as keyword arguments,
+or as a proj4 string (compatible with the proj command). See
+<a class="reference external" href="http://www.remotesensing.org/geotiff/proj_list">http://www.remotesensing.org/geotiff/proj_list</a> for examples of
+key/value pairs defining different map projections.</p>
+<p>Calling a Proj class instance with the arguments lon, lat will
+convert lon/lat (in degrees) to x/y native map projection
+coordinates (in meters).  If optional keyword ‘inverse’ is True
+(default is False), the inverse transformation from x/y to
+lon/lat is performed. If optional keyword ‘errcheck’ is True (default is
+False) an exception is raised if the transformation is invalid.
+If errcheck=False and the transformation is invalid, no
+exception is raised and 1.e30 is returned. If the optional keyword
+‘preserve_units’ is True, the units in map projection coordinates
+are not forced to be meters.</p>
+<p>Works with numpy and regular python array objects, python
+sequences and scalars.</p>
+<dl class="method">
+<dt id="pyproj.proj.Proj.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calling a Proj class instance with the arguments lon, lat will
+convert lon/lat (in degrees) to x/y native map projection
+coordinates (in meters).  If optional keyword ‘inverse’ is True
+(default is False), the inverse transformation from x/y to
+lon/lat is performed. If optional keyword ‘errcheck’ is True (default is
+False) an exception is raised if the transformation is invalid.
+If errcheck=False and the transformation is invalid, no
+exception is raised and 1.e30 is returned.</p>
+<p>Inputs should be doubles (they will be cast to doubles if they
+are not, causing a slight performance hit).</p>
+<p>Works with numpy and regular python array objects, python
+sequences and scalars, but is fastest for array objects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Proj.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>preserve_units=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize a Proj class instance.</p>
+<p>See the proj documentation (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>)
+for more information about projection parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projparams</strong> (<em>int</em><em>, </em><em>str</em><em>, </em><em>dict</em><em>, </em><em>pyproj.CRS</em>) – A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.</p></li>
+<li><p><strong>preserve_units</strong> (<em>bool</em>) – If false, will ensure +units=m.</p></li>
+<li><p><strong>**kwargs</strong> – proj.4 projection parameters.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Proj</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;utm&#39;</span><span class="p">,</span><span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># use kwargs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">120.108</span><span class="p">,</span> <span class="mf">34.36116666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%9.3f</span><span class="s1"> y=</span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="go">&#39;x=765975.641 y=3805993.134&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;lon=</span><span class="si">%8.3f</span><span class="s1"> lat=</span><span class="si">%5.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39;lon=-120.108 lat=34.361&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># do 3 cities at a time in a tuple (Fresno, LA, SF)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">119.72</span><span class="p">,</span><span class="o">-</span><span class="mf">118.40</span><span class="p">,</span><span class="o">-</span><span class="mf">122.38</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">(</span><span class="mf">36.77</span><span class="p">,</span> <span class="mf">33.93</span><span class="p">,</span> <span class="mf">37.62</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x: </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span>
+<span class="go">&#39;x: 792763.863 925321.537 554714.301&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;y: </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">y</span>
+<span class="go">&#39;y: 4074377.617 3763936.941 4163835.303&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># inverse transform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;lons: </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lons</span>
+<span class="go">&#39;lons: -119.720 -118.400 -122.380&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;lats: </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lats</span>
+<span class="go">&#39;lats:   36.770   33.930   37.620&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;+proj=utm +zone=10 +ellps=WGS84&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># use proj4 string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p2</span><span class="p">(</span><span class="o">-</span><span class="mf">120.108</span><span class="p">,</span> <span class="mf">34.36116666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%9.3f</span><span class="s1"> y=</span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="go">&#39;x=765975.641 y=3805993.134&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:32667&quot;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%12.3f</span><span class="s1"> y=</span><span class="si">%12.3f</span><span class="s1"> (meters)&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">114.057222</span><span class="p">,</span> <span class="mf">51.045</span><span class="p">)</span>
+<span class="go">&#39;x=-1783506.250 y= 6193827.033 (meters)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;+init=epsg:32667&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%12.3f</span><span class="s1"> y=</span><span class="si">%12.3f</span><span class="s1"> (feet)&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">114.057222</span><span class="p">,</span> <span class="mf">51.045</span><span class="p">)</span>
+<span class="go">&#39;x=-5851386.754 y=20320914.191 (feet)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># test data with radian inputs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4214&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="mf">116.366</span><span class="p">,</span> <span class="mf">39.867</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="go">&#39;2.031 0.696&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+<span class="go">&#39;116.366 39.867&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Proj.definition_string">
+<code class="descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns formal definition string for projection</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;+init=epsg:4326&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
+<span class="go">&#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.proj.Proj.has_inverse">
+<code class="descname">has_inverse</code><a class="headerlink" href="#pyproj.proj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if this projection has an inverse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Proj.is_exact_same">
+<code class="descname">is_exact_same</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.proj.Proj.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares projections to see if they are exactly the same.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Proj.is_geocent">
+<code class="descname">is_geocent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.is_geocent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.is_geocent" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>True if projection in geocentric (x/y) coordinates</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Proj.is_latlong">
+<code class="descname">is_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.is_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.is_latlong" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>True if projection in geographic (lon/lat) coordinates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Proj.to_latlong">
+<code class="descname">to_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a new Proj instance which is the geographic (lat/lon)
+coordinate version of the current projection</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Proj.to_latlong_def">
+<code class="descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the definition string of the geographic (lat/lon)
+coordinate version of the current projection</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Proj</a><ul>
+<li><a class="reference internal" href="#pyproj-proj">pyproj.Proj</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">API Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="crs.html"
+                        title="next chapter">CRS</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/proj.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="crs.html" title="CRS"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="API Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyproj 2.1.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API Documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Jeffrey Whitaker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/38269d0.
+    </div>
+  </body>
+</html>
