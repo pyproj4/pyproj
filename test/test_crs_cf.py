@@ -324,3 +324,59 @@ def test_cf_from_invalid():
         CRS.from_cf(
             dict(grid_mapping_name="invalid", latitude_of_projection_origin=25.0)
         )
+
+
+def test_crs_sweep():
+    crs = CRS.from_cf(
+        dict(
+            grid_mapping_name="geostationary",
+            perspective_point_height=1,
+            sweep_angle_axis="x",
+        )
+    )
+    cf_dict = crs.to_cf()
+    assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
+    assert cf_dict == {
+        "grid_mapping_name": "geostationary",
+        "longitude_of_projection_origin": 0,
+        "sweep_angle_axis": "x",
+        "perspective_point_height": 1,
+        "fase_easting": 0,
+        "fase_northing": 0,
+        "horizontal_datum_name": "WGS84",
+        "unit": "m",
+    }
+
+
+def test_crs_fixed_angle_axis():
+    crs = CRS.from_cf(
+        dict(
+            grid_mapping_name="geostationary",
+            perspective_point_height=1,
+            fixed_angle_axis="y",
+        )
+    )
+    cf_dict = crs.to_cf()
+    assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
+    assert cf_dict == {
+        "grid_mapping_name": "geostationary",
+        "longitude_of_projection_origin": 0,
+        "sweep_angle_axis": "x",
+        "perspective_point_height": 1,
+        "fase_easting": 0,
+        "fase_northing": 0,
+        "horizontal_datum_name": "WGS84",
+        "unit": "m",
+    }
+
+
+def test_ob_tran_not_rotated_latlon():
+    crs = CRS("+proj=ob_tran +o_proj=moll +o_lat_p=45 +o_lon_p=-90 +lon_0=-90")
+    cf_dict = crs.to_cf()
+    assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
+    assert cf_dict == {
+        "grid_mapping_name": "unknown",
+        "longitude_of_projection_origin": -90,
+        "grid_north_pole_latitude": 45,
+        "grid_north_pole_longitude": -90,
+    }

@@ -414,10 +414,16 @@ class CRS(_CRS):
 
         proj_dict = self.to_proj4_dict()
         proj_name = proj_dict.pop("proj")
-        if proj_name in ("lonlat", "latlon", "longlat", "latlong"):
+        lonlat_possible_names = ("lonlat", "latlon", "longlat", "latlong")
+        if proj_name in lonlat_possible_names:
             grid_mapping_name = "latitude_longitude"
         else:
             grid_mapping_name = INVERSE_GRID_MAPPING_NAME_MAP.get(proj_name, "unknown")
+
+        if grid_mapping_name == "rotated_latitude_longitude":
+            if proj_dict.pop("o_proj") not in lonlat_possible_names:
+                grid_mapping_name = "unknown"
+
         cf_dict["grid_mapping_name"] = grid_mapping_name
 
         # get best match for lon_0 value for projetion name
@@ -509,6 +515,12 @@ class CRS(_CRS):
                 proj_dict["lat_2"] = standard_parallel[1]
             else:
                 proj_dict["lat_1"] = standard_parallel
+
+        # The values are opposite to sweep_angle_axis
+        if "fixed_angle_axis" in in_cf:
+            proj_dict["sweep"] = {"x": "y", "y": "x"}[
+                in_cf.pop("fixed_angle_axis").lower()
+            ]
 
         skipped_params = []
         for cf_param, proj_val in in_cf.items():
