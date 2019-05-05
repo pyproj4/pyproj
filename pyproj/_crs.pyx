@@ -140,6 +140,7 @@ cdef PJ* _from_authority(
         NULL
     )
 
+
 cdef class Axis:
     """
     Coordinate System Axis
@@ -489,6 +490,34 @@ cdef class Ellipsoid(Base):
         """
         return Ellipsoid.from_authority("EPSG", code)
 
+    @staticmethod
+    def from_string(proj_string):
+        """
+        Create an Ellipsoid from a projection string.
+
+        Parameters
+        ----------
+        proj_string: str
+            Ellipsoid projection string.
+
+        Returns
+        -------
+        Ellipsoid
+        """
+        cdef PJ* ellipsoid_pj = proj_create(
+            get_pyproj_context(),
+            cstrencode(proj_string)
+        )
+        if ellipsoid_pj is NULL:
+            raise CRSError(
+                "Invalid projection string: {}".format(pystrdecode(proj_string)))
+
+        if proj_get_type(ellipsoid_pj) != PJ_TYPE_ELLIPSOID:
+            proj_destroy(ellipsoid_pj)
+            raise CRSError("Input is not an ellipsoid: {}".format(proj_string))
+
+        return Ellipsoid.create(ellipsoid_pj)
+
     @property
     def semi_major_metre(self):
         """
@@ -604,6 +633,34 @@ cdef class PrimeMeridian(Base):
         return PrimeMeridian.from_authority("EPSG", code)
 
 
+    @staticmethod
+    def from_string(proj_string):
+        """
+        Create an PrimeMeridian from a projection string.
+
+        Parameters
+        ----------
+        proj_string: str
+            PrimeMeridian projection string.
+
+        Returns
+        -------
+        PrimeMeridian
+        """
+        cdef PJ* prime_meridian_pj = proj_create(
+            get_pyproj_context(),
+            cstrencode(proj_string)
+        )
+        if prime_meridian_pj is NULL:
+            raise CRSError(
+                "Invalid projection string: {}".format(pystrdecode(proj_string)))
+
+        if proj_get_type(prime_meridian_pj) != PJ_TYPE_PRIME_MERIDIAN:
+            proj_destroy(prime_meridian_pj)
+            raise CRSError("Input is not a prime meridian: {}".format(proj_string))
+
+        return PrimeMeridian.create(prime_meridian_pj)
+
 
 cdef class Datum(Base):
     """
@@ -666,6 +723,40 @@ cdef class Datum(Base):
         Datum
         """
         return Datum.from_authority("EPSG", code)
+
+    @staticmethod
+    def from_string(proj_string):
+        """
+        Create a Datum from a projection string.
+
+        Parameters
+        ----------
+        proj_string: str
+            Datum projection string.
+
+        Returns
+        -------
+        Datum
+        """
+        cdef PJ* datum_pj = proj_create(
+            get_pyproj_context(),
+            cstrencode(proj_string)
+        )
+        if datum_pj is NULL:
+            raise CRSError(
+                "Invalid projection string: {}".format(pystrdecode(proj_string)))
+
+        if proj_get_type(datum_pj) not in (
+            PJ_TYPE_GEODETIC_REFERENCE_FRAME,
+            PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME,
+            PJ_TYPE_VERTICAL_REFERENCE_FRAME,
+            PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
+            PJ_TYPE_DATUM_ENSEMBLE,
+        ):
+            proj_destroy(datum_pj)
+            raise CRSError("Input is not a datum: {}".format(proj_string))
+
+        return Datum.create(datum_pj)
 
     @property
     def ellipsoid(self):
@@ -991,6 +1082,39 @@ cdef class CoordinateOperation(Base):
         return CoordinateOperation.from_authority(
             "EPSG", code, use_proj_alternative_grid_names
         )
+
+    @staticmethod
+    def from_string(proj_string):
+        """
+        Create a CoordinateOperation from a projection string.
+
+        Parameters
+        ----------
+        proj_string: str
+            CoordinateOperation projection string.
+
+        Returns
+        -------
+        CoordinateOperation
+        """
+        cdef PJ* coord_operation_pj = proj_create(
+            get_pyproj_context(),
+            cstrencode(proj_string)
+        )
+        if coord_operation_pj is NULL:
+            raise CRSError(
+                "Invalid projection string: {}".format(pystrdecode(proj_string)))
+
+        if proj_get_type(coord_operation_pj) not in (
+            PJ_TYPE_CONVERSION,
+            PJ_TYPE_TRANSFORMATION,
+            PJ_TYPE_CONCATENATED_OPERATION,
+            PJ_TYPE_OTHER_COORDINATE_OPERATION,
+        ):
+            proj_destroy(coord_operation_pj)
+            raise CRSError("Input is not a coordinate operation: {}".format(proj_string))
+
+        return CoordinateOperation.create(coord_operation_pj)
 
     @property
     def params(self):
