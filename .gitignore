@@ -6,12 +6,12 @@ nad2bin*
 *.so
 *.c*
 !*.css
-docs/doctrees/
 .coverage
 dist/
 venv/
 pyproj.egg-info/
 pyproj/proj_dir/
 pyproj/datadir.py.save
+docs/_build
 .idea/
 .vscode/

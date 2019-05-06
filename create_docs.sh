@@ -1,3 +1,3 @@
-#!/bin/sh
-pip install sphinx
-cd sphinx && make html && cd ..
+#!/bin/bash
+pip install sphinx sphinx_rtd_theme
+cd docs && make html && cd ..
