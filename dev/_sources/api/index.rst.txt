@@ -10,5 +10,6 @@ API Documentation
    geod
    transformer
    list
+   enums
    datadir
    exceptions
