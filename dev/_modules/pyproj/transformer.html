@@ -176,6 +176,7 @@
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Proj</span>
 <span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="n">_Transformer</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">cstrencode</span>
+<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="k">import</span> <span class="n">TransformDirection</span>
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
 <span class="k">try</span><span class="p">:</span>
@@ -278,7 +279,7 @@
         <span class="n">tt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;forward&quot;</span><span class="p">,</span>
+        <span class="n">direction</span><span class="o">=</span><span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform points between two coordinate systems.</span>
@@ -301,9 +302,9 @@
 <span class="sd">            If True an exception is raised if the transformation is invalid.</span>
 <span class="sd">            By default errcheck=False and an invalid transformation </span>
 <span class="sd">            returns ``inf`` and no exception is raised.</span>
-<span class="sd">        direction: str, optional</span>
-<span class="sd">            The direction of the transform (&quot;forward&quot;, &quot;inverse&quot;, &quot;ident&quot;).</span>
-<span class="sd">            Default is &quot;forward&quot;.</span>
+<span class="sd">        direction: ~pyproj.enums.TransformDirection, optional</span>
+<span class="sd">            The direction of the transform.</span>
+<span class="sd">            Default is :attr:`~pyproj.enums.TransformDirection.FORWARD`.</span>
 
 
 <span class="sd">        Example:</span>
@@ -370,7 +371,7 @@
         <span class="n">time_3rd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;forward&quot;</span><span class="p">,</span>
+        <span class="n">direction</span><span class="o">=</span><span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Iterator/generator version of the function pyproj.Transformer.transform.</span>
@@ -393,9 +394,9 @@
 <span class="sd">            If True an exception is raised if the transformation is invalid.</span>
 <span class="sd">            By default errcheck=False and an invalid transformation </span>
 <span class="sd">            returns ``inf`` and no exception is raised.</span>
-<span class="sd">        direction: str, optional</span>
-<span class="sd">            The direction of the transform (&quot;forward&quot;, &quot;inverse&quot;, &quot;ident&quot;).</span>
-<span class="sd">            Default is &quot;forward&quot;.</span>
+<span class="sd">        direction: ~pyproj.enums.TransformDirection, optional</span>
+<span class="sd">            The direction of the transform.</span>
+<span class="sd">            Default is :attr:`~pyproj.enums.TransformDirection.FORWARD`.</span>
 
 
 <span class="sd">        Example:</span>
