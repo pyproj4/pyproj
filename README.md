@@ -1,30 +1,23 @@
-pyproj
-======
+# pyproj
  
-[![Join the chat at https://gitter.im/pyproj4-pyproj/community](https://badges.gitter.im/pyproj4-pyproj/community.svg)](https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Python interface to [PROJ](http://proj4.org).
 
+[![Join the chat at https://gitter.im/pyproj4-pyproj/community](https://badges.gitter.im/pyproj4-pyproj/community.svg)](https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 [![Build Status](https://travis-ci.org/pyproj4/pyproj.svg)](https://travis-ci.org/pyproj4/pyproj)
-
 [![Build status](https://ci.appveyor.com/api/projects/status/8xkka4s97uwhkc64/branch/master?svg=true
 )](https://ci.appveyor.com/project/jswhit/pyproj)
-
 [![Coverage Status](https://coveralls.io/repos/github/pyproj4/pyproj/badge.svg?branch=master)](https://coveralls.io/github/pyproj4/pyproj?branch=master)
-
 [![PyPI version](https://badge.fury.io/py/pyproj.svg)](https://badge.fury.io/py/pyproj)
-
 [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyproj/badges/version.svg)](https://anaconda.org/conda-forge/pyproj)
-
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2592232.svg)](https://doi.org/10.5281/zenodo.2592232)
 
-Python interface to [PROJ.4](https://github.com/OSGeo/proj.4).
 
+## Documentation
 
-[Installation](https://pyproj4.github.io/pyproj/html/installation.html)
-------------
+- Stable: http://pyproj4.github.io/pyproj
+- Latest: https://pyproj4.github.io/pyproj/dev
 
-[Documentation](http://pyproj4.github.io/pyproj)
--------------
+## Bugs/Questions
 
-Bugs/Questions
---------------
-Report bugs/ask questions at https://github.com/pyproj4/pyproj/issues.
+- Report bugs at: https://github.com/pyproj4/pyproj/issues
+- Ask questions at: https://gitter.im/pyproj4-pyproj/community
