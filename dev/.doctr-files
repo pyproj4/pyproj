@@ -1,12 +1,14 @@
 dev/_modules/index.html
 dev/_modules/pyproj/crs.html
 dev/_modules/pyproj/datadir.html
+dev/_modules/pyproj/enums.html
 dev/_modules/pyproj/exceptions.html
 dev/_modules/pyproj/geod.html
 dev/_modules/pyproj/proj.html
 dev/_modules/pyproj/transformer.html
 dev/_sources/api/crs.rst.txt
 dev/_sources/api/datadir.rst.txt
+dev/_sources/api/enums.rst.txt
 dev/_sources/api/exceptions.rst.txt
 dev/_sources/api/geod.rst.txt
 dev/_sources/api/index.rst.txt
@@ -72,6 +74,7 @@ dev/_static/underscore-1.3.1.js
 dev/_static/underscore.js
 dev/api/crs.html
 dev/api/datadir.html
+dev/api/enums.html
 dev/api/exceptions.html
 dev/api/geod.html
 dev/api/index.html
