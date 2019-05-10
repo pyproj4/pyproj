@@ -492,7 +492,7 @@ cdef class Ellipsoid(Base):
             PJ_CATEGORY_ELLIPSOID,
         )
         if ellipsoid_pj == NULL:
-            return None
+            raise CRSError("Invalid authority")
         return Ellipsoid.create(ellipsoid_pj)
 
     @staticmethod
@@ -639,7 +639,7 @@ cdef class PrimeMeridian(Base):
             PJ_CATEGORY_PRIME_MERIDIAN,
         )
         if prime_meridian_pj == NULL:
-            return None
+            raise CRSError("Invalid authority")
         return PrimeMeridian.create(prime_meridian_pj)
 
     @staticmethod
@@ -736,7 +736,7 @@ cdef class Datum(Base):
             PJ_CATEGORY_DATUM,
         )
         if datum_pj == NULL:
-            return None
+            raise CRSError("Invalid authority")
         return Datum.create(datum_pj)
 
     @staticmethod
@@ -1097,7 +1097,7 @@ cdef class CoordinateOperation(Base):
             use_proj_alternative_grid_names,
         )
         if coord_operation_pj == NULL:
-            return None
+            raise CRSError("Invalid authority")
         return CoordinateOperation.create(coord_operation_pj)
 
     @staticmethod

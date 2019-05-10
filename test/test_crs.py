@@ -484,7 +484,8 @@ def test_coordinate_operation__from_epsg():
 
 
 def test_coordinate_operation__from_epsg__empty():
-    CoordinateOperation.from_epsg(1) is None
+    with pytest.raises(CRSError, match="Invalid authority"):
+        CoordinateOperation.from_epsg(1)
 
 
 def test_datum__from_epsg():
@@ -495,8 +496,9 @@ def test_datum__from_epsg():
     )
 
 
-def test_datum__from_epsg__empty():
-    Datum.from_epsg(1) is None
+def test_datum__from_epsg__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        Datum.from_epsg(1)
 
 
 def test_prime_meridian__from_epsg():
@@ -505,8 +507,9 @@ def test_prime_meridian__from_epsg():
     )
 
 
-def test_prime_meridian__from_epsg__empty():
-    PrimeMeridian.from_epsg(1) is None
+def test_prime_meridian__from_epsg__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        PrimeMeridian.from_epsg(1)
 
 
 def test_ellipsoid__from_epsg():
@@ -515,8 +518,9 @@ def test_ellipsoid__from_epsg():
     )
 
 
-def test_ellipsoid__from_epsg__empty():
-    assert Ellipsoid.from_epsg(1) is None
+def test_ellipsoid__from_epsg__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        Ellipsoid.from_epsg(1)
 
 
 def test_bound_crs_is_geographic():
