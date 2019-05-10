@@ -6,13 +6,13 @@ Installation
 
 The easiest methods for installing pyproj are:
 
-1. Use the wheels on pypi or from https://www.lfd.uci.edu/~gohlke/pythonlibs/
+1. Use pip to install the binary wheels on `PyPI <https://pypi.org/project/pyproj/>`__:
 
   .. code-block:: bash
     
       pip install pyproj
 
-2. Use conda:
+2. Use `conda <https://conda.io/en/latest/>`__:
 
   .. code-block:: bash
 
@@ -21,6 +21,9 @@ The easiest methods for installing pyproj are:
 If that does not meet your needs, the section below provides further instructions
 for getting setup.
 
+
+Installing from source
+======================
 
 Setup PROJ.4
 ------------
