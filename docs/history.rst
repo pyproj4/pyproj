@@ -1,6 +1,34 @@
 Change Log
 ==========
 
+2.2.0
+~~~~~
+* Minimum PROJ version is now 6.1.0
+* `pyproj.crs` updates:
+    * Updated CRS repr (issue #264)
+    * Add Datum, CoordinateSystem, CoordinateOperation clases (issue #262)
+    * Added :attr:`~pyproj.CRS.to_cf` and :attr:`~pyproj.CRS.from_cf` for
+      converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)
+    * Added :attr:`~pyproj.CRS.to_proj4_dict` (issue #226)
+    * Provide option to "pretty print" WKT in :attr:`~pyproj.CRS.to_wkt` (issue #258)
+    * Better handle CompoundCRS (issue #265)
+    * Add consistency for :attr:`~pyproj.CRS.is_geographic` and :attr:`~pyproj.CRS.is_projected` (issue #274)
+    * Added check in :attr:`~pyproj.CRS.to_epsg` for when `proj_list` is null (issue #257)
+    * Disallow creation of non-CRS object (eg pipeline) in CRS class (issue #267)
+    * Added support for ITRF, compound EPSG, and urn projection strings in CRS (pull #289)
+    * Added :attr:`~pyproj.CRS.to_authority` (pull #294)
+* `pyroj.transformer` updates:
+    * Added `always_xy` option to Transformer so the transform method will
+      always accept as input and return as output coordinates using the
+      traditional GIS order, that is longitude, latitudecfor geographic
+      CRS and easting, northing for most projected CRS (issue #225)
+    * Provide direction option in :func:`~pyproj.Transformer.transform` (issue #266)
+    * Undo deprecation of `from_crs` (issue #275)
+    * Fix false positive errors raised in transformer (issue #249)
+* Fix `pyproj.Proj` initialization from DerivedGeographicCRS (issue #270)
+* Add interface to get the projection/ellps/prime_meridian/units lists (issue #251)
+* Docs/Build/Test fixes (pull #278, pull #245, pull #248, pull #247, issue #253, pull #252)
+
 2.1.3
 ~~~~~
 * Added support for time transformations (issue #208)
