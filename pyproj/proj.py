@@ -35,7 +35,6 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 import re
-import warnings
 
 from pyproj import _proj
 from pyproj._list import get_proj_operations_map
@@ -199,30 +198,6 @@ class Proj(_proj.Proj):
         outy = _convertback(yisfloat, yislist, xistuple, iny)
         return outx, outy
 
-    def is_latlong(self):
-        """
-        Returns
-        -------
-        bool: True if projection in geographic (lon/lat) coordinates.
-        """
-        warnings.warn(
-            "'is_latlong()' is deprecated and will be removed in version 2.2.0. "
-            "Please use 'crs.is_geographic'."
-        )
-        return self.crs.is_geographic
-
-    def is_geocent(self):
-        """
-        Returns
-        -------
-        bool: True if projection in geocentric (x/y) coordinates
-        """
-        warnings.warn(
-            "'is_geocent()' is deprecated and will be removed in version 2.2.0. "
-            "Please use 'crs.is_geocent'."
-        )
-        return self.is_geocent
-
     def definition_string(self):
         """Returns formal definition string for projection
 
@@ -235,14 +210,8 @@ class Proj(_proj.Proj):
     def to_latlong_def(self):
         """return the definition string of the geographic (lat/lon)
         coordinate version of the current projection"""
-        # This is a little hacky way of getting a latlong proj object
-        # Maybe instead of this function the __cinit__ function can take a
-        # Proj object and a type (where type = "geographic") as the libproj
-        # java wrapper
         return self.crs.geodetic_crs.to_proj4(4)
 
-    # deprecated : using in transform raised a TypeError in release 1.9.5.1
-    # reported in issue #53, resolved in #73.
     def to_latlong(self):
         """return a new Proj instance which is the geographic (lat/lon)
         coordinate version of the current projection"""
