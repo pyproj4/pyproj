@@ -1279,6 +1279,7 @@ cdef class _CRS(Base):
         self._datum = None
         self._sub_crs_list = None
         self._source_crs = None
+        self._geodetic_crs = None
         self._coordinate_system = None
         self._coordinate_operation = None
         self.type_name = "undefined"
@@ -1460,6 +1461,28 @@ cdef class _CRS(Base):
 
         return self._sub_crs_list
 
+    @property
+    def geodetic_crs(self):
+        """
+        Returns
+        -------
+        pyproj.CRS: The geodetic CRS based on this CRS.
+
+        """
+        if self._geodetic_crs is not None:
+            return self._geodetic_crs if self. _geodetic_crs is not False else None
+        cdef PJ * projobj
+        projobj = proj_crs_get_geodetic_crs(self.projctx, self.projobj)
+        if projobj == NULL:
+            self._geodetic_crs = False
+            return None
+        try:
+            self._geodetic_crs = self.__class__(_to_wkt(self.projctx, projobj))
+            return self._geodetic_crs
+        finally:
+            proj_destroy(projobj) # deallocate temp proj
+
+
     def to_proj4(self, version=ProjVersion.PROJ_4):
         """
         Convert the projection to a PROJ.4 string.
@@ -1478,20 +1501,14 @@ cdef class _CRS(Base):
 
     def to_geodetic(self):
         """
+        .. note:: This is replaced with :attr:`CRS.geodetic_crs`
 
         Returns
         -------
-        pyproj.CRS: The geographic (lat/lon) CRS from the current CRS.
+        pyproj.CRS: The geodetic CRS from this CRS.
 
         """
-        cdef PJ * projobj
-        projobj = proj_crs_get_geodetic_crs(self.projctx, self.projobj)
-        if projobj == NULL:
-            return None
-        try:
-            return self.__class__(_to_wkt(self.projctx, projobj))
-        finally:
-            proj_destroy(projobj) # deallocate temp proj
+        return self.geodetic_crs
 
     def to_epsg(self, min_confidence=70):
         """

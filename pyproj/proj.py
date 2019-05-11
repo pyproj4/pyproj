@@ -240,11 +240,11 @@ class Proj(_proj.Proj):
         # Maybe instead of this function the __cinit__ function can take a
         # Proj object and a type (where type = "geographic") as the libproj
         # java wrapper
-        return self.crs.to_geodetic().to_proj4(4)
+        return self.crs.geodetic_crs.to_proj4(4)
 
     # deprecated : using in transform raised a TypeError in release 1.9.5.1
     # reported in issue #53, resolved in #73.
     def to_latlong(self):
         """return a new Proj instance which is the geographic (lat/lon)
         coordinate version of the current projection"""
-        return Proj(self.crs.to_geodetic())
+        return Proj(self.crs.geodetic_crs)
