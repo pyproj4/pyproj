@@ -483,9 +483,20 @@ def test_coordinate_operation__from_epsg():
     assert cc.method_code == "9807"
 
 
+def test_coordinate_operation__from_authority():
+    cc = CoordinateOperation.from_authority("EPSG", 16031)
+    assert cc.method_auth_name == "EPSG"
+    assert cc.method_code == "9807"
+
+
 def test_coordinate_operation__from_epsg__empty():
     with pytest.raises(CRSError, match="Invalid authority"):
         CoordinateOperation.from_epsg(1)
+
+
+def test_coordinate_operation__from_authority__empty():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        CoordinateOperation.from_authority("BOB", 4326)
 
 
 def test_datum__from_epsg():
@@ -496,9 +507,19 @@ def test_datum__from_epsg():
     )
 
 
+def test_datum__from_authority():
+    dt = Datum.from_authority("EPSG", 6326)
+    assert dt.name == "World Geodetic System 1984"
+
+
 def test_datum__from_epsg__invalid():
     with pytest.raises(CRSError, match="Invalid authority"):
         Datum.from_epsg(1)
+
+
+def test_datum__from_authority__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        Datum.from_authority("BOB", 1)
 
 
 def test_prime_meridian__from_epsg():
@@ -506,10 +527,18 @@ def test_prime_meridian__from_epsg():
         'PRIMEM["Paris",2.5969213,ANGLEUNIT["grad",0.0157079632679489],ID["EPSG",8903]]'
     )
 
+def test_prime_meridian__from_authority():
+    assert PrimeMeridian.from_authority("EPSG", 8903).name == "Paris"
+
 
 def test_prime_meridian__from_epsg__invalid():
     with pytest.raises(CRSError, match="Invalid authority"):
         PrimeMeridian.from_epsg(1)
+
+
+def test_prime_meridian__from_authority__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        PrimeMeridian.from_authority("Bob", 1)
 
 
 def test_ellipsoid__from_epsg():
@@ -518,9 +547,18 @@ def test_ellipsoid__from_epsg():
     )
 
 
+def test_ellipsoid__from_authority():
+    assert Ellipsoid.from_authority("EPSG", 7030).name == "WGS 84"
+
+
 def test_ellipsoid__from_epsg__invalid():
     with pytest.raises(CRSError, match="Invalid authority"):
         Ellipsoid.from_epsg(1)
+
+
+def test_ellipsoid__from_authority__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        Ellipsoid.from_authority("BOB", 1)
 
 
 def test_bound_crs_is_geographic():
