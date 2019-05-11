@@ -6,7 +6,8 @@ Installation
 
 The easiest methods for installing pyproj are:
 
-1. Use pip to install the binary wheels on `PyPI <https://pypi.org/project/pyproj/>`__:
+1. Use pip to install the binary wheels on `PyPI <https://pypi.org/project/pyproj/>`__
+   (the Windows wheels are built by `Christoph Gohlke <https://www.lfd.uci.edu/~gohlke/pythonlibs/>`__):
 
   .. code-block:: bash
     
