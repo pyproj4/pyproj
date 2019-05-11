@@ -141,6 +141,20 @@ cdef PJ* _from_authority(
     )
 
 
+cdef PJ* _from_string(proj_string, expected_types):
+    cdef PJ* base_pj = proj_create(
+        get_pyproj_context(),
+        cstrencode(proj_string)
+    )
+    if base_pj is NULL:
+        return NULL
+
+    if proj_get_type(base_pj) not in expected_types:
+        proj_destroy(base_pj)
+        base_pj = NULL
+    return base_pj
+
+
 cdef class Axis:
     """
     Coordinate System Axis
@@ -491,30 +505,35 @@ cdef class Ellipsoid(Base):
         return Ellipsoid.from_authority("EPSG", code)
 
     @staticmethod
-    def from_string(proj_string):
+    def from_string(ellipsoid_string):
         """
-        Create an Ellipsoid from a projection string.
+        Create an Ellipsoid from a string.
+
+        Examples:
+          - urn:ogc:def:ellipsoid:EPSG::7001
+          - ELLIPSOID["Airy 1830",6377563.396,299.3249646,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",7001]]
 
         Parameters
         ----------
-        proj_string: str
-            Ellipsoid projection string.
+        ellipsoid_string: str
+            Ellipsoid string.
 
         Returns
         -------
         Ellipsoid
         """
-        cdef PJ* ellipsoid_pj = proj_create(
-            get_pyproj_context(),
-            cstrencode(proj_string)
+        cdef PJ* ellipsoid_pj = _from_string(
+            ellipsoid_string,
+            (PJ_TYPE_ELLIPSOID,)
         )
-        if ellipsoid_pj is NULL:
+        if ellipsoid_pj == NULL:
             raise CRSError(
-                "Invalid projection string: {}".format(pystrdecode(proj_string)))
-
-        if proj_get_type(ellipsoid_pj) != PJ_TYPE_ELLIPSOID:
-            proj_destroy(ellipsoid_pj)
-            raise CRSError("Input is not an ellipsoid: {}".format(proj_string))
+                "Invalid ellipsoid string: {}".format(
+                    pystrdecode(ellipsoid_string)
+                )
+            )
 
         return Ellipsoid.create(ellipsoid_pj)
 
@@ -634,30 +653,35 @@ cdef class PrimeMeridian(Base):
 
 
     @staticmethod
-    def from_string(proj_string):
+    def from_string(prime_meridian_string):
         """
-        Create an PrimeMeridian from a projection string.
+        Create an PrimeMeridian from a string.
+
+        Examples:
+          - urn:ogc:def:meridian:EPSG::8901
+          - PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8901]]
 
         Parameters
         ----------
-        proj_string: str
-            PrimeMeridian projection string.
+        prime_meridian_string: str
+            prime meridian string.
 
         Returns
         -------
         PrimeMeridian
         """
-        cdef PJ* prime_meridian_pj = proj_create(
-            get_pyproj_context(),
-            cstrencode(proj_string)
+        cdef PJ* prime_meridian_pj = _from_string(
+            prime_meridian_string,
+            (PJ_TYPE_PRIME_MERIDIAN,)
         )
-        if prime_meridian_pj is NULL:
+        if prime_meridian_pj == NULL:
             raise CRSError(
-                "Invalid projection string: {}".format(pystrdecode(proj_string)))
-
-        if proj_get_type(prime_meridian_pj) != PJ_TYPE_PRIME_MERIDIAN:
-            proj_destroy(prime_meridian_pj)
-            raise CRSError("Input is not a prime meridian: {}".format(proj_string))
+                "Invalid prime meridian string: {}".format(
+                    pystrdecode(prime_meridian_string)
+                )
+            )
 
         return PrimeMeridian.create(prime_meridian_pj)
 
@@ -725,36 +749,42 @@ cdef class Datum(Base):
         return Datum.from_authority("EPSG", code)
 
     @staticmethod
-    def from_string(proj_string):
+    def from_string(datum_string):
         """
-        Create a Datum from a projection string.
+        Create a Datum from a string.
+
+        Examples:
+          - urn:ogc:def:datum:EPSG::6326
+          - DATUM["World Geodetic System 1984",
+            ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]],
+            ID["EPSG",6326]]
 
         Parameters
         ----------
-        proj_string: str
-            Datum projection string.
+        datum_string: str
+            Datum string.
 
         Returns
         -------
         Datum
         """
-        cdef PJ* datum_pj = proj_create(
-            get_pyproj_context(),
-            cstrencode(proj_string)
+        cdef PJ* datum_pj = _from_string(
+            datum_string,
+            (
+                PJ_TYPE_GEODETIC_REFERENCE_FRAME,
+                PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME,
+                PJ_TYPE_VERTICAL_REFERENCE_FRAME,
+                PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
+                PJ_TYPE_DATUM_ENSEMBLE,
+            )
         )
-        if datum_pj is NULL:
+        if datum_pj == NULL:
             raise CRSError(
-                "Invalid projection string: {}".format(pystrdecode(proj_string)))
-
-        if proj_get_type(datum_pj) not in (
-            PJ_TYPE_GEODETIC_REFERENCE_FRAME,
-            PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME,
-            PJ_TYPE_VERTICAL_REFERENCE_FRAME,
-            PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
-            PJ_TYPE_DATUM_ENSEMBLE,
-        ):
-            proj_destroy(datum_pj)
-            raise CRSError("Input is not a datum: {}".format(proj_string))
+                "Invalid datum string: {}".format(
+                    pystrdecode(datum_string)
+                )
+            )
 
         return Datum.create(datum_pj)
 
@@ -1084,35 +1114,37 @@ cdef class CoordinateOperation(Base):
         )
 
     @staticmethod
-    def from_string(proj_string):
+    def from_string(coordinate_operation_string):
         """
-        Create a CoordinateOperation from a projection string.
+        Create a CoordinateOperation from a string.
+
+        Example:
+          - urn:ogc:def:coordinateOperation:EPSG::1671
 
         Parameters
         ----------
-        proj_string: str
-            CoordinateOperation projection string.
+        coordinate_operation_string: str
+            Coordinate operation string.
 
         Returns
         -------
         CoordinateOperation
         """
-        cdef PJ* coord_operation_pj = proj_create(
-            get_pyproj_context(),
-            cstrencode(proj_string)
+        cdef PJ* coord_operation_pj = _from_string(
+            coordinate_operation_string,
+            (
+                PJ_TYPE_CONVERSION,
+                PJ_TYPE_TRANSFORMATION,
+                PJ_TYPE_CONCATENATED_OPERATION,
+                PJ_TYPE_OTHER_COORDINATE_OPERATION,
+            )
         )
-        if coord_operation_pj is NULL:
+        if coord_operation_pj == NULL:
             raise CRSError(
-                "Invalid projection string: {}".format(pystrdecode(proj_string)))
-
-        if proj_get_type(coord_operation_pj) not in (
-            PJ_TYPE_CONVERSION,
-            PJ_TYPE_TRANSFORMATION,
-            PJ_TYPE_CONCATENATED_OPERATION,
-            PJ_TYPE_OTHER_COORDINATE_OPERATION,
-        ):
-            proj_destroy(coord_operation_pj)
-            raise CRSError("Input is not a coordinate operation: {}".format(proj_string))
+                "Invalid coordinate operation string: {}".format(
+                    pystrdecode(coordinate_operation_string)
+                )
+            )
 
         return CoordinateOperation.create(coord_operation_pj)
 

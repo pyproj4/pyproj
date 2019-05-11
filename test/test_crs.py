@@ -576,9 +576,9 @@ def test_datum__from_string():
 
 
 def test_datum__from_string__invalid():
-    with pytest.raises(CRSError, match="Invalid projection string"):
+    with pytest.raises(CRSError, match="Invalid datum string"):
         Datum.from_string("3-598y5-98y")
-    with pytest.raises(CRSError, match="Input is not a datum"):
+    with pytest.raises(CRSError, match="Invalid datum string"):
         Datum.from_string("urn:ogc:def:ellipsoid:EPSG::7001")
 
 
@@ -588,9 +588,9 @@ def test_ellipsoid__from_string():
 
 
 def test_ellipsoid__from_string__invalid():
-    with pytest.raises(CRSError, match="Invalid projection string"):
+    with pytest.raises(CRSError, match="Invalid ellipsoid string"):
         Ellipsoid.from_string("3-598y5-98y")
-    with pytest.raises(CRSError, match="Input is not an ellipsoid"):
+    with pytest.raises(CRSError, match="Invalid ellipsoid string"):
         Ellipsoid.from_string("urn:ogc:def:datum:EPSG::6326")
 
 
@@ -600,9 +600,9 @@ def test_prime_meridian__from_string():
 
 
 def test_prime_meridian__from_string__invalid():
-    with pytest.raises(CRSError, match="Invalid projection string"):
+    with pytest.raises(CRSError, match="Invalid prime meridian string"):
         PrimeMeridian.from_string("3-598y5-98y")
-    with pytest.raises(CRSError, match="Input is not a prime meridian"):
+    with pytest.raises(CRSError, match="Invalid prime meridian string"):
         PrimeMeridian.from_string("urn:ogc:def:datum:EPSG::6326")
 
 
@@ -612,7 +612,7 @@ def test_coordinate_operation__from_string():
 
 
 def test_coordinate_operation__from_string__invalid():
-    with pytest.raises(CRSError, match="Invalid projection string"):
+    with pytest.raises(CRSError, match="Invalid coordinate operation string"):
         CoordinateOperation.from_string("3-598y5-98y")
-    with pytest.raises(CRSError, match="Input is not a coordinate operation"):
+    with pytest.raises(CRSError, match="Invalid coordinate operation string"):
         CoordinateOperation.from_string("urn:ogc:def:datum:EPSG::6326")
