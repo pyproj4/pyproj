@@ -17,8 +17,15 @@ class ProjError(RuntimeError):
                 error_message=error_message,
                 internal_proj_error=self.internal_proj_error,
             )
-            self.internal_proj_error = None
+            ProjError.clear()
         super(ProjError, self).__init__(error_message)
+
+    @staticmethod
+    def clear():
+        """
+        This will clear the internal PROJ erro message.
+        """
+        ProjError.internal_proj_error = None
 
 
 class CRSError(ProjError):

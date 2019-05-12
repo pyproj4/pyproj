@@ -133,7 +133,8 @@ cdef class _Transformer:
                 xx[iii] = xx[iii]*_RAD2DG
                 yy[iii] = yy[iii]*_RAD2DG
 
-        cdef int trans_success_count = proj_trans_generic(
+        ProjError.clear()
+        proj_trans_generic(
             self.projpj,
             pj_direction,
             xx, _DOUBLESIZE, npts,
@@ -143,10 +144,10 @@ cdef class _Transformer:
         )
         cdef int errno = proj_errno(self.projpj)
         if errcheck and errno:
-            raise ProjError("proj_trans_generic error: {}".format(
+            raise ProjError("transform error: {}".format(
                 pystrdecode(proj_errno_string(errno))))
-        elif errcheck and trans_success_count != npts:
-            raise ProjError("{} proj_trans_generic error(s)".format(npts-trans_success_count))
+        elif errcheck and ProjError.internal_proj_error is not None:
+            raise ProjError("transform error")
 
         # radians to degrees
         if not self.is_pipeline and not radians\
@@ -225,7 +226,8 @@ cdef class _Transformer:
         else:
             tt = NULL
 
-        cdef int trans_success_count = proj_trans_generic (
+        ProjError.clear()
+        proj_trans_generic (
             self.projpj,
             pj_direction,
             x, stride*_DOUBLESIZE, npts,
@@ -235,10 +237,10 @@ cdef class _Transformer:
         )
         cdef int errno = proj_errno(self.projpj)
         if errcheck and errno:
-            raise ProjError("proj_trans_generic error: {}".format(
+            raise ProjError("itransform error: {}".format(
                 pystrdecode(proj_errno_string(errno))))
-        elif errcheck and trans_success_count != npts:
-            raise ProjError("{} proj_trans_generic error(s)".format(npts-trans_success_count))
+        elif errcheck and ProjError.internal_proj_error is not None:
+            raise ProjError("itransform error")
 
 
         # radians to degrees

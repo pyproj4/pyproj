@@ -127,6 +127,7 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=ProjVersion.PROJ_4):
 cdef PJ* _from_authority(
     auth_name, code, PJ_CATEGORY category, int use_proj_alternative_grid_names=False
 ):
+    CRSError.clear()
     b_auth_name = cstrencode(auth_name)
     cdef char *c_auth_name = b_auth_name
     b_code = cstrencode(str(code))
@@ -142,6 +143,7 @@ cdef PJ* _from_authority(
 
 
 cdef PJ* _from_string(proj_string, expected_types):
+    CRSError.clear()
     cdef PJ* base_pj = proj_create(
         get_pyproj_context(),
         cstrencode(proj_string)
