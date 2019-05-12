@@ -18,7 +18,7 @@ def test_from_proj4_json():
 
 def test_from_epsg():
     proj = CRS.from_epsg(4326)
-    assert proj.to_epsg() == 4326
+    assert proj.to_epsg() == '4326'
 
     # Test with invalid EPSG code
     with pytest.raises(CRSError):
@@ -27,10 +27,10 @@ def test_from_epsg():
 
 def test_from_epsg_string():
     proj = CRS.from_string("epsg:4326")
-    assert proj.to_epsg() == 4326
+    assert proj.to_epsg() == '4326'
 
     # Test with invalid EPSG code
-    with pytest.raises(ValueError):
+    with pytest.raises(CRSError):
         assert CRS.from_string("epsg:xyz")
 
 
@@ -247,11 +247,11 @@ def test_dunder_str():
 
 
 def test_epsg():
-    assert CRS({"init": "EPSG:4326"}).to_epsg(20) == 4326
+    assert CRS({"init": "EPSG:4326"}).to_epsg(20) == '4326'
     assert CRS({"init": "EPSG:4326"}).to_epsg() is None
-    assert CRS.from_user_input(4326).to_epsg() == 4326
-    assert CRS.from_epsg(4326).to_epsg() == 4326
-    assert CRS.from_user_input("epsg:4326").to_epsg() == 4326
+    assert CRS.from_user_input(4326).to_epsg() == '4326'
+    assert CRS.from_epsg(4326).to_epsg() == '4326'
+    assert CRS.from_user_input("epsg:4326").to_epsg() == '4326'
 
 
 def test_datum():
@@ -695,3 +695,8 @@ def test_compound_crs_init():
 def test_compound_crs_urn_init():
     crs = CRS("urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717")
     assert crs.name == "KKJ / Finland Uniform Coordinate System + N60 height"
+
+
+def test_from_authority__ignf():
+    cc = CRS.from_authority('IGNF', 'ETRS89UTM28')
+    assert cc.name == "ETRS89 UTM Nord fuseau 28"

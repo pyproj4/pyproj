@@ -1533,7 +1533,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        int or None: The best matching EPSG code matching the confidence level.
+        str or None: The best matching EPSG code matching the confidence level.
         """
         # get list of possible matching projections
         cdef PJ_OBJ_LIST *proj_list = NULL
@@ -1576,7 +1576,7 @@ cdef class _CRS(Base):
         try:
             code = proj_get_id_code(proj, 0)
             if code != NULL:
-                return int(code)
+                return pystrdecode(code)
         finally:
             proj_destroy(proj)
 

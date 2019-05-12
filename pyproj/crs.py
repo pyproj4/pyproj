@@ -224,8 +224,8 @@ class CRS(_CRS):
         super(CRS, self).__init__(projstring)
 
     @classmethod
-    def from_auth(cls, auth_name, code):
-        """Make a CRS from an EPSG code
+    def from_authority(cls, auth_name, code):
+        """Make a CRS from an authority name and authority code
 
         Parameters
         ----------
@@ -242,8 +242,6 @@ class CRS(_CRS):
         -------
         CRS
         """
-        if int(code) <= 0:
-            raise CRSError("Authority codes are positive integers")
         return cls("{}:{}".format(auth_name, code))
 
     @classmethod
@@ -263,7 +261,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls.from_auth("epsg", code)
+        return cls.from_authority("epsg", code)
 
     @classmethod
     def from_string(cls, proj_string):
