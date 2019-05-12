@@ -1533,18 +1533,46 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        str or None: The best matching EPSG code matching the confidence level.
+        int or None: The best matching EPSG code matching the confidence level.
+        """
+        auth_info = self.to_authority(
+            auth_name="EPSG",
+            min_confidence=min_confidence
+        )
+        if auth_info is not None and auth_info[0].upper() == "EPSG":
+            return int(auth_info[1])
+        return None
+    
+    def to_authority(self, auth_name=None, min_confidence=70):
+        """
+        Return the authority name and code best matching the projection.
+
+        Parameters
+        ----------
+        auth_name: str, optional
+            The name of the authority to filter by.
+        min_confidence: int, optional
+            A value between 0-100 where 100 is the most confident. Default is 70.
+
+        Returns
+        -------
+        tuple(str, str) or None: The best matching (<auth_name>, <code>) matching the confidence level.
         """
         # get list of possible matching projections
         cdef PJ_OBJ_LIST *proj_list = NULL
         cdef int *out_confidence_list = NULL
         cdef int out_confidence = -9999
         cdef int num_proj_objects = -9999
+        cdef char *user_auth_name = NULL
+
+        if auth_name is not None:
+            b_auth_name = cstrencode(auth_name)
+            user_auth_name = b_auth_name
 
         try:
             proj_list  = proj_identify(self.projctx,
                 self.projobj,
-                b"EPSG",
+                user_auth_name,
                 NULL,
                 &out_confidence_list
             )
@@ -1573,10 +1601,12 @@ cdef class _CRS(Base):
 
         # convert the matching projection to the EPSG code
         cdef const char* code
+        cdef const char* out_auth_name
         try:
             code = proj_get_id_code(proj, 0)
-            if code != NULL:
-                return pystrdecode(code)
+            out_auth_name = proj_get_id_auth_name(proj, 0)
+            if out_auth_name != NULL and code != NULL:
+                return pystrdecode(out_auth_name), pystrdecode(code)
         finally:
             proj_destroy(proj)
 

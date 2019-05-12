@@ -122,6 +122,7 @@ cdef extern from "proj.h":
     int proj_is_equivalent_to(const PJ *obj, const PJ* other,
                               PJ_COMPARISON_CRITERION criterion)
 
+    const char* proj_get_id_auth_name(const PJ *obj, int index)
     const char* proj_get_id_code(const PJ *obj, int index)
     int proj_get_area_of_use(PJ_CONTEXT *ctx,
                              const PJ *obj,

@@ -1,6 +1,7 @@
 import pytest
+from pkg_resources import parse_version
 
-from pyproj import CRS
+from pyproj import CRS, proj_version_str
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
@@ -18,7 +19,7 @@ def test_from_proj4_json():
 
 def test_from_epsg():
     proj = CRS.from_epsg(4326)
-    assert proj.to_epsg() == '4326'
+    assert proj.to_epsg() == 4326
 
     # Test with invalid EPSG code
     with pytest.raises(CRSError):
@@ -27,7 +28,7 @@ def test_from_epsg():
 
 def test_from_epsg_string():
     proj = CRS.from_string("epsg:4326")
-    assert proj.to_epsg() == '4326'
+    assert proj.to_epsg() == 4326
 
     # Test with invalid EPSG code
     with pytest.raises(CRSError):
@@ -184,7 +185,7 @@ def test_repr__long():
 
 def test_repr_epsg():
     assert repr(CRS(CRS("EPSG:4326").to_wkt())) == (
-        "<Geographic 2D CRS: epsg:4326>\n"
+        "<Geographic 2D CRS: EPSG:4326>\n"
         "Name: WGS 84\n"
         "Axis Info [ellipsoidal]:\n"
         "- Lat[north]: Geodetic latitude (degree)\n"
@@ -224,7 +225,7 @@ def test_repr__undefined():
 
 def test_repr_compound():
     assert repr(CRS.from_epsg(3901)) == (
-        "<Compound CRS: epsg:3901>\n"
+        "<Compound CRS: EPSG:3901>\n"
         "Name: KKJ / Finland Uniform Coordinate System + N60 height\n"
         "Axis Info [cartesian|vertical]:\n"
         "- X[north]: Northing (metre)\n"
@@ -247,11 +248,11 @@ def test_dunder_str():
 
 
 def test_epsg():
-    assert CRS({"init": "EPSG:4326"}).to_epsg(20) == '4326'
+    assert CRS({"init": "EPSG:4326"}).to_epsg(20) == 4326
     assert CRS({"init": "EPSG:4326"}).to_epsg() is None
-    assert CRS.from_user_input(4326).to_epsg() == '4326'
-    assert CRS.from_epsg(4326).to_epsg() == '4326'
-    assert CRS.from_user_input("epsg:4326").to_epsg() == '4326'
+    assert CRS.from_user_input(4326).to_epsg() == 4326
+    assert CRS.from_epsg(4326).to_epsg() == 4326
+    assert CRS.from_user_input("epsg:4326").to_epsg() == 4326
 
 
 def test_datum():
@@ -527,6 +528,7 @@ def test_prime_meridian__from_epsg():
         'PRIMEM["Paris",2.5969213,ANGLEUNIT["grad",0.0157079632679489],ID["EPSG",8903]]'
     )
 
+
 def test_prime_meridian__from_authority():
     assert PrimeMeridian.from_authority("EPSG", 8903).name == "Paris"
 
@@ -698,5 +700,16 @@ def test_compound_crs_urn_init():
 
 
 def test_from_authority__ignf():
-    cc = CRS.from_authority('IGNF', 'ETRS89UTM28')
-    assert cc.name == "ETRS89 UTM Nord fuseau 28"
+    cc = CRS.from_authority("IGNF", "ETRS89UTM28")
+    assert cc.to_authority() == ("IGNF", "ETRS89UTM28")
+    if parse_version(proj_version_str) > parse_version("6.1.0"):
+        assert cc.to_authority('EPSG') == ("EPSG", "25828")
+        assert cc.to_epsg() == 25828
+    else:
+        assert cc.to_epsg() is None
+
+
+def test_ignf_authority_repr():
+    assert repr(CRS.from_authority("IGNF", "ETRS89UTM28")).startswith(
+        "<Projected CRS: IGNF:ETRS89UTM28>"
+    )

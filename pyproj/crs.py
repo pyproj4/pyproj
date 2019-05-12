@@ -107,7 +107,7 @@ class CRS(_CRS):
         >>> from pyproj import CRS
         >>> crs_utm = CRS.from_user_input(26915)
         >>> crs_utm
-        <Projected CRS: epsg:26915>
+        <Projected CRS: EPSG:26915>
         Name: NAD83 / UTM zone 15N
         Axis Info [cartesian]:
         - E[east]: Easting (metre)
@@ -577,9 +577,9 @@ class CRS(_CRS):
             ])
 
         # get SRS representation
-        epsg = self.to_epsg(100)
-        if epsg:
-            srs_repr = "epsg:{}".format(epsg)
+        auth_info = self.to_authority(min_confidence=100)
+        if auth_info:
+            srs_repr = ":".join(auth_info)
         else:
             srs_repr = (
                 self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."])
