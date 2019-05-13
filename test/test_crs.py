@@ -223,9 +223,7 @@ def test_repr__undefined():
 
 
 def test_repr_compound():
-    assert repr(
-        CRS.from_epsg(3901)
-    ) == (
+    assert repr(CRS.from_epsg(3901)) == (
         "<Compound CRS: epsg:3901>\n"
         "Name: KKJ / Finland Uniform Coordinate System + N60 height\n"
         "Axis Info [cartesian|vertical]:\n"
@@ -242,7 +240,6 @@ def test_repr_compound():
         "- KKJ / Finland Uniform Coordinate System\n"
         "- N60 height\n"
     )
-
 
 
 def test_dunder_str():
@@ -557,11 +554,19 @@ def test_to_wkt_enum():
     crs = CRS.from_epsg(4326)
     assert crs.to_wkt("WKT1_GDAL") == crs.to_wkt(WktVersion.WKT1_GDAL)
     assert crs.to_wkt("WKT2_2018") == crs.to_wkt(WktVersion.WKT2_2018)
-    assert crs.to_wkt("WKT2_2018_SIMPLIFIED") == \
-        crs.to_wkt(WktVersion.WKT2_2018_SIMPLIFIED)
+    assert crs.to_wkt("WKT2_2018_SIMPLIFIED") == crs.to_wkt(
+        WktVersion.WKT2_2018_SIMPLIFIED
+    )
     assert crs.to_wkt("WKT2_2015") == crs.to_wkt(WktVersion.WKT2_2015)
-    assert crs.to_wkt("WKT2_2015_SIMPLIFIED") == \
-        crs.to_wkt(WktVersion.WKT2_2015_SIMPLIFIED)
+    assert crs.to_wkt("WKT2_2015_SIMPLIFIED") == crs.to_wkt(
+        WktVersion.WKT2_2015_SIMPLIFIED
+    )
+
+
+def test_to_wkt_enum__invalid():
+    crs = CRS.from_epsg(4326)
+    with pytest.raises(ValueError):
+        crs.to_wkt("WKT_INVALID")
 
 
 def test_to_proj4_enum():
@@ -616,3 +621,9 @@ def test_coordinate_operation__from_string__invalid():
         CoordinateOperation.from_string("3-598y5-98y")
     with pytest.raises(CRSError, match="Invalid coordinate operation string"):
         CoordinateOperation.from_string("urn:ogc:def:datum:EPSG::6326")
+
+
+def test_to_proj4_enum__invalid():
+    crs = CRS.from_epsg(4326)
+    with pytest.raises(ValueError):
+        crs.to_proj4(1)

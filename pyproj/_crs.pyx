@@ -62,15 +62,8 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version=WktVersion.WKT2_2018, pre
         WktVersion.WKT1_ESRI: PJ_WKT1_ESRI
     }
     cdef PJ_WKT_TYPE wkt_out_type
-    try:
-        wkt_out_type = supported_wkt_types[WktVersion(version)]
-    except KeyError:
-        raise ValueError(
-            "Invalid version supplied '{}'. "
-            "Only {} are supported."
-            .format(version, tuple(supported_wkt_types)))
-
-
+    wkt_out_type = supported_wkt_types[WktVersion(version)]
+ 
     cdef const char* options_wkt[2]
     multiline = b"MULTILINE=NO"
     if pretty:
@@ -106,13 +99,7 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=ProjVersion.PROJ_4):
         ProjVersion.PROJ_5: PJ_PROJ_5,
     }
     cdef PJ_PROJ_STRING_TYPE proj_out_type
-    try:
-        proj_out_type = supported_prj_types[ProjVersion(version)]
-    except KeyError:
-        raise ValueError(
-            "Invalid version supplied '{}'. "
-            "Only {} are supported."
-            .format(version, tuple(supported_prj_types)))
+    proj_out_type = supported_prj_types[ProjVersion(version)]
 
     # convert projection to string
     cdef const char* proj_string

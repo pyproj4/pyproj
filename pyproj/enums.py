@@ -23,6 +23,15 @@ class WktVersion(Enum):
     #: WKT Version 1 ESRI Style
     WKT1_ESRI = "WKT1_ESRI"
 
+    @classmethod
+    def _missing_(cls, value):
+        raise ValueError(
+            "Invalid version supplied '{}'. "
+            "Only {} are supported.".format(
+                value, tuple(version.value for version in WktVersion)
+            )
+        )
+
 
 class ProjVersion(IntEnum):
     """
@@ -34,15 +43,33 @@ class ProjVersion(IntEnum):
     #: PROJ String version 5
     PROJ_5 = 5
 
+    @classmethod
+    def _missing_(cls, value):
+        raise ValueError(
+            "Invalid version supplied '{}'. "
+            "Only {} are supported.".format(
+                value, tuple(version.value for version in ProjVersion)
+            )
+        )
 
-class TransformDirection(IntEnum):
+
+class TransformDirection(Enum):
     """
     Supported transform directions
     """
 
     #: Forward direction
-    FORWARD = 1
+    FORWARD = "FORWARD"
     #: Inverse direction
-    INVERSE = -1
+    INVERSE = "INVERSE"
     #: Do nothing
-    IDENT = 0
+    IDENT = "IDENT"
+
+    @classmethod
+    def _missing_(cls, value):
+        raise ValueError(
+            "Invalid direction supplied '{}'. "
+            "Only {} are supported.".format(
+                value, tuple(direction.value for direction in TransformDirection)
+            )
+        )
