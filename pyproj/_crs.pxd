@@ -112,11 +112,12 @@ cdef class _CRS(Base):
     cdef char *pjinitstring
     cdef public object srs
     cdef public object type_name
-    cdef public object _ellipsoid
-    cdef public object _area_of_use
-    cdef public object _prime_meridian
-    cdef public object _datum
-    cdef public object _sub_crs_list
-    cdef public object _source_crs
-    cdef public object _coordinate_system
-    cdef public object _coordinate_operation
+    cdef object _ellipsoid
+    cdef object _area_of_use
+    cdef object _prime_meridian
+    cdef object _datum
+    cdef object _sub_crs_list
+    cdef object _source_crs
+    cdef object _geodetic_crs
+    cdef object _coordinate_system
+    cdef object _coordinate_operation

@@ -627,3 +627,14 @@ def test_to_proj4_enum__invalid():
     crs = CRS.from_epsg(4326)
     with pytest.raises(ValueError, match="Invalid version"):
         crs.to_proj4(1)
+
+
+def test_geodetic_crs():
+    cc = CRS("epsg:3004")
+    assert cc.geodetic_crs.to_epsg() == 4265
+
+
+def test_deprecated_to_geodetic():
+    cc = CRS("epsg:3004")
+    with pytest.warns(UserWarning):
+        assert cc.to_geodetic().to_epsg() == 4265
