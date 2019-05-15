@@ -179,7 +179,9 @@
 CRS’s are defined as having the first coordinate component point in a
 northerly direction (See PROJ FAQ on
 <a class="reference external" href="https://proj4.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">axis order</a>).
-You can check the axis order with the <cite>pyproj.CRS</cite> class.</p>
+You can check the axis order with the <cite>pyproj.CRS</cite> class. If you prefer to
+keep your axis order as always x,y, you can use the <cite>always_xy</cite> option when
+creating the <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a>.</p>
 </div>
 <div class="section" id="pyproj-transformer">
 <h2>pyproj.Transformer<a class="headerlink" href="#pyproj-transformer" title="Permalink to this headline">¶</a></h2>
@@ -192,7 +194,7 @@ is to make repeated transforms faster.</p>
 <p>Additionally, it provides multiple methods for initialization.</p>
 <dl class="staticmethod">
 <dt id="pyproj.transformer.Transformer.from_crs">
-<em class="property">static </em><code class="descname">from_crs</code><span class="sig-paren">(</span><em>crs_from</em>, <em>crs_to</em>, <em>skip_equivalent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">from_crs</code><span class="sig-paren">(</span><em>crs_from</em>, <em>crs_to</em>, <em>skip_equivalent=False</em>, <em>always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> or input used to create one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -201,6 +203,10 @@ is to make repeated transforms faster.</p>
 <li><p><strong>crs_to</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
 <li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
 projections are equivalent. Default is false.</p></li>
+<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.
+Default is false.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -232,7 +238,7 @@ projections are equivalent. Default is false.</p></li>
 
 <dl class="staticmethod">
 <dt id="pyproj.transformer.Transformer.from_proj">
-<em class="property">static </em><code class="descname">from_proj</code><span class="sig-paren">(</span><em>proj_from</em>, <em>proj_to</em>, <em>skip_equivalent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_proj" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">from_proj</code><span class="sig-paren">(</span><em>proj_from</em>, <em>proj_to</em>, <em>skip_equivalent=False</em>, <em>always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proj</span></code></a> or input used to create one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -241,6 +247,10 @@ projections are equivalent. Default is false.</p></li>
 <li><p><strong>proj_to</strong> (<a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
 <li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
 projections are equivalent. Default is false.</p></li>
+<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.
+Default is false.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -355,7 +365,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <h2>pyproj.transform<a class="headerlink" href="#pyproj-transform" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.transformer.transform">
-<code class="descclassname">pyproj.transformer.</code><code class="descname">transform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>x</em>, <em>y</em>, <em>z=None</em>, <em>tt=None</em>, <em>radians=False</em>, <em>errcheck=False</em>, <em>skip_equivalent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyproj.transformer.</code><code class="descname">transform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>x</em>, <em>y</em>, <em>z=None</em>, <em>tt=None</em>, <em>radians=False</em>, <em>errcheck=False</em>, <em>skip_equivalent=False</em>, <em>always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>x2, y2, z2 = transform(p1, p2, x1, y1, z1)</p>
 <p>Transform points between two coordinate systems defined by the
 Proj instances p1 and p2.</p>
@@ -372,7 +382,10 @@ invalid. By default errcheck=False and <code class="docutils literal notranslate
 invalid transformation (and no exception is raised).
 If the optional kwarg skip_equivalent is true (default is False),
 it will skip the transformation operation if input and output
-projections are equivalent.</p>
+projections are equivalent. If <cite>always_xy</cite> is toggled, the
+transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.</p>
 <p>In addition to converting between cartographic and geographic
 projection coordinates, this function can take care of datum
 shifts (which cannot be done using the __call__ method of the
@@ -440,7 +453,7 @@ z is always meters.</p>
 <h2>pyproj.itransform<a class="headerlink" href="#pyproj-itransform" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.transformer.itransform">
-<code class="descclassname">pyproj.transformer.</code><code class="descname">itransform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>points</em>, <em>switch=False</em>, <em>time_3rd=False</em>, <em>radians=False</em>, <em>errcheck=False</em>, <em>skip_equivalent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.itransform" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyproj.transformer.</code><code class="descname">itransform</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>points</em>, <em>switch=False</em>, <em>time_3rd=False</em>, <em>radians=False</em>, <em>errcheck=False</em>, <em>skip_equivalent=False</em>, <em>always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.itransform" title="Permalink to this definition">¶</a></dt>
 <dd><p>points2 = itransform(p1, p2, points1)
 Iterator/generator version of the function pyproj.transform.
 Transform points between two coordinate systems defined by the
@@ -469,7 +482,10 @@ invalid. By default errcheck=False and <code class="docutils literal notranslate
 invalid transformation (and no exception is raised).
 If the optional kwarg skip_equivalent is true (default is False),
 it will skip the transformation operation if input and output
-projections are equivalent.</p>
+projections are equivalent. If <cite>always_xy</cite> is toggled, the
+transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.</p>
 <p>Example usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">itransform</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: WGS84</span>
