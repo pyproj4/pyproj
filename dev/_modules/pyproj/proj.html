@@ -393,14 +393,14 @@
         <span class="c1"># Maybe instead of this function the __cinit__ function can take a</span>
         <span class="c1"># Proj object and a type (where type = &quot;geographic&quot;) as the libproj</span>
         <span class="c1"># java wrapper</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_geodetic</span><span class="p">()</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span></div>
 
     <span class="c1"># deprecated : using in transform raised a TypeError in release 1.9.5.1</span>
     <span class="c1"># reported in issue #53, resolved in #73.</span>
 <div class="viewcode-block" id="Proj.to_latlong"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;return a new Proj instance which is the geographic (lat/lon)</span>
 <span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_geodetic</span><span class="p">())</span></div></div>
+        <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

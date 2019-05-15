@@ -475,6 +475,13 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dl>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="pyproj.crs.CRS.geodetic_crs">
+<code class="descname">geodetic_crs</code><a class="headerlink" href="#pyproj.crs.CRS.geodetic_crs" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: <strong>pyproj.CRS</strong>
+:rtype: The geodetic CRS based on this CRS.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="pyproj.crs.CRS.get_geod">
 <code class="descname">get_geod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.get_geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.get_geod" title="Permalink to this definition">¶</a></dt>
@@ -626,12 +633,16 @@ if a mapping to the CF parameter is not found.</p>
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_geodetic">
 <code class="descname">to_geodetic</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_geodetic" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is replaced with <a class="reference internal" href="#pyproj.crs.CRS.geodetic_crs" title="pyproj.crs.CRS.geodetic_crs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CRS.geodetic_crs</span></code></a></p>
+</div>
+<dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>pyproj.CRS</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>The geographic (lat/lon) CRS from the current CRS.</p>
+<dd class="field-even"><p>The geodetic CRS from this CRS.</p>
 </dd>
 </dl>
 </dd></dl>
