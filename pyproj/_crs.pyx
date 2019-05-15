@@ -127,6 +127,7 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=ProjVersion.PROJ_4):
 cdef PJ* _from_authority(
     auth_name, code, PJ_CATEGORY category, int use_proj_alternative_grid_names=False
 ):
+    CRSError.clear()
     b_auth_name = cstrencode(auth_name)
     cdef char *c_auth_name = b_auth_name
     b_code = cstrencode(str(code))
@@ -139,6 +140,22 @@ cdef PJ* _from_authority(
         use_proj_alternative_grid_names,
         NULL
     )
+
+
+cdef PJ* _from_string(proj_string, expected_types):
+    CRSError.clear()
+    cdef PJ* base_pj = proj_create(
+        get_pyproj_context(),
+        cstrencode(proj_string)
+    )
+    if base_pj is NULL:
+        return NULL
+
+    if proj_get_type(base_pj) not in expected_types:
+        proj_destroy(base_pj)
+        base_pj = NULL
+    return base_pj
+
 
 cdef class Axis:
     """
@@ -489,6 +506,39 @@ cdef class Ellipsoid(Base):
         """
         return Ellipsoid.from_authority("EPSG", code)
 
+    @staticmethod
+    def from_string(ellipsoid_string):
+        """
+        Create an Ellipsoid from a string.
+
+        Examples:
+          - urn:ogc:def:ellipsoid:EPSG::7001
+          - ELLIPSOID["Airy 1830",6377563.396,299.3249646,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",7001]]
+
+        Parameters
+        ----------
+        ellipsoid_string: str
+            Ellipsoid string.
+
+        Returns
+        -------
+        Ellipsoid
+        """
+        cdef PJ* ellipsoid_pj = _from_string(
+            ellipsoid_string,
+            (PJ_TYPE_ELLIPSOID,)
+        )
+        if ellipsoid_pj == NULL:
+            raise CRSError(
+                "Invalid ellipsoid string: {}".format(
+                    pystrdecode(ellipsoid_string)
+                )
+            )
+
+        return Ellipsoid.create(ellipsoid_pj)
+
     @property
     def semi_major_metre(self):
         """
@@ -604,6 +654,39 @@ cdef class PrimeMeridian(Base):
         return PrimeMeridian.from_authority("EPSG", code)
 
 
+    @staticmethod
+    def from_string(prime_meridian_string):
+        """
+        Create an PrimeMeridian from a string.
+
+        Examples:
+          - urn:ogc:def:meridian:EPSG::8901
+          - PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8901]]
+
+        Parameters
+        ----------
+        prime_meridian_string: str
+            prime meridian string.
+
+        Returns
+        -------
+        PrimeMeridian
+        """
+        cdef PJ* prime_meridian_pj = _from_string(
+            prime_meridian_string,
+            (PJ_TYPE_PRIME_MERIDIAN,)
+        )
+        if prime_meridian_pj == NULL:
+            raise CRSError(
+                "Invalid prime meridian string: {}".format(
+                    pystrdecode(prime_meridian_string)
+                )
+            )
+
+        return PrimeMeridian.create(prime_meridian_pj)
+
 
 cdef class Datum(Base):
     """
@@ -666,6 +749,46 @@ cdef class Datum(Base):
         Datum
         """
         return Datum.from_authority("EPSG", code)
+
+    @staticmethod
+    def from_string(datum_string):
+        """
+        Create a Datum from a string.
+
+        Examples:
+          - urn:ogc:def:datum:EPSG::6326
+          - DATUM["World Geodetic System 1984",
+            ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]],
+            ID["EPSG",6326]]
+
+        Parameters
+        ----------
+        datum_string: str
+            Datum string.
+
+        Returns
+        -------
+        Datum
+        """
+        cdef PJ* datum_pj = _from_string(
+            datum_string,
+            (
+                PJ_TYPE_GEODETIC_REFERENCE_FRAME,
+                PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME,
+                PJ_TYPE_VERTICAL_REFERENCE_FRAME,
+                PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
+                PJ_TYPE_DATUM_ENSEMBLE,
+            )
+        )
+        if datum_pj == NULL:
+            raise CRSError(
+                "Invalid datum string: {}".format(
+                    pystrdecode(datum_string)
+                )
+            )
+
+        return Datum.create(datum_pj)
 
     @property
     def ellipsoid(self):
@@ -991,6 +1114,41 @@ cdef class CoordinateOperation(Base):
         return CoordinateOperation.from_authority(
             "EPSG", code, use_proj_alternative_grid_names
         )
+
+    @staticmethod
+    def from_string(coordinate_operation_string):
+        """
+        Create a CoordinateOperation from a string.
+
+        Example:
+          - urn:ogc:def:coordinateOperation:EPSG::1671
+
+        Parameters
+        ----------
+        coordinate_operation_string: str
+            Coordinate operation string.
+
+        Returns
+        -------
+        CoordinateOperation
+        """
+        cdef PJ* coord_operation_pj = _from_string(
+            coordinate_operation_string,
+            (
+                PJ_TYPE_CONVERSION,
+                PJ_TYPE_TRANSFORMATION,
+                PJ_TYPE_CONCATENATED_OPERATION,
+                PJ_TYPE_OTHER_COORDINATE_OPERATION,
+            )
+        )
+        if coord_operation_pj == NULL:
+            raise CRSError(
+                "Invalid coordinate operation string: {}".format(
+                    pystrdecode(coordinate_operation_string)
+                )
+            )
+
+        return CoordinateOperation.create(coord_operation_pj)
 
     @property
     def params(self):

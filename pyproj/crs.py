@@ -240,7 +240,7 @@ class CRS(_CRS):
 
         Returns
         -------
-        ~CRS
+        CRS
         """
         if int(code) <= 0:
             raise CRSError("Authority codes are positive integers")
@@ -261,7 +261,7 @@ class CRS(_CRS):
 
         Returns
         -------
-        ~CRS
+        CRS
         """
         return cls.from_auth("epsg", code)
 
@@ -276,7 +276,7 @@ class CRS(_CRS):
 
         Returns
         -------
-        ~CRS
+        CRS
         """
         if not proj_string:
             raise CRSError("CRS is empty or invalid: {!r}".format(proj_string))
@@ -313,7 +313,7 @@ class CRS(_CRS):
 
         Returns
         -------
-        ~CRS
+        CRS
         """
         if isinstance(value, _CRS):
             return value
@@ -332,7 +332,7 @@ class CRS(_CRS):
         """
         Returns
         -------
-        ~pyproj.geod.Geod: Geod object based on the ellipsoid.
+        pyproj.geod.Geod: Geod object based on the ellipsoid.
         """
         if self.ellipsoid is None or not self.ellipsoid.ellipsoid_loaded:
             return None
@@ -481,7 +481,7 @@ class CRS(_CRS):
 
         Returns
         -------
-        ~pyproj.crs.CRS: CRS object.
+        CRS
         """
         in_cf = in_cf.copy()  # preserve user input
         if "crs_wkt" in in_cf:

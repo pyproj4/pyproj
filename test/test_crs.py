@@ -568,3 +568,51 @@ def test_to_proj4_enum():
     crs = CRS.from_epsg(4326)
     assert crs.to_proj4(4) == crs.to_proj4(ProjVersion.PROJ_4)
     assert crs.to_proj4(5) == crs.to_proj4(ProjVersion.PROJ_5)
+
+
+def test_datum__from_string():
+    dd = Datum.from_string("urn:ogc:def:datum:EPSG::6326")
+    assert dd.name == 'World Geodetic System 1984'
+
+
+def test_datum__from_string__invalid():
+    with pytest.raises(CRSError, match="Invalid datum string"):
+        Datum.from_string("3-598y5-98y")
+    with pytest.raises(CRSError, match="Invalid datum string"):
+        Datum.from_string("urn:ogc:def:ellipsoid:EPSG::7001")
+
+
+def test_ellipsoid__from_string():
+    ee = Ellipsoid.from_string("urn:ogc:def:ellipsoid:EPSG::7001")
+    assert ee.name == 'Airy 1830'
+
+
+def test_ellipsoid__from_string__invalid():
+    with pytest.raises(CRSError, match="Invalid ellipsoid string"):
+        Ellipsoid.from_string("3-598y5-98y")
+    with pytest.raises(CRSError, match="Invalid ellipsoid string"):
+        Ellipsoid.from_string("urn:ogc:def:datum:EPSG::6326")
+
+
+def test_prime_meridian__from_string():
+    pm = PrimeMeridian.from_string("urn:ogc:def:meridian:EPSG::8901")
+    assert pm.name == 'Greenwich'
+
+
+def test_prime_meridian__from_string__invalid():
+    with pytest.raises(CRSError, match="Invalid prime meridian string"):
+        PrimeMeridian.from_string("3-598y5-98y")
+    with pytest.raises(CRSError, match="Invalid prime meridian string"):
+        PrimeMeridian.from_string("urn:ogc:def:datum:EPSG::6326")
+
+
+def test_coordinate_operation__from_string():
+    co = CoordinateOperation.from_string("urn:ogc:def:coordinateOperation:EPSG::1671")
+    assert co.name == 'RGF93 to WGS 84 (1)'
+
+
+def test_coordinate_operation__from_string__invalid():
+    with pytest.raises(CRSError, match="Invalid coordinate operation string"):
+        CoordinateOperation.from_string("3-598y5-98y")
+    with pytest.raises(CRSError, match="Invalid coordinate operation string"):
+        CoordinateOperation.from_string("urn:ogc:def:datum:EPSG::6326")
