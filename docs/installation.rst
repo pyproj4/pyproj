@@ -29,7 +29,7 @@ Installing from source
 Setup PROJ.4
 ------------
 
-PROJ.4 6.0.0 is required when building from source.
+PROJ.4 6.1.0 is required when building from source.
 You can download PROJ.4 from https://download.osgeo.org/proj
 or from https://github.com/OSGeo/proj.4. 
 Installation instructions can be fount at https://proj4.org/.
@@ -54,7 +54,7 @@ Linux::
     export PROJ_DIR=/usr/local
 
 If you have a previous version of PROJ.4 installed alongside the current
-version of PROJ.4 (6.0.0), the best way to avoid conflicts is to:
+version of PROJ.4 (6.1.0), the best way to avoid conflicts is to:
 
     1. Remove the previous PROJ.4 from PATH & unset old PROJ_LIB environment variable (temporarily)
     2. Install PROJ.4 to the internal PROJ.4 directory (pyproj/proj_dir)
