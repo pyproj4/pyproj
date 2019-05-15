@@ -362,5 +362,5 @@ def test_transform_direction__string():
 
 def test_transform_direction__invalid():
     transformer = Transformer.from_crs(4326, 3857)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Invalid direction"):
         transformer.transform(-33, 24, direction="WHEREVER")

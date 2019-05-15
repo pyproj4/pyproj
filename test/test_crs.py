@@ -565,7 +565,7 @@ def test_to_wkt_enum():
 
 def test_to_wkt_enum__invalid():
     crs = CRS.from_epsg(4326)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Invalid version"):
         crs.to_wkt("WKT_INVALID")
 
 
@@ -625,5 +625,5 @@ def test_coordinate_operation__from_string__invalid():
 
 def test_to_proj4_enum__invalid():
     crs = CRS.from_epsg(4326)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Invalid version"):
         crs.to_proj4(1)
