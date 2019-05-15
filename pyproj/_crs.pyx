@@ -1,4 +1,5 @@
 import re
+import warnings
 from collections import OrderedDict
 
 from pyproj.compat import cstrencode, pystrdecode
@@ -1508,6 +1509,9 @@ cdef class _CRS(Base):
         pyproj.CRS: The geodetic CRS from this CRS.
 
         """
+        warnings.warn(
+            "This method is deprecated an has been replaced with `CRS.geodetic_crs`."
+        )
         return self.geodetic_crs
 
     def to_epsg(self, min_confidence=70):
