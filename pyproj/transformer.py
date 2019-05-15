@@ -42,7 +42,7 @@ class Transformer(object):
     """
 
     @staticmethod
-    def from_proj(proj_from, proj_to, skip_equivalent=False):
+    def from_proj(proj_from, proj_to, skip_equivalent=False, always_xy=False):
         """Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.
 
         Parameters
@@ -54,6 +54,11 @@ class Transformer(object):
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output 
             projections are equivalent. Default is false.
+        always_xy: bool, optional
+            If true, the transform method will accept as input and return as output
+            coordinates using the traditional GIS order, that is longitude, latitude
+            for geographic CRS and easting, northing for most projected CRS.
+            Default is false.
 
         Returns
         -------
@@ -67,12 +72,15 @@ class Transformer(object):
 
         transformer = Transformer()
         transformer._transformer = _Transformer.from_crs(
-            proj_from.crs, proj_to.crs, skip_equivalent=skip_equivalent
+            proj_from.crs,
+            proj_to.crs,
+            skip_equivalent=skip_equivalent,
+            always_xy=always_xy,
         )
         return transformer
 
     @staticmethod
-    def from_crs(crs_from, crs_to, skip_equivalent=False):
+    def from_crs(crs_from, crs_to, skip_equivalent=False, always_xy=False):
         """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
 
         Parameters
@@ -84,6 +92,11 @@ class Transformer(object):
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
             projections are equivalent. Default is false.
+        always_xy: bool, optional
+            If true, the transform method will accept as input and return as output
+            coordinates using the traditional GIS order, that is longitude, latitude
+            for geographic CRS and easting, northing for most projected CRS.
+            Default is false.
 
         Returns
         -------
@@ -95,6 +108,7 @@ class Transformer(object):
             CRS.from_user_input(crs_from),
             CRS.from_user_input(crs_to),
             skip_equivalent=skip_equivalent,
+            always_xy=always_xy,
         )
         return transformer
 
@@ -309,7 +323,16 @@ class Transformer(object):
 
 
 def transform(
-    p1, p2, x, y, z=None, tt=None, radians=False, errcheck=False, skip_equivalent=False
+    p1,
+    p2,
+    x,
+    y,
+    z=None,
+    tt=None,
+    radians=False,
+    errcheck=False,
+    skip_equivalent=False,
+    always_xy=False,
 ):
     """
     x2, y2, z2 = transform(p1, p2, x1, y1, z1)
@@ -331,7 +354,10 @@ def transform(
     invalid transformation (and no exception is raised).
     If the optional kwarg skip_equivalent is true (default is False), 
     it will skip the transformation operation if input and output 
-    projections are equivalent.
+    projections are equivalent. If `always_xy` is toggled, the 
+    transform method will accept as input and return as output
+    coordinates using the traditional GIS order, that is longitude, latitude
+    for geographic CRS and easting, northing for most projected CRS.
 
     In addition to converting between cartographic and geographic
     projection coordinates, this function can take care of datum
@@ -395,9 +421,9 @@ def transform(
     >>> "%.0f %.0f" % (xeq, yeq)
     '30 60'
     """
-    return Transformer.from_proj(p1, p2, skip_equivalent=skip_equivalent).transform(
-        xx=x, yy=y, zz=z, tt=tt, radians=radians, errcheck=errcheck
-    )
+    return Transformer.from_proj(
+        p1, p2, skip_equivalent=skip_equivalent, always_xy=always_xy
+    ).transform(xx=x, yy=y, zz=z, tt=tt, radians=radians, errcheck=errcheck)
 
 
 def itransform(
@@ -409,6 +435,7 @@ def itransform(
     radians=False,
     errcheck=False,
     skip_equivalent=False,
+    always_xy=False,
 ):
     """
     points2 = itransform(p1, p2, points1)
@@ -437,7 +464,10 @@ def itransform(
     invalid transformation (and no exception is raised).
     If the optional kwarg skip_equivalent is true (default is False), 
     it will skip the transformation operation if input and output 
-    projections are equivalent.
+    projections are equivalent. If `always_xy` is toggled, the 
+    transform method will accept as input and return as output
+    coordinates using the traditional GIS order, that is longitude, latitude
+    for geographic CRS and easting, northing for most projected CRS.
 
 
     Example usage:
@@ -459,6 +489,8 @@ def itransform(
     '30 60'
 
     """
-    return Transformer.from_proj(p1, p2, skip_equivalent=skip_equivalent).itransform(
+    return Transformer.from_proj(
+        p1, p2, skip_equivalent=skip_equivalent, always_xy=always_xy
+    ).itransform(
         points, switch=switch, time_3rd=time_3rd, radians=radians, errcheck=errcheck
     )

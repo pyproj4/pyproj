@@ -44,7 +44,7 @@ cdef class _Transformer:
         })
 
     @staticmethod
-    def from_crs(_CRS crs_from, _CRS crs_to, skip_equivalent=False):
+    def from_crs(_CRS crs_from, _CRS crs_to, skip_equivalent=False, always_xy=False):
         cdef _Transformer transformer = _Transformer()
         transformer.projpj = proj_create_crs_to_crs(
             transformer.projctx,
@@ -53,6 +53,15 @@ cdef class _Transformer:
             NULL)
         if transformer.projpj is NULL:
             raise ProjError("Error creating CRS to CRS.")
+
+        cdef PJ* always_xy_pj = NULL
+        if always_xy:
+            always_xy_pj = proj_normalize_for_visualization(
+                transformer.projctx,
+                transformer.projpj
+            )
+            proj_destroy(transformer.projpj)
+            transformer.projpj = always_xy_pj
 
         transformer._set_radians_io()
         transformer.projections_exact_same = crs_from.is_exact_same(crs_to)

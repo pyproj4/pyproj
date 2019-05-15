@@ -38,6 +38,7 @@ cdef extern from "proj.h":
     int proj_context_errno (PJ_CONTEXT *ctx)
     const char * proj_errno_string (int err)
     PJ *proj_create (PJ_CONTEXT *ctx, const char *definition)
+    PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj)
 
     cdef struct PJ_PROJ_INFO:
         const char  *id
