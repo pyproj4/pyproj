@@ -345,3 +345,22 @@ def test_always_xy__itransform():
         ),
         [(173.29964730317386, -40.60674802693758)],
     )
+
+
+def test_transform_direction__string():
+    forward_transformer = Transformer.from_crs(4326, 3857)
+    inverse_transformer = Transformer.from_crs(3857, 4326)
+    assert inverse_transformer.transform(
+        -33, 24, direction="INVERSE"
+    ) == forward_transformer.transform(-33, 24, direction="FORWARD")
+    ident_transformer = Transformer.from_crs(4326, 3857)
+    ident_transformer.transform(-33, 24, direction="IDENT") == (
+        -33,
+        24,
+    )
+
+
+def test_transform_direction__invalid():
+    transformer = Transformer.from_crs(4326, 3857)
+    with pytest.raises(ValueError, match="Invalid direction"):
+        transformer.transform(-33, 24, direction="WHEREVER")

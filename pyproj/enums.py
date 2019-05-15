@@ -35,14 +35,14 @@ class ProjVersion(IntEnum):
     PROJ_5 = 5
 
 
-class TransformDirection(IntEnum):
+class TransformDirection(Enum):
     """
     Supported transform directions
     """
 
     #: Forward direction
-    FORWARD = 1
+    FORWARD = "FORWARD"
     #: Inverse direction
-    INVERSE = -1
+    INVERSE = "INVERSE"
     #: Do nothing
-    IDENT = 0
+    IDENT = "IDENT"

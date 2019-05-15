@@ -7,6 +7,25 @@ from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 
 
+_PJ_DIRECTION_MAP = {
+    TransformDirection.FORWARD: PJ_FWD,
+    TransformDirection.INVERSE: PJ_INV,
+    TransformDirection.IDENT: PJ_IDENT,
+}
+
+
+def get_pj_direction(in_direction):
+    try:
+        return _PJ_DIRECTION_MAP[TransformDirection(in_direction)]
+    except ValueError:
+        raise ValueError(
+            "Invalid direction supplied '{}'. "
+            "Only {} are supported.".format(
+                in_direction, tuple(direction.value for direction in TransformDirection)
+            )
+        )
+
+
 cdef class _Transformer:
     def __cinit__(self):
         self.projpj = NULL
@@ -87,7 +106,8 @@ cdef class _Transformer:
     def _transform(self, inx, iny, inz, intime, direction, radians, errcheck):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
-        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>direction
+        tmp_pj_direction = get_pj_direction(direction)
+        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
         # private function to call pj_transform
         cdef void *xdata
         cdef void *ydata
@@ -179,7 +199,8 @@ cdef class _Transformer:
     ):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
-        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>direction
+        tmp_pj_direction = get_pj_direction(direction)
+        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
         # private function to itransform function
         cdef:
             void *buffer
