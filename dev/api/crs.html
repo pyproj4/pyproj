@@ -387,7 +387,7 @@ about specifying projection parameters.</p>
 <dd class="field-odd"><p></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">~CRS</a></p>
+<dd class="field-even"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -411,10 +411,10 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>~pyproj.crs.CRS</strong></p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>CRS object.</p>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -435,7 +435,7 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dd class="field-odd"><p></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">~CRS</a></p>
+<dd class="field-even"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -452,7 +452,7 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">~CRS</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -470,7 +470,7 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">~CRS</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -480,7 +480,7 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <code class="descname">get_geod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.get_geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.get_geod" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>~pyproj.geod.Geod</strong></p>
+<dd class="field-odd"><p><strong>pyproj.geod.Geod</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>Geod object based on the ellipsoid.</p>
@@ -1219,6 +1219,27 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 </dl>
 </dd></dl>
 
+<dl class="staticmethod">
+<dt id="pyproj.crs.CoordinateOperation.from_string">
+<em class="property">static </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>coordinate_operation_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a CoordinateOperation from a string.</p>
+<p class="rubric">Example</p>
+<ul class="simple">
+<li><p><a class="reference external" href="urn:ogc:def:coordinateOperation:EPSG::1671">urn:ogc:def:coordinateOperation:EPSG::1671</a></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinate_operation_string</strong> (<em>str</em>) – Coordinate operation string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation">CoordinateOperation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.grids">
 <code class="descname">grids</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.grids" title="Permalink to this definition">¶</a></dt>
@@ -1791,6 +1812,31 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
+<dl class="staticmethod">
+<dt id="pyproj.crs.Datum.from_string">
+<em class="property">static </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>datum_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Datum from a string.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p><a class="reference external" href="urn:ogc:def:datum:EPSG::6326">urn:ogc:def:datum:EPSG::6326</a></p></li>
+<li><p>DATUM[“World Geodetic System 1984”,
+ELLIPSOID[“WGS 84”,6378137,298.257223563,
+LENGTHUNIT[“metre”,1]],
+ID[“EPSG”,6326]]</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>datum_string</strong> (<em>str</em>) – Datum string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Datum" title="pyproj.crs.Datum">Datum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="pyproj.crs.Datum.is_exact_same">
 <code class="descname">is_exact_same</code><span class="sig-paren">(</span><em>self</em>, <em>Base other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.is_exact_same" title="Permalink to this definition">¶</a></dt>
@@ -1927,6 +1973,30 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>code</strong> (<em>str</em><em> or </em><em>int</em>) – The code used by the EPSG.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Ellipsoid" title="pyproj.crs.Ellipsoid">Ellipsoid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pyproj.crs.Ellipsoid.from_string">
+<em class="property">static </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>ellipsoid_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an Ellipsoid from a string.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p><a class="reference external" href="urn:ogc:def:ellipsoid:EPSG::7001">urn:ogc:def:ellipsoid:EPSG::7001</a></p></li>
+<li><p>ELLIPSOID[“Airy 1830”,6377563.396,299.3249646,
+LENGTHUNIT[“metre”,1],
+ID[“EPSG”,7001]]</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ellipsoid_string</strong> (<em>str</em>) – Ellipsoid string.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -2098,6 +2168,30 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>code</strong> (<em>str</em><em> or </em><em>int</em>) – The code used by EPSG.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pyproj.crs.PrimeMeridian.from_string">
+<em class="property">static </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>prime_meridian_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an PrimeMeridian from a string.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p><a class="reference external" href="urn:ogc:def:meridian:EPSG::8901">urn:ogc:def:meridian:EPSG::8901</a></p></li>
+<li><p>PRIMEM[“Greenwich”,0,
+ANGLEUNIT[“degree”,0.0174532925199433],
+ID[“EPSG”,8901]]</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prime_meridian_string</strong> (<em>str</em>) – prime meridian string.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>

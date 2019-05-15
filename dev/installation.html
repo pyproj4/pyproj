@@ -87,13 +87,11 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#setup-proj-4">Setup PROJ.4</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#setup-pyproj">Setup pyproj</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#the-data-directory">The data directory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#install-pyproj">Install pyproj</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#from-pypi">From pypi:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#from-github-with-pip">From GitHub with <cite>pip</cite>:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#from-cloned-github-repo-for-development">From cloned GitHub repo for development:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setup-proj-4">Setup PROJ.4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-pyproj">Setup pyproj</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-data-directory">The data directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-pyproj">Install pyproj</a></li>
 </ul>
 </li>
 </ul>
@@ -171,7 +169,8 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>The easiest methods for installing pyproj are:</p>
 <ol class="arabic simple">
-<li><p>Use the wheels on pypi or from <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a></p></li>
+<li><p>Use pip to install the binary wheels on <a class="reference external" href="https://pypi.org/project/pyproj/">PyPI</a>
+(the Windows wheels are built by <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">Christoph Gohlke</a>):</p></li>
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj
@@ -179,7 +178,7 @@
 </div>
 </div></blockquote>
 <ol class="arabic simple" start="2">
-<li><p>Use conda:</p></li>
+<li><p>Use <a class="reference external" href="https://conda.io/en/latest/">conda</a>:</p></li>
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c conda-forge pyproj
@@ -188,8 +187,10 @@
 </div></blockquote>
 <p>If that does not meet your needs, the section below provides further instructions
 for getting setup.</p>
+<div class="section" id="installing-from-source">
+<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="setup-proj-4">
-<h2>Setup PROJ.4<a class="headerlink" href="#setup-proj-4" title="Permalink to this headline">¶</a></h2>
+<h3>Setup PROJ.4<a class="headerlink" href="#setup-proj-4" title="Permalink to this headline">¶</a></h3>
 <p>PROJ.4 6.0.0 is required when building from source.
 You can download PROJ.4 from <a class="reference external" href="https://download.osgeo.org/proj">https://download.osgeo.org/proj</a>
 or from <a class="reference external" href="https://github.com/OSGeo/proj.4">https://github.com/OSGeo/proj.4</a>.
@@ -226,9 +227,9 @@ version of PROJ.4 (6.0.0), the best way to avoid conflicts is to:</p>
 </div></blockquote>
 </div>
 <div class="section" id="setup-pyproj">
-<h2>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Permalink to this headline">¶</a></h2>
+<h3>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="the-data-directory">
-<h3>The data directory<a class="headerlink" href="#the-data-directory" title="Permalink to this headline">¶</a></h3>
+<h4>The data directory<a class="headerlink" href="#the-data-directory" title="Permalink to this headline">¶</a></h4>
 <p>The order of preference for the data directory is:</p>
 <ol class="arabic simple">
 <li><p>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</p></li>
@@ -238,7 +239,7 @@ version of PROJ.4 (6.0.0), the best way to avoid conflicts is to:</p>
 </ol>
 </div>
 <div class="section" id="install-pyproj">
-<h3>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline">¶</a></h3>
+<h4>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline">¶</a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference external" href="http://cython.org/">Cython</a> or pip&gt;=10.0.1 is required for the installation.</p>
@@ -249,21 +250,22 @@ version of PROJ.4 (6.0.0), the best way to avoid conflicts is to:</p>
 perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
 </div>
 <div class="section" id="from-pypi">
-<h4>From pypi:<a class="headerlink" href="#from-pypi" title="Permalink to this headline">¶</a></h4>
+<h5>From pypi:<a class="headerlink" href="#from-pypi" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj --no-binary
 </pre></div>
 </div>
 </div>
 <div class="section" id="from-github-with-pip">
-<h4>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Permalink to this headline">¶</a></h4>
+<h5>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/pyproj4/pyproj.git
 </pre></div>
 </div>
 </div>
 <div class="section" id="from-cloned-github-repo-for-development">
-<h4>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Permalink to this headline">¶</a></h4>
+<h5>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -e .
 </pre></div>
+</div>
 </div>
 </div>
 </div>

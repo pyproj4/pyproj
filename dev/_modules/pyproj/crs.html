@@ -393,7 +393,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ~CRS</span>
+<span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;Authority codes are positive integers&quot;</span><span class="p">)</span>
@@ -414,7 +414,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ~CRS</span>
+<span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_auth</span><span class="p">(</span><span class="s2">&quot;epsg&quot;</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span></div>
 
@@ -429,7 +429,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ~CRS</span>
+<span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">proj_string</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is empty or invalid: </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">proj_string</span><span class="p">))</span>
@@ -466,7 +466,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ~CRS</span>
+<span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_CRS</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
@@ -485,7 +485,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ~pyproj.geod.Geod: Geod object based on the ellipsoid.</span>
+<span class="sd">        pyproj.geod.Geod: Geod object based on the ellipsoid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">ellipsoid_loaded</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -634,7 +634,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ~pyproj.crs.CRS: CRS object.</span>
+<span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">in_cf</span> <span class="o">=</span> <span class="n">in_cf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># preserve user input</span>
         <span class="k">if</span> <span class="s2">&quot;crs_wkt&quot;</span> <span class="ow">in</span> <span class="n">in_cf</span><span class="p">:</span>
