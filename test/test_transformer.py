@@ -360,7 +360,20 @@ def test_transform_direction__string():
     )
 
 
+def test_transform_direction__string_lowercase():
+    forward_transformer = Transformer.from_crs(4326, 3857)
+    inverse_transformer = Transformer.from_crs(3857, 4326)
+    assert inverse_transformer.transform(
+        -33, 24, direction="inverse"
+    ) == forward_transformer.transform(-33, 24, direction="forward")
+    ident_transformer = Transformer.from_crs(4326, 3857)
+    ident_transformer.transform(-33, 24, direction="ident") == (
+        -33,
+        24,
+    )
+
+
 def test_transform_direction__invalid():
     transformer = Transformer.from_crs(4326, 3857)
-    with pytest.raises(ValueError, match="Invalid direction"):
+    with pytest.raises(ValueError, match="Invalid value"):
         transformer.transform(-33, 24, direction="WHEREVER")
