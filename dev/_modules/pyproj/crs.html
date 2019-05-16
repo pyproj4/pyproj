@@ -260,7 +260,7 @@
 <span class="sd">        &gt;&gt;&gt; from pyproj import CRS</span>
 <span class="sd">        &gt;&gt;&gt; crs_utm = CRS.from_user_input(26915)</span>
 <span class="sd">        &gt;&gt;&gt; crs_utm</span>
-<span class="sd">        &lt;Projected CRS: epsg:26915&gt;</span>
+<span class="sd">        &lt;Projected CRS: EPSG:26915&gt;</span>
 <span class="sd">        Name: NAD83 / UTM zone 15N</span>
 <span class="sd">        Axis Info [cartesian]:</span>
 <span class="sd">        - E[east]: Easting (metre)</span>
@@ -376,9 +376,9 @@
         <span class="n">projstring</span> <span class="o">=</span> <span class="n">projstring</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+init=EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;+init=epsg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CRS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">projstring</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRS.from_auth"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_auth">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_auth</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make a CRS from an EPSG code</span>
+<div class="viewcode-block" id="CRS.from_authority"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_authority">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_authority</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a CRS from an authority name and authority code</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -395,8 +395,6 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;Authority codes are positive integers&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">code</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_epsg"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_epsg">[docs]</a>    <span class="nd">@classmethod</span>
@@ -416,7 +414,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_auth</span><span class="p">(</span><span class="s2">&quot;epsg&quot;</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_authority</span><span class="p">(</span><span class="s2">&quot;epsg&quot;</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CRS.from_string"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_string">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">proj_string</span><span class="p">):</span>
@@ -732,9 +730,9 @@
             <span class="p">])</span>
 
         <span class="c1"># get SRS representation</span>
-        <span class="n">epsg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">epsg</span><span class="p">:</span>
-            <span class="n">srs_repr</span> <span class="o">=</span> <span class="s2">&quot;epsg:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epsg</span><span class="p">)</span>
+        <span class="n">auth_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_authority</span><span class="p">(</span><span class="n">min_confidence</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">auth_info</span><span class="p">:</span>
+            <span class="n">srs_repr</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">auth_info</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">srs_repr</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">srs</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">50</span> <span class="k">else</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">[:</span><span class="mi">50</span><span class="p">],</span> <span class="s2">&quot;...&quot;</span><span class="p">])</span>
