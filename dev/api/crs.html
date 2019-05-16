@@ -236,7 +236,7 @@ about specifying projection parameters.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="mi">26915</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span>
-<span class="go">&lt;Projected CRS: epsg:26915&gt;</span>
+<span class="go">&lt;Projected CRS: EPSG:26915&gt;</span>
 <span class="go">Name: NAD83 / UTM zone 15N</span>
 <span class="go">Axis Info [cartesian]:</span>
 <span class="go">- E[east]: Easting (metre)</span>
@@ -369,9 +369,9 @@ about specifying projection parameters.</p>
 </dd></dl>
 
 <dl class="classmethod">
-<dt id="pyproj.crs.CRS.from_auth">
-<em class="property">classmethod </em><code class="descname">from_auth</code><span class="sig-paren">(</span><em>auth_name</em>, <em>code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_auth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a CRS from an EPSG code</p>
+<dt id="pyproj.crs.CRS.from_authority">
+<em class="property">classmethod </em><code class="descname">from_authority</code><span class="sig-paren">(</span><em>auth_name</em>, <em>code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_authority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a CRS from an authority name and authority code</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -582,6 +582,26 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.CRS.to_authority">
+<code class="descname">to_authority</code><span class="sig-paren">(</span><em>self</em>, <em>auth_name=None</em>, <em>min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_authority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the authority name and code best matching the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the authority to filter by.</p></li>
+<li><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tuple(str, str) or None</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The best matching (&lt;auth_name&gt;, &lt;code&gt;) matching the confidence level.</p>
 </dd>
 </dl>
 </dd></dl>
