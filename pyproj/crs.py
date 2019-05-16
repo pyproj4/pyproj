@@ -107,7 +107,7 @@ class CRS(_CRS):
         >>> from pyproj import CRS
         >>> crs_utm = CRS.from_user_input(26915)
         >>> crs_utm
-        <Projected CRS: epsg:26915>
+        <Projected CRS: EPSG:26915>
         Name: NAD83 / UTM zone 15N
         Axis Info [cartesian]:
         - E[east]: Easting (metre)
@@ -224,8 +224,8 @@ class CRS(_CRS):
         super(CRS, self).__init__(projstring)
 
     @classmethod
-    def from_auth(cls, auth_name, code):
-        """Make a CRS from an EPSG code
+    def from_authority(cls, auth_name, code):
+        """Make a CRS from an authority name and authority code
 
         Parameters
         ----------
@@ -242,8 +242,6 @@ class CRS(_CRS):
         -------
         CRS
         """
-        if int(code) <= 0:
-            raise CRSError("Authority codes are positive integers")
         return cls("{}:{}".format(auth_name, code))
 
     @classmethod
@@ -263,7 +261,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls.from_auth("epsg", code)
+        return cls.from_authority("epsg", code)
 
     @classmethod
     def from_string(cls, proj_string):
@@ -579,9 +577,9 @@ class CRS(_CRS):
             ])
 
         # get SRS representation
-        epsg = self.to_epsg(100)
-        if epsg:
-            srs_repr = "epsg:{}".format(epsg)
+        auth_info = self.to_authority(min_confidence=100)
+        if auth_info:
+            srs_repr = ":".join(auth_info)
         else:
             srs_repr = (
                 self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."])

@@ -492,7 +492,9 @@ cdef class Ellipsoid(Base):
             PJ_CATEGORY_ELLIPSOID,
         )
         if ellipsoid_pj == NULL:
-            return None
+            raise CRSError(
+                "Invalid authority or code ({0}, {1})".format(auth_name, code)
+            )
         return Ellipsoid.create(ellipsoid_pj)
 
     @staticmethod
@@ -639,7 +641,9 @@ cdef class PrimeMeridian(Base):
             PJ_CATEGORY_PRIME_MERIDIAN,
         )
         if prime_meridian_pj == NULL:
-            return None
+            raise CRSError(
+                "Invalid authority or code ({0}, {1})".format(auth_name, code)
+            )
         return PrimeMeridian.create(prime_meridian_pj)
 
     @staticmethod
@@ -736,7 +740,9 @@ cdef class Datum(Base):
             PJ_CATEGORY_DATUM,
         )
         if datum_pj == NULL:
-            return None
+            raise CRSError(
+                "Invalid authority or code ({0}, {1})".format(auth_name, code)
+            )
         return Datum.create(datum_pj)
 
     @staticmethod
@@ -1097,7 +1103,9 @@ cdef class CoordinateOperation(Base):
             use_proj_alternative_grid_names,
         )
         if coord_operation_pj == NULL:
-            return None
+            raise CRSError(
+                "Invalid authority or code ({0}, {1})".format(auth_name, code)
+            )
         return CoordinateOperation.create(coord_operation_pj)
 
     @staticmethod
@@ -1288,7 +1296,7 @@ cdef class _CRS(Base):
     def __init__(self, proj_string):
         # setup proj initialization string.
         if not is_wkt(proj_string) \
-                and not re.match("^\w+:\d+$", proj_string.strip())\
+                and "=" in proj_string\
                 and "type=crs" not in proj_string:
             proj_string += " +type=crs"
         # initialize projection
@@ -1527,16 +1535,44 @@ cdef class _CRS(Base):
         -------
         int or None: The best matching EPSG code matching the confidence level.
         """
+        auth_info = self.to_authority(
+            auth_name="EPSG",
+            min_confidence=min_confidence
+        )
+        if auth_info is not None and auth_info[0].upper() == "EPSG":
+            return int(auth_info[1])
+        return None
+    
+    def to_authority(self, auth_name=None, min_confidence=70):
+        """
+        Return the authority name and code best matching the projection.
+
+        Parameters
+        ----------
+        auth_name: str, optional
+            The name of the authority to filter by.
+        min_confidence: int, optional
+            A value between 0-100 where 100 is the most confident. Default is 70.
+
+        Returns
+        -------
+        tuple(str, str) or None: The best matching (<auth_name>, <code>) matching the confidence level.
+        """
         # get list of possible matching projections
         cdef PJ_OBJ_LIST *proj_list = NULL
         cdef int *out_confidence_list = NULL
         cdef int out_confidence = -9999
         cdef int num_proj_objects = -9999
+        cdef char *user_auth_name = NULL
+
+        if auth_name is not None:
+            b_auth_name = cstrencode(auth_name)
+            user_auth_name = b_auth_name
 
         try:
             proj_list  = proj_identify(self.projctx,
                 self.projobj,
-                b"EPSG",
+                user_auth_name,
                 NULL,
                 &out_confidence_list
             )
@@ -1565,10 +1601,12 @@ cdef class _CRS(Base):
 
         # convert the matching projection to the EPSG code
         cdef const char* code
+        cdef const char* out_auth_name
         try:
             code = proj_get_id_code(proj, 0)
-            if code != NULL:
-                return int(code)
+            out_auth_name = proj_get_id_auth_name(proj, 0)
+            if out_auth_name != NULL and code != NULL:
+                return pystrdecode(out_auth_name), pystrdecode(code)
         finally:
             proj_destroy(proj)
 

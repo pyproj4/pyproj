@@ -1,6 +1,7 @@
 import pytest
+from pkg_resources import parse_version
 
-from pyproj import CRS
+from pyproj import CRS, proj_version_str
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
@@ -30,7 +31,7 @@ def test_from_epsg_string():
     assert proj.to_epsg() == 4326
 
     # Test with invalid EPSG code
-    with pytest.raises(ValueError):
+    with pytest.raises(CRSError):
         assert CRS.from_string("epsg:xyz")
 
 
@@ -184,7 +185,7 @@ def test_repr__long():
 
 def test_repr_epsg():
     assert repr(CRS(CRS("EPSG:4326").to_wkt())) == (
-        "<Geographic 2D CRS: epsg:4326>\n"
+        "<Geographic 2D CRS: EPSG:4326>\n"
         "Name: WGS 84\n"
         "Axis Info [ellipsoidal]:\n"
         "- Lat[north]: Geodetic latitude (degree)\n"
@@ -224,7 +225,7 @@ def test_repr__undefined():
 
 def test_repr_compound():
     assert repr(CRS.from_epsg(3901)) == (
-        "<Compound CRS: epsg:3901>\n"
+        "<Compound CRS: EPSG:3901>\n"
         "Name: KKJ / Finland Uniform Coordinate System + N60 height\n"
         "Axis Info [cartesian|vertical]:\n"
         "- X[north]: Northing (metre)\n"
@@ -483,8 +484,20 @@ def test_coordinate_operation__from_epsg():
     assert cc.method_code == "9807"
 
 
+def test_coordinate_operation__from_authority():
+    cc = CoordinateOperation.from_authority("EPSG", 16031)
+    assert cc.method_auth_name == "EPSG"
+    assert cc.method_code == "9807"
+
+
 def test_coordinate_operation__from_epsg__empty():
-    CoordinateOperation.from_epsg(1) is None
+    with pytest.raises(CRSError, match="Invalid authority"):
+        CoordinateOperation.from_epsg(1)
+
+
+def test_coordinate_operation__from_authority__empty():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        CoordinateOperation.from_authority("BOB", 4326)
 
 
 def test_datum__from_epsg():
@@ -495,8 +508,19 @@ def test_datum__from_epsg():
     )
 
 
-def test_datum__from_epsg__empty():
-    Datum.from_epsg(1) is None
+def test_datum__from_authority():
+    dt = Datum.from_authority("EPSG", 6326)
+    assert dt.name == "World Geodetic System 1984"
+
+
+def test_datum__from_epsg__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        Datum.from_epsg(1)
+
+
+def test_datum__from_authority__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        Datum.from_authority("BOB", 1)
 
 
 def test_prime_meridian__from_epsg():
@@ -505,8 +529,18 @@ def test_prime_meridian__from_epsg():
     )
 
 
-def test_prime_meridian__from_epsg__empty():
-    PrimeMeridian.from_epsg(1) is None
+def test_prime_meridian__from_authority():
+    assert PrimeMeridian.from_authority("EPSG", 8903).name == "Paris"
+
+
+def test_prime_meridian__from_epsg__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        PrimeMeridian.from_epsg(1)
+
+
+def test_prime_meridian__from_authority__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        PrimeMeridian.from_authority("Bob", 1)
 
 
 def test_ellipsoid__from_epsg():
@@ -515,8 +549,18 @@ def test_ellipsoid__from_epsg():
     )
 
 
-def test_ellipsoid__from_epsg__empty():
-    assert Ellipsoid.from_epsg(1) is None
+def test_ellipsoid__from_authority():
+    assert Ellipsoid.from_authority("EPSG", 7030).name == "WGS 84"
+
+
+def test_ellipsoid__from_epsg__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        Ellipsoid.from_epsg(1)
+
+
+def test_ellipsoid__from_authority__invalid():
+    with pytest.raises(CRSError, match="Invalid authority"):
+        Ellipsoid.from_authority("BOB", 1)
 
 
 def test_bound_crs_is_geographic():
@@ -638,3 +682,34 @@ def test_deprecated_to_geodetic():
     cc = CRS("epsg:3004")
     with pytest.warns(UserWarning):
         assert cc.to_geodetic().to_epsg() == 4265
+
+
+def test_itrf_init():
+    crs = CRS("ITRF2000")
+    assert crs.name == "ITRF2000"
+
+
+def test_compound_crs_init():
+    crs = CRS("EPSG:2393+5717")
+    assert crs.name == "KKJ / Finland Uniform Coordinate System + N60 height"
+
+
+def test_compound_crs_urn_init():
+    crs = CRS("urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717")
+    assert crs.name == "KKJ / Finland Uniform Coordinate System + N60 height"
+
+
+def test_from_authority__ignf():
+    cc = CRS.from_authority("IGNF", "ETRS89UTM28")
+    assert cc.to_authority() == ("IGNF", "ETRS89UTM28")
+    if parse_version(proj_version_str) > parse_version("6.1.0"):
+        assert cc.to_authority('EPSG') == ("EPSG", "25828")
+        assert cc.to_epsg() == 25828
+    else:
+        assert cc.to_epsg() is None
+
+
+def test_ignf_authority_repr():
+    assert repr(CRS.from_authority("IGNF", "ETRS89UTM28")).startswith(
+        "<Projected CRS: IGNF:ETRS89UTM28>"
+    )
