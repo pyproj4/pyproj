@@ -466,7 +466,7 @@ class CRS(_CRS):
     def to_cf(self, wkt_version="WKT2_2018", errcheck=False):
         """
         This converts a :obj:`~pyproj.crs.CRS` object
-        to a CF-1.8 dict.
+        to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.
 
         .. warning:: The full projection will be stored in the
             crs_wkt attribute. However, other parameters may be lost
@@ -546,8 +546,8 @@ class CRS(_CRS):
     @staticmethod
     def from_cf(in_cf, errcheck=False):
         """
-        This converts a CF-1.8 dict to a
-        :obj:`~pyproj.crs.CRS` object.
+        This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
+        dict to a :obj:`~pyproj.crs.CRS` object.
 
         .. warning:: Parameters may be lost if a mapping 
             from the CF parameter is not found. For best results
