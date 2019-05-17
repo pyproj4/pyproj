@@ -536,6 +536,9 @@ class CRS(_CRS):
         """special method that allows CRS instance to be pickled"""
         return self.__class__, (self.srs,)
 
+    def __hash__(self):
+        return hash(self.to_wkt())
+
     def __str__(self):
         return self.srs
 
