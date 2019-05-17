@@ -153,12 +153,29 @@
   <h1>Source code for pyproj.enums</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module contains enumerations used in pyproj.</span>
-
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">IntEnum</span>
+<span class="kn">from</span> <span class="nn">aenum</span> <span class="k">import</span> <span class="n">Enum</span>
+
+<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">string_types</span>
 
 
-<div class="viewcode-block" id="WktVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.WktVersion">[docs]</a><span class="k">class</span> <span class="nc">WktVersion</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">BaseEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_missing_</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="bp">cls</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">member</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">member</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Invalid value supplied &#39;</span><span class="si">{}</span><span class="s2">&#39;. &quot;</span>
+            <span class="s2">&quot;Only </span><span class="si">{}</span><span class="s2"> are supported.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">item</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">version</span> <span class="ow">in</span> <span class="bp">cls</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="WktVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.WktVersion">[docs]</a><span class="k">class</span> <span class="nc">WktVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Supported CRS WKT string versions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -177,7 +194,7 @@
     <span class="n">WKT1_ESRI</span> <span class="o">=</span> <span class="s2">&quot;WKT1_ESRI&quot;</span></div>
 
 
-<div class="viewcode-block" id="ProjVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.ProjVersion">[docs]</a><span class="k">class</span> <span class="nc">ProjVersion</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<div class="viewcode-block" id="ProjVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.ProjVersion">[docs]</a><span class="k">class</span> <span class="nc">ProjVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Supported CRS PROJ string versions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -188,7 +205,7 @@
     <span class="n">PROJ_5</span> <span class="o">=</span> <span class="mi">5</span></div>
 
 
-<div class="viewcode-block" id="TransformDirection"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.TransformDirection">[docs]</a><span class="k">class</span> <span class="nc">TransformDirection</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformDirection"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.TransformDirection">[docs]</a><span class="k">class</span> <span class="nc">TransformDirection</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Supported transform directions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
