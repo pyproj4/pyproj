@@ -709,3 +709,13 @@ def test_ignf_authority_repr():
     assert repr(CRS.from_authority("IGNF", "ETRS89UTM28")).startswith(
         "<Projected CRS: IGNF:ETRS89UTM28>"
     )
+
+
+def test_crs_hash():
+    """hashes of equivalent CRS are equal"""
+    assert hash(CRS.from_epsg(3857)) == hash(CRS.from_epsg(3857))
+
+
+def test_crs_hash_unequal():
+    """hashes of non-equivalent CRS are not equal"""
+    assert hash(CRS.from_epsg(3857)) != hash(CRS.from_epsg(4326))
