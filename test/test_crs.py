@@ -7,6 +7,11 @@ from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 
 
+class CustomCRS(object):
+    def to_wkt(self):
+        return CRS.from_epsg(4326).to_wkt()
+
+
 def test_from_proj4_json():
     json_str = '{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}'
     proj = CRS.from_string(json_str)
@@ -276,7 +281,10 @@ def test_datum_unknown():
 
 def test_epsg__not_found():
     assert CRS("+proj=longlat +datum=WGS84 +no_defs +towgs84=0,0,0").to_epsg(0) is None
-    assert CRS.from_string("+proj=longlat +datum=WGS84 +no_defs +towgs84=0,0,0").to_epsg() is None
+    assert (
+        CRS.from_string("+proj=longlat +datum=WGS84 +no_defs +towgs84=0,0,0").to_epsg()
+        is None
+    )
 
 
 def test_epsg__no_code_available():
@@ -367,10 +375,6 @@ def test_area_of_use():
 
 
 def test_from_user_input_custom_crs_class():
-    class CustomCRS(object):
-        def to_wkt(self):
-            return CRS.from_epsg(4326).to_wkt()
-
     assert CRS.from_user_input(CustomCRS()) == CRS.from_epsg(4326)
 
 
@@ -617,7 +621,7 @@ def test_to_proj4_enum():
 
 def test_datum__from_string():
     dd = Datum.from_string("urn:ogc:def:datum:EPSG::6326")
-    assert dd.name == 'World Geodetic System 1984'
+    assert dd.name == "World Geodetic System 1984"
 
 
 def test_datum__from_string__invalid():
@@ -629,7 +633,7 @@ def test_datum__from_string__invalid():
 
 def test_ellipsoid__from_string():
     ee = Ellipsoid.from_string("urn:ogc:def:ellipsoid:EPSG::7001")
-    assert ee.name == 'Airy 1830'
+    assert ee.name == "Airy 1830"
 
 
 def test_ellipsoid__from_string__invalid():
@@ -641,7 +645,7 @@ def test_ellipsoid__from_string__invalid():
 
 def test_prime_meridian__from_string():
     pm = PrimeMeridian.from_string("urn:ogc:def:meridian:EPSG::8901")
-    assert pm.name == 'Greenwich'
+    assert pm.name == "Greenwich"
 
 
 def test_prime_meridian__from_string__invalid():
@@ -653,7 +657,7 @@ def test_prime_meridian__from_string__invalid():
 
 def test_coordinate_operation__from_string():
     co = CoordinateOperation.from_string("urn:ogc:def:coordinateOperation:EPSG::1671")
-    assert co.name == 'RGF93 to WGS 84 (1)'
+    assert co.name == "RGF93 to WGS 84 (1)"
 
 
 def test_coordinate_operation__from_string__invalid():
@@ -699,7 +703,7 @@ def test_from_authority__ignf():
     cc = CRS.from_authority("IGNF", "ETRS89UTM28")
     assert cc.to_authority() == ("IGNF", "ETRS89UTM28")
     if parse_version(proj_version_str) > parse_version("6.1.0"):
-        assert cc.to_authority('EPSG') == ("EPSG", "25828")
+        assert cc.to_authority("EPSG") == ("EPSG", "25828")
         assert cc.to_epsg() == 25828
     else:
         assert cc.to_epsg() is None
@@ -719,3 +723,17 @@ def test_crs_hash():
 def test_crs_hash_unequal():
     """hashes of non-equivalent CRS are not equal"""
     assert hash(CRS.from_epsg(3857)) != hash(CRS.from_epsg(4326))
+
+
+def test_crs_init_user_input():
+    assert CRS(("IGNF", "ETRS89UTM28")).to_authority() == ("IGNF", "ETRS89UTM28")
+    assert CRS(4326).to_epsg() == 4326
+
+    proj4_dict = {"proj": "longlat", "datum": "WGS84", "no_defs": None, "type": "crs"}
+    assert CRS({"proj": "lonlat", "datum": "WGS84"}).to_proj4_dict() == proj4_dict
+    assert CRS(proj="lonlat", datum="WGS84").to_proj4_dict() == proj4_dict
+    assert (
+        CRS('{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}').to_proj4_dict()
+        == proj4_dict
+    )
+    assert CRS(CRS(4326)).is_exact_same(CRS(CustomCRS()))
