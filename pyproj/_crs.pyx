@@ -1670,6 +1670,7 @@ cdef class _CRS(Base):
         -------
         bool: True if projection is a valid CRS.
         """
+        warnings.warn("CRS.is_valid is deprecated.")
         return self._type != PJ_TYPE_UNKNOWN
 
     @property

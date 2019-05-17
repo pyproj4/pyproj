@@ -191,8 +191,6 @@ class CRS(_CRS):
         True
         >>> crs.is_geographic
         False
-        >>> crs.is_valid
-        True
         """
         # if projparams is None, use kwargs.
         if projparams is None:
