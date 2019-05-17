@@ -1,11 +1,28 @@
 """
 This module contains enumerations used in pyproj.
-
 """
-from enum import Enum, IntEnum
+from aenum import Enum
+
+from pyproj.compat import string_types
 
 
-class WktVersion(Enum):
+class BaseEnum(Enum):
+    @classmethod
+    def _missing_(cls, item):
+        if isinstance(item, string_types):
+            item = item.upper()
+        for member in cls:
+            if member.value == item:
+                return member
+        raise ValueError(
+            "Invalid value supplied '{}'. "
+            "Only {} are supported.".format(
+                item, tuple(version.value for version in cls)
+            )
+        )
+
+
+class WktVersion(BaseEnum):
     """
     Supported CRS WKT string versions
     """
@@ -24,7 +41,7 @@ class WktVersion(Enum):
     WKT1_ESRI = "WKT1_ESRI"
 
 
-class ProjVersion(IntEnum):
+class ProjVersion(BaseEnum):
     """
     Supported CRS PROJ string versions
     """
@@ -35,7 +52,7 @@ class ProjVersion(IntEnum):
     PROJ_5 = 5
 
 
-class TransformDirection(Enum):
+class TransformDirection(BaseEnum):
     """
     Supported transform directions
     """

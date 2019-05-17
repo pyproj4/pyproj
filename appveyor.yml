@@ -134,7 +134,7 @@ after_test:
   # - "%CMD_IN_ENV% python setup.py bdist_wininst"
   # - "%CMD_IN_ENV% python setup.py bdist_msi"
   # test wheel
-  - pip install pyproj --ignore-installed --no-index -f dist
+  - pip install pyproj --ignore-installed -f dist
   - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
   # cleanup for test dir
   - if %PROJSOURCE% == git del /F /Q dist\*

@@ -235,5 +235,5 @@ Optimized for numpy arrays.""",
     packages=["pyproj"],
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
-    install_requires=["enum34"] if sys.version_info < (3, 4) else None,
+    install_requires=["aenum"],
 )
