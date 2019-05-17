@@ -119,13 +119,9 @@ def test_to_proj4():
     )
 
 
-def test_is_valid_false():
-    with pytest.raises(CRSError):
-        CRS(init="EPSG:432600").is_valid
-
-
 def test_is_valid():
-    assert CRS(init="EPSG:4326").is_valid
+    with pytest.warns(UserWarning):
+        assert CRS(init="EPSG:4326").is_valid
 
 
 def test_empty_json():
