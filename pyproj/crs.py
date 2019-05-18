@@ -29,6 +29,7 @@ __all__ = [
 ]
 
 import json
+import re
 import warnings
 
 from pyproj._crs import CoordinateOperation  # noqa
@@ -103,7 +104,9 @@ def _from_string(in_crs_string):
         # look for EPSG, replace with epsg (EPSG only works
         # on case-insensitive filesystems).
         in_crs_string = in_crs_string.replace("+init=EPSG", "+init=epsg").strip()
-
+        # remove no_defs as it does nothing as of PROJ 6.0.0 and breaks
+        # initialization with +init=epsg:...
+        in_crs_string = re.sub(r"\s\+?no_defs([\w=]+)?", "", in_crs_string)
     return in_crs_string
 
 
@@ -649,17 +652,20 @@ class CRS(_CRS):
         # get coordinate operation repr
         coordinate_operation = ""
         if self.coordinate_operation:
-            coordinate_operation = "".join([
-                "Coordinate Operation:\n",
-                "- name: ", str(self.coordinate_operation), "\n"
-                "- method: ", str(self.coordinate_operation.method_name), "\n"
-            ])
+            coordinate_operation = "".join(
+                [
+                    "Coordinate Operation:\n",
+                    "- name: ",
+                    str(self.coordinate_operation),
+                    "\n" "- method: ",
+                    str(self.coordinate_operation.method_name),
+                    "\n",
+                ]
+            )
 
         # get SRS representation
         srs_repr = self.to_string()
-        srs_repr = (
-            srs_repr if len(srs_repr) <= 50 else " ".join([srs_repr[:50], "..."])
-        )
+        srs_repr = srs_repr if len(srs_repr) <= 50 else " ".join([srs_repr[:50], "..."])
         string_repr = (
             "<{type_name}: {srs_repr}>\n"
             "Name: {name}\n"

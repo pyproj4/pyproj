@@ -783,4 +783,14 @@ def test_to_string__auth():
 
 def test_srs__no_plus():
     assert CRS("proj=longlat datum=WGS84 no_defs").srs == \
-        "proj=longlat datum=WGS84 no_defs type=crs"
+        "proj=longlat datum=WGS84 type=crs"
+
+
+@pytest.mark.parametrize("init_string, expected_srs", [
+    ("+init=epsg:4326 +no_defs=True", "+init=epsg:4326 +type=crs"),
+    ("init=epsg:4326 no_defs=True", "init=epsg:4326 type=crs"),
+    ("+init=epsg:4326 +no_defs", "+init=epsg:4326 +type=crs"),
+    ("init=epsg:4326 no_defs", "init=epsg:4326 type=crs"),
+])
+def test_removing_nodefs(init_string, expected_srs):
+    assert CRS(init_string).srs == expected_srs
