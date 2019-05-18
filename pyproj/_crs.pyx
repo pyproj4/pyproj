@@ -1277,11 +1277,6 @@ cdef class _CRS(Base):
         self.type_name = "undefined"
 
     def __init__(self, proj_string):
-        # setup proj initialization string.
-        if not is_wkt(proj_string) \
-                and "=" in proj_string\
-                and "type=crs" not in proj_string:
-            proj_string += " +type=crs"
         # initialize projection
         self.projobj = proj_create(self.projctx, cstrencode(proj_string))
         if self.projobj is NULL:

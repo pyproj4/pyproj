@@ -14,3 +14,8 @@ def test_initialize_proj_crs_no_proj4():
         }
     )
     assert proj.srs.startswith("+proj=ob_tran")
+
+
+def test_initialize_proj_crs_no_plus():
+    proj = Proj("proj=lonlat")
+    assert proj.crs.srs == "proj=lonlat type=crs"
