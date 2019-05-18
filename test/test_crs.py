@@ -22,6 +22,27 @@ def test_from_proj4_json():
         assert CRS.from_string("{foo: bar}")
 
 
+def test_from_proj4():
+    proj = CRS.from_proj4("+proj=longlat +datum=WGS84 +no_defs +type=crs")
+    assert proj.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+
+
+def test_from_proj4__invalid():
+    # Test with invalid JSON code
+    with pytest.raises(CRSError):
+        assert CRS.from_proj4(CRS(3857).to_wkt())
+
+
+def test_from_proj4_json():
+    json_str = '{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}'
+    proj = CRS.from_string(json_str)
+    assert proj.to_proj4(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    assert proj.to_proj4(5) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    # Test with invalid JSON code
+    with pytest.raises(CRSError):
+        assert CRS.from_string("{foo: bar}")
+
+
 def test_from_epsg():
     proj = CRS.from_epsg(4326)
     assert proj.to_epsg() == 4326
@@ -310,17 +331,28 @@ def test_crs_OSR_no_equivalence():
     assert crs1 != crs2
 
 
-def test_from_wkt():
+def test_init_from_wkt():
     wgs84 = CRS.from_string("+proj=longlat +datum=WGS84 +no_defs")
     from_wkt = CRS(wgs84.to_wkt())
     assert wgs84.to_wkt() == from_wkt.to_wkt()
 
 
-def test_from_wkt_invalid():
+def test_init_from_wkt_invalid():
     with pytest.raises(CRSError):
         CRS("trash-54322")
     with pytest.raises(CRSError):
         CRS("")
+
+
+def test_from_wkt():
+    wgs84 = CRS.from_string("+proj=longlat +datum=WGS84 +no_defs")
+    from_wkt = CRS.from_wkt(wgs84.to_wkt())
+    assert wgs84.to_wkt() == from_wkt.to_wkt()
+
+
+def test_from_wkt_invalid():
+    with pytest.raises(CRSError):
+        CRS.from_wkt(CRS(4326).to_proj4())
 
 
 def test_from_user_input_epsg():
@@ -730,10 +762,25 @@ def test_crs_init_user_input():
     assert CRS(4326).to_epsg() == 4326
 
     proj4_dict = {"proj": "longlat", "datum": "WGS84", "no_defs": None, "type": "crs"}
-    assert CRS({"proj": "lonlat", "datum": "WGS84"}).to_proj4_dict() == proj4_dict
-    assert CRS(proj="lonlat", datum="WGS84").to_proj4_dict() == proj4_dict
+    assert CRS({"proj": "lonlat", "datum": "WGS84"}).to_dict() == proj4_dict
+    assert CRS(proj="lonlat", datum="WGS84").to_dict() == proj4_dict
     assert (
-        CRS('{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}').to_proj4_dict()
+        CRS('{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}').to_dict()
         == proj4_dict
     )
     assert CRS(CRS(4326)).is_exact_same(CRS(CustomCRS()))
+
+
+def test_to_string__no_auth():
+    proj = CRS("+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62")
+    assert proj.to_string() == \
+        "+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62 +type=crs"
+
+
+def test_to_string__auth():
+    assert CRS(("IGNF", "ETRS89UTM28")).to_string() == "IGNF:ETRS89UTM28"
+
+
+def test_srs__no_plus():
+    assert CRS("proj=longlat datum=WGS84 no_defs").srs == \
+        "proj=longlat datum=WGS84 no_defs type=crs"

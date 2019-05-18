@@ -95,7 +95,10 @@ def _from_string(in_crs_string):
 
         # make sure it is the CRS type
         if "type=crs" not in in_crs_string:
-            in_crs_string += " +type=crs"
+            if "+" in in_crs_string:
+                in_crs_string += " +type=crs"
+            else:
+                in_crs_string += " type=crs"
 
         # look for EPSG, replace with epsg (EPSG only works
         # on case-insensitive filesystems).
@@ -236,16 +239,12 @@ class CRS(_CRS):
         >>> crs.is_geographic
         False
         """
-        # if projparams is None, use kwargs.
-        if projparams is None:
-            if len(kwargs) == 0:
-                raise CRSError("no projection control parameters specified")
-            else:
-                projstring = _from_dict(kwargs)
-        elif isinstance(projparams, string_types):
+        if isinstance(projparams, string_types):
             projstring = _from_string(projparams)
         elif isinstance(projparams, dict):
             projstring = _from_dict(projparams)
+        elif kwargs:
+            projstring = _from_dict(kwargs)
         elif isinstance(projparams, int):
             projstring = _from_epsg(projparams)
         elif isinstance(projparams, (list, tuple)) and len(projparams) == 2:
@@ -290,6 +289,40 @@ class CRS(_CRS):
         return cls(_from_epsg(code))
 
     @classmethod
+    def from_proj4(cls, in_proj_string):
+        """Make a CRS from a PROJ string
+
+        Parameters
+        ----------
+        in_proj_string : str
+            A PROJ string.
+
+        Returns
+        -------
+        CRS
+        """
+        if is_wkt(in_proj_string) or "=" not in in_proj_string:
+            raise CRSError("Invalid PROJ string: {}".format(in_proj_string))
+        return cls(_from_string(in_proj_string))
+
+    @classmethod
+    def from_wkt(cls, in_wkt_string):
+        """Make a CRS from a WKT string
+
+        Parameters
+        ----------
+        in_wkt_string : str
+            A WKT string.
+
+        Returns
+        -------
+        CRS
+        """
+        if not is_wkt(in_wkt_string):
+            raise CRSError("Invalid WKT string: {}".format(in_wkt_string))
+        return cls(_from_string(in_wkt_string))
+
+    @classmethod
     def from_string(cls, in_crs_string):
         """Make a CRS from:
 
@@ -309,6 +342,22 @@ class CRS(_CRS):
         CRS
         """
         return cls(_from_string(in_crs_string))
+
+    def to_string(self):
+        """Convert the CRS to a string.
+
+        It attempts to convert it to the authority string.
+        Otherwise, it uses the string format of the user
+        input to create the CRS.
+
+        Returns
+        -------
+        str: String representation of the CRS.
+        """
+        auth_info = self.to_authority(min_confidence=100)
+        if auth_info:
+            return ":".join(auth_info)
+        return self.srs
 
     @classmethod
     def from_user_input(cls, value):
@@ -354,9 +403,24 @@ class CRS(_CRS):
             in_kwargs["b"] = self.ellipsoid.semi_minor_metre
         return Geod(**in_kwargs)
 
-    def to_proj4_dict(self):
+    @classmethod
+    def from_dict(cls, proj_dict):
+        """Make a CRS from a dictionary of PROJ parameters.
+
+        Parameters
+        ----------
+        proj_dict : str
+            PROJ params in dict format.
+
+        Returns
+        -------
+        CRS
         """
-        Converts the PROJ string to a dict.
+        return cls(_from_dict(proj_dict))
+
+    def to_dict(self):
+        """
+        Converts the CRS to dictionary of PROJ parameters.
 
         Returns
         -------
@@ -420,7 +484,7 @@ class CRS(_CRS):
         elif self.is_projected and self.name != "unknown":
             cf_dict["projected_crs_name"] = self.name
 
-        proj_dict = self.to_proj4_dict()
+        proj_dict = self.to_dict()
         proj_name = proj_dict.pop("proj")
         lonlat_possible_names = ("lonlat", "latlon", "longlat", "latlong")
         if proj_name in lonlat_possible_names:
@@ -592,13 +656,10 @@ class CRS(_CRS):
             ])
 
         # get SRS representation
-        auth_info = self.to_authority(min_confidence=100)
-        if auth_info:
-            srs_repr = ":".join(auth_info)
-        else:
-            srs_repr = (
-                self.srs if len(self.srs) <= 50 else " ".join([self.srs[:50], "..."])
-            )
+        srs_repr = self.to_string()
+        srs_repr = (
+            srs_repr if len(srs_repr) <= 50 else " ".join([srs_repr[:50], "..."])
+        )
         string_repr = (
             "<{type_name}: {srs_repr}>\n"
             "Name: {name}\n"

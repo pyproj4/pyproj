@@ -23,7 +23,7 @@ def test_to_cf_transverse_mercator():
         "towgs84": towgs84_test,
         "unit": "m",
     }
-    assert crs.to_proj4_dict() == {
+    assert crs.to_dict() == {
         "proj": "tmerc",
         "lat_0": 0,
         "lon_0": 15,
@@ -116,7 +116,7 @@ def test_cf_rotated_latlon():
             grid_north_pole_longitude=170.0,
         )
     )
-    assert crs.to_proj4_dict() == {
+    assert crs.to_dict() == {
         "proj": "ob_tran",
         "o_proj": "latlon",
         "o_lat_p": 32.5,
@@ -141,7 +141,7 @@ def test_cf_rotated_latlon__grid():
             north_pole_grid_longitude=0,
         )
     )
-    assert crs.to_proj4_dict() == {
+    assert crs.to_dict() == {
         "proj": "ob_tran",
         "o_proj": "latlon",
         "o_lat_p": 32.5,
@@ -199,7 +199,7 @@ def test_cf_lambert_conformal_conic_1sp():
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
-    proj_dict = crs.to_proj4_dict()
+    proj_dict = crs.to_dict()
     assert proj_dict == {
         "proj": "lcc",
         "lat_1": 25,
@@ -237,7 +237,7 @@ def test_cf_lambert_conformal_conic_2sp():
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
-    proj_dict = crs.to_proj4_dict()
+    proj_dict = crs.to_dict()
     assert proj_dict == {
         "proj": "lcc",
         "lat_1": 25,
@@ -277,7 +277,7 @@ def test_oblique_mercator():
         "reference_ellipsoid_name": "WGS84",
         "unit": "m",
     }
-    assert crs.to_proj4_dict() == {
+    assert crs.to_dict() == {
         "proj": "omerc",
         "lat_0": 10,
         "lonc": 15,
