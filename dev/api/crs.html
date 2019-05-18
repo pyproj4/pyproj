@@ -225,13 +225,19 @@
 <dl class="method">
 <dt id="pyproj.crs.CRS.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize a CRS class instance with a WKT string,
-a proj,4 string, a proj.4 dictionary, or with
-proj.4 keyword arguments.</p>
-<p>CRS projection control parameters must either be given in a
-dictionary ‘projparams’ or as keyword arguments. See the proj.4
-documentation (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>) for more information
-about specifying projection parameters.</p>
+<dd><blockquote>
+<div><p>Initialize a CRS class instance with:
+- PROJ string
+- Dictionary of PROJ parameters
+- PROJ keyword arguments for parameters
+- JSON string with PROJ parameters
+- CRS WKT string
+- An authority string [i.e. ‘epsg:4326’]
+- An EPSG integer code [i.e. 4326]
+- A tuple of (“auth_name”: “auth_code”) [i.e (‘epsg’, ‘4326’)]
+- An object with a <cite>to_wkt</cite> method.
+- A <code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></p>
+</div></blockquote>
 <p>Example usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="mi">26915</span><span class="p">)</span>
@@ -374,18 +380,14 @@ about specifying projection parameters.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>auth_name</strong> (<em>str</em>) – The name of the authority.</p></li>
-<li><p><strong>code</strong> (<em>int</em><em> or </em><em>str</em>) – The code used by the authority. Strings will be converted to integers.</p></li>
+<li><p><strong>code</strong> (<em>int</em><em> or </em><em>str</em>) – The code used by the authority.</p></li>
 </ul>
 </dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The input code is not validated against an EPSG database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -418,33 +420,72 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dd></dl>
 
 <dl class="classmethod">
+<dt id="pyproj.crs.CRS.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>proj_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a CRS from a dictionary of PROJ parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>proj_dict</strong> (<em>str</em>) – PROJ params in dict format.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
 <dt id="pyproj.crs.CRS.from_epsg">
 <em class="property">classmethod </em><code class="descname">from_epsg</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_epsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from an EPSG code</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>code</strong> (<em>int</em><em> or </em><em>str</em>) – An EPSG code. Strings will be converted to integers.</p>
+<dd class="field-odd"><p><strong>code</strong> (<em>int</em><em> or </em><em>str</em>) – An EPSG code.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>The input code is not validated against an EPSG database.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pyproj.crs.CRS.from_proj4">
+<em class="property">classmethod </em><code class="descname">from_proj4</code><span class="sig-paren">(</span><em>in_proj_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_proj4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_proj4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a CRS from a PROJ string</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_proj_string</strong> (<em>str</em>) – A PROJ string.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="pyproj.crs.CRS.from_string">
-<em class="property">classmethod </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>proj_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a CRS from an EPSG, PROJ, or WKT string</p>
+<em class="property">classmethod </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>in_crs_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a CRS from:</p>
+<dl class="simple">
+<dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
+<li><p>PROJ string</p></li>
+<li><p>JSON string with PROJ parameters</p></li>
+<li><p>CRS WKT string</p></li>
+<li><p>An authority string [i.e. ‘epsg:4326’]</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>proj_string</strong> (<em>str</em>) – An EPSG, PROJ, or WKT string.</p>
+<dd class="field-odd"><p><strong>in_crs_string</strong> (<em>str</em>) – An EPSG, PROJ, or WKT string.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -458,11 +499,41 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dl class="classmethod">
 <dt id="pyproj.crs.CRS.from_user_input">
 <em class="property">classmethod </em><code class="descname">from_user_input</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_user_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_user_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a CRS from various input</p>
-<p>Dispatches to from_epsg, from_proj, or from_string</p>
+<dd><dl class="simple">
+<dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
+<li><p>PROJ string</p></li>
+<li><p>Dictionary of PROJ parameters</p></li>
+<li><p>PROJ keyword arguments for parameters</p></li>
+<li><p>JSON string with PROJ parameters</p></li>
+<li><p>CRS WKT string</p></li>
+<li><p>An authority string [i.e. ‘epsg:4326’]</p></li>
+<li><p>An EPSG integer code [i.e. 4326]</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”) [i.e (‘epsg’, ‘4326’)]</p></li>
+<li><p>An object with a <cite>to_wkt</cite> method.</p></li>
+<li><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>value</strong> (<em>obj</em>) – A Python int, dict, or str.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pyproj.crs.CRS.from_wkt">
+<em class="property">classmethod </em><code class="descname">from_wkt</code><span class="sig-paren">(</span><em>in_wkt_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_wkt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a CRS from a WKT string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_wkt_string</strong> (<em>str</em>) – A WKT string.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -632,6 +703,20 @@ if a mapping to the CF parameter is not found.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.CRS.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the CRS to dictionary of PROJ parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>dict</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>PROJ params in dict format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.CRS.to_epsg">
 <code class="descname">to_epsg</code><span class="sig-paren">(</span><em>self</em>, <em>min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the EPSG code best matching the projection.</p>
@@ -684,15 +769,18 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.ProjVersi
 </dd></dl>
 
 <dl class="method">
-<dt id="pyproj.crs.CRS.to_proj4_dict">
-<code class="descname">to_proj4_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_proj4_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_proj4_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts the PROJ string to a dict.</p>
+<dt id="pyproj.crs.CRS.to_string">
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the CRS to a string.</p>
+<p>It attempts to convert it to the authority string.
+Otherwise, it uses the string format of the user
+input to create the CRS.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>dict</strong></p>
+<dd class="field-odd"><p><strong>str</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>PROJ params in dict format.</p>
+<dd class="field-even"><p>String representation of the CRS.</p>
 </dd>
 </dl>
 </dd></dl>
