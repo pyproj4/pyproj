@@ -152,11 +152,10 @@ class Proj(_proj.Proj):
             projstring = re.sub(r"\s\+units=[\w-]+", "", projstring)
             projstring += " +units=m"
             self.crs = CRS(projstring)
-        super(Proj, self).__init__(
-            cstrencode(
-                (self.crs.to_proj4() or self.crs.srs).replace("+type=crs", "").strip()
-            )
-        )
+
+        projstring = self.crs.to_proj4() or self.crs.srs
+        projstring = re.sub(r"\s\+?type=crs", "", projstring)
+        super(Proj, self).__init__(cstrencode(projstring.strip()))
 
     def __call__(self, *args, **kw):
         # ,lon,lat,inverse=False,errcheck=False):
