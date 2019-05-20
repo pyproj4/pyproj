@@ -1,3 +1,4 @@
+import json
 import re
 import warnings
 from collections import OrderedDict
@@ -1238,7 +1239,75 @@ cdef class CoordinateOperation(Base):
                 towgs84_dict[param.name] = param.value
         self._towgs84 = [val for val in towgs84_dict.values() if val is not None]
         return self._towgs84
- 
+
+
+def _from_crs_dict(projparams):
+    # convert a dict to a proj4 string.
+    pjargs = []
+    for key, value in projparams.items():
+        # the towgs84 as list
+        if isinstance(value, (list, tuple)):
+            value = ",".join([str(val) for val in value])
+        # issue 183 (+ no_rot)
+        if value is None or value is True:
+            pjargs.append("+{key}".format(key=key))
+        elif value is False:
+            pass
+        else:
+            pjargs.append("+{key}={value}".format(key=key, value=value))
+    return _from_crs_string(" ".join(pjargs))
+
+
+def _from_crs_string(in_crs_string):
+    if not in_crs_string:
+        raise CRSError("CRS is empty or invalid: {!r}".format(in_crs_string))
+    elif "{" in in_crs_string:
+        # may be json, try to decode it
+        try:
+            crs_dict = json.loads(in_crs_string, strict=False)
+        except ValueError:
+            raise CRSError("CRS appears to be JSON but is not valid")
+
+        if not crs_dict:
+            raise CRSError("CRS is empty JSON")
+        return _from_crs_dict(crs_dict)
+    elif not is_wkt(in_crs_string) and "=" in in_crs_string:
+        # make sure the projection starts with +proj or +init
+        starting_params = ("+init", "+proj", "init", "proj")
+        if not in_crs_string.lstrip().startswith(starting_params):
+            kvpairs = []
+            first_item_inserted = False
+            for kvpair in in_crs_string.split():
+                if not first_item_inserted and (kvpair.startswith(starting_params)):
+                    kvpairs.insert(0, kvpair)
+                    first_item_inserted = True
+                else:
+                    kvpairs.append(kvpair)
+            in_crs_string = " ".join(kvpairs)
+
+        # make sure it is the CRS type
+        if "type=crs" not in in_crs_string:
+            if "+" in in_crs_string:
+                in_crs_string += " +type=crs"
+            else:
+                in_crs_string += " type=crs"
+
+        # look for EPSG, replace with epsg (EPSG only works
+        # on case-insensitive filesystems).
+        in_crs_string = in_crs_string.replace("+init=EPSG", "+init=epsg").strip()
+        # remove no_defs as it does nothing as of PROJ 6.0.0 and breaks
+        # initialization with +init=epsg:...
+        in_crs_string = re.sub(r"\s\+?no_defs([\w=]+)?", "", in_crs_string)
+    return in_crs_string
+
+
+def _from_crs_authority(auth_name, auth_code):
+    return "{}:{}".format(auth_name, auth_code)
+
+
+def _from_crs_epsg(auth_code):
+    return _from_crs_authority("epsg", auth_code)
+
 
 _CRS_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown CRS",
@@ -1259,10 +1328,22 @@ _CRS_TYPE_MAP = {
 
 
 
-cdef class _CRS(Base):
+cdef class CCRS(Base):
     """
-    The cython CRS class to be used as the base for the
+    The Cython CRS (CCRS) class to be used as the base for the
     python CRS class.
+
+    Initialize a CRS class instance with any CRS string accepted by PROJ.
+
+    Attributes
+    ----------
+    srs: str
+        The string form of the user input used to create the CRS.
+    name: str
+        The name of the CRS (from `proj_get_name <https://proj4.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
+    type_name: str
+        The name of the type of the CRS object.
+
     """
     def __cinit__(self):
         self._ellipsoid = None
@@ -1589,6 +1670,72 @@ cdef class _CRS(Base):
             proj_destroy(proj)
 
         return None
+
+    @classmethod
+    def from_authority(cls, auth_name, code):
+        """Make a CRS from an authority name and authority code
+
+        Parameters
+        ----------
+        auth_name: str
+            The name of the authority.
+        code : int or str
+            The code used by the authority.
+
+        Returns
+        -------
+        CRS
+        """
+        return cls(_from_crs_authority(auth_name, code))
+
+    @classmethod
+    def from_epsg(cls, code):
+        """Make a CRS from an EPSG code
+
+        Parameters
+        ----------
+        code : int or str
+            An EPSG code.
+
+        Returns
+        -------
+        CRS
+        """
+        return cls(_from_crs_epsg(code))
+
+    @classmethod
+    def from_proj4(cls, in_proj_string):
+        """Make a CRS from a PROJ string
+
+        Parameters
+        ----------
+        in_proj_string : str
+            A PROJ string.
+
+        Returns
+        -------
+        CRS
+        """
+        if is_wkt(in_proj_string) or "=" not in in_proj_string:
+            raise CRSError("Invalid PROJ string: {}".format(in_proj_string))
+        return cls(_from_crs_string(in_proj_string))
+
+    @classmethod
+    def from_wkt(cls, in_wkt_string):
+        """Make a CRS from a WKT string
+
+        Parameters
+        ----------
+        in_wkt_string : str
+            A WKT string.
+
+        Returns
+        -------
+        CRS
+        """
+        if not is_wkt(in_wkt_string):
+            raise CRSError("Invalid WKT string: {}".format(in_wkt_string))
+        return cls(_from_crs_string(in_wkt_string))
 
     @property
     def is_geographic(self):

@@ -68,3 +68,12 @@ Prime Meridian
 .. autoclass:: pyproj.crs.PrimeMeridian
     :members:
     :inherited-members:
+
+
+Cython CRS Base Class
+---------------------
+This is for those who want direct access to passing a string to `proj_create`
+without any helpful filtering.
+
+.. autoclass:: pyproj.crs.CCRS
+    :members:

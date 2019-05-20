@@ -106,7 +106,7 @@ cdef class CoordinateOperation(Base):
     cdef create(PJ* coordinate_operation_pj)
 
 
-cdef class _CRS(Base):
+cdef class CCRS(Base):
     cdef PJ_TYPE _type
     cdef PJ_PROJ_INFO projpj_info
     cdef char *pjinitstring

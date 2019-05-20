@@ -1,6 +1,6 @@
 include "base.pxi"
 
-from pyproj._crs cimport _CRS
+from pyproj._crs cimport CCRS
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import TransformDirection
@@ -51,7 +51,7 @@ cdef class _Transformer:
         })
 
     @staticmethod
-    def from_crs(_CRS crs_from, _CRS crs_to, skip_equivalent=False, always_xy=False):
+    def from_crs(CCRS crs_from, CCRS crs_to, skip_equivalent=False, always_xy=False):
         cdef _Transformer transformer = _Transformer()
         transformer.projpj = proj_create_crs_to_crs(
             transformer.projctx,
