@@ -334,15 +334,24 @@ cdef class Base:
     def __repr__(self):
         return self.to_wkt(pretty=True)
 
-    def is_exact_same(self, Base other):
-        """Compares projections to see if they are exactly the same."""
+    def _is_exact_same(self, Base other):
         return proj_is_equivalent_to(
             self.projobj, other.projobj, PJ_COMP_STRICT) == 1
 
-    def __eq__(self, Base other):
-        """Compares projections to see if they are equivalent."""
+    def _is_equivalent(self, Base other):
         return proj_is_equivalent_to(
             self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
+
+    def __eq__(self, other):
+        if not isinstance(other, Base):
+            return False
+        return self._is_equivalent(other)
+
+    def is_exact_same(self, other):
+        """Compares projection objects to see if they are exactly the same."""
+        if not isinstance(other, Base):
+            return False
+        return self._is_exact_same(other)
 
 
 _COORD_SYSTEM_TYPE_MAP = {

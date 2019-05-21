@@ -794,3 +794,11 @@ def test_srs__no_plus():
 ])
 def test_removing_nodefs(init_string, expected_srs):
     assert CRS(init_string).srs == expected_srs
+
+
+def test_equals_different_type():
+    assert CRS("epsg:4326") != ""
+
+
+def test_is_exact_same_different_type():
+    assert not CRS("epsg:4326").is_exact_same(None)
