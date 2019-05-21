@@ -19,3 +19,11 @@ def test_initialize_proj_crs_no_proj4():
 def test_initialize_proj_crs_no_plus():
     proj = Proj("proj=lonlat")
     assert proj.crs.srs == "proj=lonlat type=crs"
+
+
+def test_equals_different_type():
+    assert Proj("epsg:4326") != ""
+
+
+def test_is_exact_same_different_type():
+    assert not Proj("epsg:4326").is_exact_same(None)
