@@ -255,7 +255,7 @@ class CRS(_CRS):
         elif hasattr(projparams, "to_wkt"):
             projstring = projparams.to_wkt()
         else:
-            raise CRSError("Invalid CRS input: {!r}".format(projstring))
+            raise CRSError("Invalid CRS input: {!r}".format(projparams))
 
         super(CRS, self).__init__(projstring)
 
@@ -610,6 +610,13 @@ class CRS(_CRS):
             )
 
         return CRS(proj_dict)
+
+    def __eq__(self, other):
+        try:
+            other = CRS.from_user_input(other)
+        except CRSError:
+            return False
+        return super(CRS, self).__eq__(other)
 
     def __reduce__(self):
         """special method that allows CRS instance to be pickled"""
