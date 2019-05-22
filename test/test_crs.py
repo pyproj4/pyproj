@@ -810,3 +810,13 @@ def test_compare_crs_non_crs():
     assert CRS.from_dict({"init": "epsg:4326"}) == {"init": "epsg:4326"}
     assert CRS.from_dict({"init": "epsg:4326"}) != "epsg:4326"
     assert CRS("epsg:4326") == CustomCRS()
+
+
+def test_is_geocentric__bound():
+    ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
+    assert ccs.is_geocentric
+
+
+def test_is_geocentric():
+    ccs = CRS.from_epsg(4328)
+    assert ccs.is_geocentric

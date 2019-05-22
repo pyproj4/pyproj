@@ -1671,4 +1671,6 @@ cdef class _CRS(Base):
         -------
         bool: True if projection in geocentric (x/y) coordinates
         """
+        if self.is_bound:
+            return self.source_crs.is_geocentric
         return self._type == PJ_TYPE_GEOCENTRIC_CRS
