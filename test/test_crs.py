@@ -802,3 +802,11 @@ def test_equals_different_type():
 
 def test_is_exact_same_different_type():
     assert not CRS("epsg:4326").is_exact_same(None)
+
+
+def test_compare_crs_non_crs():
+    assert CRS.from_epsg(4326) != 4.2
+    assert CRS.from_epsg(4326) == 4326
+    assert CRS.from_dict({"init": "epsg:4326"}) == {"init": "epsg:4326"}
+    assert CRS.from_dict({"init": "epsg:4326"}) != "epsg:4326"
+    assert CRS("epsg:4326") == CustomCRS()
