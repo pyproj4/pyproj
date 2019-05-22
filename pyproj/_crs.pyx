@@ -1603,6 +1603,20 @@ cdef class _CRS(Base):
 
         return None
 
+    def _is_crs_property(self, property_name, property_types, sub_crs_index=0):
+        if self.sub_crs_list:
+            sub_crs = self.sub_crs_list[sub_crs_index]
+            if sub_crs.is_bound:
+                is_property = getattr(sub_crs.source_crs, property_name)
+            else:
+                is_property = getattr(sub_crs, property_name)
+        elif self.is_bound:
+            is_property = getattr(self.source_crs, property_name)
+        else:
+            is_property = self._type in property_types
+        return is_property
+
+
     @property
     def is_geographic(self):
         """
@@ -1610,21 +1624,14 @@ cdef class _CRS(Base):
         -------
         bool: True if projection in geographic (lon/lat) coordinates.
         """
-        if self.sub_crs_list:
-            sub_crs = self.sub_crs_list[0]
-            if sub_crs.is_bound:
-                is_geographic = sub_crs.source_crs.is_geographic
-            else:
-                is_geographic = sub_crs.is_geographic
-        elif self.is_bound:
-            is_geographic = self.source_crs.is_geographic
-        else:
-            is_geographic = self._type in (
+        return self._is_crs_property(
+            "is_geographic", 
+            (
                 PJ_TYPE_GEOGRAPHIC_CRS,
                 PJ_TYPE_GEOGRAPHIC_2D_CRS,
                 PJ_TYPE_GEOGRAPHIC_3D_CRS
             )
-        return is_geographic
+        )
 
     @property
     def is_projected(self):
@@ -1633,17 +1640,23 @@ cdef class _CRS(Base):
         -------
         bool: True if projection is a projected CRS.
         """
-        if self.sub_crs_list:
-            sub_crs = self.sub_crs_list[0]
-            if sub_crs.is_bound:
-                is_projected = sub_crs.source_crs.is_projected
-            else:
-                is_projected = sub_crs.is_projected
-        elif self.is_bound:
-            is_projected = self.source_crs.is_projected
-        else:
-            is_projected = self._type == PJ_TYPE_PROJECTED_CRS
-        return is_projected 
+        return self._is_crs_property(
+            "is_projected", 
+            (PJ_TYPE_PROJECTED_CRS,)
+        )
+
+    @property
+    def is_vertical(self):
+        """
+        Returns
+        -------
+        bool: True if projection is a vertical CRS.
+        """
+        return self._is_crs_property(
+            "is_vertical", 
+            (PJ_TYPE_VERTICAL_CRS,),
+            sub_crs_index=1
+        )
 
     @property
     def is_bound(self):
@@ -1663,6 +1676,15 @@ cdef class _CRS(Base):
         """
         warnings.warn("CRS.is_valid is deprecated.")
         return self._type != PJ_TYPE_UNKNOWN
+
+    @property
+    def is_local(self):
+        """
+        Returns
+        -------
+        bool: True if projection is a local/engineering CRS.
+        """
+        return self._type == PJ_TYPE_ENGINEERING_CRS
 
     @property
     def is_geocentric(self):

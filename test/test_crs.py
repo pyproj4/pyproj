@@ -32,7 +32,6 @@ def test_from_proj4__invalid():
     with pytest.raises(CRSError):
         assert CRS.from_proj4(CRS(3857).to_wkt())
 
-
 def test_from_proj4_json():
     json_str = '{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}'
     proj = CRS.from_string(json_str)
@@ -425,6 +424,7 @@ def test_sub_crs():
     assert sub_crs_list[0] == CRS.from_epsg(25832)
     assert sub_crs_list[1] == CRS.from_epsg(5941)
     assert crs.is_projected
+    assert crs.is_vertical
     assert not crs.is_geographic
 
 
@@ -820,3 +820,20 @@ def test_is_geocentric__bound():
 def test_is_geocentric():
     ccs = CRS.from_epsg(4328)
     assert ccs.is_geocentric
+
+
+def test_is_vertical():
+    cc = CRS.from_epsg(5717)
+    assert cc.is_vertical
+
+
+def test_is_local():
+    eng_wkt = (
+        'ENGCRS["A construction site CRS",\n'
+        'EDATUM["P1",ANCHOR["Peg in south corner"]],\n'
+        'CS[Cartesian,2],\nAXIS["site east",southWest,ORDER[1]],\n'
+        'AXIS["site north",southEast,ORDER[2]],\n'
+        'LENGTHUNIT["metre",1.0],\n'
+        'TIMEEXTENT["date/time t1","date/time t2"]]'
+    )
+    assert CRS(eng_wkt).is_local
