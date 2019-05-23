@@ -225,19 +225,21 @@
 <dl class="method">
 <dt id="pyproj.crs.CRS.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Initialize a CRS class instance with:
-- PROJ string
-- Dictionary of PROJ parameters
-- PROJ keyword arguments for parameters
-- JSON string with PROJ parameters
-- CRS WKT string
-- An authority string [i.e. ‘epsg:4326’]
-- An EPSG integer code [i.e. 4326]
-- A tuple of (“auth_name”: “auth_code”) [i.e (‘epsg’, ‘4326’)]
-- An object with a <cite>to_wkt</cite> method.
-- A <code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></p>
-</div></blockquote>
+<dd><dl class="simple">
+<dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
+<li><p>PROJ string</p></li>
+<li><p>Dictionary of PROJ parameters</p></li>
+<li><p>PROJ keyword arguments for parameters</p></li>
+<li><p>JSON string with PROJ parameters</p></li>
+<li><p>CRS WKT string</p></li>
+<li><p>An authority string [i.e. ‘epsg:4326’]</p></li>
+<li><p>An EPSG integer code [i.e. 4326]</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”) [i.e (‘epsg’, ‘4326’)]</p></li>
+<li><p>An object with a <cite>to_wkt</cite> method.</p></li>
+<li><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></p></li>
+</ul>
+</dd>
+</dl>
 <p>Example usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="mi">26915</span><span class="p">)</span>
@@ -706,6 +708,12 @@ if a mapping to the CF parameter is not found.</p>
 <dt id="pyproj.crs.CRS.to_dict">
 <code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts the CRS to dictionary of PROJ parameters.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You will likely lose important projection
+information when converting to a PROJ string from
+another format. See: <a class="reference external" href="https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>dict</strong></p>
@@ -754,6 +762,12 @@ if a mapping to the CF parameter is not found.</p>
 <dt id="pyproj.crs.CRS.to_proj4">
 <code class="descname">to_proj4</code><span class="sig-paren">(</span><em>self</em>, <em>version=ProjVersion.PROJ_4</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_proj4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a PROJ.4 string.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You will likely lose important projection
+information when converting to a PROJ string from
+another format. See: <a class="reference external" href="https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.ProjVersion" title="pyproj.enums.ProjVersion"><em>ProjVersion</em></a>) – The version of the PROJ.4 output.
