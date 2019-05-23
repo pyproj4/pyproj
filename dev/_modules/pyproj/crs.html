@@ -293,17 +293,17 @@
 
 <div class="viewcode-block" id="CRS.__init__"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">         Initialize a CRS class instance with:</span>
-<span class="sd">         - PROJ string </span>
-<span class="sd">         - Dictionary of PROJ parameters</span>
-<span class="sd">         - PROJ keyword arguments for parameters</span>
-<span class="sd">         - JSON string with PROJ parameters</span>
-<span class="sd">         - CRS WKT string</span>
-<span class="sd">         - An authority string [i.e. &#39;epsg:4326&#39;]</span>
-<span class="sd">         - An EPSG integer code [i.e. 4326]</span>
-<span class="sd">         - A tuple of (&quot;auth_name&quot;: &quot;auth_code&quot;) [i.e (&#39;epsg&#39;, &#39;4326&#39;)]</span>
-<span class="sd">         - An object with a `to_wkt` method.</span>
-<span class="sd">         - A :class:`~pyproj.CRS`</span>
+<span class="sd">        Initialize a CRS class instance with:</span>
+<span class="sd">          - PROJ string </span>
+<span class="sd">          - Dictionary of PROJ parameters</span>
+<span class="sd">          - PROJ keyword arguments for parameters</span>
+<span class="sd">          - JSON string with PROJ parameters</span>
+<span class="sd">          - CRS WKT string</span>
+<span class="sd">          - An authority string [i.e. &#39;epsg:4326&#39;]</span>
+<span class="sd">          - An EPSG integer code [i.e. 4326]</span>
+<span class="sd">          - A tuple of (&quot;auth_name&quot;: &quot;auth_code&quot;) [i.e (&#39;epsg&#39;, &#39;4326&#39;)]</span>
+<span class="sd">          - An object with a `to_wkt` method.</span>
+<span class="sd">          - A :class:`~pyproj.CRS`</span>
 
 <span class="sd">        Example usage:</span>
 
@@ -519,16 +519,16 @@
     <span class="k">def</span> <span class="nf">from_user_input</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CRS class instance with:</span>
-<span class="sd">         - PROJ string </span>
-<span class="sd">         - Dictionary of PROJ parameters</span>
-<span class="sd">         - PROJ keyword arguments for parameters</span>
-<span class="sd">         - JSON string with PROJ parameters</span>
-<span class="sd">         - CRS WKT string</span>
-<span class="sd">         - An authority string [i.e. &#39;epsg:4326&#39;]</span>
-<span class="sd">         - An EPSG integer code [i.e. 4326]</span>
-<span class="sd">         - A tuple of (&quot;auth_name&quot;: &quot;auth_code&quot;) [i.e (&#39;epsg&#39;, &#39;4326&#39;)]</span>
-<span class="sd">         - An object with a `to_wkt` method.</span>
-<span class="sd">         - A :class:`~pyproj.CRS`</span>
+<span class="sd">          - PROJ string </span>
+<span class="sd">          - Dictionary of PROJ parameters</span>
+<span class="sd">          - PROJ keyword arguments for parameters</span>
+<span class="sd">          - JSON string with PROJ parameters</span>
+<span class="sd">          - CRS WKT string</span>
+<span class="sd">          - An authority string [i.e. &#39;epsg:4326&#39;]</span>
+<span class="sd">          - An EPSG integer code [i.e. 4326]</span>
+<span class="sd">          - A tuple of (&quot;auth_name&quot;: &quot;auth_code&quot;) [i.e (&#39;epsg&#39;, &#39;4326&#39;)]</span>
+<span class="sd">          - An object with a `to_wkt` method.</span>
+<span class="sd">          - A :class:`~pyproj.CRS`</span>
 <span class="sd">   </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -577,6 +577,10 @@
 <div class="viewcode-block" id="CRS.to_dict"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts the CRS to dictionary of PROJ parameters.</span>
+
+<span class="sd">        .. warning:: You will likely lose important projection</span>
+<span class="sd">          information when converting to a PROJ string from</span>
+<span class="sd">          another format. See: https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
