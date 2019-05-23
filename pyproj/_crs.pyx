@@ -1483,6 +1483,10 @@ cdef class _CRS(Base):
         """
         Convert the projection to a PROJ.4 string.
 
+        .. warning:: You will likely lose important projection
+          information when converting to a PROJ string from
+          another format. See: https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
+
         Parameters
         ----------
         version: ~pyproj.enums.ProjVersion

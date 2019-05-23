@@ -140,17 +140,17 @@ class CRS(_CRS):
 
     def __init__(self, projparams=None, **kwargs):
         """
-         Initialize a CRS class instance with:
-         - PROJ string 
-         - Dictionary of PROJ parameters
-         - PROJ keyword arguments for parameters
-         - JSON string with PROJ parameters
-         - CRS WKT string
-         - An authority string [i.e. 'epsg:4326']
-         - An EPSG integer code [i.e. 4326]
-         - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
-         - An object with a `to_wkt` method.
-         - A :class:`~pyproj.CRS`
+        Initialize a CRS class instance with:
+          - PROJ string 
+          - Dictionary of PROJ parameters
+          - PROJ keyword arguments for parameters
+          - JSON string with PROJ parameters
+          - CRS WKT string
+          - An authority string [i.e. 'epsg:4326']
+          - An EPSG integer code [i.e. 4326]
+          - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
+          - An object with a `to_wkt` method.
+          - A :class:`~pyproj.CRS`
 
         Example usage:
 
@@ -366,16 +366,16 @@ class CRS(_CRS):
     def from_user_input(cls, value):
         """
         Initialize a CRS class instance with:
-         - PROJ string 
-         - Dictionary of PROJ parameters
-         - PROJ keyword arguments for parameters
-         - JSON string with PROJ parameters
-         - CRS WKT string
-         - An authority string [i.e. 'epsg:4326']
-         - An EPSG integer code [i.e. 4326]
-         - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
-         - An object with a `to_wkt` method.
-         - A :class:`~pyproj.CRS`
+          - PROJ string 
+          - Dictionary of PROJ parameters
+          - PROJ keyword arguments for parameters
+          - JSON string with PROJ parameters
+          - CRS WKT string
+          - An authority string [i.e. 'epsg:4326']
+          - An EPSG integer code [i.e. 4326]
+          - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
+          - An object with a `to_wkt` method.
+          - A :class:`~pyproj.CRS`
    
         Parameters
         ----------
@@ -424,6 +424,10 @@ class CRS(_CRS):
     def to_dict(self):
         """
         Converts the CRS to dictionary of PROJ parameters.
+
+        .. warning:: You will likely lose important projection
+          information when converting to a PROJ string from
+          another format. See: https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
 
         Returns
         -------
