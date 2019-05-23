@@ -7,22 +7,26 @@ Change Log
 * `pyproj.crs` updates:
     * Updated CRS repr (issue #264)
     * Add Datum, CoordinateSystem, CoordinateOperation clases (issue #262)
-    * Added :attr:`~pyproj.CRS.to_cf` and :attr:`~pyproj.CRS.from_cf` for
+    * Added :meth:`~pyproj.CRS.to_cf` and :meth:`~pyproj.CRS.from_cf` for
       converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)
-    * Added :attr:`~pyproj.CRS.to_proj4_dict` (issue #226)
-    * Provide option to "pretty print" WKT in :attr:`~pyproj.CRS.to_wkt` (issue #258)
-    * Better handle CompoundCRS (issue #265)
-    * Add consistency for :attr:`~pyproj.CRS.is_geographic` and :attr:`~pyproj.CRS.is_projected` (issue #274)
-    * Added check in :attr:`~pyproj.CRS.to_epsg` for when `proj_list` is null (issue #257)
-    * Disallow creation of non-CRS object (eg pipeline) in CRS class (issue #267)
-    * Added support for ITRF, compound EPSG, and urn projection strings in CRS (pull #289)
+    * Added :attr:`~pyproj.CRS.to_dict` (issue #226)
     * Added :attr:`~pyproj.CRS.to_authority` (pull #294)
+    * Added :attr:`~pyproj.CRS.is_vertical` and :attr:`~pyproj.CRS.is_engineering` (issue #316)
+    * Provide option to "pretty print" WKT in :attr:`~pyproj.CRS.to_wkt` (issue #258)
+    * Add support for Bound and Compound CRS for :attr:`~pyproj.CRS.is_geographic`, :attr:`~pyproj.CRS.is_projected` (issue #274)
+    * Add support for Bound CRS for :attr:`~pyproj.CRS.is_geocentric` (issue #374)
+    * Add support for comparison with CRS a non-crs type supported by :meth:`~pyproj.CRS.from_user_input` (issue #312)
+    * Added support for ITRF, compound EPSG, and urn projection strings in CRS (pull #289)
+    * Better handle Compound CRS (issue #265)
+    * Disallow creation of non-CRS object (eg pipeline) in CRS class (issue #267)
+    * Added check in :meth:`~pyproj.CRS.to_epsg` for when `proj_list` is null (issue #257)
+    * Fix comparing classes of non-instance types (issue #310)
 * `pyroj.transformer` updates:
     * Added `always_xy` option to Transformer so the transform method will
       always accept as input and return as output coordinates using the
       traditional GIS order, that is longitude, latitudecfor geographic
       CRS and easting, northing for most projected CRS (issue #225)
-    * Provide direction option in :func:`~pyproj.Transformer.transform` (issue #266)
+    * Provide `direction` option in :meth:`~pyproj.Transformer.transform` (issue #266)
     * Undo deprecation of `from_crs` (issue #275)
     * Fix false positive errors raised in transformer (issue #249)
 * Fix `pyproj.Proj` initialization from DerivedGeographicCRS (issue #270)
