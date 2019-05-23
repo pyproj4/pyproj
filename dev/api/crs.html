@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CRS &mdash; pyproj 2.1.3 documentation</title>
+  <title>CRS &mdash; pyproj 2.2.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                2.1.3
+                2.2.0
               </div>
             
           
@@ -397,8 +397,8 @@
 <dl class="staticmethod">
 <dt id="pyproj.crs.CRS.from_cf">
 <em class="property">static </em><code class="descname">from_cf</code><span class="sig-paren">(</span><em>in_cf</em>, <em>errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
-<dd><p>This converts a CF-1.8 dict to a
-<a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> object.</p>
+<dd><p>This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
+dict to a <a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> object.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Parameters may be lost if a mapping
@@ -752,7 +752,7 @@ the source CRS:</p>
 <dt id="pyproj.crs.CRS.to_cf">
 <code class="descname">to_cf</code><span class="sig-paren">(</span><em>wkt_version='WKT2_2018'</em>, <em>errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_cf" title="Permalink to this definition">¶</a></dt>
 <dd><p>This converts a <a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> object
-to a CF-1.8 dict.</p>
+to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The full projection will be stored in the
