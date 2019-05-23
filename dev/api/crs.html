@@ -570,7 +570,14 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dt id="pyproj.crs.CRS.is_bound">
 <code class="descname">is_bound</code><a class="headerlink" href="#pyproj.crs.CRS.is_bound" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>bool</strong>
-:rtype: True if projection is a bound CRS.</p>
+:rtype: True if CRS is bound.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.CRS.is_engineering">
+<code class="descname">is_engineering</code><a class="headerlink" href="#pyproj.crs.CRS.is_engineering" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: <strong>bool</strong>
+:rtype: True if CRS is local/engineering.</p>
 </dd></dl>
 
 <dl class="method">
@@ -582,29 +589,74 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_geocentric">
 <code class="descname">is_geocentric</code><a class="headerlink" href="#pyproj.crs.CRS.is_geocentric" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns: <strong>bool</strong>
-:rtype: True if projection in geocentric (x/y) coordinates</p>
+<dd><p>This checks if the CRS is geocentric and
+takes into account if the CRS is bound.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>True if CRS is in geocentric (x/y) coordinates.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_geographic">
 <code class="descname">is_geographic</code><a class="headerlink" href="#pyproj.crs.CRS.is_geographic" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns: <strong>bool</strong>
-:rtype: True if projection in geographic (lon/lat) coordinates.</p>
+<dd><p>This checks if the CRS is geographic.
+It will check if it has a geographic CRS
+in the sub CRS if it is a compount CRS and will check if
+the source CRS is geographic it it is a bound CRS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>True if the CRS is in geographic (lon/lat) coordinates.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_projected">
 <code class="descname">is_projected</code><a class="headerlink" href="#pyproj.crs.CRS.is_projected" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns: <strong>bool</strong>
-:rtype: True if projection is a projected CRS.</p>
+<dd><p>This checks if the CRS is projected.
+It will check if it has a projected CRS
+in the sub CRS if it is a compount CRS and will check if
+the source CRS is projected it it is a bound CRS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>True if CRS is projected.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_valid">
 <code class="descname">is_valid</code><a class="headerlink" href="#pyproj.crs.CRS.is_valid" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>bool</strong>
-:rtype: True if projection is a valid CRS.</p>
+:rtype: True if CRS is valid.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.CRS.is_vertical">
+<code class="descname">is_vertical</code><a class="headerlink" href="#pyproj.crs.CRS.is_vertical" title="Permalink to this definition">¶</a></dt>
+<dd><p>This checks if the CRS is vertical.
+It will check if it has a vertical CRS
+in the sub CRS if it is a compount CRS and will check if
+the source CRS is vertical it it is a bound CRS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>True if CRS is vertical.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -660,7 +712,26 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_authority">
 <code class="descname">to_authority</code><span class="sig-paren">(</span><em>self</em>, <em>auth_name=None</em>, <em>min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_authority" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the authority name and code best matching the projection.</p>
+<dd><p>Return the authority name and code best matching the CRS
+or None if it a match is not found.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;epsg:4328&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
+<span class="go">(&#39;EPSG&#39;, &#39;4328&#39;)</span>
+</pre></div>
+</div>
+<p>If the CRS is bound, you can get an authority from
+the source CRS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+init=epsg:4328 +towgs84=0,0,0&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
+<span class="go">(&#39;EPSG&#39;, &#39;4978&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">==</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_authorty</span><span class="p">(</span><span class="s1">&#39;EPSG&#39;</span><span class="p">,</span> <span class="s1">&#39;4978&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -669,10 +740,10 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>tuple(str, str) or None</strong></p>
+<dd class="field-even"><p><strong>tuple(str, str) or None</strong> – matching the confidence level.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The best matching (&lt;auth_name&gt;, &lt;code&gt;) matching the confidence level.</p>
+<dd class="field-odd"><p>The best matching (&lt;auth_name&gt;, &lt;code&gt;)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -727,7 +798,26 @@ another format. See: <a class="reference external" href="https://proj4.org/faq.h
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_epsg">
 <code class="descname">to_epsg</code><span class="sig-paren">(</span><em>self</em>, <em>min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the EPSG code best matching the projection.</p>
+<dd><p>Return the EPSG code best matching the CRS
+or None if it a match is not found.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;epsg:4328&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">()</span>
+<span class="go">4328</span>
+</pre></div>
+</div>
+<p>If the CRS is bound, you can attempt to get an epsg code from
+the source CRS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+init=epsg:4328 +towgs84=0,0,0&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">()</span>
+<span class="go">4978</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">==</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4978</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.</p>
