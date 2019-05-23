@@ -1440,7 +1440,6 @@ cdef class _CRS(Base):
         Returns
         -------
         list[CRS]
-
         """
         if self._sub_crs_list is not None:
             return self._sub_crs_list
@@ -1463,7 +1462,6 @@ cdef class _CRS(Base):
         Returns
         -------
         pyproj.CRS: The geodetic CRS based on this CRS.
-
         """
         if self._geodetic_crs is not None:
             return self._geodetic_crs if self. _geodetic_crs is not False else None
@@ -1506,7 +1504,6 @@ cdef class _CRS(Base):
         Returns
         -------
         pyproj.CRS: The geodetic CRS from this CRS.
-
         """
         warnings.warn(
             "This method is deprecated an has been replaced with `CRS.geodetic_crs`."
@@ -1515,7 +1512,26 @@ cdef class _CRS(Base):
 
     def to_epsg(self, min_confidence=70):
         """
-        Return the EPSG code best matching the projection.
+        Return the EPSG code best matching the CRS
+        or None if it a match is not found.
+
+        Example: 
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("epsg:4328")
+        >>> ccs.to_epsg()
+        4328
+
+        If the CRS is bound, you can attempt to get an epsg code from
+        the source CRS:
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
+        >>> ccs.to_epsg()
+        >>> ccs.source_crs.to_epsg()
+        4978
+        >>> ccs == CRS.from_epsg(4978)
+        False
 
         Parameters
         ----------
@@ -1536,7 +1552,26 @@ cdef class _CRS(Base):
     
     def to_authority(self, auth_name=None, min_confidence=70):
         """
-        Return the authority name and code best matching the projection.
+        Return the authority name and code best matching the CRS
+        or None if it a match is not found.
+
+        Example: 
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("epsg:4328")
+        >>> ccs.to_authority()
+        ('EPSG', '4328')
+
+        If the CRS is bound, you can get an authority from
+        the source CRS:
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
+        >>> ccs.to_authority()
+        >>> ccs.source_crs.to_authority()
+        ('EPSG', '4978')
+        >>> ccs == CRS.from_authorty('EPSG', '4978')
+        False
 
         Parameters
         ----------
@@ -1547,7 +1582,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        tuple(str, str) or None: The best matching (<auth_name>, <code>) matching the confidence level.
+        tuple(str, str) or None: The best matching (<auth_name>, <code>)
+            matching the confidence level.
         """
         # get list of possible matching projections
         cdef PJ_OBJ_LIST *proj_list = NULL
@@ -1604,6 +1640,25 @@ cdef class _CRS(Base):
         return None
 
     def _is_crs_property(self, property_name, property_types, sub_crs_index=0):
+        """
+        This method will check for a property on the CRS.
+        It will check if it has the property on the sub CRS
+        if it is a compount CRS and will check if the source CRS
+        has the property if it is a bound CRS.
+
+        Parameters
+        ----------
+        property_name: str
+            The name of the CRS property.
+        property_types: tuple(PJ_TYPE)
+            The types to check for for the property.
+        sub_crs_index: int, optional
+            THe index of the CRS in the sub CRS list. Default is 0.
+
+        Returns
+        -------
+        bool: True if the CRS has this property.
+        """
         if self.sub_crs_list:
             sub_crs = self.sub_crs_list[sub_crs_index]
             if sub_crs.is_bound:
@@ -1620,9 +1675,14 @@ cdef class _CRS(Base):
     @property
     def is_geographic(self):
         """
+        This checks if the CRS is geographic.
+        It will check if it has a geographic CRS
+        in the sub CRS if it is a compount CRS and will check if 
+        the source CRS is geographic it it is a bound CRS.
+
         Returns
         -------
-        bool: True if projection in geographic (lon/lat) coordinates.
+        bool: True if the CRS is in geographic (lon/lat) coordinates.
         """
         return self._is_crs_property(
             "is_geographic", 
@@ -1636,9 +1696,14 @@ cdef class _CRS(Base):
     @property
     def is_projected(self):
         """
+        This checks if the CRS is projected.
+        It will check if it has a projected CRS
+        in the sub CRS if it is a compount CRS and will check if
+        the source CRS is projected it it is a bound CRS.
+
         Returns
         -------
-        bool: True if projection is a projected CRS.
+        bool: True if CRS is projected.
         """
         return self._is_crs_property(
             "is_projected", 
@@ -1648,9 +1713,14 @@ cdef class _CRS(Base):
     @property
     def is_vertical(self):
         """
+        This checks if the CRS is vertical.
+        It will check if it has a vertical CRS
+        in the sub CRS if it is a compount CRS and will check if 
+        the source CRS is vertical it it is a bound CRS.
+
         Returns
         -------
-        bool: True if projection is a vertical CRS.
+        bool: True if CRS is vertical.
         """
         return self._is_crs_property(
             "is_vertical", 
@@ -1663,7 +1733,7 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        bool: True if projection is a bound CRS.
+        bool: True if CRS is bound.
         """
         return self._type == PJ_TYPE_BOUND_CRS
 
@@ -1672,26 +1742,29 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        bool: True if projection is a valid CRS.
+        bool: True if CRS is valid.
         """
         warnings.warn("CRS.is_valid is deprecated.")
         return self._type != PJ_TYPE_UNKNOWN
 
     @property
-    def is_local(self):
+    def is_engineering(self):
         """
         Returns
         -------
-        bool: True if projection is a local/engineering CRS.
+        bool: True if CRS is local/engineering.
         """
         return self._type == PJ_TYPE_ENGINEERING_CRS
 
     @property
     def is_geocentric(self):
         """
+        This checks if the CRS is geocentric and
+        takes into account if the CRS is bound.
+
         Returns
         -------
-        bool: True if projection in geocentric (x/y) coordinates
+        bool: True if CRS is in geocentric (x/y) coordinates.
         """
         if self.is_bound:
             return self.source_crs.is_geocentric

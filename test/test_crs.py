@@ -827,7 +827,7 @@ def test_is_vertical():
     assert cc.is_vertical
 
 
-def test_is_local():
+def test_is_engineering():
     eng_wkt = (
         'ENGCRS["A construction site CRS",\n'
         'EDATUM["P1",ANCHOR["Peg in south corner"]],\n'
@@ -836,4 +836,4 @@ def test_is_local():
         'LENGTHUNIT["metre",1.0],\n'
         'TIMEEXTENT["date/time t1","date/time t2"]]'
     )
-    assert CRS(eng_wkt).is_local
+    assert CRS(eng_wkt).is_engineering
