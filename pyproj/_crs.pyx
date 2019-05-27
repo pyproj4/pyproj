@@ -80,7 +80,7 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version=WktVersion.WKT2_2018, pre
     return cstrdecode(proj_string)
 
 
-cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=ProjVersion.PROJ_4):
+cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version):
     """
     Convert the projection to a PROJ.4 string.
 
@@ -88,7 +88,6 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version=ProjVersion.PROJ_4):
     ----------
     version: ~pyproj.enums.ProjVersion
         The version of the PROJ.4 output. 
-        Default is :attr:`~pyproj.enums.ProjVersion.PROJ_4`.
 
     Returns
     -------

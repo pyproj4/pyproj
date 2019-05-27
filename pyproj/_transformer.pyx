@@ -1,9 +1,9 @@
 include "base.pxi"
 
-from pyproj._crs cimport _CRS
+from pyproj._crs cimport Base, _CRS
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj.enums import TransformDirection
+from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError
 
 
@@ -14,10 +14,8 @@ _PJ_DIRECTION_MAP = {
 }
 
 
-cdef class _Transformer:
+cdef class _Transformer(Base):
     def __cinit__(self):
-        self.projpj = NULL
-        self.projctx = NULL
         self.input_geographic = False
         self.output_geographic = False
         self._input_radians = {}
@@ -27,49 +25,65 @@ cdef class _Transformer:
         self.projections_equivalent = False
         self.projections_exact_same = False
 
-    def __init__(self):
-        # set up the context
-        self.projctx = get_pyproj_context()
-
-    def __dealloc__(self):
-        """destroy projection definition"""
-        if self.projpj is not NULL:
-            proj_destroy(self.projpj)
-        if self.projctx is not NULL:
-            proj_context_destroy(self.projctx)
-
     def _set_radians_io(self):
         self._input_radians.update({
-            PJ_FWD: proj_angular_input(self.projpj, PJ_FWD),
-            PJ_INV: proj_angular_input(self.projpj, PJ_INV),
-            PJ_IDENT: proj_angular_input(self.projpj, PJ_IDENT),
+            PJ_FWD: proj_angular_input(self.projobj, PJ_FWD),
+            PJ_INV: proj_angular_input(self.projobj, PJ_INV),
+            PJ_IDENT: proj_angular_input(self.projobj, PJ_IDENT),
         })
         self._output_radians.update({
-            PJ_FWD: proj_angular_output(self.projpj, PJ_FWD),
-            PJ_INV: proj_angular_output(self.projpj, PJ_INV),
-            PJ_IDENT: proj_angular_output(self.projpj, PJ_IDENT),
+            PJ_FWD: proj_angular_output(self.projobj, PJ_FWD),
+            PJ_INV: proj_angular_output(self.projobj, PJ_INV),
+            PJ_IDENT: proj_angular_output(self.projobj, PJ_IDENT),
         })
+
+    def _initialize_from_projobj(self):
+        self.proj_info = proj_pj_info(self.projobj)
+        if self.proj_info.id == NULL:
+            ProjError.clear()
+            raise ProjError("Input is not a transformation.")
+
+    @property
+    def id(self):
+        return pystrdecode(self.proj_info.id)
+    
+    @property
+    def description(self):
+        return pystrdecode(self.proj_info.description)
+
+    @property
+    def definition(self):
+        return pystrdecode(self.proj_info.definition)
+
+    @property
+    def has_inverse(self):
+        return self.proj_info.has_inverse == 1
+
+    @property
+    def accuracy(self):
+        return self.proj_info.accuracy
 
     @staticmethod
     def from_crs(_CRS crs_from, _CRS crs_to, skip_equivalent=False, always_xy=False):
         cdef _Transformer transformer = _Transformer()
-        transformer.projpj = proj_create_crs_to_crs(
+        transformer.projobj = proj_create_crs_to_crs(
             transformer.projctx,
             cstrencode(crs_from.srs),
             cstrencode(crs_to.srs),
             NULL)
-        if transformer.projpj is NULL:
+        if transformer.projobj is NULL:
             raise ProjError("Error creating CRS to CRS.")
 
         cdef PJ* always_xy_pj = NULL
         if always_xy:
             always_xy_pj = proj_normalize_for_visualization(
                 transformer.projctx,
-                transformer.projpj
+                transformer.projobj
             )
-            proj_destroy(transformer.projpj)
-            transformer.projpj = always_xy_pj
+            proj_destroy(transformer.projobj)
+            transformer.projobj = always_xy_pj
 
+        transformer._initialize_from_projobj()
         transformer._set_radians_io()
         transformer.projections_exact_same = crs_from.is_exact_same(crs_to)
         transformer.projections_equivalent = crs_from == crs_to
@@ -82,11 +96,11 @@ cdef class _Transformer:
     @staticmethod
     def from_pipeline(const char *proj_pipeline):
         cdef _Transformer transformer = _Transformer()
-
         # initialize projection
-        transformer.projpj = proj_create(transformer.projctx, proj_pipeline)
-        if transformer.projpj is NULL:
+        transformer.projobj = proj_create(transformer.projctx, proj_pipeline)
+        if transformer.projobj is NULL:
             raise ProjError("Invalid projection {}.".format(proj_pipeline))
+        transformer._initialize_from_projobj()
         transformer._set_radians_io()
         transformer.is_pipeline = True
         return transformer
@@ -152,14 +166,14 @@ cdef class _Transformer:
 
         ProjError.clear()
         proj_trans_generic(
-            self.projpj,
+            self.projobj,
             pj_direction,
             xx, _DOUBLESIZE, npts,
             yy, _DOUBLESIZE, npts,
             zz, _DOUBLESIZE, npts,
             tt, _DOUBLESIZE, npts,
         )
-        cdef int errno = proj_errno(self.projpj)
+        cdef int errno = proj_errno(self.projobj)
         if errcheck and errno:
             raise ProjError("transform error: {}".format(
                 pystrdecode(proj_errno_string(errno))))
@@ -246,14 +260,14 @@ cdef class _Transformer:
 
         ProjError.clear()
         proj_trans_generic (
-            self.projpj,
+            self.projobj,
             pj_direction,
             x, stride*_DOUBLESIZE, npts,
             y, stride*_DOUBLESIZE, npts,
             z, stride*_DOUBLESIZE, npts,
             tt, stride*_DOUBLESIZE, npts,
         )
-        cdef int errno = proj_errno(self.projpj)
+        cdef int errno = proj_errno(self.projobj)
         if errcheck and errno:
             raise ProjError("itransform error: {}".format(
                 pystrdecode(proj_errno_string(errno))))

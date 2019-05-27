@@ -23,7 +23,8 @@ from itertools import chain, islice
 from pyproj import CRS, Proj
 from pyproj._transformer import _Transformer
 from pyproj.compat import cstrencode
-from pyproj.enums import TransformDirection
+from pyproj.enums import TransformDirection, WktVersion
+from pyproj.exceptions import ProjError
 from pyproj.utils import _convertback, _copytobuffer
 
 try:
@@ -40,6 +41,50 @@ class Transformer(object):
 
     Additionally, it provides multiple methods for initialization.
     """
+
+    def __init__(self, base_transformer=None):
+        if not isinstance(base_transformer, _Transformer):
+            ProjError.clear()
+            raise ProjError(
+                "Transformer must be initialized using: "
+                "'from_crs', 'from_pipeline', or 'from_proj'."
+            )
+        self._transformer = base_transformer
+
+    @property
+    def name(self):
+        """
+        str: Name of the projection.
+        """
+        return self._transformer.id
+
+    @property
+    def description(self):
+        """
+        str: Description of the projection.
+        """
+        return self._transformer.description
+
+    @property
+    def definition(self):
+        """
+        str: Definition of the projection.
+        """
+        return self._transformer.definition
+
+    @property
+    def has_inverse(self):
+        """
+        bool: True if an inverse mapping exists.
+        """
+        return self._transformer.has_inverse
+
+    @property
+    def accuracy(self):
+        """
+        float: Expected accuracy of the transformation. -1 if unknown.
+        """
+        return self._transformer.accuracy
 
     @staticmethod
     def from_proj(proj_from, proj_to, skip_equivalent=False, always_xy=False):
@@ -70,14 +115,14 @@ class Transformer(object):
         if not isinstance(proj_to, Proj):
             proj_to = Proj(proj_to)
 
-        transformer = Transformer()
-        transformer._transformer = _Transformer.from_crs(
-            proj_from.crs,
-            proj_to.crs,
-            skip_equivalent=skip_equivalent,
-            always_xy=always_xy,
+        return Transformer(
+            _Transformer.from_crs(
+                proj_from.crs,
+                proj_to.crs,
+                skip_equivalent=skip_equivalent,
+                always_xy=always_xy,
+            )
         )
-        return transformer
 
     @staticmethod
     def from_crs(crs_from, crs_to, skip_equivalent=False, always_xy=False):
@@ -103,12 +148,13 @@ class Transformer(object):
         :obj:`~Transformer`
 
         """
-        transformer = Transformer()
-        transformer._transformer = _Transformer.from_crs(
-            CRS.from_user_input(crs_from),
-            CRS.from_user_input(crs_to),
-            skip_equivalent=skip_equivalent,
-            always_xy=always_xy,
+        transformer = Transformer(
+            _Transformer.from_crs(
+                CRS.from_user_input(crs_from),
+                CRS.from_user_input(crs_to),
+                skip_equivalent=skip_equivalent,
+                always_xy=always_xy,
+            )
         )
         return transformer
 
@@ -128,9 +174,7 @@ class Transformer(object):
         ~Transformer
 
         """
-        transformer = Transformer()
-        transformer._transformer = _Transformer.from_pipeline(cstrencode(proj_pipeline))
-        return transformer
+        return Transformer(_Transformer.from_pipeline(cstrencode(proj_pipeline)))
 
     def transform(
         self,
@@ -320,6 +364,46 @@ class Transformer(object):
 
             for pt in zip(*([iter(buff)] * stride)):
                 yield pt
+
+    def to_wkt(self, version=WktVersion.WKT2_2018, pretty=False):
+        """
+        Convert the projection to a WKT string.
+
+        Version options:
+          - WKT2_2015
+          - WKT2_2015_SIMPLIFIED
+          - WKT2_2018
+          - WKT2_2018_SIMPLIFIED
+          - WKT1_GDAL
+          - WKT1_ESRI
+
+
+        Parameters
+        ----------
+        version: ~pyproj.enums.WktVersion
+            The version of the WKT output.
+            Default is :attr:`~pyproj.enums.WktVersion.WKT2_2018`.
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
+ 
+        Returns
+        -------
+        str: The WKT string.
+        """
+        return self._transformer.to_wkt(version=version, pretty=pretty)
+
+    def __str__(self):
+        return self.definition
+
+    def __repr__(self):
+        return "\n".join(
+            [
+                "Definiton:",
+                self.definition,
+                "WKT:",
+                self.to_wkt(pretty=True) or "undefined",
+            ]
+        )
 
 
 def transform(
