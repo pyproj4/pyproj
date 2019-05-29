@@ -193,19 +193,19 @@
 <dt><cite>pyproj.crs</cite> updates:</dt><dd><ul>
 <li><p>Updated CRS repr (issue #264)</p></li>
 <li><p>Add Datum, CoordinateSystem, CoordinateOperation clases (issue #262)</p></li>
-<li><p>Added <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_cf()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_cf()</span></code> for
+<li><p>Added <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_cf()</span></code></a> and <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.from_cf" title="pyproj.crs.CRS.from_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_cf()</span></code></a> for
 converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)</p></li>
-<li><p>Added <code class="xref py py-attr docutils literal notranslate"><span class="pre">to_dict</span></code> (issue #226)</p></li>
-<li><p>Added <code class="xref py py-attr docutils literal notranslate"><span class="pre">to_authority</span></code> (pull #294)</p></li>
-<li><p>Added <code class="xref py py-attr docutils literal notranslate"><span class="pre">is_vertical</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">is_engineering</span></code> (issue #316)</p></li>
-<li><p>Provide option to “pretty print” WKT in <code class="xref py py-attr docutils literal notranslate"><span class="pre">to_wkt</span></code> (issue #258)</p></li>
-<li><p>Add support for Bound and Compound CRS for <code class="xref py py-attr docutils literal notranslate"><span class="pre">is_geographic</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">is_projected</span></code> (issue #274)</p></li>
-<li><p>Add support for Bound CRS for <code class="xref py py-attr docutils literal notranslate"><span class="pre">is_geocentric</span></code> (issue #374)</p></li>
-<li><p>Add support for comparison with CRS a non-crs type supported by <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_user_input()</span></code> (issue #312)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_dict" title="pyproj.crs.CRS.to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dict()</span></code></a> (issue #226)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_authority" title="pyproj.crs.CRS.to_authority"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_authority()</span></code></a> (pull #294)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.is_vertical" title="pyproj.crs.CRS.is_vertical"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_vertical</span></code></a> and <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.is_engineering" title="pyproj.crs.CRS.is_engineering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_engineering</span></code></a> (issue #316)</p></li>
+<li><p>Provide option to “pretty print” WKT in <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_wkt" title="pyproj.crs.CRS.to_wkt"><code class="xref py py-attr docutils literal notranslate"><span class="pre">to_wkt</span></code></a> (issue #258)</p></li>
+<li><p>Add support for Bound and Compound CRS for <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.is_geographic" title="pyproj.crs.CRS.is_geographic"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_geographic</span></code></a>, <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.is_projected" title="pyproj.crs.CRS.is_projected"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_projected</span></code></a> (issue #274)</p></li>
+<li><p>Add support for Bound CRS for <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.is_geocentric" title="pyproj.crs.CRS.is_geocentric"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_geocentric</span></code></a> (issue #374)</p></li>
+<li><p>Add support for comparison with CRS a non-crs type supported by <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_user_input()</span></code></a> (issue #312)</p></li>
 <li><p>Added support for ITRF, compound EPSG, and urn projection strings in CRS (pull #289)</p></li>
 <li><p>Better handle Compound CRS (issue #265)</p></li>
 <li><p>Disallow creation of non-CRS object (eg pipeline) in CRS class (issue #267)</p></li>
-<li><p>Added check in <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_epsg()</span></code> for when <cite>proj_list</cite> is null (issue #257)</p></li>
+<li><p>Added check in <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_epsg" title="pyproj.crs.CRS.to_epsg"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_epsg()</span></code></a> for when <cite>proj_list</cite> is null (issue #257)</p></li>
 <li><p>Fix comparing classes of non-instance types (issue #310)</p></li>
 </ul>
 </dd>
@@ -217,14 +217,16 @@ converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)</p></l
 always accept as input and return as output coordinates using the
 traditional GIS order, that is longitude, latitudecfor geographic
 CRS and easting, northing for most projected CRS (issue #225)</p></li>
-<li><p>Provide <cite>direction</cite> option in <code class="xref py py-meth docutils literal notranslate"><span class="pre">transform()</span></code> (issue #266)</p></li>
-<li><p>Undo deprecation of <cite>from_crs</cite> (issue #275)</p></li>
+<li><p>Provide <cite>direction</cite> option in <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.transform" title="pyproj.transformer.Transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">transform()</span></code></a> (issue #266)</p></li>
+<li><p>Add check for valid initialization of Transformer and ensure it is a transformer (issue #321)</p></li>
+<li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.to_wkt" title="pyproj.transformer.Transformer.to_wkt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_wkt()</span></code></a> as well as attributes related to <cite>PJ_PROJ_INFO</cite> (pull #322)</p></li>
+<li><p>Undo deprecation of <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_crs()</span></code></a> (issue #275)</p></li>
 <li><p>Fix false positive errors raised in transformer (issue #249)</p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p>Fix <cite>pyproj.Proj</cite> initialization from DerivedGeographicCRS (issue #270)</p></li>
+<li><p>Fix <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a> initialization from DerivedGeographicCRS (issue #270)</p></li>
 <li><p>Add interface to get the projection/ellps/prime_meridian/units lists (issue #251)</p></li>
 <li><p>Docs/Build/Test fixes (pull #278, pull #245, pull #248, pull #247, issue #253, pull #252)</p></li>
 </ul>

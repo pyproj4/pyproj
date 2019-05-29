@@ -194,11 +194,44 @@ creating the <a class="reference internal" href="#pyproj.transformer.Transformer
 <h2>pyproj.Transformer<a class="headerlink" href="#pyproj-transformer" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.transformer.Transformer">
-<em class="property">class </em><code class="descclassname">pyproj.transformer.</code><code class="descname">Transformer</code><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pyproj.transformer.</code><code class="descname">Transformer</code><span class="sig-paren">(</span><em>base_transformer=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Transformer class is for facilitating re-using
 transforms without needing to re-create them. The goal
 is to make repeated transforms faster.</p>
 <p>Additionally, it provides multiple methods for initialization.</p>
+<dl class="attribute">
+<dt id="pyproj.transformer.Transformer.accuracy">
+<code class="descname">accuracy</code><a class="headerlink" href="#pyproj.transformer.Transformer.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expected accuracy of the transformation. -1 if unknown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.transformer.Transformer.definition">
+<code class="descname">definition</code><a class="headerlink" href="#pyproj.transformer.Transformer.definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Definition of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.transformer.Transformer.description">
+<code class="descname">description</code><a class="headerlink" href="#pyproj.transformer.Transformer.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="staticmethod">
 <dt id="pyproj.transformer.Transformer.from_crs">
 <em class="property">static </em><code class="descname">from_crs</code><span class="sig-paren">(</span><em>crs_from</em>, <em>crs_to</em>, <em>skip_equivalent=False</em>, <em>always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">¶</a></dt>
@@ -269,6 +302,17 @@ Default is false.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="pyproj.transformer.Transformer.has_inverse">
+<code class="descname">has_inverse</code><a class="headerlink" href="#pyproj.transformer.Transformer.has_inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if an inverse mapping exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.itransform">
 <code class="descname">itransform</code><span class="sig-paren">(</span><em>points</em>, <em>switch=False</em>, <em>time_3rd=False</em>, <em>radians=False</em>, <em>errcheck=False</em>, <em>direction=&lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.itransform" title="Permalink to this definition">¶</a></dt>
@@ -314,6 +358,49 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <span class="go">&#39;-2.137 0.661&#39;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.transformer.Transformer.name">
+<code class="descname">name</code><a class="headerlink" href="#pyproj.transformer.Transformer.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.transformer.Transformer.to_wkt">
+<code class="descname">to_wkt</code><span class="sig-paren">(</span><em>version=&lt;WktVersion.WKT2_2018: 'WKT2_2018'&gt;</em>, <em>pretty=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.to_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.to_wkt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a WKT string.</p>
+<dl class="simple">
+<dt>Version options:</dt><dd><ul class="simple">
+<li><p>WKT2_2015</p></li>
+<li><p>WKT2_2015_SIMPLIFIED</p></li>
+<li><p>WKT2_2018</p></li>
+<li><p>WKT2_2018_SIMPLIFIED</p></li>
+<li><p>WKT1_GDAL</p></li>
+<li><p>WKT1_ESRI</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>WktVersion</em></a>) – The version of the WKT output.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersion.WKT2_2018" title="pyproj.enums.WktVersion.WKT2_2018"><code class="xref py py-attr docutils literal notranslate"><span class="pre">WKT2_2018</span></code></a>.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>str</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The WKT string.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
