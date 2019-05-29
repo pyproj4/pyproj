@@ -50,15 +50,15 @@ pj_list = get_proj_operations_map()
 
 class Proj(_proj.Proj):
     """
-    performs cartographic transformations (converts from
+    Performs cartographic transformations (converts from
     longitude,latitude to native map projection x,y coordinates and
-    vice versa) using proj (https://github.com/OSGeo/proj.4/wiki).
+    vice versa) using proj (https://proj4.org).
 
     A Proj class instance is initialized with proj map projection
     control parameter key/value pairs. The key/value pairs can
     either be passed in a dictionary, or as keyword arguments,
     or as a proj4 string (compatible with the proj command). See
-    http://www.remotesensing.org/geotiff/proj_list for examples of
+    https://proj4.org/operations/projections/index.html for examples of
     key/value pairs defining different map projections.
 
     Calling a Proj class instance with the arguments lon, lat will
