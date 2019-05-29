@@ -319,8 +319,10 @@ def test_transform_direction():
         -33, 24, direction=TransformDirection.INVERSE
     ) == forward_transformer.transform(-33, 24)
     ident_transformer = Transformer.from_crs(4326, 3857)
-    ident_transformer.transform(-33, 24, direction=TransformDirection.IDENT) ==\
-        (-33, 24)
+    ident_transformer.transform(-33, 24, direction=TransformDirection.IDENT) == (
+        -33,
+        24,
+    )
 
 
 def test_always_xy__transformer():
@@ -340,9 +342,7 @@ def test_always_xy__transform():
 
 def test_always_xy__itransform():
     assert_almost_equal(
-        list(
-            itransform(2193, 4326, [(1625350, 5504853)], always_xy=True)
-        ),
+        list(itransform(2193, 4326, [(1625350, 5504853)], always_xy=True)),
         [(173.29964730317386, -40.60674802693758)],
     )
 
@@ -354,10 +354,7 @@ def test_transform_direction__string():
         -33, 24, direction="INVERSE"
     ) == forward_transformer.transform(-33, 24, direction="FORWARD")
     ident_transformer = Transformer.from_crs(4326, 3857)
-    ident_transformer.transform(-33, 24, direction="IDENT") == (
-        -33,
-        24,
-    )
+    ident_transformer.transform(-33, 24, direction="IDENT") == (-33, 24)
 
 
 def test_transform_direction__string_lowercase():
@@ -367,13 +364,76 @@ def test_transform_direction__string_lowercase():
         -33, 24, direction="inverse"
     ) == forward_transformer.transform(-33, 24, direction="forward")
     ident_transformer = Transformer.from_crs(4326, 3857)
-    ident_transformer.transform(-33, 24, direction="ident") == (
-        -33,
-        24,
-    )
+    ident_transformer.transform(-33, 24, direction="ident") == (-33, 24)
 
 
 def test_transform_direction__invalid():
     transformer = Transformer.from_crs(4326, 3857)
     with pytest.raises(ValueError, match="Invalid value"):
         transformer.transform(-33, 24, direction="WHEREVER")
+
+
+def test_from_pipeline__non_transform_input():
+    with pytest.raises(ProjError, match="Input is not a transformation"):
+        Transformer.from_pipeline("epsg:4326")
+
+
+def test_non_supported_initialization():
+    with pytest.raises(ProjError, match="Transformer must be initialized using"):
+        Transformer()
+
+
+def test_pj_info_properties():
+    transformer = Transformer.from_crs(4326, 3857)
+    assert transformer.name == "pipeline"
+    assert transformer.description == "Popular Visualisation Pseudo-Mercator"
+    assert transformer.definition.startswith("proj=pipeline")
+    assert transformer.has_inverse
+    assert transformer.accuracy == 0
+
+
+def test_to_wkt():
+    transformer = Transformer.from_crs(4326, 3857)
+    assert transformer.to_wkt().startswith(
+        'CONVERSION["Popular Visualisation Pseudo-Mercator"'
+    )
+
+
+def test_str():
+    assert str(Transformer.from_crs(4326, 3857)).startswith("proj=pipeline")
+
+
+def test_repr():
+    trans_repr = repr(Transformer.from_crs(4326, 3857))
+    assert trans_repr == (
+        "Definiton:\n"
+        "proj=pipeline step proj=axisswap order=2,1 step proj=unitconvert"
+        " xy_in=deg xy_out=rad step proj=webmerc lat_0=0 lon_0=0 x_0=0 y_0=0 ellps=WGS84\n"
+        "WKT:\n"
+        'CONVERSION["Popular Visualisation Pseudo-Mercator",\n'
+        '    METHOD["Popular Visualisation Pseudo Mercator",\n'
+        '        ID["EPSG",1024]],\n'
+        '    PARAMETER["Latitude of natural origin",0,\n'
+        '        ANGLEUNIT["degree",0.0174532925199433],\n'
+        '        ID["EPSG",8801]],\n'
+        '    PARAMETER["Longitude of natural origin",0,\n'
+        '        ANGLEUNIT["degree",0.0174532925199433],\n'
+        '        ID["EPSG",8802]],\n'
+        '    PARAMETER["False easting",0,\n'
+        '        LENGTHUNIT["metre",1],\n'
+        '        ID["EPSG",8806]],\n'
+        '    PARAMETER["False northing",0,\n'
+        '        LENGTHUNIT["metre",1],\n'
+        '        ID["EPSG",8807]],\n'
+        '    ID["EPSG",3856]]'
+    )
+
+
+def test_repr__no_wkt():
+    transformer = Transformer.from_crs("EPSG:4326", "EPSG:26917")
+    assert repr(transformer) == (
+        'Definiton:\n'
+        'unavailable until proj_trans is called\n'
+        'WKT:\n'
+        'undefined'
+    )
