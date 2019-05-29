@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Proj" href="proj.html" />
-    <link rel="prev" title="Installation" href="../installation.html" /> 
+    <link rel="next" title="CRS" href="crs.html" />
+    <link rel="prev" title="Getting Started" href="../examples.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,15 +87,16 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crs.html">CRS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformer.html">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_transformations.html">Optimize Transformations</a></li>
@@ -169,10 +170,6 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="proj.html">Proj</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="proj.html#pyproj-proj">pyproj.Proj</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="crs.html">CRS</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="crs.html#pyproj-crs">pyproj.CRS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crs.html#pyproj-crs-is-wkt">pyproj.crs.is_wkt</a></li>
@@ -184,14 +181,14 @@
 <li class="toctree-l2"><a class="reference internal" href="crs.html#prime-meridian">Prime Meridian</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="geod.html">Geod</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="geod.html#pyproj-geod">pyproj.Geod</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="transformer.html">Transformer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-transformer">pyproj.Transformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-transform">pyproj.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-itransform">pyproj.itransform</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geod.html">Geod</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geod.html#pyproj-geod">pyproj.Geod</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="list.html">Lists</a><ul>
@@ -202,14 +199,18 @@
 <li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-get-angular-units-map">pyproj.get_angular_units_map</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="enums.html">Enumerations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datadir.html">Data Directory</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html#pyproj-datadir-get-data-dir">pyproj.datadir.get_data_dir</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html#pyproj-datadir-set-data-dir">pyproj.datadir.set_data_dir</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html#pyproj-datadir-append-data-dir">pyproj.datadir.append_data_dir</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="enums.html">Enumerations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="proj.html">Proj</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="proj.html#pyproj-proj">pyproj.Proj</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -222,10 +223,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="proj.html" class="btn btn-neutral float-right" title="Proj" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="crs.html" class="btn btn-neutral float-right" title="CRS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../examples.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

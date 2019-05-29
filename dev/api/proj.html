@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CRS" href="crs.html" />
-    <link rel="prev" title="API Documentation" href="index.html" /> 
+    <link rel="next" title="Optimize Transformations" href="../optimize_transformations.html" />
+    <link rel="prev" title="Exceptions" href="exceptions.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,18 +87,19 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crs.html">CRS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformer.html">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Proj</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-proj">pyproj.Proj</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="crs.html">CRS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformer.html">Transformer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_transformations.html">Optimize Transformations</a></li>
@@ -171,20 +172,26 @@
             
   <div class="section" id="proj">
 <h1>Proj<a class="headerlink" href="#proj" title="Permalink to this headline">¶</a></h1>
+<p><cite>pyproj.Proj</cite> is functionally equivalent to the <cite>proj</cite> command line tool in PROJ.</p>
+<p>The PROJ docs say:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>The `proj` program is limited to converting between geographic and
+projection coordinates within one datum.
+</pre></div>
+</div>
 <div class="section" id="pyproj-proj">
 <h2>pyproj.Proj<a class="headerlink" href="#pyproj-proj" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.proj.Proj">
 <em class="property">class </em><code class="descclassname">pyproj.proj.</code><code class="descname">Proj</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>preserve_units=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj.Proj</span></code></p>
-<p>performs cartographic transformations (converts from
+<p>Performs cartographic transformations (converts from
 longitude,latitude to native map projection x,y coordinates and
-vice versa) using proj (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>).</p>
+vice versa) using proj (<a class="reference external" href="https://proj4.org">https://proj4.org</a>).</p>
 <p>A Proj class instance is initialized with proj map projection
 control parameter key/value pairs. The key/value pairs can
 either be passed in a dictionary, or as keyword arguments,
 or as a proj4 string (compatible with the proj command). See
-<a class="reference external" href="http://www.remotesensing.org/geotiff/proj_list">http://www.remotesensing.org/geotiff/proj_list</a> for examples of
+<a class="reference external" href="https://proj4.org/operations/projections/index.html">https://proj4.org/operations/projections/index.html</a> for examples of
 key/value pairs defining different map projections.</p>
 <p>Calling a Proj class instance with the arguments lon, lat will
 convert lon/lat (in degrees) to x/y native map projection
@@ -367,10 +374,10 @@ coordinate version of the current projection</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="crs.html" class="btn btn-neutral float-right" title="CRS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../optimize_transformations.html" class="btn btn-neutral float-right" title="Optimize Transformations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="exceptions.html" class="btn btn-neutral float-left" title="Exceptions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

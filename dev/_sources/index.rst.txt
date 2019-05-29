@@ -13,6 +13,7 @@ GitHub Repository: https://github.com/pyproj4/pyproj
    :caption: Contents:
 
    installation
+   examples
    api/index
    optimize_transformations
    history

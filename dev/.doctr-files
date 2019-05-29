@@ -15,6 +15,7 @@ dev/_sources/api/index.rst.txt
 dev/_sources/api/list.rst.txt
 dev/_sources/api/proj.rst.txt
 dev/_sources/api/transformer.rst.txt
+dev/_sources/examples.rst.txt
 dev/_sources/history.rst.txt
 dev/_sources/index.rst.txt
 dev/_sources/installation.rst.txt
@@ -81,6 +82,7 @@ dev/api/index.html
 dev/api/list.html
 dev/api/proj.html
 dev/api/transformer.html
+dev/examples.html
 dev/genindex.html
 dev/history.html
 dev/index.html

@@ -1,6 +1,15 @@
 Transformer
 ===========
 
+
+The `pyproj.Transformer` has the capabilities of performing 2D, 3D, and 4D (time)
+transformations. It can do anything that the PROJ command line programs
+`proj <https://proj4.org/apps/proj.html>`, `cs2cs <https://proj4.org/apps/cs2cs.html>`,
+and `cct <https://proj4.org/apps/cct.html>` can do.
+This means that it allows translation between any pair of definable coordinate systems,
+including support for datum transformation.
+
+
 .. warning:: The axis order may be swapped if the source and destination
     CRS's are defined as having the first coordinate component point in a
     northerly direction (See PROJ FAQ on 

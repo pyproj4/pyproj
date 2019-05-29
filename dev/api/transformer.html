@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Lists" href="list.html" />
-    <link rel="prev" title="Geod" href="geod.html" /> 
+    <link rel="next" title="Geod" href="geod.html" />
+    <link rel="prev" title="CRS" href="crs.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,20 +87,21 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
 <li class="toctree-l2"><a class="reference internal" href="crs.html">CRS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Transformer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transformer">pyproj.Transformer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transform">pyproj.transform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-itransform">pyproj.itransform</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_transformations.html">Optimize Transformations</a></li>
@@ -173,6 +174,12 @@
             
   <div class="section" id="transformer">
 <h1>Transformer<a class="headerlink" href="#transformer" title="Permalink to this headline">¶</a></h1>
+<p>The <cite>pyproj.Transformer</cite> has the capabilities of performing 2D, 3D, and 4D (time)
+transformations. It can do anything that the PROJ command line programs
+<cite>proj &lt;https://proj4.org/apps/proj.html&gt;</cite>, <cite>cs2cs &lt;https://proj4.org/apps/cs2cs.html&gt;</cite>,
+and <cite>cct &lt;https://proj4.org/apps/cct.html&gt;</cite> can do.
+This means that it allows translation between any pair of definable coordinate systems,
+including support for datum transformation.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The axis order may be swapped if the source and destination
@@ -517,10 +524,10 @@ for geographic CRS and easting, northing for most projected CRS.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="list.html" class="btn btn-neutral float-right" title="Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="geod.html" class="btn btn-neutral float-right" title="Geod" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="geod.html" class="btn btn-neutral float-left" title="Geod" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="crs.html" class="btn btn-neutral float-left" title="CRS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
