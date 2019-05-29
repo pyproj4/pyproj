@@ -5,11 +5,11 @@ API Documentation
    :maxdepth: 2
    :caption: Contents:
 
-   proj
    crs
-   geod
    transformer
+   geod
    list
-   enums
    datadir
+   enums
    exceptions
+   proj
