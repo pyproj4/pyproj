@@ -7,29 +7,31 @@ Change Log
 * `pyproj.crs` updates:
     * Updated CRS repr (issue #264)
     * Add Datum, CoordinateSystem, CoordinateOperation clases (issue #262)
-    * Added :meth:`~pyproj.CRS.to_cf` and :meth:`~pyproj.CRS.from_cf` for
+    * Added :meth:`~pyproj.crs.CRS.to_cf` and :meth:`~pyproj.crs.CRS.from_cf` for
       converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)
-    * Added :attr:`~pyproj.CRS.to_dict` (issue #226)
-    * Added :attr:`~pyproj.CRS.to_authority` (pull #294)
-    * Added :attr:`~pyproj.CRS.is_vertical` and :attr:`~pyproj.CRS.is_engineering` (issue #316)
-    * Provide option to "pretty print" WKT in :attr:`~pyproj.CRS.to_wkt` (issue #258)
-    * Add support for Bound and Compound CRS for :attr:`~pyproj.CRS.is_geographic`, :attr:`~pyproj.CRS.is_projected` (issue #274)
-    * Add support for Bound CRS for :attr:`~pyproj.CRS.is_geocentric` (issue #374)
-    * Add support for comparison with CRS a non-crs type supported by :meth:`~pyproj.CRS.from_user_input` (issue #312)
+    * Added :meth:`~pyproj.crs.CRS.to_dict` (issue #226)
+    * Added :meth:`~pyproj.crs.CRS.to_authority` (pull #294)
+    * Added :attr:`~pyproj.crs.CRS.is_vertical` and :attr:`~pyproj.crs.CRS.is_engineering` (issue #316)
+    * Provide option to "pretty print" WKT in :attr:`~pyproj.crs.CRS.to_wkt` (issue #258)
+    * Add support for Bound and Compound CRS for :attr:`~pyproj.crs.CRS.is_geographic`, :attr:`~pyproj.crs.CRS.is_projected` (issue #274)
+    * Add support for Bound CRS for :attr:`~pyproj.crs.CRS.is_geocentric` (issue #374)
+    * Add support for comparison with CRS a non-crs type supported by :meth:`~pyproj.crs.CRS.from_user_input` (issue #312)
     * Added support for ITRF, compound EPSG, and urn projection strings in CRS (pull #289)
     * Better handle Compound CRS (issue #265)
     * Disallow creation of non-CRS object (eg pipeline) in CRS class (issue #267)
-    * Added check in :meth:`~pyproj.CRS.to_epsg` for when `proj_list` is null (issue #257)
+    * Added check in :meth:`~pyproj.crs.CRS.to_epsg` for when `proj_list` is null (issue #257)
     * Fix comparing classes of non-instance types (issue #310)
 * `pyroj.transformer` updates:
     * Added `always_xy` option to Transformer so the transform method will
       always accept as input and return as output coordinates using the
       traditional GIS order, that is longitude, latitudecfor geographic
       CRS and easting, northing for most projected CRS (issue #225)
-    * Provide `direction` option in :meth:`~pyproj.Transformer.transform` (issue #266)
-    * Undo deprecation of `from_crs` (issue #275)
+    * Provide `direction` option in :meth:`~pyproj.transformer.Transformer.transform` (issue #266)
+    * Add check for valid initialization of Transformer and ensure it is a transformer (issue #321)
+    * Added :meth:`~pyproj.transformer.Transformer.to_wkt` as well as attributes related to `PJ_PROJ_INFO` (pull #322)
+    * Undo deprecation of :meth:`~pyproj.transformer.Transformer.from_crs` (issue #275)
     * Fix false positive errors raised in transformer (issue #249)
-* Fix `pyproj.Proj` initialization from DerivedGeographicCRS (issue #270)
+* Fix :class:`~pyproj.proj.Proj` initialization from DerivedGeographicCRS (issue #270)
 * Add interface to get the projection/ellps/prime_meridian/units lists (issue #251)
 * Docs/Build/Test fixes (pull #278, pull #245, pull #248, pull #247, issue #253, pull #252)
 
