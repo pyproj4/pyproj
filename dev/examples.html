@@ -230,10 +230,8 @@ see <a class="reference internal" href="api/transformer.html#pyproj.transformer.
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">26917</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:26917&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
-<span class="go">Definiton:</span>
+<span class="go">&lt;Unknown Transformer: unknown&gt;</span>
 <span class="go">unavailable until proj_trans is called</span>
-<span class="go">WKT:</span>
-<span class="go">undefined</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">80</span><span class="p">)</span>
 <span class="go">(571666.4475041276, 5539109.815175673)</span>
 </pre></div>
@@ -289,26 +287,8 @@ you can use the <cite>always_xy</cite> option when creating the transformer.</p>
 <h3>Step 2: Create Transformer to convert from geodetic CRS to CRS<a class="headerlink" href="#step-2-create-transformer-to-convert-from-geodetic-crs-to-crs" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">,</span> <span class="n">crs</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span>
-<span class="go">Definiton:</span>
-<span class="go">proj=pipeline step proj=axisswap order=2,1 step proj=unitconvert xy_in=deg xy_out=rad step proj=webmerc lat_0=0 lon_0=0 x_0=0 y_0=0 ellps=WGS84</span>
-<span class="go">WKT:</span>
-<span class="go">CONVERSION[&quot;Popular Visualisation Pseudo-Mercator&quot;,</span>
-<span class="go">    METHOD[&quot;Popular Visualisation Pseudo Mercator&quot;,</span>
-<span class="go">        ID[&quot;EPSG&quot;,1024]],</span>
-<span class="go">    PARAMETER[&quot;Latitude of natural origin&quot;,0,</span>
-<span class="go">        ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8801]],</span>
-<span class="go">    PARAMETER[&quot;Longitude of natural origin&quot;,0,</span>
-<span class="go">        ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8802]],</span>
-<span class="go">    PARAMETER[&quot;False easting&quot;,0,</span>
-<span class="go">        LENGTHUNIT[&quot;metre&quot;,1],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8806]],</span>
-<span class="go">    PARAMETER[&quot;False northing&quot;,0,</span>
-<span class="go">        LENGTHUNIT[&quot;metre&quot;,1],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8807]],</span>
-<span class="go">    ID[&quot;EPSG&quot;,3856]]</span>
-
+<span class="go">&lt;Conversion Transformer: pipeline&gt;</span>
+<span class="go">Popular Visualisation Pseudo-Mercator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
 <span class="go">(1669792.3618991035, 1345708.4084091093)</span>
 </pre></div>
@@ -323,6 +303,9 @@ you can use the <cite>always_xy</cite> option when creating the transformer.</p>
 it is recommended to include the time in the transformaton operation.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">7789</span><span class="p">,</span> <span class="mi">8401</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
+<span class="go">&lt;Transformation Transformer: helmert&gt;</span>
+<span class="go">ITRF2014 to ETRF2014 (1)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="mf">3496737.2679</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="mf">743254.4507</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="mf">5264462.9620</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="mf">2019.0</span><span class="p">)</span>
 <span class="go">(3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)</span>
 </pre></div>
