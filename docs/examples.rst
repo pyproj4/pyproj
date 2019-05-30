@@ -5,6 +5,195 @@ There are examples of usage within the API documentation and tests. This
 section is to demonstrate recommended usage.
 
 
+Using CRS
+---------
+For more usage examples and documentation see :class:`~pyproj.crs.CRS`.
+
+Initializing CRS
+~~~~~~~~~~~~~~~~
+
+The :class:`~pyproj.crs.CRS` class can be initialized in many different ways.
+Here are some examples of initialization.
+
+
+.. code:: python
+    
+    >>> from pyproj import CRS
+    >>> crs = CRS.from_epsg(4326)
+    >>> crs = CRS.from_string("epsg:4326")
+    >>> crs = CRS.from_proj4("+proj=latlon")
+    >>> crs = CRS.from_user_input(4326)  
+
+
+Converting CRS to a different format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning:: You will likely lose important projection
+    information when converting to a PROJ string from
+    another format. See: https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
+
+
+.. code:: python
+
+    >>> from pyproj import CRS
+    >>> crs = CRS.from_epsg(4326)
+    >>> crs.to_epsg()
+    4326
+    >>> crs.to_authority()
+    ('EPSG', '4326')
+    >>> crs = CRS.from_proj4("+proj=omerc +lat_0=-36 +lonc=147 +alpha=-54 +k=1 +x_0=0 +y_0=0 +gamma=0 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0")
+    >>> crs
+    <Bound CRS: +proj=omerc +lat_0=-36 +lonc=147 +alpha=-54 +k=1 + ...>
+    Name: unknown
+    Axis Info [cartesian]:
+    - E[east]: Easting (metre)
+    - N[north]: Northing (metre)
+    Area of Use:
+    - undefined
+    Coordinate Operation:
+    - name: Transformation from unknown to WGS84
+    - method: Position Vector transformation (geog2D domain)
+    Datum: Unknown based on WGS84 ellipsoid
+    - Ellipsoid: WGS 84
+    - Prime Meridian: Greenwich
+    Source CRS: unknown
+
+    >>> print(crs.to_wkt(pretty=True))
+    BOUNDCRS[
+        SOURCECRS[
+            PROJCRS["unknown",
+                BASEGEOGCRS["unknown",
+                    DATUM["Unknown based on WGS84 ellipsoid",
+                        ELLIPSOID["WGS 84",6378137,298.257223563,
+                            LENGTHUNIT["metre",1],
+                            ID["EPSG",7030]]],
+    ...
+            PARAMETER["Z-axis rotation",0,
+                ID["EPSG",8610]],
+            PARAMETER["Scale difference",1,
+                ID["EPSG",8611]]]]
+
+    >>> from pyproj.enums import WktVersion
+    >>> print(crs.to_wkt(WktVersion.WKT1_GDAL, pretty=True))
+    PROJCS["unknown",
+        GEOGCS["unknown",
+            DATUM["Unknown_based_on_WGS84_ellipsoid",
+                SPHEROID["WGS 84",6378137,298.257223563,
+                    AUTHORITY["EPSG","7030"]],
+                TOWGS84[0,0,0,0,0,0,0]],
+            PRIMEM["Greenwich",0,
+                AUTHORITY["EPSG","8901"]],
+            UNIT["degree",0.0174532925199433,
+                AUTHORITY["EPSG","9122"]]],
+        PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],
+        PARAMETER["latitude_of_center",-36],
+        PARAMETER["longitude_of_center",147],
+        PARAMETER["azimuth",-54],
+        PARAMETER["rectified_grid_angle",0],
+        PARAMETER["scale_factor",1],
+        PARAMETER["false_easting",0],
+        PARAMETER["false_northing",0],
+        UNIT["metre",1,
+            AUTHORITY["EPSG","9001"]],
+        AXIS["Easting",EAST],
+        AXIS["Northing",NORTH]]
+
+    >>> from pprint import pprint
+    >>> pprint(crs.to_cf())
+    {'azimuth_of_central_line': -54,
+    'crs_wkt': 'BOUNDCRS[SOURCECRS[PROJCRS["unknown",BASEGEOGCRS["unknown",DATUM["Unknown '
+    ...
+                'difference",1,ID["EPSG",8611]]]]',
+    'fase_easting': 0,
+    'fase_northing': 0,
+    'grid_mapping_name': 'oblique_mercator',
+    'latitude_of_projection_origin': -36,
+    'longitude_of_projection_origin': 147,
+    'reference_ellipsoid_name': 'WGS84',
+    'towgs84': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    'unit': 'm'}
+
+
+Extracting attributes from CRS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are many attributes you can pull from the :class:`~pyproj.crs.CRS`.
+This is just a small subset of what is available.
+
+
+.. code:: python
+
+    >>> crs = CRS("urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717")
+    >>> crs
+    <Compound CRS: EPSG:3901>
+    Name: KKJ / Finland Uniform Coordinate System + N60 height
+    Axis Info [cartesian|vertical]:
+    - X[north]: Northing (metre)
+    - Y[east]: Easting (metre)
+    - H[up]: Gravity-related height (metre)
+    Area of Use:
+    - undefined
+    Datum: Kartastokoordinaattijarjestelma (1966)
+    - Ellipsoid: International 1924
+    - Prime Meridian: Greenwich
+    Sub CRS:
+    - KKJ / Finland Uniform Coordinate System
+    - N60 height
+    >>> crs.sub_crs_list
+    [<Projected CRS: EPSG:2393>
+    Name: KKJ / Finland Uniform Coordinate System
+    Axis Info [cartesian]:
+    - X[north]: Northing (metre)
+    - Y[east]: Easting (metre)
+    Area of Use:
+    - name: Finland - 25.5°E to 28.5°E onshore. Also all country.
+    - bounds: (19.24, 59.75, 31.59, 70.09)
+    Coordinate Operation:
+    - name: Finland Uniform Coordinate System
+    - method: Transverse Mercator
+    Datum: Kartastokoordinaattijarjestelma (1966)
+    - Ellipsoid: International 1924
+    - Prime Meridian: Greenwich
+    , <Vertical CRS: EPSG:5717>
+    Name: N60 height
+    Axis Info [vertical]:
+    - H[up]: Gravity-related height (metre)
+    Area of Use:
+    - name: Finland - onshore
+    - bounds: (19.24, 59.75, 31.59, 70.09)
+    Datum: Helsinki 1960
+    - Ellipsoid: undefined
+    - Prime Meridian: undefined
+    ]
+    >>> crs.sub_crs_list[0].coordinate_operation
+    CONVERSION["Finland Uniform Coordinate System",
+        METHOD["Transverse Mercator",
+            ID["EPSG",9807]],
+        PARAMETER["Latitude of natural origin",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",27,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["Scale factor at natural origin",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8805]],
+        PARAMETER["False easting",3500000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",0,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]]
+    >>> cop.method_code
+    '9807'
+    >>> cop.method_name
+    'Transverse Mercator'
+    >>> cop.params
+    [Param(name=Latitude of natural origin, auth_name=EPSG, code=8801, value=0.0, unit_name=degree, unit_auth_name=, unit_code=, unit_category=angular),
+     ...   
+     Param(name=False northing, auth_name=EPSG, code=8807, value=0.0, unit_name=metre, unit_auth_name=, unit_code=, unit_category=linear)]
+
+
 Transformations from CRS to CRS
 -------------------------------
 
