@@ -88,6 +88,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-crs">Using CRS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#initializing-crs">Initializing CRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#converting-crs-to-a-different-format">Converting CRS to a different format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extracting-attributes-from-crs">Extracting attributes from CRS</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#transformations-from-crs-to-crs">Transformations from CRS to CRS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order">Step 1: Inspect CRS definition to ensure proper area of use and axis order</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-2-create-transformer-to-convert-from-crs-to-crs">Step 2: Create Transformer to convert from CRS to CRS</a></li>
@@ -173,6 +179,186 @@
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>There are examples of usage within the API documentation and tests. This
 section is to demonstrate recommended usage.</p>
+<div class="section" id="using-crs">
+<h2>Using CRS<a class="headerlink" href="#using-crs" title="Permalink to this headline">¶</a></h2>
+<p>For more usage examples and documentation see <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a>.</p>
+<div class="section" id="initializing-crs">
+<h3>Initializing CRS<a class="headerlink" href="#initializing-crs" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a> class can be initialized in many different ways.
+Here are some examples of initialization.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_proj4</span><span class="p">(</span><span class="s2">&quot;+proj=latlon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="converting-crs-to-a-different-format">
+<h3>Converting CRS to a different format<a class="headerlink" href="#converting-crs-to-a-different-format" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You will likely lose important projection
+information when converting to a PROJ string from
+another format. See: <a class="reference external" href="https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">()</span>
+<span class="go">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
+<span class="go">(&#39;EPSG&#39;, &#39;4326&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_proj4</span><span class="p">(</span><span class="s2">&quot;+proj=omerc +lat_0=-36 +lonc=147 +alpha=-54 +k=1 +x_0=0 +y_0=0 +gamma=0 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
+<span class="go">&lt;Bound CRS: +proj=omerc +lat_0=-36 +lonc=147 +alpha=-54 +k=1 + ...&gt;</span>
+<span class="go">Name: unknown</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- E[east]: Easting (metre)</span>
+<span class="go">- N[north]: Northing (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- undefined</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: Transformation from unknown to WGS84</span>
+<span class="go">- method: Position Vector transformation (geog2D domain)</span>
+<span class="go">Datum: Unknown based on WGS84 ellipsoid</span>
+<span class="go">- Ellipsoid: WGS 84</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+<span class="go">Source CRS: unknown</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="go">BOUNDCRS[</span>
+<span class="go">    SOURCECRS[</span>
+<span class="go">        PROJCRS[&quot;unknown&quot;,</span>
+<span class="go">            BASEGEOGCRS[&quot;unknown&quot;,</span>
+<span class="go">                DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,</span>
+<span class="go">                    ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,</span>
+<span class="go">                        LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">                        ID[&quot;EPSG&quot;,7030]]],</span>
+<span class="gp">...</span>
+<span class="go">        PARAMETER[&quot;Z-axis rotation&quot;,0,</span>
+<span class="go">            ID[&quot;EPSG&quot;,8610]],</span>
+<span class="go">        PARAMETER[&quot;Scale difference&quot;,1,</span>
+<span class="go">            ID[&quot;EPSG&quot;,8611]]]]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">WktVersion</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT1_GDAL</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="go">PROJCS[&quot;unknown&quot;,</span>
+<span class="go">    GEOGCS[&quot;unknown&quot;,</span>
+<span class="go">        DATUM[&quot;Unknown_based_on_WGS84_ellipsoid&quot;,</span>
+<span class="go">            SPHEROID[&quot;WGS 84&quot;,6378137,298.257223563,</span>
+<span class="go">                AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]],</span>
+<span class="go">            TOWGS84[0,0,0,0,0,0,0]],</span>
+<span class="go">        PRIMEM[&quot;Greenwich&quot;,0,</span>
+<span class="go">            AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],</span>
+<span class="go">        UNIT[&quot;degree&quot;,0.0174532925199433,</span>
+<span class="go">            AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]]],</span>
+<span class="go">    PROJECTION[&quot;Hotine_Oblique_Mercator_Azimuth_Center&quot;],</span>
+<span class="go">    PARAMETER[&quot;latitude_of_center&quot;,-36],</span>
+<span class="go">    PARAMETER[&quot;longitude_of_center&quot;,147],</span>
+<span class="go">    PARAMETER[&quot;azimuth&quot;,-54],</span>
+<span class="go">    PARAMETER[&quot;rectified_grid_angle&quot;,0],</span>
+<span class="go">    PARAMETER[&quot;scale_factor&quot;,1],</span>
+<span class="go">    PARAMETER[&quot;false_easting&quot;,0],</span>
+<span class="go">    PARAMETER[&quot;false_northing&quot;,0],</span>
+<span class="go">    UNIT[&quot;metre&quot;,1,</span>
+<span class="go">        AUTHORITY[&quot;EPSG&quot;,&quot;9001&quot;]],</span>
+<span class="go">    AXIS[&quot;Easting&quot;,EAST],</span>
+<span class="go">    AXIS[&quot;Northing&quot;,NORTH]]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">())</span>
+<span class="go">{&#39;azimuth_of_central_line&#39;: -54,</span>
+<span class="go">&#39;crs_wkt&#39;: &#39;BOUNDCRS[SOURCECRS[PROJCRS[&quot;unknown&quot;,BASEGEOGCRS[&quot;unknown&quot;,DATUM[&quot;Unknown &#39;</span>
+<span class="gp">...</span>
+<span class="go">            &#39;difference&quot;,1,ID[&quot;EPSG&quot;,8611]]]]&#39;,</span>
+<span class="go">&#39;fase_easting&#39;: 0,</span>
+<span class="go">&#39;fase_northing&#39;: 0,</span>
+<span class="go">&#39;grid_mapping_name&#39;: &#39;oblique_mercator&#39;,</span>
+<span class="go">&#39;latitude_of_projection_origin&#39;: -36,</span>
+<span class="go">&#39;longitude_of_projection_origin&#39;: 147,</span>
+<span class="go">&#39;reference_ellipsoid_name&#39;: &#39;WGS84&#39;,</span>
+<span class="go">&#39;towgs84&#39;: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],</span>
+<span class="go">&#39;unit&#39;: &#39;m&#39;}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extracting-attributes-from-crs">
+<h3>Extracting attributes from CRS<a class="headerlink" href="#extracting-attributes-from-crs" title="Permalink to this headline">¶</a></h3>
+<p>There are many attributes you can pull from the <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a>.
+This is just a small subset of what is available.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
+<span class="go">&lt;Compound CRS: EPSG:3901&gt;</span>
+<span class="go">Name: KKJ / Finland Uniform Coordinate System + N60 height</span>
+<span class="go">Axis Info [cartesian|vertical]:</span>
+<span class="go">- X[north]: Northing (metre)</span>
+<span class="go">- Y[east]: Easting (metre)</span>
+<span class="go">- H[up]: Gravity-related height (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- undefined</span>
+<span class="go">Datum: Kartastokoordinaattijarjestelma (1966)</span>
+<span class="go">- Ellipsoid: International 1924</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+<span class="go">Sub CRS:</span>
+<span class="go">- KKJ / Finland Uniform Coordinate System</span>
+<span class="go">- N60 height</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">sub_crs_list</span>
+<span class="go">[&lt;Projected CRS: EPSG:2393&gt;</span>
+<span class="go">Name: KKJ / Finland Uniform Coordinate System</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- X[north]: Northing (metre)</span>
+<span class="go">- Y[east]: Easting (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: Finland - 25.5°E to 28.5°E onshore. Also all country.</span>
+<span class="go">- bounds: (19.24, 59.75, 31.59, 70.09)</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: Finland Uniform Coordinate System</span>
+<span class="go">- method: Transverse Mercator</span>
+<span class="go">Datum: Kartastokoordinaattijarjestelma (1966)</span>
+<span class="go">- Ellipsoid: International 1924</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+<span class="go">, &lt;Vertical CRS: EPSG:5717&gt;</span>
+<span class="go">Name: N60 height</span>
+<span class="go">Axis Info [vertical]:</span>
+<span class="go">- H[up]: Gravity-related height (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: Finland - onshore</span>
+<span class="go">- bounds: (19.24, 59.75, 31.59, 70.09)</span>
+<span class="go">Datum: Helsinki 1960</span>
+<span class="go">- Ellipsoid: undefined</span>
+<span class="go">- Prime Meridian: undefined</span>
+<span class="go">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinate_operation</span>
+<span class="go">CONVERSION[&quot;Finland Uniform Coordinate System&quot;,</span>
+<span class="go">    METHOD[&quot;Transverse Mercator&quot;,</span>
+<span class="go">        ID[&quot;EPSG&quot;,9807]],</span>
+<span class="go">    PARAMETER[&quot;Latitude of natural origin&quot;,0,</span>
+<span class="go">        ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8801]],</span>
+<span class="go">    PARAMETER[&quot;Longitude of natural origin&quot;,27,</span>
+<span class="go">        ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8802]],</span>
+<span class="go">    PARAMETER[&quot;Scale factor at natural origin&quot;,1,</span>
+<span class="go">        SCALEUNIT[&quot;unity&quot;,1],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8805]],</span>
+<span class="go">    PARAMETER[&quot;False easting&quot;,3500000,</span>
+<span class="go">        LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8806]],</span>
+<span class="go">    PARAMETER[&quot;False northing&quot;,0,</span>
+<span class="go">        LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8807]]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cop</span><span class="o">.</span><span class="n">method_code</span>
+<span class="go">&#39;9807&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cop</span><span class="o">.</span><span class="n">method_name</span>
+<span class="go">&#39;Transverse Mercator&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cop</span><span class="o">.</span><span class="n">params</span>
+<span class="go">[Param(name=Latitude of natural origin, auth_name=EPSG, code=8801, value=0.0, unit_name=degree, unit_auth_name=, unit_code=, unit_category=angular),</span>
+<span class="go"> ...</span>
+<span class="go"> Param(name=False northing, auth_name=EPSG, code=8807, value=0.0, unit_name=metre, unit_auth_name=, unit_code=, unit_category=linear)]</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="transformations-from-crs-to-crs">
 <h2>Transformations from CRS to CRS<a class="headerlink" href="#transformations-from-crs-to-crs" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order">
