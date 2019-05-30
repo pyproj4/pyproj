@@ -550,13 +550,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="s2">&quot;Definiton:&quot;</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">,</span>
-                <span class="s2">&quot;WKT:&quot;</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
-            <span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;&lt;</span><span class="si">{type_name}</span><span class="s2">: </span><span class="si">{name}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="si">{description}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">type_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">type_name</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
