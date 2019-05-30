@@ -13,6 +13,14 @@ _PJ_DIRECTION_MAP = {
     TransformDirection.IDENT: PJ_IDENT,
 }
 
+_TRANSFORMER_TYPE_MAP = {
+    PJ_TYPE_UNKNOWN: "Unknown Transformer",
+    PJ_TYPE_CONVERSION: "Conversion Transformer",
+    PJ_TYPE_TRANSFORMATION: "Transformation Transformer",
+    PJ_TYPE_CONCATENATED_OPERATION: "Concatenated Operation Transformer",
+    PJ_TYPE_OTHER_COORDINATE_OPERATION: "Other Coordinate Operation Transformer",
+}
+
 
 cdef class _Transformer(Base):
     def __cinit__(self):
@@ -24,6 +32,7 @@ cdef class _Transformer(Base):
         self.skip_equivalent = False
         self.projections_equivalent = False
         self.projections_exact_same = False
+        self.type_name = "Unknown Transformer"
 
     def _set_radians_io(self):
         self._input_radians.update({
@@ -42,6 +51,8 @@ cdef class _Transformer(Base):
         if self.proj_info.id == NULL:
             ProjError.clear()
             raise ProjError("Input is not a transformation.")
+        cdef PJ_TYPE transformer_type = proj_get_type(self.projobj)
+        self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
 
     @property
     def id(self):

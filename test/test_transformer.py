@@ -404,36 +404,20 @@ def test_str():
 
 
 def test_repr():
-    trans_repr = repr(Transformer.from_crs(4326, 3857))
-    assert trans_repr == (
-        "Definiton:\n"
-        "proj=pipeline step proj=axisswap order=2,1 step proj=unitconvert"
-        " xy_in=deg xy_out=rad step proj=webmerc lat_0=0 lon_0=0 x_0=0 y_0=0 ellps=WGS84\n"
-        "WKT:\n"
-        'CONVERSION["Popular Visualisation Pseudo-Mercator",\n'
-        '    METHOD["Popular Visualisation Pseudo Mercator",\n'
-        '        ID["EPSG",1024]],\n'
-        '    PARAMETER["Latitude of natural origin",0,\n'
-        '        ANGLEUNIT["degree",0.0174532925199433],\n'
-        '        ID["EPSG",8801]],\n'
-        '    PARAMETER["Longitude of natural origin",0,\n'
-        '        ANGLEUNIT["degree",0.0174532925199433],\n'
-        '        ID["EPSG",8802]],\n'
-        '    PARAMETER["False easting",0,\n'
-        '        LENGTHUNIT["metre",1],\n'
-        '        ID["EPSG",8806]],\n'
-        '    PARAMETER["False northing",0,\n'
-        '        LENGTHUNIT["metre",1],\n'
-        '        ID["EPSG",8807]],\n'
-        '    ID["EPSG",3856]]'
-    )
+    assert repr(Transformer.from_crs(7789, 8401)) == \
+        (
+            "<Transformation Transformer: helmert>\n"
+            "ITRF2014 to ETRF2014 (1)"
+        )
 
+    assert repr(Transformer.from_crs(4326, 3857)) == \
+        (
+            "<Conversion Transformer: pipeline>\n"
+            "Popular Visualisation Pseudo-Mercator"
+        )
 
-def test_repr__no_wkt():
-    transformer = Transformer.from_crs("EPSG:4326", "EPSG:26917")
-    assert repr(transformer) == (
-        'Definiton:\n'
-        'unavailable until proj_trans is called\n'
-        'WKT:\n'
-        'undefined'
-    )
+    assert repr(Transformer.from_crs(4326, 26917)) == \
+        (
+            "<Unknown Transformer: unknown>\n"
+            "unavailable until proj_trans is called"
+        )

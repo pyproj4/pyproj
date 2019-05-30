@@ -396,13 +396,10 @@ class Transformer(object):
         return self.definition
 
     def __repr__(self):
-        return "\n".join(
-            [
-                "Definiton:",
-                self.definition,
-                "WKT:",
-                self.to_wkt(pretty=True) or "undefined",
-            ]
+        return ("<{type_name}: {name}>\n" "{description}").format(
+            type_name=self._transformer.type_name,
+            name=self.name,
+            description=self.description,
         )
 
 
