@@ -72,10 +72,8 @@ see :class:`~pyproj.transformer.Transformer`.
     >>> transformer = Transformer.from_crs(4326, 26917)
     >>> transformer = Transformer.from_crs("EPSG:4326", "EPSG:26917")
     >>> transformer
-    Definiton:
+    <Unknown Transformer: unknown>
     unavailable until proj_trans is called
-    WKT:
-    undefined
     >>> transformer.transform(50, -80) 
     (571666.4475041276, 5539109.815175673)
 
@@ -139,26 +137,8 @@ Step 2: Create Transformer to convert from geodetic CRS to CRS
 
     >>> proj = Transformer.from_crs(crs.geodetic_crs, crs)
     >>> proj
-    Definiton:
-    proj=pipeline step proj=axisswap order=2,1 step proj=unitconvert xy_in=deg xy_out=rad step proj=webmerc lat_0=0 lon_0=0 x_0=0 y_0=0 ellps=WGS84
-    WKT:
-    CONVERSION["Popular Visualisation Pseudo-Mercator",
-        METHOD["Popular Visualisation Pseudo Mercator",
-            ID["EPSG",1024]],
-        PARAMETER["Latitude of natural origin",0,
-            ANGLEUNIT["degree",0.0174532925199433],
-            ID["EPSG",8801]],
-        PARAMETER["Longitude of natural origin",0,
-            ANGLEUNIT["degree",0.0174532925199433],
-            ID["EPSG",8802]],
-        PARAMETER["False easting",0,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8806]],
-        PARAMETER["False northing",0,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8807]],
-        ID["EPSG",3856]]
-
+    <Conversion Transformer: pipeline>
+    Popular Visualisation Pseudo-Mercator
     >>> proj.transform(12, 15)
     (1669792.3618991035, 1345708.4084091093)
 
@@ -173,6 +153,9 @@ Step 2: Create Transformer to convert from geodetic CRS to CRS
 .. code:: python
 
     >>> transformer = Transformer.from_crs(7789, 8401)
+    >>> transformer
+    <Transformation Transformer: helmert>
+    ITRF2014 to ETRF2014 (1)
     >>> transformer.transform(xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0)
     (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)
 

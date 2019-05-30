@@ -13,3 +13,4 @@ cdef class _Transformer(Base):
     cdef public object skip_equivalent
     cdef public object projections_equivalent
     cdef public object projections_exact_same
+    cdef public object type_name
