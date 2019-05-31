@@ -12,6 +12,7 @@ Change Log
     * Added :meth:`~pyproj.crs.CRS.to_dict` (issue #226)
     * Added :meth:`~pyproj.crs.CRS.to_authority` (pull #294)
     * Added :attr:`~pyproj.crs.CRS.is_vertical` and :attr:`~pyproj.crs.CRS.is_engineering` (issue #316)
+    * Added :attr:`~pyproj.crs.CRS.target_crs` (pull #328)
     * Provide option to "pretty print" WKT in :attr:`~pyproj.crs.CRS.to_wkt` (issue #258)
     * Add support for Bound and Compound CRS for :attr:`~pyproj.crs.CRS.is_geographic`, :attr:`~pyproj.crs.CRS.is_projected` (issue #274)
     * Add support for Bound CRS for :attr:`~pyproj.crs.CRS.is_geocentric` (issue #374)

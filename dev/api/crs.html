@@ -551,7 +551,7 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dt id="pyproj.crs.CRS.geodetic_crs">
 <code class="descname">geodetic_crs</code><a class="headerlink" href="#pyproj.crs.CRS.geodetic_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>pyproj.CRS</strong>
-:rtype: The geodetic CRS based on this CRS.</p>
+:rtype: The the geodeticCRS / geographicCRS from the CRS.</p>
 </dd></dl>
 
 <dl class="method">
@@ -681,8 +681,8 @@ the source CRS is vertical if it is a bound CRS.</p>
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.source_crs">
 <code class="descname">source_crs</code><a class="headerlink" href="#pyproj.crs.CRS.source_crs" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns: <strong>CRS</strong>
-:rtype: The source CRS.</p>
+<dd><p>returns: <strong>CRS</strong> – or the source CRS of a CoordinateOperation.
+:rtype: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -708,6 +708,13 @@ the source CRS is vertical if it is a bound CRS.</p>
 <dd class="field-even"><p>list[<a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a>]</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.CRS.target_crs">
+<code class="descname">target_crs</code><a class="headerlink" href="#pyproj.crs.CRS.target_crs" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: <strong>CRS</strong>
+:rtype: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.</p>
 </dd></dl>
 
 <dl class="method">
