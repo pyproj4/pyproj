@@ -1246,7 +1246,7 @@ cdef class CoordinateOperation(Base):
                 towgs84_dict[param.name] = param.value
         self._towgs84 = [val for val in towgs84_dict.values() if val is not None]
         return self._towgs84
- 
+
 
 _CRS_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown CRS",
@@ -1279,6 +1279,7 @@ cdef class _CRS(Base):
         self._datum = None
         self._sub_crs_list = None
         self._source_crs = None
+        self._target_crs = None
         self._geodetic_crs = None
         self._coordinate_system = None
         self._coordinate_operation = None
@@ -1416,7 +1417,8 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        CRS: The source CRS.
+        CRS: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
+            or the source CRS of a CoordinateOperation.
         """
         if self._source_crs is not None:
             return None if self._source_crs is False else self._source_crs
@@ -1428,8 +1430,28 @@ cdef class _CRS(Base):
         try:
             self._source_crs = self.__class__(_to_wkt(self.projctx, projobj))
         finally:
-            proj_destroy(projobj) # deallocate temp proj
+            proj_destroy(projobj)
         return self._source_crs
+
+    @property
+    def target_crs(self):
+        """
+        Returns
+        -------
+        CRS: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
+        """
+        if self._target_crs is not None:
+            return None if self._target_crs is False else self._target_crs
+        cdef PJ * projobj
+        projobj = proj_get_target_crs(self.projctx, self.projobj)
+        if projobj == NULL:
+            self._target_crs = False
+            return None
+        try:
+            self._target_crs = self.__class__(_to_wkt(self.projctx, projobj))
+        finally:
+            proj_destroy(projobj)
+        return self._target_crs
 
     @property
     def sub_crs_list(self):
@@ -1460,7 +1482,7 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        pyproj.CRS: The geodetic CRS based on this CRS.
+        pyproj.CRS: The the geodeticCRS / geographicCRS from the CRS.
         """
         if self._geodetic_crs is not None:
             return self._geodetic_crs if self. _geodetic_crs is not False else None

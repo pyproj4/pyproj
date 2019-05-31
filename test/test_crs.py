@@ -837,3 +837,19 @@ def test_is_engineering():
         'TIMEEXTENT["date/time t1","date/time t2"]]'
     )
     assert CRS(eng_wkt).is_engineering
+
+
+def test_source_crs__bound():
+    assert CRS("+init=epsg:4328 +towgs84=0,0,0").source_crs.name == "unknown"
+
+
+def test_source_crs__missing():
+    assert CRS("epsg:4326").source_crs is None
+
+
+def test_target_crs__bound():
+    assert CRS("+init=epsg:4328 +towgs84=0,0,0").target_crs.name == "WGS 84"
+
+
+def test_target_crs__missing():
+    assert CRS("epsg:4326").target_crs is None

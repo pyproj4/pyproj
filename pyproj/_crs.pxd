@@ -118,6 +118,7 @@ cdef class _CRS(Base):
     cdef object _datum
     cdef object _sub_crs_list
     cdef object _source_crs
+    cdef object _target_crs
     cdef object _geodetic_crs
     cdef object _coordinate_system
     cdef object _coordinate_operation
