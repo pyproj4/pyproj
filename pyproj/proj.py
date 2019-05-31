@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Cython wrapper to provide python interfaces to
-PROJ.4 (https://github.com/OSGeo/proj.4/wiki) functions.
+PROJ (https://proj.org) functions.
 
 Performs cartographic transformations and geodetic computations.
 
@@ -52,13 +52,13 @@ class Proj(_proj.Proj):
     """
     Performs cartographic transformations (converts from
     longitude,latitude to native map projection x,y coordinates and
-    vice versa) using proj (https://proj4.org).
+    vice versa) using proj (https://proj.org).
 
     A Proj class instance is initialized with proj map projection
     control parameter key/value pairs. The key/value pairs can
     either be passed in a dictionary, or as keyword arguments,
-    or as a proj4 string (compatible with the proj command). See
-    https://proj4.org/operations/projections/index.html for examples of
+    or as a PROJ string (compatible with the proj command). See
+    https://proj.org/operations/projections/index.html for examples of
     key/value pairs defining different map projections.
 
     Calling a Proj class instance with the arguments lon, lat will
@@ -90,17 +90,17 @@ class Proj(_proj.Proj):
         """
         initialize a Proj class instance.
 
-        See the proj documentation (https://github.com/OSGeo/proj.4/wiki)
+        See the PROJ documentation (https://proj.org)
         for more information about projection parameters.
 
         Parameters
         ----------
         projparams: int, str, dict, pyproj.CRS
-            A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.
+            A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instnace.
         preserve_units: bool
             If false, will ensure +units=m.
         **kwargs:
-            proj.4 projection parameters.
+            PROJ projection parameters.
 
 
         Example usage:
@@ -176,19 +176,11 @@ class Proj(_proj.Proj):
         """
         inverse = kw.get("inverse", False)
         errcheck = kw.get("errcheck", False)
-        # if len(args) == 1:
-        #    latlon = np.array(args[0], copy=True,
-        #                      order='C', dtype=float, ndmin=2)
-        #    if inverse:
-        #        _proj.Proj._invn(self, latlon, radians=radians, errcheck=errcheck)
-        #    else:
-        #        _proj.Proj._fwdn(self, latlon, radians=radians, errcheck=errcheck)
-        #    return latlon
         lon, lat = args
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(lon)
         iny, yisfloat, yislist, yistuple = _copytobuffer(lat)
-        # call proj4 functions. inx and iny modified in place.
+        # call PROJ functions. inx and iny modified in place.
         if inverse:
             self._inv(inx, iny, errcheck=errcheck)
         else:

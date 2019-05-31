@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This module interfaces with proj.4 to produce a pythonic interface
+This module interfaces with PROJ to produce a pythonic interface
 to the coordinate reference system (CRS) information through the CRS
 class.
 
@@ -51,7 +51,7 @@ from pyproj.geod import Geod
 
 
 def _from_dict(projparams):
-    # convert a dict to a proj4 string.
+    # convert a dict to a proj string.
     pjargs = []
     for key, value in projparams.items():
         # the towgs84 as list
@@ -132,7 +132,7 @@ class CRS(_CRS):
     srs: str
         The string form of the user input used to create the CRS.
     name: str
-        The name of the CRS (from `proj_get_name <https://proj4.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
+        The name of the CRS (from `proj_get_name <https://proj.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
     type_name: str
         The name of the type of the CRS object.
 
@@ -427,7 +427,7 @@ class CRS(_CRS):
 
         .. warning:: You will likely lose important projection
           information when converting to a PROJ string from
-          another format. See: https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
+          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
 
         Returns
         -------

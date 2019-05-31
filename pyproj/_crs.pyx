@@ -82,18 +82,18 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version=WktVersion.WKT2_2018, pre
 
 cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version):
     """
-    Convert the projection to a PROJ.4 string.
+    Convert the projection to a PROJ string.
 
     Parameters
     ----------
     version: ~pyproj.enums.ProjVersion
-        The version of the PROJ.4 output. 
+        The version of the PROJ string output. 
 
     Returns
     -------
-    str: The PROJ.4 string.
+    str: The PROJ string.
     """
-    # get the output PROJ.4 format
+    # get the output PROJ string format
     supported_prj_types = {
         ProjVersion.PROJ_4: PJ_PROJ_4,
         ProjVersion.PROJ_5: PJ_PROJ_5,
@@ -1206,17 +1206,17 @@ cdef class CoordinateOperation(Base):
 
     def to_proj4(self, version=ProjVersion.PROJ_5):
         """
-        Convert the projection to a PROJ.4 string.
+        Convert the projection to a PROJ string.
 
         Parameters
         ----------
         version: ~pyproj.enums.ProjVersion
-            The version of the PROJ.4 output. 
+            The version of the PROJ string output. 
             Default is :attr:`~pyproj.enums.ProjVersion.PROJ_5`.
 
         Returns
         -------
-        str: The PROJ.4 string.
+        str: The PROJ string.
         """
         return _to_proj4(self.projctx, self.projobj, version)
 
@@ -1500,21 +1500,21 @@ cdef class _CRS(Base):
 
     def to_proj4(self, version=ProjVersion.PROJ_4):
         """
-        Convert the projection to a PROJ.4 string.
+        Convert the projection to a PROJ string.
 
         .. warning:: You will likely lose important projection
           information when converting to a PROJ string from
-          another format. See: https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
+          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
 
         Parameters
         ----------
         version: ~pyproj.enums.ProjVersion
-            The version of the PROJ.4 output. 
+            The version of the PROJ string output. 
             Default is :attr:`~pyproj.enums.ProjVersion.PROJ_4`.
 
         Returns
         -------
-        str: The PROJ.4 string.
+        str: The PROJ string.
         """
         return _to_proj4(self.projctx, self.projobj, version)
 

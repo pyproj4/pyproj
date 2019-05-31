@@ -26,22 +26,22 @@ for getting setup.
 Installing from source
 ======================
 
-Setup PROJ.4
+Setup PROJ
 ------------
 
-PROJ.4 6.1.0 is required when building from source.
-You can download PROJ.4 from https://download.osgeo.org/proj
-or from https://github.com/OSGeo/proj.4. 
-Installation instructions can be fount at https://proj4.org/.
+PROJ 6.1.0 is required when building from source.
+You can download PROJ from https://download.osgeo.org/proj
+or from https://github.com/OSGeo/PROJ. 
+Installation instructions can be fount at https://proj.org/.
 
-In the setup.py, the order for searching for PROJ.4 is:
+In the setup.py, the order for searching for PROJ is:
 
     1. The PROJ_DIR environment variable
-    2. The internal PROJ.4 directory (pyproj/proj_dir)
+    2. The internal PROJ directory (pyproj/proj_dir)
     3. The `proj` executable on the PATH.
 
 For best results, set the PROJ_DIR environment variable to 
-point to location of PROJ.4 installation before running setup.py.
+point to location of PROJ installation before running setup.py.
 
 Examples of how to set the PROJ_DIR environment variable:
 
@@ -53,12 +53,12 @@ Linux::
 
     export PROJ_DIR=/usr/local
 
-If you have a previous version of PROJ.4 installed alongside the current
-version of PROJ.4 (6.1.0), the best way to avoid conflicts is to:
+If you have a previous version of PROJ installed alongside the current
+version of PROJ (6.1.0), the best way to avoid conflicts is to:
 
-    1. Remove the previous PROJ.4 from PATH & unset old PROJ_LIB environment variable (temporarily)
-    2. Install PROJ.4 to the internal PROJ.4 directory (pyproj/proj_dir)
-    3. Set the environment variable PROJ_DIR to point to the internal PROJ.4 directory
+    1. Remove the previous PROJ from PATH & unset old PROJ_LIB environment variable (temporarily)
+    2. Install PROJ to the internal PROJ directory (pyproj/proj_dir)
+    3. Set the environment variable PROJ_DIR to point to the internal PROJ directory
     4. Set the environment variable PROJ_WHEEL=true
     5. Build pyproj
 

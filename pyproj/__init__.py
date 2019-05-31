@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Cython wrapper to provide python interfaces to
-PROJ.4 (https://github.com/OSGeo/proj.4/wiki) functions.
+PROJ (https://proj.org) functions.
 
 Performs cartographic transformations and geodetic computations.
 
