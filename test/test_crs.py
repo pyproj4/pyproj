@@ -32,6 +32,7 @@ def test_from_proj4__invalid():
     with pytest.raises(CRSError):
         assert CRS.from_proj4(CRS(3857).to_wkt())
 
+
 def test_from_proj4_json():
     json_str = '{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}'
     proj = CRS.from_string(json_str)
@@ -773,8 +774,10 @@ def test_crs_init_user_input():
 
 def test_to_string__no_auth():
     proj = CRS("+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62")
-    assert proj.to_string() == \
-        "+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62 +type=crs"
+    assert (
+        proj.to_string()
+        == "+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62 +type=crs"
+    )
 
 
 def test_to_string__auth():
@@ -782,16 +785,21 @@ def test_to_string__auth():
 
 
 def test_srs__no_plus():
-    assert CRS("proj=longlat datum=WGS84 no_defs").srs == \
-        "proj=longlat datum=WGS84 type=crs"
+    assert (
+        CRS("proj=longlat datum=WGS84 no_defs").srs
+        == "proj=longlat datum=WGS84 type=crs"
+    )
 
 
-@pytest.mark.parametrize("init_string, expected_srs", [
-    ("+init=epsg:4326 +no_defs=True", "+init=epsg:4326 +type=crs"),
-    ("init=epsg:4326 no_defs=True", "init=epsg:4326 type=crs"),
-    ("+init=epsg:4326 +no_defs", "+init=epsg:4326 +type=crs"),
-    ("init=epsg:4326 no_defs", "init=epsg:4326 type=crs"),
-])
+@pytest.mark.parametrize(
+    "init_string, expected_srs",
+    [
+        ("+init=epsg:4326 +no_defs=True", "+init=epsg:4326 +type=crs"),
+        ("init=epsg:4326 no_defs=True", "init=epsg:4326 type=crs"),
+        ("+init=epsg:4326 +no_defs", "+init=epsg:4326 +type=crs"),
+        ("init=epsg:4326 no_defs", "init=epsg:4326 type=crs"),
+    ],
+)
 def test_removing_nodefs(init_string, expected_srs):
     assert CRS(init_string).srs == expected_srs
 

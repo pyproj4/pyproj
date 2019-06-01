@@ -404,20 +404,14 @@ def test_str():
 
 
 def test_repr():
-    assert repr(Transformer.from_crs(7789, 8401)) == \
-        (
-            "<Transformation Transformer: helmert>\n"
-            "ITRF2014 to ETRF2014 (1)"
-        )
+    assert repr(Transformer.from_crs(7789, 8401)) == (
+        "<Transformation Transformer: helmert>\n" "ITRF2014 to ETRF2014 (1)"
+    )
 
-    assert repr(Transformer.from_crs(4326, 3857)) == \
-        (
-            "<Conversion Transformer: pipeline>\n"
-            "Popular Visualisation Pseudo-Mercator"
-        )
+    assert repr(Transformer.from_crs(4326, 3857)) == (
+        "<Conversion Transformer: pipeline>\n" "Popular Visualisation Pseudo-Mercator"
+    )
 
-    assert repr(Transformer.from_crs(4326, 26917)) == \
-        (
-            "<Unknown Transformer: unknown>\n"
-            "unavailable until proj_trans is called"
-        )
+    assert repr(Transformer.from_crs(4326, 26917)) == (
+        "<Unknown Transformer: unknown>\n" "unavailable until proj_trans is called"
+    )
