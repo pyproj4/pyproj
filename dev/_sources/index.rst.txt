@@ -1,7 +1,7 @@
 pyproj Documentation
 ====================
 
-Python interface to  `PROJ.4 <https://proj4.org/>`_.
+Python interface to  `PROJ <https://proj.org/>`_ (cartographic projections and coordinate transformations library).
 
 .. note:: Minimum supported PROJ version is 6.1.0
 

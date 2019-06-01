@@ -154,7 +154,7 @@
   <h1>Source code for pyproj.crs</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module interfaces with proj.4 to produce a pythonic interface</span>
+<span class="sd">This module interfaces with PROJ to produce a pythonic interface</span>
 <span class="sd">to the coordinate reference system (CRS) information through the CRS</span>
 <span class="sd">class.</span>
 
@@ -205,7 +205,7 @@
 
 
 <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">):</span>
-    <span class="c1"># convert a dict to a proj4 string.</span>
+    <span class="c1"># convert a dict to a proj string.</span>
     <span class="n">pjargs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">projparams</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1"># the towgs84 as list</span>
@@ -286,7 +286,7 @@
 <span class="sd">    srs: str</span>
 <span class="sd">        The string form of the user input used to create the CRS.</span>
 <span class="sd">    name: str</span>
-<span class="sd">        The name of the CRS (from `proj_get_name &lt;https://proj4.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ&gt;`_).</span>
+<span class="sd">        The name of the CRS (from `proj_get_name &lt;https://proj.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ&gt;`_).</span>
 <span class="sd">    type_name: str</span>
 <span class="sd">        The name of the type of the CRS object.</span>
 
@@ -581,7 +581,7 @@
 
 <span class="sd">        .. warning:: You will likely lose important projection</span>
 <span class="sd">          information when converting to a PROJ string from</span>
-<span class="sd">          another format. See: https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</span>
+<span class="sd">          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>

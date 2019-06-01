@@ -176,8 +176,8 @@
 <h1>Transformer<a class="headerlink" href="#transformer" title="Permalink to this headline">¶</a></h1>
 <p>The <cite>pyproj.Transformer</cite> has the capabilities of performing 2D, 3D, and 4D (time)
 transformations. It can do anything that the PROJ command line programs
-<cite>proj &lt;https://proj4.org/apps/proj.html&gt;</cite>, <cite>cs2cs &lt;https://proj4.org/apps/cs2cs.html&gt;</cite>,
-and <cite>cct &lt;https://proj4.org/apps/cct.html&gt;</cite> can do.
+<cite>proj &lt;https://proj.org/apps/proj.html&gt;</cite>, <cite>cs2cs &lt;https://proj.org/apps/cs2cs.html&gt;</cite>,
+and <cite>cct &lt;https://proj.org/apps/cct.html&gt;</cite> can do.
 This means that it allows translation between any pair of definable coordinate systems,
 including support for datum transformation.</p>
 <div class="admonition warning">
@@ -185,7 +185,7 @@ including support for datum transformation.</p>
 <p>The axis order may be swapped if the source and destination
 CRS’s are defined as having the first coordinate component point in a
 northerly direction (See PROJ FAQ on
-<a class="reference external" href="https://proj4.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">axis order</a>).
+<a class="reference external" href="https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">axis order</a>).
 You can check the axis order with the <cite>pyproj.CRS</cite> class. If you prefer to
 keep your axis order as always x,y, you can use the <cite>always_xy</cite> option when
 creating the <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a>.</p>
@@ -262,7 +262,7 @@ Default is false.</p></li>
 <dt id="pyproj.transformer.Transformer.from_pipeline">
 <em class="property">static </em><code class="descname">from_pipeline</code><span class="sig-paren">(</span><em>proj_pipeline</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a PROJ pipeline string.</p>
-<p><a class="reference external" href="https://proj4.org/operations/pipeline.html">https://proj4.org/operations/pipeline.html</a></p>
+<p><a class="reference external" href="https://proj.org/operations/pipeline.html">https://proj.org/operations/pipeline.html</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>proj_pipeline</strong> (<em>str</em>) – Projection pipeline string.</p>

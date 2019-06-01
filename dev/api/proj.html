@@ -186,12 +186,12 @@ projection coordinates within one datum.
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj.Proj</span></code></p>
 <p>Performs cartographic transformations (converts from
 longitude,latitude to native map projection x,y coordinates and
-vice versa) using proj (<a class="reference external" href="https://proj4.org">https://proj4.org</a>).</p>
+vice versa) using proj (<a class="reference external" href="https://proj.org">https://proj.org</a>).</p>
 <p>A Proj class instance is initialized with proj map projection
 control parameter key/value pairs. The key/value pairs can
 either be passed in a dictionary, or as keyword arguments,
-or as a proj4 string (compatible with the proj command). See
-<a class="reference external" href="https://proj4.org/operations/projections/index.html">https://proj4.org/operations/projections/index.html</a> for examples of
+or as a PROJ string (compatible with the proj command). See
+<a class="reference external" href="https://proj.org/operations/projections/index.html">https://proj.org/operations/projections/index.html</a> for examples of
 key/value pairs defining different map projections.</p>
 <p>Calling a Proj class instance with the arguments lon, lat will
 convert lon/lat (in degrees) to x/y native map projection
@@ -259,14 +259,14 @@ sequences and scalars, but is fastest for array objects.</p>
 <dt id="pyproj.proj.Proj.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>preserve_units=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize a Proj class instance.</p>
-<p>See the proj documentation (<a class="reference external" href="https://github.com/OSGeo/proj.4/wiki">https://github.com/OSGeo/proj.4/wiki</a>)
+<p>See the PROJ documentation (<a class="reference external" href="https://proj.org">https://proj.org</a>)
 for more information about projection parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>projparams</strong> (<em>int</em><em>, </em><em>str</em><em>, </em><em>dict</em><em>, </em><em>pyproj.CRS</em>) – A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.</p></li>
+<li><p><strong>projparams</strong> (<em>int</em><em>, </em><em>str</em><em>, </em><em>dict</em><em>, </em><em>pyproj.CRS</em>) – A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instnace.</p></li>
 <li><p><strong>preserve_units</strong> (<em>bool</em>) – If false, will ensure +units=m.</p></li>
-<li><p><strong>**kwargs</strong> – proj.4 projection parameters.</p></li>
+<li><p><strong>**kwargs</strong> – PROJ projection parameters.</p></li>
 </ul>
 </dd>
 </dl>
