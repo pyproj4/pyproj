@@ -2,6 +2,7 @@
 """Rewrite part of test.py in pyproj in the form of unittests."""
 
 import math
+import re
 import sys
 import unittest
 
@@ -12,20 +13,19 @@ from pyproj.crs import CRSError
 class BasicTest(unittest.TestCase):
     def testProj4Version(self):
         awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
-        # self.assertEqual(awips221.proj_version, 4.9)
+        assert re.match(r"\d+\.\d+", awips221.proj_version)
 
     def testInitWithBackupString4(self):
         # this fails unless backup of to_string(4) is used
         pj = Proj(
-            "+proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@null +lon_0=0.0 +x_0=0.0 +y_0=0.0 +units=m +no_defs"
+            "+proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@null "
+            "+lon_0=0.0 +x_0=0.0 +y_0=0.0 +units=m +no_defs"
         )
         assert pj.crs.is_valid
 
     def testProjAwips221(self):
         # AWIPS is Advanced Weather Interactive Processing System
         params = {"proj": "lcc", "R": 6371200, "lat_1": 50, "lat_2": 50, "lon_0": -107}
-        nx = 349
-        ny = 277
         awips221 = Proj(
             proj=params["proj"],
             R=params["R"],
@@ -73,27 +73,30 @@ class BasicTest(unittest.TestCase):
 
     def test_from_dict_with_bool(self):
         # issue #183
-        p_d = {'proj': 'omerc',
-               'lat_2': 80.27942,
-               'lat_0': 62.87671,
-               'lat_1': 42.751232,
-               'ellps': 'WGS84',
-               'no_rot': True,
-               'lon_1': 33.793186,
-               'lon_2': -18.374414}
-        p=Proj(p_d)
-        self.assertTrue('+no_rot' in p.srs.split())
-        p_d = {'proj': 'omerc',
-               'lat_2': 80.27942,
-               'lat_0': 62.87671,
-               'lat_1': 42.751232,
-               'ellps': 'WGS84',
-               'no_rot': False,
-               'lon_1': 33.793186,
-               'lon_2': -18.374414}
-        p=Proj(p_d)
-        self.assertFalse('+no_rot' in p.srs.split())
-
+        p_d = {
+            "proj": "omerc",
+            "lat_2": 80.27942,
+            "lat_0": 62.87671,
+            "lat_1": 42.751232,
+            "ellps": "WGS84",
+            "no_rot": True,
+            "lon_1": 33.793186,
+            "lon_2": -18.374414,
+        }
+        p = Proj(p_d)
+        self.assertTrue("+no_rot" in p.srs.split())
+        p_d = {
+            "proj": "omerc",
+            "lat_2": 80.27942,
+            "lat_0": 62.87671,
+            "lat_1": 42.751232,
+            "ellps": "WGS84",
+            "no_rot": False,
+            "lon_1": 33.793186,
+            "lon_2": -18.374414,
+        }
+        p = Proj(p_d)
+        self.assertFalse("+no_rot" in p.srs.split())
 
 
 class InverseHammerTest(unittest.TestCase):
@@ -136,7 +139,8 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
 
 class Geod_NoDefs_Issue22_Test(unittest.TestCase):
     # Test for Issue #22, Geod with "+no_defs" in initstring
-    # Before PR #23 merged 2015-10-07, having +no_defs in the initstring would result in a ValueError
+    # Before PR #23 merged 2015-10-07, having +no_defs in the
+    # initstring would result in a ValueError
     def test_geod_nodefs(self):
         Geod("+a=6378137 +b=6378137 +no_defs")
 
@@ -151,7 +155,9 @@ class ProjLatLongTypeErrorTest(unittest.TestCase):
         lon, lat = transform(p, p.to_latlong(), 200000, 400000)
 
 
-@unittest.skipIf(sys.version_info < (3, 4), "Python 3.4 or newer required for subTest()")
+@unittest.skipIf(
+    sys.version_info < (3, 4), "Python 3.4 or newer required for subTest()"
+)
 class ForwardInverseTest(unittest.TestCase):
     def test_fwd_inv(self):
         for pj in pj_list.keys():
@@ -159,8 +165,9 @@ class ForwardInverseTest(unittest.TestCase):
                 try:
                     p = Proj(proj=pj)
                     x, y = p(-30, 40)
-                    # note, for proj 4.9.2 or before the inverse projection may be missing
-                    # and pyproj 1.9.5.1 or before does not test for this and will
+                    # note, for proj 4.9.2 or before the inverse projection
+                    # may be missing and pyproj 1.9.5.1 or before does not
+                    # test for this and will
                     # give a segmentation fault at this point:
                     lon, lat = p(x, y, inverse=True)
                 except RuntimeError:
@@ -188,7 +195,8 @@ class GeodSharedMemoryBugTestIssue64(unittest.TestCase):
         self.assertNotEqual(self.g.initstring, self.mercury.initstring)
 
     def test_distances(self):
-        # note calculated distance was not an issue with #64, but it still a shared memory test
+        # note calculated distance was not an issue with #64,
+        # but it still a shared memory test
         boston_lat = 42.0 + (15.0 / 60.0)
         boston_lon = -71.0 - (7.0 / 60.0)
         portland_lat = 45.0 + (31.0 / 60.0)
