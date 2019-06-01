@@ -155,7 +155,7 @@
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Cython wrapper to provide python interfaces to</span>
-<span class="sd">PROJ.4 (https://github.com/OSGeo/proj.4/wiki) functions.</span>
+<span class="sd">PROJ (https://proj.org) functions.</span>
 
 <span class="sd">Performs cartographic transformations and geodetic computations.</span>
 
@@ -206,13 +206,13 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs cartographic transformations (converts from</span>
 <span class="sd">    longitude,latitude to native map projection x,y coordinates and</span>
-<span class="sd">    vice versa) using proj (https://proj4.org).</span>
+<span class="sd">    vice versa) using proj (https://proj.org).</span>
 
 <span class="sd">    A Proj class instance is initialized with proj map projection</span>
 <span class="sd">    control parameter key/value pairs. The key/value pairs can</span>
 <span class="sd">    either be passed in a dictionary, or as keyword arguments,</span>
-<span class="sd">    or as a proj4 string (compatible with the proj command). See</span>
-<span class="sd">    https://proj4.org/operations/projections/index.html for examples of</span>
+<span class="sd">    or as a PROJ string (compatible with the proj command). See</span>
+<span class="sd">    https://proj.org/operations/projections/index.html for examples of</span>
 <span class="sd">    key/value pairs defining different map projections.</span>
 
 <span class="sd">    Calling a Proj class instance with the arguments lon, lat will</span>
@@ -244,17 +244,17 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        initialize a Proj class instance.</span>
 
-<span class="sd">        See the proj documentation (https://github.com/OSGeo/proj.4/wiki)</span>
+<span class="sd">        See the PROJ documentation (https://proj.org)</span>
 <span class="sd">        for more information about projection parameters.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        projparams: int, str, dict, pyproj.CRS</span>
-<span class="sd">            A proj.4 or WKT string, proj.4 dict, EPSG integer, or a pyproj.CRS instnace.</span>
+<span class="sd">            A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instnace.</span>
 <span class="sd">        preserve_units: bool</span>
 <span class="sd">            If false, will ensure +units=m.</span>
 <span class="sd">        **kwargs:</span>
-<span class="sd">            proj.4 projection parameters.</span>
+<span class="sd">            PROJ projection parameters.</span>
 
 
 <span class="sd">        Example usage:</span>
@@ -330,19 +330,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">inverse</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;inverse&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">errcheck</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;errcheck&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="c1"># if len(args) == 1:</span>
-        <span class="c1">#    latlon = np.array(args[0], copy=True,</span>
-        <span class="c1">#                      order=&#39;C&#39;, dtype=float, ndmin=2)</span>
-        <span class="c1">#    if inverse:</span>
-        <span class="c1">#        _proj.Proj._invn(self, latlon, radians=radians, errcheck=errcheck)</span>
-        <span class="c1">#    else:</span>
-        <span class="c1">#        _proj.Proj._fwdn(self, latlon, radians=radians, errcheck=errcheck)</span>
-        <span class="c1">#    return latlon</span>
         <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">args</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
         <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
-        <span class="c1"># call proj4 functions. inx and iny modified in place.</span>
+        <span class="c1"># call PROJ functions. inx and iny modified in place.</span>
         <span class="k">if</span> <span class="n">inverse</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>

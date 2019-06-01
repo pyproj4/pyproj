@@ -154,7 +154,7 @@
   <h1>Source code for pyproj.geod</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Cython wrapper to provide python interfaces to</span>
-<span class="sd">PROJ.4 (https://github.com/OSGeo/proj.4/wiki) functions.</span>
+<span class="sd">PROJ (https://proj.org) functions.</span>
 
 <span class="sd">Performs geodetic computations.</span>
 
@@ -231,7 +231,7 @@
 
 <span class="sd">        Geodetic parameters for specifying the ellipsoid</span>
 <span class="sd">        can be given in a dictionary &#39;initparams&#39;, as keyword arguments,</span>
-<span class="sd">        or as as proj4 geod initialization string.</span>
+<span class="sd">        or as as proj geod initialization string.</span>
 <span class="sd">        </span>
 <span class="sd">        You can get a dictionary of ellipsoids using :func:`~pyproj.get_ellps_map`</span>
 <span class="sd">        or with the variable `pyproj.pj_ellps`.</span>
@@ -242,7 +242,7 @@
 <span class="sd">        or polar axis radius), &#39;e&#39; (eccentricity), &#39;es&#39; (eccentricity</span>
 <span class="sd">        squared), &#39;f&#39; (flattening), or &#39;rf&#39; (reciprocal flattening).</span>
 
-<span class="sd">        See the proj documentation (https://proj4.org) for more</span>
+<span class="sd">        See the proj documentation (https://proj.org) for more</span>
 <span class="sd">        information about specifying ellipsoid parameters.</span>
 
 <span class="sd">        Example usage:</span>
@@ -479,7 +479,7 @@
 <span class="sd">        &gt;&gt;&gt; gclrk2 = Geod(a=6378206.4, b=6356583.8) # Define Clarke 1866 using parameters</span>
 <span class="sd">        &gt;&gt;&gt; gclrk1 == gclrk2</span>
 <span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; gwgs66 = Geod(&#39;+ellps=WGS66&#39;)  # WGS 66 ellipsoid, Proj.4 style</span>
+<span class="sd">        &gt;&gt;&gt; gwgs66 = Geod(&#39;+ellps=WGS66&#39;)  # WGS 66 ellipsoid, PROJ style</span>
 <span class="sd">        &gt;&gt;&gt; gnwl9d = Geod(&#39;+ellps=NWL9D&#39;)  # Naval Weapons Lab., 1965 ellipsoid</span>
 <span class="sd">        &gt;&gt;&gt; # these ellipsoids are the same</span>
 <span class="sd">        &gt;&gt;&gt; gnwl9d == gwgs66</span>
