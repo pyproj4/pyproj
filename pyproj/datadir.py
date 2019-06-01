@@ -12,12 +12,12 @@ _VALIDATED_PROJ_DATA = None
 
 def set_data_dir(proj_data_dir):
     """
-    Set the data directory for PROJ.4 to use.
+    Set the data directory for PROJ to use.
 
     Parameters
     ----------
     proj_data_dir: str
-        The path to rhe PROJ.4 data directory.
+        The path to rhe PROJ data directory.
     """
     global _USER_PROJ_DATA
     global _VALIDATED_PROJ_DATA
@@ -28,12 +28,12 @@ def set_data_dir(proj_data_dir):
 
 def append_data_dir(proj_data_dir):
     """
-    Add an additional data directory for PROJ.4 to use.
+    Add an additional data directory for PROJ to use.
 
     Parameters
     ----------
     proj_data_dir: str
-        The path to rhe PROJ.4 data directory.
+        The path to rhe PROJ data directory.
     """
     set_data_dir(os.pathsep.join([get_data_dir(), proj_data_dir]))
 
@@ -96,7 +96,7 @@ def get_data_dir():
 
     if _VALIDATED_PROJ_DATA is None:
         raise DataDirError(
-            "Valid PROJ.4 data directory not found."
+            "Valid PROJ data directory not found."
             "Either set the path using the environmental variable PROJ_LIB or "
             "with `pyproj.datadir.set_data_dir`."
         )

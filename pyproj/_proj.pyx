@@ -5,7 +5,7 @@ from pyproj._datadir cimport get_pyproj_context
 from pyproj.exceptions import ProjError
 
 
-# # version number strings for proj.4 and Geod
+# # version number string for PROJ
 proj_version_str = "{0}.{1}.{2}".format(
     PROJ_VERSION_MAJOR,
     PROJ_VERSION_MINOR,

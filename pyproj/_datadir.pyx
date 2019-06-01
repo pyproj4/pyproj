@@ -8,7 +8,7 @@ from pyproj.exceptions import ProjError
 
 cdef void pyproj_log_function(void *user_data, int level, const char *error_msg):
     """
-    Log function for proj.4 errors with CRS class.
+    Log function for catching PROJ errors.
     """
     if level == PJ_LOG_ERROR:
         ProjError.internal_proj_error = pystrdecode(error_msg)

@@ -1,6 +1,6 @@
 """
 Cython wrapper to provide python interfaces to
-PROJ.4 (https://github.com/OSGeo/proj.4/wiki) functions.
+PROJ (https://proj.org) functions.
 
 Performs geodetic computations.
 
@@ -77,7 +77,7 @@ class Geod(_Geod):
 
         Geodetic parameters for specifying the ellipsoid
         can be given in a dictionary 'initparams', as keyword arguments,
-        or as as proj4 geod initialization string.
+        or as as proj geod initialization string.
         
         You can get a dictionary of ellipsoids using :func:`~pyproj.get_ellps_map`
         or with the variable `pyproj.pj_ellps`.
@@ -88,7 +88,7 @@ class Geod(_Geod):
         or polar axis radius), 'e' (eccentricity), 'es' (eccentricity
         squared), 'f' (flattening), or 'rf' (reciprocal flattening).
 
-        See the proj documentation (https://proj4.org) for more
+        See the proj documentation (https://proj.org) for more
         information about specifying ellipsoid parameters.
 
         Example usage:
@@ -325,7 +325,7 @@ class Geod(_Geod):
         >>> gclrk2 = Geod(a=6378206.4, b=6356583.8) # Define Clarke 1866 using parameters
         >>> gclrk1 == gclrk2
         True
-        >>> gwgs66 = Geod('+ellps=WGS66')  # WGS 66 ellipsoid, Proj.4 style
+        >>> gwgs66 = Geod('+ellps=WGS66')  # WGS 66 ellipsoid, PROJ style
         >>> gnwl9d = Geod('+ellps=NWL9D')  # Naval Weapons Lab., 1965 ellipsoid
         >>> # these ellipsoids are the same
         >>> gnwl9d == gwgs66

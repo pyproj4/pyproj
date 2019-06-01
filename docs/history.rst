@@ -80,12 +80,12 @@ Change Log
 
 2.0.0
 ~~~~~
-* Update to PROJ.4 version 6.0.0 & removed support for older PROJ.4 versions.
+* Update to PROJ version 6.0.0 & removed support for older PROJ versions.
 * Added pyproj.CRS class.
 * Updated pyproj.Proj & pyproj.transform to accept any input from CRS.from_user_input.
-* Removed internal PROJ.4 source code.
+* Removed internal PROJ source code.
 * Changed default for preserve_units to be True in pyproj.Proj class initialization.
-* Modified logic for searching for the PROJ.4 data directory to not conflict with older versions of PROJ.4.
+* Modified logic for searching for the PROJ data directory to not conflict with older versions of PROJ.
 * Added pyproject.toml.
 
 1.9.6
