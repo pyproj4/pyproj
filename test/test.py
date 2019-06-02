@@ -13,7 +13,7 @@ from pyproj.crs import CRSError
 class BasicTest(unittest.TestCase):
     def testProj4Version(self):
         awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
-        assert re.match(r"\d+\.\d+", awips221.proj_version)
+        assert type(awips221.proj_version) is int
 
     def testInitWithBackupString4(self):
         # this fails unless backup of to_string(4) is used
