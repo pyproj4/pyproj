@@ -6,20 +6,24 @@ Installation
 
 The easiest methods for installing pyproj are:
 
-1. Use pip to install the binary wheels on `PyPI <https://pypi.org/project/pyproj/>`__
-   (the Windows wheels are built by `Christoph Gohlke <https://www.lfd.uci.edu/~gohlke/pythonlibs/>`__):
+1. Use pip to install the binary wheels on `PyPI <https://pypi.org/project/pyproj/>`__:
 
   .. code-block:: bash
     
       pip install pyproj
 
-2. Use `conda <https://conda.io/en/latest/>`__:
+  - The OSX and Linux wheels are powered by `multibuild by Matthew Brett <https://github.com/matthew-brett/multibuild>`__
+  - The Windows wheels are built by `Christoph Gohlke <https://www.lfd.uci.edu/~gohlke/pythonlibs/>`__
+
+
+2. Use `conda <https://conda.io/en/latest/>`__ with the `conda-forge <https://conda-forge.org/>`__ channel:
 
   .. code-block:: bash
 
       conda install -c conda-forge pyproj
 
-If that does not meet your needs, the section below provides further instructions
+
+If these installation methods do not meet your needs, the section below provides further instructions
 for getting setup.
 
 

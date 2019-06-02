@@ -8,8 +8,8 @@ API Documentation
    crs
    transformer
    geod
+   proj
    list
    datadir
    enums
    exceptions
-   proj
