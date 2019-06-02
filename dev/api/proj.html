@@ -182,7 +182,7 @@ projection coordinates within one datum.
 <h2>pyproj.Proj<a class="headerlink" href="#pyproj-proj" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.proj.Proj">
-<em class="property">class </em><code class="descclassname">pyproj.proj.</code><code class="descname">Proj</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>preserve_units=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Proj</code><span class="sig-paren">(</span><em class="sig-param">projparams=None</em>, <em class="sig-param">preserve_units=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj.Proj</span></code></p>
 <p>Performs cartographic transformations (converts from
 longitude,latitude to native map projection x,y coordinates and
@@ -207,7 +207,7 @@ are not forced to be meters.</p>
 sequences and scalars.</p>
 <dl class="attribute">
 <dt id="pyproj.proj.Proj.srs">
-<code class="descname">srs</code><a class="headerlink" href="#pyproj.proj.Proj.srs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">srs</code><a class="headerlink" href="#pyproj.proj.Proj.srs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The string form of the user input used to create the Proj.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -218,7 +218,7 @@ sequences and scalars.</p>
 
 <dl class="attribute">
 <dt id="pyproj.proj.Proj.crs">
-<code class="descname">crs</code><a class="headerlink" href="#pyproj.proj.Proj.crs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">crs</code><a class="headerlink" href="#pyproj.proj.Proj.crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The CRS object associated with the Proj.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -229,7 +229,7 @@ sequences and scalars.</p>
 
 <dl class="attribute">
 <dt id="pyproj.proj.Proj.proj_version">
-<code class="descname">proj_version</code><a class="headerlink" href="#pyproj.proj.Proj.proj_version" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">proj_version</code><a class="headerlink" href="#pyproj.proj.Proj.proj_version" title="Permalink to this definition">¶</a></dt>
 <dd><p>The major version number for PROJ.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -240,7 +240,7 @@ sequences and scalars.</p>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calling a Proj class instance with the arguments lon, lat will
 convert lon/lat (in degrees) to x/y native map projection
 coordinates (in meters).  If optional keyword ‘inverse’ is True
@@ -257,7 +257,7 @@ sequences and scalars, but is fastest for array objects.</p>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>preserve_units=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">projparams=None</em>, <em class="sig-param">preserve_units=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize a Proj class instance.</p>
 <p>See the PROJ documentation (<a class="reference external" href="https://proj.org">https://proj.org</a>)
 for more information about projection parameters.</p>
@@ -315,7 +315,7 @@ for more information about projection parameters.</p>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.definition_string">
-<code class="descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns formal definition string for projection</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;+init=epsg:4326&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
 <span class="go">&#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
@@ -326,19 +326,19 @@ for more information about projection parameters.</p>
 
 <dl class="attribute">
 <dt id="pyproj.proj.Proj.has_inverse">
-<code class="descname">has_inverse</code><a class="headerlink" href="#pyproj.proj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">has_inverse</code><a class="headerlink" href="#pyproj.proj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns true if this projection has an inverse</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.is_exact_same">
-<code class="descname">is_exact_same</code><span class="sig-paren">(</span><em>self</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.proj.Proj.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.proj.Proj.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares Proj objects to see if they are exactly the same.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt>
-<code class="descname">proj_version</code></dt>
+<code class="sig-name descname">proj_version</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -349,14 +349,14 @@ for more information about projection parameters.</p>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.to_latlong">
-<code class="descname">to_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong" title="Permalink to this definition">¶</a></dt>
 <dd><p>return a new Proj instance which is the geographic (lat/lon)
 coordinate version of the current projection</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.to_latlong_def">
-<code class="descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the definition string of the geographic (lat/lon)
 coordinate version of the current projection</p>
 </dd></dl>

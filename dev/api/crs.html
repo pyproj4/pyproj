@@ -183,7 +183,7 @@
 <h2>pyproj.CRS<a class="headerlink" href="#pyproj-crs" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.CRS">
-<em class="property">class </em><code class="descclassname">pyproj.crs.</code><code class="descname">CRS</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CRS</code><span class="sig-paren">(</span><em class="sig-param">projparams=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS" title="Permalink to this definition">¶</a></dt>
 <dd><p>A pythonic Coordinate Reference System manager.</p>
 <p>The functionality is based on other fantastic projects:</p>
 <ul class="simple">
@@ -192,7 +192,7 @@
 </ul>
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.srs">
-<code class="descname">srs</code><a class="headerlink" href="#pyproj.crs.CRS.srs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">srs</code><a class="headerlink" href="#pyproj.crs.CRS.srs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The string form of the user input used to create the CRS.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -203,7 +203,7 @@
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj.crs.CRS.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.CRS.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the CRS (from <a class="reference external" href="https://proj.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ">proj_get_name</a>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -214,7 +214,7 @@
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.type_name">
-<code class="descname">type_name</code><a class="headerlink" href="#pyproj.crs.CRS.type_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">type_name</code><a class="headerlink" href="#pyproj.crs.CRS.type_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the type of the CRS object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -225,7 +225,7 @@
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>projparams=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">projparams=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
 <li><p>PROJ string</p></li>
@@ -335,49 +335,49 @@
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.area_of_use">
-<code class="descname">area_of_use</code><a class="headerlink" href="#pyproj.crs.CRS.area_of_use" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">area_of_use</code><a class="headerlink" href="#pyproj.crs.CRS.area_of_use" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>AreaOfUse</strong>
 :rtype: The area of use object with associated attributes.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.axis_info">
-<code class="descname">axis_info</code><a class="headerlink" href="#pyproj.crs.CRS.axis_info" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">axis_info</code><a class="headerlink" href="#pyproj.crs.CRS.axis_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>list[Axis]</strong>
 :rtype: The list of axis information.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.coordinate_operation">
-<code class="descname">coordinate_operation</code><a class="headerlink" href="#pyproj.crs.CRS.coordinate_operation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">coordinate_operation</code><a class="headerlink" href="#pyproj.crs.CRS.coordinate_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>CoordinateOperation</strong>
 :rtype: The coordinate operation.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.coordinate_system">
-<code class="descname">coordinate_system</code><a class="headerlink" href="#pyproj.crs.CRS.coordinate_system" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">coordinate_system</code><a class="headerlink" href="#pyproj.crs.CRS.coordinate_system" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>CoordinateSystem</strong>
 :rtype: The coordinate system.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.datum">
-<code class="descname">datum</code><a class="headerlink" href="#pyproj.crs.CRS.datum" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">datum</code><a class="headerlink" href="#pyproj.crs.CRS.datum" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>Datum</strong>
 :rtype: The datum.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.ellipsoid">
-<code class="descname">ellipsoid</code><a class="headerlink" href="#pyproj.crs.CRS.ellipsoid" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ellipsoid</code><a class="headerlink" href="#pyproj.crs.CRS.ellipsoid" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>Ellipsoid</strong>
 :rtype: The ellipsoid object with associated attributes.</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_authority">
-<em class="property">classmethod </em><code class="descname">from_authority</code><span class="sig-paren">(</span><em>auth_name</em>, <em>code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from an authority name and authority code</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -395,9 +395,9 @@
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_cf">
-<em class="property">static </em><code class="descname">from_cf</code><span class="sig-paren">(</span><em>in_cf</em>, <em>errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_cf</code><span class="sig-paren">(</span><em class="sig-param">in_cf</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
 <dd><p>This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
 dict to a <a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> object.</p>
 <div class="admonition warning">
@@ -422,9 +422,9 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_dict">
-<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>proj_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">proj_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from a dictionary of PROJ parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -439,9 +439,9 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_epsg">
-<em class="property">classmethod </em><code class="descname">from_epsg</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_epsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_epsg" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_epsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from an EPSG code</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -456,9 +456,9 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_proj4">
-<em class="property">classmethod </em><code class="descname">from_proj4</code><span class="sig-paren">(</span><em>in_proj_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_proj4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_proj4" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_proj4</code><span class="sig-paren">(</span><em class="sig-param">in_proj_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_proj4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_proj4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from a PROJ string</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -473,9 +473,9 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_string">
-<em class="property">classmethod </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>in_crs_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">in_crs_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from:</p>
 <dl class="simple">
 <dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
@@ -499,9 +499,9 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_user_input">
-<em class="property">classmethod </em><code class="descname">from_user_input</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_user_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_user_input" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_user_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_user_input" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
 <li><p>PROJ string</p></li>
@@ -530,9 +530,9 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_wkt">
-<em class="property">classmethod </em><code class="descname">from_wkt</code><span class="sig-paren">(</span><em>in_wkt_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_wkt" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_wkt</code><span class="sig-paren">(</span><em class="sig-param">in_wkt_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from a WKT string</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -549,14 +549,14 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.geodetic_crs">
-<code class="descname">geodetic_crs</code><a class="headerlink" href="#pyproj.crs.CRS.geodetic_crs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">geodetic_crs</code><a class="headerlink" href="#pyproj.crs.CRS.geodetic_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>pyproj.CRS</strong>
 :rtype: The the geodeticCRS / geographicCRS from the CRS.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.get_geod">
-<code class="descname">get_geod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.get_geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.get_geod" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_geod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.get_geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.get_geod" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>pyproj.geod.Geod</strong></p>
@@ -569,27 +569,27 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_bound">
-<code class="descname">is_bound</code><a class="headerlink" href="#pyproj.crs.CRS.is_bound" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_bound</code><a class="headerlink" href="#pyproj.crs.CRS.is_bound" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>bool</strong>
 :rtype: True if CRS is bound.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_engineering">
-<code class="descname">is_engineering</code><a class="headerlink" href="#pyproj.crs.CRS.is_engineering" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_engineering</code><a class="headerlink" href="#pyproj.crs.CRS.is_engineering" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>bool</strong>
 :rtype: True if CRS is local/engineering.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.is_exact_same">
-<code class="descname">is_exact_same</code><span class="sig-paren">(</span><em>self</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_geocentric">
-<code class="descname">is_geocentric</code><a class="headerlink" href="#pyproj.crs.CRS.is_geocentric" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_geocentric</code><a class="headerlink" href="#pyproj.crs.CRS.is_geocentric" title="Permalink to this definition">¶</a></dt>
 <dd><p>This checks if the CRS is geocentric and
 takes into account if the CRS is bound.</p>
 <dl class="field-list simple">
@@ -604,7 +604,7 @@ takes into account if the CRS is bound.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_geographic">
-<code class="descname">is_geographic</code><a class="headerlink" href="#pyproj.crs.CRS.is_geographic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_geographic</code><a class="headerlink" href="#pyproj.crs.CRS.is_geographic" title="Permalink to this definition">¶</a></dt>
 <dd><p>This checks if the CRS is geographic.
 It will check if it has a geographic CRS
 in the sub CRS if it is a compount CRS and will check if
@@ -621,7 +621,7 @@ the source CRS is geographic if it is a bound CRS.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_projected">
-<code class="descname">is_projected</code><a class="headerlink" href="#pyproj.crs.CRS.is_projected" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_projected</code><a class="headerlink" href="#pyproj.crs.CRS.is_projected" title="Permalink to this definition">¶</a></dt>
 <dd><p>This checks if the CRS is projected.
 It will check if it has a projected CRS
 in the sub CRS if it is a compount CRS and will check if
@@ -638,14 +638,14 @@ the source CRS is projected if it is a bound CRS.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_valid">
-<code class="descname">is_valid</code><a class="headerlink" href="#pyproj.crs.CRS.is_valid" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_valid</code><a class="headerlink" href="#pyproj.crs.CRS.is_valid" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>bool</strong>
 :rtype: True if CRS is valid.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.is_vertical">
-<code class="descname">is_vertical</code><a class="headerlink" href="#pyproj.crs.CRS.is_vertical" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_vertical</code><a class="headerlink" href="#pyproj.crs.CRS.is_vertical" title="Permalink to this definition">¶</a></dt>
 <dd><p>This checks if the CRS is vertical.
 It will check if it has a vertical CRS
 in the sub CRS if it is a compount CRS and will check if
@@ -662,7 +662,7 @@ the source CRS is vertical if it is a bound CRS.</p>
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -673,21 +673,21 @@ the source CRS is vertical if it is a bound CRS.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.prime_meridian">
-<code class="descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.CRS.prime_meridian" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.CRS.prime_meridian" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>PrimeMeridian</strong>
 :rtype: The CRS prime meridian object with associated attributes.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.source_crs">
-<code class="descname">source_crs</code><a class="headerlink" href="#pyproj.crs.CRS.source_crs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">source_crs</code><a class="headerlink" href="#pyproj.crs.CRS.source_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>CRS</strong> – or the source CRS of a CoordinateOperation.
 :rtype: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt>
-<code class="descname">srs</code></dt>
+<code class="sig-name descname">srs</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -698,7 +698,7 @@ the source CRS is vertical if it is a bound CRS.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.sub_crs_list">
-<code class="descname">sub_crs_list</code><a class="headerlink" href="#pyproj.crs.CRS.sub_crs_list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sub_crs_list</code><a class="headerlink" href="#pyproj.crs.CRS.sub_crs_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the CRS is a compound CRS, it will return a list of sub CRS objects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -712,14 +712,14 @@ the source CRS is vertical if it is a bound CRS.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.target_crs">
-<code class="descname">target_crs</code><a class="headerlink" href="#pyproj.crs.CRS.target_crs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">target_crs</code><a class="headerlink" href="#pyproj.crs.CRS.target_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>CRS</strong>
 :rtype: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_authority">
-<code class="descname">to_authority</code><span class="sig-paren">(</span><em>self</em>, <em>auth_name=None</em>, <em>min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_authority" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_authority</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">auth_name=None</em>, <em class="sig-param">min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_authority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the authority name and code best matching the CRS
 or None if it a match is not found.</p>
 <p>Example:</p>
@@ -758,7 +758,7 @@ the source CRS:</p>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_cf">
-<code class="descname">to_cf</code><span class="sig-paren">(</span><em>wkt_version='WKT2_2018'</em>, <em>errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_cf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_cf</code><span class="sig-paren">(</span><em class="sig-param">wkt_version='WKT2_2018'</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_cf" title="Permalink to this definition">¶</a></dt>
 <dd><p>This converts a <a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> object
 to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.</p>
 <div class="admonition warning">
@@ -785,7 +785,7 @@ if a mapping to the CF parameter is not found.</p>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_dict">
-<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts the CRS to dictionary of PROJ parameters.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -805,7 +805,7 @@ another format. See: <a class="reference external" href="https://proj.org/faq.ht
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_epsg">
-<code class="descname">to_epsg</code><span class="sig-paren">(</span><em>self</em>, <em>min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_epsg</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the EPSG code best matching the CRS
 or None if it a match is not found.</p>
 <p>Example:</p>
@@ -841,7 +841,7 @@ the source CRS:</p>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_geodetic">
-<code class="descname">to_geodetic</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_geodetic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_geodetic</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_geodetic" title="Permalink to this definition">¶</a></dt>
 <dd><div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is replaced with <a class="reference internal" href="#pyproj.crs.CRS.geodetic_crs" title="pyproj.crs.CRS.geodetic_crs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CRS.geodetic_crs</span></code></a></p>
@@ -858,7 +858,7 @@ the source CRS:</p>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_proj4">
-<code class="descname">to_proj4</code><span class="sig-paren">(</span><em>self</em>, <em>version=ProjVersion.PROJ_4</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_proj4" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_proj4</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=ProjVersion.PROJ_4</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_proj4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a PROJ string.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -882,7 +882,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.ProjVersi
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_string">
-<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the CRS to a string.</p>
 <p>It attempts to convert it to the authority string.
 Otherwise, it uses the string format of the user
@@ -899,7 +899,7 @@ input to create the CRS.</p>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_wkt">
-<code class="descname">to_wkt</code><span class="sig-paren">(</span><em>self</em>, <em>version=u'WKT2_2018'</em>, <em>pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
@@ -931,7 +931,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">type_name</code></dt>
+<code class="sig-name descname">type_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -947,7 +947,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <h2>pyproj.crs.is_wkt<a class="headerlink" href="#pyproj-crs-is-wkt" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.crs.is_wkt">
-<code class="descclassname">pyproj.crs.</code><code class="descname">is_wkt</code><span class="sig-paren">(</span><em>proj_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">is_wkt</code><span class="sig-paren">(</span><em class="sig-param">proj_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the input projection string is in the Well-Known Text format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -967,11 +967,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <h2>Area Of Use<a class="headerlink" href="#area-of-use" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj._crs.AreaOfUse">
-<em class="property">class </em><code class="descclassname">pyproj._crs.</code><code class="descname">AreaOfUse</code><a class="headerlink" href="#pyproj._crs.AreaOfUse" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">AreaOfUse</code><a class="headerlink" href="#pyproj._crs.AreaOfUse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Area of Use for CRS</p>
 <dl class="attribute">
 <dt id="pyproj._crs.AreaOfUse.west">
-<code class="descname">west</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.west" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">west</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.west" title="Permalink to this definition">¶</a></dt>
 <dd><p>West bound of area of use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -982,7 +982,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.AreaOfUse.south">
-<code class="descname">south</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.south" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">south</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.south" title="Permalink to this definition">¶</a></dt>
 <dd><p>South bound of area of use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -993,7 +993,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.AreaOfUse.east">
-<code class="descname">east</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.east" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">east</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.east" title="Permalink to this definition">¶</a></dt>
 <dd><p>East bound of area of use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1004,7 +1004,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.AreaOfUse.north">
-<code class="descname">north</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.north" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">north</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.north" title="Permalink to this definition">¶</a></dt>
 <dd><p>North bound of area of use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1015,7 +1015,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.AreaOfUse.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of area of use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1026,7 +1026,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">east</code></dt>
+<code class="sig-name descname">east</code></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1037,7 +1037,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1048,7 +1048,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">north</code></dt>
+<code class="sig-name descname">north</code></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1059,7 +1059,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">south</code></dt>
+<code class="sig-name descname">south</code></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1070,7 +1070,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">west</code></dt>
+<code class="sig-name descname">west</code></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1086,11 +1086,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <h2>Coordinate System<a class="headerlink" href="#coordinate-system" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj._crs.CoordinateSystem">
-<em class="property">class </em><code class="descclassname">pyproj._crs.</code><code class="descname">CoordinateSystem</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">CoordinateSystem</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Coordinate System for CRS</p>
 <dl class="attribute">
 <dt id="pyproj._crs.CoordinateSystem.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the coordinate system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1101,20 +1101,20 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.CoordinateSystem.axis_list">
-<code class="descname">axis_list</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.axis_list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">axis_list</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.axis_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>list[Axis]</strong>
 :rtype: The Axis list for the coordinate system.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj._crs.CoordinateSystem.is_exact_same">
-<code class="descname">is_exact_same</code><span class="sig-paren">(</span><em>self</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1125,7 +1125,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="method">
 <dt id="pyproj._crs.CoordinateSystem.to_wkt">
-<code class="descname">to_wkt</code><span class="sig-paren">(</span><em>self</em>, <em>version=u'WKT2_2018'</em>, <em>pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
@@ -1159,11 +1159,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="class">
 <dt id="pyproj._crs.Axis">
-<em class="property">class </em><code class="descclassname">pyproj._crs.</code><code class="descname">Axis</code><a class="headerlink" href="#pyproj._crs.Axis" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">Axis</code><a class="headerlink" href="#pyproj._crs.Axis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Coordinate System Axis</p>
 <dl class="attribute">
 <dt id="pyproj._crs.Axis.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj._crs.Axis.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj._crs.Axis.name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -1173,7 +1173,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Axis.abbrev">
-<code class="descname">abbrev</code><a class="headerlink" href="#pyproj._crs.Axis.abbrev" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">abbrev</code><a class="headerlink" href="#pyproj._crs.Axis.abbrev" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -1183,7 +1183,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Axis.direction">
-<code class="descname">direction</code><a class="headerlink" href="#pyproj._crs.Axis.direction" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">direction</code><a class="headerlink" href="#pyproj._crs.Axis.direction" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -1193,7 +1193,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Axis.unit_conversion_factor">
-<code class="descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj._crs.Axis.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj._crs.Axis.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>float</p>
@@ -1203,7 +1203,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Axis.unit_name">
-<code class="descname">unit_name</code><a class="headerlink" href="#pyproj._crs.Axis.unit_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_name</code><a class="headerlink" href="#pyproj._crs.Axis.unit_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -1213,7 +1213,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Axis.unit_auth_code">
-<code class="descname">unit_auth_code</code><a class="headerlink" href="#pyproj._crs.Axis.unit_auth_code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_auth_code</code><a class="headerlink" href="#pyproj._crs.Axis.unit_auth_code" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -1223,7 +1223,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Axis.unit_code">
-<code class="descname">unit_code</code><a class="headerlink" href="#pyproj._crs.Axis.unit_code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_code</code><a class="headerlink" href="#pyproj._crs.Axis.unit_code" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -1233,7 +1233,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">abbrev</code></dt>
+<code class="sig-name descname">abbrev</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1244,7 +1244,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">direction</code></dt>
+<code class="sig-name descname">direction</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1255,7 +1255,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1266,7 +1266,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_auth_code</code></dt>
+<code class="sig-name descname">unit_auth_code</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1277,7 +1277,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_code</code></dt>
+<code class="sig-name descname">unit_code</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1288,7 +1288,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_conversion_factor</code></dt>
+<code class="sig-name descname">unit_conversion_factor</code></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1299,7 +1299,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_name</code></dt>
+<code class="sig-name descname">unit_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1315,11 +1315,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <h2>Coordinate Operation<a class="headerlink" href="#coordinate-operation" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.CoordinateOperation">
-<em class="property">class </em><code class="descclassname">pyproj.crs.</code><code class="descname">CoordinateOperation</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CoordinateOperation</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Coordinate operation for CRS.</p>
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the method(projection) with authority information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1330,7 +1330,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.method_name">
-<code class="descname">method_name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">method_name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The method (projection) name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1341,7 +1341,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.method_auth_name">
-<code class="descname">method_auth_name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_auth_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">method_auth_name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_auth_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The method authority name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1352,7 +1352,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.method_code">
-<code class="descname">method_code</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">method_code</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The method code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1363,7 +1363,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.is_instantiable">
-<code class="descname">is_instantiable</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.is_instantiable" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_instantiable</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.is_instantiable" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, a coordinate operation can be instantiated as a PROJ pipeline.
 This also checks that referenced grids are available.</p>
 <dl class="field-list simple">
@@ -1375,7 +1375,7 @@ This also checks that referenced grids are available.</p>
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.has_ballpark_transformation">
-<code class="descname">has_ballpark_transformation</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.has_ballpark_transformation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">has_ballpark_transformation</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.has_ballpark_transformation" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, the coordinate operation has a “ballpark” transformation,
 that is a very approximate one, due to lack of more accurate transformations.</p>
 <dl class="field-list simple">
@@ -1387,7 +1387,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.accuracy">
-<code class="descname">accuracy</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.accuracy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.accuracy" title="Permalink to this definition">¶</a></dt>
 <dd><p>The accuracy (in metre) of a coordinate operation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1398,7 +1398,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="attribute">
 <dt>
-<code class="descname">accuracy</code></dt>
+<code class="sig-name descname">accuracy</code></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1407,9 +1407,9 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.from_authority">
-<em class="property">static </em><code class="descname">from_authority</code><span class="sig-paren">(</span><em>auth_name</em>, <em>code</em>, <em>use_proj_alternative_grid_names=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em>, <em class="sig-param">use_proj_alternative_grid_names=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from an authority code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1428,9 +1428,9 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.from_epsg">
-<em class="property">static </em><code class="descname">from_epsg</code><span class="sig-paren">(</span><em>code</em>, <em>use_proj_alternative_grid_names=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_epsg" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code</em>, <em class="sig-param">use_proj_alternative_grid_names=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from an EPSG code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1448,9 +1448,9 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.from_string">
-<em class="property">static </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>coordinate_operation_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">coordinate_operation_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from a string.</p>
 <p class="rubric">Example</p>
 <ul class="simple">
@@ -1471,14 +1471,14 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.grids">
-<code class="descname">grids</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.grids" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">grids</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.grids" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>list[Grid]</strong>
 :rtype: The coordinate operation grids.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt>
-<code class="descname">has_ballpark_transformation</code></dt>
+<code class="sig-name descname">has_ballpark_transformation</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1489,13 +1489,13 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.is_exact_same">
-<code class="descname">is_exact_same</code><span class="sig-paren">(</span><em>self</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt>
-<code class="descname">is_instantiable</code></dt>
+<code class="sig-name descname">is_instantiable</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1506,7 +1506,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="attribute">
 <dt>
-<code class="descname">method_auth_name</code></dt>
+<code class="sig-name descname">method_auth_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1517,7 +1517,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="attribute">
 <dt>
-<code class="descname">method_code</code></dt>
+<code class="sig-name descname">method_code</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1528,7 +1528,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="attribute">
 <dt>
-<code class="descname">method_name</code></dt>
+<code class="sig-name descname">method_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1539,7 +1539,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1550,14 +1550,14 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.params">
-<code class="descname">params</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>list[Param]</strong>
 :rtype: The coordinate operation parameters.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.to_proj4">
-<code class="descname">to_proj4</code><span class="sig-paren">(</span><em>self</em>, <em>version=ProjVersion.PROJ_5</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.to_proj4" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_proj4</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=ProjVersion.PROJ_5</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.to_proj4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a PROJ string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1575,7 +1575,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.ProjVersi
 
 <dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.to_wkt">
-<code class="descname">to_wkt</code><span class="sig-paren">(</span><em>self</em>, <em>version=u'WKT2_2018'</em>, <em>pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
@@ -1607,7 +1607,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.towgs84">
-<code class="descname">towgs84</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.towgs84" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">towgs84</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.towgs84" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>list(float)</strong> – Otherwise an empty list.
 :rtype: A list of 3 or 7 towgs84 values if they exist.</p>
 </dd></dl>
@@ -1616,11 +1616,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="class">
 <dt id="pyproj._crs.Param">
-<em class="property">class </em><code class="descclassname">pyproj._crs.</code><code class="descname">Param</code><a class="headerlink" href="#pyproj._crs.Param" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">Param</code><a class="headerlink" href="#pyproj._crs.Param" title="Permalink to this definition">¶</a></dt>
 <dd><p>Coordinate operation parameter.</p>
 <dl class="attribute">
 <dt id="pyproj._crs.Param.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj._crs.Param.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj._crs.Param.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1631,7 +1631,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Param.auth_name">
-<code class="descname">auth_name</code><a class="headerlink" href="#pyproj._crs.Param.auth_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">auth_name</code><a class="headerlink" href="#pyproj._crs.Param.auth_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The authority name of the parameter (i.e. EPSG).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1642,7 +1642,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Param.code">
-<code class="descname">code</code><a class="headerlink" href="#pyproj._crs.Param.code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">code</code><a class="headerlink" href="#pyproj._crs.Param.code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The code of the parameter (i.e. 9807).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1653,7 +1653,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Param.value">
-<code class="descname">value</code><a class="headerlink" href="#pyproj._crs.Param.value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">value</code><a class="headerlink" href="#pyproj._crs.Param.value" title="Permalink to this definition">¶</a></dt>
 <dd><p>The value of the parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1664,7 +1664,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Param.unit_conversion_factor">
-<code class="descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj._crs.Param.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj._crs.Param.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
 <dd><p>The factor to convert to meters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1675,7 +1675,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Param.unit_name">
-<code class="descname">unit_name</code><a class="headerlink" href="#pyproj._crs.Param.unit_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_name</code><a class="headerlink" href="#pyproj._crs.Param.unit_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1686,7 +1686,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Param.unit_auth_name">
-<code class="descname">unit_auth_name</code><a class="headerlink" href="#pyproj._crs.Param.unit_auth_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_auth_name</code><a class="headerlink" href="#pyproj._crs.Param.unit_auth_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The authority name of the unit (i.e. EPSG).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1697,7 +1697,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Param.unit_code">
-<code class="descname">unit_code</code><a class="headerlink" href="#pyproj._crs.Param.unit_code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_code</code><a class="headerlink" href="#pyproj._crs.Param.unit_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The code of the unit (i.e. 9807).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1708,7 +1708,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Param.unit_category">
-<code class="descname">unit_category</code><a class="headerlink" href="#pyproj._crs.Param.unit_category" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_category</code><a class="headerlink" href="#pyproj._crs.Param.unit_category" title="Permalink to this definition">¶</a></dt>
 <dd><p>The category of the unit (“unknown”, “none”, “linear”,
 “angular”, “scale”, “time” or “parametric”).</p>
 <dl class="field-list simple">
@@ -1720,7 +1720,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">auth_name</code></dt>
+<code class="sig-name descname">auth_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1731,7 +1731,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">code</code></dt>
+<code class="sig-name descname">code</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1742,7 +1742,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1753,7 +1753,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_auth_name</code></dt>
+<code class="sig-name descname">unit_auth_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1764,7 +1764,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_category</code></dt>
+<code class="sig-name descname">unit_category</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1775,7 +1775,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_code</code></dt>
+<code class="sig-name descname">unit_code</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1786,7 +1786,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_conversion_factor</code></dt>
+<code class="sig-name descname">unit_conversion_factor</code></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1797,7 +1797,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_name</code></dt>
+<code class="sig-name descname">unit_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1808,7 +1808,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">value</code></dt>
+<code class="sig-name descname">value</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1821,11 +1821,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="class">
 <dt id="pyproj._crs.Grid">
-<em class="property">class </em><code class="descclassname">pyproj._crs.</code><code class="descname">Grid</code><a class="headerlink" href="#pyproj._crs.Grid" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">Grid</code><a class="headerlink" href="#pyproj._crs.Grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Coordinate operation grid.</p>
 <dl class="attribute">
 <dt id="pyproj._crs.Grid.short_name">
-<code class="descname">short_name</code><a class="headerlink" href="#pyproj._crs.Grid.short_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">short_name</code><a class="headerlink" href="#pyproj._crs.Grid.short_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The short name of the grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1836,7 +1836,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Grid.full_name">
-<code class="descname">full_name</code><a class="headerlink" href="#pyproj._crs.Grid.full_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">full_name</code><a class="headerlink" href="#pyproj._crs.Grid.full_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The full name of the grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1847,7 +1847,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Grid.package_name">
-<code class="descname">package_name</code><a class="headerlink" href="#pyproj._crs.Grid.package_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">package_name</code><a class="headerlink" href="#pyproj._crs.Grid.package_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The the package name where the grid might be found.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1858,7 +1858,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Grid.url">
-<code class="descname">url</code><a class="headerlink" href="#pyproj._crs.Grid.url" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">url</code><a class="headerlink" href="#pyproj._crs.Grid.url" title="Permalink to this definition">¶</a></dt>
 <dd><p>The grid URL or the package URL where the grid might be found.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1869,7 +1869,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Grid.direct_download">
-<code class="descname">direct_download</code><a class="headerlink" href="#pyproj._crs.Grid.direct_download" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">direct_download</code><a class="headerlink" href="#pyproj._crs.Grid.direct_download" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, <em>url</em> can be downloaded directly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1880,7 +1880,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Grid.open_license">
-<code class="descname">open_license</code><a class="headerlink" href="#pyproj._crs.Grid.open_license" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">open_license</code><a class="headerlink" href="#pyproj._crs.Grid.open_license" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, the grid is released with an open license.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1891,7 +1891,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj._crs.Grid.available">
-<code class="descname">available</code><a class="headerlink" href="#pyproj._crs.Grid.available" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">available</code><a class="headerlink" href="#pyproj._crs.Grid.available" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, the grid is available at runtime.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1902,7 +1902,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">available</code></dt>
+<code class="sig-name descname">available</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1913,7 +1913,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">direct_download</code></dt>
+<code class="sig-name descname">direct_download</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1924,7 +1924,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">full_name</code></dt>
+<code class="sig-name descname">full_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1935,7 +1935,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">open_license</code></dt>
+<code class="sig-name descname">open_license</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1946,7 +1946,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">package_name</code></dt>
+<code class="sig-name descname">package_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1957,7 +1957,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">short_name</code></dt>
+<code class="sig-name descname">short_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1968,7 +1968,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">url</code></dt>
+<code class="sig-name descname">url</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1984,11 +1984,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <h2>Datum<a class="headerlink" href="#datum" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.Datum">
-<em class="property">class </em><code class="descclassname">pyproj.crs.</code><code class="descname">Datum</code><a class="headerlink" href="#pyproj.crs.Datum" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">Datum</code><a class="headerlink" href="#pyproj.crs.Datum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Datum for CRS. If it is a compound CRS it is the horizontal datum.</p>
 <dl class="attribute">
 <dt id="pyproj.crs.Datum.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj.crs.Datum.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.Datum.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the datum.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1999,14 +1999,14 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.Datum.ellipsoid">
-<code class="descname">ellipsoid</code><a class="headerlink" href="#pyproj.crs.Datum.ellipsoid" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ellipsoid</code><a class="headerlink" href="#pyproj.crs.Datum.ellipsoid" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>Ellipsoid</strong>
 :rtype: The ellipsoid object with associated attributes.</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.Datum.from_authority">
-<em class="property">static </em><code class="descname">from_authority</code><span class="sig-paren">(</span><em>auth_name</em>, <em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Datum from an authority code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2024,9 +2024,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.Datum.from_epsg">
-<em class="property">static </em><code class="descname">from_epsg</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_epsg" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Datum from an EPSG code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2041,9 +2041,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.Datum.from_string">
-<em class="property">static </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>datum_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">datum_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Datum from a string.</p>
 <p class="rubric">Examples</p>
 <ul class="simple">
@@ -2068,13 +2068,13 @@ ID[“EPSG”,6326]]</p></li>
 
 <dl class="method">
 <dt id="pyproj.crs.Datum.is_exact_same">
-<code class="descname">is_exact_same</code><span class="sig-paren">(</span><em>self</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2085,14 +2085,14 @@ ID[“EPSG”,6326]]</p></li>
 
 <dl class="attribute">
 <dt id="pyproj.crs.Datum.prime_meridian">
-<code class="descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.Datum.prime_meridian" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.Datum.prime_meridian" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>PrimeMeridian</strong>
 :rtype: The CRS prime meridian object with associated attributes.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.crs.Datum.to_wkt">
-<code class="descname">to_wkt</code><span class="sig-paren">(</span><em>self</em>, <em>version=u'WKT2_2018'</em>, <em>pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
@@ -2129,11 +2129,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <h2>Ellipsoid<a class="headerlink" href="#ellipsoid" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.Ellipsoid">
-<em class="property">class </em><code class="descclassname">pyproj.crs.</code><code class="descname">Ellipsoid</code><a class="headerlink" href="#pyproj.crs.Ellipsoid" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">Ellipsoid</code><a class="headerlink" href="#pyproj.crs.Ellipsoid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ellipsoid for CRS</p>
 <dl class="attribute">
 <dt id="pyproj.crs.Ellipsoid.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the ellipsoid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2144,7 +2144,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.Ellipsoid.is_semi_minor_computed">
-<code class="descname">is_semi_minor_computed</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.is_semi_minor_computed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_semi_minor_computed</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.is_semi_minor_computed" title="Permalink to this definition">¶</a></dt>
 <dd><p>1 if True, 0 if False</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2155,7 +2155,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.Ellipsoid.ellipsoid_loaded">
-<code class="descname">ellipsoid_loaded</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.ellipsoid_loaded" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ellipsoid_loaded</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.ellipsoid_loaded" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if it is loaded without errors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2166,7 +2166,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">ellipsoid_loaded</code></dt>
+<code class="sig-name descname">ellipsoid_loaded</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2175,9 +2175,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.Ellipsoid.from_authority">
-<em class="property">static </em><code class="descname">from_authority</code><span class="sig-paren">(</span><em>auth_name</em>, <em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an Ellipsoid from an authority code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2195,9 +2195,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.Ellipsoid.from_epsg">
-<em class="property">static </em><code class="descname">from_epsg</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_epsg" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an Ellipsoid from an EPSG code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2212,9 +2212,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.Ellipsoid.from_string">
-<em class="property">static </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>ellipsoid_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">ellipsoid_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an Ellipsoid from a string.</p>
 <p class="rubric">Examples</p>
 <ul class="simple">
@@ -2238,7 +2238,7 @@ ID[“EPSG”,7001]]</p></li>
 
 <dl class="attribute">
 <dt id="pyproj.crs.Ellipsoid.inverse_flattening">
-<code class="descname">inverse_flattening</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.inverse_flattening" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">inverse_flattening</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.inverse_flattening" title="Permalink to this definition">¶</a></dt>
 <dd><p>The ellipsoid inverse flattening.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2252,13 +2252,13 @@ ID[“EPSG”,7001]]</p></li>
 
 <dl class="method">
 <dt id="pyproj.crs.Ellipsoid.is_exact_same">
-<code class="descname">is_exact_same</code><span class="sig-paren">(</span><em>self</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt>
-<code class="descname">is_semi_minor_computed</code></dt>
+<code class="sig-name descname">is_semi_minor_computed</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2269,7 +2269,7 @@ ID[“EPSG”,7001]]</p></li>
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2280,7 +2280,7 @@ ID[“EPSG”,7001]]</p></li>
 
 <dl class="attribute">
 <dt id="pyproj.crs.Ellipsoid.semi_major_metre">
-<code class="descname">semi_major_metre</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.semi_major_metre" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">semi_major_metre</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.semi_major_metre" title="Permalink to this definition">¶</a></dt>
 <dd><p>The ellipsoid semi major metre.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2294,7 +2294,7 @@ ID[“EPSG”,7001]]</p></li>
 
 <dl class="attribute">
 <dt id="pyproj.crs.Ellipsoid.semi_minor_metre">
-<code class="descname">semi_minor_metre</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.semi_minor_metre" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">semi_minor_metre</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.semi_minor_metre" title="Permalink to this definition">¶</a></dt>
 <dd><p>The ellipsoid semi minor metre.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2309,7 +2309,7 @@ puted.</p>
 
 <dl class="method">
 <dt id="pyproj.crs.Ellipsoid.to_wkt">
-<code class="descname">to_wkt</code><span class="sig-paren">(</span><em>self</em>, <em>version=u'WKT2_2018'</em>, <em>pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
@@ -2346,11 +2346,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <h2>Prime Meridian<a class="headerlink" href="#prime-meridian" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.PrimeMeridian">
-<em class="property">class </em><code class="descclassname">pyproj.crs.</code><code class="descname">PrimeMeridian</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">PrimeMeridian</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prime Meridian for CRS</p>
 <dl class="attribute">
 <dt id="pyproj.crs.PrimeMeridian.name">
-<code class="descname">name</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the prime meridian.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2361,7 +2361,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.PrimeMeridian.unit_name">
-<code class="descname">unit_name</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.unit_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_name</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.unit_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The unit name for the prime meridian.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2370,9 +2370,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.PrimeMeridian.from_authority">
-<em class="property">static </em><code class="descname">from_authority</code><span class="sig-paren">(</span><em>auth_name</em>, <em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a PrimeMeridian from an authority code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2390,9 +2390,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.PrimeMeridian.from_epsg">
-<em class="property">static </em><code class="descname">from_epsg</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_epsg" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a PrimeMeridian from an EPSG code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2407,9 +2407,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="pyproj.crs.PrimeMeridian.from_string">
-<em class="property">static </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>prime_meridian_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an PrimeMeridian from a string.</p>
 <p class="rubric">Examples</p>
 <ul class="simple">
@@ -2433,13 +2433,13 @@ ID[“EPSG”,8901]]</p></li>
 
 <dl class="method">
 <dt id="pyproj.crs.PrimeMeridian.is_exact_same">
-<code class="descname">is_exact_same</code><span class="sig-paren">(</span><em>self</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyproj.crs.PrimeMeridian.longitude">
-<code class="descname">longitude</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.longitude" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">longitude</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.longitude" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2450,7 +2450,7 @@ ID[“EPSG”,8901]]</p></li>
 
 <dl class="attribute">
 <dt>
-<code class="descname">name</code></dt>
+<code class="sig-name descname">name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2461,7 +2461,7 @@ ID[“EPSG”,8901]]</p></li>
 
 <dl class="method">
 <dt id="pyproj.crs.PrimeMeridian.to_wkt">
-<code class="descname">to_wkt</code><span class="sig-paren">(</span><em>self</em>, <em>version=u'WKT2_2018'</em>, <em>pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
@@ -2493,7 +2493,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt id="pyproj.crs.PrimeMeridian.unit_conversion_factor">
-<code class="descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘double’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2504,7 +2504,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="attribute">
 <dt>
-<code class="descname">unit_name</code></dt>
+<code class="sig-name descname">unit_name</code></dt>
 <dd><p>object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
