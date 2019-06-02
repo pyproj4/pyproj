@@ -9,7 +9,7 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 [![Coverage Status](https://coveralls.io/repos/github/pyproj4/pyproj/badge.svg?branch=master)](https://coveralls.io/github/pyproj4/pyproj?branch=master)
 [![PyPI version](https://badge.fury.io/py/pyproj.svg)](https://badge.fury.io/py/pyproj)
 [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyproj/badges/version.svg)](https://anaconda.org/conda-forge/pyproj)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2592232.svg)](https://doi.org/10.5281/zenodo.2592232)
+[![DOI](https://zenodo.org/badge/28607354.svg)](https://zenodo.org/badge/latestdoi/28607354)
 
 
 ## Documentation
