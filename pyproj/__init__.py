@@ -62,6 +62,7 @@ __all__ = [
     "get_prime_meridians_map",
     "get_proj_operations_map",
     "get_units_map",
+    "show_versions",
 ]
 import sys
 
@@ -72,6 +73,7 @@ from pyproj._list import (  # noqa
     get_proj_operations_map,
     get_units_map,
 )
+from pyproj._show_versions import show_versions  # noqa
 from pyproj.crs import CRS  # noqa
 from pyproj.exceptions import ProjError  # noqa
 from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa
