@@ -13,3 +13,4 @@ API Documentation
    datadir
    enums
    exceptions
+   show_versions

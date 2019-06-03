@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2.2.1
+~~~~~
+* Added :meth:`~pyproj.show_versions()` (issue #334)
+
 2.2.0
 ~~~~~
 * Minimum PROJ version is now 6.1.0
