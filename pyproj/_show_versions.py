@@ -56,7 +56,10 @@ def _get_deps_info():
     deps = ["pyproj", "pip", "setuptools", "Cython", "aenum"]
 
     def get_version(module):
-        return module.__version__
+        try:
+            return module.__version__
+        except AttributeError:
+            return module.version
 
     deps_info = {}
 
