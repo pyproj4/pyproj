@@ -5,5 +5,5 @@ cdef class Proj:
     cdef PJ_CONTEXT * projctx
     cdef PJ_PROJ_INFO projpj_info
     cdef char *pjinitstring
-    cdef public object proj_version
+    cdef object _proj_version
 

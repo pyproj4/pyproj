@@ -3,15 +3,13 @@ import math
 import sys
 import unittest
 
+import pytest
+
 from pyproj import Geod, Proj, pj_ellps, pj_list, transform
 from pyproj.crs import CRSError
 
 
 class BasicTest(unittest.TestCase):
-    def testProj4Version(self):
-        awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
-        assert type(awips221.proj_version) is int
-
     def testInitWithBackupString4(self):
         # this fails unless backup of to_string(4) is used
         pj = Proj(
@@ -368,6 +366,12 @@ class Geod_NaN_Issue112_Test(unittest.TestCase):
         self.assertTrue(lon2 != lon2)
         self.assertTrue(lat2 == lat2)
         self.assertTrue(azi2 == azi2)
+
+
+def test_proj_version():
+    awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
+    with pytest.warns(UserWarning, matches="'Proj.proj_version' is deprecated"):
+        assert type(awips221.proj_version) is int
 
 
 def test_proj_equals():
