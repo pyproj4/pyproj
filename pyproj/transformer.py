@@ -97,7 +97,7 @@ class Transformer(object):
         proj_to: :obj:`~pyproj.proj.Proj` or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
-            If true, will skip the transformation operation if input and output 
+            If true, will skip the transformation operation if input and output
             projections are equivalent. Default is false.
         always_xy: bool, optional
             If true, the transform method will accept as input and return as output
@@ -205,7 +205,7 @@ class Transformer(object):
             pipeline transformations.
         errcheck: boolean, optional (default False)
             If True an exception is raised if the transformation is invalid.
-            By default errcheck=False and an invalid transformation 
+            By default errcheck=False and an invalid transformation
             returns ``inf`` and no exception is raised.
         direction: ~pyproj.enums.TransformDirection, optional
             The direction of the transform.
@@ -219,16 +219,30 @@ class Transformer(object):
         >>> x3, y3 = transformer.transform(33, 98)
         >>> "%.3f  %.3f" % (x3, y3)
         '10909310.098  3895303.963'
-        >>> pipeline_str = "+proj=pipeline +step +proj=longlat +ellps=WGS84 +step +proj=unitconvert +xy_in=rad +xy_out=deg"
+        >>> pipeline_str = (
+        ...     "+proj=pipeline +step +proj=longlat +ellps=WGS84 "
+        ...     "+step +proj=unitconvert +xy_in=rad +xy_out=deg"
+        ... )
         >>> pipe_trans = Transformer.from_pipeline(pipeline_str)
         >>> xt, yt = pipe_trans.transform(2.1, 0.001)
         >>> "%.3f  %.3f" % (xt, yt)
         '120.321  0.057'
-        >>> transproj = Transformer.from_proj({"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'}, '+init=EPSG:4326')
-        >>> xpj, ypj, zpj = transproj.transform(-2704026.010, -4253051.810, 3895878.820, radians=True)
+        >>> transproj = Transformer.from_crs(
+        ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
+        ...     '+init=EPSG:4326'
+        ... )
+        >>> xpj, ypj, zpj = transproj.transform(
+        ...     -2704026.010,
+        ...     -4253051.810,
+        ...     3895878.820,
+        ...     radians=True,
+        ... )
         >>> "%.3f %.3f %.3f" % (xpj, ypj, zpj)
         '-2.137 0.661 -20.531'
-        >>> transprojr = Transformer.from_proj('+init=EPSG:4326', {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'})
+        >>> transprojr = Transformer.from_crs(
+        ...     '+init=EPSG:4326',
+        ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
+        ... )
         >>> xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)
         >>> "%.3f %.3f %.3f" % (xpjr, ypjr, zpjr)
         '-2704026.010 -4253051.810 3895878.820'
@@ -287,7 +301,7 @@ class Transformer(object):
         points: list
             List of point tuples.
         switch: boolean, optional
-            If True x, y or lon,lat coordinates of points are switched to y, x 
+            If True x, y or lon,lat coordinates of points are switched to y, x
             or lat, lon. Default is False.
         time_3rd: boolean, optional
             If the input coordinates are 3 dimensional and the 3rd dimension is time.
@@ -297,7 +311,7 @@ class Transformer(object):
             pipeline transformations.
         errcheck: boolean, optional (default False)
             If True an exception is raised if the transformation is invalid.
-            By default errcheck=False and an invalid transformation 
+            By default errcheck=False and an invalid transformation
             returns ``inf`` and no exception is raised.
         direction: ~pyproj.enums.TransformDirection, optional
             The direction of the transform.
@@ -313,18 +327,41 @@ class Transformer(object):
         '2221638.801 2637034.372'
         '2212924.125 2619851.898'
         '2238294.779 2703763.736'
-        >>> pipeline_str = "+proj=pipeline +step +proj=longlat +ellps=WGS84 +step +proj=unitconvert +xy_in=rad +xy_out=deg"
+        >>> pipeline_str = (
+        ...     "+proj=pipeline +step +proj=longlat +ellps=WGS84 "
+        ...     "+step +proj=unitconvert +xy_in=rad +xy_out=deg"
+        ... )
         >>> pipe_trans = Transformer.from_pipeline(pipeline_str)
-        >>> for pt in pipe_trans.itransform([(2.1, 0.001)]): '{:.3f} {:.3f}'.format(*pt)
+        >>> for pt in pipe_trans.itransform([(2.1, 0.001)]):
+        ...     '{:.3f} {:.3f}'.format(*pt)
         '120.321 0.057'
-        >>> transproj = Transformer.from_proj({"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'}, '+init=EPSG:4326')
-        >>> for pt in transproj.itransform([(-2704026.010, -4253051.810, 3895878.820)], radians=True): '{:.3f} {:.3f} {:.3f}'.format(*pt)
+        >>> transproj = Transformer.from_crs(
+        ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
+        ...     '+init=EPSG:4326',
+        ... )
+        >>> for pt in transproj.itransform(
+        ...     [(-2704026.010, -4253051.810, 3895878.820)],
+        ...     radians=True,
+        ... ):
+        ...     '{:.3f} {:.3f} {:.3f}'.format(*pt)
         '-2.137 0.661 -20.531'
-        >>> transprojr = Transformer.from_proj('+init=EPSG:4326', {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'})
-        >>> for pt in transprojr.itransform([(-2.137, 0.661, -20.531)], radians=True): '{:.3f} {:.3f} {:.3f}'.format(*pt)
+        >>> transprojr = Transformer.from_proj(
+        ...     '+init=EPSG:4326',
+        ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
+        ... )
+        >>> for pt in transprojr.itransform(
+        ...     [(-2.137, 0.661, -20.531)],
+        ...     radians=True
+        ... ):
+        ...     '{:.3f} {:.3f} {:.3f}'.format(*pt)
         '-2704214.394 -4254414.478 3894270.731'
-        >>> transproj_eq = Transformer.from_proj('+init=EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs +type=crs', skip_equivalent=True)
-        >>> for pt in transproj_eq.itransform([(-2.137, 0.661)]): '{:.3f} {:.3f}'.format(*pt)
+        >>> transproj_eq = Transformer.from_proj(
+        ...     '+init=EPSG:4326',
+        ...     '+proj=longlat +datum=WGS84 +no_defs +type=crs',
+        ...     skip_equivalent=True
+        ... )
+        >>> for pt in transproj_eq.itransform([(-2.137, 0.661)]):
+        ...     '{:.3f} {:.3f}'.format(*pt)
         '-2.137 0.661'
 
         """
@@ -347,7 +384,8 @@ class Transformer(object):
         coord_gen = chain(fst_pt, (coords[c] for coords in it for c in range(stride)))
 
         while True:
-            # create a temporary buffer storage for the next 64 points (64*stride*8 bytes)
+            # create a temporary buffer storage for
+            # the next 64 points (64*stride*8 bytes)
             buff = array("d", islice(coord_gen, 0, 64 * stride))
             if len(buff) == 0:
                 break
@@ -385,7 +423,7 @@ class Transformer(object):
             Default is :attr:`~pyproj.enums.WktVersion.WKT2_2018`.
         pretty: bool
             If True, it will set the output to be a multiline string. Defaults to False.
- 
+
         Returns
         -------
         str: The WKT string.
@@ -425,17 +463,17 @@ def transform(
     transformed to x2,y2,z2 in the coordinate system defined by p2.
 
     z1 is optional, if it is not set it is assumed to be zero (and
-    only x2 and y2 are returned). If the optional keyword 
-    'radians' is True (default is False), then all input and 
-    output coordinates will be in radians instead of the default 
+    only x2 and y2 are returned). If the optional keyword
+    'radians' is True (default is False), then all input and
+    output coordinates will be in radians instead of the default
     of degrees for geographic input/output projections.
-    If the optional keyword 'errcheck' is set to True an 
+    If the optional keyword 'errcheck' is set to True an
     exception is raised if the transformation is
     invalid. By default errcheck=False and ``inf`` is returned for an
     invalid transformation (and no exception is raised).
-    If the optional kwarg skip_equivalent is true (default is False), 
-    it will skip the transformation operation if input and output 
-    projections are equivalent. If `always_xy` is toggled, the 
+    If the optional kwarg skip_equivalent is true (default is False),
+    it will skip the transformation operation if input and output
+    projections are equivalent. If `always_xy` is toggled, the
     transform method will accept as input and return as output
     coordinates using the traditional GIS order, that is longitude, latitude
     for geographic CRS and easting, northing for most projected CRS.
@@ -453,7 +491,7 @@ def transform(
 
     Example usage:
 
-    >>> from pyproj import Proj, transform 
+    >>> from pyproj import Proj, transform
     >>> # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum
     >>> # (defined by epsg code 26915)
     >>> p1 = Proj(init='epsg:26915', preserve_units=False)
@@ -535,17 +573,18 @@ def itransform(
         - a Nx3 or Nx2 2d numpy array where N is the point number
         - a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d
 
-    If optional keyword 'switch' is True (default is False) then x, y or lon,lat coordinates
-    of points are switched to y, x or lat, lon. If the optional keyword 'radians' is True
-    (default is False), then all input and output coordinates will be in radians instead
+    If optional keyword 'switch' is True (default is False) then x, y or lon,lat
+    coordinates of points are switched to y, x or lat, lon.
+    If the optional keyword 'radians' is True (default is False),
+    then all input and output coordinates will be in radians instead
     of the default of degrees for geographic input/output projections.
-    If the optional keyword 'errcheck' is set to True an 
+    If the optional keyword 'errcheck' is set to True an
     exception is raised if the transformation is
     invalid. By default errcheck=False and ``inf`` is returned for an
     invalid transformation (and no exception is raised).
-    If the optional kwarg skip_equivalent is true (default is False), 
-    it will skip the transformation operation if input and output 
-    projections are equivalent. If `always_xy` is toggled, the 
+    If the optional kwarg skip_equivalent is true (default is False),
+    it will skip the transformation operation if input and output
+    projections are equivalent. If `always_xy` is toggled, the
     transform method will accept as input and return as output
     coordinates using the traditional GIS order, that is longitude, latitude
     for geographic CRS and easting, northing for most projected CRS.
@@ -553,7 +592,7 @@ def itransform(
 
     Example usage:
 
-    >>> from pyproj import Proj, itransform 
+    >>> from pyproj import Proj, itransform
     >>> # projection 1: WGS84
     >>> # (defined by epsg code 4326)
     >>> p1 = Proj(init='epsg:4326', preserve_units=False)
@@ -566,7 +605,8 @@ def itransform(
     '411050.470 4497928.574'
     '399060.236 4486978.710'
     '458553.243 4523045.485'
-    >>> for pt in itransform(4326, 4326, [(30, 60)], skip_equivalent=True): '{:.0f} {:.0f}'.format(*pt)
+    >>> for pt in itransform(4326, 4326, [(30, 60)], skip_equivalent=True):
+    ...     '{:.0f} {:.0f}'.format(*pt)
     '30 60'
 
     """

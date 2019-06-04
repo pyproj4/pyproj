@@ -3,7 +3,7 @@ import sys
 
 # Python 2/3 compatibility
 if sys.version_info[0] == 2:  # Python 2
-    string_types = (basestring,)
+    string_types = (basestring,)  # noqa: F821
 else:  # Python 3
     string_types = (str,)
 

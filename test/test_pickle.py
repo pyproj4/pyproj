@@ -5,15 +5,15 @@ import shutil
 import tempfile
 from contextlib import contextmanager
 
-try:
-    from time import perf_counter
-except ImportError:
-    from time import clock as perf_counter
-
 import numpy
 from numpy.testing import assert_allclose
 
 from pyproj import Proj
+
+try:
+    from time import perf_counter
+except ImportError:
+    from time import clock as perf_counter
 
 
 @contextmanager

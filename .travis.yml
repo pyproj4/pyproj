@@ -75,19 +75,19 @@ before_install:
 
 install:
   # coverage report requires a local install
-  - pip install "pip>=10.0.1,<19.1"
-  - PYPROJ_FULL_COVERAGE=YES pip install -e .
-  - pip install -r requirements-dev.txt
+  - pip install pip>=10.0.1
+  - make install-dev
   - pip install coveralls
 
 script:
   - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
-  - py.test --cov-report term-missing --cov=pyproj -v -s
+  - make test-coverage
   # Building and uploading docs with doctr
   - set -e
   - |
     if [ "$DOC" ]; then
-      bash create_docs.sh
+      make install-docs
+      make docs
       pip install doctr
       if [[ -z "$TRAVIS_TAG" ]]; then
         DEPLOY_DIR=dev;
@@ -99,13 +99,6 @@ script:
 
 after_success:
 - coveralls
-## Build manylinux wheels & upload to Rackspace container
-#- |
-#  if [ "$TRAVIS_OS_NAME" != "osx" ] && [ "$TRAVIS_TAG" == "$TRAVIS_BRANCH" ]; then
-#    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/build-wheels.sh ${PROJSOURCE} ${TRAVIS_PYTHON_VERSION}
-#    pip install wheelhouse-uploader
-#    python -m wheelhouse_uploader upload --local-folder ${TRAVIS_BUILD_DIR}/wheelhouse/ --no-update-index wheels
-#  fi
 
 notifications:
   email: false

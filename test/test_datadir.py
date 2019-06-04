@@ -57,7 +57,7 @@ def test_get_data_dir__missing():
 
 
 def test_get_data_dir__from_user():
-    with proj_env(), temporary_directory() as tmpdir, temporary_directory() as tmpdir_env:
+    with proj_env(), temporary_directory() as tmpdir, temporary_directory() as tmpdir_env:  # noqa: E501
         create_projdb(tmpdir)
         os.environ["PROJ_LIB"] = tmpdir_env
         create_projdb(tmpdir_env)

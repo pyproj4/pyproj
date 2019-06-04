@@ -78,7 +78,7 @@ class Geod(_Geod):
         Geodetic parameters for specifying the ellipsoid
         can be given in a dictionary 'initparams', as keyword arguments,
         or as as proj geod initialization string.
-        
+
         You can get a dictionary of ellipsoids using :func:`~pyproj.get_ellps_map`
         or with the variable `pyproj.pj_ellps`.
 
@@ -116,7 +116,8 @@ class Geod(_Geod):
         >>> lons2 = [boston_lon, portland_lon, london_lon]
         >>> lats2 = [boston_lat, portland_lat, london_lat]
         >>> az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)
-        >>> for faz,baz,d in list(zip(az12,az21,dist)): "%7.3f %7.3f %9.3f" % (faz,baz,d)
+        >>> for faz, baz, d in list(zip(az12,az21,dist)):
+        ...     "%7.3f %7.3f %9.3f" % (faz, baz, d)
         ' 54.663 -123.448 288303.720'
         '-65.463  79.342 4013037.318'
         ' 51.254 -71.576 5579916.651'
@@ -280,7 +281,14 @@ class Geod(_Geod):
         >>> import math
         >>> dg2rad = math.radians(1.)
         >>> rad2dg = math.degrees(1.)
-        >>> lonlats = g.npts(dg2rad*boston_lon,dg2rad*boston_lat,dg2rad*portland_lon,dg2rad*portland_lat,10,radians=True)
+        >>> lonlats = g.npts(
+        ...    dg2rad*boston_lon,
+        ...    dg2rad*boston_lat,
+        ...    dg2rad*portland_lon,
+        ...    dg2rad*portland_lat,
+        ...    10,
+        ...    radians=True
+        ... )
         >>> for lon,lat in lonlats: '%6.3f  %7.3f' % (rad2dg*lat, rad2dg*lon)
         '43.528  -75.414'
         '44.637  -79.883'
@@ -321,12 +329,16 @@ class Geod(_Geod):
         Example usage:
 
         >>> from pyproj import Geod
-        >>> gclrk1 = Geod(ellps='clrk66') # Use Clarke 1866 ellipsoid.
-        >>> gclrk2 = Geod(a=6378206.4, b=6356583.8) # Define Clarke 1866 using parameters
+        >>> # Use Clarke 1866 ellipsoid.
+        >>> gclrk1 = Geod(ellps='clrk66')
+        >>> # Define Clarke 1866 using parameters
+        >>> gclrk2 = Geod(a=6378206.4, b=6356583.8)
         >>> gclrk1 == gclrk2
         True
-        >>> gwgs66 = Geod('+ellps=WGS66')  # WGS 66 ellipsoid, PROJ style
-        >>> gnwl9d = Geod('+ellps=NWL9D')  # Naval Weapons Lab., 1965 ellipsoid
+        >>> # WGS 66 ellipsoid, PROJ style
+        >>> gwgs66 = Geod('+ellps=WGS66')
+        >>> # Naval Weapons Lab., 1965 ellipsoid
+        >>> gnwl9d = Geod('+ellps=NWL9D')
         >>> # these ellipsoids are the same
         >>> gnwl9d == gwgs66
         True

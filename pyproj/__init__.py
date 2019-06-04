@@ -66,19 +66,19 @@ __all__ = [
 ]
 import sys
 
-from pyproj._list import (  # noqa
+from pyproj._list import (  # noqa: F401
     get_angular_units_map,
     get_ellps_map,
     get_prime_meridians_map,
     get_proj_operations_map,
     get_units_map,
 )
-from pyproj._show_versions import show_versions  # noqa
-from pyproj.crs import CRS  # noqa
-from pyproj.exceptions import ProjError  # noqa
-from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa
-from pyproj.proj import Proj, pj_list, proj_version_str  # noqa
-from pyproj.transformer import Transformer, itransform, transform  # noqa
+from pyproj._show_versions import show_versions  # noqa: F401
+from pyproj.crs import CRS  # noqa: F401
+from pyproj.exceptions import ProjError  # noqa: F401
+from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa: F401
+from pyproj.proj import Proj, pj_list, proj_version_str  # noqa: F401
+from pyproj.transformer import Transformer, itransform, transform  # noqa: F401
 
 
 def test(**kwargs):

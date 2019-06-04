@@ -4,9 +4,9 @@ Utility methods to print system info for debugging
 adapted from :func:`sklearn.utils._show_versions`
 which was adapted from :func:`pandas.show_versions`
 """
+import importlib
 import platform
 import sys
-import importlib
 
 
 def _get_sys_info():

@@ -3,13 +3,13 @@ This module contains enumerations used in pyproj.
 """
 import sys
 
+from pyproj.compat import string_types
+
 if sys.version_info >= (3, 6):
     from enum import Enum
 else:
     # _missing_ was only added in Python 3.6, using aenum for older versions
     from aenum import Enum
-
-from pyproj.compat import string_types
 
 
 class BaseEnum(Enum):

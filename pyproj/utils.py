@@ -5,7 +5,7 @@ def _copytobuffer_return_scalar(x):
     try:
         # inx,isfloat,islist,istuple
         return array("d", (float(x),)), True, False, False
-    except:
+    except Exception:
         raise TypeError("input must be an array, list, tuple or scalar")
 
 
@@ -38,7 +38,7 @@ def _copytobuffer(x):
                 inx = x.copy(order="C").astype("d")
                 # inx,isfloat,islist,istuple
                 return inx, False, False, False
-            except:
+            except Exception:
                 try:  # perhaps they are Numeric/numarrays?
                     # sorry, not tested yet.
                     # i don't know Numeric/numarrays has `shape'.
@@ -46,7 +46,7 @@ def _copytobuffer(x):
                     inx = x.astype("d")
                     # inx,isfloat,islist,istuple
                     return inx, False, False, False
-                except:
+                except Exception:
                     raise TypeError("input must be an array, list, tuple or scalar")
     else:
         # perhaps they are regular python arrays?

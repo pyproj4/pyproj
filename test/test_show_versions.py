@@ -1,6 +1,4 @@
-from pyproj._show_versions import _get_sys_info
-from pyproj._show_versions import _get_deps_info
-from pyproj._show_versions import show_versions
+from pyproj._show_versions import _get_deps_info, _get_sys_info, show_versions
 
 
 def test_get_sys_info():
