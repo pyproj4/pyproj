@@ -1,4 +1,5 @@
 dev/_modules/index.html
+dev/_modules/pyproj/_show_versions.html
 dev/_modules/pyproj/crs.html
 dev/_modules/pyproj/datadir.html
 dev/_modules/pyproj/enums.html
@@ -14,6 +15,7 @@ dev/_sources/api/geod.rst.txt
 dev/_sources/api/index.rst.txt
 dev/_sources/api/list.rst.txt
 dev/_sources/api/proj.rst.txt
+dev/_sources/api/show_versions.rst.txt
 dev/_sources/api/transformer.rst.txt
 dev/_sources/examples.rst.txt
 dev/_sources/history.rst.txt
@@ -81,6 +83,7 @@ dev/api/geod.html
 dev/api/index.html
 dev/api/list.html
 dev/api/proj.html
+dev/api/show_versions.html
 dev/api/transformer.html
 dev/examples.html
 dev/genindex.html
