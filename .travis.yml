@@ -2,9 +2,14 @@ language: python
 
 sudo: false
 
-cache: pip
+cache:
+  directories:
+    - $PROJ_BASE_DIR
+    - $HOME/.cache/pip
+
 env: 
   global: 
+    - PROJ_BASE_DIR=$HOME/proj_install
     - CYTHON_COVERAGE=True
     - PROJSOURCE=6.1.0
     # Following generated with
@@ -68,9 +73,12 @@ before_install:
       sudo apt-get install -qq sqlite3 libsqlite3-dev
     fi
   - echo "PROJSOURCE is $PROJSOURCE"
-  # Download external PROJ.4 version and compile
-  - export PROJ_DIR=/tmp/proj_dl_install
-  - ci/travis/proj-dl-and-compile "$PROJSOURCE"
+  # Download external PROJ.4 version and compile if not existing already
+  - export PROJ_DIR=$PROJ_BASE_DIR/proj-${PROJSOURCE:0:5}
+  - |
+    if [ "$PROJSOURCE" = "git" ] || [[ "$PROJSOURCE" != "git" && ! -d "$PROJ_DIR" ]]; then
+      ci/travis/proj-dl-and-compile "$PROJSOURCE"
+    fi
   - export PROJ_LIB=$PROJ_DIR/share/proj
 
 install:
