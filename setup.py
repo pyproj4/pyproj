@@ -200,16 +200,21 @@ def get_version():
     sys.exit("ERROR: pyproj version not fount.")
 
 
+def get_long_description():
+    """
+    Get the long description for the file.
+    """
+    with open("README.md") as ld_file:
+        return ld_file.read()
+
+
 setup(
     name="pyproj",
     version=get_version(),
-    description="Python interface to PROJ.4 library",
-    long_description="""
-Performs cartographic transformations between geographic (lat/lon)
-and map projection (x/y) coordinates. Can also transform directly
-from one map projection coordinate system to another.
-Coordinates can be given as numpy arrays, python arrays, lists or scalars.
-Optimized for numpy arrays.""",
+    description="Python interface to PROJ (cartographic projections "
+    "and coordinate transformations library)",
+    long_description=get_long_description(),
+    long_description_content_type="text/markdown",
     url="https://github.com/pyproj4/pyproj",
     download_url="http://python.org/pypi/pyproj",
     author="Jeff Whitaker",

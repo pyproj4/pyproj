@@ -106,7 +106,7 @@ class Proj(_proj.Proj):
         Example usage:
 
         >>> from pyproj import Proj
-        >>> p = Proj(proj='utm',zone=10,ellps='WGS84', preserve_units=False) # use kwargs
+        >>> p = Proj(proj='utm',zone=10,ellps='WGS84', preserve_units=False)
         >>> x,y = p(-120.108, 34.36116666)
         >>> 'x=%9.3f y=%11.3f' % (x,y)
         'x=765975.641 y=3805993.134'
@@ -125,7 +125,7 @@ class Proj(_proj.Proj):
         'lons: -119.720 -118.400 -122.380'
         >>> 'lats: %8.3f %8.3f %8.3f' % lats
         'lats:   36.770   33.930   37.620'
-        >>> p2 = Proj('+proj=utm +zone=10 +ellps=WGS84', preserve_units=False) # use proj4 string
+        >>> p2 = Proj('+proj=utm +zone=10 +ellps=WGS84', preserve_units=False)
         >>> x,y = p2(-120.108, 34.36116666)
         >>> 'x=%9.3f y=%11.3f' % (x,y)
         'x=765975.641 y=3805993.134'

@@ -3,3 +3,6 @@ mock
 pytest>3.6
 pytest-cov
 numpy
+pylint
+flake8
+black; python_version >= '3.6'

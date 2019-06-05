@@ -1,6 +1,6 @@
 import pytest
 
-from pyproj import CRS, Proj, Transformer
+from pyproj import CRS, Proj
 from pyproj.exceptions import CRSError, ProjError
 
 

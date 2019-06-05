@@ -124,15 +124,16 @@ class CRS(_CRS):
 
     The functionality is based on other fantastic projects:
 
-    * `rasterio <https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx>`_
-    * `opendatacube <https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py>`_
+    * `rasterio <https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx>`_  # noqa: E501
+    * `opendatacube <https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py>`_  # noqa: E501
 
     Attributes
     ----------
     srs: str
         The string form of the user input used to create the CRS.
     name: str
-        The name of the CRS (from `proj_get_name <https://proj.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
+        The name of the CRS (from `proj_get_name <https://proj.org/
+        development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
     type_name: str
         The name of the type of the CRS object.
 
@@ -141,7 +142,7 @@ class CRS(_CRS):
     def __init__(self, projparams=None, **kwargs):
         """
         Initialize a CRS class instance with:
-          - PROJ string 
+          - PROJ string
           - Dictionary of PROJ parameters
           - PROJ keyword arguments for parameters
           - JSON string with PROJ parameters
@@ -232,8 +233,44 @@ class CRS(_CRS):
         >>> crs = CRS(proj='utm', zone=10, ellps='WGS84')
         >>> crs.to_proj4()
         '+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs'
-        >>> crs.to_wkt()
-        'PROJCRS["unknown",BASEGEOGCRS["unknown",DATUM["Unknown based on WGS84 ellipsoid",ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1],ID["EPSG",7030]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8901]]],CONVERSION["UTM zone 10N",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",-123,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]],ID["EPSG",16010]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1,ID["EPSG",9001]]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1,ID["EPSG",9001]]]]'
+        >>> print(crs.to_wkt(pretty=True))
+        PROJCRS["unknown",
+            BASEGEOGCRS["unknown",
+                DATUM["Unknown based on WGS84 ellipsoid",
+                    ELLIPSOID["WGS 84",6378137,298.257223563,
+                        LENGTHUNIT["metre",1],
+                        ID["EPSG",7030]]],
+                PRIMEM["Greenwich",0,
+                    ANGLEUNIT["degree",0.0174532925199433],
+                    ID["EPSG",8901]]],
+            CONVERSION["UTM zone 10N",
+                METHOD["Transverse Mercator",
+                    ID["EPSG",9807]],
+                PARAMETER["Latitude of natural origin",0,
+                    ANGLEUNIT["degree",0.0174532925199433],
+                    ID["EPSG",8801]],
+                PARAMETER["Longitude of natural origin",-123,
+                    ANGLEUNIT["degree",0.0174532925199433],
+                    ID["EPSG",8802]],
+                PARAMETER["Scale factor at natural origin",0.9996,
+                    SCALEUNIT["unity",1],
+                    ID["EPSG",8805]],
+                PARAMETER["False easting",500000,
+                    LENGTHUNIT["metre",1],
+                    ID["EPSG",8806]],
+                PARAMETER["False northing",0,
+                    LENGTHUNIT["metre",1],
+                    ID["EPSG",8807]],
+                ID["EPSG",16010]],
+            CS[Cartesian,2],
+                AXIS["(E)",east,
+                    ORDER[1],
+                    LENGTHUNIT["metre",1,
+                        ID["EPSG",9001]]],
+                AXIS["(N)",north,
+                    ORDER[2],
+                    LENGTHUNIT["metre",1,
+                        ID["EPSG",9001]]]]
         >>> geod = crs.get_geod()
         >>> "+a={:.0f} +f={:.8f}".format(geod.a, geod.f)
         '+a=6378137 +f=0.00335281'
@@ -330,7 +367,7 @@ class CRS(_CRS):
         """Make a CRS from:
 
         Initialize a CRS class instance with:
-         - PROJ string 
+         - PROJ string
          - JSON string with PROJ parameters
          - CRS WKT string
          - An authority string [i.e. 'epsg:4326']
@@ -366,7 +403,7 @@ class CRS(_CRS):
     def from_user_input(cls, value):
         """
         Initialize a CRS class instance with:
-          - PROJ string 
+          - PROJ string
           - Dictionary of PROJ parameters
           - PROJ keyword arguments for parameters
           - JSON string with PROJ parameters
@@ -376,7 +413,7 @@ class CRS(_CRS):
           - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
           - An object with a `to_wkt` method.
           - A :class:`~pyproj.CRS`
-   
+
         Parameters
         ----------
         value : obj
@@ -427,7 +464,7 @@ class CRS(_CRS):
 
         .. warning:: You will likely lose important projection
           information when converting to a PROJ string from
-          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
+          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501
 
         Returns
         -------
@@ -549,7 +586,7 @@ class CRS(_CRS):
         This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
         dict to a :obj:`~pyproj.crs.CRS` object.
 
-        .. warning:: Parameters may be lost if a mapping 
+        .. warning:: Parameters may be lost if a mapping
             from the CF parameter is not found. For best results
             store the WKT of the projection in the crs_wkt attribute.
 

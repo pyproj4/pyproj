@@ -9,6 +9,7 @@ environment:
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci\\appveyor\\run_with_env.cmd"
+    PROJ_BASE_DIR: "%APPVEYOR_BUILD_FOLDER%\\proj_install"
 
   matrix:
     # Pre-installed Python versions
@@ -47,9 +48,11 @@ shallow_clone: true
 
 cache:
     - C:\Users\appveyor\AppData\Local\pip\Cache\wheels
+    - "%PROJ_BASE_DIR%"
 
 build_script:
   # setup sqlite3
+  - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
   - vcpkg install sqlite3:"%platform%"-windows
   - set SQLITE3_BIN=%APPVEYOR_BUILD_FOLDER%\sqlite3\bin
   - mkdir %SQLITE3_BIN%
@@ -61,26 +64,28 @@ build_script:
   - set PATH=%PATH%;%SQLITE3_BIN%
   # setup PROJ.4
   - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/proj.4.git proj-git
-  - if not "%PROJSOURCE%" == "git" curl -o "proj-%PROJSOURCE:~0,5%.zip" "https://download.osgeo.org/proj/proj-%PROJSOURCE%.zip"
-  - if not "%PROJSOURCE%" == "git" 7z x -aoa -y "proj-%PROJSOURCE:~0,5%.zip"
-  - cd "%APPVEYOR_BUILD_FOLDER%\proj-%PROJSOURCE:~0,5%"
+  - if not "%PROJSOURCE%" == "git" if not exist %PROJ_DIR% set BUILD_PROJ_STABLE=1
+  - if defined BUILD_PROJ_STABLE curl -o "proj-%PROJSOURCE:~0,5%.zip" "https://download.osgeo.org/proj/proj-%PROJSOURCE%.zip"
+  - if defined BUILD_PROJ_STABLE 7z x -aoa -y "proj-%PROJSOURCE:~0,5%.zip"
+  - if not exist %PROJ_DIR% cd "%APPVEYOR_BUILD_FOLDER%\proj-%PROJSOURCE:~0,5%"
   - if "%platform%" == "x64" SET VS_FULL=%VS_VERSION% Win64
   - if "%platform%" == "x64" SET BUILD_LIBPROJ_SHARED=ON
   - if "%platform%" == "x86" SET VS_FULL=%VS_VERSION%
   - if "%platform%" == "x86" SET BUILD_LIBPROJ_SHARED=OFF
   - echo "%VS_FULL%"
 #
-  - mkdir build
-  - cd build
-  - set PROJ_DIR=%APPVEYOR_BUILD_FOLDER%\proj_dir
-  - cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBPROJ_SHARED="%BUILD_LIBPROJ_SHARED%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
-  - cmake --build . --config Release --target install
+  - if "%PROJSOURCE%" == "git" set BUILD_PROJ=1
+  - if defined BUILD_PROJ_STABLE set BUILD_PROJ=1
+  - if defined BUILD_PROJ mkdir build
+  - if defined BUILD_PROJ cd build
+  - if defined BUILD_PROJ cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBPROJ_SHARED="%BUILD_LIBPROJ_SHARED%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
+  - if defined BUILD_PROJ cmake --build . --config Release --target install
   - set PATH=%PATH%;%PROJ_DIR%\bin
   - set PROJ_LIB=%PROJ_DIR%\share\proj
-  - cd %PROJ_LIB%
-  - curl -O http://download.osgeo.org/proj/proj-datumgrid-1.8.zip
-  - 7z e -aoa -y proj-datumgrid-1.8.zip
-  - del proj-datumgrid-1.8.zip
+  - if defined BUILD_PROJ cd %PROJ_LIB%
+  - if defined BUILD_PROJ curl -O http://download.osgeo.org/proj/proj-datumgrid-1.8.zip
+  - if defined BUILD_PROJ 7z e -aoa -y proj-datumgrid-1.8.zip
+  - if defined BUILD_PROJ del proj-datumgrid-1.8.zip
   - cd %APPVEYOR_BUILD_FOLDER%
   - proj
   # Build and install pyproj

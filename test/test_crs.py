@@ -33,16 +33,6 @@ def test_from_proj4__invalid():
         assert CRS.from_proj4(CRS(3857).to_wkt())
 
 
-def test_from_proj4_json():
-    json_str = '{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}'
-    proj = CRS.from_string(json_str)
-    assert proj.to_proj4(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
-    assert proj.to_proj4(5) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
-    # Test with invalid JSON code
-    with pytest.raises(CRSError):
-        assert CRS.from_string("{foo: bar}")
-
-
 def test_from_epsg():
     proj = CRS.from_epsg(4326)
     assert proj.to_epsg() == 4326
@@ -64,7 +54,8 @@ def test_from_epsg_string():
 def test_from_string():
     wgs84_crs = CRS.from_string("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
     assert wgs84_crs.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
-    # Make sure this doesn't get handled using the from_epsg() even though 'epsg' is in the string
+    # Make sure this doesn't get handled using the from_epsg()
+    # even though 'epsg' is in the string
     epsg_init_crs = CRS.from_string("+init=epsg:26911 +units=m +no_defs=True")
     assert (
         epsg_init_crs.to_proj4()
@@ -79,13 +70,15 @@ def test_bare_parameters():
 
     # Example produced by pyproj
     proj = CRS.from_string(
-        "+proj=lcc +lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
+        "+proj=lcc +lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True "
+        "+x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
     )
     assert "+no_defs" in proj.to_proj4(4)
 
     # TODO: THIS DOES NOT WORK
     proj = CRS.from_string(
-        "+lon_0=-95 +ellps=GRS80 +proj=lcc +y_0=0 +no_defs=False +x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
+        "+lon_0=-95 +ellps=GRS80 +proj=lcc +y_0=0 +no_defs=False "
+        "+x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
     )
     # assert "+no_defs" not in proj.to_proj4(4)
 
@@ -101,7 +94,8 @@ def test_is_geographic():
     assert nad27_crs.is_geographic is True
 
     lcc_crs = CRS.from_string(
-        "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc +x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
+        "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc +x_0=0 "
+        "+units=m +lat_2=77 +lat_1=49 +lat_0=0"
     )
     assert lcc_crs.is_geographic is False
 
@@ -110,7 +104,8 @@ def test_is_projected():
     assert CRS({"init": "EPSG:3857"}).is_projected is True
 
     lcc_crs = CRS.from_string(
-        "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc +x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
+        "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc +x_0=0 "
+        "+units=m +lat_2=77 +lat_1=49 +lat_0=0"
     )
     assert CRS.from_user_input(lcc_crs).is_projected is True
 
@@ -130,10 +125,12 @@ def test_is_same_crs():
 
     # Make sure that same projection with different parameter are not equal
     lcc_crs1 = CRS.from_string(
-        "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc +x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
+        "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc "
+        "+x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
     )
     lcc_crs2 = CRS.from_string(
-        "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc +x_0=0 +units=m +lat_2=77 +lat_1=45 +lat_0=0"
+        "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc "
+        "+x_0=0 +units=m +lat_2=77 +lat_1=45 +lat_0=0"
     )
     assert lcc_crs1 != lcc_crs2
 
@@ -389,7 +386,13 @@ def test_from_esri_wkt():
 
 
 def test_compound_crs():
-    wkt = """COMPD_CS["unknown",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433],AUTHORITY["EPSG","4326"]],VERT_CS["unknown",VERT_DATUM["unknown",2005],UNIT["metre",1.0,AUTHORITY["EPSG","9001"]],AXIS["Up",UP]]]"""
+    wkt = """COMPD_CS["unknown",GEOGCS["WGS 84",DATUM["WGS_1984",
+             SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],
+             TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6326"]],
+             PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433],
+             AUTHORITY["EPSG","4326"]],VERT_CS["unknown",
+             VERT_DATUM["unknown",2005],UNIT["metre",1.0,
+             AUTHORITY["EPSG","9001"]],AXIS["Up",UP]]]"""
     assert CRS(wkt).to_wkt("WKT1_GDAL").startswith('COMPD_CS["unknown",GEOGCS["WGS 84"')
 
 
@@ -578,7 +581,8 @@ def test_prime_meridian__from_authority__invalid():
 
 def test_ellipsoid__from_epsg():
     assert Ellipsoid.from_epsg(7030).to_wkt() == (
-        'ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1],ID["EPSG",7030]]'
+        'ELLIPSOID["WGS 84",6378137,298.257223563,'
+        'LENGTHUNIT["metre",1],ID["EPSG",7030]]'
     )
 
 

@@ -1,5 +1,6 @@
 pyproj/proj_dir/
 pyproj/*.c
+pyproj/*.html
 proj-*/
 
 # Byte-compiled / optimized / DLL files
