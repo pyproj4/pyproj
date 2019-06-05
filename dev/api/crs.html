@@ -188,8 +188,8 @@
 <dd><p>A pythonic Coordinate Reference System manager.</p>
 <p>The functionality is based on other fantastic projects:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx">rasterio</a></p></li>
-<li><p><a class="reference external" href="https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py">opendatacube</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx">rasterio</a>  # noqa: E501</p></li>
+<li><p><a class="reference external" href="https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py">opendatacube</a>  # noqa: E501</p></li>
 </ul>
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.srs">
@@ -321,8 +321,44 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;utm&#39;</span><span class="p">,</span> <span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span>
 <span class="go">&#39;+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
-<span class="go">&#39;PROJCRS[&quot;unknown&quot;,BASEGEOGCRS[&quot;unknown&quot;,DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,7030]]],PRIMEM[&quot;Greenwich&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8901]]],CONVERSION[&quot;UTM zone 10N&quot;,METHOD[&quot;Transverse Mercator&quot;,ID[&quot;EPSG&quot;,9807]],PARAMETER[&quot;Latitude of natural origin&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8801]],PARAMETER[&quot;Longitude of natural origin&quot;,-123,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8802]],PARAMETER[&quot;Scale factor at natural origin&quot;,0.9996,SCALEUNIT[&quot;unity&quot;,1],ID[&quot;EPSG&quot;,8805]],PARAMETER[&quot;False easting&quot;,500000,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,8806]],PARAMETER[&quot;False northing&quot;,0,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,8807]],ID[&quot;EPSG&quot;,16010]],CS[Cartesian,2],AXIS[&quot;(E)&quot;,east,ORDER[1],LENGTHUNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,9001]]],AXIS[&quot;(N)&quot;,north,ORDER[2],LENGTHUNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,9001]]]]&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="go">PROJCRS[&quot;unknown&quot;,</span>
+<span class="go">    BASEGEOGCRS[&quot;unknown&quot;,</span>
+<span class="go">        DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,</span>
+<span class="go">            ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,</span>
+<span class="go">                LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">                ID[&quot;EPSG&quot;,7030]]],</span>
+<span class="go">        PRIMEM[&quot;Greenwich&quot;,0,</span>
+<span class="go">            ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="go">            ID[&quot;EPSG&quot;,8901]]],</span>
+<span class="go">    CONVERSION[&quot;UTM zone 10N&quot;,</span>
+<span class="go">        METHOD[&quot;Transverse Mercator&quot;,</span>
+<span class="go">            ID[&quot;EPSG&quot;,9807]],</span>
+<span class="go">        PARAMETER[&quot;Latitude of natural origin&quot;,0,</span>
+<span class="go">            ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="go">            ID[&quot;EPSG&quot;,8801]],</span>
+<span class="go">        PARAMETER[&quot;Longitude of natural origin&quot;,-123,</span>
+<span class="go">            ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="go">            ID[&quot;EPSG&quot;,8802]],</span>
+<span class="go">        PARAMETER[&quot;Scale factor at natural origin&quot;,0.9996,</span>
+<span class="go">            SCALEUNIT[&quot;unity&quot;,1],</span>
+<span class="go">            ID[&quot;EPSG&quot;,8805]],</span>
+<span class="go">        PARAMETER[&quot;False easting&quot;,500000,</span>
+<span class="go">            LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">            ID[&quot;EPSG&quot;,8806]],</span>
+<span class="go">        PARAMETER[&quot;False northing&quot;,0,</span>
+<span class="go">            LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">            ID[&quot;EPSG&quot;,8807]],</span>
+<span class="go">        ID[&quot;EPSG&quot;,16010]],</span>
+<span class="go">    CS[Cartesian,2],</span>
+<span class="go">        AXIS[&quot;(E)&quot;,east,</span>
+<span class="go">            ORDER[1],</span>
+<span class="go">            LENGTHUNIT[&quot;metre&quot;,1,</span>
+<span class="go">                ID[&quot;EPSG&quot;,9001]]],</span>
+<span class="go">        AXIS[&quot;(N)&quot;,north,</span>
+<span class="go">            ORDER[2],</span>
+<span class="go">            LENGTHUNIT[&quot;metre&quot;,1,</span>
+<span class="go">                ID[&quot;EPSG&quot;,9001]]]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">get_geod</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;+a=</span><span class="si">{:.0f}</span><span class="s2"> +f=</span><span class="si">{:.8f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">geod</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">geod</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
 <span class="go">&#39;+a=6378137 +f=0.00335281&#39;</span>
@@ -792,7 +828,7 @@ if a mapping to the CF parameter is not found.</p>
 <p class="admonition-title">Warning</p>
 <p>You will likely lose important projection
 information when converting to a PROJ string from
-another format. See: <a class="reference external" href="https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
+another format. See: <a class="reference external" href="https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a>  # noqa: E501</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
