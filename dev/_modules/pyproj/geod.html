@@ -232,7 +232,7 @@
 <span class="sd">        Geodetic parameters for specifying the ellipsoid</span>
 <span class="sd">        can be given in a dictionary &#39;initparams&#39;, as keyword arguments,</span>
 <span class="sd">        or as as proj geod initialization string.</span>
-<span class="sd">        </span>
+
 <span class="sd">        You can get a dictionary of ellipsoids using :func:`~pyproj.get_ellps_map`</span>
 <span class="sd">        or with the variable `pyproj.pj_ellps`.</span>
 
@@ -270,7 +270,8 @@
 <span class="sd">        &gt;&gt;&gt; lons2 = [boston_lon, portland_lon, london_lon]</span>
 <span class="sd">        &gt;&gt;&gt; lats2 = [boston_lat, portland_lat, london_lat]</span>
 <span class="sd">        &gt;&gt;&gt; az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)</span>
-<span class="sd">        &gt;&gt;&gt; for faz,baz,d in list(zip(az12,az21,dist)): &quot;%7.3f %7.3f %9.3f&quot; % (faz,baz,d)</span>
+<span class="sd">        &gt;&gt;&gt; for faz, baz, d in list(zip(az12,az21,dist)):</span>
+<span class="sd">        ...     &quot;%7.3f %7.3f %9.3f&quot; % (faz, baz, d)</span>
 <span class="sd">        &#39; 54.663 -123.448 288303.720&#39;</span>
 <span class="sd">        &#39;-65.463  79.342 4013037.318&#39;</span>
 <span class="sd">        &#39; 51.254 -71.576 5579916.651&#39;</span>
@@ -434,7 +435,14 @@
 <span class="sd">        &gt;&gt;&gt; import math</span>
 <span class="sd">        &gt;&gt;&gt; dg2rad = math.radians(1.)</span>
 <span class="sd">        &gt;&gt;&gt; rad2dg = math.degrees(1.)</span>
-<span class="sd">        &gt;&gt;&gt; lonlats = g.npts(dg2rad*boston_lon,dg2rad*boston_lat,dg2rad*portland_lon,dg2rad*portland_lat,10,radians=True)</span>
+<span class="sd">        &gt;&gt;&gt; lonlats = g.npts(</span>
+<span class="sd">        ...    dg2rad*boston_lon,</span>
+<span class="sd">        ...    dg2rad*boston_lat,</span>
+<span class="sd">        ...    dg2rad*portland_lon,</span>
+<span class="sd">        ...    dg2rad*portland_lat,</span>
+<span class="sd">        ...    10,</span>
+<span class="sd">        ...    radians=True</span>
+<span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: &#39;%6.3f  %7.3f&#39; % (rad2dg*lat, rad2dg*lon)</span>
 <span class="sd">        &#39;43.528  -75.414&#39;</span>
 <span class="sd">        &#39;44.637  -79.883&#39;</span>
@@ -475,12 +483,16 @@
 <span class="sd">        Example usage:</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
-<span class="sd">        &gt;&gt;&gt; gclrk1 = Geod(ellps=&#39;clrk66&#39;) # Use Clarke 1866 ellipsoid.</span>
-<span class="sd">        &gt;&gt;&gt; gclrk2 = Geod(a=6378206.4, b=6356583.8) # Define Clarke 1866 using parameters</span>
+<span class="sd">        &gt;&gt;&gt; # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; gclrk1 = Geod(ellps=&#39;clrk66&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; # Define Clarke 1866 using parameters</span>
+<span class="sd">        &gt;&gt;&gt; gclrk2 = Geod(a=6378206.4, b=6356583.8)</span>
 <span class="sd">        &gt;&gt;&gt; gclrk1 == gclrk2</span>
 <span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; gwgs66 = Geod(&#39;+ellps=WGS66&#39;)  # WGS 66 ellipsoid, PROJ style</span>
-<span class="sd">        &gt;&gt;&gt; gnwl9d = Geod(&#39;+ellps=NWL9D&#39;)  # Naval Weapons Lab., 1965 ellipsoid</span>
+<span class="sd">        &gt;&gt;&gt; # WGS 66 ellipsoid, PROJ style</span>
+<span class="sd">        &gt;&gt;&gt; gwgs66 = Geod(&#39;+ellps=WGS66&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; # Naval Weapons Lab., 1965 ellipsoid</span>
+<span class="sd">        &gt;&gt;&gt; gnwl9d = Geod(&#39;+ellps=NWL9D&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; # these ellipsoids are the same</span>
 <span class="sd">        &gt;&gt;&gt; gnwl9d == gwgs66</span>
 <span class="sd">        True</span>

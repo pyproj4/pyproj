@@ -260,7 +260,7 @@
 <span class="sd">        Example usage:</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import Proj</span>
-<span class="sd">        &gt;&gt;&gt; p = Proj(proj=&#39;utm&#39;,zone=10,ellps=&#39;WGS84&#39;, preserve_units=False) # use kwargs</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(proj=&#39;utm&#39;,zone=10,ellps=&#39;WGS84&#39;, preserve_units=False)</span>
 <span class="sd">        &gt;&gt;&gt; x,y = p(-120.108, 34.36116666)</span>
 <span class="sd">        &gt;&gt;&gt; &#39;x=%9.3f y=%11.3f&#39; % (x,y)</span>
 <span class="sd">        &#39;x=765975.641 y=3805993.134&#39;</span>
@@ -279,7 +279,7 @@
 <span class="sd">        &#39;lons: -119.720 -118.400 -122.380&#39;</span>
 <span class="sd">        &gt;&gt;&gt; &#39;lats: %8.3f %8.3f %8.3f&#39; % lats</span>
 <span class="sd">        &#39;lats:   36.770   33.930   37.620&#39;</span>
-<span class="sd">        &gt;&gt;&gt; p2 = Proj(&#39;+proj=utm +zone=10 +ellps=WGS84&#39;, preserve_units=False) # use proj4 string</span>
+<span class="sd">        &gt;&gt;&gt; p2 = Proj(&#39;+proj=utm +zone=10 +ellps=WGS84&#39;, preserve_units=False)</span>
 <span class="sd">        &gt;&gt;&gt; x,y = p2(-120.108, 34.36116666)</span>
 <span class="sd">        &gt;&gt;&gt; &#39;x=%9.3f y=%11.3f&#39; % (x,y)</span>
 <span class="sd">        &#39;x=765975.641 y=3805993.134&#39;</span>

@@ -278,15 +278,16 @@
 
 <span class="sd">    The functionality is based on other fantastic projects:</span>
 
-<span class="sd">    * `rasterio &lt;https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx&gt;`_</span>
-<span class="sd">    * `opendatacube &lt;https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py&gt;`_</span>
+<span class="sd">    * `rasterio &lt;https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx&gt;`_  # noqa: E501</span>
+<span class="sd">    * `opendatacube &lt;https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py&gt;`_  # noqa: E501</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    srs: str</span>
 <span class="sd">        The string form of the user input used to create the CRS.</span>
 <span class="sd">    name: str</span>
-<span class="sd">        The name of the CRS (from `proj_get_name &lt;https://proj.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ&gt;`_).</span>
+<span class="sd">        The name of the CRS (from `proj_get_name &lt;https://proj.org/</span>
+<span class="sd">        development/reference/functions.html#_CPPv313proj_get_namePK2PJ&gt;`_).</span>
 <span class="sd">    type_name: str</span>
 <span class="sd">        The name of the type of the CRS object.</span>
 
@@ -295,7 +296,7 @@
 <div class="viewcode-block" id="CRS.__init__"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CRS class instance with:</span>
-<span class="sd">          - PROJ string </span>
+<span class="sd">          - PROJ string</span>
 <span class="sd">          - Dictionary of PROJ parameters</span>
 <span class="sd">          - PROJ keyword arguments for parameters</span>
 <span class="sd">          - JSON string with PROJ parameters</span>
@@ -386,8 +387,44 @@
 <span class="sd">        &gt;&gt;&gt; crs = CRS(proj=&#39;utm&#39;, zone=10, ellps=&#39;WGS84&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; crs.to_proj4()</span>
 <span class="sd">        &#39;+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs&#39;</span>
-<span class="sd">        &gt;&gt;&gt; crs.to_wkt()</span>
-<span class="sd">        &#39;PROJCRS[&quot;unknown&quot;,BASEGEOGCRS[&quot;unknown&quot;,DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,7030]]],PRIMEM[&quot;Greenwich&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8901]]],CONVERSION[&quot;UTM zone 10N&quot;,METHOD[&quot;Transverse Mercator&quot;,ID[&quot;EPSG&quot;,9807]],PARAMETER[&quot;Latitude of natural origin&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8801]],PARAMETER[&quot;Longitude of natural origin&quot;,-123,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,8802]],PARAMETER[&quot;Scale factor at natural origin&quot;,0.9996,SCALEUNIT[&quot;unity&quot;,1],ID[&quot;EPSG&quot;,8805]],PARAMETER[&quot;False easting&quot;,500000,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,8806]],PARAMETER[&quot;False northing&quot;,0,LENGTHUNIT[&quot;metre&quot;,1],ID[&quot;EPSG&quot;,8807]],ID[&quot;EPSG&quot;,16010]],CS[Cartesian,2],AXIS[&quot;(E)&quot;,east,ORDER[1],LENGTHUNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,9001]]],AXIS[&quot;(N)&quot;,north,ORDER[2],LENGTHUNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,9001]]]]&#39;</span>
+<span class="sd">        &gt;&gt;&gt; print(crs.to_wkt(pretty=True))</span>
+<span class="sd">        PROJCRS[&quot;unknown&quot;,</span>
+<span class="sd">            BASEGEOGCRS[&quot;unknown&quot;,</span>
+<span class="sd">                DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,</span>
+<span class="sd">                    ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,</span>
+<span class="sd">                        LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="sd">                        ID[&quot;EPSG&quot;,7030]]],</span>
+<span class="sd">                PRIMEM[&quot;Greenwich&quot;,0,</span>
+<span class="sd">                    ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="sd">                    ID[&quot;EPSG&quot;,8901]]],</span>
+<span class="sd">            CONVERSION[&quot;UTM zone 10N&quot;,</span>
+<span class="sd">                METHOD[&quot;Transverse Mercator&quot;,</span>
+<span class="sd">                    ID[&quot;EPSG&quot;,9807]],</span>
+<span class="sd">                PARAMETER[&quot;Latitude of natural origin&quot;,0,</span>
+<span class="sd">                    ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="sd">                    ID[&quot;EPSG&quot;,8801]],</span>
+<span class="sd">                PARAMETER[&quot;Longitude of natural origin&quot;,-123,</span>
+<span class="sd">                    ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="sd">                    ID[&quot;EPSG&quot;,8802]],</span>
+<span class="sd">                PARAMETER[&quot;Scale factor at natural origin&quot;,0.9996,</span>
+<span class="sd">                    SCALEUNIT[&quot;unity&quot;,1],</span>
+<span class="sd">                    ID[&quot;EPSG&quot;,8805]],</span>
+<span class="sd">                PARAMETER[&quot;False easting&quot;,500000,</span>
+<span class="sd">                    LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="sd">                    ID[&quot;EPSG&quot;,8806]],</span>
+<span class="sd">                PARAMETER[&quot;False northing&quot;,0,</span>
+<span class="sd">                    LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="sd">                    ID[&quot;EPSG&quot;,8807]],</span>
+<span class="sd">                ID[&quot;EPSG&quot;,16010]],</span>
+<span class="sd">            CS[Cartesian,2],</span>
+<span class="sd">                AXIS[&quot;(E)&quot;,east,</span>
+<span class="sd">                    ORDER[1],</span>
+<span class="sd">                    LENGTHUNIT[&quot;metre&quot;,1,</span>
+<span class="sd">                        ID[&quot;EPSG&quot;,9001]]],</span>
+<span class="sd">                AXIS[&quot;(N)&quot;,north,</span>
+<span class="sd">                    ORDER[2],</span>
+<span class="sd">                    LENGTHUNIT[&quot;metre&quot;,1,</span>
+<span class="sd">                        ID[&quot;EPSG&quot;,9001]]]]</span>
 <span class="sd">        &gt;&gt;&gt; geod = crs.get_geod()</span>
 <span class="sd">        &gt;&gt;&gt; &quot;+a={:.0f} +f={:.8f}&quot;.format(geod.a, geod.f)</span>
 <span class="sd">        &#39;+a=6378137 +f=0.00335281&#39;</span>
@@ -484,7 +521,7 @@
         <span class="sd">&quot;&quot;&quot;Make a CRS from:</span>
 
 <span class="sd">        Initialize a CRS class instance with:</span>
-<span class="sd">         - PROJ string </span>
+<span class="sd">         - PROJ string</span>
 <span class="sd">         - JSON string with PROJ parameters</span>
 <span class="sd">         - CRS WKT string</span>
 <span class="sd">         - An authority string [i.e. &#39;epsg:4326&#39;]</span>
@@ -520,7 +557,7 @@
     <span class="k">def</span> <span class="nf">from_user_input</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CRS class instance with:</span>
-<span class="sd">          - PROJ string </span>
+<span class="sd">          - PROJ string</span>
 <span class="sd">          - Dictionary of PROJ parameters</span>
 <span class="sd">          - PROJ keyword arguments for parameters</span>
 <span class="sd">          - JSON string with PROJ parameters</span>
@@ -530,7 +567,7 @@
 <span class="sd">          - A tuple of (&quot;auth_name&quot;: &quot;auth_code&quot;) [i.e (&#39;epsg&#39;, &#39;4326&#39;)]</span>
 <span class="sd">          - An object with a `to_wkt` method.</span>
 <span class="sd">          - A :class:`~pyproj.CRS`</span>
-<span class="sd">   </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : obj</span>
@@ -581,7 +618,7 @@
 
 <span class="sd">        .. warning:: You will likely lose important projection</span>
 <span class="sd">          information when converting to a PROJ string from</span>
-<span class="sd">          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</span>
+<span class="sd">          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -703,7 +740,7 @@
 <span class="sd">        This converts a Climate and Forecast (CF) Grid Mapping Version 1.8</span>
 <span class="sd">        dict to a :obj:`~pyproj.crs.CRS` object.</span>
 
-<span class="sd">        .. warning:: Parameters may be lost if a mapping </span>
+<span class="sd">        .. warning:: Parameters may be lost if a mapping</span>
 <span class="sd">            from the CF parameter is not found. For best results</span>
 <span class="sd">            store the WKT of the projection in the crs_wkt attribute.</span>
 
