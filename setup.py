@@ -17,12 +17,7 @@ INTERNAL_PROJ_DIR = os.path.join(CURRENT_FILE_PATH, "pyproj", BASE_INTERNAL_PROJ
 def check_proj_version(proj_dir):
     """checks that the PROJ library meets the minimum version"""
     proj = os.path.join(proj_dir, "bin", "proj")
-    try:
-        proj_ver_bytes = subprocess.check_output([proj], stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError:
-        if os.name == "nt":
-            return
-        raise
+    proj_ver_bytes = subprocess.check_output(proj, stderr=subprocess.STDOUT)
     proj_ver_bytes = (proj_ver_bytes.decode("ascii").split()[1]).strip(",")
     proj_version = parse_version(proj_ver_bytes)
     if proj_version < PROJ_MIN_VERSION:
