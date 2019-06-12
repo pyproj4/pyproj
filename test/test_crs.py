@@ -865,3 +865,13 @@ def test_target_crs__bound():
 
 def test_target_crs__missing():
     assert CRS("epsg:4326").target_crs is None
+
+
+def test_whitepace_between_equals():
+    crs = CRS(
+        "+proj =lcc +lat_1= 30.0 +lat_2= 35.0 +lat_0=30.0 +lon_0=87.0 +x_0=0 +y_0=0"
+    )
+    assert crs.srs == (
+        "+proj=lcc +lat_1=30.0 +lat_2=35.0 +lat_0=30.0 "
+        "+lon_0=87.0 +x_0=0 +y_0=0 +type=crs"
+    )
