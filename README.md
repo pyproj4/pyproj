@@ -17,8 +17,8 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 
 ## Documentation
 
-- Stable: http://pyproj4.github.io/pyproj/stable
-- Latest: https://pyproj4.github.io/pyproj/latest
+- Stable: http://pyproj4.github.io/pyproj/stable/
+- Latest: https://pyproj4.github.io/pyproj/latest/
 
 ## Bugs/Questions
 
