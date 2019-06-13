@@ -1,3 +1,5 @@
+.. _optimize_transformations:
+
 Optimize Transformations
 ========================
 
