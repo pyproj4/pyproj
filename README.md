@@ -17,10 +17,11 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 
 ## Documentation
 
-- Stable: http://pyproj4.github.io/pyproj
-- Latest: https://pyproj4.github.io/pyproj/dev
+- Stable: http://pyproj4.github.io/pyproj/stable
+- Latest: https://pyproj4.github.io/pyproj/latest
 
 ## Bugs/Questions
 
-- Report bugs at: https://github.com/pyproj4/pyproj/issues
-- Ask questions at: https://gitter.im/pyproj4-pyproj/community
+- Report bugs/ask questions: https://github.com/pyproj4/pyproj/issues
+- Ask developer questions: https://gitter.im/pyproj4-pyproj/community
+- Ask the community: https://gis.stackexchange.com/questions/tagged/pyproj

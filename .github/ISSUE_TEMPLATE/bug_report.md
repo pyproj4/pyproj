@@ -24,13 +24,18 @@ http://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports
 
 
 #### Environment Information
+<!-- If you have pyproj>=2.2.1 -->
+ - Output from: `python -c "import pyproj; pyproj.show_versions()"`
+<!-- If you have pyproj<2.2.1 -->
  - pyproj version (`python -c "import pyproj; print(pyproj.__version__)"`)
  - PROJ version (`python -c "import pyproj; print(pyproj.proj_version_str)"`)
  - PROJ data directory (`python -c "import pyproj; print(pyproj.datadir.get_data_dir())"`)
  - Python version (`python -c "import sys; print(sys.version.replace('\n', ' '))"`)
  - Operation System Information (`python -c "import platform; print(platform.platform())"`)
- - Installation method (conda, pip wheel, from source, etc...)
 
+
+#### Installation method
+ - conda, pip wheel, from source, etc...
 
 #### Conda environment information (if you installed with conda):
 
