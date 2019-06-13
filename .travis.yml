@@ -98,7 +98,7 @@ script:
       make docs
       pip install doctr
       if [[ -z "$TRAVIS_TAG" ]]; then
-        DEPLOY_DIR=dev;
+        DEPLOY_DIR=latest;
       else
         DEPLOY_DIR="$TRAVIS_TAG";
       fi

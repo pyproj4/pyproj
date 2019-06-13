@@ -1,6 +1,6 @@
 ---
 name: Installation issues
-about: Issues installing pyproj (http://pyproj4.github.io/pyproj/v2.2.0rel/installation.html)
+about: Issues installing pyproj (http://pyproj4.github.io/pyproj/stable/installation.html)
 labels: installation-issues
 ---
 
