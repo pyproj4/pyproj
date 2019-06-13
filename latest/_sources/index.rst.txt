@@ -14,6 +14,7 @@ GitHub Repository: https://github.com/pyproj4/pyproj
 
    installation
    examples
+   gotchas
    api/index
    optimize_transformations
    history
