@@ -1,8 +1,12 @@
+.. _examples:
+
 Getting Started
 ===============
 
 There are examples of usage within the API documentation and tests. This
 section is to demonstrate recommended usage.
+
+Also see: :ref:`gotchas`
 
 
 Using CRS
