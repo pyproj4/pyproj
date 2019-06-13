@@ -4,6 +4,7 @@ Change Log
 2.2.1
 ~~~~~
 * Added :meth:`~pyproj.show_versions()` (issue #334)
+* Added fix for whitepace around '=' in PROJ strings (issue #345) 
 
 2.2.0
 ~~~~~
