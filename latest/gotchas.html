@@ -164,7 +164,13 @@
   <div class="section" id="gotchas-faq">
 <span id="gotchas"></span><h1>Gotchas/FAQ<a class="headerlink" href="#gotchas-faq" title="Permalink to this headline">¶</a></h1>
 <p>This is a page for some suggestions, gotchas, and FAQs.</p>
-<p>Also see: <a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p>
+<dl class="simple">
+<dt>Also see:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p></li>
+<li><p><a class="reference external" href="https://proj.org/faq.html">PROJ FAQ</a></p></li>
+</ul>
+</dd>
+</dl>
 <div class="section" id="init-auth-auth-code-should-be-replaced-with-auth-auth-code">
 <h2><cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> should be replaced with <cite>&lt;auth&gt;:&lt;auth_code&gt;</cite><a class="headerlink" href="#init-auth-auth-code-should-be-replaced-with-auth-auth-code" title="Permalink to this headline">¶</a></h2>
 <p>The <cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> syntax is deprecated and will be removed
@@ -195,7 +201,7 @@ you may have problems initializing projections whe the other syntax works.</p>
 </div>
 <div class="section" id="proj-not-a-generic-latitude-longitude-to-projection-converter">
 <h2>Proj (Not a generic latitude/longitude to projection converter)<a class="headerlink" href="#proj-not-a-generic-latitude-longitude-to-projection-converter" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a> is limited is limited to converting between geographic and
+<p><a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a> is limited to converting between geographic and
 projection coordinates within one datum. If you have coordinates in latitude
 and longitude, and you want to convert it to your projection, it is recommended
 to use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> as it takes into account datum
