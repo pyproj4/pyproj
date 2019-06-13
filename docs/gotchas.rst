@@ -5,7 +5,9 @@ Gotchas/FAQ
 
 This is a page for some suggestions, gotchas, and FAQs.
 
-Also see: :ref:`examples`
+Also see:
+  - :ref:`examples`
+  - `PROJ FAQ <https://proj.org/faq.html>`__
 
 
 `+init=<auth>:<auth_code>` should be replaced with `<auth>:<auth_code>`
@@ -42,7 +44,7 @@ you may have problems initializing projections whe the other syntax works.
 Proj (Not a generic latitude/longitude to projection converter)
 ---------------------------------------------------------------
 
-:class:`~pyproj.proj.Proj` is limited is limited to converting between geographic and 
+:class:`~pyproj.proj.Proj` is limited to converting between geographic and 
 projection coordinates within one datum. If you have coordinates in latitude
 and longitude, and you want to convert it to your projection, it is recommended
 to use the :class:`~pyproj.transformer.Transformer` as it takes into account datum
