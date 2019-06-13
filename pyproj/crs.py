@@ -81,6 +81,7 @@ def _from_string(in_crs_string):
             raise CRSError("CRS is empty JSON")
         return _from_dict(crs_dict)
     elif not is_wkt(in_crs_string) and "=" in in_crs_string:
+        in_crs_string = re.sub(r"[\s+]?=[\s+]?", "=", in_crs_string)
         # make sure the projection starts with +proj or +init
         starting_params = ("+init", "+proj", "init", "proj")
         if not in_crs_string.lstrip().startswith(starting_params):
