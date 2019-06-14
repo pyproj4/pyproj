@@ -15,7 +15,7 @@ Also see:
 
 The `+init=<auth>:<auth_code>` syntax is deprecated and will be removed
 in future versions of PROJ. Also, if you use the `+init` syntax,
-you may have problems initializing projections whe the other syntax works.
+you may have problems initializing projections when the other syntax works.
 
 .. code-block:: python
 
