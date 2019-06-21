@@ -95,7 +95,7 @@ From pypi:
 
 .. code-block:: bash
     
-    pip install pyproj --no-binary
+    pip install pyproj --no-binary pyproj
 
 
 From GitHub with `pip`:
