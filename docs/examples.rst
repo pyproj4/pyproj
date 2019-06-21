@@ -353,8 +353,10 @@ Step 2: Create Transformer to convert from geodetic CRS to CRS
     (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)
 
 
-Geodetic calculations
+Geodesic calculations
 ---------------------
+This is useful if you need to calculate the distance between two
+points on Earth's surface.
 
 For more examples of usage and documentation, see :class:`~pyproj.Geod`.
 
