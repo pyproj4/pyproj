@@ -7,6 +7,7 @@ import pytest
 
 from pyproj import Geod, Proj, pj_ellps, pj_list, transform
 from pyproj.crs import CRSError
+from pyproj.warnings import ProjDeprecationWarning, PyProjDeprecationWarning
 
 
 class BasicTest(unittest.TestCase):
@@ -117,7 +118,8 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
     # https://github.com/jswhit/pyproj/issues/8
 
     def setUp(self):
-        self.p = Proj(init="epsg:4269")
+        with pytest.warns(ProjDeprecationWarning):
+            self.p = Proj(init="epsg:4269")
 
     def test_tranform_none_1st_parmeter(self):
         # test should raise Type error if projections are not of Proj classes
@@ -370,7 +372,7 @@ class Geod_NaN_Issue112_Test(unittest.TestCase):
 
 def test_proj_version():
     awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
-    with pytest.warns(UserWarning, match="'Proj.proj_version' is deprecated"):
+    with pytest.warns(PyProjDeprecationWarning, match="'Proj.proj_version' is deprecated"):
         assert type(awips221.proj_version) is int
 
 

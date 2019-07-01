@@ -6,6 +6,7 @@ from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.enums import WktVersion, ProjVersion
 from pyproj.exceptions import CRSError
+from pyproj.warnings import PyProjDeprecationWarning
 
 
 cdef cstrdecode(const char *instring):
@@ -1527,7 +1528,8 @@ cdef class _CRS(Base):
         pyproj.CRS: The geodetic CRS from this CRS.
         """
         warnings.warn(
-            "This method is deprecated an has been replaced with `CRS.geodetic_crs`."
+            "This method is deprecated an has been replaced with `CRS.geodetic_crs`.",
+            PyProjDeprecationWarning,
         )
         return self.geodetic_crs
 
@@ -1547,7 +1549,7 @@ cdef class _CRS(Base):
         the source CRS:
 
         >>> from pyproj import CRS
-        >>> ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
+        >>> ccs = CRS("+proj=geocent +datum=WGS84 +towgs84=0,0,0")
         >>> ccs.to_epsg()
         >>> ccs.source_crs.to_epsg()
         4978
@@ -1587,7 +1589,7 @@ cdef class _CRS(Base):
         the source CRS:
 
         >>> from pyproj import CRS
-        >>> ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
+        >>> ccs = CRS("+proj=geocent +datum=WGS84 +towgs84=0,0,0")
         >>> ccs.to_authority()
         >>> ccs.source_crs.to_authority()
         ('EPSG', '4978')
@@ -1765,7 +1767,10 @@ cdef class _CRS(Base):
         -------
         bool: True if CRS is valid.
         """
-        warnings.warn("CRS.is_valid is deprecated.")
+        warnings.warn(
+            "CRS.is_valid is deprecated.",
+            PyProjDeprecationWarning,
+        )
         return self._type != PJ_TYPE_UNKNOWN
 
     @property

@@ -48,9 +48,10 @@ from pyproj.cf1x8 import (
 from pyproj.compat import string_types
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
+from pyproj.warnings import ProjDeprecationWarning, PyProjWarning
 
 
-def _from_dict(projparams):
+def _prepare_from_dict(projparams):
     # convert a dict to a proj string.
     pjargs = []
     for key, value in projparams.items():
@@ -64,10 +65,10 @@ def _from_dict(projparams):
             pass
         else:
             pjargs.append("+{key}={value}".format(key=key, value=value))
-    return _from_string(" ".join(pjargs))
+    return _prepare_from_string(" ".join(pjargs))
 
 
-def _from_string(in_crs_string):
+def _prepare_from_string(in_crs_string):
     if not in_crs_string:
         raise CRSError("CRS is empty or invalid: {!r}".format(in_crs_string))
     elif "{" in in_crs_string:
@@ -79,12 +80,12 @@ def _from_string(in_crs_string):
 
         if not crs_dict:
             raise CRSError("CRS is empty JSON")
-        return _from_dict(crs_dict)
+        return _prepare_from_dict(crs_dict)
     elif not is_wkt(in_crs_string) and "=" in in_crs_string:
-        in_crs_string = re.sub(r"[\s+]?=[\s+]?", "=", in_crs_string)
+        in_crs_string = re.sub(r"[\s+]?=[\s+]?", "=", in_crs_string.lstrip())
         # make sure the projection starts with +proj or +init
         starting_params = ("+init", "+proj", "init", "proj")
-        if not in_crs_string.lstrip().startswith(starting_params):
+        if not in_crs_string.startswith(starting_params):
             kvpairs = []
             first_item_inserted = False
             for kvpair in in_crs_string.split():
@@ -108,15 +109,21 @@ def _from_string(in_crs_string):
         # remove no_defs as it does nothing as of PROJ 6.0.0 and breaks
         # initialization with +init=epsg:...
         in_crs_string = re.sub(r"\s\+?no_defs([\w=]+)?", "", in_crs_string)
+        if in_crs_string.startswith(("+init", "init")):
+            warnings.warn(
+                "'+init=<authority>:<code>' syntax is deprecated."
+                " '<authority>:<code>' is the preferred initialization method.",
+                ProjDeprecationWarning,
+            )
     return in_crs_string
 
 
-def _from_authority(auth_name, auth_code):
+def _prepare_from_authority(auth_name, auth_code):
     return "{}:{}".format(auth_name, auth_code)
 
 
-def _from_epsg(auth_code):
-    return _from_authority("epsg", auth_code)
+def _prepare_from_epsg(auth_code):
+    return _prepare_from_authority("epsg", auth_code)
 
 
 class CRS(_CRS):
@@ -281,15 +288,15 @@ class CRS(_CRS):
         False
         """
         if isinstance(projparams, string_types):
-            projstring = _from_string(projparams)
+            projstring = _prepare_from_string(projparams)
         elif isinstance(projparams, dict):
-            projstring = _from_dict(projparams)
+            projstring = _prepare_from_dict(projparams)
         elif kwargs:
-            projstring = _from_dict(kwargs)
+            projstring = _prepare_from_dict(kwargs)
         elif isinstance(projparams, int):
-            projstring = _from_epsg(projparams)
+            projstring = _prepare_from_epsg(projparams)
         elif isinstance(projparams, (list, tuple)) and len(projparams) == 2:
-            projstring = _from_authority(*projparams)
+            projstring = _prepare_from_authority(*projparams)
         elif hasattr(projparams, "to_wkt"):
             projstring = projparams.to_wkt()
         else:
@@ -312,7 +319,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(_from_authority(auth_name, code))
+        return cls(_prepare_from_authority(auth_name, code))
 
     @classmethod
     def from_epsg(cls, code):
@@ -327,7 +334,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(_from_epsg(code))
+        return cls(_prepare_from_epsg(code))
 
     @classmethod
     def from_proj4(cls, in_proj_string):
@@ -344,7 +351,7 @@ class CRS(_CRS):
         """
         if is_wkt(in_proj_string) or "=" not in in_proj_string:
             raise CRSError("Invalid PROJ string: {}".format(in_proj_string))
-        return cls(_from_string(in_proj_string))
+        return cls(_prepare_from_string(in_proj_string))
 
     @classmethod
     def from_wkt(cls, in_wkt_string):
@@ -361,7 +368,7 @@ class CRS(_CRS):
         """
         if not is_wkt(in_wkt_string):
             raise CRSError("Invalid WKT string: {}".format(in_wkt_string))
-        return cls(_from_string(in_wkt_string))
+        return cls(_prepare_from_string(in_wkt_string))
 
     @classmethod
     def from_string(cls, in_crs_string):
@@ -382,7 +389,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(_from_string(in_crs_string))
+        return cls(_prepare_from_string(in_crs_string))
 
     def to_string(self):
         """Convert the CRS to a string.
@@ -457,7 +464,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(_from_dict(proj_dict))
+        return cls(_prepare_from_dict(proj_dict))
 
     def to_dict(self):
         """
@@ -577,7 +584,8 @@ class CRS(_CRS):
 
         if errcheck and skipped_params:
             warnings.warn(
-                "PROJ parameters not mapped to CF: {}".format(tuple(skipped_params))
+                "PROJ parameters not mapped to CF: {}".format(tuple(skipped_params)),
+                PyProjWarning,
             )
         return cf_dict
 
@@ -648,7 +656,8 @@ class CRS(_CRS):
 
         if errcheck and skipped_params:
             warnings.warn(
-                "CF parameters not mapped to PROJ: {}".format(tuple(skipped_params))
+                "CF parameters not mapped to PROJ: {}".format(tuple(skipped_params)),
+                PyProjWarning,
             )
 
         return CRS(proj_dict)

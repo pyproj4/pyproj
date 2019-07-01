@@ -6,6 +6,7 @@ import pyproj
 from pyproj import Proj, Transformer, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
+from pyproj.warnings import ProjDeprecationWarning
 
 
 def test_tranform_wgs84_to_custom():
@@ -20,8 +21,9 @@ def test_tranform_wgs84_to_custom():
 
 
 def test_transform_wgs84_to_alaska():
-    lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
-    alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
+    with pytest.warns(ProjDeprecationWarning):
+        lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
+        alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
     test = (-179.72638, 49.752533)
     xx, yy = pyproj.transform(lat_lon_proj, alaska_aea_proj, *test)
     assert "{:.3f} {:.3f}".format(xx, yy) == "-1824924.495 330822.800"
@@ -29,8 +31,9 @@ def test_transform_wgs84_to_alaska():
 
 def test_illegal_transformation():
     # issue 202
-    p1 = pyproj.Proj(init="epsg:4326")
-    p2 = pyproj.Proj(init="epsg:3857")
+    with pytest.warns(ProjDeprecationWarning):
+        p1 = pyproj.Proj(init="epsg:4326")
+        p2 = pyproj.Proj(init="epsg:3857")
     xx, yy = pyproj.transform(
         p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90)
     )
@@ -44,8 +47,9 @@ def test_illegal_transformation():
 
 def test_lambert_conformal_transform():
     # issue 207
-    Midelt = pyproj.Proj(init="epsg:26191")
-    WGS84 = pyproj.Proj(init="epsg:4326")
+    with pytest.warns(ProjDeprecationWarning):
+        Midelt = pyproj.Proj(init="epsg:26191")
+        WGS84 = pyproj.Proj(init="epsg:4326")
 
     E = 567623.931
     N = 256422.787
@@ -77,9 +81,10 @@ def test_equivalent_crs__different():
 
 
 def test_equivalent_proj():
-    transformer = Transformer.from_proj(
-        "+init=epsg:4326", pyproj.Proj(4326).crs.to_proj4(), skip_equivalent=True
-    )
+    with pytest.warns(ProjDeprecationWarning):
+        transformer = Transformer.from_proj(
+            "+init=epsg:4326", pyproj.Proj(4326).crs.to_proj4(), skip_equivalent=True
+        )
     assert transformer._transformer.skip_equivalent
     assert transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same
@@ -227,31 +232,36 @@ def test_itransform_time_3rd_invalid():
 
 
 def test_transform_no_error():
-    pj = Proj(init="epsg:4555")
+    with pytest.warns(ProjDeprecationWarning):
+        pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
     transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
 
 
 def test_itransform_no_error():
-    pj = Proj(init="epsg:4555")
+    with pytest.warns(ProjDeprecationWarning):
+        pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
     list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
 
 
 def test_transform_no_exception():
     # issue 249
-    transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
+    with pytest.warns(ProjDeprecationWarning):
+        transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
     transformer.transform(1.716073972, 52.658007833, errcheck=True)
     transformer.itransform([(1.716073972, 52.658007833)], errcheck=True)
 
 
 def test_transform__out_of_bounds():
-    transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
+    with pytest.warns(ProjDeprecationWarning):
+        transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
     assert np.all(np.isinf(transformer.transform(100000, 100000, errcheck=True)))
 
 
 def test_transform_radians():
-    WGS84 = pyproj.Proj("+init=EPSG:4326")
+    with pytest.warns(ProjDeprecationWarning):
+        WGS84 = pyproj.Proj("+init=EPSG:4326")
     ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
     assert_almost_equal(
         pyproj.transform(
@@ -274,7 +284,8 @@ def test_transform_radians():
 
 
 def test_itransform_radians():
-    WGS84 = pyproj.Proj("+init=EPSG:4326")
+    with pytest.warns(ProjDeprecationWarning):
+        WGS84 = pyproj.Proj("+init=EPSG:4326")
     ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
     assert_almost_equal(
         list(

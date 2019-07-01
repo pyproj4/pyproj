@@ -47,24 +47,25 @@ cdef class _Transformer(Base):
         })
 
     def _initialize_from_projobj(self):
+        ProjError.clear()
         self.proj_info = proj_pj_info(self.projobj)
-        if self.proj_info.id == NULL:
-            ProjError.clear()
-            raise ProjError("Input is not a transformation.")
         cdef PJ_TYPE transformer_type = proj_get_type(self.projobj)
-        self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
+        try:
+            self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
+        except KeyError:
+            raise ProjError("Input is not a transformation.")
 
     @property
     def id(self):
-        return pystrdecode(self.proj_info.id)
+        return pystrdecode(self.proj_info.id) if self.proj_info.id != NULL else "undefined"
     
     @property
     def description(self):
-        return pystrdecode(self.proj_info.description)
+        return pystrdecode(self.proj_info.description) if self.proj_info.description != NULL else "undefined"
 
     @property
     def definition(self):
-        return pystrdecode(self.proj_info.definition)
+        return pystrdecode(self.proj_info.definition) if self.proj_info.definition != NULL else "undefined"
 
     @property
     def has_inverse(self):
@@ -110,7 +111,7 @@ cdef class _Transformer(Base):
         # initialize projection
         transformer.projobj = proj_create(transformer.projctx, proj_pipeline)
         if transformer.projobj is NULL:
-            raise ProjError("Invalid projection {}.".format(proj_pipeline))
+            raise ProjError("Invalid projection {}.".format(pystrdecode(proj_pipeline)))
         transformer._initialize_from_projobj()
         transformer._set_radians_io()
         transformer.is_pipeline = True
