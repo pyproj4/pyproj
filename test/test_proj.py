@@ -370,7 +370,7 @@ class Geod_NaN_Issue112_Test(unittest.TestCase):
 
 def test_proj_version():
     awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
-    with pytest.warns(UserWarning, matches="'Proj.proj_version' is deprecated"):
+    with pytest.warns(UserWarning, match="'Proj.proj_version' is deprecated"):
         assert type(awips221.proj_version) is int
 
 
