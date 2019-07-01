@@ -192,7 +192,8 @@ def test_repr():
 def test_repr__long():
     with pytest.warns(ProjDeprecationWarning):
         assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
-            '<Geographic 2D CRS: GEOGCRS["WGS 84",DATUM["World Geodetic System 1984 ...>\n'
+            '<Geographic 2D CRS: GEOGCRS["WGS 84",'
+            'DATUM["World Geodetic System 1984 ...>\n'
             "Name: WGS 84\n"
             "Axis Info [ellipsoidal]:\n"
             "- lon[east]: Longitude (degree)\n"

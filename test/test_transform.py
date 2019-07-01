@@ -1,7 +1,7 @@
 import numpy
 from numpy.testing import assert_allclose
 
-from pyproj import Proj, transform, proj_version_str
+from pyproj import Proj, proj_version_str, transform
 
 
 def test_transform():

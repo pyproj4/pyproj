@@ -2,7 +2,7 @@ import warnings
 
 from numpy.testing import assert_almost_equal
 
-from pyproj import Proj, transform, proj_version_str
+from pyproj import Proj, proj_version_str, transform
 from pyproj.warnings import ProjDeprecationWarning
 
 # illustrates the use of the transform function to
