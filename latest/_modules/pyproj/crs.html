@@ -203,9 +203,10 @@
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">string_types</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">CRSError</span>
 <span class="kn">from</span> <span class="nn">pyproj.geod</span> <span class="k">import</span> <span class="n">Geod</span>
+<span class="kn">from</span> <span class="nn">pyproj.warn</span> <span class="k">import</span> <span class="n">ProjDeprecationWarning</span><span class="p">,</span> <span class="n">PyProjWarning</span>
 
 
-<span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">):</span>
     <span class="c1"># convert a dict to a proj string.</span>
     <span class="n">pjargs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">projparams</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -219,10 +220,10 @@
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pjargs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;+</span><span class="si">{key}</span><span class="s2">=</span><span class="si">{value}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">_from_string</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pjargs</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">_prepare_from_string</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pjargs</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">in_crs_string</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is empty or invalid: </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">))</span>
     <span class="k">elif</span> <span class="s2">&quot;{&quot;</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
@@ -234,12 +235,12 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">crs_dict</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is empty JSON&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">_from_dict</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">)</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="n">is_wkt</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
-        <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\s+]?=[\s+]?&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="p">)</span>
+        <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\s+]?=[\s+]?&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
         <span class="c1"># make sure the projection starts with +proj or +init</span>
         <span class="n">starting_params</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">):</span>
             <span class="n">kvpairs</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">first_item_inserted</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">for</span> <span class="n">kvpair</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
@@ -263,15 +264,21 @@
         <span class="c1"># remove no_defs as it does nothing as of PROJ 6.0.0 and breaks</span>
         <span class="c1"># initialization with +init=epsg:...</span>
         <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+?no_defs([\w=]+)?&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">)):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;&#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated.&quot;</span>
+                <span class="s2">&quot; &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method.&quot;</span><span class="p">,</span>
+                <span class="n">ProjDeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
     <span class="k">return</span> <span class="n">in_crs_string</span>
 
 
-<span class="k">def</span> <span class="nf">_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">):</span>
     <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_from_epsg</span><span class="p">(</span><span class="n">auth_code</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_from_authority</span><span class="p">(</span><span class="s2">&quot;epsg&quot;</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_prepare_from_epsg</span><span class="p">(</span><span class="n">auth_code</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_prepare_from_authority</span><span class="p">(</span><span class="s2">&quot;epsg&quot;</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="CRS"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS">[docs]</a><span class="k">class</span> <span class="nc">CRS</span><span class="p">(</span><span class="n">_CRS</span><span class="p">):</span>
@@ -436,15 +443,15 @@
 <span class="sd">        False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
-            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_from_string</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_from_dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_from_epsg</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_prepare_from_epsg</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_from_authority</span><span class="p">(</span><span class="o">*</span><span class="n">projparams</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">_prepare_from_authority</span><span class="p">(</span><span class="o">*</span><span class="n">projparams</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="s2">&quot;to_wkt&quot;</span><span class="p">):</span>
             <span class="n">projstring</span> <span class="o">=</span> <span class="n">projparams</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -467,7 +474,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">code</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">code</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_epsg"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_epsg">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_epsg</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
@@ -482,7 +489,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_proj4"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_proj4">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_proj4</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_proj_string</span><span class="p">):</span>
@@ -499,7 +506,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">is_wkt</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;=&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">in_proj_string</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;Invalid PROJ string: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_from_string</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_wkt"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_wkt">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_wkt</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_wkt_string</span><span class="p">):</span>
@@ -516,7 +523,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_wkt</span><span class="p">(</span><span class="n">in_wkt_string</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;Invalid WKT string: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">in_wkt_string</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_from_string</span><span class="p">(</span><span class="n">in_wkt_string</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_wkt_string</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_string"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_string">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="p">):</span>
@@ -537,7 +544,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.to_string"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert the CRS to a string.</span>
@@ -612,7 +619,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.to_dict"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -732,7 +739,8 @@
 
         <span class="k">if</span> <span class="n">errcheck</span> <span class="ow">and</span> <span class="n">skipped_params</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;PROJ parameters not mapped to CF: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">skipped_params</span><span class="p">))</span>
+                <span class="s2">&quot;PROJ parameters not mapped to CF: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">skipped_params</span><span class="p">)),</span>
+                <span class="n">PyProjWarning</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">cf_dict</span></div>
 
@@ -803,7 +811,8 @@
 
         <span class="k">if</span> <span class="n">errcheck</span> <span class="ow">and</span> <span class="n">skipped_params</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;CF parameters not mapped to PROJ: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">skipped_params</span><span class="p">))</span>
+                <span class="s2">&quot;CF parameters not mapped to PROJ: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">skipped_params</span><span class="p">)),</span>
+                <span class="n">PyProjWarning</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">)</span></div>

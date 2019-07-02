@@ -3,6 +3,11 @@ Change Log
 
 2.2.1
 ~~~~~
+* Added custom warnings for pyproj (pull #358)
+* Add deprecation warning when using +init= syntax (pull #358)
+
+2.2.1
+~~~~~
 * Added :meth:`~pyproj.show_versions()` (issue #334)
 * Added fix for whitepace around '=' in PROJ strings (issue #345)
 * Update version check in `setup.py` (issue #323)

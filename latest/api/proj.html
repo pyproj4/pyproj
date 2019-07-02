@@ -101,6 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="warn.html">Warnings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
 </ul>
 </li>
@@ -297,14 +298,14 @@ for more information about projection parameters.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p2</span><span class="p">(</span><span class="o">-</span><span class="mf">120.108</span><span class="p">,</span> <span class="mf">34.36116666</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%9.3f</span><span class="s1"> y=</span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 <span class="go">&#39;x=765975.641 y=3805993.134&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:32667&quot;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;epsg:32667&quot;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%12.3f</span><span class="s1"> y=</span><span class="si">%12.3f</span><span class="s1"> (meters)&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">114.057222</span><span class="p">,</span> <span class="mf">51.045</span><span class="p">)</span>
 <span class="go">&#39;x=-1783506.250 y= 6193827.033 (meters)&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;+init=epsg:32667&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;epsg:32667&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%12.3f</span><span class="s1"> y=</span><span class="si">%12.3f</span><span class="s1"> (feet)&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">114.057222</span><span class="p">,</span> <span class="mf">51.045</span><span class="p">)</span>
 <span class="go">&#39;x=-5851386.754 y=20320914.191 (feet)&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># test data with radian inputs</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4214&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;epsg:4214&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="mf">116.366</span><span class="p">,</span> <span class="mf">39.867</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
 <span class="go">&#39;2.031 0.696&#39;</span>
@@ -319,7 +320,7 @@ for more information about projection parameters.</p>
 <dt id="pyproj.proj.Proj.definition_string">
 <code class="sig-name descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns formal definition string for projection</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;+init=epsg:4326&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
 <span class="go">&#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Show Versions &mdash; pyproj 2.2.1 documentation</title>
+  <title>Warnings &mdash; pyproj 2.2.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Optimize Transformations" href="../optimize_transformations.html" />
-    <link rel="prev" title="Warnings" href="warn.html" /> 
+    <link rel="next" title="Show Versions" href="show_versions.html" />
+    <link rel="prev" title="Exceptions" href="exceptions.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -98,11 +98,8 @@
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="warn.html">Warnings</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Show Versions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyproj-show-versions">pyproj.show_versions</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Warnings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_transformations.html">Optimize Transformations</a></li>
@@ -154,13 +151,13 @@
         
           <li><a href="index.html">API Documentation</a> &raquo;</li>
         
-      <li>Show Versions</li>
+      <li>Warnings</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/show_versions.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/warn.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -173,19 +170,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="show-versions">
-<h1>Show Versions<a class="headerlink" href="#show-versions" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="pyproj-show-versions">
-<h2>pyproj.show_versions<a class="headerlink" href="#pyproj-show-versions" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pyproj.show_versions">
-<code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">show_versions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/_show_versions.html#show_versions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.show_versions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print useful debugging information</p>
-<p class="rubric">Example</p>
-<p>&gt; python -c “import pyproj; pyproj.show_versions()”</p>
+  <div class="section" id="module-pyproj.warn">
+<span id="warnings"></span><h1>Warnings<a class="headerlink" href="#module-pyproj.warn" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="pyproj.warn.ProjDeprecationWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">pyproj.warn.</code><code class="sig-name descname">ProjDeprecationWarning</code><a class="reference internal" href="../_modules/pyproj/warn.html#ProjDeprecationWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.warn.ProjDeprecationWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a deprecation warning for PROJ</p>
 </dd></dl>
 
-</div>
+<dl class="exception">
+<dt id="pyproj.warn.PyProjDeprecationWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">pyproj.warn.</code><code class="sig-name descname">PyProjDeprecationWarning</code><a class="reference internal" href="../_modules/pyproj/warn.html#PyProjDeprecationWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.warn.PyProjDeprecationWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a deprecation warning for pyproj</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyproj.warn.PyProjWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">pyproj.warn.</code><code class="sig-name descname">PyProjWarning</code><a class="reference internal" href="../_modules/pyproj/warn.html#PyProjWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.warn.PyProjWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a warning for pyproj</p>
+</dd></dl>
+
 </div>
 
 
@@ -196,10 +200,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../optimize_transformations.html" class="btn btn-neutral float-right" title="Optimize Transformations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="show_versions.html" class="btn btn-neutral float-right" title="Show Versions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="warn.html" class="btn btn-neutral float-left" title="Warnings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="exceptions.html" class="btn btn-neutral float-left" title="Exceptions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
