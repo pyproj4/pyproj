@@ -6,7 +6,7 @@ import pyproj
 from pyproj import Proj, Transformer, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
-from pyproj.warnings import ProjDeprecationWarning
+from pyproj.warn import ProjDeprecationWarning
 
 
 def test_tranform_wgs84_to_custom():

@@ -7,7 +7,7 @@ import pytest
 
 from pyproj import Geod, Proj, pj_ellps, pj_list, transform
 from pyproj.crs import CRSError
-from pyproj.warnings import ProjDeprecationWarning, PyProjDeprecationWarning
+from pyproj.warn import ProjDeprecationWarning, PyProjDeprecationWarning
 
 
 class BasicTest(unittest.TestCase):

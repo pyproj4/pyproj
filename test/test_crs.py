@@ -5,7 +5,7 @@ from pyproj import CRS, proj_version_str
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
-from pyproj.warnings import ProjDeprecationWarning
+from pyproj.warn import ProjDeprecationWarning
 
 
 class CustomCRS(object):

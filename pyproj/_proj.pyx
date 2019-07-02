@@ -5,7 +5,7 @@ import warnings
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.exceptions import ProjError
-from pyproj.warnings import PyProjDeprecationWarning
+from pyproj.warn import PyProjDeprecationWarning
 
 
 # # version number string for PROJ

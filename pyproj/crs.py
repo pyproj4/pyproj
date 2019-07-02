@@ -48,7 +48,7 @@ from pyproj.cf1x8 import (
 from pyproj.compat import string_types
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
-from pyproj.warnings import ProjDeprecationWarning, PyProjWarning
+from pyproj.warn import ProjDeprecationWarning, PyProjWarning
 
 
 def _prepare_from_dict(projparams):

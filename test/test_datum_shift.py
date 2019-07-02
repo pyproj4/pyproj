@@ -3,7 +3,7 @@ import warnings
 from numpy.testing import assert_almost_equal
 
 from pyproj import Proj, proj_version_str, transform
-from pyproj.warnings import ProjDeprecationWarning
+from pyproj.warn import ProjDeprecationWarning
 
 # illustrates the use of the transform function to
 # perform coordinate transformations with datum shifts.

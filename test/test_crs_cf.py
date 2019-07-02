@@ -3,7 +3,7 @@ from numpy.testing import assert_almost_equal
 
 from pyproj import CRS
 from pyproj.exceptions import CRSError
-from pyproj.warnings import PyProjWarning
+from pyproj.warn import PyProjWarning
 
 
 def test_to_cf_transverse_mercator():
