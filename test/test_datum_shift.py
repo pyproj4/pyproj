@@ -1,6 +1,9 @@
+import warnings
+
 from numpy.testing import assert_almost_equal
 
-from pyproj import Proj, transform
+from pyproj import Proj, proj_version_str, transform
+from pyproj.warn import ProjDeprecationWarning
 
 # illustrates the use of the transform function to
 # perform coordinate transformations with datum shifts.
@@ -28,10 +31,12 @@ WGS84_lon = 13.759554722  # Degrees
 UTM_z = WGS84_z = 52.8  # Ellipsoidical height in meters
 WGS84_PROJ = Proj(proj="latlong", datum="WGS84")
 UTM_33_PROJ = Proj(proj="utm", zone="33")
-GAUSSSB_PROJ = Proj(
-    init="epsg:3004", towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
-)
-print("proj4 library version = ", WGS84_PROJ.proj_version)
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore", ProjDeprecationWarning)
+    GAUSSSB_PROJ = Proj(
+        init="epsg:3004", towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
+    )
+print("proj4 library version = ", proj_version_str)
 
 
 def test_shift_wgs84_to_utm33():

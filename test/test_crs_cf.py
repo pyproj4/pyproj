@@ -3,13 +3,22 @@ from numpy.testing import assert_almost_equal
 
 from pyproj import CRS
 from pyproj.exceptions import CRSError
+from pyproj.warn import PyProjWarning
 
 
 def test_to_cf_transverse_mercator():
     crs = CRS(
-        init="epsg:3004", towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
+        proj="tmerc",
+        lat_0=0,
+        lon_0=15,
+        k=0.9996,
+        x_0=2520000,
+        y_0=0,
+        ellps="intl",
+        units="m",
+        towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62",
     )
-    with pytest.warns(UserWarning):
+    with pytest.warns(PyProjWarning):
         cf_dict = crs.to_cf(errcheck=True)
     towgs84_test = [-122.74, -34.27, -22.83, -1.884, -3.4, -3.03, -15.62]
     assert cf_dict.pop("crs_wkt").startswith("BOUNDCRS[")
@@ -52,7 +61,7 @@ def test_from_cf_transverse_mercator():
             "unit": "m",
         }
     )
-    with pytest.warns(UserWarning):
+    with pytest.warns(PyProjWarning):
         cf_dict = crs.to_cf(errcheck=True)
     assert len(cf_dict) == 9
     assert cf_dict["crs_wkt"].startswith("BOUNDCRS[")
@@ -74,7 +83,7 @@ def test_cf_from_latlon():
             inverse_flattening=298.257223,
         )
     )
-    with pytest.warns(UserWarning):
+    with pytest.warns(PyProjWarning):
         cf_dict = crs.to_cf(errcheck=True)
     assert len(cf_dict) == 4
     assert cf_dict["crs_wkt"].startswith("GEOGCRS[")
@@ -85,7 +94,7 @@ def test_cf_from_latlon():
 
 def test_cf_from_latlon__named():
     crs = CRS.from_cf(dict(spatial_ref="epsg:4326"))
-    with pytest.warns(UserWarning):
+    with pytest.warns(PyProjWarning):
         cf_dict = crs.to_cf(errcheck=True)
     assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
     assert cf_dict == {
@@ -97,7 +106,7 @@ def test_cf_from_latlon__named():
 
 def test_cf_from_utm():
     crs = CRS.from_cf(dict(crs_wkt="epsg:32615"))
-    with pytest.warns(UserWarning):
+    with pytest.warns(PyProjWarning):
         cf_dict = crs.to_cf(errcheck=True)
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
     assert cf_dict == {
@@ -160,7 +169,7 @@ def test_cf_lambert_conformal_conic():
             latitude_of_projection_origin=25.0,
         )
     )
-    with pytest.warns(UserWarning):
+    with pytest.warns(PyProjWarning):
         cf_dict = crs.to_cf(errcheck=True)
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
     assert cf_dict == {
@@ -185,7 +194,7 @@ def test_cf_lambert_conformal_conic_1sp():
             latitude_of_projection_origin=25.0,
         )
     )
-    with pytest.warns(UserWarning):
+    with pytest.warns(PyProjWarning):
         cf_dict = crs.to_cf(errcheck=True)
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
     assert cf_dict == {
@@ -224,7 +233,7 @@ def test_cf_lambert_conformal_conic_2sp():
             latitude_of_projection_origin=25.0,
         )
     )
-    with pytest.warns(UserWarning):
+    with pytest.warns(PyProjWarning):
         cf_dict = crs.to_cf(errcheck=True)
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
     assert cf_dict == {

@@ -3,7 +3,7 @@ import array
 import numpy
 from numpy.testing import assert_allclose
 
-from pyproj import Proj
+from pyproj import Proj, proj_version_str
 
 try:
     from time import perf_counter
@@ -26,7 +26,7 @@ def test_awips221():
     # awips221 = Proj(params)
     # or keyword args
     awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
-    print("proj4 library version = ", awips221.proj_version)
+    print("proj4 library version = ", proj_version_str)
     # AWIPS grid 221 parameters
     # (from http://www.nco.ncep.noaa.gov/pmb/docs/on388/tableb.html)
     llcrnrx, llcrnry = awips221(-145.5, 1.0)

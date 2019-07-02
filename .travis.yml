@@ -91,7 +91,7 @@ install:
   - pip install coveralls
 
 script:
-  - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
+  - python -c "import pyproj; pyproj.Proj('epsg:4269')"
   - make test-coverage
   # Building and uploading docs with doctr
   - set -e

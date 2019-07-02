@@ -5,6 +5,7 @@ from pyproj import CRS, proj_version_str
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
+from pyproj.warn import ProjDeprecationWarning
 
 
 class CustomCRS(object):
@@ -56,7 +57,8 @@ def test_from_string():
     assert wgs84_crs.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     # Make sure this doesn't get handled using the from_epsg()
     # even though 'epsg' is in the string
-    epsg_init_crs = CRS.from_string("+init=epsg:26911 +units=m +no_defs=True")
+    with pytest.warns(ProjDeprecationWarning):
+        epsg_init_crs = CRS.from_string("+init=epsg:26911 +units=m +no_defs=True")
     assert (
         epsg_init_crs.to_proj4()
         == "+proj=utm +zone=11 +datum=NAD83 +units=m +no_defs +type=crs"
@@ -84,8 +86,8 @@ def test_bare_parameters():
 
 
 def test_is_geographic():
-    assert CRS({"init": "EPSG:4326"}).is_geographic is True
-    assert CRS({"init": "EPSG:3857"}).is_geographic is False
+    assert CRS("EPSG:4326").is_geographic is True
+    assert CRS("EPSG:3857").is_geographic is False
 
     wgs84_crs = CRS.from_string("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
     assert wgs84_crs.is_geographic is True
@@ -101,7 +103,7 @@ def test_is_geographic():
 
 
 def test_is_projected():
-    assert CRS({"init": "EPSG:3857"}).is_projected is True
+    assert CRS("EPSG:3857").is_projected is True
 
     lcc_crs = CRS.from_string(
         "+lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True +proj=lcc +x_0=0 "
@@ -114,8 +116,8 @@ def test_is_projected():
 
 
 def test_is_same_crs():
-    crs1 = CRS({"init": "EPSG:4326"})
-    crs2 = CRS({"init": "EPSG:3857"})
+    crs1 = CRS("urn:ogc:def:crs:OGC::CRS84")
+    crs2 = CRS("EPSG:3857")
 
     assert crs1 == crs1
     assert crs1 != crs2
@@ -137,13 +139,12 @@ def test_is_same_crs():
 
 def test_to_proj4():
     assert (
-        CRS({"init": "EPSG:4326"}).to_proj4(4)
-        == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+        CRS("EPSG:4326").to_proj4(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     )
 
 
 def test_is_valid():
-    with pytest.warns(UserWarning):
+    with pytest.warns(ProjDeprecationWarning):
         assert CRS(init="EPSG:4326").is_valid
 
 
@@ -157,11 +158,12 @@ def test_empty_json():
 
 
 def test_has_wkt_property():
-    assert (
-        CRS({"init": "EPSG:4326"})
-        .to_wkt("WKT1_GDAL")
-        .startswith('GEOGCS["WGS 84",DATUM')
-    )
+    with pytest.warns(ProjDeprecationWarning):
+        assert (
+            CRS({"init": "EPSG:4326"})
+            .to_wkt("WKT1_GDAL")
+            .startswith('GEOGCS["WGS 84",DATUM')
+        )
 
 
 def test_to_wkt_pretty():
@@ -171,35 +173,38 @@ def test_to_wkt_pretty():
 
 
 def test_repr():
-    assert repr(CRS({"init": "EPSG:4326"})) == (
-        "<Geographic 2D CRS: +init=epsg:4326 +type=crs>\n"
-        "Name: WGS 84\n"
-        "Axis Info [ellipsoidal]:\n"
-        "- lon[east]: Longitude (degree)\n"
-        "- lat[north]: Latitude (degree)\n"
-        "Area of Use:\n"
-        "- name: World\n"
-        "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
-        "Datum: World Geodetic System 1984\n"
-        "- Ellipsoid: WGS 84\n"
-        "- Prime Meridian: Greenwich\n"
-    )
+    with pytest.warns(ProjDeprecationWarning):
+        assert repr(CRS({"init": "EPSG:4326"})) == (
+            "<Geographic 2D CRS: +init=epsg:4326 +type=crs>\n"
+            "Name: WGS 84\n"
+            "Axis Info [ellipsoidal]:\n"
+            "- lon[east]: Longitude (degree)\n"
+            "- lat[north]: Latitude (degree)\n"
+            "Area of Use:\n"
+            "- name: World\n"
+            "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
+            "Datum: World Geodetic System 1984\n"
+            "- Ellipsoid: WGS 84\n"
+            "- Prime Meridian: Greenwich\n"
+        )
 
 
 def test_repr__long():
-    assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
-        '<Geographic 2D CRS: GEOGCRS["WGS 84",DATUM["World Geodetic System 1984 ...>\n'
-        "Name: WGS 84\n"
-        "Axis Info [ellipsoidal]:\n"
-        "- lon[east]: Longitude (degree)\n"
-        "- lat[north]: Latitude (degree)\n"
-        "Area of Use:\n"
-        "- name: World\n"
-        "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
-        "Datum: World Geodetic System 1984\n"
-        "- Ellipsoid: WGS 84\n"
-        "- Prime Meridian: Greenwich\n"
-    )
+    with pytest.warns(ProjDeprecationWarning):
+        assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
+            '<Geographic 2D CRS: GEOGCRS["WGS 84",'
+            'DATUM["World Geodetic System 1984 ...>\n'
+            "Name: WGS 84\n"
+            "Axis Info [ellipsoidal]:\n"
+            "- lon[east]: Longitude (degree)\n"
+            "- lat[north]: Latitude (degree)\n"
+            "Area of Use:\n"
+            "- name: World\n"
+            "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
+            "Datum: World Geodetic System 1984\n"
+            "- Ellipsoid: WGS 84\n"
+            "- Prime Meridian: Greenwich\n"
+        )
 
 
 def test_repr_epsg():
@@ -263,12 +268,14 @@ def test_repr_compound():
 
 
 def test_dunder_str():
-    assert str(CRS({"init": "EPSG:4326"})) == CRS({"init": "EPSG:4326"}).srs
+    with pytest.warns(ProjDeprecationWarning):
+        assert str(CRS({"init": "EPSG:4326"})) == CRS({"init": "EPSG:4326"}).srs
 
 
 def test_epsg():
-    assert CRS({"init": "EPSG:4326"}).to_epsg(20) == 4326
-    assert CRS({"init": "EPSG:4326"}).to_epsg() is None
+    with pytest.warns(ProjDeprecationWarning):
+        assert CRS({"init": "EPSG:4326"}).to_epsg(20) == 4326
+        assert CRS({"init": "EPSG:4326"}).to_epsg() is None
     assert CRS.from_user_input(4326).to_epsg() == 4326
     assert CRS.from_epsg(4326).to_epsg() == 4326
     assert CRS.from_user_input("epsg:4326").to_epsg() == 4326
@@ -316,7 +323,8 @@ def test_epsg__no_code_available():
 def test_crs_OSR_equivalence():
     crs1 = CRS.from_string("+proj=longlat +datum=WGS84 +no_defs")
     crs2 = CRS.from_string("+proj=latlong +datum=WGS84 +no_defs")
-    crs3 = CRS({"init": "EPSG:4326"})
+    with pytest.warns(ProjDeprecationWarning):
+        crs3 = CRS({"init": "EPSG:4326"})
     assert crs1 == crs2
     # these are not equivalent in proj.4 now as one uses degrees and the othe radians
     assert crs1 == crs3
@@ -613,7 +621,8 @@ def test_coordinate_operation_towgs84_three():
 
 def test_coordinate_operation_towgs84_seven():
     crs = CRS(
-        init="epsg:3004", towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
+        "+proj=tmerc +lat_0=0 +lon_0=15 +k=0.9996 +x_0=2520000 +y_0=0 "
+        "+ellps=intl +towgs84=-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
     )
     assert crs.coordinate_operation.towgs84 == [
         -122.74,
@@ -627,7 +636,7 @@ def test_coordinate_operation_towgs84_seven():
 
 
 def test_coordinate_operation_towgs84_missing():
-    crs = CRS(init="epsg:3004")
+    crs = CRS("epsg:3004")
     assert crs.coordinate_operation.towgs84 == []
 
 
@@ -805,7 +814,8 @@ def test_srs__no_plus():
     ],
 )
 def test_removing_nodefs(init_string, expected_srs):
-    assert CRS(init_string).srs == expected_srs
+    with pytest.warns(ProjDeprecationWarning):
+        assert CRS(init_string).srs == expected_srs
 
 
 def test_equals_different_type():
@@ -819,13 +829,15 @@ def test_is_exact_same_different_type():
 def test_compare_crs_non_crs():
     assert CRS.from_epsg(4326) != 4.2
     assert CRS.from_epsg(4326) == 4326
-    assert CRS.from_dict({"init": "epsg:4326"}) == {"init": "epsg:4326"}
-    assert CRS.from_dict({"init": "epsg:4326"}) != "epsg:4326"
+    with pytest.warns(ProjDeprecationWarning):
+        assert CRS.from_dict({"init": "epsg:4326"}) == {"init": "epsg:4326"}
+        assert CRS.from_dict({"init": "epsg:4326"}) != "epsg:4326"
     assert CRS("epsg:4326") == CustomCRS()
 
 
 def test_is_geocentric__bound():
-    ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
+    with pytest.warns(ProjDeprecationWarning):
+        ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
     assert ccs.is_geocentric
 
 
@@ -852,7 +864,8 @@ def test_is_engineering():
 
 
 def test_source_crs__bound():
-    assert CRS("+init=epsg:4328 +towgs84=0,0,0").source_crs.name == "unknown"
+    with pytest.warns(ProjDeprecationWarning):
+        assert CRS("+init=epsg:4328 +towgs84=0,0,0").source_crs.name == "unknown"
 
 
 def test_source_crs__missing():
@@ -860,7 +873,8 @@ def test_source_crs__missing():
 
 
 def test_target_crs__bound():
-    assert CRS("+init=epsg:4328 +towgs84=0,0,0").target_crs.name == "WGS 84"
+    with pytest.warns(ProjDeprecationWarning):
+        assert CRS("+init=epsg:4328 +towgs84=0,0,0").target_crs.name == "WGS 84"
 
 
 def test_target_crs__missing():

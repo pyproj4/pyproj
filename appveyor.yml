@@ -121,7 +121,7 @@ install:
 
 test_script:
   # Run the project tests
-  - "%CMD_IN_ENV% python -c \"import pyproj; pyproj.Proj(init='epsg:4269')\""
+  - "%CMD_IN_ENV% python -c \"import pyproj; pyproj.Proj('epsg:4269')\""
   - "%CMD_IN_ENV% py.test --cov-report term-missing --cov=pyproj -v -s"
 
 after_test:
@@ -140,7 +140,7 @@ after_test:
   # - "%CMD_IN_ENV% python setup.py bdist_msi"
   # test wheel
   - pip install pyproj --ignore-installed -f dist
-  - python -c "import pyproj; pyproj.Proj(init='epsg:4269')"
+  - python -c "import pyproj; pyproj.Proj('epsg:4269')"
   # cleanup for test dir
   - if %PROJSOURCE% == git del /F /Q dist\*
   - ps: "ls dist"

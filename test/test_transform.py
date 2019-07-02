@@ -1,7 +1,7 @@
 import numpy
 from numpy.testing import assert_allclose
 
-from pyproj import Proj, transform
+from pyproj import Proj, proj_version_str, transform
 
 
 def test_transform():
@@ -12,7 +12,7 @@ def test_transform():
     dx = 12190.58
     dy = dx
     awips221 = Proj(proj="lcc", R=6371200, lat_1=50, lat_2=50, lon_0=-107)
-    print("proj4 library version = ", awips221.proj_version)
+    print("proj4 library version = ", proj_version_str)
     llcrnrx, llcrnry = awips221(-145.5, 1)
     awips221 = Proj(
         proj="lcc",

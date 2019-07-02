@@ -229,7 +229,8 @@ class Transformer(object):
         '120.321  0.057'
         >>> transproj = Transformer.from_crs(
         ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
-        ...     '+init=EPSG:4326'
+        ...     "EPSG:4326",
+        ...     always_xy=True,
         ... )
         >>> xpj, ypj, zpj = transproj.transform(
         ...     -2704026.010,
@@ -240,8 +241,9 @@ class Transformer(object):
         >>> "%.3f %.3f %.3f" % (xpj, ypj, zpj)
         '-2.137 0.661 -20.531'
         >>> transprojr = Transformer.from_crs(
-        ...     '+init=EPSG:4326',
+        ...     "EPSG:4326",
         ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
+        ...     always_xy=True,
         ... )
         >>> xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)
         >>> "%.3f %.3f %.3f" % (xpjr, ypjr, zpjr)
@@ -337,7 +339,8 @@ class Transformer(object):
         '120.321 0.057'
         >>> transproj = Transformer.from_crs(
         ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
-        ...     '+init=EPSG:4326',
+        ...     "EPSG:4326",
+        ...     always_xy=True,
         ... )
         >>> for pt in transproj.itransform(
         ...     [(-2704026.010, -4253051.810, 3895878.820)],
@@ -345,9 +348,10 @@ class Transformer(object):
         ... ):
         ...     '{:.3f} {:.3f} {:.3f}'.format(*pt)
         '-2.137 0.661 -20.531'
-        >>> transprojr = Transformer.from_proj(
-        ...     '+init=EPSG:4326',
+        >>> transprojr = Transformer.from_crs(
+        ...     "EPSG:4326",
         ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
+        ...     always_xy=True,
         ... )
         >>> for pt in transprojr.itransform(
         ...     [(-2.137, 0.661, -20.531)],
@@ -356,8 +360,9 @@ class Transformer(object):
         ...     '{:.3f} {:.3f} {:.3f}'.format(*pt)
         '-2704214.394 -4254414.478 3894270.731'
         >>> transproj_eq = Transformer.from_proj(
-        ...     '+init=EPSG:4326',
+        ...     'EPSG:4326',
         ...     '+proj=longlat +datum=WGS84 +no_defs +type=crs',
+        ...     always_xy=True,
         ...     skip_equivalent=True
         ... )
         >>> for pt in transproj_eq.itransform([(-2.137, 0.661)]):
@@ -494,9 +499,9 @@ def transform(
     >>> from pyproj import Proj, transform
     >>> # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum
     >>> # (defined by epsg code 26915)
-    >>> p1 = Proj(init='epsg:26915', preserve_units=False)
+    >>> p1 = Proj('epsg:26915', preserve_units=False)
     >>> # projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum
-    >>> p2 = Proj(init='epsg:26715', preserve_units=False)
+    >>> p2 = Proj('epsg:26715', preserve_units=False)
     >>> # find x,y of Jefferson City, MO.
     >>> x1, y1 = p1(-92.199881,38.56694)
     >>> # transform this point to projection 2 coordinates.
@@ -595,13 +600,13 @@ def itransform(
     >>> from pyproj import Proj, itransform
     >>> # projection 1: WGS84
     >>> # (defined by epsg code 4326)
-    >>> p1 = Proj(init='epsg:4326', preserve_units=False)
+    >>> p1 = Proj('epsg:4326', preserve_units=False)
     >>> # projection 2: GGRS87 / Greek Grid
-    >>> p2 = Proj(init='epsg:2100', preserve_units=False)
+    >>> p2 = Proj('epsg:2100', preserve_units=False)
     >>> # Three points with coordinates lon, lat in p1
     >>> points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]
     >>> # transform this point to projection 2 coordinates.
-    >>> for pt in itransform(p1,p2,points): '%6.3f %7.3f' % pt
+    >>> for pt in itransform(p1,p2,points, always_xy=True): '%6.3f %7.3f' % pt
     '411050.470 4497928.574'
     '399060.236 4486978.710'
     '458553.243 4523045.485'
