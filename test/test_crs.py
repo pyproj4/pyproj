@@ -800,22 +800,8 @@ def test_to_string__auth():
 def test_srs__no_plus():
     assert (
         CRS("proj=longlat datum=WGS84 no_defs").srs
-        == "proj=longlat datum=WGS84 type=crs"
+        == "proj=longlat datum=WGS84 no_defs type=crs"
     )
-
-
-@pytest.mark.parametrize(
-    "init_string, expected_srs",
-    [
-        ("+init=epsg:4326 +no_defs=True", "+init=epsg:4326 +type=crs"),
-        ("init=epsg:4326 no_defs=True", "init=epsg:4326 type=crs"),
-        ("+init=epsg:4326 +no_defs", "+init=epsg:4326 +type=crs"),
-        ("init=epsg:4326 no_defs", "init=epsg:4326 type=crs"),
-    ],
-)
-def test_removing_nodefs(init_string, expected_srs):
-    with pytest.warns(ProjDeprecationWarning):
-        assert CRS(init_string).srs == expected_srs
 
 
 def test_equals_different_type():
@@ -889,3 +875,19 @@ def test_whitepace_between_equals():
         "+proj=lcc +lat_1=30.0 +lat_2=35.0 +lat_0=30.0 "
         "+lon_0=87.0 +x_0=0 +y_0=0 +type=crs"
     )
+
+
+def test_to_dict_no_proj4():
+    crs = CRS(
+        {
+            "a": 6371229.0,
+            "b": 6371229.0,
+            "lon_0": -10.0,
+            "o_lat_p": 30.0,
+            "o_lon_p": 0.0,
+            "o_proj": "longlat",
+            "proj": "ob_tran",
+        }
+    )
+    assert crs.to_proj4() is None
+    assert crs.to_dict() == {}

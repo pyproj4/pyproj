@@ -39,6 +39,22 @@ def is_wkt(proj_string):
     return proj_context_guess_wkt_dialect(NULL, tmp_string) != PJ_GUESSED_NOT_WKT
 
 
+def is_proj(proj_string):
+    """
+    Check if the input projection string is in the PROJ format.
+
+    Parameters
+    ----------
+    proj_string: str
+        The projection string.
+
+    Returns
+    -------
+    bool: True if the string is in the PROJ format
+    """
+    return not is_wkt(proj_string) and "=" in proj_string
+
+
 cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version=WktVersion.WKT2_2018, pretty=False):
     """
     Convert a PJ object to a wkt string.

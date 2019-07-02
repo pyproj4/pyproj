@@ -26,6 +26,7 @@ __all__ = [
     "Ellipsoid",
     "PrimeMeridian",
     "is_wkt",
+    "is_proj",
 ]
 
 import json
@@ -36,7 +37,7 @@ from pyproj._crs import CoordinateOperation  # noqa
 from pyproj._crs import Datum  # noqa
 from pyproj._crs import Ellipsoid  # noqa
 from pyproj._crs import PrimeMeridian  # noqa
-from pyproj._crs import _CRS, is_wkt
+from pyproj._crs import _CRS, is_proj, is_wkt
 from pyproj.cf1x8 import (
     GRID_MAPPING_NAME_MAP,
     INVERSE_GRID_MAPPING_NAME_MAP,
@@ -81,7 +82,7 @@ def _prepare_from_string(in_crs_string):
         if not crs_dict:
             raise CRSError("CRS is empty JSON")
         return _prepare_from_dict(crs_dict)
-    elif not is_wkt(in_crs_string) and "=" in in_crs_string:
+    elif is_proj(in_crs_string):
         in_crs_string = re.sub(r"[\s+]?=[\s+]?", "=", in_crs_string.lstrip())
         # make sure the projection starts with +proj or +init
         starting_params = ("+init", "+proj", "init", "proj")
@@ -106,9 +107,6 @@ def _prepare_from_string(in_crs_string):
         # look for EPSG, replace with epsg (EPSG only works
         # on case-insensitive filesystems).
         in_crs_string = in_crs_string.replace("+init=EPSG", "+init=epsg").strip()
-        # remove no_defs as it does nothing as of PROJ 6.0.0 and breaks
-        # initialization with +init=epsg:...
-        in_crs_string = re.sub(r"\s\+?no_defs([\w=]+)?", "", in_crs_string)
         if in_crs_string.startswith(("+init", "init")):
             warnings.warn(
                 "'+init=<authority>:<code>' syntax is deprecated."
@@ -349,7 +347,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        if is_wkt(in_proj_string) or "=" not in in_proj_string:
+        if not is_proj(in_proj_string):
             raise CRSError("Invalid PROJ string: {}".format(in_proj_string))
         return cls(_prepare_from_string(in_proj_string))
 
@@ -498,12 +496,13 @@ class CRS(_CRS):
                 val = [float(sval.strip()) for sval in val_split]
             return val
 
+        proj_string = self.to_proj4()
+        if proj_string is None:
+            return {}
+
         items = map(
             lambda kv: len(kv) == 2 and (kv[0], parse(kv[1])) or (kv[0], None),
-            (
-                part.lstrip("+").split("=", 1)
-                for part in self.to_proj4().strip().split()
-            ),
+            (part.lstrip("+").split("=", 1) for part in proj_string.strip().split()),
         )
 
         return {key: value for key, value in items if value is not False}
