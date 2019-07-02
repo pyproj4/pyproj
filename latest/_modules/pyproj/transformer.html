@@ -384,7 +384,8 @@
 <span class="sd">        &#39;120.321  0.057&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_crs(</span>
 <span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
-<span class="sd">        ...     &#39;+init=EPSG:4326&#39;</span>
+<span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
+<span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; xpj, ypj, zpj = transproj.transform(</span>
 <span class="sd">        ...     -2704026.010,</span>
@@ -395,8 +396,9 @@
 <span class="sd">        &gt;&gt;&gt; &quot;%.3f %.3f %.3f&quot; % (xpj, ypj, zpj)</span>
 <span class="sd">        &#39;-2.137 0.661 -20.531&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transprojr = Transformer.from_crs(</span>
-<span class="sd">        ...     &#39;+init=EPSG:4326&#39;,</span>
+<span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
 <span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
+<span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)</span>
 <span class="sd">        &gt;&gt;&gt; &quot;%.3f %.3f %.3f&quot; % (xpjr, ypjr, zpjr)</span>
@@ -492,7 +494,8 @@
 <span class="sd">        &#39;120.321 0.057&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_crs(</span>
 <span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
-<span class="sd">        ...     &#39;+init=EPSG:4326&#39;,</span>
+<span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
+<span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for pt in transproj.itransform(</span>
 <span class="sd">        ...     [(-2704026.010, -4253051.810, 3895878.820)],</span>
@@ -500,9 +503,10 @@
 <span class="sd">        ... ):</span>
 <span class="sd">        ...     &#39;{:.3f} {:.3f} {:.3f}&#39;.format(*pt)</span>
 <span class="sd">        &#39;-2.137 0.661 -20.531&#39;</span>
-<span class="sd">        &gt;&gt;&gt; transprojr = Transformer.from_proj(</span>
-<span class="sd">        ...     &#39;+init=EPSG:4326&#39;,</span>
+<span class="sd">        &gt;&gt;&gt; transprojr = Transformer.from_crs(</span>
+<span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
 <span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
+<span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for pt in transprojr.itransform(</span>
 <span class="sd">        ...     [(-2.137, 0.661, -20.531)],</span>
@@ -511,8 +515,9 @@
 <span class="sd">        ...     &#39;{:.3f} {:.3f} {:.3f}&#39;.format(*pt)</span>
 <span class="sd">        &#39;-2704214.394 -4254414.478 3894270.731&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transproj_eq = Transformer.from_proj(</span>
-<span class="sd">        ...     &#39;+init=EPSG:4326&#39;,</span>
+<span class="sd">        ...     &#39;EPSG:4326&#39;,</span>
 <span class="sd">        ...     &#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;,</span>
+<span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ...     skip_equivalent=True</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for pt in transproj_eq.itransform([(-2.137, 0.661)]):</span>
@@ -649,9 +654,9 @@
 <span class="sd">    &gt;&gt;&gt; from pyproj import Proj, transform</span>
 <span class="sd">    &gt;&gt;&gt; # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum</span>
 <span class="sd">    &gt;&gt;&gt; # (defined by epsg code 26915)</span>
-<span class="sd">    &gt;&gt;&gt; p1 = Proj(init=&#39;epsg:26915&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; p1 = Proj(&#39;epsg:26915&#39;, preserve_units=False)</span>
 <span class="sd">    &gt;&gt;&gt; # projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum</span>
-<span class="sd">    &gt;&gt;&gt; p2 = Proj(init=&#39;epsg:26715&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; p2 = Proj(&#39;epsg:26715&#39;, preserve_units=False)</span>
 <span class="sd">    &gt;&gt;&gt; # find x,y of Jefferson City, MO.</span>
 <span class="sd">    &gt;&gt;&gt; x1, y1 = p1(-92.199881,38.56694)</span>
 <span class="sd">    &gt;&gt;&gt; # transform this point to projection 2 coordinates.</span>
@@ -750,13 +755,13 @@
 <span class="sd">    &gt;&gt;&gt; from pyproj import Proj, itransform</span>
 <span class="sd">    &gt;&gt;&gt; # projection 1: WGS84</span>
 <span class="sd">    &gt;&gt;&gt; # (defined by epsg code 4326)</span>
-<span class="sd">    &gt;&gt;&gt; p1 = Proj(init=&#39;epsg:4326&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; p1 = Proj(&#39;epsg:4326&#39;, preserve_units=False)</span>
 <span class="sd">    &gt;&gt;&gt; # projection 2: GGRS87 / Greek Grid</span>
-<span class="sd">    &gt;&gt;&gt; p2 = Proj(init=&#39;epsg:2100&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; p2 = Proj(&#39;epsg:2100&#39;, preserve_units=False)</span>
 <span class="sd">    &gt;&gt;&gt; # Three points with coordinates lon, lat in p1</span>
 <span class="sd">    &gt;&gt;&gt; points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]</span>
 <span class="sd">    &gt;&gt;&gt; # transform this point to projection 2 coordinates.</span>
-<span class="sd">    &gt;&gt;&gt; for pt in itransform(p1,p2,points): &#39;%6.3f %7.3f&#39; % pt</span>
+<span class="sd">    &gt;&gt;&gt; for pt in itransform(p1,p2,points, always_xy=True): &#39;%6.3f %7.3f&#39; % pt</span>
 <span class="sd">    &#39;411050.470 4497928.574&#39;</span>
 <span class="sd">    &#39;399060.236 4486978.710&#39;</span>
 <span class="sd">    &#39;458553.243 4523045.485&#39;</span>
