@@ -23,9 +23,9 @@ cdef extern from "geodesic.h":
 
 cdef class Geod:
     cdef geod_geodesic _geod_geodesic
-    cdef public object initstring
-    cdef public object a
-    cdef public object b
-    cdef public object f
-    cdef public object es
-    cdef public object sphere
+    cdef readonly object initstring
+    cdef readonly object a
+    cdef readonly object b
+    cdef readonly object f
+    cdef readonly object es
+    cdef readonly object sphere
