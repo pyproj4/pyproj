@@ -181,6 +181,7 @@
     <span class="s2">&quot;Ellipsoid&quot;</span><span class="p">,</span>
     <span class="s2">&quot;PrimeMeridian&quot;</span><span class="p">,</span>
     <span class="s2">&quot;is_wkt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_proj&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
@@ -191,7 +192,7 @@
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">Datum</span>  <span class="c1"># noqa</span>
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">Ellipsoid</span>  <span class="c1"># noqa</span>
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">PrimeMeridian</span>  <span class="c1"># noqa</span>
-<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">_CRS</span><span class="p">,</span> <span class="n">is_wkt</span>
+<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">_CRS</span><span class="p">,</span> <span class="n">is_proj</span><span class="p">,</span> <span class="n">is_wkt</span>
 <span class="kn">from</span> <span class="nn">pyproj.cf1x8</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">GRID_MAPPING_NAME_MAP</span><span class="p">,</span>
     <span class="n">INVERSE_GRID_MAPPING_NAME_MAP</span><span class="p">,</span>
@@ -236,7 +237,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">crs_dict</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is empty JSON&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="ow">not</span> <span class="n">is_wkt</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">is_proj</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">):</span>
         <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\s+]?=[\s+]?&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
         <span class="c1"># make sure the projection starts with +proj or +init</span>
         <span class="n">starting_params</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
@@ -261,9 +262,6 @@
         <span class="c1"># look for EPSG, replace with epsg (EPSG only works</span>
         <span class="c1"># on case-insensitive filesystems).</span>
         <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+init=EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;+init=epsg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="c1"># remove no_defs as it does nothing as of PROJ 6.0.0 and breaks</span>
-        <span class="c1"># initialization with +init=epsg:...</span>
-        <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+?no_defs([\w=]+)?&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">)):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s2">&quot;&#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated.&quot;</span>
@@ -504,7 +502,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">is_wkt</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;=&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">in_proj_string</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_proj</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;Invalid PROJ string: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">))</span></div>
 
@@ -653,12 +651,13 @@
                 <span class="n">val</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">sval</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">sval</span> <span class="ow">in</span> <span class="n">val_split</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">val</span>
 
+        <span class="n">proj_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">proj_string</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
         <span class="n">items</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
             <span class="k">lambda</span> <span class="n">kv</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">kv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">parse</span><span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="p">(</span>
-                <span class="n">part</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-            <span class="p">),</span>
+            <span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">proj_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()),</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">}</span></div>

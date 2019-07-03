@@ -16,6 +16,12 @@ pyproj.crs.is_wkt
 .. autofunction:: pyproj.crs.is_wkt
 
 
+pyproj.crs.is_proj
+------------------
+
+.. autofunction:: pyproj.crs.is_proj
+
+
 Area Of Use
 -----------
 
