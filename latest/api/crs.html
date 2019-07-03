@@ -93,6 +93,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">CRS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-crs">pyproj.CRS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-crs-is-wkt">pyproj.crs.is_wkt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-crs-is-proj">pyproj.crs.is_proj</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#area-of-use">Area Of Use</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#coordinate-system">Coordinate System</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#coordinate-operation">Coordinate Operation</a></li>
@@ -700,17 +701,6 @@ the source CRS is vertical if it is a bound CRS.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="pyproj.crs.CRS.prime_meridian">
 <code class="sig-name descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.CRS.prime_meridian" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>PrimeMeridian</strong>
@@ -722,17 +712,6 @@ the source CRS is vertical if it is a bound CRS.</p>
 <code class="sig-name descname">source_crs</code><a class="headerlink" href="#pyproj.crs.CRS.source_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>CRS</strong> – or the source CRS of a CoordinateOperation.
 :rtype: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">srs</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>srs</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -968,17 +947,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">type_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>type_name</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -997,6 +965,26 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>True if the string is in the Well-Known Text format</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-crs-is-proj">
+<h2>pyproj.crs.is_proj<a class="headerlink" href="#pyproj-crs-is-proj" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyproj.crs.is_proj">
+<code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">is_proj</code><span class="sig-paren">(</span><em class="sig-param">proj_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_proj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the input projection string is in the PROJ format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>proj_string</strong> (<em>str</em>) – The projection string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>True if the string is in the PROJ format</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1063,61 +1051,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">east</code></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>east</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">north</code></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>north</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">south</code></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>south</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">west</code></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>west</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -1149,17 +1082,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <dt id="pyproj._crs.CoordinateSystem.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
@@ -1270,83 +1192,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">abbrev</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>abbrev</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">direction</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>direction</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_auth_code</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_auth_code</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_code</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_code</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_conversion_factor</code></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_conversion_factor</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_name</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -1435,17 +1280,6 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">accuracy</code></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>accuracy</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.from_authority">
 <em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em>, <em class="sig-param">use_proj_alternative_grid_names=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_authority" title="Permalink to this definition">¶</a></dt>
@@ -1515,76 +1349,10 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 :rtype: The coordinate operation grids.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">has_ballpark_transformation</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>has_ballpark_transformation</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">is_instantiable</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>is_instantiable</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">method_auth_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>method_auth_name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">method_code</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>method_code</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">method_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>method_name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -1757,105 +1525,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">auth_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>auth_name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">code</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>code</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_auth_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_auth_name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_category</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_category</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_code</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_code</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_conversion_factor</code></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_conversion_factor</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">value</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>value</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
@@ -1935,83 +1604,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">available</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>available</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">direct_download</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>direct_download</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">full_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>full_name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">open_license</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>open_license</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">package_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>package_name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">short_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>short_name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">url</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>url</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2112,17 +1704,6 @@ ID[“EPSG”,6326]]</p></li>
 </dd></dl>
 
 <dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="pyproj.crs.Datum.prime_meridian">
 <code class="sig-name descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.Datum.prime_meridian" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>PrimeMeridian</strong>
@@ -2199,17 +1780,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">ellipsoid_loaded</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>ellipsoid_loaded</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2293,28 +1863,6 @@ ID[“EPSG”,7001]]</p></li>
 <dt id="pyproj.crs.Ellipsoid.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">is_semi_minor_computed</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>is_semi_minor_computed</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -2476,28 +2024,6 @@ ID[“EPSG”,8901]]</p></li>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pyproj.crs.PrimeMeridian.longitude">
-<code class="sig-name descname">longitude</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.longitude" title="Permalink to this definition">¶</a></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>longitude</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>name</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="pyproj.crs.PrimeMeridian.to_wkt">
 <code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.to_wkt" title="Permalink to this definition">¶</a></dt>
@@ -2526,28 +2052,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>The WKT string.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyproj.crs.PrimeMeridian.unit_conversion_factor">
-<code class="sig-name descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
-<dd><p>‘double’</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_conversion_factor</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">unit_name</code></dt>
-<dd><p>object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>unit_name</p>
 </dd>
 </dl>
 </dd></dl>

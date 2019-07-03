@@ -91,7 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change Log</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">2.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2.2.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">2.2.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">2.2.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">2.1.3</a></li>
@@ -189,10 +189,14 @@
   <div class="section" id="change-log">
 <h1>Change Log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>2.2.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>2.2.2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added custom warnings for pyproj (pull #358)</p></li>
 <li><p>Add deprecation warning when using +init= syntax (pull #358)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs.html#pyproj.crs.is_proj" title="pyproj.crs.is_proj"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_proj()</span></code></a> (pull #359)</p></li>
+<li><p>Fixed case in <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_dict" title="pyproj.crs.CRS.to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dict()</span></code></a> with <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_proj4" title="pyproj.crs.CRS.to_proj4"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_proj4()</span></code></a> returning None (pull #359)</p></li>
+<li><p>Keep <cite>no_defs</cite> in input PROJ string as it does not hurt/help anything in current code (pull #359)</p></li>
+<li><p>Made public properties on C classes readonly (pull #359)</p></li>
 </ul>
 </div>
 <div class="section" id="id2">
