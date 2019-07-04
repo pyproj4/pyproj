@@ -1,7 +1,6 @@
 include "base.pxi"
 
 from pyproj._crs cimport Base, _CRS
-from pyproj._datadir cimport get_pyproj_context
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError

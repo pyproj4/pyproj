@@ -96,7 +96,7 @@ def get_data_dir():
 
     if _VALIDATED_PROJ_DATA is None:
         raise DataDirError(
-            "Valid PROJ data directory not found."
+            "Valid PROJ data directory not found. "
             "Either set the path using the environmental variable PROJ_LIB or "
             "with `pyproj.datadir.set_data_dir`."
         )
