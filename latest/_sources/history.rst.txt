@@ -3,7 +3,6 @@ Change Log
 
 2.2.2
 ~~~~~
-* Added custom warnings for pyproj (pull #358)
 * Add deprecation warning when using +init= syntax (pull #358)
 * Added :meth:`~pyproj.crs.is_proj` (pull #359)
 * Fixed case in :meth:`~pyproj.crs.CRS.to_dict` with :meth:`~pyproj.crs.CRS.to_proj4` returning None (pull #359)
