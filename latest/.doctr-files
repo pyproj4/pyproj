@@ -7,7 +7,6 @@ latest/_modules/pyproj/exceptions.html
 latest/_modules/pyproj/geod.html
 latest/_modules/pyproj/proj.html
 latest/_modules/pyproj/transformer.html
-latest/_modules/pyproj/warn.html
 latest/_sources/api/crs.rst.txt
 latest/_sources/api/datadir.rst.txt
 latest/_sources/api/enums.rst.txt
@@ -18,7 +17,6 @@ latest/_sources/api/list.rst.txt
 latest/_sources/api/proj.rst.txt
 latest/_sources/api/show_versions.rst.txt
 latest/_sources/api/transformer.rst.txt
-latest/_sources/api/warn.rst.txt
 latest/_sources/examples.rst.txt
 latest/_sources/gotchas.rst.txt
 latest/_sources/history.rst.txt
@@ -88,7 +86,6 @@ latest/api/list.html
 latest/api/proj.html
 latest/api/show_versions.html
 latest/api/transformer.html
-latest/api/warn.html
 latest/examples.html
 latest/genindex.html
 latest/gotchas.html
