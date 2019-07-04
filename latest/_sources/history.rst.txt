@@ -8,6 +8,7 @@ Change Log
 * Fixed case in :meth:`~pyproj.crs.CRS.to_dict` with :meth:`~pyproj.crs.CRS.to_proj4` returning None (pull #359)
 * Keep `no_defs` in input PROJ string as it does not hurt/help anything in current code (pull #359)
 * Made public properties on C classes readonly (pull #359)
+* Update data dir exception handling to prevent ignoring errors (pull #361)
 
 2.2.1
 ~~~~~
