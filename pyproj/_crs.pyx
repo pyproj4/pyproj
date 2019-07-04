@@ -6,7 +6,6 @@ from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.enums import WktVersion, ProjVersion
 from pyproj.exceptions import CRSError
-from pyproj.warn import PyProjDeprecationWarning
 
 
 cdef cstrdecode(const char *instring):
@@ -1545,7 +1544,7 @@ cdef class _CRS(Base):
         """
         warnings.warn(
             "This method is deprecated an has been replaced with `CRS.geodetic_crs`.",
-            PyProjDeprecationWarning,
+            DeprecationWarning,
         )
         return self.geodetic_crs
 
@@ -1785,7 +1784,7 @@ cdef class _CRS(Base):
         """
         warnings.warn(
             "CRS.is_valid is deprecated.",
-            PyProjDeprecationWarning,
+            DeprecationWarning,
         )
         return self._type != PJ_TYPE_UNKNOWN
 

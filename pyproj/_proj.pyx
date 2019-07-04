@@ -5,7 +5,6 @@ import warnings
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport get_pyproj_context
 from pyproj.exceptions import ProjError
-from pyproj.warn import PyProjDeprecationWarning
 
 
 # # version number string for PROJ
@@ -43,7 +42,7 @@ cdef class Proj:
         warnings.warn(
             "'Proj.proj_version' is deprecated. "
             "Please use `pyproj.proj_version_str` instead.",
-            PyProjDeprecationWarning,
+            DeprecationWarning,
         )
         return self._proj_version
 
