@@ -49,7 +49,6 @@ from pyproj.cf1x8 import (
 from pyproj.compat import string_types
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
-from pyproj.warn import ProjDeprecationWarning, PyProjWarning
 
 
 def _prepare_from_dict(projparams):
@@ -111,7 +110,7 @@ def _prepare_from_string(in_crs_string):
             warnings.warn(
                 "'+init=<authority>:<code>' syntax is deprecated."
                 " '<authority>:<code>' is the preferred initialization method.",
-                ProjDeprecationWarning,
+                FutureWarning,
             )
     return in_crs_string
 
@@ -583,8 +582,7 @@ class CRS(_CRS):
 
         if errcheck and skipped_params:
             warnings.warn(
-                "PROJ parameters not mapped to CF: {}".format(tuple(skipped_params)),
-                PyProjWarning,
+                "PROJ parameters not mapped to CF: {}".format(tuple(skipped_params))
             )
         return cf_dict
 
@@ -655,8 +653,7 @@ class CRS(_CRS):
 
         if errcheck and skipped_params:
             warnings.warn(
-                "CF parameters not mapped to PROJ: {}".format(tuple(skipped_params)),
-                PyProjWarning,
+                "CF parameters not mapped to PROJ: {}".format(tuple(skipped_params))
             )
 
         return CRS(proj_dict)
