@@ -298,7 +298,7 @@ cdef class AreaOfUse:
 cdef class Base:
     def __cinit__(self):
         self.projobj = NULL
-        self.projctx = get_pyproj_context()
+        self.projctx = NULL
         self.name = "undefined"
 
     def __dealloc__(self):
@@ -307,6 +307,9 @@ cdef class Base:
             proj_destroy(self.projobj)
         if self.projctx != NULL:
             proj_context_destroy(self.projctx)
+
+    def __init__(self):
+        self.projctx = get_pyproj_context()
 
     def _set_name(self):
         """
@@ -1302,6 +1305,7 @@ cdef class _CRS(Base):
         self.type_name = "undefined"
 
     def __init__(self, proj_string):
+        self.projctx = get_pyproj_context()
         # initialize projection
         self.projobj = proj_create(self.projctx, cstrencode(proj_string))
         if self.projobj is NULL:
