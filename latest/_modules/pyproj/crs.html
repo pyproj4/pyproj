@@ -200,6 +200,8 @@
     <span class="n">K_0_MAP</span><span class="p">,</span>
     <span class="n">LON_0_MAP</span><span class="p">,</span>
     <span class="n">PROJ_PARAM_MAP</span><span class="p">,</span>
+    <span class="n">PARAM_TO_CF_MAP</span><span class="p">,</span>
+    <span class="n">METHOD_NAME_TO_CF_MAP</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">string_types</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">CRSError</span>
@@ -700,6 +702,18 @@
         <span class="k">if</span> <span class="n">grid_mapping_name</span> <span class="o">==</span> <span class="s2">&quot;rotated_latitude_longitude&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">proj_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;o_proj&quot;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lonlat_possible_names</span><span class="p">:</span>
                 <span class="n">grid_mapping_name</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+
+        <span class="c1"># derive parameters from the coordinate operation</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">grid_mapping_name</span> <span class="o">==</span> <span class="s2">&quot;unknown&quot;</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span> <span class="ow">in</span> <span class="n">METHOD_NAME_TO_CF_MAP</span>
+        <span class="p">):</span>
+            <span class="n">grid_mapping_name</span> <span class="o">=</span> <span class="n">METHOD_NAME_TO_CF_MAP</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+                <span class="n">cf_dict</span><span class="p">[</span><span class="n">PARAM_TO_CF_MAP</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]]</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span>
 
         <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;grid_mapping_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid_mapping_name</span>
 
