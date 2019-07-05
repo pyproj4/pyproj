@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+2.3.0
+~~~~~
+* Added support for calculating geodesic area (:meth:`~pyproj.geod.Geod.polygon_area_perimeter`)
+  and added interface to calculate total length of a line 
+  (:meth:`~pyproj.geod.Geod.line_length` & :meth:`~pyproj.geod.Geod.line_lengths`) (issue #210).
+* Added support for calculating geodesic area and line lemgths with shapely geometries
+  (:meth:`~pyproj.geod.Geod.geometry_area_perimeter` & :meth:`~pyproj.geod.Geod.geometry_length`)
+  (pull #366)
+
+
 2.2.2
 ~~~~~
 * Add deprecation warning when using +init= syntax (pull #358)

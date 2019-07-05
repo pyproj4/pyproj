@@ -44,9 +44,9 @@ from pyproj.cf1x8 import (
     INVERSE_PROJ_PARAM_MAP,
     K_0_MAP,
     LON_0_MAP,
-    PROJ_PARAM_MAP,
-    PARAM_TO_CF_MAP,
     METHOD_NAME_TO_CF_MAP,
+    PARAM_TO_CF_MAP,
+    PROJ_PARAM_MAP,
 )
 from pyproj.compat import string_types
 from pyproj.exceptions import CRSError

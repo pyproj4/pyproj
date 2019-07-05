@@ -1,8 +1,9 @@
 cython>=0.28.4
+black; python_version >= '3.6'
+flake8
 mock
-pytest>3.6
-pytest-cov
 numpy
 pylint
-flake8
-black; python_version >= '3.6'
+pytest>3.6
+pytest-cov
+shapely

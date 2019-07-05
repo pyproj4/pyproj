@@ -15,6 +15,10 @@ cdef extern from "geodesic.h":
                double lat1, double lon1, double azi1, unsigned caps)
   void geod_position(geod_geodesicline* l, double s12,
                double* plat2, double* plon2, double* pazi2);
+  void geod_polygonarea(geod_geodesic* g,
+                        double lats[], double lons[], int n,
+                        double* pA, double* pP);
+
   cdef enum:
       GEODESIC_VERSION_MAJOR
       GEODESIC_VERSION_MINOR
