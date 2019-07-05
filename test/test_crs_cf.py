@@ -110,8 +110,31 @@ def test_cf_from_utm():
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
     assert cf_dict == {
         "projected_crs_name": "WGS 84 / UTM zone 15N",
-        "grid_mapping_name": "unknown",
+        "latitude_of_projection_origin": 0.0,
+        "longitude_of_central_meridian": -93.0,
+        "scale_factor_at_central_meridian": 0.9996,
+        "false_easting": 500000.0,
+        "false_northing": 0.0,
+        "grid_mapping_name": "transverse_mercator",
         "horizontal_datum_name": "WGS84",
+        "unit": "m",
+    }
+
+
+def test_cf_from_utm__nad83():
+    crs = CRS("epsg:26917")
+    with pytest.warns(UserWarning):
+        cf_dict = crs.to_cf(errcheck=True)
+    assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
+    assert cf_dict == {
+        "projected_crs_name": "NAD83 / UTM zone 17N",
+        "latitude_of_projection_origin": 0.0,
+        "longitude_of_central_meridian": -81.0,
+        "scale_factor_at_central_meridian": 0.9996,
+        "false_easting": 500000.0,
+        "false_northing": 0.0,
+        "grid_mapping_name": "transverse_mercator",
+        "horizontal_datum_name": "NAD83",
         "unit": "m",
     }
 
