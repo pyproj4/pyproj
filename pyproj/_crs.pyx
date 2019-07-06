@@ -346,6 +346,26 @@ cdef class Base:
         """
         return _to_wkt(self.projctx, self.projobj, version, pretty=pretty)
 
+    def to_proj4(self, version=ProjVersion.PROJ_4):
+        """
+        Convert the projection to a PROJ string.
+
+        .. warning:: You will likely lose important projection
+          information when converting to a PROJ string from
+          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
+
+       Parameters
+        ----------
+        version: ~pyproj.enums.ProjVersion
+            The version of the PROJ string output. 
+            Default is :attr:`~pyproj.enums.ProjVersion.PROJ_4`.
+
+        Returns
+        -------
+        str: The PROJ string.
+        """
+        return _to_proj4(self.projctx, self.projobj, version)
+
     def __str__(self):
         return self.name
 
@@ -1223,22 +1243,6 @@ cdef class CoordinateOperation(Base):
             )
         return self._grids
 
-    def to_proj4(self, version=ProjVersion.PROJ_5):
-        """
-        Convert the projection to a PROJ string.
-
-        Parameters
-        ----------
-        version: ~pyproj.enums.ProjVersion
-            The version of the PROJ string output. 
-            Default is :attr:`~pyproj.enums.ProjVersion.PROJ_5`.
-
-        Returns
-        -------
-        str: The PROJ string.
-        """
-        return _to_proj4(self.projctx, self.projobj, version)
-
     @property
     def towgs84(self):
         """
@@ -1516,27 +1520,6 @@ cdef class _CRS(Base):
             return self._geodetic_crs
         finally:
             proj_destroy(projobj) # deallocate temp proj
-
-
-    def to_proj4(self, version=ProjVersion.PROJ_4):
-        """
-        Convert the projection to a PROJ string.
-
-        .. warning:: You will likely lose important projection
-          information when converting to a PROJ string from
-          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
-
-        Parameters
-        ----------
-        version: ~pyproj.enums.ProjVersion
-            The version of the PROJ string output. 
-            Default is :attr:`~pyproj.enums.ProjVersion.PROJ_4`.
-
-        Returns
-        -------
-        str: The PROJ string.
-        """
-        return _to_proj4(self.projctx, self.projobj, version)
 
     def to_geodetic(self):
         """
