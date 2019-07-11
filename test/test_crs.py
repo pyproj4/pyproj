@@ -56,7 +56,7 @@ def test_from_string():
     assert wgs84_crs.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     # Make sure this doesn't get handled using the from_epsg()
     # even though 'epsg' is in the string
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         epsg_init_crs = CRS.from_string("+init=epsg:26911 +units=m +no_defs=True")
     assert (
         epsg_init_crs.to_proj4()
@@ -143,7 +143,7 @@ def test_to_proj4():
 
 
 def test_is_valid():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert CRS(init="EPSG:4326").is_valid
 
 
@@ -157,7 +157,7 @@ def test_empty_json():
 
 
 def test_has_wkt_property():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert (
             CRS({"init": "EPSG:4326"})
             .to_wkt("WKT1_GDAL")
@@ -172,7 +172,7 @@ def test_to_wkt_pretty():
 
 
 def test_repr():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert repr(CRS({"init": "EPSG:4326"})) == (
             "<Geographic 2D CRS: +init=epsg:4326 +type=crs>\n"
             "Name: WGS 84\n"
@@ -189,7 +189,7 @@ def test_repr():
 
 
 def test_repr__long():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
             '<Geographic 2D CRS: GEOGCRS["WGS 84",'
             'DATUM["World Geodetic System 1984 ...>\n'
@@ -267,12 +267,12 @@ def test_repr_compound():
 
 
 def test_dunder_str():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert str(CRS({"init": "EPSG:4326"})) == CRS({"init": "EPSG:4326"}).srs
 
 
 def test_epsg():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert CRS({"init": "EPSG:4326"}).to_epsg(20) == 4326
         assert CRS({"init": "EPSG:4326"}).to_epsg() is None
     assert CRS.from_user_input(4326).to_epsg() == 4326
@@ -322,7 +322,7 @@ def test_epsg__no_code_available():
 def test_crs_OSR_equivalence():
     crs1 = CRS.from_string("+proj=longlat +datum=WGS84 +no_defs")
     crs2 = CRS.from_string("+proj=latlong +datum=WGS84 +no_defs")
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         crs3 = CRS({"init": "EPSG:4326"})
     assert crs1 == crs2
     # these are not equivalent in proj.4 now as one uses degrees and the othe radians
@@ -814,14 +814,14 @@ def test_is_exact_same_different_type():
 def test_compare_crs_non_crs():
     assert CRS.from_epsg(4326) != 4.2
     assert CRS.from_epsg(4326) == 4326
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert CRS.from_dict({"init": "epsg:4326"}) == {"init": "epsg:4326"}
         assert CRS.from_dict({"init": "epsg:4326"}) != "epsg:4326"
     assert CRS("epsg:4326") == CustomCRS()
 
 
 def test_is_geocentric__bound():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
     assert ccs.is_geocentric
 
@@ -849,7 +849,7 @@ def test_is_engineering():
 
 
 def test_source_crs__bound():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert CRS("+init=epsg:4328 +towgs84=0,0,0").source_crs.name == "unknown"
 
 
@@ -858,7 +858,7 @@ def test_source_crs__missing():
 
 
 def test_target_crs__bound():
-    with pytest.warns(FutureWarning):
+    with pytest.warns(DeprecationWarning):
         assert CRS("+init=epsg:4328 +towgs84=0,0,0").target_crs.name == "WGS 84"
 
 
