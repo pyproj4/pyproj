@@ -112,7 +112,7 @@ def _prepare_from_string(in_crs_string):
             warnings.warn(
                 "'+init=<authority>:<code>' syntax is deprecated."
                 " '<authority>:<code>' is the preferred initialization method.",
-                FutureWarning,
+                DeprecationWarning,
             )
     return in_crs_string
 
