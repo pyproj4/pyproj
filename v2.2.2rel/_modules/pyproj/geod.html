@@ -1,0 +1,548 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyproj.geod &mdash; pyproj 2.2.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyproj.geod</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyproj.geod</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cython wrapper to provide python interfaces to</span>
+<span class="sd">PROJ (https://proj.org) functions.</span>
+
+<span class="sd">Performs geodetic computations.</span>
+
+<span class="sd">The Geod class can perform forward and inverse geodetic, or</span>
+<span class="sd">Great Circle, computations.  The forward computation involves</span>
+<span class="sd">determining latitude, longitude and back azimuth of a terminus</span>
+<span class="sd">point given the latitude and longitude of an initial point, plus</span>
+<span class="sd">azimuth and distance. The inverse computation involves</span>
+<span class="sd">determining the forward and back azimuths and distance given the</span>
+<span class="sd">latitudes and longitudes of an initial and terminus point.</span>
+
+<span class="sd">Contact:  Jeffrey Whitaker &lt;jeffrey.s.whitaker@noaa.gov</span>
+
+<span class="sd">copyright (c) 2006 by Jeffrey Whitaker.</span>
+
+<span class="sd">Permission to use, copy, modify, and distribute this software</span>
+<span class="sd">and its documentation for any purpose and without fee is hereby</span>
+<span class="sd">granted, provided that the above copyright notice appear in all</span>
+<span class="sd">copies and that both the copyright notice and this permission</span>
+<span class="sd">notice appear in supporting documentation. THE AUTHOR DISCLAIMS</span>
+<span class="sd">ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL</span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT</span>
+<span class="sd">SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR</span>
+<span class="sd">CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM</span>
+<span class="sd">LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,</span>
+<span class="sd">NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN</span>
+<span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. &quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Geod&quot;</span><span class="p">,</span> <span class="s2">&quot;pj_ellps&quot;</span><span class="p">,</span> <span class="s2">&quot;geodesic_version_str&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="k">import</span> <span class="n">Geod</span> <span class="k">as</span> <span class="n">_Geod</span>
+<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="k">import</span> <span class="n">geodesic_version_str</span>
+<span class="kn">from</span> <span class="nn">pyproj._list</span> <span class="k">import</span> <span class="n">get_ellps_map</span>
+<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
+
+<span class="n">pj_ellps</span> <span class="o">=</span> <span class="n">get_ellps_map</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Geod"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod">[docs]</a><span class="k">class</span> <span class="nc">Geod</span><span class="p">(</span><span class="n">_Geod</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    performs forward and inverse geodetic, or Great Circle,</span>
+<span class="sd">    computations.  The forward computation (using the &#39;fwd&#39; method)</span>
+<span class="sd">    involves determining latitude, longitude and back azimuth of a</span>
+<span class="sd">    computations.  The forward computation (using the &#39;fwd&#39; method)</span>
+<span class="sd">    involves determining latitude, longitude and back azimuth of a</span>
+<span class="sd">    terminus point given the latitude and longitude of an initial</span>
+<span class="sd">    point, plus azimuth and distance. The inverse computation (using</span>
+<span class="sd">    the &#39;inv&#39; method) involves determining the forward and back</span>
+<span class="sd">    azimuths and distance given the latitudes and longitudes of an</span>
+<span class="sd">    initial and terminus point.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initstring: str</span>
+<span class="sd">        The string form of the user input used to create the Geod.</span>
+<span class="sd">    sphere: bool</span>
+<span class="sd">        If True, it is a sphere.</span>
+<span class="sd">    a: float</span>
+<span class="sd">        The ellipsoid equatorial radius, or semi-major axis.</span>
+<span class="sd">    b: float</span>
+<span class="sd">        The ellipsoid polar radius, or semi-minor axis.</span>
+<span class="sd">    es: float</span>
+<span class="sd">        The &#39;eccentricity&#39; of the ellipse, squared (1-b2/a2).</span>
+<span class="sd">    f: float</span>
+<span class="sd">        The ellipsoid &#39;flattening&#39; parameter ( (a-b)/a ).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Geod.__init__"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initstring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        initialize a Geod class instance.</span>
+
+<span class="sd">        Geodetic parameters for specifying the ellipsoid</span>
+<span class="sd">        can be given in a dictionary &#39;initparams&#39;, as keyword arguments,</span>
+<span class="sd">        or as as proj geod initialization string.</span>
+
+<span class="sd">        You can get a dictionary of ellipsoids using :func:`~pyproj.get_ellps_map`</span>
+<span class="sd">        or with the variable `pyproj.pj_ellps`.</span>
+
+<span class="sd">        The parameters of the ellipsoid may also be set directly using</span>
+<span class="sd">        the &#39;a&#39; (semi-major or equatorial axis radius) keyword, and</span>
+<span class="sd">        any one of the following keywords: &#39;b&#39; (semi-minor,</span>
+<span class="sd">        or polar axis radius), &#39;e&#39; (eccentricity), &#39;es&#39; (eccentricity</span>
+<span class="sd">        squared), &#39;f&#39; (flattening), or &#39;rf&#39; (reciprocal flattening).</span>
+
+<span class="sd">        See the proj documentation (https://proj.org) for more</span>
+<span class="sd">        information about specifying ellipsoid parameters.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; g = Geod(ellps=&#39;clrk66&#39;) # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; # specify the lat/lons of some cities.</span>
+<span class="sd">        &gt;&gt;&gt; boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)</span>
+<span class="sd">        &gt;&gt;&gt; portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)</span>
+<span class="sd">        &gt;&gt;&gt; newyork_lat = 40.+(47./60.); newyork_lon = -73.-(58./60.)</span>
+<span class="sd">        &gt;&gt;&gt; london_lat = 51.+(32./60.); london_lon = -(5./60.)</span>
+<span class="sd">        &gt;&gt;&gt; # compute forward and back azimuths, plus distance</span>
+<span class="sd">        &gt;&gt;&gt; # between Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%7.3f %6.3f %12.3f&quot; % (az12,az21,dist)</span>
+<span class="sd">        &#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # compute latitude, longitude and back azimuth of Portland,</span>
+<span class="sd">        &gt;&gt;&gt; # given Boston lat/lon, forward azimuth and distance to Portland.</span>
+<span class="sd">        &gt;&gt;&gt; endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%6.3f  %6.3f %13.3f&quot; % (endlat,endlon,backaz)</span>
+<span class="sd">        &#39;45.517  -123.683        75.654&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # compute the azimuths, distances from New York to several</span>
+<span class="sd">        &gt;&gt;&gt; # cities (pass a list)</span>
+<span class="sd">        &gt;&gt;&gt; lons1 = 3*[newyork_lon]; lats1 = 3*[newyork_lat]</span>
+<span class="sd">        &gt;&gt;&gt; lons2 = [boston_lon, portland_lon, london_lon]</span>
+<span class="sd">        &gt;&gt;&gt; lats2 = [boston_lat, portland_lat, london_lat]</span>
+<span class="sd">        &gt;&gt;&gt; az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)</span>
+<span class="sd">        &gt;&gt;&gt; for faz, baz, d in list(zip(az12,az21,dist)):</span>
+<span class="sd">        ...     &quot;%7.3f %7.3f %9.3f&quot; % (faz, baz, d)</span>
+<span class="sd">        &#39; 54.663 -123.448 288303.720&#39;</span>
+<span class="sd">        &#39;-65.463  79.342 4013037.318&#39;</span>
+<span class="sd">        &#39; 51.254 -71.576 5579916.651&#39;</span>
+<span class="sd">        &gt;&gt;&gt; g2 = Geod(&#39;+ellps=clrk66&#39;) # use proj4 style initialization string</span>
+<span class="sd">        &gt;&gt;&gt; az12,az21,dist = g2.inv(boston_lon,boston_lat,portland_lon,portland_lat)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;%7.3f %6.3f %12.3f&quot; % (az12,az21,dist)</span>
+<span class="sd">        &#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if initparams is a proj-type init string,</span>
+        <span class="c1"># convert to dict.</span>
+        <span class="n">ellpsd</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">initstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">kvpair</span> <span class="ow">in</span> <span class="n">initstring</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+                <span class="c1"># Actually only +a and +b are needed</span>
+                <span class="c1"># We can ignore safely any parameter that doesn&#39;t have a value</span>
+                <span class="k">if</span> <span class="n">kvpair</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">kvpair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;es&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">]:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">ellpsd</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="c1"># merge this dict with kwargs dict.</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">ellpsd</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="n">sphere</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="s2">&quot;ellps&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="c1"># ellipse name given, look up in pj_ellps dict</span>
+            <span class="n">ellps_dict</span> <span class="o">=</span> <span class="n">pj_ellps</span><span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ellps&quot;</span><span class="p">]]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Normal Sphere&quot;</span><span class="p">:</span>
+                <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># a (semi-major axis) and one of</span>
+            <span class="c1"># b the semi-minor axis</span>
+            <span class="c1"># rf the reciprocal flattening</span>
+            <span class="c1"># f flattening</span>
+            <span class="c1"># es eccentricity squared</span>
+            <span class="c1"># must be given.</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;f&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="k">elif</span> <span class="s2">&quot;es&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;es&quot;</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">es</span> <span class="o">*</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">elif</span> <span class="s2">&quot;e&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;e&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">es</span> <span class="o">*</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">es</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="c1"># msg=&#39;ellipse name or a, plus one of f,es,b must be given&#39;</span>
+                <span class="c1"># raise ValueError(msg)</span>
+        <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-8</span><span class="p">:</span>
+            <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">az</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        forward transformation - Returns longitudes, latitudes and back</span>
+<span class="sd">        azimuths of terminus points given longitudes (lons) and</span>
+<span class="sd">        latitudes (lats) of initial points, plus forward azimuths (az)</span>
+<span class="sd">        and distances (dist).</span>
+<span class="sd">        latitudes (lats) of initial points, plus forward azimuths (az)</span>
+<span class="sd">        and distances (dist).</span>
+
+<span class="sd">        Works with numpy and regular python array objects, python</span>
+<span class="sd">        sequences and scalars.</span>
+
+<span class="sd">        if radians=True, lons/lats and azimuths are radians instead of</span>
+<span class="sd">        degrees. Distances are in meters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
+        <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
+        <span class="n">ind</span><span class="p">,</span> <span class="n">disfloat</span><span class="p">,</span> <span class="n">dislist</span><span class="p">,</span> <span class="n">distuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
+
+<div class="viewcode-block" id="Geod.inv"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons1</span><span class="p">,</span> <span class="n">lats1</span><span class="p">,</span> <span class="n">lons2</span><span class="p">,</span> <span class="n">lats2</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        inverse transformation - Returns forward and back azimuths, plus</span>
+<span class="sd">        distances between initial points (specified by lons1, lats1) and</span>
+<span class="sd">        terminus points (specified by lons2, lats2).</span>
+
+<span class="sd">        Works with numpy and regular python array objects, python</span>
+<span class="sd">        sequences and scalars.</span>
+
+<span class="sd">        if radians=True, lons/lats and azimuths are radians instead of</span>
+<span class="sd">        degrees. Distances are in meters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">)</span>
+        <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons2</span><span class="p">)</span>
+        <span class="n">ind</span><span class="p">,</span> <span class="n">disfloat</span><span class="p">,</span> <span class="n">dislist</span><span class="p">,</span> <span class="n">distuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
+
+<div class="viewcode-block" id="Geod.npts"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.npts">[docs]</a>    <span class="k">def</span> <span class="nf">npts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a single initial point and terminus point (specified by</span>
+<span class="sd">        python floats lon1,lat1 and lon2,lat2), returns a list of</span>
+<span class="sd">        longitude/latitude pairs describing npts equally spaced</span>
+<span class="sd">        intermediate points along the geodesic between the initial and</span>
+<span class="sd">        terminus points.</span>
+
+<span class="sd">        if radians=True, lons/lats are radians instead of degrees.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; g = Geod(ellps=&#39;clrk66&#39;) # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; # specify the lat/lons of Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)</span>
+<span class="sd">        &gt;&gt;&gt; portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)</span>
+<span class="sd">        &gt;&gt;&gt; # find ten equally spaced points between Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10)</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: &#39;%6.3f  %7.3f&#39; % (lat, lon)</span>
+<span class="sd">        &#39;43.528  -75.414&#39;</span>
+<span class="sd">        &#39;44.637  -79.883&#39;</span>
+<span class="sd">        &#39;45.565  -84.512&#39;</span>
+<span class="sd">        &#39;46.299  -89.279&#39;</span>
+<span class="sd">        &#39;46.830  -94.156&#39;</span>
+<span class="sd">        &#39;47.149  -99.112&#39;</span>
+<span class="sd">        &#39;47.251  -104.106&#39;</span>
+<span class="sd">        &#39;47.136  -109.100&#39;</span>
+<span class="sd">        &#39;46.805  -114.051&#39;</span>
+<span class="sd">        &#39;46.262  -118.924&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # test with radians=True (inputs/outputs in radians, not degrees)</span>
+<span class="sd">        &gt;&gt;&gt; import math</span>
+<span class="sd">        &gt;&gt;&gt; dg2rad = math.radians(1.)</span>
+<span class="sd">        &gt;&gt;&gt; rad2dg = math.degrees(1.)</span>
+<span class="sd">        &gt;&gt;&gt; lonlats = g.npts(</span>
+<span class="sd">        ...    dg2rad*boston_lon,</span>
+<span class="sd">        ...    dg2rad*boston_lat,</span>
+<span class="sd">        ...    dg2rad*portland_lon,</span>
+<span class="sd">        ...    dg2rad*portland_lat,</span>
+<span class="sd">        ...    10,</span>
+<span class="sd">        ...    radians=True</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: &#39;%6.3f  %7.3f&#39; % (rad2dg*lat, rad2dg*lon)</span>
+<span class="sd">        &#39;43.528  -75.414&#39;</span>
+<span class="sd">        &#39;44.637  -79.883&#39;</span>
+<span class="sd">        &#39;45.565  -84.512&#39;</span>
+<span class="sd">        &#39;46.299  -89.279&#39;</span>
+<span class="sd">        &#39;46.830  -94.156&#39;</span>
+<span class="sd">        &#39;47.149  -99.112&#39;</span>
+<span class="sd">        &#39;47.251  -104.106&#39;</span>
+<span class="sd">        &#39;47.136  -109.100&#39;</span>
+<span class="sd">        &#39;46.805  -114.051&#39;</span>
+<span class="sd">        &#39;46.262  -118.924&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_npts</span><span class="p">(</span>
+            <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># search for ellipse name</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">ellps</span><span class="p">,</span> <span class="n">vals</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pj_ellps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="n">vals</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">rf</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="c1"># self.sphere is True when self.f is zero or very close to</span>
+                <span class="c1"># zero (0), so prevent divide by zero.</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span> <span class="ow">and</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">rf</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{classname}</span><span class="s2">(ellps=</span><span class="si">{ellps!r}</span><span class="s2">)&quot;</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">classname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">ellps</span><span class="o">=</span><span class="n">ellps</span>
+                    <span class="p">)</span>
+
+        <span class="c1"># no ellipse name found, call super class</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        equality operator == for Geod objects</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; gclrk1 = Geod(ellps=&#39;clrk66&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; # Define Clarke 1866 using parameters</span>
+<span class="sd">        &gt;&gt;&gt; gclrk2 = Geod(a=6378206.4, b=6356583.8)</span>
+<span class="sd">        &gt;&gt;&gt; gclrk1 == gclrk2</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; # WGS 66 ellipsoid, PROJ style</span>
+<span class="sd">        &gt;&gt;&gt; gwgs66 = Geod(&#39;+ellps=WGS66&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; # Naval Weapons Lab., 1965 ellipsoid</span>
+<span class="sd">        &gt;&gt;&gt; gnwl9d = Geod(&#39;+ellps=NWL9D&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; # these ellipsoids are the same</span>
+<span class="sd">        &gt;&gt;&gt; gnwl9d == gwgs66</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; gclrk1 != gnwl9d  # Clarke 1866 is unlike NWL9D</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">_Geod</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Jeffrey Whitaker
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
