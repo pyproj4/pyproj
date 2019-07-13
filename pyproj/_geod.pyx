@@ -28,12 +28,12 @@ cdef class Geod:
         """special method that allows pyproj.Geod instance to be pickled"""
         return self.__class__,(self.initstring,)
 
-    def _fwd(self, object lons, object lats, object az, object dist, radians=False):
+    def _fwd(self, object lons, object lats, object az, object dist, bint radians=False):
         """
- forward transformation - determine longitude, latitude and back azimuth
- of a terminus point given an initial point longitude and latitude, plus
- forward azimuth and distance.
- if radians=True, lons/lats are radians instead of degrees.
+        forward transformation - determine longitude, latitude and back azimuth
+        of a terminus point given an initial point longitude and latitude, plus
+        forward azimuth and distance.
+        if radians=True, lons/lats are radians instead of degrees.
         """
         cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
         cdef double lat1,lon1,az1,s12,plon2,plat2,pazi2
@@ -90,11 +90,11 @@ cdef class Geod:
                 latsdata[i] = _DG2RAD*plat2
                 azdata[i] = _DG2RAD*pazi2
 
-    def _inv(self, object lons1, object lats1, object lons2, object lats2, radians=False):
+    def _inv(self, object lons1, object lats1, object lons2, object lats2, bint radians=False):
         """
- inverse transformation - return forward and back azimuths, plus distance
- between an initial and terminus lat/lon pair.
- if radians=True, lons/lats are radians instead of degrees.
+        inverse transformation - return forward and back azimuths, plus distance
+        between an initial and terminus lat/lon pair.
+        if radians=True, lons/lats are radians instead of degree
         """
         cdef double lat1,lon1,lat2,lon2,pazi1,pazi2,ps12
         cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, i
@@ -150,9 +150,10 @@ cdef class Geod:
                 latsdata[i] = pazi2
             azdata[i] = ps12
 
-    def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, radians=False):
+    def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, bint radians=False):
         """
- given initial and terminus lat/lon, find npts intermediate points."""
+        given initial and terminus lat/lon, find npts intermediate points.
+        """
         cdef int i
         cdef double del_s,ps12,pazi1,pazi2,s12,plon2,plat2
         cdef geod_geodesicline line
@@ -183,6 +184,122 @@ cdef class Geod:
                 lats = lats + (plat2,)
                 lons = lons + (plon2,)
         return lons, lats
+
+    def _line_length(self, object lons, object lats, bint radians=False):
+        """
+        Calculate the distance between points along a line.
+
+
+        Parameters
+        ----------
+        lons: array
+            The longitude points along a line.
+        lats: array
+            The latitude points along a line.
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        float: The total distance.
+    
+        """
+        cdef double lat1,lon1,lat2,lon2,pazi1,pazi2,ps12
+        cdef double total_distance = 0.0
+        cdef Py_ssize_t buflenlons, buflenlats, ndim, iii
+        cdef double *lonsdata
+        cdef double *latsdata
+        cdef void *londata
+        cdef void *latdata
+        # if buffer api is supported, get pointer to data buffers.
+        if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
+            raise GeodError
+        if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
+            raise GeodError
+        # process data in buffer
+        if buflenlons != buflenlats:
+            raise GeodError("Buffer lengths not the same")
+        ndim = buflenlons//_DOUBLESIZE
+        lonsdata = <double *>londata
+        latsdata = <double *>latdata
+
+        if ndim == 1:
+            lonsdata[0] = 0
+            return 0.0
+
+        for iii from 0 <= iii < ndim - 1:
+            if radians:
+                lon1 = _RAD2DG*lonsdata[iii]
+                lat1 = _RAD2DG*latsdata[iii]
+                lon2 = _RAD2DG*lonsdata[iii + 1]
+                lat2 = _RAD2DG*latsdata[iii + 1]
+            else:
+                lon1 = lonsdata[iii]
+                lat1 = latsdata[iii]
+                lon2 = lonsdata[iii + 1]
+                lat2 = latsdata[iii + 1]
+            geod_inverse(&self._geod_geodesic, lat1, lon1, lat2, lon2,
+                         &ps12, &pazi1, &pazi2)
+            lonsdata[iii] = ps12
+            total_distance += ps12
+        return total_distance
+
+    def _polygon_area_perimeter(self, object lons, object lats, bint radians=False):
+        """
+        A simple interface for computing the area of a geodesic polygon.
+        
+        lats should be in the range [-90 deg, 90 deg].
+        
+        Only simple polygons (which are not self-intersecting) are allowed.
+        There's no need to "close" the polygon by repeating the first vertex.
+        The area returned is signed with counter-clockwise traversal being treated as
+        positive.
+
+        Parameters
+        ----------
+        lons: array
+            An array of longitude values.
+        lats: array
+            An array of latitude values.
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        (float, float): The area (meter^2) and permimeter (meters) of the polygon.
+
+        """
+        cdef Py_ssize_t buflenlons, buflenlats, ndim, iii
+        cdef void *londata
+        cdef void *latdata
+        cdef double *lonsdata
+        cdef double *latsdata
+        # if buffer api is supported, get pointer to data buffers.
+        if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
+            raise GeodError
+        if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
+            raise GeodError
+        # process data in buffer
+        if not buflenlons == buflenlats:
+            raise GeodError("Buffer lengths not the same")
+
+        cdef double polygon_area
+        cdef double polygon_perimeter
+        ndim = buflenlons//_DOUBLESIZE
+
+        lonsdata = <double *>londata
+        latsdata = <double *>latdata
+        if radians:
+            for iii from 0 <= iii < ndim:
+                lonsdata[iii] *= _RAD2DG
+                latsdata[iii] *= _RAD2DG
+
+        geod_polygonarea(
+            &self._geod_geodesic, latsdata, lonsdata, ndim, 
+            &polygon_area, &polygon_perimeter
+        )
+        return (polygon_area, polygon_perimeter)
+
 
     def __repr__(self):
         return "{classname}({init!r})".format(classname=self.__class__.__name__,

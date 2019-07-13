@@ -36,6 +36,7 @@ import math
 from pyproj._geod import Geod as _Geod
 from pyproj._geod import geodesic_version_str
 from pyproj._list import get_ellps_map
+from pyproj.exceptions import GeodError
 from pyproj.utils import _convertback, _copytobuffer
 
 pj_ellps = get_ellps_map()
@@ -216,7 +217,7 @@ class Geod(_Geod):
         iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
         inz, zisfloat, zislist, zistuple = _copytobuffer(az)
         ind, disfloat, dislist, distuple = _copytobuffer(dist)
-        super(Geod, self)._fwd(inx, iny, inz, ind, radians=radians)
+        self._fwd(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
         outy = _convertback(yisfloat, yislist, xistuple, iny)
@@ -240,7 +241,7 @@ class Geod(_Geod):
         iny, yisfloat, yislist, yistuple = _copytobuffer(lats1)
         inz, zisfloat, zislist, zistuple = _copytobuffer(lons2)
         ind, disfloat, dislist, distuple = _copytobuffer(lats2)
-        super(Geod, self)._inv(inx, iny, inz, ind, radians=radians)
+        self._inv(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
         outy = _convertback(yisfloat, yislist, xistuple, iny)
@@ -305,6 +306,233 @@ class Geod(_Geod):
             lon1, lat1, lon2, lat2, npts, radians=radians
         )
         return list(zip(lons, lats))
+
+    def line_length(self, lons, lats, radians=False):
+        """
+        Calculate the total distance between points along a line.
+
+        >>> from pyproj import Geod
+        >>> geod = Geod('+a=6378137 +f=0.0033528106647475126')
+        >>> lats = [-72.9, -71.9, -74.9, -74.3, -77.5, -77.4, -71.7, -65.9, -65.7,
+        ...         -66.6, -66.9, -69.8, -70.0, -71.0, -77.3, -77.9, -74.7]
+        >>> lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,
+        ...         88, 59, 25, -4, -14, -33, -46, -61]
+        >>> total_length = geod.line_length(lons, lats)
+        >>> "{:.3f}".format(total_length)
+        '14259605.611'
+
+
+        Parameters
+        ----------
+        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            The longitude points along a line.
+        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            The latitude points along a line.
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        float: The total length of the line.
+        """
+        # process inputs, making copies that support buffer API.
+        inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
+        iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
+        return self._line_length(inx, iny, radians=radians)
+
+    def line_lengths(self, lons, lats, radians=False):
+        """
+        Calculate the distances between points along a line.
+
+        >>> from pyproj import Geod
+        >>> geod = Geod(ellps="WGS84")
+        >>> lats = [-72.9, -71.9, -74.9]
+        >>> lons = [-74, -102, -102]
+        >>> for line_length in geod.line_lengths(lons, lats):
+        ...     "{:.3f}".format(line_length)
+        '943065.744'
+        '334805.010'
+
+        Parameters
+        ----------
+        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            The longitude points along a line.
+        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            The latitude points along a line.
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+            The total length of the line.
+        """
+        # process inputs, making copies that support buffer API.
+        inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
+        iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
+        self._line_length(inx, iny, radians=radians)
+        line_lengths = _convertback(xisfloat, xislist, xistuple, inx)
+        return line_lengths if xisfloat else line_lengths[:-1]
+
+    def polygon_area_perimeter(self, lons, lats, radians=False):
+        """
+        A simple interface for computing the area (meters^2) and perimeter (meters)
+        of a geodesic polygon.
+
+        .. warning:: Only simple polygons (which are not self-intersecting) are allowed.
+
+        .. note:: lats should be in the range [-90 deg, 90 deg].
+
+        There's no need to "close" the polygon by repeating the first vertex.
+        The area returned is signed with counter-clockwise traversal being treated as
+        positive.
+
+        Example usage:
+
+        >>> from pyproj import Geod
+        >>> geod = Geod('+a=6378137 +f=0.0033528106647475126')
+        >>> lats = [-72.9, -71.9, -74.9, -74.3, -77.5, -77.4, -71.7, -65.9, -65.7,
+        ...         -66.6, -66.9, -69.8, -70.0, -71.0, -77.3, -77.9, -74.7]
+        >>> lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,
+        ...         88, 59, 25, -4, -14, -33, -46, -61]
+        >>> poly_area, poly_perimeter = geod.polygon_area_perimeter(lons, lats)
+        >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
+        '13376856682207.406 14710425.407'
+
+
+        Parameters
+        ----------
+        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            An array of longitude values.
+        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            An array of latitude values.
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        (float, float):
+            The geodesic area (meters^2) and permimeter (meters) of the polygon.
+        """
+        return self._polygon_area_perimeter(
+            _copytobuffer(lons)[0], _copytobuffer(lats)[0], radians=radians
+        )
+
+    def geometry_length(self, geometry, radians=False):
+        """
+        Returns the geodesic length (meters) of the shapely geometry.
+
+        If it is a Polygon, it will return the sum of the
+        lengths along the perimeter.
+        If it is a MultiPolygon or MultiLine, it will return
+        the sum of the lengths.
+
+        Example usage:
+
+        >>> from pyproj import Geod
+        >>> from shapely.geometry import Point, LineString
+        >>> line_string = LineString([Point(1, 2), Point(3, 4)])
+        >>> geod = Geod(ellps="WGS84")
+        >>> "{:.3f}".format(geod.geometry_length(line_string))
+        '313588.397'
+
+        Parameters
+        ----------
+        geometry: :class:`shapely.geometry.BaseGeometry`
+            The geometry to calculate the length from.
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        float: The total geodesic length of the geometry (meters).
+
+        """
+        try:
+            return self.line_length(*geometry.xy, radians=radians)
+        except (AttributeError, NotImplementedError):
+            pass
+        if hasattr(geometry, "exterior"):
+            return self.geometry_length(geometry.exterior, radians=radians)
+        elif hasattr(geometry, "geoms"):
+            total_length = 0.0
+            for geom in geometry.geoms:
+                total_length += self.geometry_length(geom, radians=radians)
+            return total_length
+        raise GeodError("Invalid geometry provided.")
+
+    def geometry_area_perimeter(self, geometry, radians=False):
+        """
+        A simple interface for computing the area (meters^2) and perimeter (meters)
+        of a geodesic polygon as a shapely geometry.
+
+        .. warning:: Only simple polygons (which are not self-intersecting) are allowed.
+
+        .. note:: lats should be in the range [-90 deg, 90 deg].
+
+        There's no need to "close" the polygon by repeating the first vertex.
+        The area returned is signed with counter-clockwise traversal being treated as
+        positive.
+
+        If it is a Polygon, it will return the area and exterior perimeter.
+        It will subtract the area of the interior holes.
+        If it is a MultiPolygon or MultiLine, it will return
+        the sum of the areas and perimeters of all geometries.
+
+
+        Example usage:
+
+        >>> from pyproj import Geod
+        >>> from shapely.geometry import LineString, Point, Polygon
+        >>> geod = Geod(ellps="WGS84")
+        >>> poly_area, poly_perimeter = geod.geometry_area_perimeter(
+        ...     Polygon(
+        ...         LineString([
+        ...             Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)
+        ...         ]),
+        ...         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
+        ...     )
+        ... )
+        >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
+        '-944373881400.339 3979008.036'
+
+
+        Parameters
+        ----------
+        geometry: :class:`shapely.geometry.BaseGeometry`
+            The geometry to calculate the area and perimeter from.
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+         Returns
+        -------
+        (float, float):
+            The geodesic area (meters^2) and permimeter (meters) of the polygon.
+       """
+        try:
+            return self.polygon_area_perimeter(*geometry.xy, radians=radians)
+        except (AttributeError, NotImplementedError):
+            pass
+        # polygon
+        if hasattr(geometry, "exterior"):
+            total_area, total_perimeter = self.geometry_area_perimeter(
+                geometry.exterior, radians=radians
+            )
+            # subtract area of holes
+            for hole in geometry.interiors:
+                area, _ = self.geometry_area_perimeter(hole, radians=radians)
+                total_area -= area
+            return total_area, total_perimeter
+        # multi geometries
+        elif hasattr(geometry, "geoms"):
+            total_area = 0.0
+            total_perimeter = 0.0
+            for geom in geometry.geoms:
+                area, perimeter = self.geometry_area_perimeter(geom, radians=radians)
+                total_area += area
+                total_perimeter += perimeter
+            return total_area, total_perimeter
+        raise GeodError("Invalid geometry provided.")
 
     def __repr__(self):
         # search for ellipse name

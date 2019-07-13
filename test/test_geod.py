@@ -1,12 +1,34 @@
+import math
 import os
 import pickle
 import shutil
 import tempfile
 from contextlib import contextmanager
 
+import pytest
 from numpy.testing import assert_almost_equal
 
 from pyproj import Geod
+
+try:
+    from shapely.geometry import (
+        LinearRing,
+        LineString,
+        MultiLineString,
+        MultiPoint,
+        MultiPolygon,
+        Point,
+        Polygon,
+    )
+
+    SHAPELY_LOADED = True
+except ImportError:
+    SHAPELY_LOADED = False
+
+
+skip_shapely_windows = pytest.mark.skipif(
+    not SHAPELY_LOADED and os.name == "nt", reason="Missing shapely wheels for Windows."
+)
 
 
 @contextmanager
@@ -118,3 +140,302 @@ def test_geod_cities():
     az12, az21, dist = g3.inv(lon1pt, lat1pt, lon2pt, lat2pt)
     print("%7.3f %6.3f %12.3f" % (az12, az21, dist))
     assert_almost_equal((az12, az21, dist), (-66.531, 75.654, 4164192.708), decimal=3)
+
+
+def test_line_length__single_point():
+    geod = Geod(ellps="WGS84")
+    assert geod.line_length(1, 1) == 0
+
+
+def test_line_length__radians():
+    geod = Geod(ellps="WGS84")
+    total_length = geod.line_length([1, 2], [0.5, 1], radians=True)
+    assert_almost_equal(total_length, 5426061.32197463, decimal=3)
+
+
+def test_line_lengths__single_point():
+    geod = Geod(ellps="WGS84")
+    assert geod.line_lengths(1, 1) == 0
+
+
+def test_line_lengths__radians():
+    geod = Geod(ellps="WGS84")
+    line_lengths = geod.line_lengths([1, 2], [0.5, 1], radians=True)
+    assert_almost_equal(line_lengths, [5426061.32197463], decimal=3)
+
+
+def test_polygon_area_perimeter__single_point():
+    geod = Geod(ellps="WGS84")
+    area, perimeter = geod.polygon_area_perimeter(1, 1)
+    assert area == 0
+    assert perimeter == 0
+
+
+@skip_shapely_windows
+def test_geometry_length__point():
+    geod = Geod(ellps="WGS84")
+    assert geod.geometry_length(Point(1, 2)) == 0
+
+
+@skip_shapely_windows
+def test_geometry_length__linestring():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_length(LineString([Point(1, 2), Point(3, 4)])),
+        313588.39721259556,
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_length__linestring__radians():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_length(
+            LineString(
+                [
+                    Point(math.radians(1), math.radians(2)),
+                    Point(math.radians(3), math.radians(4)),
+                ]
+            ),
+            radians=True,
+        ),
+        313588.39721259556,
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_length__linearring():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_length(
+            LinearRing(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
+        ),
+        1072185.2103813463,
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_length__polygon():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_length(
+            Polygon(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
+        ),
+        1072185.2103813463,
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_length__polygon__radians():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_length(
+            Polygon(
+                LineString(
+                    [
+                        Point(math.radians(1), math.radians(2)),
+                        Point(math.radians(3), math.radians(4)),
+                        Point(math.radians(5), math.radians(2)),
+                    ]
+                )
+            ),
+            radians=True,
+        ),
+        1072185.2103813463,
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_length__multipolygon():
+    geod = Geod(ellps="WGS84")
+    polygon = Polygon(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
+    assert_almost_equal(
+        geod.geometry_length(MultiPolygon([polygon, polygon])),
+        2 * 1072185.2103813463,
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_length__multipolygon__radians():
+    geod = Geod(ellps="WGS84")
+    polygon = Polygon(
+        LineString(
+            [
+                Point(math.radians(1), math.radians(2)),
+                Point(math.radians(3), math.radians(4)),
+                Point(math.radians(5), math.radians(2)),
+            ]
+        )
+    )
+    assert_almost_equal(
+        geod.geometry_length(MultiPolygon([polygon, polygon]), radians=True),
+        2 * 1072185.2103813463,
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_length__multilinestring():
+    geod = Geod(ellps="WGS84")
+    line_string = LineString([Point(1, 2), Point(3, 4), Point(5, 2)])
+    assert_almost_equal(
+        geod.geometry_length(MultiLineString([line_string, line_string])),
+        1254353.5888503822,
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_length__multipoint():
+    geod = Geod(ellps="WGS84")
+    assert (
+        geod.geometry_length(MultiPoint([Point(1, 2), Point(3, 4), Point(5, 2)])) == 0
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__point():
+    geod = Geod(ellps="WGS84")
+    assert geod.geometry_area_perimeter(Point(1, 2)) == (0, 0)
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__linestring():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_area_perimeter(LineString([Point(1, 2), Point(3, 4)])),
+        (0.0, 627176.7944251911),
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__linestring__radians():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_area_perimeter(
+            LineString(
+                [
+                    Point(math.radians(1), math.radians(2)),
+                    Point(math.radians(3), math.radians(4)),
+                ]
+            ),
+            radians=True,
+        ),
+        (0.0, 627176.7944251911),
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__linearring():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_area_perimeter(
+            LinearRing(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
+        ),
+        (-49187690467.58623, 1072185.2103813463),
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__polygon():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_area_perimeter(
+            Polygon(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
+        ),
+        (-49187690467.58623, 1072185.2103813463),
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__polygon__radians():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_area_perimeter(
+            Polygon(
+                LineString(
+                    [
+                        Point(math.radians(1), math.radians(2)),
+                        Point(math.radians(3), math.radians(4)),
+                        Point(math.radians(5), math.radians(2)),
+                    ]
+                )
+            ),
+            radians=True,
+        ),
+        (-49187690467.58623, 1072185.2103813463),
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__polygon__holes():
+    geod = Geod(ellps="WGS84")
+    assert_almost_equal(
+        geod.geometry_area_perimeter(
+            Polygon(
+                LineString([Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)]),
+                holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
+            )
+        ),
+        (-944373881400.3394, 3979008.0359657984),
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__multipolygon():
+    geod = Geod(ellps="WGS84")
+    polygon = Polygon(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
+    assert_almost_equal(
+        geod.geometry_area_perimeter(MultiPolygon([polygon, polygon])),
+        (-98375380935.17245, 2144370.4207626926),
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__multipolygon__radians():
+    geod = Geod(ellps="WGS84")
+    polygon = Polygon(
+        LineString(
+            [
+                Point(math.radians(1), math.radians(2)),
+                Point(math.radians(3), math.radians(4)),
+                Point(math.radians(5), math.radians(2)),
+            ]
+        )
+    )
+    assert_almost_equal(
+        geod.geometry_area_perimeter(MultiPolygon([polygon, polygon]), radians=True),
+        (-98375380935.17245, 2144370.4207626926),
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__multilinestring():
+    geod = Geod(ellps="WGS84")
+    line_string = LineString([Point(1, 2), Point(3, 4), Point(5, 2)])
+    assert_almost_equal(
+        geod.geometry_area_perimeter(MultiLineString([line_string, line_string])),
+        (-98375380935.17245, 2144370.4207626926),
+        decimal=3,
+    )
+
+
+@skip_shapely_windows
+def test_geometry_area_perimeter__multipoint():
+    geod = Geod(ellps="WGS84")
+    assert geod.geometry_area_perimeter(
+        MultiPoint([Point(1, 2), Point(3, 4), Point(5, 2)])
+    ) == (0, 0)
