@@ -81,8 +81,6 @@ class Proj(_proj.Proj):
         The string form of the user input used to create the Proj.
     crs: ~pyproj.crs.CRS
         The CRS object associated with the Proj.
-    proj_version: int
-        The major version number for PROJ.
 
     """
 

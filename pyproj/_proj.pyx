@@ -28,7 +28,6 @@ cdef class Proj:
         if self.projpj is NULL:
             raise ProjError("Invalid projection {}.".format(projstring))
         self.projpj_info = proj_pj_info(self.projpj)
-        self._proj_version = PROJ_VERSION_MAJOR
 
     def __dealloc__(self):
         """destroy projection definition"""
@@ -36,15 +35,6 @@ cdef class Proj:
             proj_destroy(self.projpj)
         if self.projctx is not NULL:
             proj_context_destroy(self.projctx)
-
-    @property
-    def proj_version(self):
-        warnings.warn(
-            "'Proj.proj_version' is deprecated. "
-            "Please use `pyproj.proj_version_str` instead.",
-            DeprecationWarning,
-        )
-        return self._proj_version
 
     @property
     def definition(self):
