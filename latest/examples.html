@@ -105,7 +105,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#d-transformations-with-time">4D Transformations with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#geodesic-calculations">Geodesic calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#geodesic-calculations">Geodesic calculations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-geod-class">Creating Geod class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geodesic-line-length">Geodesic line length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geodesic-area">Geodesic area</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
@@ -502,27 +507,75 @@ it is recommended to include the time in the transformaton operation.</p>
 <div class="section" id="geodesic-calculations">
 <h2>Geodesic calculations<a class="headerlink" href="#geodesic-calculations" title="Permalink to this headline">¶</a></h2>
 <p>This is useful if you need to calculate the distance between two
-points on Earth’s surface.</p>
+points or the area of a geometry on Earth’s surface.</p>
 <p>For more examples of usage and documentation, see <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">Geod</span></code></a>.</p>
+<div class="section" id="creating-geod-class">
+<h3>Creating Geod class<a class="headerlink" href="#creating-geod-class" title="Permalink to this headline">¶</a></h3>
 <p>This example demonstrates creating a <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">Geod</span></code></a> using an
 ellipsoid name as well as deriving one using a <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Geod</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod_clrk</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod_clrk</span>
 <span class="go">Geod(ellps=&#39;clrk66&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod_wgs84</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_geod</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod_wgs84</span>
 <span class="go">Geod(&#39;+a=6378137 +f=0.0033528106647475126&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">portland_lat</span> <span class="o">=</span> <span class="mf">45.</span><span class="o">+</span><span class="p">(</span><span class="mf">31.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">portland_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">123.</span><span class="o">-</span><span class="p">(</span><span class="mf">41.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">boston_lat</span> <span class="o">=</span> <span class="mf">42.</span><span class="o">+</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">boston_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">71.</span><span class="o">-</span><span class="p">(</span><span class="mf">7.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span> <span class="n">az21</span><span class="p">,</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">geod_clrk</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span> <span class="n">boston_lat</span><span class="p">,</span> <span class="n">portland_lon</span><span class="p">,</span> <span class="n">portland_lat</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span> <span class="n">az21</span><span class="p">,</span> <span class="n">dist</span>
-<span class="go">(-66.5305947876623, 75.65363415556968, 4164192.7080994667)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">az12_wgs</span><span class="p">,</span> <span class="n">az21_wgs</span><span class="p">,</span> <span class="n">dist_wgs</span> <span class="o">=</span> <span class="n">geod_wgs84</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span> <span class="n">boston_lat</span><span class="p">,</span> <span class="n">portland_lon</span><span class="p">,</span> <span class="n">portland_lat</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">az12_wgs</span><span class="p">,</span> <span class="n">az21_wgs</span><span class="p">,</span> <span class="n">dist_wgs</span>
-<span class="go">(-66.53043696156747, 75.65384304856798, 4164074.2392955828)</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="geodesic-line-length">
+<h3>Geodesic line length<a class="headerlink" href="#geodesic-line-length" title="Permalink to this headline">¶</a></h3>
+<p>Calculate the geodesic length of a line (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.line_length" title="pyproj.Geod.line_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">line_length()</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_length</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">line_length</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;{:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_length</span><span class="p">)</span>
+<span class="go">&#39;14259605.611&#39;</span>
+</pre></div>
+</div>
+<p>Calculate the geodesic length of a shapely geometry (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_length" title="pyproj.Geod.geometry_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">geometry_length()</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">line_string</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_length</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">line_string</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;{:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_length</span><span class="p">)</span>
+<span class="go">&#39;313588.397&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geodesic-area">
+<h3>Geodesic area<a class="headerlink" href="#geodesic-area" title="Permalink to this headline">¶</a></h3>
+<p>Calculate the geodesic area and perimeter of a polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.polygon_area_perimeter" title="pyproj.Geod.polygon_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">polygon_area_perimeter()</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">polygon_area_perimeter</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;{:.3f} {:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span><span class="p">)</span>
+<span class="go">&#39;13376856682207.406 14710425.407&#39;</span>
+</pre></div>
+</div>
+<p>Calculate the geodesic area and perimeter of a shapely polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_area_perimeter" title="pyproj.Geod.geometry_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">geometry_area_perimeter()</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Polygon</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">geometry_area_perimeter</span><span class="p">(</span>
+<span class="go">        Polygon(</span>
+<span class="go">            LineString([Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)]),</span>
+<span class="go">            holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],</span>
+<span class="go">        )</span>
+<span class="go">    )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;{:.3f} {:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span><span class="p">)</span>
+<span class="go">&#39;-944373881400.339 3979008.036&#39;</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>

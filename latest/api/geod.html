@@ -325,6 +325,89 @@ degrees. Distances are in meters.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.Geod.geometry_area_perimeter">
+<code class="sig-name descname">geometry_area_perimeter</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_area_perimeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.geometry_area_perimeter" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple interface for computing the area (meters^2) and perimeter (meters)
+of a geodesic polygon as a shapely geometry.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only simple polygons (which are not self-intersecting) are allowed.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>lats should be in the range [-90 deg, 90 deg].</p>
+</div>
+<p>There’s no need to “close” the polygon by repeating the first vertex.
+The area returned is signed with counter-clockwise traversal being treated as
+positive.</p>
+<p>If it is a Polygon, it will return the area and exterior perimeter.
+It will subtract the area of the interior holes.
+If it is a MultiPolygon or MultiLine, it will return
+the sum of the areas and perimeters of all geometries.</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Polygon</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">geometry_area_perimeter</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Polygon</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">LineString</span><span class="p">([</span>
+<span class="gp">... </span>            <span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="p">]),</span>
+<span class="gp">... </span>        <span class="n">holes</span><span class="o">=</span><span class="p">[</span><span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])],</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2"> </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span><span class="p">)</span>
+<span class="go">&#39;-944373881400.339 3979008.036&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.BaseGeometry</span></code>) – The geometry to calculate the area and perimeter from.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – <p>If True, the input data is assumed to be in radians.</p>
+<p>Returns</p>
+</p></li>
+<li><p><strong>-------</strong> – </p></li>
+<li><p><strong>float</strong><strong>)</strong> (<em>(</em><em>float</em><em>,</em>) – The geodesic area (meters^2) and permimeter (meters) of the polygon.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Geod.geometry_length">
+<code class="sig-name descname">geometry_length</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.geometry_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the geodesic length (meters) of the shapely geometry.</p>
+<p>If it is a Polygon, it will return the sum of the
+lengths along the perimeter.
+If it is a MultiPolygon or MultiLine, it will return
+the sum of the lengths.</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">line_string</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">geod</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">line_string</span><span class="p">))</span>
+<span class="go">&#39;313588.397&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.BaseGeometry</span></code>) – The geometry to calculate the length from.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>float</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The total geodesic length of the geometry (meters)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.Geod.inv">
 <code class="sig-name descname">inv</code><span class="sig-paren">(</span><em class="sig-param">lons1</em>, <em class="sig-param">lats1</em>, <em class="sig-param">lons2</em>, <em class="sig-param">lats2</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.inv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.inv" title="Permalink to this definition">¶</a></dt>
 <dd><p>inverse transformation - Returns forward and back azimuths, plus
@@ -334,6 +417,69 @@ terminus points (specified by lons2, lats2).</p>
 sequences and scalars.</p>
 <p>if radians=True, lons/lats and azimuths are radians instead of
 degrees. Distances are in meters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Geod.line_length">
+<code class="sig-name descname">line_length</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.line_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the total distance between points along a line.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_length</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">line_length</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_length</span><span class="p">)</span>
+<span class="go">&#39;14259605.611&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – The longitude points along a line.</p></li>
+<li><p><strong>lats</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – The latitude points along a line.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>float</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The total length of the line.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Geod.line_lengths">
+<code class="sig-name descname">line_lengths</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.line_lengths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the distances between points along a line.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line_length</span> <span class="ow">in</span> <span class="n">geod</span><span class="o">.</span><span class="n">line_lengths</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line_length</span><span class="p">)</span>
+<span class="go">&#39;943065.744&#39;</span>
+<span class="go">&#39;334805.010&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – The longitude points along a line.</p></li>
+<li><p><strong>lats</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – The latitude points along a line.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The total length of the line.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -389,6 +535,51 @@ terminus points.</p>
 <span class="go">&#39;46.262  -118.924&#39;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.Geod.polygon_area_perimeter">
+<code class="sig-name descname">polygon_area_perimeter</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.polygon_area_perimeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.polygon_area_perimeter" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple interface for computing the area (meters^2) and perimeter (meters)
+of a geodesic polygon.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only simple polygons (which are not self-intersecting) are allowed.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>lats should be in the range [-90 deg, 90 deg].</p>
+</div>
+<p>There’s no need to “close” the polygon by repeating the first vertex.
+The area returned is signed with counter-clockwise traversal being treated as
+positive.</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">polygon_area_perimeter</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2"> </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span><span class="p">)</span>
+<span class="go">&#39;13376856682207.406 14710425.407&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – An array of longitude values.</p></li>
+<li><p><strong>lats</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – An array of latitude values.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The geodesic area (meters^2) and permimeter (meters) of the polygon.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(float, float)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

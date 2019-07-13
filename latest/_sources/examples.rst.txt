@@ -356,9 +356,13 @@ Step 2: Create Transformer to convert from geodetic CRS to CRS
 Geodesic calculations
 ---------------------
 This is useful if you need to calculate the distance between two
-points on Earth's surface.
+points or the area of a geometry on Earth's surface.
 
 For more examples of usage and documentation, see :class:`~pyproj.Geod`.
+
+
+Creating Geod class
+~~~~~~~~~~~~~~~~~~~
 
 This example demonstrates creating a :class:`~pyproj.Geod` using an
 ellipsoid name as well as deriving one using a :class:`~pyproj.crs.CRS`.
@@ -366,18 +370,75 @@ ellipsoid name as well as deriving one using a :class:`~pyproj.crs.CRS`.
 .. code:: python
 
     >>> from pyproj import CRS, Geod
-    >>> from pyproj import CRS, Geod
     >>> geod_clrk = Geod(ellps='clrk66') # Use Clarke 1866 ellipsoid.
     >>> geod_clrk
     Geod(ellps='clrk66')
     >>> geod_wgs84 = CRS("epsg:4326").get_geod()
     >>> geod_wgs84
     Geod('+a=6378137 +f=0.0033528106647475126')
-    >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
-    >>> boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)
-    >>> az12, az21, dist = geod_clrk.inv(boston_lon, boston_lat, portland_lon, portland_lat)
-    >>> az12, az21, dist
-    (-66.5305947876623, 75.65363415556968, 4164192.7080994667)
-    >>> az12_wgs, az21_wgs, dist_wgs = geod_wgs84.inv(boston_lon, boston_lat, portland_lon, portland_lat)
-    >>> az12_wgs, az21_wgs, dist_wgs
-    (-66.53043696156747, 75.65384304856798, 4164074.2392955828)
+
+
+Geodesic line length
+~~~~~~~~~~~~~~~~~~~~
+
+Calculate the geodesic length of a line (See: :meth:`~pyproj.Geod.line_length`):
+
+.. code:: python
+
+    >>> from pyproj import Geod
+    >>> lats = [-72.9, -71.9, -74.9, -74.3, -77.5, -77.4, -71.7, -65.9, -65.7,
+    ...         -66.6, -66.9, -69.8, -70.0, -71.0, -77.3, -77.9, -74.7]
+    >>> lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,
+    ...         88, 59, 25, -4, -14, -33, -46, -61]
+    >>> geod = Geod(ellps="WGS84")
+    >>> total_length = geod.line_length(lons, lats)
+    >>> "{:.3f}".format(total_length)
+    '14259605.611'
+
+Calculate the geodesic length of a shapely geometry (See: :meth:`~pyproj.Geod.geometry_length`):
+
+.. code:: python
+
+    >>> from pyproj import Geod
+    >>> from shapely.geometry import Point, LineString
+    >>> line_string = LineString([Point(1, 2), Point(3, 4)]))
+    >>> geod = Geod(ellps="WGS84")
+    >>> total_length = geod.geometry_length(line_string)
+    >>> "{:.3f}".format(total_length)
+    '313588.397'
+
+
+Geodesic area
+~~~~~~~~~~~~~
+
+Calculate the geodesic area and perimeter of a polygon (See: :meth:`~pyproj.Geod.polygon_area_perimeter`):
+
+.. code:: python
+
+    >>> from pyproj import Geod
+    >>> geod = Geod('+a=6378137 +f=0.0033528106647475126')
+    >>> lats = [-72.9, -71.9, -74.9, -74.3, -77.5, -77.4, -71.7, -65.9, -65.7,
+    ...         -66.6, -66.9, -69.8, -70.0, -71.0, -77.3, -77.9, -74.7]
+    >>> lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,
+    ...         88, 59, 25, -4, -14, -33, -46, -61]
+    >>> poly_area, poly_perimeter = geod.polygon_area_perimeter(lons, lats)
+    >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
+    '13376856682207.406 14710425.407'
+
+
+Calculate the geodesic area and perimeter of a shapely polygon (See: :meth:`~pyproj.Geod.geometry_area_perimeter`):
+
+
+.. code:: python
+
+    >>> from pyproj import Geod
+    >>> from shapely.geometry import LineString, Point, Polygon
+    >>> geod = Geod('+a=6378137 +f=0.0033528106647475126')
+    >>> poly_area, poly_perimeter = geod.geometry_area_perimeter(
+            Polygon(
+                LineString([Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)]),
+                holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
+            )
+        )
+    >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
+    '-944373881400.339 3979008.036'    
