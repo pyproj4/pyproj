@@ -48,7 +48,6 @@ from pyproj.cf1x8 import (
     PARAM_TO_CF_MAP,
     PROJ_PARAM_MAP,
 )
-from pyproj.compat import string_types
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
 
@@ -286,7 +285,7 @@ class CRS(_CRS):
         >>> crs.is_geographic
         False
         """
-        if isinstance(projparams, string_types):
+        if isinstance(projparams, str):
             projstring = _prepare_from_string(projparams)
         elif isinstance(projparams, dict):
             projstring = _prepare_from_dict(projparams)

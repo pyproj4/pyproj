@@ -1,21 +1,17 @@
 """
 This module contains enumerations used in pyproj.
 """
-import sys
-
-from pyproj.compat import string_types
-
-if sys.version_info >= (3, 6):
-    from enum import Enum
-else:
-    # _missing_ was only added in Python 3.6, using aenum for older versions
-    from aenum import Enum
+from enum import Enum
 
 
 class BaseEnum(Enum):
     @classmethod
-    def _missing_(cls, item):
-        if isinstance(item, string_types):
+    def create(cls, item):
+        try:
+            return cls(item)
+        except ValueError:
+            pass
+        if isinstance(item, str):
             item = item.upper()
         for member in cls:
             if member.value == item:
