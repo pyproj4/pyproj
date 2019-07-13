@@ -9,7 +9,7 @@ Change Log
 * Added support for calculating geodesic area and line lemgths with shapely geometries
   (:meth:`~pyproj.geod.Geod.geometry_area_perimeter` & :meth:`~pyproj.geod.Geod.geometry_length`)
   (pull #366)
-
+* Removed deprecated functions `Proj.proj_version`, `CRS.is_valid`, and `CRS.to_geodetic()` (pull #371)
 
 2.2.2
 ~~~~~
