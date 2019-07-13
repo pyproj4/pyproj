@@ -1538,20 +1538,6 @@ cdef class _CRS(Base):
         """
         return _to_proj4(self.projctx, self.projobj, version)
 
-    def to_geodetic(self):
-        """
-        .. note:: This is replaced with :attr:`CRS.geodetic_crs`
-
-        Returns
-        -------
-        pyproj.CRS: The geodetic CRS from this CRS.
-        """
-        warnings.warn(
-            "This method is deprecated an has been replaced with `CRS.geodetic_crs`.",
-            DeprecationWarning,
-        )
-        return self.geodetic_crs
-
     def to_epsg(self, min_confidence=70):
         """
         Return the EPSG code best matching the CRS
@@ -1778,19 +1764,6 @@ cdef class _CRS(Base):
         bool: True if CRS is bound.
         """
         return self._type == PJ_TYPE_BOUND_CRS
-
-    @property
-    def is_valid(self):
-        """
-        Returns
-        -------
-        bool: True if CRS is valid.
-        """
-        warnings.warn(
-            "CRS.is_valid is deprecated.",
-            DeprecationWarning,
-        )
-        return self._type != PJ_TYPE_UNKNOWN
 
     @property
     def is_engineering(self):

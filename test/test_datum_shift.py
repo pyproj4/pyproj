@@ -31,7 +31,7 @@ UTM_z = WGS84_z = 52.8  # Ellipsoidical height in meters
 WGS84_PROJ = Proj(proj="latlong", datum="WGS84")
 UTM_33_PROJ = Proj(proj="utm", zone="33")
 with warnings.catch_warnings():
-    warnings.simplefilter("ignore", DeprecationWarning)
+    warnings.simplefilter("ignore", FutureWarning)
     GAUSSSB_PROJ = Proj(
         init="epsg:3004", towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
     )
