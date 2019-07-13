@@ -191,6 +191,7 @@
 <span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="k">import</span> <span class="n">Geod</span> <span class="k">as</span> <span class="n">_Geod</span>
 <span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="k">import</span> <span class="n">geodesic_version_str</span>
 <span class="kn">from</span> <span class="nn">pyproj._list</span> <span class="k">import</span> <span class="n">get_ellps_map</span>
+<span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">GeodError</span>
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
 <span class="n">pj_ellps</span> <span class="o">=</span> <span class="n">get_ellps_map</span><span class="p">()</span>
@@ -371,7 +372,7 @@
         <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
         <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
         <span class="n">ind</span><span class="p">,</span> <span class="n">disfloat</span><span class="p">,</span> <span class="n">dislist</span><span class="p">,</span> <span class="n">distuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
         <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
         <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
@@ -395,7 +396,7 @@
         <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">)</span>
         <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons2</span><span class="p">)</span>
         <span class="n">ind</span><span class="p">,</span> <span class="n">disfloat</span><span class="p">,</span> <span class="n">dislist</span><span class="p">,</span> <span class="n">distuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats2</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
         <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
         <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
@@ -460,6 +461,233 @@
             <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Geod.line_length"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_length">[docs]</a>    <span class="k">def</span> <span class="nf">line_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the total distance between points along a line.</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; geod = Geod(&#39;+a=6378137 +f=0.0033528106647475126&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; lats = [-72.9, -71.9, -74.9, -74.3, -77.5, -77.4, -71.7, -65.9, -65.7,</span>
+<span class="sd">        ...         -66.6, -66.9, -69.8, -70.0, -71.0, -77.3, -77.9, -74.7]</span>
+<span class="sd">        &gt;&gt;&gt; lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,</span>
+<span class="sd">        ...         88, 59, 25, -4, -14, -33, -46, -61]</span>
+<span class="sd">        &gt;&gt;&gt; total_length = geod.line_length(lons, lats)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;{:.3f}&quot;.format(total_length)</span>
+<span class="sd">        &#39;14259605.611&#39;</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            The longitude points along a line.</span>
+<span class="sd">        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            The latitude points along a line.</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float: The total length of the line.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line_length</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Geod.line_lengths"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_lengths">[docs]</a>    <span class="k">def</span> <span class="nf">line_lengths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the distances between points along a line.</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; geod = Geod(ellps=&quot;WGS84&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; lats = [-72.9, -71.9, -74.9]</span>
+<span class="sd">        &gt;&gt;&gt; lons = [-74, -102, -102]</span>
+<span class="sd">        &gt;&gt;&gt; for line_length in geod.line_lengths(lons, lats):</span>
+<span class="sd">        ...     &quot;{:.3f}&quot;.format(line_length)</span>
+<span class="sd">        &#39;943065.744&#39;</span>
+<span class="sd">        &#39;334805.010&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            The longitude points along a line.</span>
+<span class="sd">        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            The latitude points along a line.</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">            The total length of the line.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line_length</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="n">line_lengths</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">line_lengths</span> <span class="k">if</span> <span class="n">xisfloat</span> <span class="k">else</span> <span class="n">line_lengths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Geod.polygon_area_perimeter"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.polygon_area_perimeter">[docs]</a>    <span class="k">def</span> <span class="nf">polygon_area_perimeter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A simple interface for computing the area (meters^2) and perimeter (meters)</span>
+<span class="sd">        of a geodesic polygon.</span>
+
+<span class="sd">        .. warning:: Only simple polygons (which are not self-intersecting) are allowed.</span>
+
+<span class="sd">        .. note:: lats should be in the range [-90 deg, 90 deg].</span>
+
+<span class="sd">        There&#39;s no need to &quot;close&quot; the polygon by repeating the first vertex.</span>
+<span class="sd">        The area returned is signed with counter-clockwise traversal being treated as</span>
+<span class="sd">        positive.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; geod = Geod(&#39;+a=6378137 +f=0.0033528106647475126&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; lats = [-72.9, -71.9, -74.9, -74.3, -77.5, -77.4, -71.7, -65.9, -65.7,</span>
+<span class="sd">        ...         -66.6, -66.9, -69.8, -70.0, -71.0, -77.3, -77.9, -74.7]</span>
+<span class="sd">        &gt;&gt;&gt; lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,</span>
+<span class="sd">        ...         88, 59, 25, -4, -14, -33, -46, -61]</span>
+<span class="sd">        &gt;&gt;&gt; poly_area, poly_perimeter = geod.polygon_area_perimeter(lons, lats)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;{:.3f} {:.3f}&quot;.format(poly_area, poly_perimeter)</span>
+<span class="sd">        &#39;13376856682207.406 14710425.407&#39;</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            An array of longitude values.</span>
+<span class="sd">        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            An array of latitude values.</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        (float, float):</span>
+<span class="sd">            The geodesic area (meters^2) and permimeter (meters) of the polygon.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_polygon_area_perimeter</span><span class="p">(</span>
+            <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Geod.geometry_length"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.geometry_length">[docs]</a>    <span class="k">def</span> <span class="nf">geometry_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the geodesic length (meters) of the shapely geometry.</span>
+
+<span class="sd">        If it is a Polygon, it will return the sum of the</span>
+<span class="sd">        lengths along the perimeter.</span>
+<span class="sd">        If it is a MultiPolygon or MultiLine, it will return</span>
+<span class="sd">        the sum of the lengths.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; from shapely.geometry import Point, LineString</span>
+<span class="sd">        &gt;&gt;&gt; line_string = LineString([Point(1, 2), Point(3, 4)])</span>
+<span class="sd">        &gt;&gt;&gt; geod = Geod(ellps=&quot;WGS84&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; &quot;{:.3f}&quot;.format(geod.geometry_length(line_string))</span>
+<span class="sd">        &#39;313588.397&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        geometry: :class:`shapely.geometry.BaseGeometry`</span>
+<span class="sd">            The geometry to calculate the length from.</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float: The total geodesic length of the geometry (meters).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">line_length</span><span class="p">(</span><span class="o">*</span><span class="n">geometry</span><span class="o">.</span><span class="n">xy</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">NotImplementedError</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;exterior&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">exterior</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;geoms&quot;</span><span class="p">):</span>
+            <span class="n">total_length</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">geom</span> <span class="ow">in</span> <span class="n">geometry</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
+                <span class="n">total_length</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">total_length</span>
+        <span class="k">raise</span> <span class="n">GeodError</span><span class="p">(</span><span class="s2">&quot;Invalid geometry provided.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Geod.geometry_area_perimeter"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.geometry_area_perimeter">[docs]</a>    <span class="k">def</span> <span class="nf">geometry_area_perimeter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A simple interface for computing the area (meters^2) and perimeter (meters)</span>
+<span class="sd">        of a geodesic polygon as a shapely geometry.</span>
+
+<span class="sd">        .. warning:: Only simple polygons (which are not self-intersecting) are allowed.</span>
+
+<span class="sd">        .. note:: lats should be in the range [-90 deg, 90 deg].</span>
+
+<span class="sd">        There&#39;s no need to &quot;close&quot; the polygon by repeating the first vertex.</span>
+<span class="sd">        The area returned is signed with counter-clockwise traversal being treated as</span>
+<span class="sd">        positive.</span>
+
+<span class="sd">        If it is a Polygon, it will return the area and exterior perimeter.</span>
+<span class="sd">        It will subtract the area of the interior holes.</span>
+<span class="sd">        If it is a MultiPolygon or MultiLine, it will return</span>
+<span class="sd">        the sum of the areas and perimeters of all geometries.</span>
+
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; from shapely.geometry import LineString, Point, Polygon</span>
+<span class="sd">        &gt;&gt;&gt; geod = Geod(ellps=&quot;WGS84&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; poly_area, poly_perimeter = geod.geometry_area_perimeter(</span>
+<span class="sd">        ...     Polygon(</span>
+<span class="sd">        ...         LineString([</span>
+<span class="sd">        ...             Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)</span>
+<span class="sd">        ...         ]),</span>
+<span class="sd">        ...         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],</span>
+<span class="sd">        ...     )</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; &quot;{:.3f} {:.3f}&quot;.format(poly_area, poly_perimeter)</span>
+<span class="sd">        &#39;-944373881400.339 3979008.036&#39;</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        geometry: :class:`shapely.geometry.BaseGeometry`</span>
+<span class="sd">            The geometry to calculate the area and perimeter from.</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+
+<span class="sd">         Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        (float, float):</span>
+<span class="sd">            The geodesic area (meters^2) and permimeter (meters) of the polygon.</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">polygon_area_perimeter</span><span class="p">(</span><span class="o">*</span><span class="n">geometry</span><span class="o">.</span><span class="n">xy</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">NotImplementedError</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="c1"># polygon</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;exterior&quot;</span><span class="p">):</span>
+            <span class="n">total_area</span><span class="p">,</span> <span class="n">total_perimeter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_area_perimeter</span><span class="p">(</span>
+                <span class="n">geometry</span><span class="o">.</span><span class="n">exterior</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span>
+            <span class="p">)</span>
+            <span class="c1"># subtract area of holes</span>
+            <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">geometry</span><span class="o">.</span><span class="n">interiors</span><span class="p">:</span>
+                <span class="n">area</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_area_perimeter</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+                <span class="n">total_area</span> <span class="o">-=</span> <span class="n">area</span>
+            <span class="k">return</span> <span class="n">total_area</span><span class="p">,</span> <span class="n">total_perimeter</span>
+        <span class="c1"># multi geometries</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;geoms&quot;</span><span class="p">):</span>
+            <span class="n">total_area</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">total_perimeter</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">geom</span> <span class="ow">in</span> <span class="n">geometry</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
+                <span class="n">area</span><span class="p">,</span> <span class="n">perimeter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_area_perimeter</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+                <span class="n">total_area</span> <span class="o">+=</span> <span class="n">area</span>
+                <span class="n">total_perimeter</span> <span class="o">+=</span> <span class="n">perimeter</span>
+            <span class="k">return</span> <span class="n">total_area</span><span class="p">,</span> <span class="n">total_perimeter</span>
+        <span class="k">raise</span> <span class="n">GeodError</span><span class="p">(</span><span class="s2">&quot;Invalid geometry provided.&quot;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># search for ellipse name</span>
