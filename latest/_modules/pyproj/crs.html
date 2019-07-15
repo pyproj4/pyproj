@@ -203,7 +203,6 @@
     <span class="n">PARAM_TO_CF_MAP</span><span class="p">,</span>
     <span class="n">PROJ_PARAM_MAP</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">string_types</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">CRSError</span>
 <span class="kn">from</span> <span class="nn">pyproj.geod</span> <span class="k">import</span> <span class="n">Geod</span>
 
@@ -441,7 +440,7 @@
 <span class="sd">        &gt;&gt;&gt; crs.is_geographic</span>
 <span class="sd">        False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">projstring</span> <span class="o">=</span> <span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">projstring</span> <span class="o">=</span> <span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>

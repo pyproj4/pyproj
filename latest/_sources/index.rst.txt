@@ -5,6 +5,8 @@ Python interface to  `PROJ <https://proj.org/>`_ (cartographic projections and c
 
 .. note:: Minimum supported PROJ version is 6.1.0
 
+.. note:: Minimum supported Python version is 3.5
+
 GitHub Repository: https://github.com/pyproj4/pyproj
 
 
