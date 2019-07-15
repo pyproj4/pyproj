@@ -3,6 +3,8 @@ Change Log
 
 2.3.0
 ~~~~~
+* Minimum supported Python version 3.5 (issue #331)
+* Remove aenum dependency (issue #339)
 * Added support for calculating geodesic area (:meth:`~pyproj.geod.Geod.polygon_area_perimeter`)
   and added interface to calculate total length of a line 
   (:meth:`~pyproj.geod.Geod.line_length` & :meth:`~pyproj.geod.Geod.line_lengths`) (issue #210).
@@ -10,6 +12,7 @@ Change Log
   (:meth:`~pyproj.geod.Geod.geometry_area_perimeter` & :meth:`~pyproj.geod.Geod.geometry_length`)
   (pull #366)
 * Removed deprecated functions `Proj.proj_version`, `CRS.is_valid`, and `CRS.to_geodetic()` (pull #371)
+
 
 2.2.2
 ~~~~~

@@ -27,9 +27,6 @@ matrix:
       env:
         - PYTHON=3.6.8
         - PROJSOURCE=6.1.1
-    - python: 2.7
-      env:
-        - PROJSOURCE=6.1.1
     - python: 3.5
       env:
         - PROJSOURCE=6.1.1

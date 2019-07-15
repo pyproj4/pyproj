@@ -221,8 +221,6 @@ setup(
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
@@ -233,7 +231,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     packages=["pyproj"],
+    python_requires=">=3.5",
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
-    install_requires=['aenum;python_version<"3.6"'],
 )

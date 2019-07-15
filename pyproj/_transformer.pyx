@@ -118,7 +118,7 @@ cdef class _Transformer(Base):
     def _transform(self, inx, iny, inz, intime, direction, radians, errcheck):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
-        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection(direction)]
+        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
         # private function to call pj_transform
         cdef void *xdata
@@ -211,7 +211,7 @@ cdef class _Transformer(Base):
     ):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
-        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection(direction)]
+        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
         # private function to itransform function
         cdef:
