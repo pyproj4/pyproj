@@ -192,6 +192,10 @@ running both the unit tests as well as the `flake8` code linter.
 Once we're all happy with the pull request, it's time for it to get merged in. Only the
 maintainers can merge pull requests and you should never merge a pull request you have commits on as it circumvents the code review. If this is your first or second pull request, we'll likely help by rebasing and cleaning up the commit history for you. As your developement skills increase, we'll help you learn how to do this.
 
+## Allcontributors Recognition
+
+We do our best to recognize contributions, but we may miss some. If we did, please let us know. Also, if you would prefer not to be recognized on the README, please let us know.
+
 
 ## More Questions?
 If you're stuck somewhere or are interested in being a part of the community in
