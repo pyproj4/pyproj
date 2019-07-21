@@ -162,7 +162,6 @@
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">DataDirError</span>
 
 <span class="n">_USER_PROJ_DATA</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <div class="viewcode-block" id="set_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.set_data_dir">[docs]</a><span class="k">def</span> <span class="nf">set_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">):</span>
@@ -175,10 +174,11 @@
 <span class="sd">        The path to rhe PROJ data directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">_USER_PROJ_DATA</span>
-    <span class="k">global</span> <span class="n">_VALIDATED_PROJ_DATA</span>
     <span class="n">_USER_PROJ_DATA</span> <span class="o">=</span> <span class="n">proj_data_dir</span>
-    <span class="c1"># set to none to re-validate</span>
-    <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="c1"># reset search paths</span>
+    <span class="kn">from</span> <span class="nn">pyproj._datadir</span> <span class="k">import</span> <span class="n">PYPROJ_CONTEXT</span>
+
+    <span class="n">PYPROJ_CONTEXT</span><span class="o">.</span><span class="n">set_search_paths</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="append_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.append_data_dir">[docs]</a><span class="k">def</span> <span class="nf">append_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">):</span>
@@ -207,11 +207,6 @@
 <span class="sd">    str: The valid data directory.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># to avoid re-validating</span>
-    <span class="k">global</span> <span class="n">_VALIDATED_PROJ_DATA</span>
-    <span class="k">if</span> <span class="n">_VALIDATED_PROJ_DATA</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_VALIDATED_PROJ_DATA</span>
-
     <span class="k">global</span> <span class="n">_USER_PROJ_DATA</span>
     <span class="n">internal_datadir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s2">&quot;proj_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span>
@@ -234,12 +229,13 @@
                 <span class="k">break</span>
         <span class="k">return</span> <span class="kc">None</span>
 
+    <span class="n">validated_proj_data</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">valid_data_dirs</span><span class="p">(</span><span class="n">_USER_PROJ_DATA</span><span class="p">):</span>
-        <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="n">_USER_PROJ_DATA</span>
+        <span class="n">validated_proj_data</span> <span class="o">=</span> <span class="n">_USER_PROJ_DATA</span>
     <span class="k">elif</span> <span class="n">valid_data_dir</span><span class="p">(</span><span class="n">internal_datadir</span><span class="p">):</span>
-        <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="n">internal_datadir</span>
+        <span class="n">validated_proj_data</span> <span class="o">=</span> <span class="n">internal_datadir</span>
     <span class="k">elif</span> <span class="n">valid_data_dirs</span><span class="p">(</span><span class="n">proj_lib_dirs</span><span class="p">):</span>
-        <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="n">proj_lib_dirs</span>
+        <span class="n">validated_proj_data</span> <span class="o">=</span> <span class="n">proj_lib_dirs</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">proj_exe</span> <span class="o">=</span> <span class="n">find_executable</span><span class="p">(</span><span class="s2">&quot;proj&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">proj_exe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -247,15 +243,15 @@
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">proj_exe</span><span class="p">)),</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">valid_data_dir</span><span class="p">(</span><span class="n">system_proj_dir</span><span class="p">):</span>
-                <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="n">system_proj_dir</span>
+                <span class="n">validated_proj_data</span> <span class="o">=</span> <span class="n">system_proj_dir</span>
 
-    <span class="k">if</span> <span class="n">_VALIDATED_PROJ_DATA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">validated_proj_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">DataDirError</span><span class="p">(</span>
             <span class="s2">&quot;Valid PROJ data directory not found. &quot;</span>
             <span class="s2">&quot;Either set the path using the environmental variable PROJ_LIB or &quot;</span>
             <span class="s2">&quot;with `pyproj.datadir.set_data_dir`.&quot;</span>
         <span class="p">)</span>
-    <span class="k">return</span> <span class="n">_VALIDATED_PROJ_DATA</span></div>
+    <span class="k">return</span> <span class="n">validated_proj_data</span></div>
 </pre></div>
 
            </div>
