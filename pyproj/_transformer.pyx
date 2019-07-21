@@ -1,6 +1,7 @@
 include "base.pxi"
 
 from pyproj._crs cimport Base, _CRS
+from pyproj._datadir cimport PROJ_CONTEXT
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError
@@ -77,7 +78,7 @@ cdef class _Transformer(Base):
     def from_crs(_CRS crs_from, _CRS crs_to, skip_equivalent=False, always_xy=False):
         cdef _Transformer transformer = _Transformer()
         transformer.projobj = proj_create_crs_to_crs(
-            transformer.projctx,
+            PROJ_CONTEXT.context,
             cstrencode(crs_from.srs),
             cstrencode(crs_to.srs),
             NULL)
@@ -87,7 +88,7 @@ cdef class _Transformer(Base):
         cdef PJ* always_xy_pj = NULL
         if always_xy:
             always_xy_pj = proj_normalize_for_visualization(
-                transformer.projctx,
+                PROJ_CONTEXT.context,
                 transformer.projobj
             )
             proj_destroy(transformer.projobj)
@@ -107,7 +108,7 @@ cdef class _Transformer(Base):
     def from_pipeline(const char *proj_pipeline):
         cdef _Transformer transformer = _Transformer()
         # initialize projection
-        transformer.projobj = proj_create(transformer.projctx, proj_pipeline)
+        transformer.projobj = proj_create(PROJ_CONTEXT.context, proj_pipeline)
         if transformer.projobj is NULL:
             raise ProjError("Invalid projection {}.".format(proj_pipeline))
         transformer._initialize_from_projobj()
@@ -175,6 +176,7 @@ cdef class _Transformer(Base):
                 yy[iii] = yy[iii]*_RAD2DG
 
         ProjError.clear()
+        proj_errno_reset(self.projobj)
         proj_trans_generic(
             self.projobj,
             pj_direction,
@@ -269,6 +271,7 @@ cdef class _Transformer(Base):
             tt = NULL
 
         ProjError.clear()
+        proj_errno_reset(self.projobj)
         proj_trans_generic (
             self.projobj,
             pj_direction,

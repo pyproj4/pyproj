@@ -7,7 +7,6 @@ from distutils.spawn import find_executable
 from pyproj.exceptions import DataDirError
 
 _USER_PROJ_DATA = None
-_VALIDATED_PROJ_DATA = None
 
 
 def set_data_dir(proj_data_dir):
@@ -20,10 +19,11 @@ def set_data_dir(proj_data_dir):
         The path to rhe PROJ data directory.
     """
     global _USER_PROJ_DATA
-    global _VALIDATED_PROJ_DATA
     _USER_PROJ_DATA = proj_data_dir
-    # set to none to re-validate
-    _VALIDATED_PROJ_DATA = None
+    # reset search paths
+    from pyproj._datadir import PYPROJ_CONTEXT
+
+    PYPROJ_CONTEXT.set_search_paths()
 
 
 def append_data_dir(proj_data_dir):
@@ -52,11 +52,6 @@ def get_data_dir():
     str: The valid data directory.
 
     """
-    # to avoid re-validating
-    global _VALIDATED_PROJ_DATA
-    if _VALIDATED_PROJ_DATA is not None:
-        return _VALIDATED_PROJ_DATA
-
     global _USER_PROJ_DATA
     internal_datadir = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "proj_dir", "share", "proj"
@@ -79,12 +74,13 @@ def get_data_dir():
                 break
         return None
 
+    validated_proj_data = None
     if valid_data_dirs(_USER_PROJ_DATA):
-        _VALIDATED_PROJ_DATA = _USER_PROJ_DATA
+        validated_proj_data = _USER_PROJ_DATA
     elif valid_data_dir(internal_datadir):
-        _VALIDATED_PROJ_DATA = internal_datadir
+        validated_proj_data = internal_datadir
     elif valid_data_dirs(proj_lib_dirs):
-        _VALIDATED_PROJ_DATA = proj_lib_dirs
+        validated_proj_data = proj_lib_dirs
     else:
         proj_exe = find_executable("proj")
         if proj_exe is not None:
@@ -92,12 +88,12 @@ def get_data_dir():
                 os.path.dirname(os.path.dirname(proj_exe)), "share", "proj"
             )
             if valid_data_dir(system_proj_dir):
-                _VALIDATED_PROJ_DATA = system_proj_dir
+                validated_proj_data = system_proj_dir
 
-    if _VALIDATED_PROJ_DATA is None:
+    if validated_proj_data is None:
         raise DataDirError(
             "Valid PROJ data directory not found. "
             "Either set the path using the environmental variable PROJ_LIB or "
             "with `pyproj.datadir.set_data_dir`."
         )
-    return _VALIDATED_PROJ_DATA
+    return validated_proj_data

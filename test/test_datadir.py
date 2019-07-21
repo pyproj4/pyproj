@@ -7,6 +7,7 @@ from contextlib import contextmanager
 import pytest
 from mock import patch
 
+from pyproj import CRS
 from pyproj.datadir import DataDirError, append_data_dir, get_data_dir, set_data_dir
 
 
@@ -132,3 +133,7 @@ def test_append_data_dir__internal():
             abspath_mock.return_value = os.path.join(tmpdir, "randomfilename.py")
             append_data_dir(extra_datadir)
             assert get_data_dir() == os.pathsep.join([internal_proj_dir, extra_datadir])
+
+
+def test_creating_multiple_crs_without_file_limit():
+    assert [CRS.from_epsg(4326) for _ in range(1200)]
