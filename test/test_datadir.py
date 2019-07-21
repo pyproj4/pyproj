@@ -11,6 +11,12 @@ from pyproj import CRS
 from pyproj.datadir import DataDirError, append_data_dir, get_data_dir, set_data_dir
 
 
+def unset_data_dir():
+    from pyproj.datadir import _USER_PROJ_DATA
+
+    _USER_PROJ_DATA = None  # noqa
+
+
 def create_projdb(tmpdir):
     with open(os.path.join(tmpdir, "proj.db"), "w") as pjdb:
         pjdb.write("DUMMY proj.db")
@@ -25,14 +31,14 @@ def proj_env():
     try:
         yield
     finally:
-        # make sure the data dir is cleared
-        set_data_dir(None)
         if proj_lib is not None:
             # add it back if it used to be there
             os.environ["PROJ_LIB"] = proj_lib
         else:
             # remove it if it wasn't there previously
             os.environ.pop("PROJ_LIB", None)
+        # make sure the data dir is cleared
+        set_data_dir(None)
 
 
 @contextmanager
@@ -52,7 +58,7 @@ def test_get_data_dir__missing():
     with proj_env(), pytest.raises(DataDirError), patch(
         "pyproj.datadir.os.path.abspath", return_value="INVALID"
     ), patch("pyproj.datadir.find_executable", return_value=None):
-        set_data_dir(None)
+        unset_data_dir()
         os.environ.pop("PROJ_LIB", None)
         assert get_data_dir() is None
 
@@ -73,7 +79,7 @@ def test_get_data_dir__from_user():
 
 def test_get_data_dir__internal():
     with proj_env(), temporary_directory() as tmpdir:
-        set_data_dir(None)
+        unset_data_dir()
         os.environ["PROJ_LIB"] = tmpdir
         create_projdb(tmpdir)
         internal_proj_dir = os.path.join(tmpdir, "proj_dir", "share", "proj")
@@ -89,7 +95,7 @@ def test_get_data_dir__from_env_var():
     with proj_env(), temporary_directory() as tmpdir, patch(
         "pyproj.datadir.os.path.abspath", return_value="INVALID"
     ):
-        set_data_dir(None)
+        unset_data_dir()
         os.environ["PROJ_LIB"] = tmpdir
         create_projdb(tmpdir)
         assert get_data_dir() == tmpdir
@@ -100,7 +106,7 @@ def test_get_data_dir__from_env_var__multiple():
     with proj_env(), temporary_directory() as tmpdir, patch(
         "pyproj.datadir.os.path.abspath", return_value="INVALID"
     ):
-        set_data_dir(None)
+        unset_data_dir()
         os.environ["PROJ_LIB"] = os.pathsep.join([tmpdir, tmpdir, tmpdir])
         create_projdb(tmpdir)
         assert get_data_dir() == os.pathsep.join([tmpdir, tmpdir, tmpdir])
@@ -111,7 +117,7 @@ def test_get_data_dir__from_path():
     with proj_env(), temporary_directory() as tmpdir, patch(
         "pyproj.datadir.os.path.abspath", return_value="INVALID"
     ), patch("pyproj.datadir.find_executable") as find_exe:
-        set_data_dir(None)
+        unset_data_dir()
         os.environ.pop("PROJ_LIB", None)
         find_exe.return_value = os.path.join(tmpdir, "bin", "proj")
         proj_dir = os.path.join(tmpdir, "share", "proj")
@@ -122,7 +128,7 @@ def test_get_data_dir__from_path():
 
 def test_append_data_dir__internal():
     with proj_env(), temporary_directory() as tmpdir:
-        set_data_dir(None)
+        unset_data_dir()
         os.environ["PROJ_LIB"] = tmpdir
         create_projdb(tmpdir)
         internal_proj_dir = os.path.join(tmpdir, "proj_dir", "share", "proj")
