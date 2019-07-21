@@ -14,24 +14,36 @@ cdef void pyproj_log_function(void *user_data, int level, const char *error_msg)
         ProjError.internal_proj_error = pystrdecode(error_msg)
 
 
-cdef PJ_CONTEXT* get_pyproj_context() except *:
-    data_dir = get_data_dir()
-    data_dir_list = data_dir.split(os.pathsep)
-    cdef PJ_CONTEXT* pyproj_context = NULL
-    cdef char **c_data_dir = <char **>malloc(len(data_dir_list) * sizeof(char*))
-    try:
-        pyproj_context = proj_context_create()
-        for iii in range(len(data_dir_list)):
-            b_data_dir = cstrencode(data_dir_list[iii])
-            c_data_dir[iii] = b_data_dir
-        proj_context_set_search_paths(pyproj_context, len(data_dir_list), c_data_dir)
-    except:
-        if pyproj_context != NULL:
-            proj_context_destroy(pyproj_context)
-        raise
-    finally:
-        free(c_data_dir)
-    proj_context_use_proj4_init_rules(pyproj_context, 1)
-    proj_log_func(pyproj_context, NULL, pyproj_log_function)
+cdef class ContextManager:
+    def __cinit__(self):
+        self.context = NULL
 
-    return pyproj_context
+    def __dealloc__(self):
+        if self.context != NULL:
+            proj_context_destroy(self.context)
+            self.context = NULL
+
+    def __init__(self):
+        self.context = proj_context_create()
+        self.set_search_paths()
+        proj_context_use_proj4_init_rules(self.context, 1)
+        proj_log_func(self.context, NULL, pyproj_log_function)
+
+    def set_search_paths(self):
+        """
+        This method sets the search paths
+        based on pyproj.datadir.get_data_dir()
+        """
+        data_dir_list = get_data_dir().split(os.pathsep)
+        cdef char **c_data_dir = <char **>malloc(len(data_dir_list) * sizeof(char*))
+        try:
+            for iii in range(len(data_dir_list)):
+                b_data_dir = cstrencode(data_dir_list[iii])
+                c_data_dir[iii] = b_data_dir
+            proj_context_set_search_paths(self.context, len(data_dir_list), c_data_dir)
+        finally:
+            free(c_data_dir)
+
+
+cdef ContextManager PROJ_CONTEXT = ContextManager()
+PYPROJ_CONTEXT = PROJ_CONTEXT

@@ -10,7 +10,7 @@ cdef class Axis:
     cdef readonly object unit_code
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int index)
+    cdef create(PJ* projobj, int index)
 
 cdef class AreaOfUse:
     cdef readonly double west
@@ -20,12 +20,11 @@ cdef class AreaOfUse:
     cdef readonly object name
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj)
+    cdef create(PJ* projobj)
 
 
 cdef class Base:
     cdef PJ *projobj
-    cdef PJ_CONTEXT *projctx
     cdef readonly object name
 
 
@@ -75,7 +74,7 @@ cdef class Param:
     cdef readonly object unit_category
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int param_idx)
+    cdef create(PJ* projobj, int param_idx)
 
 
 cdef class Grid:
@@ -88,7 +87,7 @@ cdef class Grid:
     cdef readonly object available
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int grid_idx)
+    cdef create(PJ* projobj, int grid_idx)
 
 
 cdef class CoordinateOperation(Base):
@@ -109,7 +108,6 @@ cdef class CoordinateOperation(Base):
 cdef class _CRS(Base):
     cdef PJ_TYPE _type
     cdef PJ_PROJ_INFO projpj_info
-    cdef char *pjinitstring
     cdef readonly object srs
     cdef readonly object type_name
     cdef object _ellipsoid

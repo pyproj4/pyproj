@@ -3,7 +3,7 @@ import warnings
 from collections import OrderedDict
 
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj._datadir cimport get_pyproj_context
+from pyproj._datadir cimport PROJ_CONTEXT
 from pyproj.enums import WktVersion, ProjVersion
 from pyproj.exceptions import CRSError
 
@@ -54,13 +54,12 @@ def is_proj(proj_string):
     return not is_wkt(proj_string) and "=" in proj_string
 
 
-cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version=WktVersion.WKT2_2018, pretty=False):
+cdef _to_wkt(PJ* projobj, version=WktVersion.WKT2_2018, pretty=False):
     """
     Convert a PJ object to a wkt string.
 
     Parameters
     ----------
-    projctx: PJ_CONTEXT*
     projobj: PJ*
     wkt_out_type: PJ_WKT_TYPE
     pretty: bool
@@ -89,14 +88,14 @@ cdef _to_wkt(PJ_CONTEXT* projctx, PJ* projobj, version=WktVersion.WKT2_2018, pre
     options_wkt[1] = NULL
     cdef const char* proj_string
     proj_string = proj_as_wkt(
-        projctx,
+        PROJ_CONTEXT.context,
         projobj,
         wkt_out_type,
         options_wkt)
     return cstrdecode(proj_string)
 
 
-cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version):
+cdef _to_proj4(PJ* projobj, version):
     """
     Convert the projection to a PROJ string.
 
@@ -120,7 +119,7 @@ cdef _to_proj4(PJ_CONTEXT* projctx, PJ* projobj, version):
     # convert projection to string
     cdef const char* proj_string
     proj_string = proj_as_proj_string(
-        projctx,
+        PROJ_CONTEXT.context,
         projobj,
         proj_out_type,
         NULL)
@@ -136,7 +135,7 @@ cdef PJ* _from_authority(
     b_code = cstrencode(str(code))
     cdef char *c_code = b_code
     return proj_create_from_database(
-        get_pyproj_context(),
+        PROJ_CONTEXT.context,
         c_auth_name,
         c_code,
         category,
@@ -148,7 +147,7 @@ cdef PJ* _from_authority(
 cdef PJ* _from_string(proj_string, expected_types):
     CRSError.clear()
     cdef PJ* base_pj = proj_create(
-        get_pyproj_context(),
+        PROJ_CONTEXT.context,
         cstrencode(proj_string)
     )
     if base_pj is NULL:
@@ -205,7 +204,7 @@ cdef class Axis:
         )
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int index):
+    cdef create(PJ* projobj, int index):
         cdef Axis axis_info = Axis()
         cdef const char * name = NULL
         cdef const char * abbrev = NULL
@@ -214,7 +213,7 @@ cdef class Axis:
         cdef const char * unit_auth_code = NULL
         cdef const char * unit_code = NULL
         if not proj_cs_get_axis_info(
-                projcontext,
+                PROJ_CONTEXT.context,
                 projobj,
                 index,
                 &name,
@@ -275,11 +274,11 @@ cdef class AreaOfUse:
         )
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj):
+    cdef create(PJ* projobj):
         cdef AreaOfUse area_of_use = AreaOfUse()
         cdef const char * area_name = NULL
         if not proj_get_area_of_use(
-                projcontext,
+                PROJ_CONTEXT.context,
                 projobj,
                 &area_of_use.west,
                 &area_of_use.south,
@@ -298,18 +297,13 @@ cdef class AreaOfUse:
 cdef class Base:
     def __cinit__(self):
         self.projobj = NULL
-        self.projctx = NULL
         self.name = "undefined"
 
     def __dealloc__(self):
         """destroy projection definition"""
         if self.projobj != NULL:
             proj_destroy(self.projobj)
-        if self.projctx != NULL:
-            proj_context_destroy(self.projctx)
-
-    def __init__(self):
-        self.projctx = get_pyproj_context()
+            self.projobj = NULL
 
     def _set_name(self):
         """
@@ -344,7 +338,7 @@ cdef class Base:
         -------
         str: The WKT string.
         """
-        return _to_wkt(self.projctx, self.projobj, version, pretty=pretty)
+        return _to_wkt(self.projobj, version, pretty=pretty)
 
     def __str__(self):
         return self.name
@@ -403,7 +397,7 @@ cdef class CoordinateSystem(Base):
         cdef CoordinateSystem coord_system = CoordinateSystem()
         coord_system.projobj = coord_system_pj
         cdef PJ_COORDINATE_SYSTEM_TYPE cs_type = proj_cs_get_type(
-            coord_system.projctx,
+            PROJ_CONTEXT.context,
             coord_system.projobj,
         )
         try:
@@ -424,13 +418,12 @@ cdef class CoordinateSystem(Base):
         self._axis_list = []
         cdef int num_axes = 0
         num_axes = proj_cs_get_axis_count(
-            self.projctx,
+            PROJ_CONTEXT.context,
             self.projobj
         )
         for axis_idx from 0 <= axis_idx < num_axes:
             self._axis_list.append(
                 Axis.create(
-                    self.projctx,
                     self.projobj,
                     axis_idx
                 )
@@ -467,7 +460,7 @@ cdef class Ellipsoid(Base):
         cdef int is_semi_minor_computed = 0
         try:
             proj_ellipsoid_get_parameters(
-                ellips.projctx,
+                PROJ_CONTEXT.context,
                 ellips.projobj,
                 &ellips._semi_major_metre,
                 &ellips._semi_minor_metre,
@@ -619,7 +612,7 @@ cdef class PrimeMeridian(Base):
         prime_meridian.projobj = prime_meridian_pj
         cdef const char * unit_name
         proj_prime_meridian_get_parameters(
-            prime_meridian.projctx,
+            PROJ_CONTEXT.context,
             prime_meridian.projobj,
             &prime_meridian.longitude,
             &prime_meridian.unit_conversion_factor,
@@ -820,7 +813,10 @@ cdef class Datum(Base):
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
-        cdef PJ* ellipsoid_pj = proj_get_ellipsoid(self.projctx, self.projobj)
+        cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
+            PROJ_CONTEXT.context,
+            self.projobj,
+        )
         if ellipsoid_pj == NULL:
             self._ellipsoid = False
             return None
@@ -836,7 +832,10 @@ cdef class Datum(Base):
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is False else self._prime_meridian
-        cdef PJ* prime_meridian_pj = proj_get_prime_meridian(self.projctx, self.projobj)
+        cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
+            PROJ_CONTEXT.context,
+            self.projobj,
+        )
         if prime_meridian_pj == NULL:
             self._prime_meridian = False
             return None
@@ -883,7 +882,7 @@ cdef class Param:
         self.unit_category = "undefined"
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int param_idx):
+    cdef create(PJ* projobj, int param_idx):
         cdef Param param = Param()
         cdef char *out_name
         cdef char *out_auth_name
@@ -896,7 +895,7 @@ cdef class Param:
         cdef char *out_unit_category
         cdef double value_double
         proj_coordoperation_get_param(
-            projcontext,
+            PROJ_CONTEXT.context,
             projobj,
             param_idx,
             &out_name,
@@ -972,7 +971,7 @@ cdef class Grid:
         self.available = False
 
     @staticmethod
-    cdef create(PJ_CONTEXT* projcontext, PJ* projobj, int grid_idx):
+    cdef create(PJ* projobj, int grid_idx):
         cdef Grid grid = Grid()
         cdef char *out_short_name
         cdef char *out_full_name
@@ -982,7 +981,7 @@ cdef class Grid:
         cdef int open_license = 0
         cdef int available = 0
         proj_coordoperation_get_grid_used(
-            projcontext,
+            PROJ_CONTEXT.context,
             projobj,
             grid_idx,
             &out_short_name,
@@ -1062,7 +1061,7 @@ cdef class CoordinateOperation(Base):
         cdef char *out_method_auth_name = NULL
         cdef char *out_method_code = NULL
         proj_coordoperation_get_method_info(
-            coord_operation.projctx,
+            PROJ_CONTEXT.context,
             coord_operation.projobj,
             &out_method_name,
             &out_method_auth_name,
@@ -1073,16 +1072,16 @@ cdef class CoordinateOperation(Base):
         coord_operation.method_auth_name = decode_or_undefined(out_method_auth_name)
         coord_operation.method_code = decode_or_undefined(out_method_code)
         coord_operation.accuracy = proj_coordoperation_get_accuracy(
-            coord_operation.projctx,
+            PROJ_CONTEXT.context,
             coord_operation.projobj
         )
         coord_operation.is_instantiable = proj_coordoperation_is_instantiable(
-            coord_operation.projctx,
+            PROJ_CONTEXT.context,
             coord_operation.projobj
         ) == 1
         coord_operation.has_ballpark_transformation = \
             proj_coordoperation_has_ballpark_transformation(
-                coord_operation.projctx,
+                PROJ_CONTEXT.context,
                 coord_operation.projobj
             ) == 1
 
@@ -1185,13 +1184,12 @@ cdef class CoordinateOperation(Base):
         self._params = []
         cdef int num_params = 0
         num_params = proj_coordoperation_get_param_count(
-            self.projctx,
+            PROJ_CONTEXT.context,
             self.projobj
         )
         for param_idx from 0 <= param_idx < num_params:
             self._params.append(
                 Param.create(
-                    self.projctx,
                     self.projobj,
                     param_idx
                 )
@@ -1210,13 +1208,12 @@ cdef class CoordinateOperation(Base):
         self._grids = []
         cdef int num_grids = 0
         num_grids = proj_coordoperation_get_grid_used_count(
-            self.projctx,
+            PROJ_CONTEXT.context,
             self.projobj
         )
         for grid_idx from 0 <= grid_idx < num_grids:
             self._grids.append(
                 Grid.create(
-                    self.projctx,
                     self.projobj,
                     grid_idx
                 )
@@ -1237,7 +1234,7 @@ cdef class CoordinateOperation(Base):
         -------
         str: The PROJ string.
         """
-        return _to_proj4(self.projctx, self.projobj, version)
+        return _to_proj4(self.projobj, version)
 
     @property
     def towgs84(self):
@@ -1305,9 +1302,11 @@ cdef class _CRS(Base):
         self.type_name = "undefined"
 
     def __init__(self, proj_string):
-        self.projctx = get_pyproj_context()
         # initialize projection
-        self.projobj = proj_create(self.projctx, cstrencode(proj_string))
+        self.projobj = proj_create(
+            PROJ_CONTEXT.context,
+            cstrencode(proj_string),
+        )
         if self.projobj is NULL:
             raise CRSError(
                 "Invalid projection: {}".format(pystrdecode(proj_string)))
@@ -1338,7 +1337,7 @@ cdef class _CRS(Base):
         """
         if self._area_of_use is not None:
             return self._area_of_use
-        self._area_of_use = AreaOfUse.create(self.projctx, self.projobj)
+        self._area_of_use = AreaOfUse.create(self.projobj)
         return self._area_of_use
 
     @property
@@ -1350,7 +1349,10 @@ cdef class _CRS(Base):
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
-        cdef PJ* ellipsoid_pj = proj_get_ellipsoid(self.projctx, self.projobj)
+        cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
+            PROJ_CONTEXT.context,
+            self.projobj
+        )
         if ellipsoid_pj == NULL:
             self._ellipsoid = False
             return None
@@ -1366,7 +1368,10 @@ cdef class _CRS(Base):
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is True else self._prime_meridian
-        cdef PJ* prime_meridian_pj = proj_get_prime_meridian(self.projctx, self.projobj)
+        cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
+            PROJ_CONTEXT.context,
+            self.projobj,
+        )
         if prime_meridian_pj == NULL:
             self._prime_meridian = False
             return None
@@ -1382,9 +1387,12 @@ cdef class _CRS(Base):
         """
         if self._datum is not None:
             return None if self._datum is False else self._datum
-        cdef PJ* datum_pj = proj_crs_get_datum(self.projctx, self.projobj)
+        cdef PJ* datum_pj = proj_crs_get_datum(PROJ_CONTEXT.context, self.projobj)
         if datum_pj == NULL:
-            datum_pj = proj_crs_get_horizontal_datum(self.projctx, self.projobj)
+            datum_pj = proj_crs_get_horizontal_datum(
+                PROJ_CONTEXT.context,
+                self.projobj,
+            )
         if datum_pj == NULL:
             self._datum = False
             return None
@@ -1402,7 +1410,7 @@ cdef class _CRS(Base):
             return None if self._coordinate_system is False else self._coordinate_system
 
         cdef PJ* coord_system_pj = proj_crs_get_coordinate_system(
-            self.projctx,
+            PROJ_CONTEXT.context,
             self.projobj
         )
         if coord_system_pj == NULL:
@@ -1423,7 +1431,7 @@ cdef class _CRS(Base):
             return None if self._coordinate_operation is False else self._coordinate_operation
         cdef PJ* coord_pj = NULL
         coord_pj = proj_crs_get_coordoperation(
-            self.projctx,
+            PROJ_CONTEXT.context,
             self.projobj
         )
         if coord_pj == NULL:
@@ -1443,12 +1451,12 @@ cdef class _CRS(Base):
         if self._source_crs is not None:
             return None if self._source_crs is False else self._source_crs
         cdef PJ * projobj
-        projobj = proj_get_source_crs(self.projctx, self.projobj)
+        projobj = proj_get_source_crs(PROJ_CONTEXT.context, self.projobj)
         if projobj == NULL:
             self._source_crs = False
             return None
         try:
-            self._source_crs = self.__class__(_to_wkt(self.projctx, projobj))
+            self._source_crs = self.__class__(_to_wkt(projobj))
         finally:
             proj_destroy(projobj)
         return self._source_crs
@@ -1463,12 +1471,12 @@ cdef class _CRS(Base):
         if self._target_crs is not None:
             return None if self._target_crs is False else self._target_crs
         cdef PJ * projobj
-        projobj = proj_get_target_crs(self.projctx, self.projobj)
+        projobj = proj_get_target_crs(PROJ_CONTEXT.context, self.projobj)
         if projobj == NULL:
             self._target_crs = False
             return None
         try:
-            self._target_crs = self.__class__(_to_wkt(self.projctx, projobj))
+            self._target_crs = self.__class__(_to_wkt(projobj))
         finally:
             proj_destroy(projobj)
         return self._target_crs
@@ -1485,15 +1493,19 @@ cdef class _CRS(Base):
         if self._sub_crs_list is not None:
             return self._sub_crs_list
         cdef int iii = 0
-        cdef PJ * projobj = proj_crs_get_sub_crs(self.projctx, self.projobj, iii)
+        cdef PJ * projobj = proj_crs_get_sub_crs(
+            PROJ_CONTEXT.context,
+            self.projobj,
+            iii,
+        )
         self._sub_crs_list = []
         while projobj != NULL:
             try:
-                self._sub_crs_list.append(self.__class__(_to_wkt(self.projctx, projobj)))
+                self._sub_crs_list.append(self.__class__(_to_wkt(projobj)))
             finally:
                 proj_destroy(projobj) # deallocate temp proj
             iii += 1
-            projobj = proj_crs_get_sub_crs(self.projctx, self.projobj, iii)
+            projobj = proj_crs_get_sub_crs(PROJ_CONTEXT.context, self.projobj, iii)
 
         return self._sub_crs_list
 
@@ -1507,12 +1519,12 @@ cdef class _CRS(Base):
         if self._geodetic_crs is not None:
             return self._geodetic_crs if self. _geodetic_crs is not False else None
         cdef PJ * projobj
-        projobj = proj_crs_get_geodetic_crs(self.projctx, self.projobj)
+        projobj = proj_crs_get_geodetic_crs(PROJ_CONTEXT.context, self.projobj)
         if projobj == NULL:
             self._geodetic_crs = False
             return None
         try:
-            self._geodetic_crs = self.__class__(_to_wkt(self.projctx, projobj))
+            self._geodetic_crs = self.__class__(_to_wkt(projobj))
             return self._geodetic_crs
         finally:
             proj_destroy(projobj) # deallocate temp proj
@@ -1536,7 +1548,7 @@ cdef class _CRS(Base):
         -------
         str: The PROJ string.
         """
-        return _to_proj4(self.projctx, self.projobj, version)
+        return _to_proj4(self.projobj, version)
 
     def to_epsg(self, min_confidence=70):
         """
@@ -1625,7 +1637,8 @@ cdef class _CRS(Base):
             user_auth_name = b_auth_name
 
         try:
-            proj_list  = proj_identify(self.projctx,
+            proj_list  = proj_identify(
+                PROJ_CONTEXT.context,
                 self.projobj,
                 user_auth_name,
                 NULL,
@@ -1648,7 +1661,7 @@ cdef class _CRS(Base):
         # retrieve the best matching projection
         cdef PJ* proj
         try:
-            proj = proj_list_get(self.projctx, proj_list, 0)
+            proj = proj_list_get(PROJ_CONTEXT.context, proj_list, 0)
         finally:
             proj_list_destroy(proj_list)
         if proj == NULL:

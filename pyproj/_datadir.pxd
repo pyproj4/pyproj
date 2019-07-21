@@ -1,3 +1,6 @@
 include "proj.pxi"
 
-cdef PJ_CONTEXT* get_pyproj_context() except *
+cdef ContextManager PROJ_CONTEXT
+
+cdef class ContextManager:
+    cdef PJ_CONTEXT *context

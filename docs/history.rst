@@ -12,7 +12,7 @@ Change Log
   (:meth:`~pyproj.geod.Geod.geometry_area_perimeter` & :meth:`~pyproj.geod.Geod.geometry_length`)
   (pull #366)
 * Removed deprecated functions `Proj.proj_version`, `CRS.is_valid`, and `CRS.to_geodetic()` (pull #371)
-
+* Updated to only have one PJ_CONTEXT per pyproj session (issue #374)
 
 2.2.2
 ~~~~~

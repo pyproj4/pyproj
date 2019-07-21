@@ -3,7 +3,7 @@ include "base.pxi"
 import warnings
 
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj._datadir cimport get_pyproj_context
+from pyproj._datadir cimport PROJ_CONTEXT
 from pyproj.exceptions import ProjError
 
 
@@ -16,15 +16,12 @@ proj_version_str = "{0}.{1}.{2}".format(
 
 cdef class Proj:
     def __cinit__(self):
-        self.projctx = NULL
         self.projpj = NULL
 
     def __init__(self, const char *projstring):
         self.srs = pystrdecode(projstring)
-        # setup the context
-        self.projctx = get_pyproj_context()
         # initialize projection
-        self.projpj = proj_create(self.projctx, projstring)
+        self.projpj = proj_create(PROJ_CONTEXT.context, projstring)
         if self.projpj is NULL:
             raise ProjError("Invalid projection {}.".format(projstring))
         self.projpj_info = proj_pj_info(self.projpj)
@@ -33,8 +30,7 @@ cdef class Proj:
         """destroy projection definition"""
         if self.projpj is not NULL:
             proj_destroy(self.projpj)
-        if self.projctx is not NULL:
-            proj_context_destroy(self.projctx)
+            self.projpj = NULL
 
     @property
     def definition(self):
