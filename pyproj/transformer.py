@@ -40,6 +40,20 @@ class Transformer(object):
     is to make repeated transforms faster.
 
     Additionally, it provides multiple methods for initialization.
+
+    Attributes
+    ----------
+    operations: list
+        It will return a list of :obj:`~pyproj.crs.CoordinateOperation` objects
+        associated with the transformation if created using the
+        :meth:`~Transformer.from_crs` method and they exist.
+        From PROJ docs:
+        The operations are sorted with the most relevant ones first: by
+        descending area (intersection of the transformation area with the
+        area of interest, or intersection of the transformation with the
+        area of use of the CRS), and by increasing accuracy. Operations
+        with unknown accuracy are sorted last, whatever their area.
+
     """
 
     def __init__(self, base_transformer=None):
@@ -50,6 +64,7 @@ class Transformer(object):
                 "'from_crs', 'from_pipeline', or 'from_proj'."
             )
         self._transformer = base_transformer
+        self.operations = []
 
     @property
     def name(self):
@@ -63,14 +78,22 @@ class Transformer(object):
         """
         str: Description of the projection.
         """
-        return self._transformer.description
+        return (
+            self.operations[0].name
+            if self.operations
+            else self._transformer.description
+        )
 
     @property
     def definition(self):
         """
         str: Definition of the projection.
         """
-        return self._transformer.definition
+        return (
+            self.operations[0].to_proj4()
+            if self.operations
+            else self._transformer.definition
+        )
 
     @property
     def has_inverse(self):
@@ -148,14 +171,14 @@ class Transformer(object):
         :obj:`~Transformer`
 
         """
+        crs_from = CRS.from_user_input(crs_from)
+        crs_to = CRS.from_user_input(crs_to)
         transformer = Transformer(
             _Transformer.from_crs(
-                CRS.from_user_input(crs_from),
-                CRS.from_user_input(crs_to),
-                skip_equivalent=skip_equivalent,
-                always_xy=always_xy,
+                crs_from, crs_to, skip_equivalent=skip_equivalent, always_xy=always_xy
             )
         )
+        transformer.operations = _Transformer.get_operations(crs_from, crs_to)
         return transformer
 
     @staticmethod

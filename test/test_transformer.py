@@ -397,7 +397,7 @@ def test_pj_info_properties():
     transformer = Transformer.from_crs(4326, 3857)
     assert transformer.name == "pipeline"
     assert transformer.description == "Popular Visualisation Pseudo-Mercator"
-    assert transformer.definition.startswith("proj=pipeline")
+    assert transformer.definition.startswith("+proj=pipeline")
     assert transformer.has_inverse
     assert transformer.accuracy == 0
 
@@ -410,7 +410,7 @@ def test_to_wkt():
 
 
 def test_str():
-    assert str(Transformer.from_crs(4326, 3857)).startswith("proj=pipeline")
+    assert str(Transformer.from_crs(4326, 3857)).startswith("+proj=pipeline")
 
 
 def test_repr():
@@ -423,5 +423,22 @@ def test_repr():
     )
 
     assert repr(Transformer.from_crs(4326, 26917)) == (
-        "<Unknown Transformer: unknown>\n" "unavailable until proj_trans is called"
+        "<Unknown Transformer: unknown>\n"
+        "Inverse of NAD83 to WGS 84 (1) + UTM zone 17N"
     )
+
+
+def test_operations():
+    transformer = Transformer.from_crs(7912, 7665)
+    assert len(transformer.operations) == 1
+    assert transformer.operations[0].name == (
+        "Conversion from ITRF2014 (geog3D) to ITRF2014 (geocentric)"
+        " + Inverse of ITRF2008 to ITRF2014 (1)"
+        " + Inverse of WGS 84 (G1762) to ITRF2008 (1)"
+        " + Conversion from WGS 84 (G1762) (geocentric) to WGS 84 (G1762) (geog3D)"
+    )
+
+
+def test_operations__empty():
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert transformer.operations == []

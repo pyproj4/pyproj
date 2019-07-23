@@ -1,6 +1,6 @@
 include "base.pxi"
 
-from pyproj._crs cimport Base, _CRS
+from pyproj._crs cimport Base, _CRS, CoordinateOperation
 from pyproj._datadir cimport PROJ_CONTEXT
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
@@ -115,6 +115,50 @@ cdef class _Transformer(Base):
         transformer._set_radians_io()
         transformer.is_pipeline = True
         return transformer
+
+    @staticmethod
+    def get_operations(_CRS crs_from, _CRS crs_to):
+        """
+        From PROJ docs:
+
+        The operations are sorted with the most relevant ones first: by
+        descending area (intersection of the transformation area with the
+        area of interest, or intersection of the transformation with the
+        area of use of the CRS), and by increasing accuracy. Operations
+        with unknown accuracy are sorted last, whatever their area.
+        """
+        cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
+        cdef PJ_OBJ_LIST * pj_operations = NULL
+        cdef int num_operations = 0
+        operations = []
+        try:
+            operation_factory_context = proj_create_operation_factory_context(
+                PROJ_CONTEXT.context,
+                NULL,
+            )
+            pj_operations = proj_create_operations(
+                PROJ_CONTEXT.context,
+                crs_from.projobj,
+                crs_to.projobj,
+                operation_factory_context,
+            )
+            num_operations = proj_list_get_count(pj_operations)
+            for iii in range(num_operations):
+                operations.append(
+                    CoordinateOperation.create(
+                        proj_list_get(
+                            PROJ_CONTEXT.context,
+                            pj_operations,
+                            iii,
+                        )
+                    )
+                )
+        finally:
+            proj_list_destroy(pj_operations)
+            pj_operations = NULL
+            proj_operation_factory_context_destroy(operation_factory_context)
+            operation_factory_context = NULL
+        return operations
 
     def _transform(self, inx, iny, inz, intime, direction, radians, errcheck):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):

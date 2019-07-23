@@ -354,3 +354,22 @@ cdef extern from "proj.h":
                                   PJ_CATEGORY category,
                                   int usePROJAlternativeGridNames,
                                   const char* const *options)
+
+
+    ctypedef struct PJ_OPERATION_FACTORY_CONTEXT
+
+    PJ_OPERATION_FACTORY_CONTEXT *proj_create_operation_factory_context(
+        PJ_CONTEXT *ctx,
+        const char *authority
+    )
+
+    void proj_operation_factory_context_destroy(
+        PJ_OPERATION_FACTORY_CONTEXT *ctx
+    )
+
+    PJ_OBJ_LIST *proj_create_operations(
+        PJ_CONTEXT *ctx,
+        const PJ *source_crs,
+        const PJ *target_crs,
+        const PJ_OPERATION_FACTORY_CONTEXT *operationContext
+    )
