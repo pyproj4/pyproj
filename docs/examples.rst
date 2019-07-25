@@ -266,7 +266,7 @@ see :class:`~pyproj.transformer.Transformer`.
     >>> transformer = Transformer.from_crs("EPSG:4326", "EPSG:26917")
     >>> transformer
     <Unknown Transformer: unknown>
-    unavailable until proj_trans is called
+    Inverse of NAD83 to WGS 84 (1) + UTM zone 17N
     >>> transformer.transform(50, -80) 
     (571666.4475041276, 5539109.815175673)
 
