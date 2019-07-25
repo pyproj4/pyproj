@@ -201,6 +201,25 @@ creating the <a class="reference internal" href="#pyproj.transformer.Transformer
 transforms without needing to re-create them. The goal
 is to make repeated transforms faster.</p>
 <p>Additionally, it provides multiple methods for initialization.</p>
+<dl class="attribute">
+<dt id="pyproj.transformer.Transformer.operations">
+<code class="sig-name descname">operations</code><a class="headerlink" href="#pyproj.transformer.Transformer.operations" title="Permalink to this definition">¶</a></dt>
+<dd><p>It will return a list of <a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a> objects
+associated with the transformation if created using the
+<a class="reference internal" href="#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_crs()</span></code></a> method and they exist.
+From PROJ docs:
+The operations are sorted with the most relevant ones first: by
+descending area (intersection of the transformation area with the
+area of interest, or intersection of the transformation with the
+area of use of the CRS), and by increasing accuracy. Operations
+with unknown accuracy are sorted last, whatever their area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.accuracy">
 <em class="property">property </em><code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyproj.transformer.Transformer.accuracy" title="Permalink to this definition">¶</a></dt>
