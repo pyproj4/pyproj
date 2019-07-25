@@ -13,6 +13,9 @@ Change Log
   (pull #366)
 * Removed deprecated functions `Proj.proj_version`, `CRS.is_valid`, and `CRS.to_geodetic()` (pull #371)
 * Updated to only have one PJ_CONTEXT per pyproj session (issue #374)
+* Added :attr:`~pyproj.transformer.Transformer.operations` and added missing definition
+  for cases when it is unknown (issue #377)
+
 
 2.2.2
 ~~~~~
