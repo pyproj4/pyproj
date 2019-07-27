@@ -27,6 +27,12 @@ matrix:
       env:
         - PYTHON=3.6.8
         - PROJSOURCE=6.1.1
+    - language: cpp
+      os: osx
+      env:
+        - PYTHON=3.6.8
+        - PROJSOURCE=6.1.1
+        - PYPROJ_OMP="-fopenmp"
     - python: 3.5
       env:
         - PROJSOURCE=6.1.1
@@ -36,6 +42,10 @@ matrix:
     - python: 3.6
       env:
         - PROJSOURCE=6.1.1
+    - python: 3.6
+      env: 
+        - PROJSOURCE=6.1.1
+        - PYPROJ_OMP="-fopenmp"
     - python: 3.7
       dist: xenial
       env:
@@ -47,7 +57,19 @@ matrix:
     
   allow_failures:
     - python: "nightly"
-    - env: PROJSOURCE=git
+      env:
+        - PROJSOURCE=git
+    - language: cpp
+      os: osx
+      env:
+        - PYTHON=3.6.8
+        - PROJSOURCE=6.1.1
+        - PYPROJ_OMP="-fopenmp"
+    - python: 3.6
+      env: 
+        - PROJSOURCE=6.1.1
+        - PYPROJ_OMP="-fopenmp"
+
 
 before_install:
   - |
@@ -69,6 +91,20 @@ before_install:
       source venv/bin/activate
       # A manual check that the correct version of Python is running.
       python --version
+      # install OpenMP not present by default on osx
+      brew install libomp
+
+      # enable OpenMP support for Apple-clang
+      export CC=/usr/bin/clang
+      export CXX=/usr/bin/clang++
+      export CPPFLAGS="$CPPFLAGS -Xpreprocessor -fopenmp"
+      export CFLAGS="$CFLAGS -I/usr/local/opt/libomp/include"
+      export CXXFLAGS="$CXXFLAGS -I/usr/local/opt/libomp/include"
+      export LDFLAGS="$LDFLAGS -L/usr/local/opt/libomp/lib -lomp"
+      export DYLD_LIBRARY_PATH=/usr/local/opt/libomp/lib
+
+      # avoid error due to multiple OpenMP libraries loaded simultaneously
+      export KMP_DUPLICATE_LIB_OK=TRUE
     else
       sudo apt-get install -qq sqlite3 libsqlite3-dev
     fi
@@ -83,7 +119,7 @@ before_install:
 
 install:
   # coverage report requires a local install
-  - pip install pip>=10.0.1
+  - pip install 'pip>=10.0.1'
   - make install-dev
   - pip install coveralls
 

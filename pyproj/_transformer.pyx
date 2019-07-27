@@ -1,5 +1,8 @@
 include "base.pxi"
 
+cimport cython
+from cython.parallel import prange
+
 from pyproj._crs cimport Base, _CRS, CoordinateOperation
 from pyproj._datadir cimport PROJ_CONTEXT
 from pyproj.compat import cstrencode, pystrdecode
@@ -160,6 +163,8 @@ cdef class _Transformer(Base):
             operation_factory_context = NULL
         return operations
 
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
     def _transform(self, inx, iny, inz, intime, direction, radians, errcheck):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
@@ -208,14 +213,14 @@ cdef class _Transformer(Base):
         # degrees to radians
         if not self.is_pipeline and not radians\
                 and self._input_radians[pj_direction]:
-            for iii from 0 <= iii < npts:
+            for iii in prange(npts, nogil=True):
                 xx[iii] = xx[iii]*_DG2RAD
                 yy[iii] = yy[iii]*_DG2RAD
         # radians to degrees
         elif not self.is_pipeline and radians\
                 and not self._input_radians[pj_direction]\
                 and self.input_geographic:
-            for iii from 0 <= iii < npts:
+            for iii in prange(npts, nogil=True):
                 xx[iii] = xx[iii]*_RAD2DG
                 yy[iii] = yy[iii]*_RAD2DG
 
@@ -239,18 +244,19 @@ cdef class _Transformer(Base):
         # radians to degrees
         if not self.is_pipeline and not radians\
                 and self._output_radians[pj_direction]:
-            for iii from 0 <= iii < npts:
+            for iii in prange(npts, nogil=True):
                 xx[iii] = xx[iii]*_RAD2DG
                 yy[iii] = yy[iii]*_RAD2DG
         # degrees to radians
         elif not self.is_pipeline and radians\
                 and not self._output_radians[pj_direction]\
                 and self.output_geographic:
-            for iii from 0 <= iii < npts:
+            for iii in prange(npts, nogil=True):
                 xx[iii] = xx[iii]*_DG2RAD
                 yy[iii] = yy[iii]*_DG2RAD
 
-
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
     def _transform_sequence(
         self, Py_ssize_t stride, inseq, bint switch,
         direction, time_3rd, radians, errcheck
@@ -281,18 +287,18 @@ cdef class _Transformer(Base):
         # degrees to radians
         if not self.is_pipeline and not radians\
                 and self._input_radians[pj_direction]:
-            for iii from 0 <= iii < npts:
-                jjj = stride*iii
+            for iii in prange(npts, nogil=True):
+                jjj = stride * iii
                 coords[jjj] *= _DG2RAD
-                coords[jjj+1] *= _DG2RAD
+                coords[jjj + 1] *= _DG2RAD
         # radians to degrees
         elif not self.is_pipeline and radians\
                 and not self._input_radians[pj_direction]\
                 and self.input_geographic:
-            for iii from 0 <= iii < npts:
-                jjj = stride*iii
+            for iii in prange(npts, nogil=True):
+                jjj = stride * iii
                 coords[jjj] *= _RAD2DG
-                coords[jjj+1] *= _RAD2DG
+                coords[jjj + 1] *= _RAD2DG
 
         if not switch:
             x = coords
@@ -335,15 +341,15 @@ cdef class _Transformer(Base):
         # radians to degrees
         if not self.is_pipeline and not radians\
                 and self._output_radians[pj_direction]:
-            for iii from 0 <= iii < npts:
-                jjj = stride*iii
+            for iii in prange(npts, nogil=True):
+                jjj = stride * iii
                 coords[jjj] *= _RAD2DG
-                coords[jjj+1] *= _RAD2DG
+                coords[jjj + 1] *= _RAD2DG
         # degrees to radians
         elif not self.is_pipeline and radians\
                 and not self._output_radians[pj_direction]\
                 and self.output_geographic:
-            for iii from 0 <= iii < npts:
-                jjj = stride*iii
+            for iii in prange(npts, nogil=True):
+                jjj = stride * iii
                 coords[jjj] *= _DG2RAD
-                coords[jjj+1] *= _DG2RAD
+                coords[jjj + 1] *= _DG2RAD

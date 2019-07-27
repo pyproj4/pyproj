@@ -4,7 +4,8 @@ cdef extern from "proj.h":
         PROJ_VERSION_MAJOR
         PROJ_VERSION_MINOR
         PROJ_VERSION_PATCH
-    void proj_context_set_search_paths(PJ_CONTEXT *ctx, int count_paths, const char* const* paths);
+    void proj_context_set_search_paths(
+        PJ_CONTEXT *ctx, int count_paths, const char* const* paths) nogil
 
     cdef struct PJ_INFO:
         int         major
@@ -22,8 +23,8 @@ cdef extern from "proj.h":
     # projPJ  has been replaced by PJ *
     ctypedef struct PJ
     ctypedef struct PJ_CONTEXT
-    PJ_CONTEXT *proj_context_create ()
-    PJ_CONTEXT *proj_context_destroy (PJ_CONTEXT *ctx)
+    PJ_CONTEXT *proj_context_create () nogil
+    PJ_CONTEXT *proj_context_destroy (PJ_CONTEXT *ctx) nogil
 
     ctypedef enum PJ_LOG_LEVEL:
         PJ_LOG_NONE  = 0
@@ -34,12 +35,12 @@ cdef extern from "proj.h":
     ctypedef void (*PJ_LOG_FUNCTION)(void *, int, const char *)
     void proj_log_func (PJ_CONTEXT *ctx, void *app_data, PJ_LOG_FUNCTION logf)
 
-    int  proj_errno (const PJ *P)
-    int proj_context_errno (PJ_CONTEXT *ctx)
-    const char * proj_errno_string (int err)
-    int  proj_errno_reset (const PJ *P)
-    PJ *proj_create (PJ_CONTEXT *ctx, const char *definition)
-    PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj)
+    int proj_errno (const PJ *P) nogil
+    int proj_context_errno (PJ_CONTEXT *ctx) nogil
+    const char * proj_errno_string (int err) nogil
+    int  proj_errno_reset (const PJ *P) nogil
+    PJ *proj_create (PJ_CONTEXT *ctx, const char *definition) nogil
+    PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj) nogil
 
     cdef struct PJ_PROJ_INFO:
         const char  *id
@@ -48,7 +49,7 @@ cdef extern from "proj.h":
         int         has_inverse #1 if an inverse mapping exists, 0 otherwise              */
         double      accuracy
 
-    PJ_PROJ_INFO proj_pj_info(PJ *P)
+    PJ_PROJ_INFO proj_pj_info(PJ *P) nogil
 
     ctypedef struct PJ_XYZT:
         double   x,   y,  z, t
@@ -93,16 +94,16 @@ cdef extern from "proj.h":
         PJ_UV uv;
         PJ_LP lp;
 
-    PJ_COORD proj_coord (double x, double y, double z, double t)
+    PJ_COORD proj_coord (double x, double y, double z, double t) nogil
 
     cdef enum PJ_DIRECTION:
         PJ_FWD   =  1 # Forward
         PJ_IDENT =  0 # Do nothing
         PJ_INV   = -1 # Inverse
 
-    int proj_angular_input (PJ *P, PJ_DIRECTION dir)
-    int proj_angular_output (PJ *P, PJ_DIRECTION dir)
-    PJ_COORD proj_trans (PJ *P, PJ_DIRECTION direction, PJ_COORD coord)
+    int proj_angular_input (PJ *P, PJ_DIRECTION dir) nogil
+    int proj_angular_output (PJ *P, PJ_DIRECTION dir) nogil
+    PJ_COORD proj_trans (PJ *P, PJ_DIRECTION direction, PJ_COORD coord) nogil
     size_t proj_trans_generic (
         PJ *P,
         PJ_DIRECTION direction,
@@ -110,9 +111,9 @@ cdef extern from "proj.h":
         double *y, size_t sy, size_t ny,
         double *z, size_t sz, size_t nz,
         double *t, size_t st, size_t nt
-    );
+    ) nogil
     ctypedef struct PJ_AREA
-    PJ *proj_create_crs_to_crs(PJ_CONTEXT *ctx, const char *source_crs, const char *target_crs, PJ_AREA *area);
+    PJ *proj_create_crs_to_crs(PJ_CONTEXT *ctx, const char *source_crs, const char *target_crs, PJ_AREA *area) nogil
 
     cdef enum PJ_COMPARISON_CRITERION:
         PJ_COMP_STRICT
@@ -121,17 +122,17 @@ cdef extern from "proj.h":
 
     void proj_destroy(PJ *obj)
     int proj_is_equivalent_to(const PJ *obj, const PJ* other,
-                              PJ_COMPARISON_CRITERION criterion)
+                              PJ_COMPARISON_CRITERION criterion) nogil
 
-    const char* proj_get_id_auth_name(const PJ *obj, int index)
-    const char* proj_get_id_code(const PJ *obj, int index)
+    const char* proj_get_id_auth_name(const PJ *obj, int index) nogil
+    const char* proj_get_id_code(const PJ *obj, int index) nogil
     int proj_get_area_of_use(PJ_CONTEXT *ctx,
                              const PJ *obj,
                              double* out_west_lon_degree,
                              double* out_south_lat_degree,
                              double* out_east_lon_degree,
                              double* out_north_lat_degree,
-                             const char **out_area_name)
+                             const char **out_area_name) nogil
 
     ctypedef enum PJ_WKT_TYPE:
         PJ_WKT2_2015
@@ -143,7 +144,7 @@ cdef extern from "proj.h":
 
     const char* proj_as_wkt(PJ_CONTEXT *ctx,
                             const PJ *obj, PJ_WKT_TYPE type,
-                            const char* const *options)
+                            const char* const *options) nogil
 
     ctypedef enum PJ_PROJ_STRING_TYPE:
         PJ_PROJ_5
@@ -152,8 +153,8 @@ cdef extern from "proj.h":
     const char* proj_as_proj_string(PJ_CONTEXT *ctx,
                                     const PJ *obj,
                                     PJ_PROJ_STRING_TYPE type,
-                                    const char* const *options)
-    PJ *proj_crs_get_geodetic_crs(PJ_CONTEXT *ctx, const PJ *crs)
+                                    const char* const *options) nogil
+    PJ *proj_crs_get_geodetic_crs(PJ_CONTEXT *ctx, const PJ *crs) nogil
 
     ctypedef enum PJ_TYPE:
         PJ_TYPE_UNKNOWN
@@ -182,12 +183,12 @@ cdef extern from "proj.h":
         PJ_TYPE_CONCATENATED_OPERATION
         PJ_TYPE_OTHER_COORDINATE_OPERATION
 
-    PJ_TYPE proj_get_type(const PJ *obj)
-    const char * proj_get_name(const PJ *obj)
+    PJ_TYPE proj_get_type(const PJ *obj) nogil
+    const char * proj_get_name(const PJ *obj) nogil
 
-    int proj_is_crs(const PJ *obj)
-    PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs)
-    PJ *proj_crs_get_horizontal_datum(PJ_CONTEXT *ctx, const PJ *crs)
+    int proj_is_crs(const PJ *obj) nogil
+    PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs) nogil
+    PJ *proj_crs_get_horizontal_datum(PJ_CONTEXT *ctx, const PJ *crs) nogil
 
     ctypedef enum PJ_COORDINATE_SYSTEM_TYPE:
         PJ_CS_TYPE_UNKNOWN
@@ -201,11 +202,11 @@ cdef extern from "proj.h":
         PJ_CS_TYPE_TEMPORALCOUNT
         PJ_CS_TYPE_TEMPORALMEASURE
 
-    PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs)
+    PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs) nogil
     PJ_COORDINATE_SYSTEM_TYPE proj_cs_get_type(PJ_CONTEXT *ctx,
-                                               const PJ *cs)
+                                               const PJ *cs) nogil
     int proj_cs_get_axis_count(PJ_CONTEXT *ctx,
-                               const PJ *cs)
+                               const PJ *cs) nogil
     int proj_cs_get_axis_info(PJ_CONTEXT *ctx,
                               const PJ *cs, int index,
                               const char **out_name,
@@ -214,38 +215,38 @@ cdef extern from "proj.h":
                               double *out_unit_conv_factor,
                               const char **out_unit_name,
                               const char **out_unit_auth_name,
-                              const char **out_unit_code)
+                              const char **out_unit_code) nogil
 
-    PJ *proj_get_ellipsoid(PJ_CONTEXT *ctx, const PJ *obj)
+    PJ *proj_get_ellipsoid(PJ_CONTEXT *ctx, const PJ *obj) nogil
     int proj_ellipsoid_get_parameters(PJ_CONTEXT *ctx,
                                       const PJ *ellipsoid,
                                       double *out_semi_major_metre,
                                       double *out_semi_minor_metre,
                                       int    *out_is_semi_minor_computed,
-                                      double *out_inv_flattening);
-    PJ *proj_get_prime_meridian(PJ_CONTEXT *ctx, const PJ *obj)
+                                      double *out_inv_flattening) nogil
+    PJ *proj_get_prime_meridian(PJ_CONTEXT *ctx, const PJ *obj) nogil
     int proj_prime_meridian_get_parameters(PJ_CONTEXT *ctx,
                                            const PJ *prime_meridian,
                                            double *out_longitude,
                                            double *out_unit_conv_factor,
-                                           const char **out_unit_name)
-    PJ *proj_crs_get_sub_crs(PJ_CONTEXT *ctx, const PJ *crs, int index)
-    PJ *proj_get_source_crs(PJ_CONTEXT *ctx, const PJ *obj)
-    PJ *proj_get_target_crs(PJ_CONTEXT *ctx, const PJ *obj)
+                                           const char **out_unit_name) nogil
+    PJ *proj_crs_get_sub_crs(PJ_CONTEXT *ctx, const PJ *crs, int index) nogil
+    PJ *proj_get_source_crs(PJ_CONTEXT *ctx, const PJ *obj) nogil
+    PJ *proj_get_target_crs(PJ_CONTEXT *ctx, const PJ *obj) nogil
 
     ctypedef struct PJ_OBJ_LIST
     PJ_OBJ_LIST *proj_identify(PJ_CONTEXT *ctx,
                                const PJ* obj,
                                const char *auth_name,
                                const char* const *options,
-                               int **out_confidence)
+                               int **out_confidence) nogil
     PJ *proj_list_get(PJ_CONTEXT *ctx,
                       const PJ_OBJ_LIST *result,
-                      int index)
-    int proj_list_get_count(const PJ_OBJ_LIST *result);
-    void proj_list_destroy(PJ_OBJ_LIST *result)
-    void proj_int_list_destroy(int* list);
-    void proj_context_use_proj4_init_rules(PJ_CONTEXT *ctx, int enable)
+                      int index) nogil
+    int proj_list_get_count(const PJ_OBJ_LIST *result) nogil
+    void proj_list_destroy(PJ_OBJ_LIST *result) nogil
+    void proj_int_list_destroy(int* list) nogil
+    void proj_context_use_proj4_init_rules(PJ_CONTEXT *ctx, int enable) nogil
     ctypedef enum PJ_GUESSED_WKT_DIALECT:
         PJ_GUESSED_WKT2_2018
         PJ_GUESSED_WKT2_2015
@@ -254,56 +255,56 @@ cdef extern from "proj.h":
         PJ_GUESSED_NOT_WKT
 
     PJ_GUESSED_WKT_DIALECT proj_context_guess_wkt_dialect(PJ_CONTEXT *ctx,
-                                                          const char *wkt)
+                                                          const char *wkt) nogil
 
     ctypedef struct PJ_OPERATIONS:
         const char  *id
         PJ          *(*proj)(PJ *)
         const char  * const *descr
 
-    const PJ_OPERATIONS *proj_list_operations()
+    const PJ_OPERATIONS *proj_list_operations() nogil
 
     ctypedef struct PJ_UNITS:
         const char  *id
         const char  *to_meter
         const char  *name
         double      factor
-    const PJ_UNITS *proj_list_units()
-    const PJ_UNITS *proj_list_angular_units()
+    const PJ_UNITS *proj_list_units() nogil
+    const PJ_UNITS *proj_list_angular_units() nogil
 
     ctypedef struct PJ_ELLPS:
         const char  *id   # ellipse keyword name
         const char  *major  # a= value
         const char  *ell  # elliptical parameter
         const char  *name  # comments
-    const PJ_ELLPS *proj_list_ellps()
+    const PJ_ELLPS *proj_list_ellps() nogil
 
     ctypedef struct PJ_PRIME_MERIDIANS:
         const char  *id
         const char  *defn
-    const PJ_PRIME_MERIDIANS *proj_list_prime_meridians()
+    const PJ_PRIME_MERIDIANS *proj_list_prime_meridians() nogil
 
     PJ *proj_crs_get_coordoperation(PJ_CONTEXT *ctx,
-                                    const PJ *crs);
+                                    const PJ *crs) nogil
 
     int proj_coordoperation_get_method_info(PJ_CONTEXT *ctx,
                                             const PJ *coordoperation,
                                             const char **out_method_name,
                                             const char **out_method_auth_name,
-                                            const char **out_method_code);
+                                            const char **out_method_code) nogil
 
     int proj_coordoperation_is_instantiable(PJ_CONTEXT *ctx,
-                                            const PJ *coordoperation);
+                                            const PJ *coordoperation) nogil
 
     int proj_coordoperation_has_ballpark_transformation(PJ_CONTEXT *ctx,
-                                                        const PJ *coordoperation);
+                                                        const PJ *coordoperation) nogil
 
     int proj_coordoperation_get_param_count(PJ_CONTEXT *ctx,
-                                            const PJ *coordoperation);
+                                            const PJ *coordoperation) nogil
 
     int proj_coordoperation_get_param_index(PJ_CONTEXT *ctx,
                                             const PJ *coordoperation,
-                                            const char *name);
+                                            const char *name) nogil
 
     int proj_coordoperation_get_param(PJ_CONTEXT *ctx,
                                       const PJ *coordoperation,
@@ -317,10 +318,10 @@ cdef extern from "proj.h":
                                       const char **out_unit_name,
                                       const char **out_unit_auth_name,
                                       const char **out_unit_code,
-                                      const char **out_unit_category);
+                                      const char **out_unit_category) nogil
 
     int proj_coordoperation_get_grid_used_count(PJ_CONTEXT *ctx,
-                                                        const PJ *coordoperation);
+                                                        const PJ *coordoperation) nogil
 
     int proj_coordoperation_get_grid_used(PJ_CONTEXT *ctx,
                                           const PJ *coordoperation,
@@ -331,16 +332,16 @@ cdef extern from "proj.h":
                                           const char **out_url,
                                           int *out_direct_download,
                                           int *out_open_license,
-                                          int *out_available);
+                                          int *out_available) nogil
 
     double proj_coordoperation_get_accuracy(PJ_CONTEXT *ctx,
-                                            const PJ *obj);
+                                            const PJ *obj) nogil
 
     int proj_coordoperation_get_towgs84_values(PJ_CONTEXT *ctx,
                                                const PJ *coordoperation,
                                                double *out_values,
                                                int value_count,
-                                               int emit_error_if_incompatible)
+                                               int emit_error_if_incompatible) nogil
 
     ctypedef enum PJ_CATEGORY:
         PJ_CATEGORY_ELLIPSOID,
@@ -353,7 +354,7 @@ cdef extern from "proj.h":
                                   const char *code,
                                   PJ_CATEGORY category,
                                   int usePROJAlternativeGridNames,
-                                  const char* const *options)
+                                  const char* const *options) nogil
 
 
     ctypedef struct PJ_OPERATION_FACTORY_CONTEXT
@@ -361,15 +362,15 @@ cdef extern from "proj.h":
     PJ_OPERATION_FACTORY_CONTEXT *proj_create_operation_factory_context(
         PJ_CONTEXT *ctx,
         const char *authority
-    )
+    ) nogil
 
     void proj_operation_factory_context_destroy(
         PJ_OPERATION_FACTORY_CONTEXT *ctx
-    )
+    ) nogil
 
     PJ_OBJ_LIST *proj_create_operations(
         PJ_CONTEXT *ctx,
         const PJ *source_crs,
         const PJ *target_crs,
         const PJ_OPERATION_FACTORY_CONTEXT *operationContext
-    )
+    ) nogil
