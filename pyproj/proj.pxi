@@ -17,7 +17,7 @@ cdef extern from "proj.h":
         const char * const *paths
         size_t path_count
 
-    PJ_INFO proj_info();
+    PJ_INFO proj_info() nogil
 
     # projCtx has been replaced by PJ_CONTEXT *.
     # projPJ  has been replaced by PJ *
@@ -40,6 +40,7 @@ cdef extern from "proj.h":
     const char * proj_errno_string (int err) nogil
     int  proj_errno_reset (const PJ *P) nogil
     PJ *proj_create (PJ_CONTEXT *ctx, const char *definition) nogil
+    PJ *proj_clone(PJ_CONTEXT *ctx, const PJ *obj) nogil
     PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj) nogil
 
     cdef struct PJ_PROJ_INFO:
@@ -363,14 +364,31 @@ cdef extern from "proj.h":
         PJ_CONTEXT *ctx,
         const char *authority
     ) nogil
-
     void proj_operation_factory_context_destroy(
         PJ_OPERATION_FACTORY_CONTEXT *ctx
     ) nogil
-
     PJ_OBJ_LIST *proj_create_operations(
         PJ_CONTEXT *ctx,
         const PJ *source_crs,
         const PJ *target_crs,
         const PJ_OPERATION_FACTORY_CONTEXT *operationContext
     ) nogil
+    void proj_operation_factory_context_set_grid_availability_use(
+        PJ_CONTEXT *ctx,
+        PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
+        PROJ_GRID_AVAILABILITY_USE use
+    ) nogil
+    void proj_operation_factory_context_set_spatial_criterion(
+        PJ_CONTEXT *ctx,
+        PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
+        PROJ_SPATIAL_CRITERION criterion
+    )
+
+    ctypedef enum PROJ_SPATIAL_CRITERION:
+        PROJ_SPATIAL_CRITERION_STRICT_CONTAINMENT
+        PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
+
+    ctypedef enum PROJ_GRID_AVAILABILITY_USE:
+        PROJ_GRID_AVAILABILITY_USED_FOR_SORTING
+        PROJ_GRID_AVAILABILITY_DISCARD_OPERATION_IF_MISSING_GRID
+        PROJ_GRID_AVAILABILITY_IGNORED

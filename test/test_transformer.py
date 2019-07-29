@@ -6,6 +6,7 @@ import pyproj
 from pyproj import Proj, Transformer, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
+from pyproj.transformer import TransformerGroup
 
 
 def test_tranform_wgs84_to_custom():
@@ -397,7 +398,7 @@ def test_pj_info_properties():
     transformer = Transformer.from_crs(4326, 3857)
     assert transformer.name == "pipeline"
     assert transformer.description == "Popular Visualisation Pseudo-Mercator"
-    assert transformer.definition.startswith("+proj=pipeline")
+    assert transformer.definition.startswith("proj=pipeline")
     assert transformer.has_inverse
     assert transformer.accuracy == 0
 
@@ -410,35 +411,55 @@ def test_to_wkt():
 
 
 def test_str():
-    assert str(Transformer.from_crs(4326, 3857)).startswith("+proj=pipeline")
+    assert str(Transformer.from_crs(4326, 3857)).startswith("proj=pipeline")
 
 
 def test_repr():
     assert repr(Transformer.from_crs(7789, 8401)) == (
-        "<Transformation Transformer: helmert>\n" "ITRF2014 to ETRF2014 (1)"
+        "<Transformation Transformer: helmert>\nITRF2014 to ETRF2014 (1)"
     )
 
     assert repr(Transformer.from_crs(4326, 3857)) == (
-        "<Conversion Transformer: pipeline>\n" "Popular Visualisation Pseudo-Mercator"
+        "<Conversion Transformer: pipeline>\nPopular Visualisation Pseudo-Mercator"
     )
 
     assert repr(Transformer.from_crs(4326, 26917)) == (
-        "<Unknown Transformer: unknown>\n"
-        "Inverse of NAD83 to WGS 84 (1) + UTM zone 17N"
+        "<Unknown Transformer: unknown>\nunavailable until proj_trans is called"
     )
 
 
-def test_operations():
-    transformer = Transformer.from_crs(7912, 7665)
-    assert len(transformer.operations) == 1
-    assert transformer.operations[0].name == (
-        "Conversion from ITRF2014 (geog3D) to ITRF2014 (geocentric)"
-        " + Inverse of ITRF2008 to ITRF2014 (1)"
-        " + Inverse of WGS 84 (G1762) to ITRF2008 (1)"
-        " + Conversion from WGS 84 (G1762) (geocentric) to WGS 84 (G1762) (geog3D)"
+def test_transformer_group():
+    trans_group = TransformerGroup(7789, 8401)
+    assert len(trans_group.transformers) == 2
+    assert trans_group.transformers[0].name == "helmert"
+    assert trans_group.transformers[1].description == ("ITRF2014 to ETRF2014 (2)")
+    assert not trans_group.unavailable_operations
+    assert trans_group.best_available
+
+
+def test_transformer_group__unavailable():
+    trans_group = TransformerGroup(4326, 2964)
+    assert len(trans_group.unavailable_operations) == 1
+    assert (
+        trans_group.unavailable_operations[0].name
+        == "Inverse of NAD27 to WGS 84 (33) + Alaska Albers"
     )
+    assert len(trans_group.transformers) == 8
+    assert trans_group.best_available
 
 
-def test_operations__empty():
-    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
-    assert transformer.operations == []
+def test_transform_group__missing_best():
+    with pytest.warns(FutureWarning):
+        lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
+        alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
+
+    with pytest.warns(
+        UserWarning, match="Best transformation is not available due to missing Grid"
+    ):
+        trans_group = pyproj.transformer.TransformerGroup(
+            lat_lon_proj.crs, alaska_aea_proj.crs
+        )
+
+    assert not trans_group.best_available
+    assert len(trans_group.transformers) == 37
+    assert len(trans_group.unavailable_operations) == 41
