@@ -15,7 +15,7 @@ Change Log
 * Updated to only have one PJ_CONTEXT per pyproj session (issue #374)
 * Added :attr:`~pyproj.transformer.Transformer.operations` and added missing definition
   for cases when it is unknown (issue #377)
-* OpenMP parallel support with Cython for subset of code (issue #364)
+* OpenMP parallel experimental support with Cython for subset of code (issue #364)
 * Always return latlon with Proj (issue #356)
 
 2.2.2

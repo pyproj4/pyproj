@@ -81,13 +81,17 @@ The order of preference for the data directory is:
 3. The directory in PROJ_LIB (if exists & valid)
 4. The directory on the PATH (if exists & valid)
 
-Enable OpenMP
-~~~~~~~~~~~~~
+Optional: Enable OpenMP
+~~~~~~~~~~~~~~~~~~~~~~~
 
 You will need to have OpenMP installed beforehand for this to work.
 
-..versionadded:: 2.3
-    OpenMP parallel support with Cython for subset of code.
+.. versionadded:: 2.3
+    OpenMP parallel experimental support with Cython for subset of code.
+
+
+.. warning:: Enabling OpenMP has been unstable in some circumstances.
+
 
 Then, depending on your compiler, you will need to set the openmp flag
 before installing pyproj.
