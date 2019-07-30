@@ -91,6 +91,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#setup-proj">Setup PROJ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup-pyproj">Setup pyproj</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#the-data-directory">The data directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#optional-enable-openmp">Optional: Enable OpenMP</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#install-pyproj">Install pyproj</a></li>
 </ul>
 </li>
@@ -246,6 +247,27 @@ version of PROJ (6.1.0), the best way to avoid conflicts is to:</p>
 <li><p>The directory in PROJ_LIB (if exists &amp; valid)</p></li>
 <li><p>The directory on the PATH (if exists &amp; valid)</p></li>
 </ol>
+</div>
+<div class="section" id="optional-enable-openmp">
+<h4>Optional: Enable OpenMP<a class="headerlink" href="#optional-enable-openmp" title="Permalink to this headline">¶</a></h4>
+<p>You will need to have OpenMP installed beforehand for this to work.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3: </span>OpenMP parallel experimental support with Cython for subset of code.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Enabling OpenMP has been unstable in some circumstances.</p>
+</div>
+<p>Then, depending on your compiler, you will need to set the openmp flag
+before installing pyproj.</p>
+<p>gcc compiler:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYPROJ_OMP</span><span class="o">=</span><span class="s2">&quot;-fopenmp&quot;</span>
+</pre></div>
+</div>
+<p>Microsoft Visual C++ compiler:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="nv">PYPROJ_OMP</span><span class="o">=</span><span class="s1">&#39;/openmp&#39;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="install-pyproj">
 <h4>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline">¶</a></h4>
