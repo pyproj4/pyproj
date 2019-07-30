@@ -91,6 +91,11 @@ before_install:
       source venv/bin/activate
       # A manual check that the correct version of Python is running.
       python --version
+    else
+      sudo apt-get install -qq sqlite3 libsqlite3-dev
+    fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" && -n "$PYPROJ_OMP" ]]; then
       # install OpenMP not present by default on osx
       brew install libomp
 
@@ -105,8 +110,6 @@ before_install:
 
       # avoid error due to multiple OpenMP libraries loaded simultaneously
       export KMP_DUPLICATE_LIB_OK=TRUE
-    else
-      sudo apt-get install -qq sqlite3 libsqlite3-dev
     fi
   - echo "PROJSOURCE is $PROJSOURCE"
   # Download external PROJ.4 version and compile if not existing already
