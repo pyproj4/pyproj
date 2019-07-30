@@ -28,7 +28,14 @@ environment:
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PROJSOURCE: 6.1.1
-    # - PYTHON: "C:\\Python37-x64"
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+      VS_VERSION: Visual Studio 14
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PROJSOURCE: 6.1.1
+      PYPROJ_OMP: "/openmp"
+  # - PYTHON: "C:\\Python37-x64"
     #   PYTHON_VERSION: "3.7"
     #   PYTHON_ARCH: "64"
     #   VS_VERSION: Visual Studio 14
@@ -42,7 +49,13 @@ environment:
     #   PROJSOURCE: git
 matrix:
   allow_failures:
-    - PROJSOURCE: git
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+      VS_VERSION: Visual Studio 14
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PROJSOURCE: 6.1.1
+      PYPROJ_OMP: "/openmp"
 
 shallow_clone: true
 

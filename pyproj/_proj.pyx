@@ -2,6 +2,9 @@ include "base.pxi"
 
 import warnings
 
+cimport cython
+from cython.parallel import prange
+
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport PROJ_CONTEXT
 from pyproj.exceptions import ProjError
@@ -45,7 +48,9 @@ cdef class Proj:
         """special method that allows pyproj.Proj instance to be pickled"""
         return self.__class__,(self.crs.srs,)
 
-    def _fwd(self, object lons, object lats, errcheck=False):
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    def _fwd(self, object lons, object lats, bint errcheck=False):
         """
         forward transformation - lons,lats to x,y (done in place).
         if errcheck=True, an exception is raised if the forward transformation is invalid.
@@ -54,7 +59,7 @@ cdef class Proj:
         """
         cdef PJ_COORD projxyout
         cdef PJ_COORD projlonlatin
-        cdef Py_ssize_t buflenx, bufleny, ndim, i
+        cdef Py_ssize_t buflenx, bufleny, ndim, iii
         cdef double *lonsdata
         cdef double *latsdata
         cdef void *londata
@@ -71,24 +76,26 @@ cdef class Proj:
         ndim = buflenx//_DOUBLESIZE
         lonsdata = <double *>londata
         latsdata = <double *>latdata
-        for i from 0 <= i < ndim:
+        for iii in prange(ndim, nogil=True):
             # if inputs are nan's, return big number.
-            if lonsdata[i] != lonsdata[i] or latsdata[i] != latsdata[i]:
-                lonsdata[i]=1.e30; latsdata[i]=1.e30
+            if lonsdata[iii] != lonsdata[iii] or latsdata[iii] != latsdata[iii]:
+                lonsdata[iii]=1.e30; latsdata[iii]=1.e30
                 if errcheck:
-                    raise ProjError('projection undefined')
+                    with gil:
+                        raise ProjError("projection_undefined")
                 continue
             if proj_angular_input(self.projpj, PJ_FWD):
-                projlonlatin.uv.u = _DG2RAD*lonsdata[i]
-                projlonlatin.uv.v = _DG2RAD*latsdata[i]
+                projlonlatin.uv.u = _DG2RAD * lonsdata[iii]
+                projlonlatin.uv.v = _DG2RAD * latsdata[iii]
             else:
-                projlonlatin.uv.u = lonsdata[i]
-                projlonlatin.uv.v = latsdata[i]
+                projlonlatin.uv.u = lonsdata[iii]
+                projlonlatin.uv.v = latsdata[iii]
             projxyout = proj_trans(self.projpj, PJ_FWD, projlonlatin)
             if errcheck:
                 err = proj_errno(self.projpj)
                 if err != 0:
-                     raise ProjError(pystrdecode(proj_errno_string(err)))
+                    with gil:
+                        raise ProjError(pystrdecode(proj_errno_string(err)))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -97,14 +104,21 @@ cdef class Proj:
                     projxyout.xy.y == HUGE_VAL or\
                     projxyout.xy.x != projxyout.xy.x:
                 if errcheck:
-                    raise ProjError('projection undefined')
-                lonsdata[i] = 1.e30
-                latsdata[i] = 1.e30
+                    with gil:
+                        raise ProjError("projection_undefined")
+                lonsdata[iii] = 1.e30
+                latsdata[iii] = 1.e30
+            elif proj_angular_output(self.projpj, PJ_FWD):
+                lonsdata[iii] = _RAD2DG * projxyout.xy.x
+                latsdata[iii] = _RAD2DG * projxyout.xy.y
             else:
-                lonsdata[i] = projxyout.xy.x
-                latsdata[i] = projxyout.xy.y
+                lonsdata[iii] = projxyout.xy.x
+                latsdata[iii] = projxyout.xy.y
 
-    def _inv(self, object x, object y, errcheck=False):
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    def _inv(self, object x, object y, bint errcheck=False):
         """
         inverse transformation - x,y to lons,lats (done in place).
         if errcheck=True, an exception is raised if the inverse transformation is invalid.
@@ -116,11 +130,13 @@ cdef class Proj:
 
         cdef PJ_COORD projxyin
         cdef PJ_COORD projlonlatout
-        cdef Py_ssize_t buflenx, bufleny, ndim, i
+        cdef Py_ssize_t buflenx, bufleny, ndim, iii
         cdef void *xdata
         cdef void *ydata
         cdef double *xdatab
         cdef double *ydatab
+        cdef int err
+
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:
             raise ProjError
@@ -133,20 +149,26 @@ cdef class Proj:
         ndim = buflenx//_DOUBLESIZE
         xdatab = <double *>xdata
         ydatab = <double *>ydata
-        for i from 0 <= i < ndim:
+        for iii in prange(ndim, nogil=True):
             # if inputs are nan's, return big number.
-            if xdatab[i] != xdatab[i] or ydatab[i] != ydatab[i]:
-                xdatab[i]=1.e30; ydatab[i]=1.e30
+            if xdatab[iii] != xdatab[iii] or ydatab[iii] != ydatab[iii]:
+                xdatab[iii]=1.e30; ydatab[iii]=1.e30
                 if errcheck:
-                    raise ProjError('projection undefined')
+                    with gil:
+                        raise ProjError("projection_undefined")
                 continue
-            projxyin.uv.u = xdatab[i]
-            projxyin.uv.v = ydatab[i]
+            if proj_angular_input(self.projpj, PJ_INV):
+                projxyin.uv.u = _DG2RAD * xdatab[iii]
+                projxyin.uv.v = _DG2RAD * ydatab[iii]
+            else:
+                projxyin.uv.u = xdatab[iii]
+                projxyin.uv.v = ydatab[iii]
             projlonlatout = proj_trans(self.projpj, PJ_INV, projxyin)
             if errcheck:
                 err = proj_errno(self.projpj)
                 if err != 0:
-                     raise ProjError(pystrdecode(proj_errno_string(err)))
+                    with gil:
+                        raise ProjError(pystrdecode(proj_errno_string(err)))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -155,15 +177,16 @@ cdef class Proj:
                     projlonlatout.uv.v == HUGE_VAL or \
                     projlonlatout.uv.v != projlonlatout.uv.v:
                 if errcheck:
-                    raise ProjError('projection undefined')
-                xdatab[i] = 1.e30
-                ydatab[i] = 1.e30
+                    with gil:
+                        raise ProjError("projection_undefined")
+                xdatab[iii] = 1.e30
+                ydatab[iii] = 1.e30
             elif proj_angular_output(self.projpj, PJ_INV):
-                xdatab[i] = _RAD2DG*projlonlatout.uv.u
-                ydatab[i] = _RAD2DG*projlonlatout.uv.v
+                xdatab[iii] = _RAD2DG * projlonlatout.uv.u
+                ydatab[iii] = _RAD2DG * projlonlatout.uv.v
             else:
-                xdatab[i] = projlonlatout.uv.u
-                ydatab[i] = projlonlatout.uv.v
+                xdatab[iii] = projlonlatout.uv.u
+                ydatab[iii] = projlonlatout.uv.v
 
     def __repr__(self):
         return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
