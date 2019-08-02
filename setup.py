@@ -203,7 +203,7 @@ def get_long_description():
     """
     Get the long description for the file.
     """
-    with open("README.md") as ld_file:
+    with open("README.md", encoding="utf-8") as ld_file:
         return ld_file.read()
 
 

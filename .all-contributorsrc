@@ -1,0 +1,301 @@
+{
+  "projectName": "pyproj",
+  "projectOwner": "snowman2",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "jswhit",
+      "name": "Jeff Whitaker",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/579593?v=4",
+      "profile": "https://github.com/jswhit",
+      "contributions": [
+        "doc",
+        "test",
+        "code",
+        "example",
+        "ideas",
+        "review",
+        "question",
+        "maintenance",
+        "infra"
+      ]
+    },
+    {
+      "login": "snowman2",
+      "name": "Alan D. Snow",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8699967?v=4",
+      "profile": "https://github.com/snowman2",
+      "contributions": [
+        "doc",
+        "test",
+        "code",
+        "example",
+        "maintenance",
+        "infra",
+        "ideas",
+        "review",
+        "question"
+      ]
+    },
+    {
+      "login": "micahcochran",
+      "name": "Micah Cochran",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/7433104?v=4",
+      "profile": "https://github.com/micahcochran",
+      "contributions": [
+        "doc",
+        "test",
+        "code",
+        "maintenance",
+        "infra",
+        "review",
+        "question"
+      ]
+    },
+    {
+      "login": "jorisvandenbossche",
+      "name": "Joris Van den Bossche",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1020496?v=4",
+      "profile": "https://jorisvandenbossche.github.io/",
+      "contributions": [
+        "doc",
+        "code",
+        "ideas",
+        "review"
+      ]
+    },
+    {
+      "login": "cjmayo",
+      "name": "Chris Mayo",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/921089?v=4",
+      "profile": "https://github.com/cjmayo",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "login": "cffk",
+      "name": "Charles Karney",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2298266?v=4",
+      "profile": "https://www.petrel.org",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "zippy1981",
+      "name": "Justin Dearing",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/146930?v=4",
+      "profile": "http://www.justaprogrammer.net/profile/justin",
+      "contributions": [
+        "infra"
+      ]
+    },
+    {
+      "login": "jdkloe",
+      "name": "Jos de Kloe",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1906112?v=4",
+      "profile": "https://github.com/jdkloe",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "georgeouzou",
+      "name": "George Ouzounoudis",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/16732042?v=4",
+      "profile": "https://github.com/georgeouzou",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "djhoese",
+      "name": "David Hoese",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1828519?v=4",
+      "profile": "https://github.com/djhoese",
+      "contributions": [
+        "review",
+        "ideas"
+      ]
+    },
+    {
+      "login": "mitkin",
+      "name": "Mikhail Itkin",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3927849?v=4",
+      "profile": "http://mitkin.github.io",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "dopplershift",
+      "name": "Ryan May",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/221526?v=4",
+      "profile": "http://dopplershift.github.io",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "artttt",
+      "name": "artttt",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4626281?v=4",
+      "profile": "https://github.com/artttt",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "ocefpaf",
+      "name": "Filipe",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/950575?v=4",
+      "profile": "http://ocefpaf.github.io/python4oceanographers",
+      "contributions": [
+        "infra",
+        "code",
+        "platform"
+      ]
+    },
+    {
+      "login": "heitorPB",
+      "name": "Heitor",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/13461702?v=4",
+      "profile": "https://github.com/heitorPB",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "sebastic",
+      "name": "Bas Couwenberg",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4605306?v=4",
+      "profile": "https://github.com/sebastic",
+      "contributions": [
+        "code",
+        "platform"
+      ]
+    },
+    {
+      "login": "nickeubank",
+      "name": "Nick Eubank",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/9683693?v=4",
+      "profile": "https://github.com/nickeubank",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "mdunphy",
+      "name": "Michael Dunphy",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/9088426?v=4",
+      "profile": "https://www.math.uwaterloo.ca/~mdunphy/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "matthew-brett",
+      "name": "Matthew Brett",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/67612?v=4",
+      "profile": "http://matthew.dynevor.org",
+      "contributions": [
+        "infra",
+        "platform"
+      ]
+    },
+    {
+      "login": "jdemaeyer",
+      "name": "Jakob de Maeyer ",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/10531844?v=4",
+      "profile": "https://naboa.de",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "gitter-badger",
+      "name": "The Gitter Badger",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8518239?v=4",
+      "profile": "https://gitter.im",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "bmwiedemann",
+      "name": "Bernhard M. Wiedemann",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/637990?v=4",
+      "profile": "http://lizards.opensuse.org/author/bmwiedemann/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ReallyNiceGuy",
+      "name": "Marco Aurélio da Costa",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6545730?v=4",
+      "profile": "https://github.com/ReallyNiceGuy",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ChrisBarker-NOAA",
+      "name": "Christopher H. Barker",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/916576?v=4",
+      "profile": "https://github.com/ChrisBarker-NOAA",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "kbevers",
+      "name": "Kristian Evers",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/13132571?v=4",
+      "profile": "https://evers.dev/",
+      "contributions": [
+        "question",
+        "ideas"
+      ]
+    },
+    {
+      "login": "rouault",
+      "name": "Even Rouault",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1192433?v=4",
+      "profile": "http://www.spatialys.com/en/about/",
+      "contributions": [
+        "question"
+      ]
+    },
+    {
+      "login": "cgohlke",
+      "name": "Christoph Gohlke",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/483428?v=4",
+      "profile": "https://github.com/cgohlke",
+      "contributions": [
+        "platform"
+      ]
+    },
+    {
+      "login": "chrrrisw",
+      "name": "Chris Willoughby",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5555320?v=4",
+      "profile": "https://github.com/chrrrisw",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
