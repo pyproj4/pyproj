@@ -9,6 +9,7 @@ cdef class _Transformer(Base):
     cdef readonly output_geographic
     cdef object _input_radians
     cdef object _output_radians
+    cdef object _area_of_use
     cdef readonly is_pipeline
     cdef readonly skip_equivalent
     cdef readonly projections_equivalent

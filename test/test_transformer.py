@@ -6,7 +6,7 @@ import pyproj
 from pyproj import Proj, Transformer, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
-from pyproj.transformer import TransformerGroup
+from pyproj.transformer import TransformerGroup, AreaOfInterest
 
 
 def test_tranform_wgs84_to_custom():
@@ -416,15 +416,25 @@ def test_str():
 
 def test_repr():
     assert repr(Transformer.from_crs(7789, 8401)) == (
-        "<Transformation Transformer: helmert>\nITRF2014 to ETRF2014 (1)"
+        "<Transformation Transformer: helmert>\n"
+        "Description: ITRF2014 to ETRF2014 (1)\n"
+        "Area of Use:\n"
+        "- name: Europe - ETRS89\n"
+        "- bounds: (-16.1, 32.88, 40.18, 84.17)"
     )
 
     assert repr(Transformer.from_crs(4326, 3857)) == (
-        "<Conversion Transformer: pipeline>\nPopular Visualisation Pseudo-Mercator"
+        "<Conversion Transformer: pipeline>\n"
+        "Description: Popular Visualisation Pseudo-Mercator\n"
+        "Area of Use:\n"
+        "- name: World\n"
+        "- bounds: (-180.0, -90.0, 180.0, 90.0)"
     )
 
     assert repr(Transformer.from_crs(4326, 26917)) == (
-        "<Unknown Transformer: unknown>\nunavailable until proj_trans is called"
+        "<Unknown Transformer: unknown>\n"
+        "Description: unavailable until proj_trans is called\n"
+        "Area of Use:\n- undefined"
     )
 
 
@@ -463,3 +473,30 @@ def test_transform_group__missing_best():
     assert not trans_group.best_available
     assert len(trans_group.transformers) == 37
     assert len(trans_group.unavailable_operations) == 41
+
+
+def test_transform_group__area_of_interest():
+    with pytest.warns(
+        UserWarning, match="Best transformation is not available due to missing Grid"
+    ):
+        trans_group = TransformerGroup(
+            4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
+        )
+    assert (
+        trans_group.transformers[0].description
+        == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
+    )
+
+
+def test_transformer__area_of_interest():
+    transformer = Transformer.from_crs(
+        4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
+    )
+    assert transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
+
+
+def test_transformer_proj__area_of_interest():
+    transformer = Transformer.from_proj(
+        4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
+    )
+    assert transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"

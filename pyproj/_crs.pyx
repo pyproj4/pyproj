@@ -1045,6 +1045,7 @@ cdef class CoordinateOperation(Base):
     def __cinit__(self):
         self._params = None
         self._grids = None
+        self._area_of_use = None
         self.method_name = "undefined"
         self.method_auth_name = "undefined"
         self.method_code = "undefined"
@@ -1219,6 +1220,18 @@ cdef class CoordinateOperation(Base):
                 )
             )
         return self._grids
+
+    @property
+    def area_of_use(self):
+        """
+        Returns
+        -------
+        AreaOfUse: The area of use object with associated attributes.
+        """
+        if self._area_of_use is not None:
+            return self._area_of_use
+        self._area_of_use = AreaOfUse.create(self.projobj)
+        return self._area_of_use
 
     def to_proj4(self, version=ProjVersion.PROJ_5):
         """

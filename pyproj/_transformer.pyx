@@ -1,8 +1,10 @@
 include "base.pxi"
 
 cimport cython
+from collections import namedtuple
 
-from pyproj._crs cimport Base, _CRS, CoordinateOperation
+
+from pyproj._crs cimport AreaOfUse, Base, _CRS, CoordinateOperation
 from pyproj._datadir cimport PROJ_CONTEXT
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
@@ -24,11 +26,17 @@ _TRANSFORMER_TYPE_MAP = {
 }
 
 
+AreaOfInterest = namedtuple("AreaOfInterest",
+    ["west_lon_degree", "south_lat_degree", "east_lon_degree", "north_lat_degree"]
+)
+
+
 def transformer_list_from_crs(
     _CRS crs_from,
     _CRS crs_to,
     skip_equivalent=False,
     always_xy=False,
+    area_of_interest=None,
 ):
     """
     From PROJ docs:
@@ -45,12 +53,32 @@ def transformer_list_from_crs(
     cdef int num_operations = 0
     cdef int is_instantiable = 0
     cdef CoordinateOperation coordinate_operation
+    cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
+
     operations = []
     try:
         operation_factory_context = proj_create_operation_factory_context(
             PROJ_CONTEXT.context,
             NULL,
         )
+        if area_of_interest is not None:
+            if not isinstance(area_of_interest, AreaOfInterest):
+                raise ProjError(
+                    "Area of use must be of the type pyproj.transformer.AreaOfInterest."
+                )
+            west_lon_degree = area_of_interest.west_lon_degree
+            south_lat_degree = area_of_interest.south_lat_degree
+            east_lon_degree = area_of_interest.east_lon_degree
+            north_lat_degree = area_of_interest.north_lat_degree
+            proj_operation_factory_context_set_area_of_interest(
+                PROJ_CONTEXT.context,
+                operation_factory_context,
+                west_lon_degree,
+                south_lat_degree,
+                east_lon_degree,
+                north_lat_degree,
+            )
+
         proj_operation_factory_context_set_grid_availability_use(
             PROJ_CONTEXT.context,
             operation_factory_context,
@@ -95,10 +123,12 @@ def transformer_list_from_crs(
                 ))
     finally:
         pj_transform = NULL
-        proj_list_destroy(pj_operations)
-        pj_operations = NULL
-        proj_operation_factory_context_destroy(operation_factory_context)
-        operation_factory_context = NULL
+        if operation_factory_context != NULL:
+            proj_operation_factory_context_destroy(operation_factory_context)
+            operation_factory_context = NULL
+        if pj_operations != NULL:
+            proj_list_destroy(pj_operations)
+            pj_operations = NULL
     return operations
 
 
@@ -120,6 +150,7 @@ cdef class _Transformer(Base):
         self.output_geographic = False
         self._input_radians = {}
         self._output_radians = {}
+        self._area_of_use = None
         self.is_pipeline = False
         self.skip_equivalent = False
         self.projections_equivalent = False
@@ -165,15 +196,57 @@ cdef class _Transformer(Base):
     @property
     def accuracy(self):
         return self.proj_info.accuracy
+    
+    @property
+    def area_of_use(self):
+        """
+        Returns
+        -------
+        AreaOfUse: The area of use object with associated attributes.
+        """
+        if self._area_of_use is not None:
+            return self._area_of_use
+        self._area_of_use = AreaOfUse.create(self.projobj)
+        return self._area_of_use
   
     @staticmethod
-    def from_crs(_CRS crs_from, _CRS crs_to, skip_equivalent=False, always_xy=False):
+    def from_crs(
+        _CRS crs_from,
+        _CRS crs_to,
+        skip_equivalent=False,
+        always_xy=False,
+        area_of_interest=None
+    ):
         ProjError.clear()
+        cdef PJ_AREA *pj_area_of_interest = NULL
+        cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
+        if area_of_interest is not None:
+            if not isinstance(area_of_interest, AreaOfInterest):
+                raise ProjError(
+                    "Area of use must be of the type pyproj.transformer.AreaOfInterest."
+                )
+            pj_area_of_interest = proj_area_create()
+            west_lon_degree = area_of_interest.west_lon_degree
+            south_lat_degree = area_of_interest.south_lat_degree
+            east_lon_degree = area_of_interest.east_lon_degree
+            north_lat_degree = area_of_interest.north_lat_degree
+            proj_area_set_bbox(
+                pj_area_of_interest,
+                west_lon_degree,
+                south_lat_degree,
+                east_lon_degree,
+                north_lat_degree,
+            )
+
         cdef PJ* pj_transform = proj_create_crs_to_crs(
             PROJ_CONTEXT.context,
             cstrencode(crs_from.srs),
             cstrencode(crs_to.srs),
-            NULL)
+            pj_area_of_interest,
+        )
+        if pj_area_of_interest != NULL:
+            proj_area_destroy(pj_area_of_interest)
+            pj_area_of_interest = NULL
         if pj_transform == NULL:
             raise ProjError("Error creating CRS to CRS.")
         return _Transformer._from_pj(

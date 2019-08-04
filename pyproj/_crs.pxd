@@ -93,6 +93,7 @@ cdef class Grid:
 cdef class CoordinateOperation(Base):
     cdef readonly object _params
     cdef readonly object _grids
+    cdef readonly object _area_of_use
     cdef readonly object method_name
     cdef readonly object method_auth_name
     cdef readonly object method_code
@@ -110,13 +111,13 @@ cdef class _CRS(Base):
     cdef PJ_PROJ_INFO projpj_info
     cdef readonly object srs
     cdef readonly object type_name
-    cdef object _ellipsoid
-    cdef object _area_of_use
-    cdef object _prime_meridian
-    cdef object _datum
-    cdef object _sub_crs_list
-    cdef object _source_crs
-    cdef object _target_crs
-    cdef object _geodetic_crs
-    cdef object _coordinate_system
-    cdef object _coordinate_operation
+    cdef readonly object _ellipsoid
+    cdef readonly object _area_of_use
+    cdef readonly object _prime_meridian
+    cdef readonly object _datum
+    cdef readonly object _sub_crs_list
+    cdef readonly object _source_crs
+    cdef readonly object _target_crs
+    cdef readonly object _geodetic_crs
+    cdef readonly object _coordinate_system
+    cdef readonly object _coordinate_operation

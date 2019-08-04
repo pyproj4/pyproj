@@ -332,6 +332,9 @@ Step 2: Create Transformer to convert from geodetic CRS to CRS
     >>> proj
     <Conversion Transformer: pipeline>
     Popular Visualisation Pseudo-Mercator
+    Area of Use:
+    - name: World
+    - bounds: (-180.0, -90.0, 180.0, 90.0)
     >>> proj.transform(12, 15)
     (1669792.3618991035, 1345708.4084091093)
 

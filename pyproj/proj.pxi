@@ -134,6 +134,13 @@ cdef extern from "proj.h":
                              double* out_east_lon_degree,
                              double* out_north_lat_degree,
                              const char **out_area_name)
+    PJ_AREA *proj_area_create()
+    void proj_area_set_bbox(PJ_AREA *area,
+                            double west_lon_degree,
+                            double south_lat_degree,
+                            double east_lon_degree,
+                            double north_lat_degree)
+    void proj_area_destroy(PJ_AREA* area)
 
     ctypedef enum PJ_WKT_TYPE:
         PJ_WKT2_2015
@@ -382,6 +389,14 @@ cdef extern from "proj.h":
         PJ_CONTEXT *ctx,
         PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
         PROJ_SPATIAL_CRITERION criterion
+    )
+    void proj_operation_factory_context_set_area_of_interest(
+        PJ_CONTEXT *ctx,
+        PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
+        double west_lon_degree,
+        double south_lat_degree,
+        double east_lon_degree,
+        double north_lat_degree
     )
 
     ctypedef enum PROJ_SPATIAL_CRITERION:
