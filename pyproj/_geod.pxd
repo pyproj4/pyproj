@@ -3,21 +3,21 @@ cdef extern from "geodesic.h":
         pass
   struct geod_geodesicline:
         pass
-  void geod_init(geod_geodesic* g, double a, double f) nogil
+  void geod_init(geod_geodesic* g, double a, double f)
   void geod_direct(geod_geodesic* g,
               double lat1, double lon1, double azi1, double s12,
-              double* plat2, double* plon2, double* pazi2) nogil
+              double* plat2, double* plon2, double* pazi2)
   void geod_inverse(geod_geodesic* g,
                double lat1, double lon1, double lat2, double lon2,
-               double* ps12, double* pazi1, double* pazi2) nogil
+               double* ps12, double* pazi1, double* pazi2)
   void geod_lineinit(geod_geodesicline* l,
                geod_geodesic* g,
-               double lat1, double lon1, double azi1, unsigned caps) nogil
+               double lat1, double lon1, double azi1, unsigned caps)
   void geod_position(geod_geodesicline* l, double s12,
-               double* plat2, double* plon2, double* pazi2) nogil
+               double* plat2, double* plon2, double* pazi2)
   void geod_polygonarea(geod_geodesic* g,
                         double lats[], double lons[], int n,
-                        double* pA, double* pP) nogil
+                        double* pA, double* pP)
 
   cdef enum:
       GEODESIC_VERSION_MAJOR
