@@ -40,14 +40,14 @@ environment:
     #   VS_VERSION: Visual Studio 14
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     #   PROJSOURCE: git
-matrix:
-  allow_failures:
-    # - PYTHON: "C:\\Python36-x64"
-    #   PYTHON_VERSION: "3.6"
-    #   PYTHON_ARCH: "64"
-    #   VS_VERSION: Visual Studio 14
-    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    #   PROJSOURCE: git
+# matrix:
+#   allow_failures:
+#     - PYTHON: "C:\\Python36-x64"
+#       PYTHON_VERSION: "3.6"
+#       PYTHON_ARCH: "64"
+#       VS_VERSION: Visual Studio 14
+#       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+#       PROJSOURCE: git
 
 shallow_clone: true
 
