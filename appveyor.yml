@@ -56,8 +56,6 @@ cache:
     - "%PROJ_BASE_DIR%"
 
 build_script:
-  # update vcpkg
-  - .\bootstrap-vcpkg.bat
   # setup sqlite3
   - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
   - vcpkg install sqlite3:"%platform%"-windows
@@ -125,6 +123,12 @@ install:
   
   # install wheel, caching
   - "%CMD_IN_ENV% pip install wheel"
+  # update vcpkg
+  - cmd: |
+      cd "C:\Tools\vcpkg"
+      git pull
+      .\bootstrap-vcpkg.bat
+      cd %APPVEYOR_BUILD_FOLDER%
 
 test_script:
   # Run the project tests
