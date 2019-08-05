@@ -27,12 +27,6 @@ matrix:
       env:
         - PYTHON=3.6.8
         - PROJSOURCE=6.1.1
-    - language: cpp
-      os: osx
-      env:
-        - PYTHON=3.6.8
-        - PROJSOURCE=6.1.1
-        - PYPROJ_OMP="-fopenmp"
     - python: 3.5
       env:
         - PROJSOURCE=6.1.1
@@ -42,10 +36,6 @@ matrix:
     - python: 3.6
       env:
         - PROJSOURCE=6.1.1
-    - python: 3.6
-      env: 
-        - PROJSOURCE=6.1.1
-        - PYPROJ_OMP="-fopenmp"
     - python: 3.7
       dist: xenial
       env:
@@ -59,16 +49,6 @@ matrix:
     - python: "nightly"
       env:
         - PROJSOURCE=git
-    - language: cpp
-      os: osx
-      env:
-        - PYTHON=3.6.8
-        - PROJSOURCE=6.1.1
-        - PYPROJ_OMP="-fopenmp"
-    - python: 3.6
-      env: 
-        - PROJSOURCE=6.1.1
-        - PYPROJ_OMP="-fopenmp"
 
 
 before_install:

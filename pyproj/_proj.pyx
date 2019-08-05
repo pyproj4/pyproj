@@ -3,7 +3,6 @@ include "base.pxi"
 import warnings
 
 cimport cython
-from cython.parallel import prange
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport PROJ_CONTEXT
@@ -76,13 +75,12 @@ cdef class Proj:
         ndim = buflenx//_DOUBLESIZE
         lonsdata = <double *>londata
         latsdata = <double *>latdata
-        for iii in prange(ndim, nogil=True):
+        for iii in range(ndim):
             # if inputs are nan's, return big number.
             if lonsdata[iii] != lonsdata[iii] or latsdata[iii] != latsdata[iii]:
                 lonsdata[iii]=1.e30; latsdata[iii]=1.e30
                 if errcheck:
-                    with gil:
-                        raise ProjError("projection_undefined")
+                    raise ProjError("projection_undefined")
                 continue
             if proj_angular_input(self.projpj, PJ_FWD):
                 projlonlatin.uv.u = _DG2RAD * lonsdata[iii]
@@ -94,8 +92,7 @@ cdef class Proj:
             if errcheck:
                 err = proj_errno(self.projpj)
                 if err != 0:
-                    with gil:
-                        raise ProjError(pystrdecode(proj_errno_string(err)))
+                    raise ProjError(pystrdecode(proj_errno_string(err)))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -104,8 +101,7 @@ cdef class Proj:
                     projxyout.xy.y == HUGE_VAL or\
                     projxyout.xy.x != projxyout.xy.x:
                 if errcheck:
-                    with gil:
-                        raise ProjError("projection_undefined")
+                    raise ProjError("projection_undefined")
                 lonsdata[iii] = 1.e30
                 latsdata[iii] = 1.e30
             elif proj_angular_output(self.projpj, PJ_FWD):
@@ -149,13 +145,12 @@ cdef class Proj:
         ndim = buflenx//_DOUBLESIZE
         xdatab = <double *>xdata
         ydatab = <double *>ydata
-        for iii in prange(ndim, nogil=True):
+        for iii in range(ndim):
             # if inputs are nan's, return big number.
             if xdatab[iii] != xdatab[iii] or ydatab[iii] != ydatab[iii]:
                 xdatab[iii]=1.e30; ydatab[iii]=1.e30
                 if errcheck:
-                    with gil:
-                        raise ProjError("projection_undefined")
+                    raise ProjError("projection_undefined")
                 continue
             if proj_angular_input(self.projpj, PJ_INV):
                 projxyin.uv.u = _DG2RAD * xdatab[iii]
@@ -167,8 +162,7 @@ cdef class Proj:
             if errcheck:
                 err = proj_errno(self.projpj)
                 if err != 0:
-                    with gil:
-                        raise ProjError(pystrdecode(proj_errno_string(err)))
+                    raise ProjError(pystrdecode(proj_errno_string(err)))
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -177,8 +171,7 @@ cdef class Proj:
                     projlonlatout.uv.v == HUGE_VAL or \
                     projlonlatout.uv.v != projlonlatout.uv.v:
                 if errcheck:
-                    with gil:
-                        raise ProjError("projection_undefined")
+                    raise ProjError("projection_undefined")
                 xdatab[iii] = 1.e30
                 ydatab[iii] = 1.e30
             elif proj_angular_output(self.projpj, PJ_INV):

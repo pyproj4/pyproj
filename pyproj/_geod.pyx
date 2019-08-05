@@ -1,7 +1,6 @@
 include "base.pxi"
 
 cimport cython
-from cython.parallel import prange
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import GeodError
@@ -67,7 +66,7 @@ cdef class Geod:
         latsdata = <double *>latdata
         azdata = <double *>azdat
         distdata = <double *>distdat
-        for iii in prange(ndim, nogil=True):
+        for iii in range(ndim):
             if not radians:
                 lon1 = lonsdata[iii]
                 lat1 = latsdata[iii]
@@ -130,7 +129,7 @@ cdef class Geod:
         latsdata = <double *>latdata
         azdata = <double *>azdat
         distdata = <double *>distdat
-        for iii in prange(ndim, nogil=True):
+        for iii in range(ndim):
             if radians:
                 lon1 = _RAD2DG * lonsdata[iii]
                 lat1 = _RAD2DG * latsdata[iii]
@@ -244,7 +243,7 @@ cdef class Geod:
             lonsdata[0] = 0
             return 0.0
 
-        for iii in prange(ndim - 1, nogil=True):
+        for iii in range(ndim - 1):
             if radians:
                 lon1 = _RAD2DG * lonsdata[iii]
                 lat1 = _RAD2DG * latsdata[iii]
@@ -312,7 +311,7 @@ cdef class Geod:
         lonsdata = <double *>londata
         latsdata = <double *>latdata
         if radians:
-            for iii in prange(ndim, nogil=True):
+            for iii in range(ndim):
                 lonsdata[iii] *= _RAD2DG
                 latsdata[iii] *= _RAD2DG
 

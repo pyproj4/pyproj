@@ -146,11 +146,6 @@ def get_extension_modules():
         runtime_library_dirs=library_dirs if os.name != "nt" else None,
         libraries=get_libraries(library_dirs),
     )
-    pyproj_omp_arg = os.environ.get("PYPROJ_OMP")
-    if pyproj_omp_arg is not None:
-        ext_options.update(
-            extra_compile_args=[pyproj_omp_arg], extra_link_args=[pyproj_omp_arg]
-        )
     # setup cythonized modules
     return cythonize(
         [

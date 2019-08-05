@@ -28,13 +28,6 @@ environment:
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PROJSOURCE: 6.1.1
-    - PYTHON: "C:\\Python36-x64"
-      PYTHON_VERSION: "3.6"
-      PYTHON_ARCH: "64"
-      VS_VERSION: Visual Studio 14
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 6.1.1
-      PYPROJ_OMP: "/openmp"
   # - PYTHON: "C:\\Python37-x64"
     #   PYTHON_VERSION: "3.7"
     #   PYTHON_ARCH: "64"
@@ -47,15 +40,14 @@ environment:
     #   VS_VERSION: Visual Studio 14
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     #   PROJSOURCE: git
-matrix:
-  allow_failures:
-    - PYTHON: "C:\\Python36-x64"
-      PYTHON_VERSION: "3.6"
-      PYTHON_ARCH: "64"
-      VS_VERSION: Visual Studio 14
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 6.1.1
-      PYPROJ_OMP: "/openmp"
+# matrix:
+#   allow_failures:
+#     - PYTHON: "C:\\Python36-x64"
+#       PYTHON_VERSION: "3.6"
+#       PYTHON_ARCH: "64"
+#       VS_VERSION: Visual Studio 14
+#       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+#       PROJSOURCE: git
 
 shallow_clone: true
 
@@ -131,6 +123,12 @@ install:
   
   # install wheel, caching
   - "%CMD_IN_ENV% pip install wheel"
+  # update vcpkg
+  - cmd: |
+      cd "C:\Tools\vcpkg"
+      git pull
+      .\bootstrap-vcpkg.bat
+      cd %APPVEYOR_BUILD_FOLDER%
 
 test_script:
   # Run the project tests
