@@ -174,41 +174,106 @@
 
 <span class="kn">from</span> <span class="nn">array</span> <span class="k">import</span> <span class="n">array</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Proj</span>
-<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="n">_Transformer</span>
+<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="n">_Transformer</span><span class="p">,</span> <span class="n">transformer_list_from_crs</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">cstrencode</span>
 <span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="k">import</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">ProjError</span>
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">future_builtins</span> <span class="k">import</span> <span class="nb">zip</span>  <span class="c1"># python 2.6+</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="k">pass</span>  <span class="c1"># python 3.x</span>
 
-
-<div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformerGroup"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup">[docs]</a><span class="k">class</span> <span class="nc">TransformerGroup</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The Transformer class is for facilitating re-using</span>
-<span class="sd">    transforms without needing to re-create them. The goal</span>
-<span class="sd">    is to make repeated transforms faster.</span>
+<span class="sd">    The TransformerGroup is a set of possible transformers from one CRS to another.</span>
 
-<span class="sd">    Additionally, it provides multiple methods for initialization.</span>
+<span class="sd">    From PROJ docs::</span>
 
-<span class="sd">    Attributes</span>
-<span class="sd">    ----------</span>
-<span class="sd">    operations: list</span>
-<span class="sd">        It will return a list of :obj:`~pyproj.crs.CoordinateOperation` objects</span>
-<span class="sd">        associated with the transformation if created using the</span>
-<span class="sd">        :meth:`~Transformer.from_crs` method and they exist.</span>
-<span class="sd">        From PROJ docs:</span>
 <span class="sd">        The operations are sorted with the most relevant ones first: by</span>
 <span class="sd">        descending area (intersection of the transformation area with the</span>
 <span class="sd">        area of interest, or intersection of the transformation with the</span>
 <span class="sd">        area of use of the CRS), and by increasing accuracy. Operations</span>
 <span class="sd">        with unknown accuracy are sorted last, whatever their area.</span>
 
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get all possible transformations from a :obj:`~pyproj.crs.CRS`</span>
+<span class="sd">        or input used to create one.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        crs_from: ~pyproj.crs.CRS or input used to create one</span>
+<span class="sd">            Projection of input data.</span>
+<span class="sd">        crs_to: ~pyproj.crs.CRS or input used to create one</span>
+<span class="sd">            Projection of output data.</span>
+<span class="sd">        skip_equivalent: bool, optional</span>
+<span class="sd">            If true, will skip the transformation operation if input and output</span>
+<span class="sd">            projections are equivalent. Default is false.</span>
+<span class="sd">        always_xy: bool, optional</span>
+<span class="sd">            If true, the transform method will accept as input and return as output</span>
+<span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
+<span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
+<span class="sd">            Default is false.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unavailable_operations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">iii</span><span class="p">,</span> <span class="n">operation</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+            <span class="n">transformer_list_from_crs</span><span class="p">(</span>
+                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">),</span>
+                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
+                <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
+                <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">_Transformer</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Transformer</span><span class="p">(</span><span class="n">operation</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_unavailable_operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">iii</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="s2">&quot;Best transformation is not available due to missing &quot;</span>
+                        <span class="s2">&quot;</span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">operation</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">transformers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        list[:obj:`~pyproj.crs.CoordinateOperation`]:</span>
+<span class="sd">            List of available :obj:`~Transformer`</span>
+<span class="sd">            associated with the transformation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unavailable_operations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        list[:obj:`~pyproj.crs.CoordinateOperation`]:</span>
+<span class="sd">            List of :obj:`~pyproj.crs.CoordinateOperation` that are not</span>
+<span class="sd">            available due to missing grids.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unavailable_operations</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">best_available</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        bool: If True, the best possible transformer is available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span></div>
+
+
+<div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Transformer class is for facilitating re-using</span>
+<span class="sd">    transforms without needing to re-create them. The goal</span>
+<span class="sd">    is to make repeated transforms faster.</span>
+
+<span class="sd">    Additionally, it provides multiple methods for initialization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_transformer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -219,7 +284,6 @@
                 <span class="s2">&quot;&#39;from_crs&#39;, &#39;from_pipeline&#39;, or &#39;from_proj&#39;.&quot;</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span> <span class="o">=</span> <span class="n">base_transformer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operations</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -233,22 +297,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        str: Description of the projection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span>
-            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">description</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">description</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        str: Definition of the projection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span>
-            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">definition</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">definition</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -293,13 +349,11 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">proj_to</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
             <span class="n">proj_to</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">proj_to</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
-            <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-                <span class="n">proj_from</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
-                <span class="n">proj_to</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
-                <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
-                <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+            <span class="n">proj_from</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
+            <span class="n">proj_to</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
+            <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
+            <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Transformer.from_crs"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_crs">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -326,15 +380,14 @@
 <span class="sd">        :obj:`~Transformer`</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">crs_from</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span>
-        <span class="n">crs_to</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">)</span>
-        <span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
             <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-                <span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span>
+                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">),</span>
+                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
+                <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
+                <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">transformer</span><span class="o">.</span><span class="n">operations</span> <span class="o">=</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">get_operations</span><span class="p">(</span><span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">transformer</span></div>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Transformer.from_pipeline"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_pipeline">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_pipeline</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">):</span>

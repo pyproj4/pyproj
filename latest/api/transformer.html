@@ -93,6 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="crs.html">CRS</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Transformer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transformer">pyproj.Transformer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-transformer-transformergroup">pyproj.transformer.TransformerGroup</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transform">pyproj.transform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-itransform">pyproj.itransform</a></li>
 </ul>
@@ -201,25 +202,6 @@ creating the <a class="reference internal" href="#pyproj.transformer.Transformer
 transforms without needing to re-create them. The goal
 is to make repeated transforms faster.</p>
 <p>Additionally, it provides multiple methods for initialization.</p>
-<dl class="attribute">
-<dt id="pyproj.transformer.Transformer.operations">
-<code class="sig-name descname">operations</code><a class="headerlink" href="#pyproj.transformer.Transformer.operations" title="Permalink to this definition">¶</a></dt>
-<dd><p>It will return a list of <a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a> objects
-associated with the transformation if created using the
-<a class="reference internal" href="#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_crs()</span></code></a> method and they exist.
-From PROJ docs:
-The operations are sorted with the most relevant ones first: by
-descending area (intersection of the transformation area with the
-area of interest, or intersection of the transformation with the
-area of use of the CRS), and by increasing accuracy. Operations
-with unknown accuracy are sorted last, whatever their area.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.accuracy">
 <em class="property">property </em><code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyproj.transformer.Transformer.accuracy" title="Permalink to this definition">¶</a></dt>
@@ -513,6 +495,50 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <span class="go">&#39;33  98&#39;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-transformer-transformergroup">
+<h2>pyproj.transformer.TransformerGroup<a class="headerlink" href="#pyproj-transformer-transformergroup" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.transformer.TransformerGroup">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">TransformerGroup</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>The TransformerGroup is a set of possible transformers from one CRS to another.</p>
+<p>From PROJ docs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">operations</span> <span class="n">are</span> <span class="nb">sorted</span> <span class="k">with</span> <span class="n">the</span> <span class="n">most</span> <span class="n">relevant</span> <span class="n">ones</span> <span class="n">first</span><span class="p">:</span> <span class="n">by</span>
+<span class="n">descending</span> <span class="n">area</span> <span class="p">(</span><span class="n">intersection</span> <span class="n">of</span> <span class="n">the</span> <span class="n">transformation</span> <span class="n">area</span> <span class="k">with</span> <span class="n">the</span>
+<span class="n">area</span> <span class="n">of</span> <span class="n">interest</span><span class="p">,</span> <span class="ow">or</span> <span class="n">intersection</span> <span class="n">of</span> <span class="n">the</span> <span class="n">transformation</span> <span class="k">with</span> <span class="n">the</span>
+<span class="n">area</span> <span class="n">of</span> <span class="n">use</span> <span class="n">of</span> <span class="n">the</span> <span class="n">CRS</span><span class="p">),</span> <span class="ow">and</span> <span class="n">by</span> <span class="n">increasing</span> <span class="n">accuracy</span><span class="o">.</span> <span class="n">Operations</span>
+<span class="k">with</span> <span class="n">unknown</span> <span class="n">accuracy</span> <span class="n">are</span> <span class="nb">sorted</span> <span class="n">last</span><span class="p">,</span> <span class="n">whatever</span> <span class="n">their</span> <span class="n">area</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pyproj.transformer.TransformerGroup.best_available">
+<em class="property">property </em><code class="sig-name descname">best_available</code><a class="headerlink" href="#pyproj.transformer.TransformerGroup.best_available" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True, the best possible transformer is available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.transformer.TransformerGroup.transformers">
+<em class="property">property </em><code class="sig-name descname">transformers</code><a class="headerlink" href="#pyproj.transformer.TransformerGroup.transformers" title="Permalink to this definition">¶</a></dt>
+<dd><p>list[<a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a>]:
+List of available <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer</span></code></a>
+associated with the transformation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.transformer.TransformerGroup.unavailable_operations">
+<em class="property">property </em><code class="sig-name descname">unavailable_operations</code><a class="headerlink" href="#pyproj.transformer.TransformerGroup.unavailable_operations" title="Permalink to this definition">¶</a></dt>
+<dd><p>list[<a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a>]:
+List of <a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a> that are not
+available due to missing grids.</p>
 </dd></dl>
 
 </dd></dl>

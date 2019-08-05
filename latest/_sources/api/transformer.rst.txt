@@ -25,6 +25,14 @@ pyproj.Transformer
 .. autoclass:: pyproj.transformer.Transformer
     :members:
 
+
+pyproj.transformer.TransformerGroup
+-----------------------------------
+
+.. autoclass:: pyproj.transformer.TransformerGroup
+    :members:
+
+
 pyproj.transform
 ----------------
 
