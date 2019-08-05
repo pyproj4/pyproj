@@ -56,6 +56,8 @@ cache:
     - "%PROJ_BASE_DIR%"
 
 build_script:
+  # update vcpkg
+  - .\bootstrap-vcpkg.bat
   # setup sqlite3
   - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
   - vcpkg install sqlite3:"%platform%"-windows
