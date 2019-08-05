@@ -19,41 +19,106 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE."""
 
 from array import array
 from itertools import chain, islice
+import warnings
 
 from pyproj import CRS, Proj
-from pyproj._transformer import _Transformer
+from pyproj._transformer import _Transformer, transformer_list_from_crs
 from pyproj.compat import cstrencode
 from pyproj.enums import TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
 from pyproj.utils import _convertback, _copytobuffer
 
-try:
-    from future_builtins import zip  # python 2.6+
-except ImportError:
-    pass  # python 3.x
 
-
-class Transformer(object):
+class TransformerGroup:
     """
-    The Transformer class is for facilitating re-using
-    transforms without needing to re-create them. The goal
-    is to make repeated transforms faster.
+    The TransformerGroup is a set of possible transformers from one CRS to another.
 
-    Additionally, it provides multiple methods for initialization.
+    From PROJ docs::
 
-    Attributes
-    ----------
-    operations: list
-        It will return a list of :obj:`~pyproj.crs.CoordinateOperation` objects
-        associated with the transformation if created using the
-        :meth:`~Transformer.from_crs` method and they exist.
-        From PROJ docs:
         The operations are sorted with the most relevant ones first: by
         descending area (intersection of the transformation area with the
         area of interest, or intersection of the transformation with the
         area of use of the CRS), and by increasing accuracy. Operations
         with unknown accuracy are sorted last, whatever their area.
 
+    """
+
+    def __init__(self, crs_from, crs_to, skip_equivalent=False, always_xy=False):
+        """Get all possible transformations from a :obj:`~pyproj.crs.CRS`
+        or input used to create one.
+
+
+        Parameters
+        ----------
+        crs_from: ~pyproj.crs.CRS or input used to create one
+            Projection of input data.
+        crs_to: ~pyproj.crs.CRS or input used to create one
+            Projection of output data.
+        skip_equivalent: bool, optional
+            If true, will skip the transformation operation if input and output
+            projections are equivalent. Default is false.
+        always_xy: bool, optional
+            If true, the transform method will accept as input and return as output
+            coordinates using the traditional GIS order, that is longitude, latitude
+            for geographic CRS and easting, northing for most projected CRS.
+            Default is false.
+
+        """
+        self._transformers = []
+        self._unavailable_operations = []
+        self._best_available = True
+        for iii, operation in enumerate(
+            transformer_list_from_crs(
+                CRS.from_user_input(crs_from),
+                CRS.from_user_input(crs_to),
+                skip_equivalent=skip_equivalent,
+                always_xy=always_xy,
+            )
+        ):
+            if isinstance(operation, _Transformer):
+                self._transformers.append(Transformer(operation))
+            else:
+                self._unavailable_operations.append(operation)
+                if iii == 0:
+                    self._best_available = False
+                    warnings.warn(
+                        "Best transformation is not available due to missing "
+                        "{!r}".format(operation.grids[0])
+                    )
+
+    @property
+    def transformers(self):
+        """
+        list[:obj:`~pyproj.crs.CoordinateOperation`]:
+            List of available :obj:`~Transformer`
+            associated with the transformation.
+        """
+        return self._transformers
+
+    @property
+    def unavailable_operations(self):
+        """
+        list[:obj:`~pyproj.crs.CoordinateOperation`]:
+            List of :obj:`~pyproj.crs.CoordinateOperation` that are not
+            available due to missing grids.
+        """
+        return self._unavailable_operations
+
+    @property
+    def best_available(self):
+        """
+        bool: If True, the best possible transformer is available.
+        """
+        return self._best_available
+
+
+class Transformer:
+    """
+    The Transformer class is for facilitating re-using
+    transforms without needing to re-create them. The goal
+    is to make repeated transforms faster.
+
+    Additionally, it provides multiple methods for initialization.
     """
 
     def __init__(self, base_transformer=None):
@@ -64,7 +129,6 @@ class Transformer(object):
                 "'from_crs', 'from_pipeline', or 'from_proj'."
             )
         self._transformer = base_transformer
-        self.operations = []
 
     @property
     def name(self):
@@ -78,22 +142,14 @@ class Transformer(object):
         """
         str: Description of the projection.
         """
-        return (
-            self.operations[0].name
-            if self.operations
-            else self._transformer.description
-        )
+        return self._transformer.description
 
     @property
     def definition(self):
         """
         str: Definition of the projection.
         """
-        return (
-            self.operations[0].to_proj4()
-            if self.operations
-            else self._transformer.definition
-        )
+        return self._transformer.definition
 
     @property
     def has_inverse(self):
@@ -138,13 +194,11 @@ class Transformer(object):
         if not isinstance(proj_to, Proj):
             proj_to = Proj(proj_to)
 
-        return Transformer(
-            _Transformer.from_crs(
-                proj_from.crs,
-                proj_to.crs,
-                skip_equivalent=skip_equivalent,
-                always_xy=always_xy,
-            )
+        return Transformer.from_crs(
+            proj_from.crs,
+            proj_to.crs,
+            skip_equivalent=skip_equivalent,
+            always_xy=always_xy,
         )
 
     @staticmethod
@@ -171,15 +225,14 @@ class Transformer(object):
         :obj:`~Transformer`
 
         """
-        crs_from = CRS.from_user_input(crs_from)
-        crs_to = CRS.from_user_input(crs_to)
-        transformer = Transformer(
+        return Transformer(
             _Transformer.from_crs(
-                crs_from, crs_to, skip_equivalent=skip_equivalent, always_xy=always_xy
+                CRS.from_user_input(crs_from),
+                CRS.from_user_input(crs_to),
+                skip_equivalent=skip_equivalent,
+                always_xy=always_xy,
             )
         )
-        transformer.operations = _Transformer.get_operations(crs_from, crs_to)
-        return transformer
 
     @staticmethod
     def from_pipeline(proj_pipeline):

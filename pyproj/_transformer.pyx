@@ -25,6 +25,96 @@ _TRANSFORMER_TYPE_MAP = {
 }
 
 
+def transformer_list_from_crs(
+    _CRS crs_from,
+    _CRS crs_to,
+    skip_equivalent=False,
+    always_xy=False,
+):
+    """
+    From PROJ docs:
+
+    The operations are sorted with the most relevant ones first: by
+    descending area (intersection of the transformation area with the
+    area of interest, or intersection of the transformation with the
+    area of use of the CRS), and by increasing accuracy. Operations
+    with unknown accuracy are sorted last, whatever their area.
+    """
+    cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
+    cdef PJ_OBJ_LIST * pj_operations = NULL
+    cdef PJ* pj_transform = NULL
+    cdef int num_operations = 0
+    cdef int is_instantiable = 0
+    cdef CoordinateOperation coordinate_operation
+    operations = []
+    try:
+        operation_factory_context = proj_create_operation_factory_context(
+            PROJ_CONTEXT.context,
+            NULL,
+        )
+        proj_operation_factory_context_set_grid_availability_use(
+            PROJ_CONTEXT.context,
+            operation_factory_context,
+            PROJ_GRID_AVAILABILITY_IGNORED,
+        )
+        proj_operation_factory_context_set_spatial_criterion(
+            PROJ_CONTEXT.context,
+            operation_factory_context,
+            PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
+        )
+
+        pj_operations = proj_create_operations(
+            PROJ_CONTEXT.context,
+            get_transform_crs(crs_from).projobj,
+            get_transform_crs(crs_to).projobj,
+            operation_factory_context,
+        )
+        num_operations = proj_list_get_count(pj_operations)
+        for iii in range(num_operations):
+            pj_transform = proj_list_get(
+                PROJ_CONTEXT.context,
+                pj_operations,
+                iii,
+            )
+            is_instantiable = proj_coordoperation_is_instantiable(
+                PROJ_CONTEXT.context,
+                pj_transform
+            )
+            if is_instantiable:
+                operations.append(
+                    _Transformer._from_pj(
+                        pj_transform,
+                        crs_from,
+                        crs_to,
+                        skip_equivalent,
+                        always_xy,
+                    )
+                )
+            else:
+                operations.append(CoordinateOperation.create(
+                    pj_transform
+                ))
+    finally:
+        pj_transform = NULL
+        proj_list_destroy(pj_operations)
+        pj_operations = NULL
+        proj_operation_factory_context_destroy(operation_factory_context)
+        operation_factory_context = NULL
+    return operations
+
+
+cdef _CRS get_transform_crs(_CRS in_crs):
+    for sub_crs in in_crs.sub_crs_list:
+        if (
+            sub_crs._type != PJ_TYPE_TEMPORAL_CRS and
+            sub_crs._type != PJ_TYPE_VERTICAL_CRS
+        ):
+            return sub_crs
+    if in_crs.is_bound:
+        return in_crs.source_crs
+    return in_crs
+
+
 cdef class _Transformer(Base):
     def __cinit__(self):
         self.input_geographic = False
@@ -52,15 +142,15 @@ cdef class _Transformer(Base):
     def _initialize_from_projobj(self):
         self.proj_info = proj_pj_info(self.projobj)
         if self.proj_info.id == NULL:
-            ProjError.clear()
-            raise ProjError("Input is not a transformation.")
+             ProjError.clear()
+             raise ProjError("Input is not a transformation.")
         cdef PJ_TYPE transformer_type = proj_get_type(self.projobj)
         self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
 
     @property
     def id(self):
         return pystrdecode(self.proj_info.id)
-    
+
     @property
     def description(self):
         return pystrdecode(self.proj_info.description)
@@ -76,18 +166,35 @@ cdef class _Transformer(Base):
     @property
     def accuracy(self):
         return self.proj_info.accuracy
-
+  
     @staticmethod
     def from_crs(_CRS crs_from, _CRS crs_to, skip_equivalent=False, always_xy=False):
-        cdef _Transformer transformer = _Transformer()
-        transformer.projobj = proj_create_crs_to_crs(
+        ProjError.clear()
+        cdef PJ* pj_transform = proj_create_crs_to_crs(
             PROJ_CONTEXT.context,
             cstrencode(crs_from.srs),
             cstrencode(crs_to.srs),
             NULL)
-        if transformer.projobj is NULL:
+        if pj_transform == NULL:
             raise ProjError("Error creating CRS to CRS.")
+        return _Transformer._from_pj(
+            pj_transform,
+            crs_from=crs_from,
+            crs_to=crs_to,
+            skip_equivalent=skip_equivalent,
+            always_xy=always_xy,
+        )
 
+    @staticmethod
+    cdef _Transformer _from_pj(
+        PJ *transform_pj,
+        _CRS crs_from,
+        _CRS crs_to,
+        skip_equivalent,
+        always_xy
+    ):
+        cdef _Transformer transformer = _Transformer()
+        transformer.projobj = transform_pj
         cdef PJ* always_xy_pj = NULL
         if always_xy:
             always_xy_pj = proj_normalize_for_visualization(
@@ -109,6 +216,7 @@ cdef class _Transformer(Base):
 
     @staticmethod
     def from_pipeline(const char *proj_pipeline):
+        ProjError.clear()
         cdef _Transformer transformer = _Transformer()
         # initialize projection
         transformer.projobj = proj_create(PROJ_CONTEXT.context, proj_pipeline)
@@ -118,50 +226,6 @@ cdef class _Transformer(Base):
         transformer._set_radians_io()
         transformer.is_pipeline = True
         return transformer
-
-    @staticmethod
-    def get_operations(_CRS crs_from, _CRS crs_to):
-        """
-        From PROJ docs:
-
-        The operations are sorted with the most relevant ones first: by
-        descending area (intersection of the transformation area with the
-        area of interest, or intersection of the transformation with the
-        area of use of the CRS), and by increasing accuracy. Operations
-        with unknown accuracy are sorted last, whatever their area.
-        """
-        cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
-        cdef PJ_OBJ_LIST * pj_operations = NULL
-        cdef int num_operations = 0
-        operations = []
-        try:
-            operation_factory_context = proj_create_operation_factory_context(
-                PROJ_CONTEXT.context,
-                NULL,
-            )
-            pj_operations = proj_create_operations(
-                PROJ_CONTEXT.context,
-                crs_from.projobj,
-                crs_to.projobj,
-                operation_factory_context,
-            )
-            num_operations = proj_list_get_count(pj_operations)
-            for iii in range(num_operations):
-                operations.append(
-                    CoordinateOperation.create(
-                        proj_list_get(
-                            PROJ_CONTEXT.context,
-                            pj_operations,
-                            iii,
-                        )
-                    )
-                )
-        finally:
-            proj_list_destroy(pj_operations)
-            pj_operations = NULL
-            proj_operation_factory_context_destroy(operation_factory_context)
-            operation_factory_context = NULL
-        return operations
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
