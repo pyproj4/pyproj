@@ -191,6 +191,8 @@
 </li>
         <li><a href="api/proj.html#pyproj.proj.Proj.__init__">(pyproj.proj.Proj method)</a>
 </li>
+        <li><a href="api/transformer.html#pyproj.transformer.TransformerGroup.__init__">(pyproj.transformer.TransformerGroup method)</a>
+</li>
       </ul></li>
   </ul></td>
 </tr></table>
@@ -208,10 +210,18 @@
 </li>
       <li><a href="api/datadir.html#pyproj.datadir.append_data_dir">append_data_dir() (in module pyproj.datadir)</a>
 </li>
-      <li><a href="api/crs.html#pyproj.crs.CRS.area_of_use">area_of_use (pyproj.crs.CRS attribute)</a>
+      <li><a href="api/crs.html#pyproj.crs.CoordinateOperation.area_of_use">area_of_use (pyproj.crs.CoordinateOperation attribute)</a>
+
+      <ul>
+        <li><a href="api/crs.html#pyproj.crs.CRS.area_of_use">(pyproj.crs.CRS attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/transformer.html#pyproj.transformer.Transformer.area_of_use">area_of_use() (pyproj.transformer.Transformer property)</a>
+</li>
+      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest">AreaOfInterest (class in pyproj.transformer)</a>
+</li>
       <li><a href="api/crs.html#pyproj._crs.AreaOfUse">AreaOfUse (class in pyproj._crs)</a>
 </li>
       <li><a href="api/crs.html#pyproj._crs.Param.auth_name">auth_name (pyproj._crs.Param attribute)</a>
@@ -294,16 +304,18 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj._crs.AreaOfUse.east">east (pyproj._crs.AreaOfUse attribute)</a>
 </li>
+      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest.east_lon_degree">east_lon_degree() (pyproj.transformer.AreaOfInterest property)</a>
+</li>
       <li><a href="api/crs.html#pyproj.crs.Ellipsoid">Ellipsoid (class in pyproj.crs)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj.crs.CRS.ellipsoid">ellipsoid (pyproj.crs.CRS attribute)</a>
 
       <ul>
         <li><a href="api/crs.html#pyproj.crs.Datum.ellipsoid">(pyproj.crs.Datum attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj.crs.Ellipsoid.ellipsoid_loaded">ellipsoid_loaded (pyproj.crs.Ellipsoid attribute)</a>
 </li>
       <li><a href="api/geod.html#pyproj.Geod.es">es (pyproj.Geod attribute)</a>
@@ -544,6 +556,8 @@
 </li>
       <li><a href="api/crs.html#pyproj._crs.AreaOfUse.north">north (pyproj._crs.AreaOfUse attribute)</a>
 </li>
+      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest.north_lat_degree">north_lat_degree() (pyproj.transformer.AreaOfInterest property)</a>
+</li>
       <li><a href="api/geod.html#pyproj.Geod.npts">npts() (pyproj.Geod method)</a>
 </li>
   </ul></td>
@@ -606,11 +620,13 @@
 </li>
       <li><a href="api/show_versions.html#pyproj.show_versions">show_versions() (in module pyproj)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj.crs.CRS.source_crs">source_crs (pyproj.crs.CRS attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj._crs.AreaOfUse.south">south (pyproj._crs.AreaOfUse attribute)</a>
+</li>
+      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest.south_lat_degree">south_lat_degree() (pyproj.transformer.AreaOfInterest property)</a>
 </li>
       <li><a href="api/geod.html#pyproj.Geod.sphere">sphere (pyproj.Geod attribute)</a>
 </li>
@@ -740,14 +756,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj._crs.AreaOfUse.west">west (pyproj._crs.AreaOfUse attribute)</a>
 </li>
+      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest.west_lon_degree">west_lon_degree() (pyproj.transformer.AreaOfInterest property)</a>
+</li>
       <li><a href="api/enums.html#pyproj.enums.WktVersion.WKT1_ESRI">WKT1_ESRI (pyproj.enums.WktVersion attribute)</a>
 </li>
       <li><a href="api/enums.html#pyproj.enums.WktVersion.WKT1_GDAL">WKT1_GDAL (pyproj.enums.WktVersion attribute)</a>
 </li>
-      <li><a href="api/enums.html#pyproj.enums.WktVersion.WKT2_2015">WKT2_2015 (pyproj.enums.WktVersion attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/enums.html#pyproj.enums.WktVersion.WKT2_2015">WKT2_2015 (pyproj.enums.WktVersion attribute)</a>
+</li>
       <li><a href="api/enums.html#pyproj.enums.WktVersion.WKT2_2015_SIMPLIFIED">WKT2_2015_SIMPLIFIED (pyproj.enums.WktVersion attribute)</a>
 </li>
       <li><a href="api/enums.html#pyproj.enums.WktVersion.WKT2_2018">WKT2_2018 (pyproj.enums.WktVersion attribute)</a>

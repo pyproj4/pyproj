@@ -177,7 +177,11 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Proj</span>
-<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="n">_Transformer</span><span class="p">,</span> <span class="n">transformer_list_from_crs</span>
+<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
+    <span class="n">_Transformer</span><span class="p">,</span>
+    <span class="n">transformer_list_from_crs</span><span class="p">,</span>
+    <span class="n">AreaOfInterest</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">cstrencode</span>
 <span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="k">import</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">ProjError</span>
@@ -198,7 +202,14 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformerGroup.__init__"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">crs_from</span><span class="p">,</span>
+        <span class="n">crs_to</span><span class="p">,</span>
+        <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">area_of_interest</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get all possible transformations from a :obj:`~pyproj.crs.CRS`</span>
 <span class="sd">        or input used to create one.</span>
 
@@ -217,6 +228,9 @@
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
 <span class="sd">            Default is false.</span>
+<span class="sd">        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional</span>
+<span class="sd">            The area of interest to help order the transformations based on the</span>
+<span class="sd">            best operation for the area.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span> <span class="o">=</span> <span class="p">[]</span>
@@ -228,6 +242,7 @@
                 <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
                 <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
                 <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
+                <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">_Transformer</span><span class="p">):</span>
@@ -239,7 +254,7 @@
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                         <span class="s2">&quot;Best transformation is not available due to missing &quot;</span>
                         <span class="s2">&quot;</span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">operation</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                    <span class="p">)</span>
+                    <span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">transformers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -320,8 +335,23 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">accuracy</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">area_of_use</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AreaOfUse: The area of use object with associated attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">area_of_use</span>
+
 <div class="viewcode-block" id="Transformer.from_proj"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_proj">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_proj</span><span class="p">(</span><span class="n">proj_from</span><span class="p">,</span> <span class="n">proj_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_proj</span><span class="p">(</span>
+        <span class="n">proj_from</span><span class="p">,</span>
+        <span class="n">proj_to</span><span class="p">,</span>
+        <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">area_of_interest</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.</span>
 
 <span class="sd">        Parameters</span>
@@ -338,6 +368,8 @@
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
 <span class="sd">            Default is false.</span>
+<span class="sd">        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional</span>
+<span class="sd">            The area of interest to help select the transformation.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -354,10 +386,13 @@
             <span class="n">proj_to</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
             <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
             <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
+            <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Transformer.from_crs"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_crs">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_crs</span><span class="p">(</span><span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_crs</span><span class="p">(</span>
+        <span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">area_of_interest</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.</span>
 
 <span class="sd">        Parameters</span>
@@ -374,6 +409,8 @@
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
 <span class="sd">            Default is false.</span>
+<span class="sd">        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional</span>
+<span class="sd">            The area of interest to help select the transformation.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -386,6 +423,7 @@
                 <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
                 <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
                 <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
+                <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 
@@ -670,10 +708,14 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;&lt;</span><span class="si">{type_name}</span><span class="s2">: </span><span class="si">{name}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="si">{description}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;&lt;</span><span class="si">{type_name}</span><span class="s2">: </span><span class="si">{name}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">Description: </span><span class="si">{description}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Area of Use:</span><span class="se">\n</span><span class="si">{area_of_use}</span><span class="s2">&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">type_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">type_name</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="n">area_of_use</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">area_of_use</span> <span class="ow">or</span> <span class="s2">&quot;- undefined&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
