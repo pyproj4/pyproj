@@ -94,6 +94,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Transformer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transformer">pyproj.Transformer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transformer-transformergroup">pyproj.transformer.TransformerGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-transformer-areaofinterest">pyproj.transformer.AreaOfInterest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transform">pyproj.transform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-itransform">pyproj.itransform</a></li>
 </ul>
@@ -214,6 +215,13 @@ is to make repeated transforms faster.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.transformer.Transformer.area_of_use">
+<em class="property">property </em><code class="sig-name descname">area_of_use</code><a class="headerlink" href="#pyproj.transformer.Transformer.area_of_use" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: <strong>AreaOfUse</strong>
+:rtype: The area of use object with associated attributes.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.transformer.Transformer.definition">
 <em class="property">property </em><code class="sig-name descname">definition</code><a class="headerlink" href="#pyproj.transformer.Transformer.definition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Definition of the projection.</p>
@@ -237,7 +245,7 @@ is to make repeated transforms faster.</p>
 
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.from_crs">
-<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> or input used to create one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -250,6 +258,7 @@ projections are equivalent. Default is false.</p></li>
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -281,7 +290,7 @@ Default is false.</p></li>
 
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.from_proj">
-<em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param">proj_from</em>, <em class="sig-param">proj_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_proj" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param">proj_from</em>, <em class="sig-param">proj_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proj</span></code></a> or input used to create one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -294,6 +303,7 @@ projections are equivalent. Default is false.</p></li>
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -504,7 +514,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <h2>pyproj.transformer.TransformerGroup<a class="headerlink" href="#pyproj-transformer-transformergroup" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.transformer.TransformerGroup">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">TransformerGroup</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">TransformerGroup</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup" title="Permalink to this definition">¶</a></dt>
 <dd><p>The TransformerGroup is a set of possible transformers from one CRS to another.</p>
 <p>From PROJ docs:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">operations</span> <span class="n">are</span> <span class="nb">sorted</span> <span class="k">with</span> <span class="n">the</span> <span class="n">most</span> <span class="n">relevant</span> <span class="n">ones</span> <span class="n">first</span><span class="p">:</span> <span class="n">by</span>
@@ -514,6 +524,29 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <span class="k">with</span> <span class="n">unknown</span> <span class="n">accuracy</span> <span class="n">are</span> <span class="nb">sorted</span> <span class="n">last</span><span class="p">,</span> <span class="n">whatever</span> <span class="n">their</span> <span class="n">area</span><span class="o">.</span>
 </pre></div>
 </div>
+<dl class="method">
+<dt id="pyproj.transformer.TransformerGroup.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all possible transformations from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a>
+or input used to create one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
+<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
+projections are equivalent. Default is false.</p></li>
+<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.
+Default is false.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help order the transformations based on the
+best operation for the area.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="pyproj.transformer.TransformerGroup.best_available">
 <em class="property">property </em><code class="sig-name descname">best_available</code><a class="headerlink" href="#pyproj.transformer.TransformerGroup.best_available" title="Permalink to this definition">¶</a></dt>
@@ -539,6 +572,49 @@ associated with the transformation.</p>
 <dd><p>list[<a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a>]:
 List of <a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a> that are not
 available due to missing grids.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-transformer-areaofinterest">
+<h2>pyproj.transformer.AreaOfInterest<a class="headerlink" href="#pyproj-transformer-areaofinterest" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.transformer.AreaOfInterest">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">AreaOfInterest</code><a class="headerlink" href="#pyproj.transformer.AreaOfInterest" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the area of interest for the transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>west_lon_degree</strong> (<em>float</em>) – The west bound in degrees of the area of interest.</p></li>
+<li><p><strong>south_lat_degree</strong> (<em>float</em>) – The south bound in degrees of the area of interest.</p></li>
+<li><p><strong>east_lon_degree</strong> (<em>float</em>) – The east bound in degrees of the area of interest.</p></li>
+<li><p><strong>north_lat_degree</strong> (<em>float</em>) – The north bound in degrees of the area of interest.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pyproj.transformer.AreaOfInterest.east_lon_degree">
+<em class="property">property </em><code class="sig-name descname">east_lon_degree</code><a class="headerlink" href="#pyproj.transformer.AreaOfInterest.east_lon_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.transformer.AreaOfInterest.north_lat_degree">
+<em class="property">property </em><code class="sig-name descname">north_lat_degree</code><a class="headerlink" href="#pyproj.transformer.AreaOfInterest.north_lat_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.transformer.AreaOfInterest.south_lat_degree">
+<em class="property">property </em><code class="sig-name descname">south_lat_degree</code><a class="headerlink" href="#pyproj.transformer.AreaOfInterest.south_lat_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.transformer.AreaOfInterest.west_lon_degree">
+<em class="property">property </em><code class="sig-name descname">west_lon_degree</code><a class="headerlink" href="#pyproj.transformer.AreaOfInterest.west_lon_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
 </dd></dl>
 
 </dd></dl>
