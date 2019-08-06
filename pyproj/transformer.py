@@ -22,7 +22,11 @@ from itertools import chain, islice
 import warnings
 
 from pyproj import CRS, Proj
-from pyproj._transformer import _Transformer, transformer_list_from_crs
+from pyproj._transformer import (  # noqa
+    _Transformer,
+    transformer_list_from_crs,
+    AreaOfInterest,
+)
 from pyproj.compat import cstrencode
 from pyproj.enums import TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
@@ -43,7 +47,14 @@ class TransformerGroup:
 
     """
 
-    def __init__(self, crs_from, crs_to, skip_equivalent=False, always_xy=False):
+    def __init__(
+        self,
+        crs_from,
+        crs_to,
+        skip_equivalent=False,
+        always_xy=False,
+        area_of_interest=None,
+    ):
         """Get all possible transformations from a :obj:`~pyproj.crs.CRS`
         or input used to create one.
 
@@ -62,6 +73,9 @@ class TransformerGroup:
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
             Default is false.
+        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional
+            The area of interest to help order the transformations based on the
+            best operation for the area.
 
         """
         self._transformers = []
@@ -73,6 +87,7 @@ class TransformerGroup:
                 CRS.from_user_input(crs_to),
                 skip_equivalent=skip_equivalent,
                 always_xy=always_xy,
+                area_of_interest=area_of_interest,
             )
         ):
             if isinstance(operation, _Transformer):
@@ -165,8 +180,23 @@ class Transformer:
         """
         return self._transformer.accuracy
 
+    @property
+    def area_of_use(self):
+        """
+        Returns
+        -------
+        AreaOfUse: The area of use object with associated attributes.
+        """
+        return self._transformer.area_of_use
+
     @staticmethod
-    def from_proj(proj_from, proj_to, skip_equivalent=False, always_xy=False):
+    def from_proj(
+        proj_from,
+        proj_to,
+        skip_equivalent=False,
+        always_xy=False,
+        area_of_interest=None,
+    ):
         """Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.
 
         Parameters
@@ -183,6 +213,8 @@ class Transformer:
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
             Default is false.
+        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional
+            The area of interest to help select the transformation.
 
         Returns
         -------
@@ -199,10 +231,13 @@ class Transformer:
             proj_to.crs,
             skip_equivalent=skip_equivalent,
             always_xy=always_xy,
+            area_of_interest=area_of_interest,
         )
 
     @staticmethod
-    def from_crs(crs_from, crs_to, skip_equivalent=False, always_xy=False):
+    def from_crs(
+        crs_from, crs_to, skip_equivalent=False, always_xy=False, area_of_interest=None
+    ):
         """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
 
         Parameters
@@ -219,6 +254,8 @@ class Transformer:
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
             Default is false.
+        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional
+            The area of interest to help select the transformation.
 
         Returns
         -------
@@ -231,6 +268,7 @@ class Transformer:
                 CRS.from_user_input(crs_to),
                 skip_equivalent=skip_equivalent,
                 always_xy=always_xy,
+                area_of_interest=area_of_interest,
             )
         )
 
@@ -515,10 +553,14 @@ class Transformer:
         return self.definition
 
     def __repr__(self):
-        return ("<{type_name}: {name}>\n" "{description}").format(
+        return (
+            "<{type_name}: {name}>\nDescription: {description}\n"
+            "Area of Use:\n{area_of_use}"
+        ).format(
             type_name=self._transformer.type_name,
             name=self.name,
             description=self.description,
+            area_of_use=self.area_of_use or "- undefined",
         )
 
 
