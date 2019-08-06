@@ -500,3 +500,17 @@ def test_transformer_proj__area_of_interest():
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
     )
     assert transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
+
+
+def test_transformer__area_of_interest__invalid():
+    with pytest.raises(ProjError):
+        Transformer.from_crs(
+            4326, 2964, area_of_interest=(-136.46, 49.0, -60.72, 83.17)
+        )
+
+
+def test_transformer_group__area_of_interest__invalid():
+    with pytest.raises(ProjError):
+        TransformerGroup(
+            4326, 2964, area_of_interest=(-136.46, 49.0, -60.72, 83.17)
+        )
