@@ -5,17 +5,17 @@ Change Log
 ~~~~~
 * Minimum supported Python version 3.5 (issue #331)
 * New `pyproj.geod.Geod` additions:
-  * Added support for calculating geodesic area (:meth:`~pyproj.geod.Geod.polygon_area_perimeter`)
-    and added interface to calculate total length of a line 
-    (:meth:`~pyproj.geod.Geod.line_length` & :meth:`~pyproj.geod.Geod.line_lengths`) (issue #210).
-  * Added support for calculating geodesic area and line lemgths with shapely geometries
-    (:meth:`~pyproj.geod.Geod.geometry_area_perimeter` & :meth:`~pyproj.geod.Geod.geometry_length`)
-    (pull #366)
+    * Added support for calculating geodesic area (:meth:`~pyproj.Geod.polygon_area_perimeter`)
+      and added interface to calculate total length of a line
+      (:meth:`~pyproj.Geod.line_length` & :meth:`~pyproj.Geod.line_lengths`) (issue #210).
+    * Added support for calculating geodesic area and line lemgths with shapely geometries
+      (:meth:`~pyproj.Geod.geometry_area_perimeter` & :meth:`~pyproj.Geod.geometry_length`)
+      (pull #366)
 * New `pyproj.transformer` additions:
-  * Added :class:`~pyproj.transformer.TransformerGroup` to make all transformations available (issue #381)
-  * Added option for `area_of_interest` for :meth:`~pyproj.transformer.Transformer.from_crs`,
-    :meth:`~pyproj.transformer.Transformer.from_proj` and :class:`~pyproj.transformer.TransformerGroup`
-  * Added :attr:`~pyproj.transformer.Transform.area_of_use` (issue #385)
+    * Added :class:`~pyproj.transformer.TransformerGroup` to make all transformations available (issue #381)
+    * Added option for `area_of_interest` for :meth:`~pyproj.transformer.Transformer.from_crs`,
+      :meth:`~pyproj.transformer.Transformer.from_proj` and :class:`~pyproj.transformer.TransformerGroup`
+    * Added :attr:`~pyproj.transformer.Transformer.area_of_use` (issue #385)
 * Added :attr:`~pyproj.crs.CoordinateOperation.area_of_use` (issue #385)
 * Updated to only have one PJ_CONTEXT per pyproj session (issue #374)
 * Always return latlon with Proj (issue #356)

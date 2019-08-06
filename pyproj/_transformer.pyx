@@ -42,7 +42,7 @@ east_lon_degree: float
     The east bound in degrees of the area of interest.
 north_lat_degree: float
     The north bound in degrees of the area of interest.
-""""
+"""
 
 def transformer_list_from_crs(
     _CRS crs_from,
