@@ -15,8 +15,8 @@ Change Log
   * Added :class:`~pyproj.transformer.TransformerGroup` to make all transformations available (issue #381)
   * Added option for `area_of_interest` for :meth:`~pyproj.transformer.Transformer.from_crs`,
     :meth:`~pyproj.transformer.Transformer.from_proj` and :class:`~pyproj.transformer.TransformerGroup`
-  * Added :attr:`~pyproj.transformer.Transform.area_of_use`
-* Added :attr:`~pyproj.crs.CoordinateOperation.area_of_use`
+  * Added :attr:`~pyproj.transformer.Transform.area_of_use` (issue #385)
+* Added :attr:`~pyproj.crs.CoordinateOperation.area_of_use` (issue #385)
 * Updated to only have one PJ_CONTEXT per pyproj session (issue #374)
 * Always return latlon with Proj (issue #356)
 * Remove aenum dependency (issue #339)

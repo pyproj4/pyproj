@@ -29,7 +29,20 @@ _TRANSFORMER_TYPE_MAP = {
 AreaOfInterest = namedtuple("AreaOfInterest",
     ["west_lon_degree", "south_lat_degree", "east_lon_degree", "north_lat_degree"]
 )
+AreaOfInterest.__doc__ = """
+This is the area of interest for the transformation.
 
+Parameters
+----------
+west_lon_degree: float
+    The west bound in degrees of the area of interest.
+south_lat_degree: float
+    The south bound in degrees of the area of interest.
+east_lon_degree: float
+    The east bound in degrees of the area of interest.
+north_lat_degree: float
+    The north bound in degrees of the area of interest.
+""""
 
 def transformer_list_from_crs(
     _CRS crs_from,
@@ -64,7 +77,7 @@ def transformer_list_from_crs(
         if area_of_interest is not None:
             if not isinstance(area_of_interest, AreaOfInterest):
                 raise ProjError(
-                    "Area of use must be of the type pyproj.transformer.AreaOfInterest."
+                    "Area of interest must be of the type pyproj.transformer.AreaOfInterest."
                 )
             west_lon_degree = area_of_interest.west_lon_degree
             south_lat_degree = area_of_interest.south_lat_degree
@@ -223,7 +236,7 @@ cdef class _Transformer(Base):
         if area_of_interest is not None:
             if not isinstance(area_of_interest, AreaOfInterest):
                 raise ProjError(
-                    "Area of use must be of the type pyproj.transformer.AreaOfInterest."
+                    "Area of interest must be of the type pyproj.transformer.AreaOfInterest."
                 )
             pj_area_of_interest = proj_area_create()
             west_lon_degree = area_of_interest.west_lon_degree
