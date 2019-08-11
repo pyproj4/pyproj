@@ -539,6 +539,37 @@ class Transformer:
         """
         return self._transformer.to_wkt(version=version, pretty=pretty)
 
+    def to_json(self, pretty=False, indentation=2):
+        """
+        Convert the projection to a JSON string.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
+        indentation: int
+            If pretty is True, it will set the width of the indentation. Default is 2.
+
+        Returns
+        -------
+        str: The JSON string.
+        """
+        return self._transformer.to_json(pretty=pretty, indentation=indentation)
+
+    def to_json_dict(self):
+        """
+        Convert the projection to a JSON dictionary.
+
+        .. versionadded:: 2.4.0
+
+        Returns
+        -------
+        dict: The JSON dictionary.
+        """
+        return self._transformer.to_json_dict()
+
     def __str__(self):
         return self.definition
 

@@ -1,3 +1,4 @@
+import json
 import re
 import warnings
 from collections import OrderedDict
@@ -136,6 +137,14 @@ cdef _to_proj4(PJ_CONTEXT* context, PJ* projobj, version):
     )
     CRSError.clear()
     return cstrdecode(proj_string)
+
+
+
+def _load_proj_json(in_proj_json):
+    try:
+        return json.loads(in_proj_json)
+    except ValueError:
+        raise CRSError("Invalid JSON")
 
 
 cdef class Axis:
@@ -325,6 +334,54 @@ cdef class Base:
         str: The WKT string.
         """
         return _to_wkt(self.context, self.projobj, version, pretty=pretty)
+
+    def to_json(self, pretty=False, indentation=2):
+        """
+        Convert the object to a JSON string.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
+        indentation: int
+            If pretty is True, it will set the width of the indentation. Default is 2.
+ 
+        Returns
+        -------
+        str: The JSON string.
+        """
+        cdef const char* options[3]
+        multiline = b"MULTILINE=NO"
+        if pretty:
+            multiline = b"MULTILINE=YES"
+        indentation_width = cstrencode(
+            "INDENTATION_WIDTH={:.0f}".format(indentation)
+        )
+        options[0] = multiline
+        options[1] = indentation_width
+        options[2] = NULL
+
+        cdef const char* proj_json_string
+        proj_json_string = proj_as_projjson(
+            self.context,
+            self.projobj,
+            options,
+        )
+        return cstrdecode(proj_json_string)
+
+    def to_json_dict(self):
+        """
+        Convert the object to a JSON dictionary.
+
+        .. versionadded:: 2.4.0
+
+        Returns
+        -------
+        dict: The JSON dictionary.
+        """
+        return json.loads(self.to_json())
 
     def __str__(self):
         return self.name
@@ -550,6 +607,42 @@ cdef class Ellipsoid(Base):
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
 
+    @staticmethod
+    def from_json_dict(ellipsoid_dict):
+        """
+        Create Ellipsoid from a JSON dictionary.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        ellipsoid_dict: str
+            Ellipsoid dictionary.
+
+        Returns
+        -------
+        Ellipsoid
+        """
+        return Ellipsoid.from_string(json.dumps(ellipsoid_dict))
+
+    @staticmethod
+    def from_json(ellipsoid_json_str):
+        """
+        Create Ellipsoid from a JSON string.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        ellipsoid_json_str: str
+            Ellipsoid JSON string.
+
+        Returns
+        -------
+        Ellipsoid
+        """
+        return Ellipsoid.from_json_dict(_load_proj_json(ellipsoid_json_str))
+
     @property
     def semi_major_metre(self):
         """
@@ -717,6 +810,42 @@ cdef class PrimeMeridian(Base):
         CRSError.clear()
         return PrimeMeridian.create(context, prime_meridian_pj)
 
+    @staticmethod
+    def from_json_dict(prime_meridian_dict):
+        """
+        Create PrimeMeridian from a JSON dictionary.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        prime_meridian_dict: str
+            PrimeMeridian dictionary.
+
+        Returns
+        -------
+        PrimeMeridian
+        """
+        return PrimeMeridian.from_string(json.dumps(prime_meridian_dict))
+
+    @staticmethod
+    def from_json(prime_meridian_json_str):
+        """
+        Create PrimeMeridian from a JSON string.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        prime_meridian_json_str: str
+            PrimeMeridian JSON string.
+
+        Returns
+        -------
+        PrimeMeridian
+        """
+        return PrimeMeridian.from_json_dict(_load_proj_json(prime_meridian_json_str))
+
 
 cdef class Datum(Base):
     """
@@ -839,6 +968,42 @@ cdef class Datum(Base):
         CRSError.clear()
         return Datum.create(context, datum_pj)
  
+    @staticmethod
+    def from_json_dict(datum_dict):
+        """
+        Create Datum from a JSON dictionary.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        datum_dict: str
+            Datum dictionary.
+
+        Returns
+        -------
+        Datum
+        """
+        return Datum.from_string(json.dumps(datum_dict))
+
+    @staticmethod
+    def from_json(datum_json_str):
+        """
+        Create Datum from a JSON string.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        datum_json_str: str
+            Datum JSON string.
+
+        Returns
+        -------
+        Datum
+        """
+        return Datum.from_json_dict(_load_proj_json(datum_json_str))
+
     @property
     def ellipsoid(self):
         """
@@ -1235,6 +1400,44 @@ cdef class CoordinateOperation(Base):
             )
         CRSError.clear()
         return CoordinateOperation.create(context, coord_operation_pj)
+
+    @staticmethod
+    def from_json_dict(coordinate_operation_dict):
+        """
+        Create CoordinateOperation from a JSON dictionary.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        coordinate_operation_dict: str
+            CoordinateOperation dictionary.
+
+        Returns
+        -------
+        CoordinateOperation
+        """
+        return CoordinateOperation.from_string(json.dumps(coordinate_operation_dict))
+
+    @staticmethod
+    def from_json(coordinate_operation_json_str):
+        """
+        Create CoordinateOperation from a JSON string.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        coordinate_operation_json_str: str
+            CoordinateOperation JSON string.
+
+        Returns
+        -------
+        CoordinateOperation
+        """
+        return CoordinateOperation.from_json_dict(
+            _load_proj_json(coordinate_operation_json_str
+        ))
 
     @property
     def params(self):

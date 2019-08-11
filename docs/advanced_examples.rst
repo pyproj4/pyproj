@@ -12,6 +12,8 @@ Here are a few tricks to try out if you want to optimize your transformations.
 Repeated transformations
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. versionadded:: 2.1.0
+
 If you use the same transform, using the :class:`pyproj.Transformer` can help
 optimize your transformations.
 
@@ -57,6 +59,8 @@ is what you want, the `skip_equivalent` option can help.
 Transformation Group
 --------------------
 
+.. versionadded:: 2.3.0
+
 The :class:`~pyproj.transformer.TransformerGroup` provides both available
 transformations as well as missing transformations.
 
@@ -98,6 +102,8 @@ transformations as well as missing transformations.
 
 Area of Interest
 ----------------
+
+.. versionadded:: 2.3.0
 
 Depending on the location of your transformation, using the area of interest may impact
 which transformation operation is selected in the transformation.

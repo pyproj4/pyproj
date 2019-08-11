@@ -150,7 +150,8 @@ cdef extern from "proj.h":
         PJ_WKT1_ESRI
 
     const char* proj_as_wkt(PJ_CONTEXT *ctx,
-                            const PJ *obj, PJ_WKT_TYPE type,
+                            const PJ *obj,
+                            PJ_WKT_TYPE type,
                             const char* const *options)
 
     ctypedef enum PJ_PROJ_STRING_TYPE:
@@ -161,6 +162,9 @@ cdef extern from "proj.h":
                                     const PJ *obj,
                                     PJ_PROJ_STRING_TYPE type,
                                     const char* const *options)
+    const char* proj_as_projjson(PJ_CONTEXT *ctx,
+                                 const PJ *obj,
+                                 const char* const *options)
     PJ *proj_crs_get_geodetic_crs(PJ_CONTEXT *ctx, const PJ *crs)
 
     ctypedef enum PJ_TYPE:
