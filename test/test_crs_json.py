@@ -132,3 +132,54 @@ def test_properties_from_json_dict(property_name, init_class):
 def test_properties_from_json(property_name, init_class):
     prop = getattr(CRS.from_epsg(26915), property_name)
     assert init_class.from_json(prop.to_json()) == prop
+
+
+def test_crs_from_self__ellipsoid():
+    wgs_84_crs = CRS("EPSG:4326")
+    ell = Ellipsoid.from_string("urn:ogc:def:ellipsoid:EPSG::7001")
+    new_crs = wgs_84_crs.from_self(ellipsoid=ell)
+    assert new_crs != wgs_84_crs
+    assert new_crs.ellipsoid == ell
+
+
+def test_crs_from_self__datum():
+    utm_crs = CRS("EPSG:25832")
+    dat = Datum.from_string("urn:ogc:def:datum:EPSG::6326")
+    new_crs = utm_crs.from_self(datum=dat)
+    assert new_crs != utm_crs
+    assert new_crs.datum == dat
+
+
+def test_crs_from_self__prime_meridian():
+    utm_crs = CRS("EPSG:25832")
+    pm = PrimeMeridian.from_string("urn:ogc:def:meridian:EPSG::8910")
+    new_crs = utm_crs.from_self(prime_meridian=pm)
+    assert new_crs != utm_crs
+    assert new_crs.prime_meridian == pm
+
+
+def test_crs_from_self__empty():
+    utm_crs = CRS("EPSG:25832")
+    with pytest.raises(ValueError):
+        utm_crs.from_self()
+
+
+def test_crs_from_self__invalid_type__datum():
+    utm_crs = CRS("EPSG:25832")
+    pm = PrimeMeridian.from_string("urn:ogc:def:meridian:EPSG::8910")
+    with pytest.raises(ValueError):
+        utm_crs.from_self(datum=pm)
+
+
+def test_crs_from_self__invalid_type__ellipsoid():
+    utm_crs = CRS("EPSG:25832")
+    pm = PrimeMeridian.from_string("urn:ogc:def:meridian:EPSG::8910")
+    with pytest.raises(ValueError):
+        utm_crs.from_self(ellipsoid=pm)
+
+
+def test_crs_from_self__invalid_type__prime_meridian():
+    utm_crs = CRS("EPSG:25832")
+    dat = Datum.from_string("urn:ogc:def:datum:EPSG::6326")
+    with pytest.raises(ValueError):
+        utm_crs.from_self(prime_meridian=dat)

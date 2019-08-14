@@ -839,6 +839,77 @@ class CRS(_CRS):
 
         return cls(proj_dict)
 
+    def from_self(
+        self, datum=None, ellipsoid=None, prime_meridian=None
+    ):
+        """
+        Create a new CRS based on this CRS.
+
+        .. versionadded:: 2.4.0
+
+        .. warning:: This is experimental and subject to change.
+
+        Parameters
+        ----------
+        datum: :obj:`~pyproj.crs.Datum`, optional
+        ellipsoid: :obj:`~pyproj.crs.Ellipsoid`, optional
+        prime_meridian: :obj:`~pyproj.crs.PrimeMeridian`, optional
+
+        Returns
+        -------
+        ~CRS: The CRS with based on self with the new objects applied.
+        """
+        if not any([datum, ellipsoid, prime_meridian]):
+            raise ValueError("Must set one of the parameters to update.")
+        if datum is not None and not isinstance(datum, Datum):
+            raise ValueError("Invalid type for datum.")
+        if ellipsoid is not None and not isinstance(ellipsoid, Ellipsoid):
+            raise ValueError("Invalid type for ellipsoid.")
+        if prime_meridian is not None and not isinstance(prime_meridian, PrimeMeridian):
+            raise ValueError("Invalid type for prime_meridian.")
+
+        datum_dict = (
+            self.datum.to_json_dict() if datum is None else datum.to_json_dict()
+        )
+
+        def set_value(dict_to_update, search_key, value, replace_key=None):
+            replace_key = search_key if replace_key is None else replace_key
+            for key in dict_to_update:
+                if key == search_key:
+                    dict_to_update[replace_key] = value.to_json_dict()
+                    return
+                elif isinstance(dict_to_update[key], dict):
+                    for subkey in dict_to_update[key]:
+                        if subkey == search_key:
+                            dict_to_update[key][replace_key] = value.to_json_dict()
+                            return
+                        elif isinstance(base_crs_dict[key][subkey], dict):
+                            for subsubkey in base_crs_dict[key][subkey]:
+                                if subsubkey == search_key:
+                                    base_crs_dict[key][subkey][replace_key] = \
+                                        value.to_json_dict()
+                                    return
+
+            else:
+                CRSError.clear()
+                raise CRSError(
+                    "Unable to find {} in the CRS json dict".format(search_key)
+                )
+
+        if ellipsoid is not None:
+            set_value(datum_dict, "ellipsoid", ellipsoid)
+        if prime_meridian is not None:
+            try:
+                set_value(datum_dict, "prime_meridian", prime_meridian)
+            except CRSError as err:
+                try:
+                    set_value(datum_dict, "ellipsoid", prime_meridian, "prime_meridian")
+                except CRSError:
+                    raise err
+        base_crs_dict = self.to_json_dict()
+        set_value(base_crs_dict, "datum", Datum.from_json_dict(datum_dict))
+        return CRS(base_crs_dict)
+
     def __eq__(self, other):
         try:
             other = CRS.from_user_input(other)

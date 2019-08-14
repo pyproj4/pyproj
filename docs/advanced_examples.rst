@@ -129,3 +129,47 @@ which transformation operation is selected in the transformation.
     Area of Use:
     - name: Canada - NWT; Nunavut; Saskatchewan
     - bounds: (-136.46, 49.0, -60.72, 83.17)
+
+
+Frankenstein CRS
+----------------
+
+.. versionadded:: 2.4.0
+
+Take an existing CRS and create modified copy with a new
+Datum, Ellipsoid, or Prime Meridian.
+
+.. warning:: This is experimental, subject to change, and not fully tested
+             against every possible scenario.
+
+
+.. code-block:: python
+
+    >>> from pyproj.crs import Ellipsoid, CRS
+    >>> wgs_84_crs = CRS("EPSG:4326")
+    >>> wgs_84_crs
+    <Geographic 2D CRS: EPSG:4326>
+    Name: WGS 84
+    Axis Info [ellipsoidal]:
+    - Lat[north]: Geodetic latitude (degree)
+    - Lon[east]: Geodetic longitude (degree)
+    Area of Use:
+    - name: World
+    - bounds: (-180.0, -90.0, 180.0, 90.0)
+    Datum: World Geodetic System 1984
+    - Ellipsoid: WGS 84
+    - Prime Meridian: Greenwich
+
+    >>> ell = Ellipsoid.from_string("urn:ogc:def:ellipsoid:EPSG::7001")
+    >>> wgs_84_crs.from_self(ellipsoid=ell)
+    <Geographic 2D CRS: {"type": "GeographicCRS", "name": "WGS 84", "datum ...>
+    Name: WGS 84
+    Axis Info [ellipsoidal]:
+    - Lat[north]: Geodetic latitude (degree)
+    - Lon[east]: Geodetic longitude (degree)
+    Area of Use:
+    - name: World
+    - bounds: (-180.0, -90.0, 180.0, 90.0)
+    Datum: World Geodetic System 1984
+    - Ellipsoid: Airy 1830
+    - Prime Meridian: Greenwich
