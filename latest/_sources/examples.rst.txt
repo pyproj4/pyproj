@@ -356,47 +356,6 @@ Step 2: Create Transformer to convert from geodetic CRS to CRS
     (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)
 
 
-Transformation Group
---------------------
-
-The :class:`~pyproj.transformer.TransformerGroup` provides both available
-transformations as well as missing transformations.
-
-1. Helpful if you want to use an alternate transformation and have a good reason for it.
-
-.. code-block:: python
-
-    >>> from pyproj.transformer import TransformerGroup
-    >>> trans_group = TransformerGroup("epsg:4326","epsg:2964")
-    >>> trans_group.best_available
-    True
-    >>> trans_group.transformers[0].transform(66, -153)
-    (149661.2825058747, 5849322.174897663)
-    >>> trans_group.transformers[1].transform(66, -153)
-    (149672.928811047, 5849311.372139239)
-    >>> trans_group.transformers[2].transform(66, -153)
-    (149748.32734832275, 5849274.621409136)
-
-
-2. Helpful if want to check that the best possible transformation exists.
-   And if not, how to get the missing grid.
-
-
-.. code-block:: python
-
-    >>> from pyproj.transformer import TransformerGroup
-    >>> tg = TransformerGroup("epsg:4326", "+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m", always_xy=True)
-    UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)
-    "{!r}".format(operation.grids[0])
-    >>> tg.best_available
-    False
-    >>> tg.transformers[0].description
-    'axis order change (2D) + Inverse of NAD27 to WGS 84 (3) + axis order change (2D) + unknown'
-    >>> tg.unavailable_operations[0].name
-    'Inverse of NAD27 to WGS 84 (33) + axis order change (2D) + unknown'
-    >>> tg.unavailable_operations[0].grids[0].url
-    'https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip'
-
 
 Geodesic calculations
 ---------------------

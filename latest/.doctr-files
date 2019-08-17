@@ -8,6 +8,7 @@ latest/_modules/pyproj/exceptions.html
 latest/_modules/pyproj/geod.html
 latest/_modules/pyproj/proj.html
 latest/_modules/pyproj/transformer.html
+latest/_sources/advanced_examples.rst.txt
 latest/_sources/api/crs.rst.txt
 latest/_sources/api/datadir.rst.txt
 latest/_sources/api/enums.rst.txt
@@ -77,6 +78,7 @@ latest/_static/pygments.css
 latest/_static/searchtools.js
 latest/_static/underscore-1.3.1.js
 latest/_static/underscore.js
+latest/advanced_examples.html
 latest/api/crs.html
 latest/api/datadir.html
 latest/api/enums.html

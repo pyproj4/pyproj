@@ -105,7 +105,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#d-transformations-with-time">4D Transformations with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#transformation-group">Transformation Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#geodesic-calculations">Geodesic calculations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#creating-geod-class">Creating Geod class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#geodesic-line-length">Geodesic line length</a></li>
@@ -115,6 +114,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
@@ -505,44 +505,6 @@ it is recommended to include the time in the transformaton operation.</p>
 <span class="go">ITRF2014 to ETRF2014 (1)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="mf">3496737.2679</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="mf">743254.4507</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="mf">5264462.9620</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="mf">2019.0</span><span class="p">)</span>
 <span class="go">(3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="transformation-group">
-<h2>Transformation Group<a class="headerlink" href="#transformation-group" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup" title="pyproj.transformer.TransformerGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerGroup</span></code></a> provides both available
-transformations as well as missing transformations.</p>
-<ol class="arabic simple">
-<li><p>Helpful if you want to use an alternate transformation and have a good reason for it.</p></li>
-</ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">TransformerGroup</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span><span class="s2">&quot;epsg:2964&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span><span class="o">.</span><span class="n">best_available</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">153</span><span class="p">)</span>
-<span class="go">(149661.2825058747, 5849322.174897663)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">153</span><span class="p">)</span>
-<span class="go">(149672.928811047, 5849311.372139239)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">153</span><span class="p">)</span>
-<span class="go">(149748.32734832275, 5849274.621409136)</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Helpful if want to check that the best possible transformation exists.
-And if not, how to get the missing grid.</p></li>
-</ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">TransformerGroup</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="go">UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)</span>
-<span class="go">&quot;{!r}&quot;.format(operation.grids[0])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">best_available</span>
-<span class="go">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">description</span>
-<span class="go">&#39;axis order change (2D) + Inverse of NAD27 to WGS 84 (3) + axis order change (2D) + unknown&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-<span class="go">&#39;Inverse of NAD27 to WGS 84 (33) + axis order change (2D) + unknown&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">url</span>
-<span class="go">&#39;https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip&#39;</span>
 </pre></div>
 </div>
 </div>
