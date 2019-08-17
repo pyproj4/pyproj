@@ -1590,6 +1590,8 @@ cdef class _CRS(Base):
         ----------
         min_confidence: int, optional
             A value between 0-100 where 100 is the most confident. Default is 70.
+            :ref:`min_confidence`
+
 
         Returns
         -------
@@ -1632,6 +1634,7 @@ cdef class _CRS(Base):
             The name of the authority to filter by.
         min_confidence: int, optional
             A value between 0-100 where 100 is the most confident. Default is 70.
+            :ref:`min_confidence`
 
         Returns
         -------
