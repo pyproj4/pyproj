@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_examples.html">Advanced Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">CRS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-crs">pyproj.CRS</a></li>
@@ -754,7 +755,8 @@ the source CRS:</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the authority to filter by.</p></li>
-<li><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.</p></li>
+<li><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.
+<a class="reference internal" href="../gotchas.html#min-confidence"><span class="std std-ref">Why does the EPSG code return when using EPSG:xxxx and not with +init=EPSG:xxxx?</span></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -838,7 +840,8 @@ the source CRS:</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.</p>
+<dd class="field-odd"><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.
+<a class="reference internal" href="../gotchas.html#min-confidence"><span class="std std-ref">Why does the EPSG code return when using EPSG:xxxx and not with +init=EPSG:xxxx?</span></a></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>int or None</strong></p>
