@@ -117,7 +117,7 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
     # https://github.com/jswhit/pyproj/issues/8
 
     def setUp(self):
-        with pytest.warns(FutureWarning):
+        with pytest.warns(DeprecationWarning):
             self.p = Proj(init="epsg:4269")
 
     def test_tranform_none_1st_parmeter(self):
