@@ -44,7 +44,8 @@ In the setup.py, the order for searching for PROJ is:
 
     1. The PROJ_DIR environment variable
     2. The internal PROJ directory (pyproj/proj_dir)
-    3. The `proj` executable on the PATH.
+    3. The `proj` executable in sys.prefix
+    4. The `proj` executable on the PATH.
 
 For best results, set the PROJ_DIR environment variable to 
 point to location of PROJ installation before running setup.py.
@@ -79,7 +80,8 @@ The order of preference for the data directory is:
 1. The one set by pyproj.datadir.set_data_dir (if exists & valid)
 2. The internal proj directory (if exists & valid)
 3. The directory in PROJ_LIB (if exists & valid)
-4. The directory on the PATH (if exists & valid)
+4. The directory on sys.prefix (if exists & valid)
+5. The directory on the PATH (if exists & valid)
 
 
 Install pyproj
