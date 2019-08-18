@@ -94,3 +94,32 @@ transformations as well as missing transformations.
     'Inverse of NAD27 to WGS 84 (33) + axis order change (2D) + unknown'
     >>> tg.unavailable_operations[0].grids[0].url
     'https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip'
+
+
+Area of Interest
+----------------
+
+Depending on the location of your transformation, using the area of interest may impact
+which transformation operation is selected in the transformation.
+
+.. code-block:: python
+
+    >>> from pyproj.transformer import Transformer, AreaOfInterest
+    >>> transformer = Transformer.from_crs("epsg:4326", "epsg:2694")
+    >>> transformer
+    <Concatenated Operation Transformer: pipeline>
+    Description: Inverse of Pulkovo 1995 to WGS 84 (2) + 3-degree Gauss-Kruger zone 60
+    Area of Use:
+    - name: Russia
+    - bounds: (18.92, 39.87, -168.97, 85.2)
+    >>> transformer = Transformer.from_crs(
+    ...     "epsg:4326",
+    ...     "epsg:2694",
+    ...     area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17),
+    ... )
+    >>> transformer
+    <Concatenated Operation Transformer: pipeline>
+    Description: Inverse of NAD27 to WGS 84 (13) + Alaska Albers
+    Area of Use:
+    - name: Canada - NWT; Nunavut; Saskatchewan
+    - bounds: (-136.46, 49.0, -60.72, 83.17)
