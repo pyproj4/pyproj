@@ -158,6 +158,7 @@
 <span class="sd">Set the datadir path to the local data directory</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">distutils.spawn</span> <span class="k">import</span> <span class="n">find_executable</span>
 
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">DataDirError</span>
@@ -201,7 +202,8 @@
 <span class="sd">    1. The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</span>
 <span class="sd">    2. The internal proj directory (if exists &amp; valid)</span>
 <span class="sd">    3. The directory in PROJ_LIB (if exists &amp; valid)</span>
-<span class="sd">    4. The directory on the PATH (if exists &amp; valid)</span>
+<span class="sd">    4. The directory on sys.prefix (if exists &amp; valid)</span>
+<span class="sd">    5. The directory on the PATH (if exists &amp; valid)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -213,6 +215,7 @@
         <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s2">&quot;proj_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span>
     <span class="p">)</span>
     <span class="n">proj_lib_dirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PROJ_LIB&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">prefix_datadir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">valid_data_dir</span><span class="p">(</span><span class="n">potential_data_dir</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">potential_data_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span>
@@ -237,6 +240,8 @@
         <span class="n">validated_proj_data</span> <span class="o">=</span> <span class="n">internal_datadir</span>
     <span class="k">elif</span> <span class="n">valid_data_dirs</span><span class="p">(</span><span class="n">proj_lib_dirs</span><span class="p">):</span>
         <span class="n">validated_proj_data</span> <span class="o">=</span> <span class="n">proj_lib_dirs</span>
+    <span class="k">elif</span> <span class="n">valid_data_dir</span><span class="p">(</span><span class="n">prefix_datadir</span><span class="p">):</span>
+        <span class="n">validated_proj_data</span> <span class="o">=</span> <span class="n">prefix_datadir</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">proj_exe</span> <span class="o">=</span> <span class="n">find_executable</span><span class="p">(</span><span class="s2">&quot;proj&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">proj_exe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

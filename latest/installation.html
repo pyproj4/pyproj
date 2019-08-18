@@ -210,6 +210,7 @@ Installation instructions can be fount at <a class="reference external" href="ht
 <div><ol class="arabic simple">
 <li><p>The PROJ_DIR environment variable</p></li>
 <li><p>The internal PROJ directory (pyproj/proj_dir)</p></li>
+<li><p>The <cite>proj</cite> executable in sys.prefix</p></li>
 <li><p>The <cite>proj</cite> executable on the PATH.</p></li>
 </ol>
 </div></blockquote>
@@ -245,6 +246,7 @@ version of PROJ (6.1.0), the best way to avoid conflicts is to:</p>
 <li><p>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</p></li>
 <li><p>The internal proj directory (if exists &amp; valid)</p></li>
 <li><p>The directory in PROJ_LIB (if exists &amp; valid)</p></li>
+<li><p>The directory on sys.prefix (if exists &amp; valid)</p></li>
 <li><p>The directory on the PATH (if exists &amp; valid)</p></li>
 </ol>
 </div>

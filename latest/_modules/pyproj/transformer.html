@@ -173,15 +173,15 @@
 <span class="sd">NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN</span>
 <span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">array</span> <span class="k">import</span> <span class="n">array</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Proj</span>
 <span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
+    <span class="n">AreaOfInterest</span><span class="p">,</span>
     <span class="n">_Transformer</span><span class="p">,</span>
     <span class="n">transformer_list_from_crs</span><span class="p">,</span>
-    <span class="n">AreaOfInterest</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">cstrencode</span>
 <span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="k">import</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
