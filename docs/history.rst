@@ -21,6 +21,7 @@ Change Log
 * Always return latlon with Proj (issue #356)
 * Remove aenum dependency (issue #339)
 * Removed deprecated functions `Proj.proj_version`, `CRS.is_valid`, and `CRS.to_geodetic()` (pull #371)
+* Search on `sys.prefix` for the PROJ data directory (issue #387)
 
 2.2.2
 ~~~~~

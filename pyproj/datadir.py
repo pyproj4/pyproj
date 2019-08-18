@@ -2,6 +2,7 @@
 Set the datadir path to the local data directory
 """
 import os
+import sys
 from distutils.spawn import find_executable
 
 from pyproj.exceptions import DataDirError
@@ -45,7 +46,8 @@ def get_data_dir():
     1. The one set by pyproj.datadir.set_data_dir (if exists & valid)
     2. The internal proj directory (if exists & valid)
     3. The directory in PROJ_LIB (if exists & valid)
-    4. The directory on the PATH (if exists & valid)
+    4. The directory on sys.prefix (if exists & valid)
+    5. The directory on the PATH (if exists & valid)
 
     Returns
     -------
@@ -57,6 +59,7 @@ def get_data_dir():
         os.path.dirname(os.path.abspath(__file__)), "proj_dir", "share", "proj"
     )
     proj_lib_dirs = os.environ.get("PROJ_LIB", "")
+    prefix_datadir = os.path.join(sys.prefix, "share", "proj")
 
     def valid_data_dir(potential_data_dir):
         if potential_data_dir is not None and os.path.exists(
@@ -81,6 +84,8 @@ def get_data_dir():
         validated_proj_data = internal_datadir
     elif valid_data_dirs(proj_lib_dirs):
         validated_proj_data = proj_lib_dirs
+    elif valid_data_dir(prefix_datadir):
+        validated_proj_data = prefix_datadir
     else:
         proj_exe = find_executable("proj")
         if proj_exe is not None:

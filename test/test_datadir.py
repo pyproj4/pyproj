@@ -113,6 +113,20 @@ def test_get_data_dir__from_env_var__multiple():
 
 
 @unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
+def test_get_data_dir__from_prefix():
+    with proj_env(), temporary_directory() as tmpdir, patch(
+        "pyproj.datadir.os.path.abspath", return_value="INVALID"
+    ), patch("pyproj.datadir.sys") as sys_mock:
+        unset_data_dir()
+        os.environ.pop("PROJ_LIB", None)
+        sys_mock.prefix = tmpdir
+        proj_dir = os.path.join(tmpdir, "share", "proj")
+        os.makedirs(proj_dir)
+        create_projdb(proj_dir)
+        assert get_data_dir() == proj_dir
+
+
+@unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
 def test_get_data_dir__from_path():
     with proj_env(), temporary_directory() as tmpdir, patch(
         "pyproj.datadir.os.path.abspath", return_value="INVALID"

@@ -17,15 +17,15 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE."""
 
+import warnings
 from array import array
 from itertools import chain, islice
-import warnings
 
 from pyproj import CRS, Proj
 from pyproj._transformer import (  # noqa
+    AreaOfInterest,
     _Transformer,
     transformer_list_from_crs,
-    AreaOfInterest,
 )
 from pyproj.compat import cstrencode
 from pyproj.enums import TransformDirection, WktVersion
