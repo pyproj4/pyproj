@@ -53,7 +53,7 @@ def _get_deps_info():
     deps_info: dict
         version information on relevant Python libraries
     """
-    deps = ["pyproj", "pip", "setuptools", "Cython", "aenum"]
+    deps = ["pyproj", "pip", "setuptools", "Cython"]
 
     def get_version(module):
         try:
