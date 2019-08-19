@@ -40,8 +40,6 @@ Available methods for download include:
 
 2. Use `conda <https://conda.io/en/latest/>`__ with the `conda-forge <https://conda-forge.org/>`__ channel:
 
-  You can install datumgrids with:
-
   .. code-block:: bash
 
      conda install -c conda-forge proj-datumgrid-europe proj-datumgrid-north-america proj-datumgrid-oceania proj-datumgrid-world
