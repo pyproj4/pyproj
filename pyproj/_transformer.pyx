@@ -151,10 +151,8 @@ cdef _CRS get_transform_crs(_CRS in_crs):
             sub_crs._type != PJ_TYPE_TEMPORAL_CRS and
             sub_crs._type != PJ_TYPE_VERTICAL_CRS
         ):
-            return sub_crs
-    if in_crs.is_bound:
-        return in_crs.source_crs
-    return in_crs
+            return sub_crs.source_crs if sub_crs.is_bound else sub_crs
+    return in_crs.source_crs if in_crs.is_bound else in_crs
 
 
 cdef class _Transformer(Base):

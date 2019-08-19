@@ -16,7 +16,6 @@ def test_get_deps_info():
     assert "setuptools" in deps_info
     assert "pyproj" in deps_info
     assert "Cython" in deps_info
-    assert "aenum" in deps_info
 
 
 def test_show_versions_with_proj(capsys):
