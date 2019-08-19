@@ -87,6 +87,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#datum-grids">Datum Grids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#setup-proj">Setup PROJ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup-pyproj">Setup pyproj</a><ul>
@@ -197,6 +198,21 @@
 </div></blockquote>
 <p>If these installation methods do not meet your needs, the section below provides further instructions
 for getting setup.</p>
+<div class="section" id="datum-grids">
+<h2>Datum Grids<a class="headerlink" href="#datum-grids" title="Permalink to this headline">¶</a></h2>
+<p>You can add datum grids to your PROJ data directory for better accuracy for some transformations.</p>
+<p>Available methods for download include:</p>
+<ol class="arabic simple">
+<li><p>Download stable from <a class="reference external" href="https://download.osgeo.org/proj">https://download.osgeo.org/proj</a> or latest from <a class="reference external" href="https://github.com/OSGeo/proj-datumgrid">https://github.com/OSGeo/proj-datumgrid</a></p></li>
+<li><p>Use <a class="reference external" href="https://conda.io/en/latest/">conda</a> with the <a class="reference external" href="https://conda-forge.org/">conda-forge</a> channel:</p></li>
+</ol>
+<blockquote>
+<div><p>You can install datumgrids with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c conda-forge proj-datumgrid-europe proj-datumgrid-north-america proj-datumgrid-oceania proj-datumgrid-world
+</pre></div>
+</div>
+</div></blockquote>
+</div>
 <div class="section" id="installing-from-source">
 <h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="setup-proj">
