@@ -396,8 +396,8 @@ class Geod(_Geod):
         >>> lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,
         ...         88, 59, 25, -4, -14, -33, -46, -61]
         >>> poly_area, poly_perimeter = geod.polygon_area_perimeter(lons, lats)
-        >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
-        '13376856682207.406 14710425.407'
+        >>> "{:.1f} {:.1f}".format(poly_area, poly_perimeter)
+        '13376856682207.4 14710425.4'
 
 
         Parameters
