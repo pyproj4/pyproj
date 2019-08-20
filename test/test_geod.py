@@ -183,7 +183,7 @@ def test_geometry_length__linestring():
     assert_almost_equal(
         geod.geometry_length(LineString([Point(1, 2), Point(3, 4)])),
         313588.39721259556,
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -201,7 +201,7 @@ def test_geometry_length__linestring__radians():
             radians=True,
         ),
         313588.39721259556,
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -213,7 +213,7 @@ def test_geometry_length__linearring():
             LinearRing(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
         ),
         1072185.2103813463,
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -225,7 +225,7 @@ def test_geometry_length__polygon():
             Polygon(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
         ),
         1072185.2103813463,
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -246,7 +246,7 @@ def test_geometry_length__polygon__radians():
             radians=True,
         ),
         1072185.2103813463,
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -257,7 +257,7 @@ def test_geometry_length__multipolygon():
     assert_almost_equal(
         geod.geometry_length(MultiPolygon([polygon, polygon])),
         2 * 1072185.2103813463,
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -276,7 +276,7 @@ def test_geometry_length__multipolygon__radians():
     assert_almost_equal(
         geod.geometry_length(MultiPolygon([polygon, polygon]), radians=True),
         2 * 1072185.2103813463,
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -287,7 +287,7 @@ def test_geometry_length__multilinestring():
     assert_almost_equal(
         geod.geometry_length(MultiLineString([line_string, line_string])),
         1254353.5888503822,
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -311,7 +311,7 @@ def test_geometry_area_perimeter__linestring():
     assert_almost_equal(
         geod.geometry_area_perimeter(LineString([Point(1, 2), Point(3, 4)])),
         (0.0, 627176.7944251911),
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -329,7 +329,7 @@ def test_geometry_area_perimeter__linestring__radians():
             radians=True,
         ),
         (0.0, 627176.7944251911),
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -341,7 +341,7 @@ def test_geometry_area_perimeter__linearring():
             LinearRing(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
         ),
         (-49187690467.58623, 1072185.2103813463),
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -353,7 +353,7 @@ def test_geometry_area_perimeter__polygon():
             Polygon(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
         ),
         (-49187690467.58623, 1072185.2103813463),
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -374,7 +374,7 @@ def test_geometry_area_perimeter__polygon__radians():
             radians=True,
         ),
         (-49187690467.58623, 1072185.2103813463),
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -389,6 +389,7 @@ def test_geometry_area_perimeter__polygon__holes():
             )
         ),
         (-944373881400.3394, 3979008.0359657984),
+        decimal=2,
     )
 
 
@@ -399,7 +400,7 @@ def test_geometry_area_perimeter__multipolygon():
     assert_almost_equal(
         geod.geometry_area_perimeter(MultiPolygon([polygon, polygon])),
         (-98375380935.17245, 2144370.4207626926),
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -418,7 +419,7 @@ def test_geometry_area_perimeter__multipolygon__radians():
     assert_almost_equal(
         geod.geometry_area_perimeter(MultiPolygon([polygon, polygon]), radians=True),
         (-98375380935.17245, 2144370.4207626926),
-        decimal=3,
+        decimal=2,
     )
 
 
@@ -429,7 +430,7 @@ def test_geometry_area_perimeter__multilinestring():
     assert_almost_equal(
         geod.geometry_area_perimeter(MultiLineString([line_string, line_string])),
         (-98375380935.17245, 2144370.4207626926),
-        decimal=3,
+        decimal=2,
     )
 
 
