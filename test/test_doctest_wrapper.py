@@ -15,7 +15,7 @@ def test_doctests():
     try:
         import shapely  # noqa
     except ImportError:
-        if os.name == "nt":
+        if os.name == "nt" or os.environ.get("PLAT") == "i686":
             expected_failure_count = 6
 
     # if the below line fails, doctests have failed
