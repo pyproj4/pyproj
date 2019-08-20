@@ -27,16 +27,9 @@ def proj_env():
     """
     Ensure environment variable the same at the end of the test.
     """
-    proj_lib = os.environ.get("PROJ_LIB")
     try:
         yield
     finally:
-        if proj_lib is not None:
-            # add it back if it used to be there
-            os.environ["PROJ_LIB"] = proj_lib
-        else:
-            # remove it if it wasn't there previously
-            os.environ.pop("PROJ_LIB", None)
         # make sure the data dir is cleared
         set_data_dir(None)
 
@@ -53,72 +46,101 @@ def temporary_directory():
         shutil.rmtree(temp_dir)
 
 
-@unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
+_INVALID_PATH = "/invalid/path/to/nowhere"
+
+
+def setup_os_mock(os_mock, abspath_return=_INVALID_PATH, proj_dir=None):
+    os_mock.path.abspath.return_value = abspath_return
+    os_mock.path.join = os.path.join
+    os_mock.path.dirname = os.path.dirname
+    os_mock.path.exists = os.path.exists
+    os_mock.pathsep = os.pathsep
+    if proj_dir is None:
+        os_mock.environ = {}
+    else:
+        os_mock.environ = {"PROJ_LIB": proj_dir}
+
+
 def test_get_data_dir__missing():
     with proj_env(), pytest.raises(DataDirError), patch(
-        "pyproj.datadir.os.path.abspath", return_value="INVALID"
-    ), patch("pyproj.datadir.find_executable", return_value=None):
+        "pyproj.datadir.find_executable", return_value=None
+    ), patch("pyproj.datadir.os") as os_mock, patch("pyproj.datadir.sys") as sys_mock:
+        sys_mock.prefix = _INVALID_PATH
+        setup_os_mock(os_mock)
         unset_data_dir()
-        os.environ.pop("PROJ_LIB", None)
         assert get_data_dir() is None
 
 
 def test_get_data_dir__from_user():
-    with proj_env(), temporary_directory() as tmpdir, temporary_directory() as tmpdir_env:  # noqa: E501
+    with proj_env(), temporary_directory() as tmpdir, patch(
+        "pyproj.datadir.os"
+    ) as os_mock, patch(
+        "pyproj.datadir.sys"
+    ) as sys_mock, temporary_directory() as tmpdir_env:  # noqa: E501
+        setup_os_mock(
+            os_mock,
+            abspath_return=os.path.join(tmpdir, "randomfilename.py"),
+            proj_dir=tmpdir_env,
+        )
+        sys_mock.prefix = tmpdir_env
         create_projdb(tmpdir)
-        os.environ["PROJ_LIB"] = tmpdir_env
         create_projdb(tmpdir_env)
         set_data_dir(tmpdir)
         internal_proj_dir = os.path.join(tmpdir, "proj_dir", "share", "proj")
         os.makedirs(internal_proj_dir)
         create_projdb(internal_proj_dir)
-        with patch("pyproj.datadir.os.path.abspath") as abspath_mock:
-            abspath_mock.return_value = os.path.join(tmpdir, "randomfilename.py")
-            assert get_data_dir() == tmpdir
+        assert get_data_dir() == tmpdir
 
 
 def test_get_data_dir__internal():
-    with proj_env(), temporary_directory() as tmpdir:
+    with proj_env(), temporary_directory() as tmpdir, patch(
+        "pyproj.datadir.os"
+    ) as os_mock, temporary_directory() as tmpdir_fake, patch(
+        "pyproj.datadir.sys"
+    ) as sys_mock:
+        setup_os_mock(
+            os_mock,
+            abspath_return=os.path.join(tmpdir, "randomfilename.py"),
+            proj_dir=tmpdir_fake,
+        )
+        sys_mock.prefix = tmpdir_fake
         unset_data_dir()
-        os.environ["PROJ_LIB"] = tmpdir
         create_projdb(tmpdir)
+        create_projdb(tmpdir_fake)
         internal_proj_dir = os.path.join(tmpdir, "proj_dir", "share", "proj")
         os.makedirs(internal_proj_dir)
         create_projdb(internal_proj_dir)
-        with patch("pyproj.datadir.os.path.abspath") as abspath_mock:
-            abspath_mock.return_value = os.path.join(tmpdir, "randomfilename.py")
-            assert get_data_dir() == internal_proj_dir
+        assert get_data_dir() == internal_proj_dir
 
 
-@unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
 def test_get_data_dir__from_env_var():
     with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os.path.abspath", return_value="INVALID"
-    ):
+        "pyproj.datadir.os"
+    ) as os_mock, patch("pyproj.datadir.sys") as sys_mock:
+        setup_os_mock(os_mock, proj_dir=tmpdir)
+        sys_mock.prefix = _INVALID_PATH
         unset_data_dir()
-        os.environ["PROJ_LIB"] = tmpdir
         create_projdb(tmpdir)
         assert get_data_dir() == tmpdir
 
 
-@unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
 def test_get_data_dir__from_env_var__multiple():
     with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os.path.abspath", return_value="INVALID"
-    ):
+        "pyproj.datadir.os"
+    ) as os_mock, patch("pyproj.datadir.sys") as sys_mock:
+        setup_os_mock(os_mock, proj_dir=os.pathsep.join([tmpdir, tmpdir, tmpdir]))
+        sys_mock.prefix = _INVALID_PATH
         unset_data_dir()
-        os.environ["PROJ_LIB"] = os.pathsep.join([tmpdir, tmpdir, tmpdir])
         create_projdb(tmpdir)
         assert get_data_dir() == os.pathsep.join([tmpdir, tmpdir, tmpdir])
 
 
-@unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
 def test_get_data_dir__from_prefix():
     with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os.path.abspath", return_value="INVALID"
-    ), patch("pyproj.datadir.sys") as sys_mock:
+        "pyproj.datadir.os"
+    ) as os_mock, patch("pyproj.datadir.sys") as sys_mock:
+        setup_os_mock(os_mock)
         unset_data_dir()
-        os.environ.pop("PROJ_LIB", None)
         sys_mock.prefix = tmpdir
         proj_dir = os.path.join(tmpdir, "share", "proj")
         os.makedirs(proj_dir)
@@ -126,13 +148,15 @@ def test_get_data_dir__from_prefix():
         assert get_data_dir() == proj_dir
 
 
-@unittest.skipIf(os.name == "nt", reason="Cannot modify Windows environment variables.")
 def test_get_data_dir__from_path():
     with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os.path.abspath", return_value="INVALID"
-    ), patch("pyproj.datadir.find_executable") as find_exe:
+        "pyproj.datadir.os"
+    ) as os_mock, patch("pyproj.datadir.sys") as sys_mock, patch(
+        "pyproj.datadir.find_executable"
+    ) as find_exe:
+        setup_os_mock(os_mock)
+        sys_mock.prefix = _INVALID_PATH
         unset_data_dir()
-        os.environ.pop("PROJ_LIB", None)
         find_exe.return_value = os.path.join(tmpdir, "bin", "proj")
         proj_dir = os.path.join(tmpdir, "share", "proj")
         os.makedirs(proj_dir)
@@ -141,18 +165,18 @@ def test_get_data_dir__from_path():
 
 
 def test_append_data_dir__internal():
-    with proj_env(), temporary_directory() as tmpdir:
+    with proj_env(), temporary_directory() as tmpdir, patch(
+        "pyproj.datadir.os"
+    ) as os_mock:
+        setup_os_mock(os_mock, os.path.join(tmpdir, "randomfilename.py"))
         unset_data_dir()
-        os.environ["PROJ_LIB"] = tmpdir
         create_projdb(tmpdir)
         internal_proj_dir = os.path.join(tmpdir, "proj_dir", "share", "proj")
         os.makedirs(internal_proj_dir)
         create_projdb(internal_proj_dir)
         extra_datadir = str(os.path.join(tmpdir, "extra_datumgrids"))
-        with patch("pyproj.datadir.os.path.abspath") as abspath_mock:
-            abspath_mock.return_value = os.path.join(tmpdir, "randomfilename.py")
-            append_data_dir(extra_datadir)
-            assert get_data_dir() == os.pathsep.join([internal_proj_dir, extra_datadir])
+        append_data_dir(extra_datadir)
+        assert get_data_dir() == os.pathsep.join([internal_proj_dir, extra_datadir])
 
 
 def test_creating_multiple_crs_without_file_limit():
