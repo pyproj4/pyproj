@@ -1,6 +1,7 @@
 import math
 import os
 import pickle
+import platform
 import shutil
 import tempfile
 from contextlib import contextmanager
@@ -27,7 +28,7 @@ except ImportError:
 
 
 skip_shapely = pytest.mark.skipif(
-    not SHAPELY_LOADED and (os.name == "nt" or os.environ.get("PLAT") == "i686"),
+    not SHAPELY_LOADED and (os.name == "nt" or platform.uname()[4] != "x86_64"),
     reason="Missing shapely wheels for Windows.",
 )
 
