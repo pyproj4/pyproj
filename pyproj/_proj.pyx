@@ -5,7 +5,7 @@ import warnings
 cimport cython
 
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj._datadir cimport PROJ_CONTEXT
+from pyproj._datadir cimport ContextManager
 from pyproj.exceptions import ProjError
 
 
@@ -22,8 +22,9 @@ cdef class Proj:
 
     def __init__(self, const char *projstring):
         self.srs = pystrdecode(projstring)
+        self.context_manager = ContextManager()
         # initialize projection
-        self.projobj = proj_create(PROJ_CONTEXT.context, projstring)
+        self.projobj = proj_create(self.context_manager.context, projstring)
         if self.projobj is NULL:
             raise ProjError("Invalid projection {}.".format(projstring))
         self.projobj_info = proj_pj_info(self.projobj)
@@ -43,10 +44,6 @@ cdef class Proj:
     def has_inverse(self):
         """Returns true if this projection has an inverse"""
         return self.projobj_info.has_inverse == 1
-
-    def __reduce__(self):
-        """special method that allows pyproj.Proj instance to be pickled"""
-        return self.__class__,(self.crs.srs,)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -190,7 +187,6 @@ cdef class Proj:
             else:
                 xdatab[iii] = projlonlatout.uv.u
                 ydatab[iii] = projlonlatout.uv.v
-
         ProjError.clear()
 
     def __repr__(self):
@@ -203,11 +199,6 @@ cdef class Proj:
     def _is_equivalent(self, Proj other):
         return proj_is_equivalent_to(
             self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
-
-    def __eq__(self, other):
-        if not isinstance(other, Proj):
-            return False
-        return self._is_equivalent(other)
 
     def is_exact_same(self, other):
         """Compares Proj objects to see if they are exactly the same."""

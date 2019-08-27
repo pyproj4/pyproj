@@ -1,7 +1,7 @@
 include "proj.pxi"
 
 from pyproj._crs cimport Base, _CRS, CoordinateOperation
-
+from pyproj._datadir cimport ContextManager
 
 cdef class _Transformer(Base):
     cdef PJ_PROJ_INFO proj_info
@@ -18,6 +18,7 @@ cdef class _Transformer(Base):
 
     @staticmethod
     cdef _Transformer _from_pj(
+        ContextManager context_manager,
         PJ *transform_pj,
         _CRS crs_from,
         _CRS crs_to,

@@ -736,11 +736,8 @@ def test_compound_crs_urn_init():
 def test_from_authority__ignf():
     cc = CRS.from_authority("IGNF", "ETRS89UTM28")
     assert cc.to_authority() == ("IGNF", "ETRS89UTM28")
-    if parse_version(proj_version_str) > parse_version("6.1.0"):
-        assert cc.to_authority("EPSG") == ("EPSG", "25828")
-        assert cc.to_epsg() == 25828
-    else:
-        assert cc.to_epsg() is None
+    assert cc.to_authority("EPSG") == ("EPSG", "25828")
+    assert cc.to_epsg() == 25828
 
 
 def test_ignf_authority_repr():

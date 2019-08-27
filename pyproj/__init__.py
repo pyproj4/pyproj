@@ -65,8 +65,9 @@ __all__ = [
     "show_versions",
 ]
 import sys
+import warnings
 
-from pyproj._datadir import PYPROJ_CONTEXT
+from pyproj._datadir import ContextManager as _ContextManager
 from pyproj._list import (  # noqa: F401
     get_angular_units_map,
     get_ellps_map,
@@ -76,12 +77,15 @@ from pyproj._list import (  # noqa: F401
 )
 from pyproj._show_versions import show_versions  # noqa: F401
 from pyproj.crs import CRS  # noqa: F401
-from pyproj.exceptions import ProjError  # noqa: F401
+from pyproj.exceptions import DataDirError, ProjError  # noqa: F401
 from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa: F401
 from pyproj.proj import Proj, pj_list, proj_version_str  # noqa: F401
 from pyproj.transformer import Transformer, itransform, transform  # noqa: F401
 
-PYPROJ_CONTEXT.set_search_paths()
+try:
+    _ContextManager(global_context=True).set_search_paths()
+except DataDirError as err:
+    warnings.warn(str(err))
 
 
 def test(**kwargs):

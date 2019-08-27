@@ -206,3 +206,15 @@ class Proj(_proj.Proj):
         """return a new Proj instance which is the geographic (lat/lon)
         coordinate version of the current projection"""
         return Proj(self.crs.geodetic_crs)
+
+    def __reduce__(self):
+        """special method that allows pyproj.Proj instance to be pickled"""
+        return self.__class__, (self.crs.srs,)
+
+    def __repr__(self):
+        return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
+
+    def __eq__(self, other):
+        if not isinstance(other, Proj):
+            return False
+        return self._is_equivalent(other)

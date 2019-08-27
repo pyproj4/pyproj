@@ -429,7 +429,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        if isinstance(value, _CRS):
+        if isinstance(value, CRS):
             return value
         return cls(value)
 
@@ -599,8 +599,8 @@ class CRS(_CRS):
             )
         return cf_dict
 
-    @staticmethod
-    def from_cf(in_cf, errcheck=False):
+    @classmethod
+    def from_cf(cls, in_cf, errcheck=False):
         """
         This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
         dict to a :obj:`~pyproj.crs.CRS` object.
@@ -669,7 +669,7 @@ class CRS(_CRS):
                 "CF parameters not mapped to PROJ: {}".format(tuple(skipped_params))
             )
 
-        return CRS(proj_dict)
+        return cls(proj_dict)
 
     def __eq__(self, other):
         try:

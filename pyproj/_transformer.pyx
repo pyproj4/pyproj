@@ -5,7 +5,7 @@ from collections import namedtuple
 
 
 from pyproj._crs cimport AreaOfUse, Base, _CRS, CoordinateOperation
-from pyproj._datadir cimport PROJ_CONTEXT
+from pyproj._datadir cimport ContextManager
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError
@@ -67,10 +67,11 @@ def transformer_list_from_crs(
     cdef int is_instantiable = 0
     cdef CoordinateOperation coordinate_operation
     cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
+    cdef ContextManager context_manager = ContextManager()
     operations = []
     try:
         operation_factory_context = proj_create_operation_factory_context(
-            PROJ_CONTEXT.context,
+            crs_from.context_manager.context,
             NULL,
         )
         if area_of_interest is not None:
@@ -83,7 +84,7 @@ def transformer_list_from_crs(
             east_lon_degree = area_of_interest.east_lon_degree
             north_lat_degree = area_of_interest.north_lat_degree
             proj_operation_factory_context_set_area_of_interest(
-                PROJ_CONTEXT.context,
+                context_manager.context,
                 operation_factory_context,
                 west_lon_degree,
                 south_lat_degree,
@@ -92,18 +93,18 @@ def transformer_list_from_crs(
             )
 
         proj_operation_factory_context_set_grid_availability_use(
-            PROJ_CONTEXT.context,
+            context_manager.context,
             operation_factory_context,
             PROJ_GRID_AVAILABILITY_IGNORED,
         )
         proj_operation_factory_context_set_spatial_criterion(
-            PROJ_CONTEXT.context,
+            context_manager.context,
             operation_factory_context,
             PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
         )
 
         pj_operations = proj_create_operations(
-            PROJ_CONTEXT.context,
+            context_manager.context,
             get_transform_crs(crs_from).projobj,
             get_transform_crs(crs_to).projobj,
             operation_factory_context,
@@ -111,17 +112,18 @@ def transformer_list_from_crs(
         num_operations = proj_list_get_count(pj_operations)
         for iii in range(num_operations):
             pj_transform = proj_list_get(
-                PROJ_CONTEXT.context,
+                context_manager.context,
                 pj_operations,
                 iii,
             )
             is_instantiable = proj_coordoperation_is_instantiable(
-                PROJ_CONTEXT.context,
+                context_manager.context,
                 pj_transform
             )
             if is_instantiable:
                 operations.append(
                     _Transformer._from_pj(
+                        context_manager,
                         pj_transform,
                         crs_from,
                         crs_to,
@@ -131,6 +133,7 @@ def transformer_list_from_crs(
                 )
             else:
                 operations.append(CoordinateOperation.create(
+                    context_manager,
                     pj_transform
                 ))
     finally:
@@ -218,7 +221,7 @@ cdef class _Transformer(Base):
         """
         if self._area_of_use is not None:
             return self._area_of_use
-        self._area_of_use = AreaOfUse.create(self.projobj)
+        self._area_of_use = AreaOfUse.create(self.context_manager, self.projobj)
         return self._area_of_use
   
     @staticmethod
@@ -227,10 +230,12 @@ cdef class _Transformer(Base):
         _CRS crs_to,
         skip_equivalent=False,
         always_xy=False,
-        area_of_interest=None
+        area_of_interest=None,
     ):
         cdef PJ_AREA *pj_area_of_interest = NULL
         cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
+        cdef ContextManager context_manager = ContextManager()
+
         if area_of_interest is not None:
             if not isinstance(area_of_interest, AreaOfInterest):
                 raise ProjError(
@@ -248,12 +253,12 @@ cdef class _Transformer(Base):
                 east_lon_degree,
                 north_lat_degree,
             )
-
-        cdef PJ* pj_transform = proj_create_crs_to_crs(
-            PROJ_CONTEXT.context,
-            cstrencode(crs_from.srs),
-            cstrencode(crs_to.srs),
+        cdef PJ* pj_transform = proj_create_crs_to_crs_from_pj(
+            context_manager.context,
+            crs_from.projobj,
+            crs_to.projobj,
             pj_area_of_interest,
+            NULL,
         )
         if pj_area_of_interest != NULL:
             proj_area_destroy(pj_area_of_interest)
@@ -261,6 +266,7 @@ cdef class _Transformer(Base):
         if pj_transform == NULL:
             raise ProjError("Error creating CRS to CRS.")
         return _Transformer._from_pj(
+            context_manager,
             pj_transform,
             crs_from=crs_from,
             crs_to=crs_to,
@@ -270,6 +276,7 @@ cdef class _Transformer(Base):
 
     @staticmethod
     cdef _Transformer _from_pj(
+        ContextManager context_manager,
         PJ *transform_pj,
         _CRS crs_from,
         _CRS crs_to,
@@ -277,11 +284,12 @@ cdef class _Transformer(Base):
         always_xy
     ):
         cdef _Transformer transformer = _Transformer()
+        transformer.context_manager = context_manager
         transformer.projobj = transform_pj
         cdef PJ* always_xy_pj = NULL
         if always_xy:
             always_xy_pj = proj_normalize_for_visualization(
-                PROJ_CONTEXT.context,
+                transformer.context_manager.context,
                 transformer.projobj
             )
             proj_destroy(transformer.projobj)
@@ -300,8 +308,12 @@ cdef class _Transformer(Base):
     @staticmethod
     def from_pipeline(const char *proj_pipeline):
         cdef _Transformer transformer = _Transformer()
+        transformer.context_manager = ContextManager()
         # initialize projection
-        transformer.projobj = proj_create(PROJ_CONTEXT.context, proj_pipeline)
+        transformer.projobj = proj_create(
+            transformer.context_manager.context,
+            proj_pipeline
+        )
         if transformer.projobj is NULL:
             raise ProjError("Invalid projection {}.".format(proj_pipeline))
         transformer._initialize_from_projobj()
