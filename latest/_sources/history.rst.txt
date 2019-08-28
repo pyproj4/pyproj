@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2.3.1
+~~~~~
+* Added cleanup for internal PROJ errors (issue #413)
+
 2.3.0
 ~~~~~
 * Minimum supported Python version 3.5 (issue #331)
