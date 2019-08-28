@@ -1,3 +1,5 @@
+from pkg_resources import parse_version
+
 import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
@@ -93,7 +95,9 @@ def test_equivalent_proj():
 def test_equivalent_proj__disabled():
     transformer = Transformer.from_proj(3857, pyproj.Proj(3857).crs.to_proj4())
     assert not transformer._transformer.skip_equivalent
-    assert not transformer._transformer.projections_equivalent
+    assert transformer._transformer.projections_equivalent == (
+        parse_version(pyproj.proj_version_str) >= parse_version("6.2.0")
+    )
     assert not transformer._transformer.projections_exact_same
 
 

@@ -18,30 +18,31 @@ proj_version_str = "{0}.{1}.{2}".format(
 
 cdef class Proj:
     def __cinit__(self):
-        self.projpj = NULL
+        self.projobj = NULL
 
     def __init__(self, const char *projstring):
         self.srs = pystrdecode(projstring)
         # initialize projection
-        self.projpj = proj_create(PROJ_CONTEXT.context, projstring)
-        if self.projpj is NULL:
+        self.projobj = proj_create(PROJ_CONTEXT.context, projstring)
+        if self.projobj is NULL:
             raise ProjError("Invalid projection {}.".format(projstring))
-        self.projpj_info = proj_pj_info(self.projpj)
+        self.projobj_info = proj_pj_info(self.projobj)
+        ProjError.clear()
 
     def __dealloc__(self):
         """destroy projection definition"""
-        if self.projpj is not NULL:
-            proj_destroy(self.projpj)
-            self.projpj = NULL
+        if self.projobj is not NULL:
+            proj_destroy(self.projobj)
+            self.projobj = NULL
 
     @property
     def definition(self):
-        return self.projpj_info.definition
+        return self.projobj_info.definition
 
     @property
     def has_inverse(self):
         """Returns true if this projection has an inverse"""
-        return self.projpj_info.has_inverse == 1
+        return self.projobj_info.has_inverse == 1
 
     def __reduce__(self):
         """special method that allows pyproj.Proj instance to be pickled"""
@@ -63,18 +64,19 @@ cdef class Proj:
         cdef double *latsdata
         cdef void *londata
         cdef void *latdata
-        cdef int err
+        cdef int errno
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:
-            raise ProjError
+            raise ProjError("object does not provide the python buffer writeable interface")
         if PyObject_AsWriteBuffer(lats, &latdata, &bufleny) <> 0:
-            raise ProjError
+            raise ProjError("object does not provide the python buffer writeable interface")
         # process data in buffer
         if buflenx != bufleny:
             raise ProjError("Buffer lengths not the same")
         ndim = buflenx//_DOUBLESIZE
         lonsdata = <double *>londata
         latsdata = <double *>latdata
+        proj_errno_reset(self.projobj)
         for iii in range(ndim):
             # if inputs are nan's, return big number.
             if lonsdata[iii] != lonsdata[iii] or latsdata[iii] != latsdata[iii]:
@@ -82,17 +84,19 @@ cdef class Proj:
                 if errcheck:
                     raise ProjError("projection_undefined")
                 continue
-            if proj_angular_input(self.projpj, PJ_FWD):
+            if proj_angular_input(self.projobj, PJ_FWD):
                 projlonlatin.uv.u = _DG2RAD * lonsdata[iii]
                 projlonlatin.uv.v = _DG2RAD * latsdata[iii]
             else:
                 projlonlatin.uv.u = lonsdata[iii]
                 projlonlatin.uv.v = latsdata[iii]
-            projxyout = proj_trans(self.projpj, PJ_FWD, projlonlatin)
-            if errcheck:
-                err = proj_errno(self.projpj)
-                if err != 0:
-                    raise ProjError(pystrdecode(proj_errno_string(err)))
+            projxyout = proj_trans(self.projobj, PJ_FWD, projlonlatin)
+            errno = proj_errno(self.projobj)
+            if errcheck and errno:
+                raise ProjError("proj error: {}".format(
+                    pystrdecode(proj_errno_string(errno))))
+            elif errcheck and ProjError.internal_proj_error is not None:
+                raise ProjError("proj error")
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -104,12 +108,13 @@ cdef class Proj:
                     raise ProjError("projection_undefined")
                 lonsdata[iii] = 1.e30
                 latsdata[iii] = 1.e30
-            elif proj_angular_output(self.projpj, PJ_FWD):
+            elif proj_angular_output(self.projobj, PJ_FWD):
                 lonsdata[iii] = _RAD2DG * projxyout.xy.x
                 latsdata[iii] = _RAD2DG * projxyout.xy.y
             else:
                 lonsdata[iii] = projxyout.xy.x
                 latsdata[iii] = projxyout.xy.y
+        ProjError.clear()
 
 
     @cython.boundscheck(False)
@@ -131,13 +136,13 @@ cdef class Proj:
         cdef void *ydata
         cdef double *xdatab
         cdef double *ydatab
-        cdef int err
+        cdef int errno
 
         # if buffer api is supported, get pointer to data buffers.
         if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:
-            raise ProjError
+            raise ProjError("object does not provide the python buffer writeable interface")
         if PyObject_AsWriteBuffer(y, &ydata, &bufleny) <> 0:
-            raise ProjError
+            raise ProjError("object does not provide the python buffer writeable interface")
         # process data in buffer
         # (for numpy/regular python arrays).
         if buflenx != bufleny:
@@ -145,6 +150,9 @@ cdef class Proj:
         ndim = buflenx//_DOUBLESIZE
         xdatab = <double *>xdata
         ydatab = <double *>ydata
+        # reset errors potentially left over
+        proj_errno_reset(self.projobj)
+
         for iii in range(ndim):
             # if inputs are nan's, return big number.
             if xdatab[iii] != xdatab[iii] or ydatab[iii] != ydatab[iii]:
@@ -152,17 +160,19 @@ cdef class Proj:
                 if errcheck:
                     raise ProjError("projection_undefined")
                 continue
-            if proj_angular_input(self.projpj, PJ_INV):
+            if proj_angular_input(self.projobj, PJ_INV):
                 projxyin.uv.u = _DG2RAD * xdatab[iii]
                 projxyin.uv.v = _DG2RAD * ydatab[iii]
             else:
                 projxyin.uv.u = xdatab[iii]
                 projxyin.uv.v = ydatab[iii]
-            projlonlatout = proj_trans(self.projpj, PJ_INV, projxyin)
-            if errcheck:
-                err = proj_errno(self.projpj)
-                if err != 0:
-                    raise ProjError(pystrdecode(proj_errno_string(err)))
+            projlonlatout = proj_trans(self.projobj, PJ_INV, projxyin)
+            errno = proj_errno(self.projobj)
+            if errcheck and errno:
+                raise ProjError("proj error: {}".format(
+                    pystrdecode(proj_errno_string(errno))))
+            elif errcheck and ProjError.internal_proj_error is not None:
+                raise ProjError("proj error")
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
@@ -174,23 +184,25 @@ cdef class Proj:
                     raise ProjError("projection_undefined")
                 xdatab[iii] = 1.e30
                 ydatab[iii] = 1.e30
-            elif proj_angular_output(self.projpj, PJ_INV):
+            elif proj_angular_output(self.projobj, PJ_INV):
                 xdatab[iii] = _RAD2DG * projlonlatout.uv.u
                 ydatab[iii] = _RAD2DG * projlonlatout.uv.v
             else:
                 xdatab[iii] = projlonlatout.uv.u
                 ydatab[iii] = projlonlatout.uv.v
 
+        ProjError.clear()
+
     def __repr__(self):
         return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
 
     def _is_exact_same(self, Proj other):
         return proj_is_equivalent_to(
-            self.projpj, other.projpj, PJ_COMP_STRICT) == 1
+            self.projobj, other.projobj, PJ_COMP_STRICT) == 1
 
     def _is_equivalent(self, Proj other):
         return proj_is_equivalent_to(
-            self.projpj, other.projpj, PJ_COMP_EQUIVALENT) == 1
+            self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
 
     def __eq__(self, other):
         if not isinstance(other, Proj):

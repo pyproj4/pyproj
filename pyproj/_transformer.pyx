@@ -67,7 +67,6 @@ def transformer_list_from_crs(
     cdef int is_instantiable = 0
     cdef CoordinateOperation coordinate_operation
     cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
-
     operations = []
     try:
         operation_factory_context = proj_create_operation_factory_context(
@@ -142,6 +141,8 @@ def transformer_list_from_crs(
         if pj_operations != NULL:
             proj_list_destroy(pj_operations)
             pj_operations = NULL
+        ProjError.clear()
+
     return operations
 
 
@@ -183,10 +184,10 @@ cdef class _Transformer(Base):
     def _initialize_from_projobj(self):
         self.proj_info = proj_pj_info(self.projobj)
         if self.proj_info.id == NULL:
-             ProjError.clear()
              raise ProjError("Input is not a transformation.")
         cdef PJ_TYPE transformer_type = proj_get_type(self.projobj)
         self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
+        ProjError.clear()
 
     @property
     def id(self):
@@ -228,7 +229,6 @@ cdef class _Transformer(Base):
         always_xy=False,
         area_of_interest=None
     ):
-        ProjError.clear()
         cdef PJ_AREA *pj_area_of_interest = NULL
         cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
         if area_of_interest is not None:
@@ -299,7 +299,6 @@ cdef class _Transformer(Base):
 
     @staticmethod
     def from_pipeline(const char *proj_pipeline):
-        ProjError.clear()
         cdef _Transformer transformer = _Transformer()
         # initialize projection
         transformer.projobj = proj_create(PROJ_CONTEXT.context, proj_pipeline)
@@ -329,17 +328,15 @@ cdef class _Transformer(Base):
         cdef Py_ssize_t buflenx, bufleny, buflenz, buflent, npts, iii
         cdef int err
         if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
-            raise ProjError
+            raise ProjError("object does not provide the python buffer writeable interface")
         if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:
-            raise ProjError
-        if inz is not None:
-            if PyObject_AsWriteBuffer(inz, &zdata, &buflenz) <> 0:
-                raise ProjError
+            raise ProjError("object does not provide the python buffer writeable interface")
+        if inz is not None and PyObject_AsWriteBuffer(inz, &zdata, &buflenz) <> 0:
+            raise ProjError("object does not provide the python buffer writeable interface")
         else:
             buflenz = bufleny
-        if intime is not None:
-            if PyObject_AsWriteBuffer(intime, &tdata, &buflent) <> 0:
-                raise ProjError
+        if intime is not None and PyObject_AsWriteBuffer(intime, &tdata, &buflent) <> 0:
+            raise ProjError("object does not provide the python buffer writeable interface")
         else:
             buflent = bufleny
 
@@ -371,7 +368,6 @@ cdef class _Transformer(Base):
                 xx[iii] = xx[iii]*_RAD2DG
                 yy[iii] = yy[iii]*_RAD2DG
 
-        ProjError.clear()
         proj_errno_reset(self.projobj)
         proj_trans_generic(
             self.projobj,
@@ -401,6 +397,7 @@ cdef class _Transformer(Base):
             for iii in range(npts):
                 xx[iii] = xx[iii]*_DG2RAD
                 yy[iii] = yy[iii]*_DG2RAD
+        ProjError.clear()
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -421,7 +418,6 @@ cdef class _Transformer(Base):
             double *z
             double *tt
             Py_ssize_t buflen, npts, iii, jjj
-            int err
 
         if stride < 2:
             raise ProjError("coordinates must contain at least 2 values")
@@ -467,7 +463,6 @@ cdef class _Transformer(Base):
         else:
             tt = NULL
 
-        ProjError.clear()
         proj_errno_reset(self.projobj)
         proj_trans_generic (
             self.projobj,
@@ -500,3 +495,5 @@ cdef class _Transformer(Base):
                 jjj = stride * iii
                 coords[jjj] *= _DG2RAD
                 coords[jjj + 1] *= _DG2RAD
+
+        ProjError.clear()

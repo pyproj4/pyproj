@@ -91,7 +91,9 @@ cdef _to_wkt(PJ* projobj, version=WktVersion.WKT2_2018, pretty=False):
         PROJ_CONTEXT.context,
         projobj,
         wkt_out_type,
-        options_wkt)
+        options_wkt,
+    )
+    CRSError.clear()
     return cstrdecode(proj_string)
 
 
@@ -122,14 +124,15 @@ cdef _to_proj4(PJ* projobj, version):
         PROJ_CONTEXT.context,
         projobj,
         proj_out_type,
-        NULL)
+        NULL,
+    )
+    CRSError.clear()
     return cstrdecode(proj_string)
 
 
 cdef PJ* _from_authority(
     auth_name, code, PJ_CATEGORY category, int use_proj_alternative_grid_names=False
 ):
-    CRSError.clear()
     b_auth_name = cstrencode(auth_name)
     cdef char *c_auth_name = b_auth_name
     b_code = cstrencode(str(code))
@@ -145,7 +148,6 @@ cdef PJ* _from_authority(
 
 
 cdef PJ* _from_string(proj_string, expected_types):
-    CRSError.clear()
     cdef PJ* base_pj = proj_create(
         PROJ_CONTEXT.context,
         cstrencode(proj_string)
@@ -404,6 +406,7 @@ cdef class CoordinateSystem(Base):
             coord_system.name = _COORD_SYSTEM_TYPE_MAP[cs_type]
         except KeyError:
             raise CRSError("Not a coordinate system.")
+        CRSError.clear()
         return coord_system
 
     @property
@@ -458,19 +461,18 @@ cdef class Ellipsoid(Base):
         cdef Ellipsoid ellips = Ellipsoid()
         ellips.projobj = ellipsoid_pj
         cdef int is_semi_minor_computed = 0
-        try:
-            proj_ellipsoid_get_parameters(
-                PROJ_CONTEXT.context,
-                ellips.projobj,
-                &ellips._semi_major_metre,
-                &ellips._semi_minor_metre,
-                &is_semi_minor_computed,
-                &ellips._inv_flattening)
-            ellips.ellipsoid_loaded = True
-            ellips.is_semi_minor_computed = is_semi_minor_computed == 1
-        except Exception:
-            pass
+        proj_ellipsoid_get_parameters(
+            PROJ_CONTEXT.context,
+            ellips.projobj,
+            &ellips._semi_major_metre,
+            &ellips._semi_minor_metre,
+            &is_semi_minor_computed,
+            &ellips._inv_flattening,
+        )
+        ellips.ellipsoid_loaded = True
+        ellips.is_semi_minor_computed = is_semi_minor_computed == 1
         ellips._set_name()
+        CRSError.clear()
         return ellips
 
     @staticmethod
@@ -498,6 +500,7 @@ cdef class Ellipsoid(Base):
             raise CRSError(
                 "Invalid authority or code ({0}, {1})".format(auth_name, code)
             )
+        CRSError.clear()
         return Ellipsoid.create(ellipsoid_pj)
 
     @staticmethod
@@ -546,7 +549,7 @@ cdef class Ellipsoid(Base):
                     pystrdecode(ellipsoid_string)
                 )
             )
-
+        CRSError.clear()
         return Ellipsoid.create(ellipsoid_pj)
 
     @property
@@ -620,6 +623,7 @@ cdef class PrimeMeridian(Base):
         )
         prime_meridian.unit_name = decode_or_undefined(unit_name)
         prime_meridian._set_name()
+        CRSError.clear()
         return prime_meridian
 
     @staticmethod
@@ -647,6 +651,7 @@ cdef class PrimeMeridian(Base):
             raise CRSError(
                 "Invalid authority or code ({0}, {1})".format(auth_name, code)
             )
+        CRSError.clear()
         return PrimeMeridian.create(prime_meridian_pj)
 
     @staticmethod
@@ -664,7 +669,6 @@ cdef class PrimeMeridian(Base):
         PrimeMeridian
         """
         return PrimeMeridian.from_authority("EPSG", code)
-
 
     @staticmethod
     def from_string(prime_meridian_string):
@@ -696,7 +700,7 @@ cdef class PrimeMeridian(Base):
                     pystrdecode(prime_meridian_string)
                 )
             )
-
+        CRSError.clear()
         return PrimeMeridian.create(prime_meridian_pj)
 
 
@@ -746,6 +750,7 @@ cdef class Datum(Base):
             raise CRSError(
                 "Invalid authority or code ({0}, {1})".format(auth_name, code)
             )
+        CRSError.clear()
         return Datum.create(datum_pj)
 
     @staticmethod
@@ -801,7 +806,7 @@ cdef class Datum(Base):
                     pystrdecode(datum_string)
                 )
             )
-
+        CRSError.clear()
         return Datum.create(datum_pj)
 
     @property
@@ -817,6 +822,7 @@ cdef class Datum(Base):
             PROJ_CONTEXT.context,
             self.projobj,
         )
+        CRSError.clear()
         if ellipsoid_pj == NULL:
             self._ellipsoid = False
             return None
@@ -836,6 +842,7 @@ cdef class Datum(Base):
             PROJ_CONTEXT.context,
             self.projobj,
         )
+        CRSError.clear()
         if prime_meridian_pj == NULL:
             self._prime_meridian = False
             return None
@@ -999,6 +1006,7 @@ cdef class Grid:
         grid.direct_download = direct_download == 1
         grid.open_license = open_license == 1
         grid.available = available == 1
+        CRSError.clear()
         return grid
 
     def __str__(self):
@@ -1085,7 +1093,7 @@ cdef class CoordinateOperation(Base):
                 PROJ_CONTEXT.context,
                 coord_operation.projobj
             ) == 1
-
+        CRSError.clear()
         return coord_operation
 
     @staticmethod
@@ -1116,6 +1124,7 @@ cdef class CoordinateOperation(Base):
             raise CRSError(
                 "Invalid authority or code ({0}, {1})".format(auth_name, code)
             )
+        CRSError.clear()
         return CoordinateOperation.create(coord_operation_pj)
 
     @staticmethod
@@ -1170,7 +1179,7 @@ cdef class CoordinateOperation(Base):
                     pystrdecode(coordinate_operation_string)
                 )
             )
-
+        CRSError.clear()
         return CoordinateOperation.create(coord_operation_pj)
 
     @property
@@ -1195,6 +1204,7 @@ cdef class CoordinateOperation(Base):
                     param_idx
                 )
             )
+        CRSError.clear()
         return self._params
 
     @property
@@ -1219,6 +1229,7 @@ cdef class CoordinateOperation(Base):
                     grid_idx
                 )
             )
+        CRSError.clear()
         return self._grids
 
     @property
@@ -1331,6 +1342,7 @@ cdef class _CRS(Base):
         self._type = proj_get_type(self.projobj)
         self.type_name = _CRS_TYPE_MAP[self._type]
         self._set_name()
+        CRSError.clear()
 
     @property
     def axis_info(self):
@@ -1366,6 +1378,7 @@ cdef class _CRS(Base):
             PROJ_CONTEXT.context,
             self.projobj
         )
+        CRSError.clear()
         if ellipsoid_pj == NULL:
             self._ellipsoid = False
             return None
@@ -1385,6 +1398,7 @@ cdef class _CRS(Base):
             PROJ_CONTEXT.context,
             self.projobj,
         )
+        CRSError.clear()
         if prime_meridian_pj == NULL:
             self._prime_meridian = False
             return None
@@ -1406,6 +1420,7 @@ cdef class _CRS(Base):
                 PROJ_CONTEXT.context,
                 self.projobj,
             )
+        CRSError.clear()
         if datum_pj == NULL:
             self._datum = False
             return None
@@ -1426,6 +1441,7 @@ cdef class _CRS(Base):
             PROJ_CONTEXT.context,
             self.projobj
         )
+        CRSError.clear()
         if coord_system_pj == NULL:
             self._coordinate_system = False
             return None
@@ -1447,6 +1463,7 @@ cdef class _CRS(Base):
             PROJ_CONTEXT.context,
             self.projobj
         )
+        CRSError.clear()
         if coord_pj == NULL:
             self._coordinate_operation = False
             return None
@@ -1465,6 +1482,7 @@ cdef class _CRS(Base):
             return None if self._source_crs is False else self._source_crs
         cdef PJ * projobj
         projobj = proj_get_source_crs(PROJ_CONTEXT.context, self.projobj)
+        CRSError.clear()
         if projobj == NULL:
             self._source_crs = False
             return None
@@ -1485,6 +1503,7 @@ cdef class _CRS(Base):
             return None if self._target_crs is False else self._target_crs
         cdef PJ * projobj
         projobj = proj_get_target_crs(PROJ_CONTEXT.context, self.projobj)
+        CRSError.clear()
         if projobj == NULL:
             self._target_crs = False
             return None
@@ -1519,7 +1538,7 @@ cdef class _CRS(Base):
                 proj_destroy(projobj) # deallocate temp proj
             iii += 1
             projobj = proj_crs_get_sub_crs(PROJ_CONTEXT.context, self.projobj, iii)
-
+        CRSError.clear()
         return self._sub_crs_list
 
     @property
@@ -1533,6 +1552,7 @@ cdef class _CRS(Base):
             return self._geodetic_crs if self. _geodetic_crs is not False else None
         cdef PJ * projobj
         projobj = proj_crs_get_geodetic_crs(PROJ_CONTEXT.context, self.projobj)
+        CRSError.clear()
         if projobj == NULL:
             self._geodetic_crs = False
             return None
@@ -1604,7 +1624,7 @@ cdef class _CRS(Base):
         if auth_info is not None and auth_info[0].upper() == "EPSG":
             return int(auth_info[1])
         return None
-    
+
     def to_authority(self, auth_name=None, min_confidence=70):
         """
         Return the authority name and code best matching the CRS
@@ -1667,6 +1687,7 @@ cdef class _CRS(Base):
         finally:
             if out_confidence_list != NULL:
                 proj_int_list_destroy(out_confidence_list)
+            CRSError.clear()
 
         # check to make sure that the projection found is valid
         if proj_list == NULL or num_proj_objects <= 0 or out_confidence < min_confidence:
@@ -1680,6 +1701,7 @@ cdef class _CRS(Base):
             proj = proj_list_get(PROJ_CONTEXT.context, proj_list, 0)
         finally:
             proj_list_destroy(proj_list)
+            CRSError.clear()
         if proj == NULL:
             return None
 
@@ -1693,6 +1715,7 @@ cdef class _CRS(Base):
                 return pystrdecode(out_auth_name), pystrdecode(code)
         finally:
             proj_destroy(proj)
+            CRSError.clear()
 
         return None
 
@@ -1727,7 +1750,6 @@ cdef class _CRS(Base):
         else:
             is_property = self._type in property_types
         return is_property
-
 
     @property
     def is_geographic(self):
