@@ -403,5 +403,13 @@ def test_is_exact_same_different_type():
     assert not Proj("epsg:4326").is_exact_same(None)
 
 
+def test_reset_errno():
+    proj = Proj(
+        {"proj": "laea", "lat_0": -90, "lon_0": 0, "a": 6371228.0, "units": "m"}
+    )
+    assert not proj.crs.is_geographic
+    assert proj(0, 0, inverse=True, errcheck=True) == (0.0, -90.0)
+
+
 if __name__ == "__main__":
     unittest.main()

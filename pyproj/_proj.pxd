@@ -1,6 +1,6 @@
 include "proj.pxi"
 
 cdef class Proj:
-    cdef PJ * projpj
-    cdef PJ_PROJ_INFO projpj_info
+    cdef PJ * projobj
+    cdef PJ_PROJ_INFO projobj_info
     cdef readonly srs
