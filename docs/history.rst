@@ -4,6 +4,7 @@ Change Log
 2.3.1
 ~~~~~
 * Added cleanup for internal PROJ errors (issue #413)
+* Delay checking for pyproj data directory until importing pyproj (issue #415)
 
 2.3.0
 ~~~~~

@@ -25,15 +25,17 @@ cdef class ContextManager:
 
     def __init__(self):
         self.context = proj_context_create()
-        self.set_search_paths()
+        self._set_search_paths = False
         proj_context_use_proj4_init_rules(self.context, 1)
         proj_log_func(self.context, NULL, pyproj_log_function)
 
-    def set_search_paths(self):
+    def set_search_paths(self, reset=False):
         """
         This method sets the search paths
         based on pyproj.datadir.get_data_dir()
         """
+        if self._set_search_paths and not reset:
+            return
         data_dir_list = get_data_dir().split(os.pathsep)
         cdef char **c_data_dir = <char **>malloc(len(data_dir_list) * sizeof(char*))
         try:
@@ -43,6 +45,7 @@ cdef class ContextManager:
             proj_context_set_search_paths(self.context, len(data_dir_list), c_data_dir)
         finally:
             free(c_data_dir)
+        self._set_search_paths = True
 
 
 cdef ContextManager PROJ_CONTEXT = ContextManager()
