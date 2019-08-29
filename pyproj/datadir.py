@@ -24,7 +24,7 @@ def set_data_dir(proj_data_dir):
     # reset search paths
     from pyproj._datadir import PYPROJ_CONTEXT
 
-    PYPROJ_CONTEXT.set_search_paths()
+    PYPROJ_CONTEXT.set_search_paths(reset=True)
 
 
 def append_data_dir(proj_data_dir):

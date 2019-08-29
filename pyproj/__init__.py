@@ -66,6 +66,7 @@ __all__ = [
 ]
 import sys
 
+from pyproj._datadir import PYPROJ_CONTEXT
 from pyproj._list import (  # noqa: F401
     get_angular_units_map,
     get_ellps_map,
@@ -79,6 +80,8 @@ from pyproj.exceptions import ProjError  # noqa: F401
 from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa: F401
 from pyproj.proj import Proj, pj_list, proj_version_str  # noqa: F401
 from pyproj.transformer import Transformer, itransform, transform  # noqa: F401
+
+PYPROJ_CONTEXT.set_search_paths()
 
 
 def test(**kwargs):

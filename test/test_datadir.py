@@ -1,13 +1,13 @@
 import os
 import shutil
 import tempfile
-import unittest
 from contextlib import contextmanager
 
 import pytest
 from mock import patch
 
 from pyproj import CRS
+from pyproj._datadir import ContextManager
 from pyproj.datadir import DataDirError, append_data_dir, get_data_dir, set_data_dir
 
 
@@ -69,6 +69,13 @@ def test_get_data_dir__missing():
         setup_os_mock(os_mock)
         unset_data_dir()
         assert get_data_dir() is None
+
+
+def test_condext_manager_datadir_missing():
+    with proj_env(), pytest.raises(DataDirError), patch(
+        "pyproj._datadir.get_data_dir", side_effect=DataDirError("test")
+    ):
+        ContextManager().set_search_paths()
 
 
 def test_get_data_dir__from_user():
