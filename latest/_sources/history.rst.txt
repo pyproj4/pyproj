@@ -5,6 +5,7 @@ Change Log
 ~~~~~
 * Added cleanup for internal PROJ errors (issue #413)
 * Delay checking for pyproj data directory until importing pyproj (issue #415)
+* Address issue where PROJ core dumps on proj_create with +init= when global context does not have data directory set (issue #415 & issue #368)
 
 2.3.0
 ~~~~~
