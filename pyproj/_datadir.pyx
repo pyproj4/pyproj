@@ -13,7 +13,6 @@ cdef void pyproj_log_function(void *user_data, int level, const char *error_msg)
     if level == PJ_LOG_ERROR:
         ProjError.internal_proj_error = pystrdecode(error_msg)
 
-
 cdef class ContextManager:
     def __cinit__(self):
         self.context = NULL
@@ -42,6 +41,7 @@ cdef class ContextManager:
             for iii in range(len(data_dir_list)):
                 b_data_dir = cstrencode(data_dir_list[iii])
                 c_data_dir[iii] = b_data_dir
+            proj_context_set_search_paths(NULL, len(data_dir_list), c_data_dir)
             proj_context_set_search_paths(self.context, len(data_dir_list), c_data_dir)
         finally:
             free(c_data_dir)
