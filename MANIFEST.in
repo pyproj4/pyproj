@@ -9,4 +9,5 @@ include pyproj/*.pxd
 include pyproj/*.pxi
 include test/sample.out
 recursive-include docs *
+prune docs/_build
 prune pyproj/proj_dir
