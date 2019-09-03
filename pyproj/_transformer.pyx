@@ -1,11 +1,12 @@
 include "base.pxi"
 
 cimport cython
+
+import warnings
 from collections import namedtuple
 
-
 from pyproj._crs cimport AreaOfUse, Base, _CRS, CoordinateOperation
-from pyproj._datadir cimport ContextManager
+from pyproj._datadir cimport pyproj_context_initialize
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError
@@ -44,110 +45,126 @@ north_lat_degree: float
     The north bound in degrees of the area of interest.
 """
 
-def transformer_list_from_crs(
-    _CRS crs_from,
-    _CRS crs_to,
-    skip_equivalent=False,
-    always_xy=False,
-    area_of_interest=None,
-):
-    """
-    From PROJ docs:
+cdef class _TransformerGroup:
+    def __cinit__(self):
+        self.context = NULL
+        self._transformers = []
+        self._unavailable_operations = []
+        self._best_available = True
 
-    The operations are sorted with the most relevant ones first: by
-    descending area (intersection of the transformation area with the
-    area of interest, or intersection of the transformation with the
-    area of use of the CRS), and by increasing accuracy. Operations
-    with unknown accuracy are sorted last, whatever their area.
-    """
-    cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
-    cdef PJ_OBJ_LIST * pj_operations = NULL
-    cdef PJ* pj_transform = NULL
-    cdef int num_operations = 0
-    cdef int is_instantiable = 0
-    cdef CoordinateOperation coordinate_operation
-    cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
-    cdef ContextManager context_manager = ContextManager()
-    operations = []
-    try:
-        operation_factory_context = proj_create_operation_factory_context(
-            crs_from.context_manager.context,
-            NULL,
-        )
-        if area_of_interest is not None:
-            if not isinstance(area_of_interest, AreaOfInterest):
-                raise ProjError(
-                    "Area of interest must be of the type pyproj.transformer.AreaOfInterest."
-                )
-            west_lon_degree = area_of_interest.west_lon_degree
-            south_lat_degree = area_of_interest.south_lat_degree
-            east_lon_degree = area_of_interest.east_lon_degree
-            north_lat_degree = area_of_interest.north_lat_degree
-            proj_operation_factory_context_set_area_of_interest(
-                context_manager.context,
-                operation_factory_context,
-                west_lon_degree,
-                south_lat_degree,
-                east_lon_degree,
-                north_lat_degree,
-            )
+    def __dealloc__(self):
+        """destroy projection definition"""
+        if self.context != NULL:
+            proj_context_destroy(self.context)
+            self.context = NULL
 
-        proj_operation_factory_context_set_grid_availability_use(
-            context_manager.context,
-            operation_factory_context,
-            PROJ_GRID_AVAILABILITY_IGNORED,
-        )
-        proj_operation_factory_context_set_spatial_criterion(
-            context_manager.context,
-            operation_factory_context,
-            PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
-        )
+    def __init__(
+        self,
+        _CRS crs_from,
+        _CRS crs_to,
+        skip_equivalent=False,
+        always_xy=False,
+        area_of_interest=None,
+    ):
+        """
+        From PROJ docs:
 
-        pj_operations = proj_create_operations(
-            context_manager.context,
-            get_transform_crs(crs_from).projobj,
-            get_transform_crs(crs_to).projobj,
-            operation_factory_context,
-        )
-        num_operations = proj_list_get_count(pj_operations)
-        for iii in range(num_operations):
-            pj_transform = proj_list_get(
-                context_manager.context,
-                pj_operations,
-                iii,
+        The operations are sorted with the most relevant ones first: by
+        descending area (intersection of the transformation area with the
+        area of interest, or intersection of the transformation with the
+        area of use of the CRS), and by increasing accuracy. Operations
+        with unknown accuracy are sorted last, whatever their area.
+        """
+        self.context = proj_context_create()
+        pyproj_context_initialize(self.context, False)
+        cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
+        cdef PJ_OBJ_LIST * pj_operations = NULL
+        cdef PJ* pj_transform = NULL
+        cdef int num_operations = 0
+        cdef int is_instantiable = 0
+        cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
+        try:
+            operation_factory_context = proj_create_operation_factory_context(
+                self.context,
+                NULL,
             )
-            is_instantiable = proj_coordoperation_is_instantiable(
-                context_manager.context,
-                pj_transform
-            )
-            if is_instantiable:
-                operations.append(
-                    _Transformer._from_pj(
-                        context_manager,
-                        pj_transform,
-                        crs_from,
-                        crs_to,
-                        skip_equivalent,
-                        always_xy,
+            if area_of_interest is not None:
+                if not isinstance(area_of_interest, AreaOfInterest):
+                    raise ProjError(
+                        "Area of interest must be of the type pyproj.transformer.AreaOfInterest."
                     )
+                west_lon_degree = area_of_interest.west_lon_degree
+                south_lat_degree = area_of_interest.south_lat_degree
+                east_lon_degree = area_of_interest.east_lon_degree
+                north_lat_degree = area_of_interest.north_lat_degree
+                proj_operation_factory_context_set_area_of_interest(
+                    self.context,
+                    operation_factory_context,
+                    west_lon_degree,
+                    south_lat_degree,
+                    east_lon_degree,
+                    north_lat_degree,
                 )
-            else:
-                operations.append(CoordinateOperation.create(
-                    context_manager,
-                    pj_transform
-                ))
-    finally:
-        pj_transform = NULL
-        if operation_factory_context != NULL:
-            proj_operation_factory_context_destroy(operation_factory_context)
-            operation_factory_context = NULL
-        if pj_operations != NULL:
-            proj_list_destroy(pj_operations)
-            pj_operations = NULL
-        ProjError.clear()
 
-    return operations
-
+            proj_operation_factory_context_set_grid_availability_use(
+                self.context,
+                operation_factory_context,
+                PROJ_GRID_AVAILABILITY_IGNORED,
+            )
+            proj_operation_factory_context_set_spatial_criterion(
+                self.context,
+                operation_factory_context,
+                PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
+            )
+            pj_operations = proj_create_operations(
+                self.context,
+                get_transform_crs(crs_from).projobj,
+                get_transform_crs(crs_to).projobj,
+                operation_factory_context,
+            )
+            num_operations = proj_list_get_count(pj_operations)
+            for iii in range(num_operations):
+                pj_transform = proj_list_get(
+                    self.context,
+                    pj_operations,
+                    iii,
+                )
+                is_instantiable = proj_coordoperation_is_instantiable(
+                    self.context,
+                    pj_transform,
+                )
+                if is_instantiable:
+                    self._transformers.append(
+                        _Transformer._from_pj(
+                            pj_transform,
+                            crs_from,
+                            crs_to,
+                            skip_equivalent,
+                            always_xy,
+                        )
+                    )
+                else:
+                    coordinate_operation = CoordinateOperation.create(
+                        NULL,
+                        pj_transform,
+                    )
+                    self._unavailable_operations.append(coordinate_operation)
+                    if iii == 0:
+                        self._best_available = False
+                        warnings.warn(
+                            "Best transformation is not available due to missing "
+                            "{!r}".format(coordinate_operation.grids[0])
+                        )
+        finally:
+            pj_transform = NULL
+            if operation_factory_context != NULL:
+                proj_operation_factory_context_destroy(operation_factory_context)
+                operation_factory_context = NULL
+            if pj_operations != NULL:
+                proj_list_destroy(pj_operations)
+                pj_operations = NULL
+            ProjError.clear()
+ 
 
 cdef _CRS get_transform_crs(_CRS in_crs):
     for sub_crs in in_crs.sub_crs_list:
@@ -221,9 +238,9 @@ cdef class _Transformer(Base):
         """
         if self._area_of_use is not None:
             return self._area_of_use
-        self._area_of_use = AreaOfUse.create(self.context_manager, self.projobj)
+        self._area_of_use = AreaOfUse.create(self.context, self.projobj)
         return self._area_of_use
-  
+
     @staticmethod
     def from_crs(
         _CRS crs_from,
@@ -232,87 +249,92 @@ cdef class _Transformer(Base):
         always_xy=False,
         area_of_interest=None,
     ):
+        """
+        Create a transformer from CRS objects
+        """
         cdef PJ_AREA *pj_area_of_interest = NULL
         cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
-        cdef ContextManager context_manager = ContextManager()
-
-        if area_of_interest is not None:
-            if not isinstance(area_of_interest, AreaOfInterest):
-                raise ProjError(
-                    "Area of interest must be of the type pyproj.transformer.AreaOfInterest."
+        cdef _Transformer transformer = _Transformer()
+        try:
+            if area_of_interest is not None:
+                if not isinstance(area_of_interest, AreaOfInterest):
+                    raise ProjError(
+                        "Area of interest must be of the type pyproj.transformer.AreaOfInterest."
+                    )
+                pj_area_of_interest = proj_area_create()
+                west_lon_degree = area_of_interest.west_lon_degree
+                south_lat_degree = area_of_interest.south_lat_degree
+                east_lon_degree = area_of_interest.east_lon_degree
+                north_lat_degree = area_of_interest.north_lat_degree
+                proj_area_set_bbox(
+                    pj_area_of_interest,
+                    west_lon_degree,
+                    south_lat_degree,
+                    east_lon_degree,
+                    north_lat_degree,
                 )
-            pj_area_of_interest = proj_area_create()
-            west_lon_degree = area_of_interest.west_lon_degree
-            south_lat_degree = area_of_interest.south_lat_degree
-            east_lon_degree = area_of_interest.east_lon_degree
-            north_lat_degree = area_of_interest.north_lat_degree
-            proj_area_set_bbox(
+
+            transformer.initialize_context()
+            transformer.projobj = proj_create_crs_to_crs_from_pj(
+                transformer.context,
+                crs_from.projobj,
+                crs_to.projobj,
                 pj_area_of_interest,
-                west_lon_degree,
-                south_lat_degree,
-                east_lon_degree,
-                north_lat_degree,
+                NULL,
             )
-        cdef PJ* pj_transform = proj_create_crs_to_crs_from_pj(
-            context_manager.context,
-            crs_from.projobj,
-            crs_to.projobj,
-            pj_area_of_interest,
-            NULL,
-        )
-        if pj_area_of_interest != NULL:
-            proj_area_destroy(pj_area_of_interest)
-            pj_area_of_interest = NULL
-        if pj_transform == NULL:
-            raise ProjError("Error creating CRS to CRS.")
-        return _Transformer._from_pj(
-            context_manager,
-            pj_transform,
+        finally:
+            if pj_area_of_interest != NULL:
+                proj_area_destroy(pj_area_of_interest)
+                pj_area_of_interest = NULL
+
+        if transformer.projobj == NULL:
+            raise ProjError("Error creating Transformer from CRS.")
+
+        transformer._init_from_crs(
             crs_from=crs_from,
             crs_to=crs_to,
             skip_equivalent=skip_equivalent,
             always_xy=always_xy,
         )
+        return transformer
 
     @staticmethod
     cdef _Transformer _from_pj(
-        ContextManager context_manager,
         PJ *transform_pj,
         _CRS crs_from,
         _CRS crs_to,
         skip_equivalent,
-        always_xy
+        always_xy,
     ):
+        """
+        Create a Transformer from a PJ* object
+        """
         cdef _Transformer transformer = _Transformer()
-        transformer.context_manager = context_manager
+        transformer.initialize_context()
         transformer.projobj = transform_pj
-        cdef PJ* always_xy_pj = NULL
-        if always_xy:
-            always_xy_pj = proj_normalize_for_visualization(
-                transformer.context_manager.context,
-                transformer.projobj
-            )
-            proj_destroy(transformer.projobj)
-            transformer.projobj = always_xy_pj
 
-        transformer._initialize_from_projobj()
-        transformer._set_radians_io()
-        transformer.projections_exact_same = crs_from.is_exact_same(crs_to)
-        transformer.projections_equivalent = crs_from == crs_to
-        transformer.input_geographic = crs_from.is_geographic
-        transformer.output_geographic = crs_to.is_geographic
-        transformer.skip_equivalent = skip_equivalent
-        transformer.is_pipeline = False
+        if transformer.projobj == NULL:
+            raise ProjError("Error creating Transformer.")
+
+        transformer._init_from_crs(
+            crs_from=crs_from,
+            crs_to=crs_to,
+            skip_equivalent=skip_equivalent,
+            always_xy=always_xy,
+        )
         return transformer
 
     @staticmethod
     def from_pipeline(const char *proj_pipeline):
+        """
+        Create Transformer from a PROJ pipeline string.
+        """
         cdef _Transformer transformer = _Transformer()
-        transformer.context_manager = ContextManager()
+        transformer.initialize_context()
         # initialize projection
         transformer.projobj = proj_create(
-            transformer.context_manager.context,
-            proj_pipeline
+            transformer.context,
+            proj_pipeline,
         )
         if transformer.projobj is NULL:
             raise ProjError("Invalid projection {}.".format(proj_pipeline))
@@ -320,6 +342,38 @@ cdef class _Transformer(Base):
         transformer._set_radians_io()
         transformer.is_pipeline = True
         return transformer
+
+    def _set_always_xy(self):
+        """
+        Setup the transformer so it has the axis order always in xy order.
+        """
+        cdef PJ* always_xy_pj = proj_normalize_for_visualization(
+            self.context,
+            self.projobj,
+        )
+        proj_destroy(self.projobj)
+        self.projobj = always_xy_pj
+
+    def _init_from_crs(
+        self,
+        _CRS crs_from,
+        _CRS crs_to,
+        skip_equivalent,
+        always_xy,
+    ):
+        """
+        Finish initializing transformer properties from CRS objects
+        """
+        if always_xy:
+            self._set_always_xy()
+        self._initialize_from_projobj()
+        self._set_radians_io()
+        self.projections_exact_same = crs_from.is_exact_same(crs_to)
+        self.projections_equivalent = crs_from == crs_to
+        self.input_geographic = crs_from.is_geographic
+        self.output_geographic = crs_to.is_geographic
+        self.skip_equivalent = skip_equivalent
+        self.is_pipeline = False
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -379,7 +433,6 @@ cdef class _Transformer(Base):
             for iii in range(npts):
                 xx[iii] = xx[iii]*_RAD2DG
                 yy[iii] = yy[iii]*_RAD2DG
-
         proj_errno_reset(self.projobj)
         proj_trans_generic(
             self.projobj,

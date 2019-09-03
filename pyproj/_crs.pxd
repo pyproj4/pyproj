@@ -1,7 +1,5 @@
 include "proj.pxi"
 
-from pyproj._datadir cimport ContextManager
-
 cdef class Axis:
     cdef readonly object name
     cdef readonly object abbrev
@@ -12,7 +10,7 @@ cdef class Axis:
     cdef readonly object unit_code
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* projobj, int index)
+    cdef create(PJ_CONTEXT* context, PJ* projobj, int index)
 
 cdef class AreaOfUse:
     cdef readonly double west
@@ -22,12 +20,12 @@ cdef class AreaOfUse:
     cdef readonly object name
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* projobj)
+    cdef create(PJ_CONTEXT* context, PJ* projobj)
 
 
 cdef class Base:
     cdef PJ *projobj
-    cdef ContextManager context_manager
+    cdef PJ_CONTEXT* context
     cdef readonly object name
 
 
@@ -39,7 +37,7 @@ cdef class Ellipsoid(Base):
     cdef readonly object ellipsoid_loaded
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* ellipsoid_pj)
+    cdef create(PJ_CONTEXT* context, PJ* ellipsoid_pj)
 
 cdef class PrimeMeridian(Base):
     cdef readonly double longitude
@@ -47,7 +45,7 @@ cdef class PrimeMeridian(Base):
     cdef readonly object unit_name
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* prime_meridian_pj)
+    cdef create(PJ_CONTEXT* context, PJ* prime_meridian_pj)
 
 
 cdef class Datum(Base):
@@ -55,14 +53,14 @@ cdef class Datum(Base):
     cdef readonly object _prime_meridian
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* datum_pj)
+    cdef create(PJ_CONTEXT* context, PJ* datum_pj)
 
 
 cdef class CoordinateSystem(Base):
     cdef readonly object _axis_list
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* coordinate_system_pj)
+    cdef create(PJ* coordinate_system_pj)
 
 
 cdef class Param:
@@ -77,7 +75,7 @@ cdef class Param:
     cdef readonly object unit_category
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* projobj, int param_idx)
+    cdef create(PJ_CONTEXT* context, PJ* projobj, int param_idx)
 
 
 cdef class Grid:
@@ -90,7 +88,7 @@ cdef class Grid:
     cdef readonly object available
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* projobj, int grid_idx)
+    cdef create(PJ_CONTEXT* context, PJ* projobj, int grid_idx)
 
 
 cdef class CoordinateOperation(Base):
@@ -106,7 +104,7 @@ cdef class CoordinateOperation(Base):
     cdef readonly object _towgs84
 
     @staticmethod
-    cdef create(ContextManager context_manager, PJ* coordinate_operation_pj)
+    cdef create(PJ_CONTEXT* context, PJ* coordinate_operation_pj)
 
 
 cdef class _CRS(Base):

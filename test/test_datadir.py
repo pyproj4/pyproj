@@ -8,7 +8,7 @@ from mock import patch
 
 import pyproj
 from pyproj import CRS
-from pyproj._datadir import ContextManager
+from pyproj._datadir import pyproj_global_context_initialize
 from pyproj.datadir import DataDirError, append_data_dir, get_data_dir, set_data_dir
 
 
@@ -71,11 +71,11 @@ def test_get_data_dir__missing():
         assert get_data_dir() is None
 
 
-def test_condext_manager_datadir_missing():
+def test_pyproj_global_context_initialize__datadir_missing():
     with proj_env(), pytest.raises(DataDirError), patch(
         "pyproj._datadir.get_data_dir", side_effect=DataDirError("test")
     ):
-        ContextManager().set_search_paths()
+        pyproj_global_context_initialize()
 
 
 def test_get_data_dir__from_user():

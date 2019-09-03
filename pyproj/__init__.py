@@ -67,7 +67,7 @@ __all__ = [
 import sys
 import warnings
 
-from pyproj._datadir import ContextManager as _ContextManager
+from pyproj import _datadir
 from pyproj._list import (  # noqa: F401
     get_angular_units_map,
     get_ellps_map,
@@ -83,7 +83,7 @@ from pyproj.proj import Proj, pj_list, proj_version_str  # noqa: F401
 from pyproj.transformer import Transformer, itransform, transform  # noqa: F401
 
 try:
-    _ContextManager(global_context=True).set_search_paths()
+    _datadir.pyproj_global_context_initialize()
 except DataDirError as err:
     warnings.warn(str(err))
 

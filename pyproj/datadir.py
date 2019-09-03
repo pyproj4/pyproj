@@ -28,9 +28,9 @@ def set_data_dir(proj_data_dir):
     # need to reset the global PROJ context
     # to prevent core dumping if the data directory
     # is not found.
-    from pyproj._datadir import ContextManager
+    from pyproj._datadir import pyproj_global_context_initialize
 
-    ContextManager(global_context=True).set_search_paths()
+    pyproj_global_context_initialize()
 
 
 def append_data_dir(proj_data_dir):

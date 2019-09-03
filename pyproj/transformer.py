@@ -25,23 +25,18 @@ __all__ = [
     "AreaOfInterest",
 ]
 
-import warnings
 from array import array
 from itertools import chain, islice
 
 from pyproj import CRS, Proj
-from pyproj._transformer import (  # noqa
-    AreaOfInterest,
-    _Transformer,
-    transformer_list_from_crs,
-)
+from pyproj._transformer import AreaOfInterest, _Transformer, _TransformerGroup  # noqa
 from pyproj.compat import cstrencode
 from pyproj.enums import TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
 from pyproj.utils import _convertback, _copytobuffer
 
 
-class TransformerGroup:
+class TransformerGroup(_TransformerGroup):
     """
     The TransformerGroup is a set of possible transformers from one CRS to another.
 
@@ -86,28 +81,15 @@ class TransformerGroup:
             best operation for the area.
 
         """
-        self._transformers = []
-        self._unavailable_operations = []
-        self._best_available = True
-        for iii, operation in enumerate(
-            transformer_list_from_crs(
-                CRS.from_user_input(crs_from),
-                CRS.from_user_input(crs_to),
-                skip_equivalent=skip_equivalent,
-                always_xy=always_xy,
-                area_of_interest=area_of_interest,
-            )
-        ):
-            if isinstance(operation, _Transformer):
-                self._transformers.append(Transformer(operation))
-            else:
-                self._unavailable_operations.append(operation)
-                if iii == 0:
-                    self._best_available = False
-                    warnings.warn(
-                        "Best transformation is not available due to missing "
-                        "{!r}".format(operation.grids[0])
-                    )
+        super(TransformerGroup, self).__init__(
+            CRS.from_user_input(crs_from),
+            CRS.from_user_input(crs_to),
+            skip_equivalent=skip_equivalent,
+            always_xy=always_xy,
+            area_of_interest=area_of_interest,
+        )
+        for iii, transformer in enumerate(self._transformers):
+            self._transformers[iii] = Transformer(transformer)
 
     @property
     def transformers(self):

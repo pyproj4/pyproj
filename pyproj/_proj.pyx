@@ -4,8 +4,8 @@ import warnings
 
 cimport cython
 
+from pyproj._datadir cimport pyproj_context_initialize
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj._datadir cimport ContextManager
 from pyproj.exceptions import ProjError
 
 
@@ -19,12 +19,14 @@ proj_version_str = "{0}.{1}.{2}".format(
 cdef class Proj:
     def __cinit__(self):
         self.projobj = NULL
+        self.context = NULL
 
     def __init__(self, const char *projstring):
+        self.context = proj_context_create()
+        pyproj_context_initialize(self.context, False)
         self.srs = pystrdecode(projstring)
-        self.context_manager = ContextManager()
         # initialize projection
-        self.projobj = proj_create(self.context_manager.context, projstring)
+        self.projobj = proj_create(self.context, projstring)
         if self.projobj is NULL:
             raise ProjError("Invalid projection {}.".format(projstring))
         self.projobj_info = proj_pj_info(self.projobj)
@@ -35,6 +37,9 @@ cdef class Proj:
         if self.projobj is not NULL:
             proj_destroy(self.projobj)
             self.projobj = NULL
+        if self.context != NULL:
+            proj_context_destroy(self.context)
+            self.context = NULL
 
     @property
     def definition(self):
