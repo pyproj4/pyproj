@@ -1783,10 +1783,13 @@ cdef class _CRS(Base):
             return None
 
         # retrieve the best matching projection
-        cdef PJ* proj
+        cdef PJ* proj = NULL
+        cdef int iii = 0
         try:
             proj = proj_list_get(self.context, proj_list, 0)
         finally:
+            for iii in range(1, num_proj_objects):
+                proj_destroy(proj_list_get(self.context, proj_list, iii))
             proj_list_destroy(proj_list)
             CRSError.clear()
         if proj == NULL:
