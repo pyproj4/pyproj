@@ -1,4 +1,16 @@
-from pyproj._show_versions import _get_deps_info, _get_sys_info, show_versions
+from pyproj._show_versions import (
+    _get_deps_info,
+    _get_proj_info,
+    _get_sys_info,
+    show_versions,
+)
+
+
+def test_get_proj_info():
+    pyproj_info = _get_proj_info()
+    assert "pyproj" in pyproj_info
+    assert "PROJ" in pyproj_info
+    assert "data dir" in pyproj_info
 
 
 def test_get_sys_info():
@@ -14,7 +26,6 @@ def test_get_deps_info():
 
     assert "pip" in deps_info
     assert "setuptools" in deps_info
-    assert "pyproj" in deps_info
     assert "Cython" in deps_info
 
 

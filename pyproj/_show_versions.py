@@ -41,7 +41,11 @@ def _get_proj_info():
     except DataDirError:
         data_dir = None
 
-    blob = [("PROJ", pyproj.proj_version_str), ("data dir", data_dir)]
+    blob = [
+        ("pyproj", pyproj.__version__),
+        ("PROJ", pyproj.proj_version_str),
+        ("data dir", data_dir),
+    ]
 
     return dict(blob)
 
@@ -53,7 +57,7 @@ def _get_deps_info():
     deps_info: dict
         version information on relevant Python libraries
     """
-    deps = ["pyproj", "pip", "setuptools", "Cython"]
+    deps = ["pip", "setuptools", "Cython"]
 
     def get_version(module):
         try:
@@ -91,9 +95,9 @@ def show_versions():
     > python -c "import pyproj; pyproj.show_versions()"
 
     """
+    print("pyproj info:")
+    _print_info_dict(_get_proj_info())
     print("\nSystem:")
     _print_info_dict(_get_sys_info())
-    print("\nPROJ:")
-    _print_info_dict(_get_proj_info())
     print("\nPython deps:")
     _print_info_dict(_get_deps_info())
