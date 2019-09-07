@@ -134,6 +134,7 @@ cdef class _TransformerGroup:
                     pj_transform,
                 )
                 if is_instantiable:
+
                     self._transformers.append(
                         _Transformer._from_pj(
                             pj_transform,
@@ -311,7 +312,9 @@ cdef class _Transformer(Base):
         """
         cdef _Transformer transformer = _Transformer()
         transformer.initialize_context()
-        transformer.projobj = transform_pj
+        transformer.projobj = proj_clone(transformer.context, transform_pj)
+        proj_destroy(transform_pj)
+        transform_pj = NULL
 
         if transformer.projobj == NULL:
             raise ProjError("Error creating Transformer.")
