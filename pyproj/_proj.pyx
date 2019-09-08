@@ -36,10 +36,8 @@ cdef class Proj:
         """destroy projection definition"""
         if self.projobj is not NULL:
             proj_destroy(self.projobj)
-            self.projobj = NULL
         if self.context != NULL:
             proj_context_destroy(self.context)
-            self.context = NULL
 
     @property
     def definition(self):

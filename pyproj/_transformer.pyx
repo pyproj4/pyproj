@@ -56,7 +56,6 @@ cdef class _TransformerGroup:
         """destroy projection definition"""
         if self.context != NULL:
             proj_context_destroy(self.context)
-            self.context = NULL
 
     def __init__(
         self,
@@ -157,13 +156,10 @@ cdef class _TransformerGroup:
                             "{!r}".format(coordinate_operation.grids[0])
                         )
         finally:
-            pj_transform = NULL
             if operation_factory_context != NULL:
                 proj_operation_factory_context_destroy(operation_factory_context)
-                operation_factory_context = NULL
             if pj_operations != NULL:
                 proj_list_destroy(pj_operations)
-                pj_operations = NULL
             ProjError.clear()
  
 
@@ -286,7 +282,6 @@ cdef class _Transformer(Base):
         finally:
             if pj_area_of_interest != NULL:
                 proj_area_destroy(pj_area_of_interest)
-                pj_area_of_interest = NULL
 
         if transformer.projobj == NULL:
             raise ProjError("Error creating Transformer from CRS.")
@@ -314,7 +309,6 @@ cdef class _Transformer(Base):
         transformer.initialize_context()
         transformer.projobj = proj_clone(transformer.context, transform_pj)
         proj_destroy(transform_pj)
-        transform_pj = NULL
 
         if transformer.projobj == NULL:
             raise ProjError("Error creating Transformer.")

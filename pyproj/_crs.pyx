@@ -283,10 +283,8 @@ cdef class Base:
         """destroy projection definition"""
         if self.projobj != NULL:
             proj_destroy(self.projobj)
-            self.projobj = NULL
         if self.context != NULL:
             proj_context_destroy(self.context)
-            self.context = NULL
 
     def initialize_context(self):
         """Initialize context for later usage."""
@@ -497,7 +495,6 @@ cdef class Ellipsoid(Base):
 
         if ellipsoid_pj == NULL:
             proj_context_destroy(context)
-            context = NULL
             raise CRSError(
                 "Invalid authority or code ({0}, {1})".format(auth_name, code)
             )
@@ -548,9 +545,7 @@ cdef class Ellipsoid(Base):
         )
         if ellipsoid_pj == NULL or proj_get_type(ellipsoid_pj) != PJ_TYPE_ELLIPSOID:
             proj_destroy(ellipsoid_pj)
-            ellipsoid_pj = NULL
             proj_context_destroy(context)
-            context = NULL
             raise CRSError(
                 "Invalid ellipsoid string: {}".format(
                     pystrdecode(ellipsoid_string)
@@ -667,7 +662,6 @@ cdef class PrimeMeridian(Base):
 
         if prime_meridian_pj == NULL:
             proj_context_destroy(context)
-            context = NULL
             raise CRSError(
                 "Invalid authority or code ({0}, {1})".format(auth_name, code)
             )
@@ -721,9 +715,7 @@ cdef class PrimeMeridian(Base):
             proj_get_type(prime_meridian_pj) != PJ_TYPE_PRIME_MERIDIAN
         ):
             proj_destroy(prime_meridian_pj)
-            prime_meridian_pj = NULL
             proj_context_destroy(context)
-            context = NULL
             raise CRSError(
                 "Invalid prime meridian string: {}".format(
                     pystrdecode(prime_meridian_string)
@@ -785,7 +777,6 @@ cdef class Datum(Base):
 
         if datum_pj == NULL:
             proj_context_destroy(context)
-            context = NULL
             raise CRSError(
                 "Invalid authority or code ({0}, {1})".format(auth_name, code)
             )
@@ -846,9 +837,7 @@ cdef class Datum(Base):
             )
         ):
             proj_destroy(datum_pj)
-            datum_pj = NULL
             proj_context_destroy(context)
-            context = NULL
             raise CRSError(
                 "Invalid datum string: {}".format(
                     pystrdecode(datum_string)
@@ -1183,7 +1172,6 @@ cdef class CoordinateOperation(Base):
 
         if coord_operation_pj == NULL:
             proj_context_destroy(context)
-            context = NULL
             raise CRSError(
                 "Invalid authority or code ({0}, {1})".format(auth_name, code)
             )
@@ -1243,9 +1231,7 @@ cdef class CoordinateOperation(Base):
             )
         ):
             proj_destroy(coord_operation_pj)
-            coord_operation_pj = NULL
             proj_context_destroy(context)
-            context = NULL
             raise CRSError(
                 "Invalid coordinate operation string: {}".format(
                     pystrdecode(coordinate_operation_string)
