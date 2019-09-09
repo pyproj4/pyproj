@@ -23,6 +23,7 @@ cdef class _Transformer(Base):
 
     @staticmethod
     cdef _Transformer _from_pj(
+        PJ_CONTEXT* context,
         PJ *transform_pj,
         _CRS crs_from,
         _CRS crs_to,

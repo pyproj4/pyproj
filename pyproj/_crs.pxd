@@ -60,7 +60,7 @@ cdef class CoordinateSystem(Base):
     cdef readonly object _axis_list
 
     @staticmethod
-    cdef create(PJ* coordinate_system_pj)
+    cdef create(PJ_CONTEXT* context, PJ* coordinate_system_pj)
 
 
 cdef class Param:

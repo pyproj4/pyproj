@@ -379,9 +379,9 @@ cdef class CoordinateSystem(Base):
         self._axis_list = None
 
     @staticmethod
-    cdef create(PJ* coord_system_pj):
+    cdef create(PJ_CONTEXT* context, PJ* coord_system_pj):
         cdef CoordinateSystem coord_system = CoordinateSystem()
-        coord_system.initialize_context()
+        coord_system.context = context
         coord_system.projobj = coord_system_pj
         cdef PJ_COORDINATE_SYSTEM_TYPE cs_type = proj_cs_get_type(
             coord_system.context,
@@ -445,10 +445,7 @@ cdef class Ellipsoid(Base):
     @staticmethod
     cdef create(PJ_CONTEXT* context, PJ* ellipsoid_pj):
         cdef Ellipsoid ellips = Ellipsoid()
-        if context == NULL:
-            ellips.initialize_context()
-        else:
-            ellips.context = context
+        ellips.context = context
         ellips.projobj = ellipsoid_pj
         cdef int is_semi_minor_computed = 0
         proj_ellipsoid_get_parameters(
@@ -483,7 +480,6 @@ cdef class Ellipsoid(Base):
         """
         cdef PJ_CONTEXT* context = proj_context_create()
         pyproj_context_initialize(context, True)
-
         cdef PJ* ellipsoid_pj = proj_create_from_database(
             context,
             cstrencode(auth_name),
@@ -614,10 +610,7 @@ cdef class PrimeMeridian(Base):
     @staticmethod
     cdef create(PJ_CONTEXT* context, PJ* prime_meridian_pj):
         cdef PrimeMeridian prime_meridian = PrimeMeridian()
-        if context == NULL:
-            prime_meridian.initialize_context()
-        else:
-            prime_meridian.context = context
+        prime_meridian.context = context
         prime_meridian.projobj = prime_meridian_pj
         cdef const char * unit_name
         proj_prime_meridian_get_parameters(
@@ -855,15 +848,18 @@ cdef class Datum(Base):
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
         cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
-            self.context,
+            context,
             self.projobj,
         )
         CRSError.clear()
         if ellipsoid_pj == NULL:
+            proj_context_destroy(context)
             self._ellipsoid = False
             return None
-        self._ellipsoid = Ellipsoid.create(NULL, ellipsoid_pj)
+        self._ellipsoid = Ellipsoid.create(context, ellipsoid_pj)
         return self._ellipsoid
 
     @property
@@ -875,16 +871,19 @@ cdef class Datum(Base):
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is False else self._prime_meridian
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
         cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
-            self.context,
+            context,
             self.projobj,
         )
         CRSError.clear()
         if prime_meridian_pj == NULL:
+            proj_context_destroy(context)
             self._prime_meridian = False
             return None
         self._prime_meridian = PrimeMeridian.create(
-            NULL,
+            context,
             prime_meridian_pj,
         )
         return self._prime_meridian
@@ -1105,10 +1104,7 @@ cdef class CoordinateOperation(Base):
     @staticmethod
     cdef create(PJ_CONTEXT* context, PJ* coord_operation_pj):
         cdef CoordinateOperation coord_operation = CoordinateOperation()
-        if context == NULL:
-            coord_operation.initialize_context()
-        else:
-            coord_operation.context = context
+        coord_operation.context = context
         coord_operation.projobj = coord_operation_pj
         cdef char *out_method_name = NULL
         cdef char *out_method_auth_name = NULL
@@ -1392,7 +1388,7 @@ cdef class _CRS(Base):
             self.context,
             cstrencode(proj_string),
         )
-        if self.projobj is NULL:
+        if self.projobj == NULL:
             raise CRSError(
                 "Invalid projection: {}".format(pystrdecode(proj_string)))
         # make sure the input is a CRS
@@ -1435,15 +1431,18 @@ cdef class _CRS(Base):
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
         cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
-            self.context,
+            context,
             self.projobj
         )
         CRSError.clear()
         if ellipsoid_pj == NULL:
+            proj_context_destroy(context)
             self._ellipsoid = False
             return None
-        self._ellipsoid = Ellipsoid.create(NULL, ellipsoid_pj)
+        self._ellipsoid = Ellipsoid.create(context, ellipsoid_pj)
         return self._ellipsoid
 
     @property
@@ -1455,15 +1454,18 @@ cdef class _CRS(Base):
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is True else self._prime_meridian
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
         cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
-            self.context,
+            context,
             self.projobj,
         )
         CRSError.clear()
         if prime_meridian_pj == NULL:
+            proj_context_destroy(context)
             self._prime_meridian = False
             return None
-        self._prime_meridian = PrimeMeridian.create(NULL, prime_meridian_pj)
+        self._prime_meridian = PrimeMeridian.create(context, prime_meridian_pj)
         return self._prime_meridian
 
     @property
@@ -1475,20 +1477,23 @@ cdef class _CRS(Base):
         """
         if self._datum is not None:
             return None if self._datum is False else self._datum
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
         cdef PJ* datum_pj = proj_crs_get_datum(
-            self.context,
+            context,
             self.projobj,
         )
         if datum_pj == NULL:
             datum_pj = proj_crs_get_horizontal_datum(
-                self.context,
+                context,
                 self.projobj,
             )
         CRSError.clear()
         if datum_pj == NULL:
+            proj_context_destroy(context)
             self._datum = False
             return None
-        self._datum = Datum.create(NULL, datum_pj)
+        self._datum = Datum.create(context, datum_pj)
         return self._datum
 
     @property
@@ -1500,17 +1505,20 @@ cdef class _CRS(Base):
         """
         if self._coordinate_system is not None:
             return None if self._coordinate_system is False else self._coordinate_system
-
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
         cdef PJ* coord_system_pj = proj_crs_get_coordinate_system(
-            self.context,
+            context,
             self.projobj
         )
         CRSError.clear()
         if coord_system_pj == NULL:
+            proj_context_destroy(context)
             self._coordinate_system = False
             return None
 
         self._coordinate_system = CoordinateSystem.create(
+            context,
             coord_system_pj,
         )
         return self._coordinate_system
@@ -1528,16 +1536,19 @@ cdef class _CRS(Base):
                 if self._coordinate_operation is False 
                 else self._coordinate_operation
             )
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
         cdef PJ* coord_pj = proj_crs_get_coordoperation(
-            self.context,
+            context,
             self.projobj
         )
         CRSError.clear()
         if coord_pj == NULL:
+            proj_context_destroy
             self._coordinate_operation = False
             return None
         self._coordinate_operation = CoordinateOperation.create(
-            NULL,
+            context,
             coord_pj,
         )
         return self._coordinate_operation

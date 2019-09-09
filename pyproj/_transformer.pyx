@@ -79,6 +79,7 @@ cdef class _TransformerGroup:
         cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
         cdef PJ_OBJ_LIST * pj_operations = NULL
         cdef PJ* pj_transform = NULL
+        cdef PJ_CONTEXT* context = NULL
         cdef int num_operations = 0
         cdef int is_instantiable = 0
         cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
@@ -123,19 +124,21 @@ cdef class _TransformerGroup:
             )
             num_operations = proj_list_get_count(pj_operations)
             for iii in range(num_operations):
+                context = proj_context_create()
+                pyproj_context_initialize(context, True)
                 pj_transform = proj_list_get(
-                    self.context,
+                    context,
                     pj_operations,
                     iii,
                 )
                 is_instantiable = proj_coordoperation_is_instantiable(
-                    self.context,
+                    context,
                     pj_transform,
                 )
                 if is_instantiable:
-
                     self._transformers.append(
                         _Transformer._from_pj(
+                            context,
                             pj_transform,
                             crs_from,
                             crs_to,
@@ -145,7 +148,7 @@ cdef class _TransformerGroup:
                     )
                 else:
                     coordinate_operation = CoordinateOperation.create(
-                        NULL,
+                        context,
                         pj_transform,
                     )
                     self._unavailable_operations.append(coordinate_operation)
@@ -296,6 +299,7 @@ cdef class _Transformer(Base):
 
     @staticmethod
     cdef _Transformer _from_pj(
+        PJ_CONTEXT* context,
         PJ *transform_pj,
         _CRS crs_from,
         _CRS crs_to,
@@ -306,9 +310,8 @@ cdef class _Transformer(Base):
         Create a Transformer from a PJ* object
         """
         cdef _Transformer transformer = _Transformer()
-        transformer.initialize_context()
-        transformer.projobj = proj_clone(transformer.context, transform_pj)
-        proj_destroy(transform_pj)
+        transformer.context = context
+        transformer.projobj = transform_pj
 
         if transformer.projobj == NULL:
             raise ProjError("Error creating Transformer.")
