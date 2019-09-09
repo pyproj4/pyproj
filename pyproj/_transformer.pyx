@@ -275,12 +275,11 @@ cdef class _Transformer(Base):
                 )
 
             transformer.initialize_context()
-            transformer.projobj = proj_create_crs_to_crs_from_pj(
+            transformer.projobj = proj_create_crs_to_crs(
                 transformer.context,
-                crs_from.projobj,
-                crs_to.projobj,
+                cstrencode(crs_from.srs),
+                cstrencode(crs_to.srs),
                 pj_area_of_interest,
-                NULL,
             )
         finally:
             if pj_area_of_interest != NULL:

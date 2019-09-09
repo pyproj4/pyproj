@@ -113,11 +113,7 @@ cdef extern from "proj.h":
         double *t, size_t st, size_t nt
     )
     ctypedef struct PJ_AREA
-    PJ *proj_create_crs_to_crs_from_pj(PJ_CONTEXT *ctx,
-                                       PJ *source_crs,
-                                       PJ *target_crs,
-                                       PJ_AREA *area,
-                                       const char* const *options)
+    PJ *proj_create_crs_to_crs(PJ_CONTEXT *ctx, const char *source_crs, const char *target_crs, PJ_AREA *area)
 
     cdef enum PJ_COMPARISON_CRITERION:
         PJ_COMP_STRICT
