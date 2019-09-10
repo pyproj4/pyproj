@@ -181,23 +181,18 @@
     <span class="s2">&quot;AreaOfInterest&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">array</span> <span class="k">import</span> <span class="n">array</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
 
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Proj</span>
-<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
-    <span class="n">AreaOfInterest</span><span class="p">,</span>
-    <span class="n">_Transformer</span><span class="p">,</span>
-    <span class="n">transformer_list_from_crs</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="n">AreaOfInterest</span><span class="p">,</span> <span class="n">_Transformer</span><span class="p">,</span> <span class="n">_TransformerGroup</span>  <span class="c1"># noqa</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">cstrencode</span>
 <span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="k">import</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">ProjError</span>
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
 
-<div class="viewcode-block" id="TransformerGroup"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup">[docs]</a><span class="k">class</span> <span class="nc">TransformerGroup</span><span class="p">:</span>
+<div class="viewcode-block" id="TransformerGroup"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup">[docs]</a><span class="k">class</span> <span class="nc">TransformerGroup</span><span class="p">(</span><span class="n">_TransformerGroup</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The TransformerGroup is a set of possible transformers from one CRS to another.</span>
 
@@ -242,28 +237,15 @@
 <span class="sd">            best operation for the area.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_unavailable_operations</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">for</span> <span class="n">iii</span><span class="p">,</span> <span class="n">operation</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-            <span class="n">transformer_list_from_crs</span><span class="p">(</span>
-                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">),</span>
-                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
-                <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
-                <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
-                <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">):</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">_Transformer</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Transformer</span><span class="p">(</span><span class="n">operation</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_unavailable_operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">iii</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span> <span class="o">=</span> <span class="kc">False</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                        <span class="s2">&quot;Best transformation is not available due to missing &quot;</span>
-                        <span class="s2">&quot;</span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">operation</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                    <span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransformerGroup</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">),</span>
+            <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
+            <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
+            <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
+            <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">iii</span><span class="p">,</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="p">[</span><span class="n">iii</span><span class="p">]</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">transformer</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">transformers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

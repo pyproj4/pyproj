@@ -361,7 +361,19 @@
 <div class="viewcode-block" id="Proj.to_latlong"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;return a new Proj instance which is the geographic (lat/lon)</span>
 <span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;special method that allows pyproj.Proj instance to be pickled&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Proj(&#39;</span><span class="si">{srs}</span><span class="s2">&#39;, preserve_units=True)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_equivalent</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
