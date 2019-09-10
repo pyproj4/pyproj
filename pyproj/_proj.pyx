@@ -4,8 +4,8 @@ import warnings
 
 cimport cython
 
+from pyproj._datadir cimport pyproj_context_initialize
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj._datadir cimport PROJ_CONTEXT
 from pyproj.exceptions import ProjError
 
 
@@ -19,11 +19,14 @@ proj_version_str = "{0}.{1}.{2}".format(
 cdef class Proj:
     def __cinit__(self):
         self.projobj = NULL
+        self.context = NULL
 
     def __init__(self, const char *projstring):
+        self.context = proj_context_create()
+        pyproj_context_initialize(self.context, False)
         self.srs = pystrdecode(projstring)
         # initialize projection
-        self.projobj = proj_create(PROJ_CONTEXT.context, projstring)
+        self.projobj = proj_create(self.context, projstring)
         if self.projobj is NULL:
             raise ProjError("Invalid projection {}.".format(projstring))
         self.projobj_info = proj_pj_info(self.projobj)
@@ -33,7 +36,8 @@ cdef class Proj:
         """destroy projection definition"""
         if self.projobj is not NULL:
             proj_destroy(self.projobj)
-            self.projobj = NULL
+        if self.context != NULL:
+            proj_context_destroy(self.context)
 
     @property
     def definition(self):
@@ -43,10 +47,6 @@ cdef class Proj:
     def has_inverse(self):
         """Returns true if this projection has an inverse"""
         return self.projobj_info.has_inverse == 1
-
-    def __reduce__(self):
-        """special method that allows pyproj.Proj instance to be pickled"""
-        return self.__class__,(self.crs.srs,)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -190,7 +190,6 @@ cdef class Proj:
             else:
                 xdatab[iii] = projlonlatout.uv.u
                 ydatab[iii] = projlonlatout.uv.v
-
         ProjError.clear()
 
     def __repr__(self):
@@ -203,11 +202,6 @@ cdef class Proj:
     def _is_equivalent(self, Proj other):
         return proj_is_equivalent_to(
             self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
-
-    def __eq__(self, other):
-        if not isinstance(other, Proj):
-            return False
-        return self._is_equivalent(other)
 
     def is_exact_same(self, other):
         """Compares Proj objects to see if they are exactly the same."""

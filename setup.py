@@ -8,7 +8,7 @@ from glob import glob
 from pkg_resources import parse_version
 from setuptools import Extension, setup
 
-PROJ_MIN_VERSION = parse_version("6.1.0")
+PROJ_MIN_VERSION = parse_version("6.2.0")
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 BASE_INTERNAL_PROJ_DIR = "proj_dir"
 INTERNAL_PROJ_DIR = os.path.join(CURRENT_FILE_PATH, "pyproj", BASE_INTERNAL_PROJ_DIR)
