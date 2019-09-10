@@ -284,7 +284,9 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/483428?v=4",
       "profile": "https://github.com/cgohlke",
       "contributions": [
-        "platform"
+        "platform",
+        "question",
+        "bug"
       ]
     },
     {
