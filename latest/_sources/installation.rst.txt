@@ -52,7 +52,7 @@ Installing from source
 Setup PROJ
 ------------
 
-PROJ 6.1.0 is required when building from source.
+PROJ 6.2.0 is required when building from source.
 You can download PROJ from https://download.osgeo.org/proj
 or from https://github.com/OSGeo/PROJ. 
 Installation instructions can be fount at https://proj.org/.
@@ -78,7 +78,7 @@ Linux::
     export PROJ_DIR=/usr/local
 
 If you have a previous version of PROJ installed alongside the current
-version of PROJ (6.1.0), the best way to avoid conflicts is to:
+version of PROJ (6.2.0), the best way to avoid conflicts is to:
 
     1. Remove the previous PROJ from PATH & unset old PROJ_LIB environment variable (temporarily)
     2. Install PROJ to the internal PROJ directory (pyproj/proj_dir)

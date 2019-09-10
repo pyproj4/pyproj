@@ -437,7 +437,7 @@
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.from_cf">
-<em class="property">static </em><code class="sig-name descname">from_cf</code><span class="sig-paren">(</span><em class="sig-param">in_cf</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_cf</code><span class="sig-paren">(</span><em class="sig-param">in_cf</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
 <dd><p>This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
 dict to a <a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> object.</p>
 <div class="admonition warning">
@@ -605,6 +605,12 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dd class="field-even"><p>Geod object based on the ellipsoid.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.CRS.initialize_context">
+<code class="sig-name descname">initialize_context</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.initialize_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize context for later usage.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1057,6 +1063,12 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj._crs.CoordinateSystem.initialize_context">
+<code class="sig-name descname">initialize_context</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.initialize_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize context for later usage.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj._crs.CoordinateSystem.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
@@ -1332,6 +1344,12 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 <code class="sig-name descname">grids</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.grids" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>list[Grid]</strong>
 :rtype: The coordinate operation grids.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.CoordinateOperation.initialize_context">
+<code class="sig-name descname">initialize_context</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.initialize_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize context for later usage.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1683,6 +1701,12 @@ ID[“EPSG”,6326]]</p></li>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.Datum.initialize_context">
+<code class="sig-name descname">initialize_context</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.initialize_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize context for later usage.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.Datum.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
@@ -1828,6 +1852,12 @@ ID[“EPSG”,7001]]</p></li>
 <dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Ellipsoid" title="pyproj.crs.Ellipsoid">Ellipsoid</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Ellipsoid.initialize_context">
+<code class="sig-name descname">initialize_context</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.initialize_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize context for later usage.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -2001,6 +2031,12 @@ ID[“EPSG”,8901]]</p></li>
 <dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.initialize_context">
+<code class="sig-name descname">initialize_context</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.initialize_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize context for later usage.</p>
 </dd></dl>
 
 <dl class="method">

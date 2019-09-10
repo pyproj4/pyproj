@@ -585,7 +585,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_CRS</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">CRS</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
@@ -755,8 +755,8 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">cf_dict</span></div>
 
-<div class="viewcode-block" id="CRS.from_cf"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_cf">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_cf</span><span class="p">(</span><span class="n">in_cf</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.from_cf"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_cf">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_cf</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_cf</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This converts a Climate and Forecast (CF) Grid Mapping Version 1.8</span>
 <span class="sd">        dict to a :obj:`~pyproj.crs.CRS` object.</span>
@@ -825,7 +825,7 @@
                 <span class="s2">&quot;CF parameters not mapped to PROJ: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">skipped_params</span><span class="p">))</span>
             <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>

@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+2.4.0
+~~~~~
+* Minimum PROJ version is 6.2.0 (issue #411)
+* Remove global pyproj context (issue #418)
+
 2.3.1
 ~~~~~
 * Added cleanup for internal PROJ errors (issue #413)
