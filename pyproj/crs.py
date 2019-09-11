@@ -33,11 +33,16 @@ import json
 import re
 import warnings
 
-from pyproj._crs import CoordinateOperation  # noqa
-from pyproj._crs import Datum  # noqa
-from pyproj._crs import Ellipsoid  # noqa
-from pyproj._crs import PrimeMeridian  # noqa
-from pyproj._crs import _CRS, is_proj, is_wkt
+from pyproj._crs import (  # noqa
+    _CRS,
+    CoordinateOperation,
+    Datum,
+    Ellipsoid,
+    PrimeMeridian,
+    _load_proj_json,
+    is_proj,
+    is_wkt,
+)
 from pyproj.cf1x8 import (
     GRID_MAPPING_NAME_MAP,
     INVERSE_GRID_MAPPING_NAME_MAP,
@@ -53,6 +58,9 @@ from pyproj.geod import Geod
 
 
 def _prepare_from_dict(projparams):
+    # check if it is a PROJ JSON dict
+    if "proj" not in projparams and "init" not in projparams:
+        return json.dumps(projparams)
     # convert a dict to a proj string.
     pjargs = []
     for key, value in projparams.items():
@@ -236,6 +244,130 @@ class CRS(_CRS):
                 LENGTHUNIT["metre",1],
                 ID["EPSG",8807]],
             ID["EPSG",16015]]
+        >>> print(crs_utm.to_json(pretty=True))
+        {
+          "$schema": "https://proj.org/schemas/v0.1/projjson.schema.json",
+          "type": "ProjectedCRS",
+          "name": "NAD83 / UTM zone 15N",
+          "base_crs": {
+            "name": "NAD83",
+            "datum": {
+              "type": "GeodeticReferenceFrame",
+              "name": "North American Datum 1983",
+              "ellipsoid": {
+                "name": "GRS 1980",
+                "semi_major_axis": 6378137,
+                "inverse_flattening": 298.257222101
+              }
+            },
+            "coordinate_system": {
+              "subtype": "ellipsoidal",
+              "axis": [
+                {
+                  "name": "Geodetic latitude",
+                  "abbreviation": "Lat",
+                  "direction": "north",
+                  "unit": "degree"
+                },
+                {
+                  "name": "Geodetic longitude",
+                  "abbreviation": "Lon",
+                  "direction": "east",
+                  "unit": "degree"
+                }
+              ]
+            },
+            "id": {
+              "authority": "EPSG",
+              "code": 4269
+            }
+          },
+          "conversion": {
+            "name": "UTM zone 15N",
+            "method": {
+              "name": "Transverse Mercator",
+              "id": {
+                "authority": "EPSG",
+                "code": 9807
+              }
+            },
+            "parameters": [
+              {
+                "name": "Latitude of natural origin",
+                "value": 0,
+                "unit": "degree",
+                "id": {
+                  "authority": "EPSG",
+                  "code": 8801
+                }
+              },
+              {
+                "name": "Longitude of natural origin",
+                "value": -93,
+                "unit": "degree",
+                "id": {
+                  "authority": "EPSG",
+                  "code": 8802
+                }
+              },
+              {
+                "name": "Scale factor at natural origin",
+                "value": 0.9996,
+                "unit": "unity",
+                "id": {
+                  "authority": "EPSG",
+                  "code": 8805
+                }
+              },
+              {
+                "name": "False easting",
+                "value": 500000,
+                "unit": "metre",
+                "id": {
+                  "authority": "EPSG",
+                  "code": 8806
+                }
+              },
+              {
+                "name": "False northing",
+                "value": 0,
+                "unit": "metre",
+                "id": {
+                  "authority": "EPSG",
+                  "code": 8807
+                }
+              }
+            ]
+          },
+          "coordinate_system": {
+            "subtype": "Cartesian",
+            "axis": [
+              {
+                "name": "Easting",
+                "abbreviation": "E",
+                "direction": "east",
+                "unit": "metre"
+              },
+              {
+                "name": "Northing",
+                "abbreviation": "N",
+                "direction": "north",
+                "unit": "metre"
+              }
+            ]
+          },
+          "area": "North America - 96°W to 90°W and NAD83 by country",
+          "bbox": {
+            "south_latitude": 25.61,
+            "west_longitude": -96,
+            "north_latitude": 84,
+            "east_longitude": -90
+          },
+          "id": {
+            "authority": "EPSG",
+            "code": 26915
+          }
+        }
         >>> crs = CRS(proj='utm', zone=10, ellps='WGS84')
         >>> crs.to_proj4()
         '+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs'
@@ -463,6 +595,42 @@ class CRS(_CRS):
         CRS
         """
         return cls(_prepare_from_dict(proj_dict))
+
+    @classmethod
+    def from_json(cls, crs_json):
+        """
+        Create CRS from a CRS JSON string.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        crs_json: str
+            CRS JSON string.
+
+        Returns
+        -------
+        CRS
+        """
+        return cls.from_json_dict(_load_proj_json(crs_json))
+
+    @classmethod
+    def from_json_dict(cls, crs_dict):
+        """
+        Create CRS from a JSON dictionary.
+
+        .. versionadded:: 2.4.0
+
+        Parameters
+        ----------
+        crs_dict: dict
+            CRS dictionary.
+
+        Returns
+        -------
+        CRS
+        """
+        return cls(json.dumps(crs_dict))
 
     def to_dict(self):
         """

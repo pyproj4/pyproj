@@ -1,7 +1,6 @@
 import pytest
-from pkg_resources import parse_version
 
-from pyproj import CRS, proj_version_str
+from pyproj import CRS
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
@@ -876,3 +875,8 @@ def test_to_dict_no_proj4():
     )
     assert crs.to_proj4() is None
     assert crs.to_dict() == {}
+
+
+def test_to_dict_from_dict():
+    cc = CRS.from_epsg(4326)
+    assert CRS.from_dict(cc.to_dict()).name == "unknown"

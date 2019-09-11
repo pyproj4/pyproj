@@ -1,7 +1,8 @@
 import numpy as np
-import pyproj
 import pytest
 from numpy.testing import assert_almost_equal
+
+import pyproj
 from pyproj import Proj, Transformer, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
@@ -435,6 +436,33 @@ def test_repr():
         "Description: unavailable until proj_trans is called\n"
         "Area of Use:\n- undefined"
     )
+
+
+def test_to_json_dict():
+    transformer = Transformer.from_crs(4326, 3857)
+    json_dict = transformer.to_json_dict()
+    assert json_dict["type"] == "Conversion"
+
+
+def test_to_json():
+    transformer = Transformer.from_crs(4326, 3857)
+    json_data = transformer.to_json()
+    assert "Conversion" in json_data
+    assert "\n" not in json_data
+
+
+def test_to_json__pretty():
+    transformer = Transformer.from_crs(4326, 3857)
+    json_data = transformer.to_json(pretty=True)
+    assert "Conversion" in json_data
+    assert json_data.startswith('{\n  "')
+
+
+def test_to_json__pretty__indenation():
+    transformer = Transformer.from_crs(4326, 3857)
+    json_data = transformer.to_json(pretty=True, indentation=4)
+    assert "Conversion" in json_data
+    assert json_data.startswith('{\n    "')
 
 
 def test_transformer_group():
