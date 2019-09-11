@@ -968,7 +968,9 @@ def test_uninitialized_prime_meridian():
 
 def test_uninitialized_coordinate_operation():
     co = CoordinateOperation()
-    co_init = CoordinateOperation.from_string("urn:ogc:def:coordinateOperation:EPSG::1671")
+    co_init = CoordinateOperation.from_string(
+        "urn:ogc:def:coordinateOperation:EPSG::1671"
+    )
     with pytest.raises(CRSError):
         co._set_name()
     with pytest.raises(CRSError):
