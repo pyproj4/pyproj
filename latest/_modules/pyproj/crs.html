@@ -189,11 +189,16 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">CoordinateOperation</span>  <span class="c1"># noqa</span>
-<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">Datum</span>  <span class="c1"># noqa</span>
-<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">Ellipsoid</span>  <span class="c1"># noqa</span>
-<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">PrimeMeridian</span>  <span class="c1"># noqa</span>
-<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="n">_CRS</span><span class="p">,</span> <span class="n">is_proj</span><span class="p">,</span> <span class="n">is_wkt</span>
+<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="k">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
+    <span class="n">_CRS</span><span class="p">,</span>
+    <span class="n">CoordinateOperation</span><span class="p">,</span>
+    <span class="n">Datum</span><span class="p">,</span>
+    <span class="n">Ellipsoid</span><span class="p">,</span>
+    <span class="n">PrimeMeridian</span><span class="p">,</span>
+    <span class="n">_load_proj_json</span><span class="p">,</span>
+    <span class="n">is_proj</span><span class="p">,</span>
+    <span class="n">is_wkt</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.cf1x8</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">GRID_MAPPING_NAME_MAP</span><span class="p">,</span>
     <span class="n">INVERSE_GRID_MAPPING_NAME_MAP</span><span class="p">,</span>
@@ -209,6 +214,9 @@
 
 
 <span class="k">def</span> <span class="nf">_prepare_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">):</span>
+    <span class="c1"># check if it is a PROJ JSON dict</span>
+    <span class="k">if</span> <span class="s2">&quot;proj&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">projparams</span> <span class="ow">and</span> <span class="s2">&quot;init&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">projparams</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
     <span class="c1"># convert a dict to a proj string.</span>
     <span class="n">pjargs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">projparams</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -392,6 +400,130 @@
 <span class="sd">                LENGTHUNIT[&quot;metre&quot;,1],</span>
 <span class="sd">                ID[&quot;EPSG&quot;,8807]],</span>
 <span class="sd">            ID[&quot;EPSG&quot;,16015]]</span>
+<span class="sd">        &gt;&gt;&gt; print(crs_utm.to_json(pretty=True))</span>
+<span class="sd">        {</span>
+<span class="sd">          &quot;$schema&quot;: &quot;https://proj.org/schemas/v0.1/projjson.schema.json&quot;,</span>
+<span class="sd">          &quot;type&quot;: &quot;ProjectedCRS&quot;,</span>
+<span class="sd">          &quot;name&quot;: &quot;NAD83 / UTM zone 15N&quot;,</span>
+<span class="sd">          &quot;base_crs&quot;: {</span>
+<span class="sd">            &quot;name&quot;: &quot;NAD83&quot;,</span>
+<span class="sd">            &quot;datum&quot;: {</span>
+<span class="sd">              &quot;type&quot;: &quot;GeodeticReferenceFrame&quot;,</span>
+<span class="sd">              &quot;name&quot;: &quot;North American Datum 1983&quot;,</span>
+<span class="sd">              &quot;ellipsoid&quot;: {</span>
+<span class="sd">                &quot;name&quot;: &quot;GRS 1980&quot;,</span>
+<span class="sd">                &quot;semi_major_axis&quot;: 6378137,</span>
+<span class="sd">                &quot;inverse_flattening&quot;: 298.257222101</span>
+<span class="sd">              }</span>
+<span class="sd">            },</span>
+<span class="sd">            &quot;coordinate_system&quot;: {</span>
+<span class="sd">              &quot;subtype&quot;: &quot;ellipsoidal&quot;,</span>
+<span class="sd">              &quot;axis&quot;: [</span>
+<span class="sd">                {</span>
+<span class="sd">                  &quot;name&quot;: &quot;Geodetic latitude&quot;,</span>
+<span class="sd">                  &quot;abbreviation&quot;: &quot;Lat&quot;,</span>
+<span class="sd">                  &quot;direction&quot;: &quot;north&quot;,</span>
+<span class="sd">                  &quot;unit&quot;: &quot;degree&quot;</span>
+<span class="sd">                },</span>
+<span class="sd">                {</span>
+<span class="sd">                  &quot;name&quot;: &quot;Geodetic longitude&quot;,</span>
+<span class="sd">                  &quot;abbreviation&quot;: &quot;Lon&quot;,</span>
+<span class="sd">                  &quot;direction&quot;: &quot;east&quot;,</span>
+<span class="sd">                  &quot;unit&quot;: &quot;degree&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">              ]</span>
+<span class="sd">            },</span>
+<span class="sd">            &quot;id&quot;: {</span>
+<span class="sd">              &quot;authority&quot;: &quot;EPSG&quot;,</span>
+<span class="sd">              &quot;code&quot;: 4269</span>
+<span class="sd">            }</span>
+<span class="sd">          },</span>
+<span class="sd">          &quot;conversion&quot;: {</span>
+<span class="sd">            &quot;name&quot;: &quot;UTM zone 15N&quot;,</span>
+<span class="sd">            &quot;method&quot;: {</span>
+<span class="sd">              &quot;name&quot;: &quot;Transverse Mercator&quot;,</span>
+<span class="sd">              &quot;id&quot;: {</span>
+<span class="sd">                &quot;authority&quot;: &quot;EPSG&quot;,</span>
+<span class="sd">                &quot;code&quot;: 9807</span>
+<span class="sd">              }</span>
+<span class="sd">            },</span>
+<span class="sd">            &quot;parameters&quot;: [</span>
+<span class="sd">              {</span>
+<span class="sd">                &quot;name&quot;: &quot;Latitude of natural origin&quot;,</span>
+<span class="sd">                &quot;value&quot;: 0,</span>
+<span class="sd">                &quot;unit&quot;: &quot;degree&quot;,</span>
+<span class="sd">                &quot;id&quot;: {</span>
+<span class="sd">                  &quot;authority&quot;: &quot;EPSG&quot;,</span>
+<span class="sd">                  &quot;code&quot;: 8801</span>
+<span class="sd">                }</span>
+<span class="sd">              },</span>
+<span class="sd">              {</span>
+<span class="sd">                &quot;name&quot;: &quot;Longitude of natural origin&quot;,</span>
+<span class="sd">                &quot;value&quot;: -93,</span>
+<span class="sd">                &quot;unit&quot;: &quot;degree&quot;,</span>
+<span class="sd">                &quot;id&quot;: {</span>
+<span class="sd">                  &quot;authority&quot;: &quot;EPSG&quot;,</span>
+<span class="sd">                  &quot;code&quot;: 8802</span>
+<span class="sd">                }</span>
+<span class="sd">              },</span>
+<span class="sd">              {</span>
+<span class="sd">                &quot;name&quot;: &quot;Scale factor at natural origin&quot;,</span>
+<span class="sd">                &quot;value&quot;: 0.9996,</span>
+<span class="sd">                &quot;unit&quot;: &quot;unity&quot;,</span>
+<span class="sd">                &quot;id&quot;: {</span>
+<span class="sd">                  &quot;authority&quot;: &quot;EPSG&quot;,</span>
+<span class="sd">                  &quot;code&quot;: 8805</span>
+<span class="sd">                }</span>
+<span class="sd">              },</span>
+<span class="sd">              {</span>
+<span class="sd">                &quot;name&quot;: &quot;False easting&quot;,</span>
+<span class="sd">                &quot;value&quot;: 500000,</span>
+<span class="sd">                &quot;unit&quot;: &quot;metre&quot;,</span>
+<span class="sd">                &quot;id&quot;: {</span>
+<span class="sd">                  &quot;authority&quot;: &quot;EPSG&quot;,</span>
+<span class="sd">                  &quot;code&quot;: 8806</span>
+<span class="sd">                }</span>
+<span class="sd">              },</span>
+<span class="sd">              {</span>
+<span class="sd">                &quot;name&quot;: &quot;False northing&quot;,</span>
+<span class="sd">                &quot;value&quot;: 0,</span>
+<span class="sd">                &quot;unit&quot;: &quot;metre&quot;,</span>
+<span class="sd">                &quot;id&quot;: {</span>
+<span class="sd">                  &quot;authority&quot;: &quot;EPSG&quot;,</span>
+<span class="sd">                  &quot;code&quot;: 8807</span>
+<span class="sd">                }</span>
+<span class="sd">              }</span>
+<span class="sd">            ]</span>
+<span class="sd">          },</span>
+<span class="sd">          &quot;coordinate_system&quot;: {</span>
+<span class="sd">            &quot;subtype&quot;: &quot;Cartesian&quot;,</span>
+<span class="sd">            &quot;axis&quot;: [</span>
+<span class="sd">              {</span>
+<span class="sd">                &quot;name&quot;: &quot;Easting&quot;,</span>
+<span class="sd">                &quot;abbreviation&quot;: &quot;E&quot;,</span>
+<span class="sd">                &quot;direction&quot;: &quot;east&quot;,</span>
+<span class="sd">                &quot;unit&quot;: &quot;metre&quot;</span>
+<span class="sd">              },</span>
+<span class="sd">              {</span>
+<span class="sd">                &quot;name&quot;: &quot;Northing&quot;,</span>
+<span class="sd">                &quot;abbreviation&quot;: &quot;N&quot;,</span>
+<span class="sd">                &quot;direction&quot;: &quot;north&quot;,</span>
+<span class="sd">                &quot;unit&quot;: &quot;metre&quot;</span>
+<span class="sd">              }</span>
+<span class="sd">            ]</span>
+<span class="sd">          },</span>
+<span class="sd">          &quot;area&quot;: &quot;North America - 96°W to 90°W and NAD83 by country&quot;,</span>
+<span class="sd">          &quot;bbox&quot;: {</span>
+<span class="sd">            &quot;south_latitude&quot;: 25.61,</span>
+<span class="sd">            &quot;west_longitude&quot;: -96,</span>
+<span class="sd">            &quot;north_latitude&quot;: 84,</span>
+<span class="sd">            &quot;east_longitude&quot;: -90</span>
+<span class="sd">          },</span>
+<span class="sd">          &quot;id&quot;: {</span>
+<span class="sd">            &quot;authority&quot;: &quot;EPSG&quot;,</span>
+<span class="sd">            &quot;code&quot;: 26915</span>
+<span class="sd">          }</span>
+<span class="sd">        }</span>
 <span class="sd">        &gt;&gt;&gt; crs = CRS(proj=&#39;utm&#39;, zone=10, ellps=&#39;WGS84&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; crs.to_proj4()</span>
 <span class="sd">        &#39;+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs&#39;</span>
@@ -619,6 +751,42 @@
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CRS.from_json"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_json">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">crs_json</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create CRS from a CRS JSON string.</span>
+
+<span class="sd">        .. versionadded:: 2.4.0</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        crs_json: str</span>
+<span class="sd">            CRS JSON string.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CRS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">_load_proj_json</span><span class="p">(</span><span class="n">crs_json</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CRS.from_json_dict"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_json_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">crs_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create CRS from a JSON dictionary.</span>
+
+<span class="sd">        .. versionadded:: 2.4.0</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        crs_dict: dict</span>
+<span class="sd">            CRS dictionary.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CRS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.to_dict"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

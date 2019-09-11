@@ -412,6 +412,46 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.transformer.Transformer.to_json">
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param">pretty=False</em>, <em class="sig-param">indentation=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a JSON string.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>str</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The JSON string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.transformer.Transformer.to_json_dict">
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.to_json_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a JSON dictionary.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>dict</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The JSON dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.transformer.Transformer.to_wkt">
 <code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">version=&lt;WktVersion.WKT2_2018: 'WKT2_2018'&gt;</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.to_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
