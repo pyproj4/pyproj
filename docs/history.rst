@@ -6,6 +6,7 @@ Change Log
 * Minimum PROJ version is 6.2.0 (issue #411)
 * Remove global pyproj context (issue #418)
 * Add support for PROJ JSON in `pyproj.crs` objects and `pyproj.Transformer` (pull #432)
+* Add checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
 
 2.3.1
 ~~~~~

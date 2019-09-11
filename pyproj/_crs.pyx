@@ -295,6 +295,10 @@ cdef class Base:
         if self.context != NULL:
             proj_context_destroy(self.context)
 
+    def _ensure_initialized(self):
+        if self.projobj == NULL:
+            raise CRSError("Object not initialized.")
+
     def initialize_context(self):
         """Initialize context for later usage."""
         self.context = proj_context_create()
@@ -304,6 +308,7 @@ cdef class Base:
         """
         Set the name of the PJ
         """
+        self._ensure_initialized()
         # get proj information
         cdef const char* proj_name = proj_get_name(self.projobj)
         self.name = decode_or_undefined(proj_name)
@@ -333,6 +338,7 @@ cdef class Base:
         -------
         str: The WKT string.
         """
+        self._ensure_initialized()
         return _to_wkt(self.context, self.projobj, version, pretty=pretty)
 
     def to_json(self, pretty=False, indentation=2):
@@ -352,6 +358,7 @@ cdef class Base:
         -------
         str: The JSON string.
         """
+        self._ensure_initialized()
         cdef const char* options[3]
         multiline = b"MULTILINE=NO"
         if pretty:
@@ -390,10 +397,14 @@ cdef class Base:
         return self.to_wkt(pretty=True)
 
     def _is_exact_same(self, Base other):
+        self._ensure_initialized()
+        other._ensure_initialized()
         return proj_is_equivalent_to(
             self.projobj, other.projobj, PJ_COMP_STRICT) == 1
 
     def _is_equivalent(self, Base other):
+        self._ensure_initialized()
+        other._ensure_initialized()
         return proj_is_equivalent_to(
             self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
 
@@ -460,6 +471,7 @@ cdef class CoordinateSystem(Base):
         """
         if self._axis_list is not None:
             return self._axis_list
+        self._ensure_initialized()
         self._axis_list = []
         cdef int num_axes = 0
         num_axes = proj_cs_get_axis_count(
@@ -1013,6 +1025,7 @@ cdef class Datum(Base):
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
+        self._ensure_initialized()
         cdef PJ_CONTEXT* context = proj_context_create()
         pyproj_context_initialize(context, True)
         cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
@@ -1036,6 +1049,7 @@ cdef class Datum(Base):
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is False else self._prime_meridian
+        self._ensure_initialized()
         cdef PJ_CONTEXT* context = proj_context_create()
         pyproj_context_initialize(context, True)
         cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
@@ -1448,6 +1462,7 @@ cdef class CoordinateOperation(Base):
         """
         if self._params is not None:
             return self._params
+        self._ensure_initialized()
         self._params = []
         cdef int num_params = 0
         num_params = proj_coordoperation_get_param_count(
@@ -1474,6 +1489,7 @@ cdef class CoordinateOperation(Base):
         """
         if self._grids is not None:
             return self._grids
+        self._ensure_initialized()
         self._grids = []
         cdef int num_grids = 0
         num_grids = proj_coordoperation_get_grid_used_count(
@@ -1500,6 +1516,7 @@ cdef class CoordinateOperation(Base):
         """
         if self._area_of_use is not None:
             return self._area_of_use
+        self._ensure_initialized()
         self._area_of_use = AreaOfUse.create(self.context, self.projobj)
         return self._area_of_use
 
@@ -1517,6 +1534,7 @@ cdef class CoordinateOperation(Base):
         -------
         str: The PROJ string.
         """
+        self._ensure_initialized()
         return _to_proj4(self.context, self.projobj, version)
 
     @property
