@@ -875,3 +875,8 @@ def test_to_dict_no_proj4():
     )
     assert crs.to_proj4() is None
     assert crs.to_dict() == {}
+
+
+def test_to_dict_from_dict():
+    cc = CRS.from_epsg(4326)
+    assert CRS.from_dict(cc.to_dict()).name == "unknown"
