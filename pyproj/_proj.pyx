@@ -79,19 +79,21 @@ cdef class Proj:
         proj_errno_reset(self.projobj)
         for iii in range(ndim):
             # if inputs are nan's, return big number.
-            if lonsdata[iii] != lonsdata[iii] or latsdata[iii] != latsdata[iii]:
-                lonsdata[iii]=1.e30; latsdata[iii]=1.e30
-                if errcheck:
-                    raise ProjError("projection_undefined")
-                continue
-            if proj_angular_input(self.projobj, PJ_FWD):
-                projlonlatin.uv.u = _DG2RAD * lonsdata[iii]
-                projlonlatin.uv.v = _DG2RAD * latsdata[iii]
-            else:
-                projlonlatin.uv.u = lonsdata[iii]
-                projlonlatin.uv.v = latsdata[iii]
-            projxyout = proj_trans(self.projobj, PJ_FWD, projlonlatin)
-            errno = proj_errno(self.projobj)
+            with nogil:
+                if lonsdata[iii] != lonsdata[iii] or latsdata[iii] != latsdata[iii]:
+                    lonsdata[iii]=1.e30; latsdata[iii]=1.e30
+                    if errcheck:
+                        with gil:
+                            raise ProjError("projection_undefined")
+                    continue
+                if proj_angular_input(self.projobj, PJ_FWD):
+                    projlonlatin.uv.u = _DG2RAD * lonsdata[iii]
+                    projlonlatin.uv.v = _DG2RAD * latsdata[iii]
+                else:
+                    projlonlatin.uv.u = lonsdata[iii]
+                    projlonlatin.uv.v = latsdata[iii]
+                projxyout = proj_trans(self.projobj, PJ_FWD, projlonlatin)
+                errno = proj_errno(self.projobj)
             if errcheck and errno:
                 raise ProjError("proj error: {}".format(
                     pystrdecode(proj_errno_string(errno))))
@@ -100,20 +102,22 @@ cdef class Proj:
             # since HUGE_VAL can be 'inf',
             # change it to a real (but very large) number.
             # also check for NaNs.
-            if projxyout.xy.x == HUGE_VAL or\
-                    projxyout.xy.x != projxyout.xy.x or\
-                    projxyout.xy.y == HUGE_VAL or\
-                    projxyout.xy.x != projxyout.xy.x:
-                if errcheck:
-                    raise ProjError("projection_undefined")
-                lonsdata[iii] = 1.e30
-                latsdata[iii] = 1.e30
-            elif proj_angular_output(self.projobj, PJ_FWD):
-                lonsdata[iii] = _RAD2DG * projxyout.xy.x
-                latsdata[iii] = _RAD2DG * projxyout.xy.y
-            else:
-                lonsdata[iii] = projxyout.xy.x
-                latsdata[iii] = projxyout.xy.y
+            with nogil:
+                if projxyout.xy.x == HUGE_VAL or\
+                        projxyout.xy.x != projxyout.xy.x or\
+                        projxyout.xy.y == HUGE_VAL or\
+                        projxyout.xy.x != projxyout.xy.x:
+                    if errcheck:
+                        with gil:
+                            raise ProjError("projection_undefined")
+                    lonsdata[iii] = 1.e30
+                    latsdata[iii] = 1.e30
+                elif proj_angular_output(self.projobj, PJ_FWD):
+                    lonsdata[iii] = _RAD2DG * projxyout.xy.x
+                    latsdata[iii] = _RAD2DG * projxyout.xy.y
+                else:
+                    lonsdata[iii] = projxyout.xy.x
+                    latsdata[iii] = projxyout.xy.y
         ProjError.clear()
 
 

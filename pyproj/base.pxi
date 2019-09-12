@@ -1,10 +1,8 @@
 import math
 
-cdef double _DG2RAD, _RAD2DG
-
-_DG2RAD = math.radians(1.)
-_RAD2DG = math.degrees(1.)
-_DOUBLESIZE = sizeof(double)
+cdef double _DG2RAD = math.radians(1.)
+cdef double _RAD2DG = math.degrees(1.)
+cdef int _DOUBLESIZE = sizeof(double)
 
 cdef extern from "math.h":
     cdef enum:
