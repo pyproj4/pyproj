@@ -7,6 +7,8 @@ Change Log
 * Remove global pyproj context (issue #418)
 * Add support for PROJ JSON in `pyproj.crs` objects and `pyproj.Transformer` (pull #432)
 * Add checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
+* Move doctests code out of `pyproj.__init__` (issue #417)
+* Add version information to `python -m pyproj` (pull #429)
 
 2.3.1
 ~~~~~

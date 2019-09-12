@@ -197,7 +197,11 @@
     <span class="k">except</span> <span class="n">DataDirError</span><span class="p">:</span>
         <span class="n">data_dir</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">blob</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;PROJ&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">proj_version_str</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;data dir&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">)]</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;pyproj&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">__version__</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;PROJ&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">proj_version_str</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;data dir&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">),</span>
+    <span class="p">]</span>
 
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
 
@@ -209,7 +213,7 @@
 <span class="sd">    deps_info: dict</span>
 <span class="sd">        version information on relevant Python libraries</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pyproj&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;setuptools&quot;</span><span class="p">,</span> <span class="s2">&quot;Cython&quot;</span><span class="p">]</span>
+    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;setuptools&quot;</span><span class="p">,</span> <span class="s2">&quot;Cython&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -247,10 +251,10 @@
 <span class="sd">    &gt; python -c &quot;import pyproj; pyproj.show_versions()&quot;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pyproj info:&quot;</span><span class="p">)</span>
+    <span class="n">_print_info_dict</span><span class="p">(</span><span class="n">_get_proj_info</span><span class="p">())</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">System:&quot;</span><span class="p">)</span>
     <span class="n">_print_info_dict</span><span class="p">(</span><span class="n">_get_sys_info</span><span class="p">())</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">PROJ:&quot;</span><span class="p">)</span>
-    <span class="n">_print_info_dict</span><span class="p">(</span><span class="n">_get_proj_info</span><span class="p">())</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python deps:&quot;</span><span class="p">)</span>
     <span class="n">_print_info_dict</span><span class="p">(</span><span class="n">_get_deps_info</span><span class="p">())</span></div>
 </pre></div>
