@@ -64,7 +64,7 @@ __all__ = [
     "get_units_map",
     "show_versions",
 ]
-import sys
+
 import warnings
 
 from pyproj import _datadir
@@ -86,25 +86,3 @@ try:
     _datadir.pyproj_global_context_initialize()
 except DataDirError as err:
     warnings.warn(str(err))
-
-
-def test(**kwargs):
-    """run the examples in the docstrings using the doctest module"""
-    import doctest
-    import pyproj
-
-    verbose = kwargs.get("verbose")
-    failure_count, test_count = doctest.testmod(pyproj.proj, verbose=verbose)
-    failure_count_crs, test_count_crs = doctest.testmod(pyproj.crs, verbose=verbose)
-    failure_count_geod, test_count_geod = doctest.testmod(pyproj.geod, verbose=verbose)
-    failure_count_transform, test_count_transform = doctest.testmod(
-        pyproj.transformer, verbose=verbose
-    )
-
-    return (
-        failure_count + failure_count_crs + failure_count_geod + failure_count_transform
-    )
-
-
-if __name__ == "__main__":
-    sys.exit(test(verbose=True))
