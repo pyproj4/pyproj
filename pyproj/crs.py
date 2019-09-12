@@ -136,6 +136,8 @@ class CRS(_CRS):
     """
     A pythonic Coordinate Reference System manager.
 
+    .. versionadded:: 2.0.0
+
     The functionality is based on other fantastic projects:
 
     * `rasterio <https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx>`_  # noqa: E501
@@ -634,6 +636,8 @@ class CRS(_CRS):
 
     def to_dict(self):
         """
+        .. versionadded:: 2.2.0
+
         Converts the CRS to dictionary of PROJ parameters.
 
         .. warning:: You will likely lose important projection
@@ -677,6 +681,8 @@ class CRS(_CRS):
 
     def to_cf(self, wkt_version="WKT2_2018", errcheck=False):
         """
+        .. versionadded:: 2.2.0
+
         This converts a :obj:`~pyproj.crs.CRS` object
         to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.
 
@@ -770,6 +776,8 @@ class CRS(_CRS):
     @classmethod
     def from_cf(cls, in_cf, errcheck=False):
         """
+        .. versionadded:: 2.2.0
+
         This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
         dict to a :obj:`~pyproj.crs.CRS` object.
 

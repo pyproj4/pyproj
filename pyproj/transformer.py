@@ -40,6 +40,8 @@ class TransformerGroup(_TransformerGroup):
     """
     The TransformerGroup is a set of possible transformers from one CRS to another.
 
+    .. versionadded:: 2.3.0
+
     From PROJ docs::
 
         The operations are sorted with the most relevant ones first: by
@@ -124,6 +126,9 @@ class Transformer:
     is to make repeated transforms faster.
 
     Additionally, it provides multiple methods for initialization.
+
+    .. versionadded:: 2.1.0
+
     """
 
     def __init__(self, base_transformer=None):
@@ -173,6 +178,8 @@ class Transformer:
     @property
     def area_of_use(self):
         """
+        .. versionadded:: 2.3.0
+
         Returns
         -------
         AreaOfUse: The area of use object with associated attributes.
@@ -188,6 +195,10 @@ class Transformer:
         area_of_interest=None,
     ):
         """Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.
+
+        .. versionadded:: 2.1.2 skip_equivalent
+        .. versionadded:: 2.2.0 always_xy
+        .. versionadded:: 2.3.0 area_of_interest
 
         Parameters
         ----------
@@ -229,6 +240,10 @@ class Transformer:
         crs_from, crs_to, skip_equivalent=False, always_xy=False, area_of_interest=None
     ):
         """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
+
+        .. versionadded:: 2.1.2 skip_equivalent
+        .. versionadded:: 2.2.0 always_xy
+        .. versionadded:: 2.3.0 area_of_interest
 
         Parameters
         ----------
@@ -292,6 +307,9 @@ class Transformer:
     ):
         """
         Transform points between two coordinate systems.
+
+        .. versionadded:: 2.1.1 errcheck
+        .. versionadded:: 2.2.0 direction
 
         Parameters
         ----------
@@ -401,6 +419,8 @@ class Transformer:
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
 
+        .. versionadded:: 2.1.1 errcheck
+        .. versionadded:: 2.2.0 direction
 
         Parameters
         ----------
@@ -598,6 +618,9 @@ def transform(
     always_xy=False,
 ):
     """
+    .. versionadded:: 2.1.2 skip_equivalent
+    .. versionadded:: 2.2.0 always_xy
+
     x2, y2, z2 = transform(p1, p2, x1, y1, z1)
 
     Transform points between two coordinate systems defined by the
@@ -701,6 +724,9 @@ def itransform(
     always_xy=False,
 ):
     """
+    .. versionadded:: 2.1.2 skip_equivalent
+    .. versionadded:: 2.2.0 always_xy
+
     points2 = itransform(p1, p2, points1)
     Iterator/generator version of the function pyproj.transform.
     Transform points between two coordinate systems defined by the

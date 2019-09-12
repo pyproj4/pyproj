@@ -88,7 +88,10 @@ def _print_info_dict(info_dict):
 
 
 def show_versions():
-    """Print useful debugging information
+    """
+    .. versionadded:: 2.2.1
+
+    Print useful debugging information
 
     Example
     -------
