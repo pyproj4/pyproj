@@ -169,8 +169,8 @@ cdef class _TransformerGroup:
 cdef _CRS get_transform_crs(_CRS in_crs):
     for sub_crs in in_crs.sub_crs_list:
         if (
-            sub_crs._type != PJ_TYPE_TEMPORAL_CRS and
-            sub_crs._type != PJ_TYPE_VERTICAL_CRS
+            not sub_crs.type_name.startswith("Temporal") and
+            not sub_crs.type_name.startswith("Temporal")
         ):
             return sub_crs.source_crs if sub_crs.is_bound else sub_crs
     return in_crs.source_crs if in_crs.is_bound else in_crs
