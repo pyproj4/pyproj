@@ -515,6 +515,11 @@ def test_transform_group__area_of_interest():
     )
 
 
+def test_transformer_group__get_transform_crs():
+    tg = TransformerGroup("epsg:4258", "epsg:7415")
+    assert len(tg.transformers) == 4
+
+
 def test_transformer__area_of_interest():
     transformer = Transformer.from_crs(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
