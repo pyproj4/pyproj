@@ -295,11 +295,6 @@ cdef class Base:
         if self.context != NULL:
             proj_context_destroy(self.context)
 
-    def initialize_context(self):
-        """Initialize context for later usage."""
-        self.context = proj_context_create()
-        pyproj_context_initialize(self.context, False)
-
     def _set_name(self):
         """
         Set the name of the PJ
@@ -1610,7 +1605,8 @@ cdef class _CRS(Base):
         self.type_name = "undefined"
 
     def __init__(self, proj_string):
-        self.initialize_context()
+        self.context = proj_context_create()
+        pyproj_context_initialize(self.context, False)
         # initialize projection
         self.projobj = proj_create(
             self.context,

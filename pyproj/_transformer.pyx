@@ -273,8 +273,8 @@ cdef class _Transformer(Base):
                     east_lon_degree,
                     north_lat_degree,
                 )
-
-            transformer.initialize_context()
+            transformer.context = proj_context_create()
+            pyproj_context_initialize(transformer.context, False)
             transformer.projobj = proj_create_crs_to_crs(
                 transformer.context,
                 cstrencode(crs_from.srs),
@@ -329,7 +329,8 @@ cdef class _Transformer(Base):
         Create Transformer from a PROJ pipeline string.
         """
         cdef _Transformer transformer = _Transformer()
-        transformer.initialize_context()
+        transformer.context = proj_context_create()
+        pyproj_context_initialize(transformer.context, False)
         # initialize projection
         transformer.projobj = proj_create(
             transformer.context,
