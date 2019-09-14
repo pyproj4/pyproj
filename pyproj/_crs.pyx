@@ -24,6 +24,8 @@ cdef decode_or_undefined(const char* instring):
 
 def is_wkt(proj_string):
     """
+    .. versionadded:: 2.0.0
+
     Check if the input projection string is in the Well-Known Text format.
 
     Parameters
@@ -41,6 +43,8 @@ def is_wkt(proj_string):
 
 def is_proj(proj_string):
     """
+    .. versionadded:: 2.2.2
+
     Check if the input projection string is in the PROJ format.
 
     Parameters
@@ -149,6 +153,8 @@ def _load_proj_json(in_proj_json):
 
 cdef class Axis:
     """
+    .. versionadded:: 2.0.0
+
     Coordinate System Axis
 
     Attributes
@@ -223,6 +229,8 @@ cdef class Axis:
 
 cdef class AreaOfUse:
     """
+    .. versionadded:: 2.0.0
+
     Area of Use for CRS
 
     Attributes
@@ -332,9 +340,9 @@ cdef class Base:
 
     def to_json(self, pretty=False, indentation=2):
         """
-        Convert the object to a JSON string.
-
         .. versionadded:: 2.4.0
+
+        Convert the object to a JSON string.
 
         Parameters
         ----------
@@ -368,9 +376,9 @@ cdef class Base:
 
     def to_json_dict(self):
         """
-        Convert the object to a JSON dictionary.
-
         .. versionadded:: 2.4.0
+
+        Convert the object to a JSON dictionary.
 
         Returns
         -------
@@ -419,6 +427,8 @@ _COORD_SYSTEM_TYPE_MAP = {
 
 cdef class CoordinateSystem(Base):
     """
+    .. versionadded:: 2.2.0
+
     Coordinate System for CRS
 
     Attributes
@@ -477,6 +487,8 @@ cdef class CoordinateSystem(Base):
 
 cdef class Ellipsoid(Base):
     """
+    .. versionadded:: 2.0.0
+
     Ellipsoid for CRS
 
     Attributes
@@ -525,6 +537,8 @@ cdef class Ellipsoid(Base):
     @staticmethod
     def from_authority(auth_name, code):
         """
+        .. versionadded:: 2.2.0
+
         Create an Ellipsoid from an authority code.
 
         Parameters
@@ -560,6 +574,8 @@ cdef class Ellipsoid(Base):
     @staticmethod
     def from_epsg(code):
         """
+        .. versionadded:: 2.2.0
+
         Create an Ellipsoid from an EPSG code.
 
         Parameters
@@ -576,6 +592,8 @@ cdef class Ellipsoid(Base):
     @staticmethod
     def from_string(ellipsoid_string):
         """
+        .. versionadded:: 2.2.0
+
         Create an Ellipsoid from a string.
 
         Examples:
@@ -613,10 +631,10 @@ cdef class Ellipsoid(Base):
     @staticmethod
     def from_json_dict(ellipsoid_dict):
         """
-        Create Ellipsoid from a JSON dictionary.
-
         .. versionadded:: 2.4.0
 
+        Create Ellipsoid from a JSON dictionary.
+  
         Parameters
         ----------
         ellipsoid_dict: str
@@ -631,9 +649,9 @@ cdef class Ellipsoid(Base):
     @staticmethod
     def from_json(ellipsoid_json_str):
         """
-        Create Ellipsoid from a JSON string.
-
         .. versionadded:: 2.4.0
+
+        Create Ellipsoid from a JSON string.
 
         Parameters
         ----------
@@ -690,6 +708,8 @@ cdef class Ellipsoid(Base):
 
 cdef class PrimeMeridian(Base):
     """
+    .. versionadded:: 2.0.0
+
     Prime Meridian for CRS
 
     Attributes
@@ -729,6 +749,8 @@ cdef class PrimeMeridian(Base):
     @staticmethod
     def from_authority(auth_name, code):
         """
+        .. versionadded:: 2.2.0
+
         Create a PrimeMeridian from an authority code.
 
         Parameters
@@ -765,6 +787,8 @@ cdef class PrimeMeridian(Base):
     @staticmethod
     def from_epsg(code):
         """
+        .. versionadded:: 2.2.0
+
         Create a PrimeMeridian from an EPSG code.
 
         Parameters
@@ -781,6 +805,8 @@ cdef class PrimeMeridian(Base):
     @staticmethod
     def from_string(prime_meridian_string):
         """
+        .. versionadded:: 2.2.0
+
         Create an PrimeMeridian from a string.
 
         Examples:
@@ -821,9 +847,9 @@ cdef class PrimeMeridian(Base):
     @staticmethod
     def from_json_dict(prime_meridian_dict):
         """
-        Create PrimeMeridian from a JSON dictionary.
-
         .. versionadded:: 2.4.0
+
+        Create PrimeMeridian from a JSON dictionary.
 
         Parameters
         ----------
@@ -839,9 +865,9 @@ cdef class PrimeMeridian(Base):
     @staticmethod
     def from_json(prime_meridian_json_str):
         """
-        Create PrimeMeridian from a JSON string.
-
         .. versionadded:: 2.4.0
+
+        Create PrimeMeridian from a JSON string.
 
         Parameters
         ----------
@@ -857,6 +883,8 @@ cdef class PrimeMeridian(Base):
 
 cdef class Datum(Base):
     """
+    .. versionadded:: 2.2.0
+
     Datum for CRS. If it is a compound CRS it is the horizontal datum.
 
     Attributes
@@ -984,9 +1012,9 @@ cdef class Datum(Base):
     @staticmethod
     def from_json_dict(datum_dict):
         """
-        Create Datum from a JSON dictionary.
-
         .. versionadded:: 2.4.0
+
+        Create Datum from a JSON dictionary.
 
         Parameters
         ----------
@@ -1002,9 +1030,9 @@ cdef class Datum(Base):
     @staticmethod
     def from_json(datum_json_str):
         """
-        Create Datum from a JSON string.
-
         .. versionadded:: 2.4.0
+
+        Create Datum from a JSON string.
 
         Parameters
         ----------
@@ -1069,6 +1097,8 @@ cdef class Datum(Base):
 
 cdef class Param:
     """
+    .. versionadded:: 2.2.0
+
     Coordinate operation parameter.
 
     Attributes
@@ -1165,6 +1195,8 @@ cdef class Param:
 
 cdef class Grid:
     """
+    .. versionadded:: 2.2.0
+
     Coordinate operation grid.
 
     Attributes
@@ -1245,6 +1277,8 @@ cdef class Grid:
 
 cdef class CoordinateOperation(Base):
     """
+    .. versionadded:: 2.2.0
+
     Coordinate operation for CRS.
 
     Attributes
@@ -1588,6 +1622,8 @@ _CRS_TYPE_MAP = {
 
 cdef class _CRS(Base):
     """
+    .. versionadded:: 2.0.0
+
     The cython CRS class to be used as the base for the
     python CRS class.
     """
@@ -1649,6 +1685,8 @@ cdef class _CRS(Base):
     @property
     def ellipsoid(self):
         """
+        .. versionadded:: 2.2.0
+
         Returns
         -------
         Ellipsoid: The ellipsoid object with associated attributes.
@@ -1672,6 +1710,8 @@ cdef class _CRS(Base):
     @property
     def prime_meridian(self):
         """
+        .. versionadded:: 2.2.0
+
         Returns
         -------
         PrimeMeridian: The CRS prime meridian object with associated attributes.
@@ -1695,6 +1735,8 @@ cdef class _CRS(Base):
     @property
     def datum(self):
         """
+        .. versionadded:: 2.2.0
+
         Returns
         -------
         Datum: The datum.
@@ -1723,6 +1765,8 @@ cdef class _CRS(Base):
     @property
     def coordinate_system(self):
         """
+        .. versionadded:: 2.2.0
+
         Returns
         -------
         CoordinateSystem: The coordinate system.
@@ -1750,6 +1794,8 @@ cdef class _CRS(Base):
     @property
     def coordinate_operation(self):
         """
+        .. versionadded:: 2.2.0
+
         Returns
         -------
         CoordinateOperation: The coordinate operation.
@@ -1801,6 +1847,8 @@ cdef class _CRS(Base):
     @property
     def target_crs(self):
         """
+        .. versionadded:: 2.2.0
+
         Returns
         -------
         CRS: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
@@ -1853,6 +1901,8 @@ cdef class _CRS(Base):
     @property
     def geodetic_crs(self):
         """
+        .. versionadded:: 2.2.0
+
         Returns
         -------
         pyproj.CRS: The the geodeticCRS / geographicCRS from the CRS.
@@ -1935,6 +1985,8 @@ cdef class _CRS(Base):
 
     def to_authority(self, auth_name=None, min_confidence=70):
         """
+        .. versionadded:: 2.2.0
+
         Return the authority name and code best matching the CRS
         or None if it a match is not found.
 
@@ -2032,6 +2084,8 @@ cdef class _CRS(Base):
 
     def _is_crs_property(self, property_name, property_types, sub_crs_index=0):
         """
+        .. versionadded:: 2.2.0
+
         This method will check for a property on the CRS.
         It will check if it has the property on the sub CRS
         if it is a compount CRS and will check if the source CRS
@@ -2103,6 +2157,8 @@ cdef class _CRS(Base):
     @property
     def is_vertical(self):
         """
+        .. versionadded:: 2.2.0
+
         This checks if the CRS is vertical.
         It will check if it has a vertical CRS
         in the sub CRS if it is a compount CRS and will check if 
@@ -2130,6 +2186,8 @@ cdef class _CRS(Base):
     @property
     def is_engineering(self):
         """
+        .. versionadded:: 2.2.0
+
         Returns
         -------
         bool: True if CRS is local/engineering.

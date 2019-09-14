@@ -31,6 +31,8 @@ AreaOfInterest = namedtuple("AreaOfInterest",
     ["west_lon_degree", "south_lat_degree", "east_lon_degree", "north_lat_degree"]
 )
 AreaOfInterest.__doc__ = """
+.. versionadded:: 2.3.0
+
 This is the area of interest for the transformation.
 
 Parameters

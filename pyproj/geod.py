@@ -309,6 +309,8 @@ class Geod(_Geod):
 
     def line_length(self, lons, lats, radians=False):
         """
+        .. versionadded:: 2.3.0
+
         Calculate the total distance between points along a line.
 
         >>> from pyproj import Geod
@@ -342,6 +344,8 @@ class Geod(_Geod):
 
     def line_lengths(self, lons, lats, radians=False):
         """
+        .. versionadded:: 2.3.0
+
         Calculate the distances between points along a line.
 
         >>> from pyproj import Geod
@@ -376,6 +380,8 @@ class Geod(_Geod):
 
     def polygon_area_perimeter(self, lons, lats, radians=False):
         """
+        .. versionadded:: 2.3.0
+
         A simple interface for computing the area (meters^2) and perimeter (meters)
         of a geodesic polygon.
 
@@ -420,6 +426,8 @@ class Geod(_Geod):
 
     def geometry_length(self, geometry, radians=False):
         """
+        .. versionadded:: 2.3.0
+
         Returns the geodesic length (meters) of the shapely geometry.
 
         If it is a Polygon, it will return the sum of the
@@ -463,6 +471,8 @@ class Geod(_Geod):
 
     def geometry_area_perimeter(self, geometry, radians=False):
         """
+        .. versionadded:: 2.3.0
+
         A simple interface for computing the area (meters^2) and perimeter (meters)
         of a geodesic polygon as a shapely geometry.
 
