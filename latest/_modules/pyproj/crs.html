@@ -292,6 +292,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A pythonic Coordinate Reference System manager.</span>
 
+<span class="sd">    .. versionadded:: 2.0.0</span>
+
 <span class="sd">    The functionality is based on other fantastic projects:</span>
 
 <span class="sd">    * `rasterio &lt;https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx&gt;`_  # noqa: E501</span>
@@ -790,6 +792,8 @@
 
 <div class="viewcode-block" id="CRS.to_dict"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.2.0</span>
+
 <span class="sd">        Converts the CRS to dictionary of PROJ parameters.</span>
 
 <span class="sd">        .. warning:: You will likely lose important projection</span>
@@ -833,6 +837,8 @@
 
 <div class="viewcode-block" id="CRS.to_cf"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.to_cf">[docs]</a>    <span class="k">def</span> <span class="nf">to_cf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wkt_version</span><span class="o">=</span><span class="s2">&quot;WKT2_2018&quot;</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.2.0</span>
+
 <span class="sd">        This converts a :obj:`~pyproj.crs.CRS` object</span>
 <span class="sd">        to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.</span>
 
@@ -926,6 +932,8 @@
 <div class="viewcode-block" id="CRS.from_cf"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_cf">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_cf</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_cf</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.2.0</span>
+
 <span class="sd">        This converts a Climate and Forecast (CF) Grid Mapping Version 1.8</span>
 <span class="sd">        dict to a :obj:`~pyproj.crs.CRS` object.</span>
 

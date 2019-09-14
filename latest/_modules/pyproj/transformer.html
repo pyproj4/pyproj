@@ -196,6 +196,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The TransformerGroup is a set of possible transformers from one CRS to another.</span>
 
+<span class="sd">    .. versionadded:: 2.3.0</span>
+
 <span class="sd">    From PROJ docs::</span>
 
 <span class="sd">        The operations are sorted with the most relevant ones first: by</span>
@@ -280,6 +282,9 @@
 <span class="sd">    is to make repeated transforms faster.</span>
 
 <span class="sd">    Additionally, it provides multiple methods for initialization.</span>
+
+<span class="sd">    .. versionadded:: 2.1.0</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_transformer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -329,6 +334,8 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">area_of_use</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.3.0</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        AreaOfUse: The area of use object with associated attributes.</span>
@@ -344,6 +351,10 @@
         <span class="n">area_of_interest</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.</span>
+
+<span class="sd">        .. versionadded:: 2.1.2 skip_equivalent</span>
+<span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
+<span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -385,6 +396,10 @@
         <span class="n">crs_from</span><span class="p">,</span> <span class="n">crs_to</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">area_of_interest</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.</span>
+
+<span class="sd">        .. versionadded:: 2.1.2 skip_equivalent</span>
+<span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
+<span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -448,6 +463,9 @@
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform points between two coordinate systems.</span>
+
+<span class="sd">        .. versionadded:: 2.1.1 errcheck</span>
+<span class="sd">        .. versionadded:: 2.2.0 direction</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -557,6 +575,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Iterator/generator version of the function pyproj.Transformer.transform.</span>
 
+<span class="sd">        .. versionadded:: 2.1.1 errcheck</span>
+<span class="sd">        .. versionadded:: 2.2.0 direction</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -754,6 +774,9 @@
     <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.1.2 skip_equivalent</span>
+<span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
+
 <span class="sd">    x2, y2, z2 = transform(p1, p2, x1, y1, z1)</span>
 
 <span class="sd">    Transform points between two coordinate systems defined by the</span>
@@ -857,6 +880,9 @@
     <span class="n">always_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.1.2 skip_equivalent</span>
+<span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
+
 <span class="sd">    points2 = itransform(p1, p2, points1)</span>
 <span class="sd">    Iterator/generator version of the function pyproj.transform.</span>
 <span class="sd">    Transform points between two coordinate systems defined by the</span>

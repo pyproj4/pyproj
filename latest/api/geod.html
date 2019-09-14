@@ -328,7 +328,10 @@ degrees. Distances are in meters.</p>
 <dl class="method">
 <dt id="pyproj.Geod.geometry_area_perimeter">
 <code class="sig-name descname">geometry_area_perimeter</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_area_perimeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.geometry_area_perimeter" title="Permalink to this definition">¶</a></dt>
-<dd><p>A simple interface for computing the area (meters^2) and perimeter (meters)
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>A simple interface for computing the area (meters^2) and perimeter (meters)
 of a geodesic polygon as a shapely geometry.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -378,7 +381,10 @@ the sum of the areas and perimeters of all geometries.</p>
 <dl class="method">
 <dt id="pyproj.Geod.geometry_length">
 <code class="sig-name descname">geometry_length</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.geometry_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the geodesic length (meters) of the shapely geometry.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>Returns the geodesic length (meters) of the shapely geometry.</p>
 <p>If it is a Polygon, it will return the sum of the
 lengths along the perimeter.
 If it is a MultiPolygon or MultiLine, it will return
@@ -423,7 +429,10 @@ degrees. Distances are in meters.</p>
 <dl class="method">
 <dt id="pyproj.Geod.line_length">
 <code class="sig-name descname">line_length</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.line_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the total distance between points along a line.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>Calculate the total distance between points along a line.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
@@ -455,7 +464,10 @@ degrees. Distances are in meters.</p>
 <dl class="method">
 <dt id="pyproj.Geod.line_lengths">
 <code class="sig-name descname">line_lengths</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.line_lengths" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the distances between points along a line.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>Calculate the distances between points along a line.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">]</span>
@@ -541,7 +553,10 @@ terminus points.</p>
 <dl class="method">
 <dt id="pyproj.Geod.polygon_area_perimeter">
 <code class="sig-name descname">polygon_area_perimeter</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.polygon_area_perimeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.polygon_area_perimeter" title="Permalink to this definition">¶</a></dt>
-<dd><p>A simple interface for computing the area (meters^2) and perimeter (meters)
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>A simple interface for computing the area (meters^2) and perimeter (meters)
 of a geodesic polygon.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
