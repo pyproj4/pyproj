@@ -204,6 +204,9 @@ creating the <a class="reference internal" href="#pyproj.transformer.Transformer
 transforms without needing to re-create them. The goal
 is to make repeated transforms faster.</p>
 <p>Additionally, it provides multiple methods for initialization.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.accuracy">
 <em class="property">property </em><code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyproj.transformer.Transformer.accuracy" title="Permalink to this definition">¶</a></dt>
@@ -218,8 +221,17 @@ is to make repeated transforms faster.</p>
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.area_of_use">
 <em class="property">property </em><code class="sig-name descname">area_of_use</code><a class="headerlink" href="#pyproj.transformer.Transformer.area_of_use" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns: <strong>AreaOfUse</strong>
-:rtype: The area of use object with associated attributes.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>AreaOfUse</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The area of use object with associated attributes.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -248,6 +260,15 @@ is to make repeated transforms faster.</p>
 <dt id="pyproj.transformer.Transformer.from_crs">
 <em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> or input used to create one.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0: </span>area_of_interest</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -293,6 +314,15 @@ Default is false.</p></li>
 <dt id="pyproj.transformer.Transformer.from_proj">
 <em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param">proj_from</em>, <em class="sig-param">proj_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proj</span></code></a> or input used to create one.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0: </span>area_of_interest</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -331,6 +361,12 @@ Default is false.</p></li>
 <dt id="pyproj.transformer.Transformer.itransform">
 <code class="sig-name descname">itransform</code><span class="sig-paren">(</span><em class="sig-param">points</em>, <em class="sig-param">switch=False</em>, <em class="sig-param">time_3rd=False</em>, <em class="sig-param">radians=False</em>, <em class="sig-param">errcheck=False</em>, <em class="sig-param">direction=&lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.itransform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterator/generator version of the function pyproj.Transformer.transform.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>direction</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -487,6 +523,12 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <dt id="pyproj.transformer.Transformer.transform">
 <code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">xx</em>, <em class="sig-param">yy</em>, <em class="sig-param">zz=None</em>, <em class="sig-param">tt=None</em>, <em class="sig-param">radians=False</em>, <em class="sig-param">errcheck=False</em>, <em class="sig-param">direction=&lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform points between two coordinate systems.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>direction</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -557,6 +599,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <dt id="pyproj.transformer.TransformerGroup">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">TransformerGroup</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup" title="Permalink to this definition">¶</a></dt>
 <dd><p>The TransformerGroup is a set of possible transformers from one CRS to another.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
 <p>From PROJ docs:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">operations</span> <span class="n">are</span> <span class="nb">sorted</span> <span class="k">with</span> <span class="n">the</span> <span class="n">most</span> <span class="n">relevant</span> <span class="n">ones</span> <span class="n">first</span><span class="p">:</span> <span class="n">by</span>
 <span class="n">descending</span> <span class="n">area</span> <span class="p">(</span><span class="n">intersection</span> <span class="n">of</span> <span class="n">the</span> <span class="n">transformation</span> <span class="n">area</span> <span class="k">with</span> <span class="n">the</span>
@@ -623,7 +668,10 @@ available due to missing grids.</p>
 <dl class="class">
 <dt id="pyproj.transformer.AreaOfInterest">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">AreaOfInterest</code><a class="headerlink" href="#pyproj.transformer.AreaOfInterest" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the area of interest for the transformation.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>This is the area of interest for the transformation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -666,7 +714,13 @@ available due to missing grids.</p>
 <dl class="function">
 <dt id="pyproj.transformer.transform">
 <code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">p1</em>, <em class="sig-param">p2</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">z=None</em>, <em class="sig-param">tt=None</em>, <em class="sig-param">radians=False</em>, <em class="sig-param">errcheck=False</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>x2, y2, z2 = transform(p1, p2, x1, y1, z1)</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<p>x2, y2, z2 = transform(p1, p2, x1, y1, z1)</p>
 <p>Transform points between two coordinate systems defined by the
 Proj instances p1 and p2.</p>
 <p>The points x1,y1,z1 in the coordinate system defined by p1 are
@@ -754,7 +808,13 @@ z is always meters.</p>
 <dl class="function">
 <dt id="pyproj.transformer.itransform">
 <code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">itransform</code><span class="sig-paren">(</span><em class="sig-param">p1</em>, <em class="sig-param">p2</em>, <em class="sig-param">points</em>, <em class="sig-param">switch=False</em>, <em class="sig-param">time_3rd=False</em>, <em class="sig-param">radians=False</em>, <em class="sig-param">errcheck=False</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#itransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.itransform" title="Permalink to this definition">¶</a></dt>
-<dd><p>points2 = itransform(p1, p2, points1)
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<p>points2 = itransform(p1, p2, points1)
 Iterator/generator version of the function pyproj.transform.
 Transform points between two coordinate systems defined by the
 Proj instances p1 and p2. This function can be used as an alternative
