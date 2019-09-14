@@ -27,6 +27,8 @@ cdef class Base:
     cdef PJ *projobj
     cdef PJ_CONTEXT* context
     cdef readonly object name
+    cdef readonly object remarks
+    cdef readonly object scope
 
 
 cdef class Ellipsoid(Base):

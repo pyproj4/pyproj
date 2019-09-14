@@ -295,6 +295,8 @@ cdef class Base:
         self.projobj = NULL
         self.context = NULL
         self.name = "undefined"
+        self.scope = "undefined"
+        self.remarks = "undefined"
 
     def __dealloc__(self):
         """destroy projection definition"""
@@ -303,13 +305,17 @@ cdef class Base:
         if self.context != NULL:
             proj_context_destroy(self.context)
 
-    def _set_name(self):
+    def _set_base_info(self):
         """
         Set the name of the PJ
         """
         # get proj information
         cdef const char* proj_name = proj_get_name(self.projobj)
         self.name = decode_or_undefined(proj_name)
+        cdef const char* scope = proj_get_scope(self.projobj)
+        self.scope = decode_or_undefined(scope)
+        cdef const char* remarks = proj_get_remarks(self.projobj)
+        self.remarks = decode_or_undefined(remarks)
 
     def to_wkt(self, version="WKT2_2018", pretty=False):
         """
@@ -530,7 +536,7 @@ cdef class Ellipsoid(Base):
         )
         ellips.ellipsoid_loaded = True
         ellips.is_semi_minor_computed = is_semi_minor_computed == 1
-        ellips._set_name()
+        ellips._set_base_info()
         CRSError.clear()
         return ellips
 
@@ -742,7 +748,7 @@ cdef class PrimeMeridian(Base):
             &unit_name,
         )
         prime_meridian.unit_name = decode_or_undefined(unit_name)
-        prime_meridian._set_name()
+        prime_meridian._set_base_info()
         CRSError.clear()
         return prime_meridian
 
@@ -907,7 +913,7 @@ cdef class Datum(Base):
         cdef Datum datum = Datum.__new__(Datum)
         datum.context = context
         datum.projobj = datum_pj
-        datum._set_name()
+        datum._set_base_info()
         return datum
 
     @staticmethod
@@ -1335,7 +1341,7 @@ cdef class CoordinateOperation(Base):
             &out_method_auth_name,
             &out_method_code
         )
-        coord_operation._set_name()
+        coord_operation._set_base_info()
         coord_operation.method_name = decode_or_undefined(out_method_name)
         coord_operation.method_auth_name = decode_or_undefined(out_method_auth_name)
         coord_operation.method_code = decode_or_undefined(out_method_code)
@@ -1658,7 +1664,7 @@ cdef class _CRS(Base):
         self.srs = pystrdecode(proj_string)
         self._type = proj_get_type(self.projobj)
         self.type_name = _CRS_TYPE_MAP[self._type]
-        self._set_name()
+        self._set_base_info()
         CRSError.clear()
 
     @property

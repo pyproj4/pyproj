@@ -195,7 +195,9 @@ cdef extern from "proj.h":
         PJ_TYPE_OTHER_COORDINATE_OPERATION
 
     PJ_TYPE proj_get_type(const PJ *obj)
-    const char * proj_get_name(const PJ *obj)
+    const char* proj_get_name(const PJ *obj)
+    const char* proj_get_remarks(const PJ *obj)
+    const char* proj_get_scope(const PJ *obj)
 
     int proj_is_crs(const PJ *obj)
     PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs)

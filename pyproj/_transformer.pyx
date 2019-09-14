@@ -209,6 +209,7 @@ cdef class _Transformer(Base):
              raise ProjError("Input is not a transformation.")
         cdef PJ_TYPE transformer_type = proj_get_type(self.projobj)
         self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
+        self._set_base_info()
         ProjError.clear()
 
     @property
