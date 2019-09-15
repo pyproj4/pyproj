@@ -937,6 +937,24 @@ the source CRS is vertical if it is a bound CRS.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="pyproj.crs.CRS.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.CRS.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Remarks about object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.CRS.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.CRS.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Scope of object.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="pyproj.crs.CRS.source_crs">
 <code class="sig-name descname">source_crs</code><a class="headerlink" href="#pyproj.crs.CRS.source_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>CRS</strong> – or the source CRS of a CoordinateOperation.
@@ -1368,6 +1386,24 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="pyproj._crs.CoordinateSystem.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Remarks about object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj._crs.CoordinateSystem.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Scope of object.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="pyproj._crs.CoordinateSystem.to_json">
 <code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pretty=False</em>, <em class="sig-param">indentation=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.to_json" title="Permalink to this definition">¶</a></dt>
@@ -1733,10 +1769,37 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 </dd></dl>
 
 <dl class="attribute">
+<dt id="pyproj.crs.CoordinateOperation.operations">
+<code class="sig-name descname">operations</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.operations" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>tuple[CoordinateOperation]: The operations in a concatenated operation.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="pyproj.crs.CoordinateOperation.params">
 <code class="sig-name descname">params</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>list[Param]</strong>
 :rtype: The coordinate operation parameters.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.CoordinateOperation.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Remarks about object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.CoordinateOperation.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Scope of object.</p>
 </dd></dl>
 
 <dl class="method">
@@ -2176,6 +2239,24 @@ ID[“EPSG”,6326]]</p></li>
 :rtype: The CRS prime meridian object with associated attributes.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="pyproj.crs.Datum.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.Datum.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Remarks about object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Datum.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.Datum.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Scope of object.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="pyproj.crs.Datum.to_json">
 <code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pretty=False</em>, <em class="sig-param">indentation=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.to_json" title="Permalink to this definition">¶</a></dt>
@@ -2421,6 +2502,24 @@ ID[“EPSG”,7001]]</p></li>
 <dt id="pyproj.crs.Ellipsoid.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Ellipsoid.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Remarks about object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Ellipsoid.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Scope of object.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -2672,6 +2771,24 @@ ID[“EPSG”,8901]]</p></li>
 <dt id="pyproj.crs.PrimeMeridian.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.PrimeMeridian.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Remarks about object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.PrimeMeridian.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Scope of object.</p>
 </dd></dl>
 
 <dl class="method">
