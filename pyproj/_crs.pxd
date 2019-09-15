@@ -1,5 +1,9 @@
 include "proj.pxi"
 
+
+cdef _get_concatenated_operations(PJ_CONTEXT*context, PJ*concatenated_operation)
+
+
 cdef class Axis:
     cdef readonly object name
     cdef readonly object abbrev
@@ -27,8 +31,8 @@ cdef class Base:
     cdef PJ *projobj
     cdef PJ_CONTEXT* context
     cdef readonly object name
-    cdef readonly object remarks
-    cdef readonly object scope
+    cdef readonly object _remarks
+    cdef readonly object _scope
 
 
 cdef class Ellipsoid(Base):
@@ -104,6 +108,7 @@ cdef class CoordinateOperation(Base):
     cdef readonly object is_instantiable
     cdef readonly object has_ballpark_transformation
     cdef readonly object _towgs84
+    cdef readonly object _operations
 
     @staticmethod
     cdef create(PJ_CONTEXT* context, PJ* coordinate_operation_pj)

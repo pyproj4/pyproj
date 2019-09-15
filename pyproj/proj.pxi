@@ -357,6 +357,11 @@ cdef extern from "proj.h":
                                                double *out_values,
                                                int value_count,
                                                int emit_error_if_incompatible)
+    int proj_concatoperation_get_step_count(PJ_CONTEXT *ctx,
+                                            const PJ *concatoperation)
+    PJ *proj_concatoperation_get_step(PJ_CONTEXT *ctx,
+                                      const PJ *concatoperation,
+                                      int i_step)
 
     ctypedef enum PJ_CATEGORY:
         PJ_CATEGORY_ELLIPSOID,

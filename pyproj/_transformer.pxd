@@ -20,6 +20,7 @@ cdef class _Transformer(Base):
     cdef readonly projections_equivalent
     cdef readonly projections_exact_same
     cdef readonly type_name  
+    cdef readonly object _operations
 
     @staticmethod
     cdef _Transformer _from_pj(
