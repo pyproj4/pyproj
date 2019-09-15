@@ -8,6 +8,8 @@ Change Log
 * Add support for PROJ JSON in `pyproj.crs` objects and `pyproj.Transformer` (pull #432)
 * Move doctests code out of `pyproj.__init__` (issue #417)
 * Add version information to `python -m pyproj` (pull #429)
+* Add `scope` & `remarks` to `pyproj.crs` objects and `pyproj.Transformer` (issue #441)
+* Add `operations` to `pyproj.crs.CoordinateOperation` objects and `pyproj.Transformer` (issue #441)
 * BUG: Add checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
 * BUG: added fix for get_transform_crs when checking type (pull #439)
 
