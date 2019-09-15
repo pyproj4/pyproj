@@ -4,7 +4,6 @@ from numpy.testing import assert_almost_equal
 
 import pyproj
 from pyproj import Proj, Transformer, itransform, transform
-from pyproj.crs import CoordinateOperation
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
