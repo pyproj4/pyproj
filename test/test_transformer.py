@@ -465,6 +465,38 @@ def test_to_json__pretty__indenation():
     assert json_data.startswith('{\n    "')
 
 
+def test_transformer__operations():
+    transformer = Transformer.from_crs(28356, 7856)
+    assert [op.name for op in transformer.operations] == [
+        "Inverse of Map Grid of Australia zone 56",
+        "GDA94 to GDA2020 (1)",
+        "Map Grid of Australia zone 56",
+    ]
+
+
+def test_transformer__operations_missing():
+    assert Transformer.from_crs(7789, 8401).operations == ()
+
+
+def test_transformer__operations__scope_remarks():
+    transformer = Transformer.from_crs(28356, 7856)
+    assert transformer.scope is None
+    assert [op.scope for op in transformer.operations] == [
+        None,
+        "Conformal transformation of GDA94 coordinates that have been derived through "
+        "GNSS CORS.",
+        None,
+    ]
+    assert [op.remarks for op in transformer.operations] == [
+        None,
+        "Scale difference in ppb where 1/billion = 1E-9. Derivation excluded Cocos, "
+        "Christmas and Macquarie Islands but is applied there. See codes 8444-46 for "
+        "equivalents using NTv2 method. See code 8447 for alternative including "
+        "distortion model for Aus only.",
+        None,
+    ]
+
+
 def test_transformer_group():
     trans_group = TransformerGroup(7789, 8401)
     assert len(trans_group.transformers) == 2

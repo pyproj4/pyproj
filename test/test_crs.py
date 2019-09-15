@@ -1,6 +1,6 @@
 import pytest
 
-from pyproj import CRS
+from pyproj import CRS, Transformer
 from pyproj._crs import CoordinateSystem
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.enums import ProjVersion, WktVersion
@@ -890,3 +890,39 @@ def test_to_dict_from_dict():
 def test_incorrectly_initialized(class_type):
     with pytest.raises(RuntimeError):
         class_type()
+
+
+def test_scope__remarks():
+    co = CoordinateOperation.from_epsg("8048")
+    assert "GDA94" in co.scope
+    assert "Scale difference" in co.remarks
+
+
+def test_crs__scope__remarks__missing():
+    cc = CRS(4326)
+    assert cc.scope is None
+    assert cc.remarks is None
+
+
+def test_operations_missing():
+    cc = CRS(("IGNF", "ETRS89UTM28"))
+    assert cc.coordinate_operation.operations == ()
+
+
+def test_operations():
+    transformer = Transformer.from_crs(28356, 7856)
+    coord_op = CoordinateOperation.from_string(transformer.to_wkt())
+    assert coord_op.operations == transformer.operations
+
+
+def test_operations__scope_remarks():
+    transformer = Transformer.from_crs(28356, 7856)
+    coord_op = CoordinateOperation.from_string(transformer.to_wkt())
+    assert coord_op.operations == transformer.operations
+    # scope does not transfer for some reason
+    # assert [op.scope for op in transformer.operations] == [
+    #     op.scope for op in coord_op.operations
+    # ]
+    assert [op.remarks for op in transformer.operations] == [
+        op.remarks for op in coord_op.operations
+    ]

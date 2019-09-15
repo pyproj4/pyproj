@@ -195,7 +195,9 @@ cdef extern from "proj.h":
         PJ_TYPE_OTHER_COORDINATE_OPERATION
 
     PJ_TYPE proj_get_type(const PJ *obj)
-    const char * proj_get_name(const PJ *obj)
+    const char* proj_get_name(const PJ *obj)
+    const char* proj_get_remarks(const PJ *obj)
+    const char* proj_get_scope(const PJ *obj)
 
     int proj_is_crs(const PJ *obj)
     PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs)
@@ -355,6 +357,11 @@ cdef extern from "proj.h":
                                                double *out_values,
                                                int value_count,
                                                int emit_error_if_incompatible)
+    int proj_concatoperation_get_step_count(PJ_CONTEXT *ctx,
+                                            const PJ *concatoperation)
+    PJ *proj_concatoperation_get_step(PJ_CONTEXT *ctx,
+                                      const PJ *concatoperation,
+                                      int i_step)
 
     ctypedef enum PJ_CATEGORY:
         PJ_CATEGORY_ELLIPSOID,

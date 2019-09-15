@@ -5,7 +5,13 @@ cimport cython
 import warnings
 from collections import namedtuple
 
-from pyproj._crs cimport AreaOfUse, Base, _CRS, CoordinateOperation
+from pyproj._crs cimport (
+    AreaOfUse,
+    Base,
+    _CRS,
+    CoordinateOperation,
+    _get_concatenated_operations,
+)
 from pyproj._datadir cimport pyproj_context_initialize
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
@@ -190,6 +196,7 @@ cdef class _Transformer(Base):
         self.projections_equivalent = False
         self.projections_exact_same = False
         self.type_name = "Unknown Transformer"
+        self._operations = None
 
     def _set_radians_io(self):
         self._input_radians.update({
@@ -209,6 +216,7 @@ cdef class _Transformer(Base):
              raise ProjError("Input is not a transformation.")
         cdef PJ_TYPE transformer_type = proj_get_type(self.projobj)
         self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
+        self._set_base_info()
         ProjError.clear()
 
     @property
@@ -242,6 +250,18 @@ cdef class _Transformer(Base):
             return self._area_of_use
         self._area_of_use = AreaOfUse.create(self.context, self.projobj)
         return self._area_of_use
+
+    @property
+    def operations(self):
+        """
+        .. versionadded:: 2.4.0
+
+        tuple[CoordinateOperation]: The operations in a concatenated operation.
+        """
+        if self._operations is not None:
+            return self._operations
+        self._operations = _get_concatenated_operations(self.context, self.projobj)
+        return self._operations
 
     @staticmethod
     def from_crs(

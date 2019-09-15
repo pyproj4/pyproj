@@ -143,6 +143,30 @@ cdef _to_proj4(PJ_CONTEXT* context, PJ* projobj, version):
     return cstrdecode(proj_string)
 
 
+cdef _get_concatenated_operations(PJ_CONTEXT*context, PJ*concatenated_operation):
+    """
+    For a PJ* of type concatenated operation, get the operations
+    """
+    cdef int step_count = proj_concatoperation_get_step_count(
+        context,
+        concatenated_operation,
+    )
+    cdef PJ* operation = NULL
+    cdef PJ_CONTEXT* sub_context = NULL
+    cdef int iii = 0
+    operations = []
+    for iii in range(step_count):
+        sub_context = proj_context_create()
+        pyproj_context_initialize(sub_context, True)
+        operation = proj_concatoperation_get_step(
+            sub_context,
+            concatenated_operation,
+            iii,
+        )
+        operations.append(CoordinateOperation.create(sub_context, operation))
+    CRSError.clear()
+    return tuple(operations)
+
 
 def _load_proj_json(in_proj_json):
     try:
@@ -295,6 +319,8 @@ cdef class Base:
         self.projobj = NULL
         self.context = NULL
         self.name = "undefined"
+        self._scope = None
+        self._remarks = None
 
     def __dealloc__(self):
         """destroy projection definition"""
@@ -303,13 +329,39 @@ cdef class Base:
         if self.context != NULL:
             proj_context_destroy(self.context)
 
-    def _set_name(self):
+    def _set_base_info(self):
         """
         Set the name of the PJ
         """
         # get proj information
         cdef const char* proj_name = proj_get_name(self.projobj)
         self.name = decode_or_undefined(proj_name)
+        cdef const char* scope = proj_get_scope(self.projobj)
+        if scope != NULL:
+            py_scope = pystrdecode(scope)
+            self._scope = py_scope if py_scope else self._scope
+        cdef const char* remarks = proj_get_remarks(self.projobj)
+        if remarks != NULL:
+            py_remarks = pystrdecode(remarks)
+            self._remarks = py_remarks if py_remarks else self._remarks
+
+    @property
+    def remarks(self):
+        """
+        .. versionadded:: 2.4.0
+
+        str: Remarks about object.
+        """
+        return self._remarks
+
+    @property
+    def scope(self):
+        """
+        .. versionadded:: 2.4.0
+
+        str: Scope of object.
+        """
+        return self._scope
 
     def to_wkt(self, version="WKT2_2018", pretty=False):
         """
@@ -530,7 +582,7 @@ cdef class Ellipsoid(Base):
         )
         ellips.ellipsoid_loaded = True
         ellips.is_semi_minor_computed = is_semi_minor_computed == 1
-        ellips._set_name()
+        ellips._set_base_info()
         CRSError.clear()
         return ellips
 
@@ -742,7 +794,7 @@ cdef class PrimeMeridian(Base):
             &unit_name,
         )
         prime_meridian.unit_name = decode_or_undefined(unit_name)
-        prime_meridian._set_name()
+        prime_meridian._set_base_info()
         CRSError.clear()
         return prime_meridian
 
@@ -907,7 +959,7 @@ cdef class Datum(Base):
         cdef Datum datum = Datum.__new__(Datum)
         datum.context = context
         datum.projobj = datum_pj
-        datum._set_name()
+        datum._set_base_info()
         return datum
 
     @staticmethod
@@ -1312,6 +1364,7 @@ cdef class CoordinateOperation(Base):
         self.has_ballpark_transformation = False
         self.accuracy = float("nan")
         self._towgs84 = None
+        self._operations = None
 
     def __init__(self):
         raise RuntimeError(
@@ -1335,7 +1388,7 @@ cdef class CoordinateOperation(Base):
             &out_method_auth_name,
             &out_method_code
         )
-        coord_operation._set_name()
+        coord_operation._set_base_info()
         coord_operation.method_name = decode_or_undefined(out_method_name)
         coord_operation.method_auth_name = decode_or_undefined(out_method_auth_name)
         coord_operation.method_code = decode_or_undefined(out_method_code)
@@ -1600,6 +1653,17 @@ cdef class CoordinateOperation(Base):
         self._towgs84 = [val for val in towgs84_dict.values() if val is not None]
         return self._towgs84
 
+    @property
+    def operations(self):
+        """
+        .. versionadded:: 2.4.0
+
+        tuple[CoordinateOperation]: The operations in a concatenated operation.
+        """
+        if self._operations is not None:
+            return self._operations
+        self._operations = _get_concatenated_operations(self.context, self.projobj)
+        return self._operations
 
 _CRS_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown CRS",
@@ -1658,7 +1722,7 @@ cdef class _CRS(Base):
         self.srs = pystrdecode(proj_string)
         self._type = proj_get_type(self.projobj)
         self.type_name = _CRS_TYPE_MAP[self._type]
-        self._set_name()
+        self._set_base_info()
         CRSError.clear()
 
     @property

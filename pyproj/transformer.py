@@ -186,6 +186,33 @@ class Transformer:
         """
         return self._transformer.area_of_use
 
+    @property
+    def remarks(self):
+        """
+        .. versionadded:: 2.4.0
+
+        str: Remarks about object.
+        """
+        return self._transformer.remarks
+
+    @property
+    def scope(self):
+        """
+        .. versionadded:: 2.4.0
+
+        str: Scope of object.
+        """
+        return self._transformer.scope
+
+    @property
+    def operations(self):
+        """
+        .. versionadded:: 2.4.0
+
+        tuple[CoordinateOperation]: The operations in a concatenated operation.
+        """
+        return self._transformer.operations
+
     @staticmethod
     def from_proj(
         proj_from,
