@@ -70,6 +70,8 @@ import warnings
 from pyproj import _datadir
 from pyproj._list import (  # noqa: F401
     get_angular_units_map,
+    get_authorities,
+    get_codes,
     get_ellps_map,
     get_prime_meridians_map,
     get_proj_operations_map,

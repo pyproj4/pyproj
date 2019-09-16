@@ -3,6 +3,8 @@ This module contains enumerations used in pyproj.
 """
 from enum import Enum
 
+from pyproj._list import PJTypes  # noqa: F401
+
 
 class BaseEnum(Enum):
     @classmethod
