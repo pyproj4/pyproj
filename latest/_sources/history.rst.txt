@@ -11,6 +11,7 @@ Change Log
 * Added `scope` & `remarks` to `pyproj.crs` objects and `pyproj.Transformer` (issue #441)
 * Added `operations` to `pyproj.crs.CoordinateOperation` objects and `pyproj.Transformer` (issue #441)
 * Added :func:`~pyproj.get_authorities` and :func:`~pyproj.get_codes` (issue #440)
+* Release gil in core cython/PROJ code (issue #386)
 * BUG: Add checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
 * BUG: added fix for get_transform_crs when checking type (pull #439)
 
