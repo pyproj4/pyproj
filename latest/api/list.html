@@ -101,6 +101,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-get-prime-meridians-map">pyproj.get_prime_meridians_map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-get-units-map">pyproj.get_units_map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-get-angular-units-map">pyproj.get_angular_units_map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-get-authorities">pyproj.get_authorities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-get-codes">pyproj.get_codes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
@@ -254,6 +256,51 @@
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>angular units supported by PROJ</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-get-authorities">
+<h2>pyproj.get_authorities<a class="headerlink" href="#pyproj-get-authorities" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyproj.get_authorities">
+<code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">get_authorities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.get_authorities" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>list[str]</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Authorities in PROJ database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-get-codes">
+<h2>pyproj.get_codes<a class="headerlink" href="#pyproj-get-codes" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyproj.get_codes">
+<code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">get_codes</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">pj_type</em>, <em class="sig-param">allow_deprecated=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.get_codes" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_name</strong> (<em>str</em>) – The name of the authority.</p></li>
+<li><p><strong>pj_type</strong> (<em>PJType</em>) – The type of object to get the authorities.</p></li>
+<li><p><strong>allow_deprecated</strong> (<em>bool</em><em>, </em><em>optional</em>) – Allow a deprecated code in the return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>list[str]</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Codes associated with authorities in PROJ database.</p>
 </dd>
 </dl>
 </dd></dl>

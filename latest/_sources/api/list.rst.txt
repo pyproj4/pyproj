@@ -30,3 +30,15 @@ pyproj.get_angular_units_map
 ----------------------------
 
 .. autofunction:: pyproj.get_angular_units_map
+
+
+pyproj.get_authorities
+----------------------
+
+.. autofunction:: pyproj.get_authorities
+
+
+pyproj.get_codes
+----------------
+
+.. autofunction:: pyproj.get_codes

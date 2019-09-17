@@ -182,6 +182,8 @@
 
 <div class="viewcode-block" id="WktVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.WktVersion">[docs]</a><span class="k">class</span> <span class="nc">WktVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     .. versionadded:: 2.2.0</span>
+
 <span class="sd">    Supported CRS WKT string versions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -201,6 +203,8 @@
 
 <div class="viewcode-block" id="ProjVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.ProjVersion">[docs]</a><span class="k">class</span> <span class="nc">ProjVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.2.0</span>
+
 <span class="sd">    Supported CRS PROJ string versions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -212,6 +216,8 @@
 
 <div class="viewcode-block" id="TransformDirection"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.TransformDirection">[docs]</a><span class="k">class</span> <span class="nc">TransformDirection</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.2.0</span>
+
 <span class="sd">    Supported transform directions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -221,6 +227,69 @@
     <span class="n">INVERSE</span> <span class="o">=</span> <span class="s2">&quot;INVERSE&quot;</span>
     <span class="c1">#: Do nothing</span>
     <span class="n">IDENT</span> <span class="o">=</span> <span class="s2">&quot;IDENT&quot;</span></div>
+
+
+<span class="k">class</span> <span class="nc">PJType</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.4.0</span>
+
+<span class="sd">    PJ Types for listing codes with :func:`~pyproj.get_codes`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    UNKNOWN</span>
+<span class="sd">    ELLIPSOID</span>
+<span class="sd">    PRIME_MERIDIAN</span>
+<span class="sd">    GEODETIC_REFERENCE_FRAME</span>
+<span class="sd">    DYNAMIC_GEODETIC_REFERENCE_FRAME</span>
+<span class="sd">    VERTICAL_REFERENCE_FRAME</span>
+<span class="sd">    DYNAMIC_VERTICAL_REFERENCE_FRAME</span>
+<span class="sd">    DATUM_ENSEMBLE</span>
+<span class="sd">    CRS</span>
+<span class="sd">    GEODETIC_CRS</span>
+<span class="sd">    GEOCENTRIC_CRS</span>
+<span class="sd">    GEOGRAPHIC_CRS</span>
+<span class="sd">    GEOGRAPHIC_2D_CRS</span>
+<span class="sd">    GEOGRAPHIC_3D_CRS</span>
+<span class="sd">    VERTICAL_CRS</span>
+<span class="sd">    PROJECTED_CRS</span>
+<span class="sd">    COMPOUND_CRS</span>
+<span class="sd">    TEMPORAL_CRS</span>
+<span class="sd">    ENGINEERING_CRS</span>
+<span class="sd">    BOUND_CRS</span>
+<span class="sd">    OTHER_CRS</span>
+<span class="sd">    CONVERSION</span>
+<span class="sd">    TRANSFORMATION</span>
+<span class="sd">    CONCATENATED_OPERATION</span>
+<span class="sd">    OTHER_COORDINATE_OPERATION</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNKNOWN&quot;</span>
+    <span class="n">ELLIPSOID</span> <span class="o">=</span> <span class="s2">&quot;ELLIPSOID&quot;</span>
+    <span class="n">PRIME_MERIDIAN</span> <span class="o">=</span> <span class="s2">&quot;PRIME_MERIDIAN&quot;</span>
+    <span class="n">GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;GEODETIC_REFERENCE_FRAME&quot;</span>
+    <span class="n">DYNAMIC_GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_GEODETIC_REFERENCE_FRAME&quot;</span>
+    <span class="n">VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;VERTICAL_REFERENCE_FRAME&quot;</span>
+    <span class="n">DYNAMIC_VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_VERTICAL_REFERENCE_FRAME&quot;</span>
+    <span class="n">DATUM_ENSEMBLE</span> <span class="o">=</span> <span class="s2">&quot;DATUM_ENSEMBLE&quot;</span>
+    <span class="n">CRS</span> <span class="o">=</span> <span class="s2">&quot;CRS&quot;</span>
+    <span class="n">GEODETIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEODETIC_CRS&quot;</span>
+    <span class="n">GEOCENTRIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOCENTRIC_CRS&quot;</span>
+    <span class="n">GEOGRAPHIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_CRS&quot;</span>
+    <span class="n">GEOGRAPHIC_2D_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_2D_CRS&quot;</span>
+    <span class="n">GEOGRAPHIC_3D_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_3D_CRS&quot;</span>
+    <span class="n">VERTICAL_CRS</span> <span class="o">=</span> <span class="s2">&quot;VERTICAL_CRS&quot;</span>
+    <span class="n">PROJECTED_CRS</span> <span class="o">=</span> <span class="s2">&quot;PROJECTED_CRS&quot;</span>
+    <span class="n">COMPOUND_CRS</span> <span class="o">=</span> <span class="s2">&quot;COMPOUND_CRS&quot;</span>
+    <span class="n">TEMPORAL_CRS</span> <span class="o">=</span> <span class="s2">&quot;TEMPORAL_CRS&quot;</span>
+    <span class="n">ENGINEERING_CRS</span> <span class="o">=</span> <span class="s2">&quot;ENGINEERING_CRS&quot;</span>
+    <span class="n">BOUND_CRS</span> <span class="o">=</span> <span class="s2">&quot;BOUND_CRS&quot;</span>
+    <span class="n">OTHER_CRS</span> <span class="o">=</span> <span class="s2">&quot;OTHER_CRS&quot;</span>
+    <span class="n">CONVERSION</span> <span class="o">=</span> <span class="s2">&quot;CONVERSION&quot;</span>
+    <span class="n">TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;TRANSFORMATION&quot;</span>
+    <span class="n">CONCATENATED_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;CONCATENATED_OPERATION&quot;</span>
+    <span class="n">OTHER_COORDINATE_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;OTHER_COORDINATE_OPERATION&quot;</span>
 </pre></div>
 
            </div>
