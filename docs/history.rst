@@ -5,11 +5,12 @@ Change Log
 ~~~~~
 * Minimum PROJ version is 6.2.0 (issue #411)
 * Remove global pyproj context (issue #418)
-* Add support for PROJ JSON in `pyproj.crs` objects and `pyproj.Transformer` (pull #432)
+* Added support for PROJ JSON in `pyproj.crs` objects and `pyproj.Transformer` (pull #432)
 * Move doctests code out of `pyproj.__init__` (issue #417)
-* Add version information to `python -m pyproj` (pull #429)
-* Add `scope` & `remarks` to `pyproj.crs` objects and `pyproj.Transformer` (issue #441)
-* Add `operations` to `pyproj.crs.CoordinateOperation` objects and `pyproj.Transformer` (issue #441)
+* Added version information to `python -m pyproj` (pull #429)
+* Added `scope` & `remarks` to `pyproj.crs` objects and `pyproj.Transformer` (issue #441)
+* Added `operations` to `pyproj.crs.CoordinateOperation` objects and `pyproj.Transformer` (issue #441)
+* Added :func:`~pyproj.get_authorities` and :func:`~pyproj.get_codes` (issue #440)
 * BUG: Add checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
 * BUG: added fix for get_transform_crs when checking type (pull #439)
 

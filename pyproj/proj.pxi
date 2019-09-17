@@ -298,6 +298,13 @@ cdef extern from "proj.h":
         const char  *id
         const char  *defn
     const PJ_PRIME_MERIDIANS *proj_list_prime_meridians()
+    ctypedef char **PROJ_STRING_LIST
+    void proj_string_list_destroy(PROJ_STRING_LIST list)
+    PROJ_STRING_LIST proj_get_authorities_from_database(PJ_CONTEXT *ctx)
+    PROJ_STRING_LIST proj_get_codes_from_database(PJ_CONTEXT *ctx,
+                                                  const char *auth_name,
+                                                  PJ_TYPE type,
+                                                  int allow_deprecated)
 
     PJ *proj_crs_get_coordoperation(PJ_CONTEXT *ctx,
                                     const PJ *crs)
