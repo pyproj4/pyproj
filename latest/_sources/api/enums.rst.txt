@@ -11,3 +11,7 @@ Enumerations
 
 .. autoclass:: pyproj.enums.TransformDirection
     :members:
+
+
+.. autoclass:: pyproj.enums.PJTypes
+    :members:
