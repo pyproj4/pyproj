@@ -11,7 +11,7 @@ from pyproj import (
     get_units_map,
 )
 from pyproj._list import Unit
-from pyproj.enums import PJTypes
+from pyproj.enums import PJType
 
 
 def test_units_map():
@@ -52,10 +52,14 @@ def test_get_authorities():
 @pytest.mark.parametrize(
     "auth, pj_type, deprecated",
     [
-        ("IGNF", PJTypes.ELLIPSOID, False),
-        ("EPSG", PJTypes.CRS, False),
-        ("EPSG", PJTypes.CRS, True),
-        ("PROJ", PJTypes.ELLIPSOID, False),
+        ("IGNF", PJType.ELLIPSOID, False),
+        ("EPSG", PJType.CRS, False),
+        ("EPSG", PJType.CRS, True),
+        ("PROJ", PJType.ELLIPSOID, False),
+        ("IGNF", "ELLIPSOID", False),
+        ("EPSG", "CRS", False),
+        ("EPSG", "crs", True),
+        ("PROJ", "ellipsoid", False),
     ],
 )
 def test_get_codes(auth, pj_type, deprecated):
@@ -64,13 +68,17 @@ def test_get_codes(auth, pj_type, deprecated):
 
 @pytest.mark.parametrize(
     "auth, pj_type",
-    [("blob", 123), ("PROJ", PJTypes.BOUND_CRS), ("ITRF", PJTypes.BOUND_CRS)],
+    [("blob", "BOUND_CRS"), ("PROJ", PJType.BOUND_CRS), ("ITRF", PJType.BOUND_CRS)],
 )
 def test_get_codes__empty(auth, pj_type):
     assert not get_codes(auth, pj_type)
 
 
-@pytest.mark.parametrize("auth, pj_type", [(123, 123), ("ITRF", "frank")])
-def test_get_codes__invalid_input(auth, pj_type):
+def test_get_codes__invalid_auth():
     with pytest.raises(TypeError):
-        get_codes(auth, pj_type)
+        get_codes(123, PJType.BOUND_CRS)
+
+
+def test_get_codes__invalid_code():
+    with pytest.raises(ValueError):
+        get_codes("ITRF", "frank")

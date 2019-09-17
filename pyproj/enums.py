@@ -3,8 +3,6 @@ This module contains enumerations used in pyproj.
 """
 from enum import Enum
 
-from pyproj._list import PJTypes  # noqa: F401
-
 
 class BaseEnum(Enum):
     @classmethod
@@ -28,6 +26,8 @@ class BaseEnum(Enum):
 
 class WktVersion(BaseEnum):
     """
+     .. versionadded:: 2.2.0
+
     Supported CRS WKT string versions
     """
 
@@ -47,6 +47,8 @@ class WktVersion(BaseEnum):
 
 class ProjVersion(BaseEnum):
     """
+    .. versionadded:: 2.2.0
+
     Supported CRS PROJ string versions
     """
 
@@ -58,6 +60,8 @@ class ProjVersion(BaseEnum):
 
 class TransformDirection(BaseEnum):
     """
+    .. versionadded:: 2.2.0
+
     Supported transform directions
     """
 
@@ -67,3 +71,66 @@ class TransformDirection(BaseEnum):
     INVERSE = "INVERSE"
     #: Do nothing
     IDENT = "IDENT"
+
+
+class PJType(BaseEnum):
+    """
+    .. versionadded:: 2.4.0
+
+    PJ Types for listing codes with :func:`~pyproj.get_codes`
+
+    Attributes
+    ----------
+    UNKNOWN
+    ELLIPSOID
+    PRIME_MERIDIAN
+    GEODETIC_REFERENCE_FRAME
+    DYNAMIC_GEODETIC_REFERENCE_FRAME
+    VERTICAL_REFERENCE_FRAME
+    DYNAMIC_VERTICAL_REFERENCE_FRAME
+    DATUM_ENSEMBLE
+    CRS
+    GEODETIC_CRS
+    GEOCENTRIC_CRS
+    GEOGRAPHIC_CRS
+    GEOGRAPHIC_2D_CRS
+    GEOGRAPHIC_3D_CRS
+    VERTICAL_CRS
+    PROJECTED_CRS
+    COMPOUND_CRS
+    TEMPORAL_CRS
+    ENGINEERING_CRS
+    BOUND_CRS
+    OTHER_CRS
+    CONVERSION
+    TRANSFORMATION
+    CONCATENATED_OPERATION
+    OTHER_COORDINATE_OPERATION
+
+    """
+
+    UNKNOWN = "UNKNOWN"
+    ELLIPSOID = "ELLIPSOID"
+    PRIME_MERIDIAN = "PRIME_MERIDIAN"
+    GEODETIC_REFERENCE_FRAME = "GEODETIC_REFERENCE_FRAME"
+    DYNAMIC_GEODETIC_REFERENCE_FRAME = "DYNAMIC_GEODETIC_REFERENCE_FRAME"
+    VERTICAL_REFERENCE_FRAME = "VERTICAL_REFERENCE_FRAME"
+    DYNAMIC_VERTICAL_REFERENCE_FRAME = "DYNAMIC_VERTICAL_REFERENCE_FRAME"
+    DATUM_ENSEMBLE = "DATUM_ENSEMBLE"
+    CRS = "CRS"
+    GEODETIC_CRS = "GEODETIC_CRS"
+    GEOCENTRIC_CRS = "GEOCENTRIC_CRS"
+    GEOGRAPHIC_CRS = "GEOGRAPHIC_CRS"
+    GEOGRAPHIC_2D_CRS = "GEOGRAPHIC_2D_CRS"
+    GEOGRAPHIC_3D_CRS = "GEOGRAPHIC_3D_CRS"
+    VERTICAL_CRS = "VERTICAL_CRS"
+    PROJECTED_CRS = "PROJECTED_CRS"
+    COMPOUND_CRS = "COMPOUND_CRS"
+    TEMPORAL_CRS = "TEMPORAL_CRS"
+    ENGINEERING_CRS = "ENGINEERING_CRS"
+    BOUND_CRS = "BOUND_CRS"
+    OTHER_CRS = "OTHER_CRS"
+    CONVERSION = "CONVERSION"
+    TRANSFORMATION = "TRANSFORMATION"
+    CONCATENATED_OPERATION = "CONCATENATED_OPERATION"
+    OTHER_COORDINATE_OPERATION = "OTHER_COORDINATE_OPERATION"
