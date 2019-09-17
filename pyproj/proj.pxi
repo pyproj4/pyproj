@@ -35,10 +35,10 @@ cdef extern from "proj.h":
     ctypedef void (*PJ_LOG_FUNCTION)(void *, int, const char *)
     void proj_log_func (PJ_CONTEXT *ctx, void *app_data, PJ_LOG_FUNCTION logf)
 
-    int proj_errno (const PJ *P)
+    int proj_errno (const PJ *P) nogil
     int proj_context_errno (PJ_CONTEXT *ctx)
     const char * proj_errno_string (int err)
-    int  proj_errno_reset (const PJ *P)
+    int  proj_errno_reset (const PJ *P) nogil
     PJ *proj_create (PJ_CONTEXT *ctx, const char *definition)
     PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj)
 
@@ -101,9 +101,9 @@ cdef extern from "proj.h":
         PJ_IDENT =  0 # Do nothing
         PJ_INV   = -1 # Inverse
 
-    int proj_angular_input (PJ *P, PJ_DIRECTION dir)
-    int proj_angular_output (PJ *P, PJ_DIRECTION dir)
-    PJ_COORD proj_trans (PJ *P, PJ_DIRECTION direction, PJ_COORD coord)
+    int proj_angular_input (PJ *P, PJ_DIRECTION dir) nogil
+    int proj_angular_output (PJ *P, PJ_DIRECTION dir) nogil
+    PJ_COORD proj_trans (PJ *P, PJ_DIRECTION direction, PJ_COORD coord) nogil
     size_t proj_trans_generic (
         PJ *P,
         PJ_DIRECTION direction,
@@ -111,7 +111,7 @@ cdef extern from "proj.h":
         double *y, size_t sy, size_t ny,
         double *z, size_t sz, size_t nz,
         double *t, size_t st, size_t nt
-    )
+    ) nogil
     ctypedef struct PJ_AREA
     PJ *proj_create_crs_to_crs(PJ_CONTEXT *ctx, const char *source_crs, const char *target_crs, PJ_AREA *area)
 

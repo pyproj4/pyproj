@@ -66,33 +66,34 @@ cdef class Geod:
         latsdata = <double *>latdata
         azdata = <double *>azdat
         distdata = <double *>distdat
-        for iii in range(ndim):
-            if not radians:
-                lon1 = lonsdata[iii]
-                lat1 = latsdata[iii]
-                az1 = azdata[iii]
-                s12 = distdata[iii]
-            else:
-                lon1 = _RAD2DG * lonsdata[iii]
-                lat1 = _RAD2DG * latsdata[iii]
-                az1 = _RAD2DG * azdata[iii]
-                s12 = distdata[iii]
-            geod_direct(&self._geod_geodesic, lat1, lon1, az1, s12,\
-                   &plat2, &plon2, &pazi2)
-            # back azimuth needs to be flipped 180 degrees
-            # to match what proj4 geod utility produces.
-            if pazi2 > 0:
-                pazi2 = pazi2 - 180.
-            elif pazi2 <= 0:
-                pazi2 = pazi2 + 180.
-            if not radians:
-                lonsdata[iii] = plon2
-                latsdata[iii] = plat2
-                azdata[iii] = pazi2
-            else:
-                lonsdata[iii] = _DG2RAD * plon2
-                latsdata[iii] = _DG2RAD * plat2
-                azdata[iii] = _DG2RAD * pazi2
+        with nogil:
+            for iii in range(ndim):
+                if not radians:
+                    lon1 = lonsdata[iii]
+                    lat1 = latsdata[iii]
+                    az1 = azdata[iii]
+                    s12 = distdata[iii]
+                else:
+                    lon1 = _RAD2DG * lonsdata[iii]
+                    lat1 = _RAD2DG * latsdata[iii]
+                    az1 = _RAD2DG * azdata[iii]
+                    s12 = distdata[iii]
+                geod_direct(&self._geod_geodesic, lat1, lon1, az1, s12,\
+                    &plat2, &plon2, &pazi2)
+                # back azimuth needs to be flipped 180 degrees
+                # to match what proj4 geod utility produces.
+                if pazi2 > 0:
+                    pazi2 = pazi2 - 180.
+                elif pazi2 <= 0:
+                    pazi2 = pazi2 + 180.
+                if not radians:
+                    lonsdata[iii] = plon2
+                    latsdata[iii] = plat2
+                    azdata[iii] = pazi2
+                else:
+                    lonsdata[iii] = _DG2RAD * plon2
+                    latsdata[iii] = _DG2RAD * plat2
+                    azdata[iii] = _DG2RAD * pazi2
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -129,35 +130,36 @@ cdef class Geod:
         latsdata = <double *>latdata
         azdata = <double *>azdat
         distdata = <double *>distdat
-        for iii in range(ndim):
-            if radians:
-                lon1 = _RAD2DG * lonsdata[iii]
-                lat1 = _RAD2DG * latsdata[iii]
-                lon2 = _RAD2DG * azdata[iii]
-                lat2 = _RAD2DG * distdata[iii]
-            else:
-                lon1 = lonsdata[iii]
-                lat1 = latsdata[iii]
-                lon2 = azdata[iii]
-                lat2 = distdata[iii]
-            geod_inverse(
-                &self._geod_geodesic,
-                lat1, lon1, lat2, lon2,
-                &ps12, &pazi1, &pazi2,
-            )
-            # back azimuth needs to be flipped 180 degrees
-            # to match what proj4 geod utility produces.
-            if pazi2 > 0:
-                pazi2 = pazi2-180.
-            elif pazi2 <= 0:
-                pazi2 = pazi2+180.
-            if radians:
-                lonsdata[iii] = _DG2RAD * pazi1
-                latsdata[iii] = _DG2RAD * pazi2
-            else:
-                lonsdata[iii] = pazi1
-                latsdata[iii] = pazi2
-            azdata[iii] = ps12
+        with nogil:
+            for iii in range(ndim):
+                if radians:
+                    lon1 = _RAD2DG * lonsdata[iii]
+                    lat1 = _RAD2DG * latsdata[iii]
+                    lon2 = _RAD2DG * azdata[iii]
+                    lat2 = _RAD2DG * distdata[iii]
+                else:
+                    lon1 = lonsdata[iii]
+                    lat1 = latsdata[iii]
+                    lon2 = azdata[iii]
+                    lat2 = distdata[iii]
+                geod_inverse(
+                    &self._geod_geodesic,
+                    lat1, lon1, lat2, lon2,
+                    &ps12, &pazi1, &pazi2,
+                )
+                # back azimuth needs to be flipped 180 degrees
+                # to match what proj4 geod utility produces.
+                if pazi2 > 0:
+                    pazi2 = pazi2-180.
+                elif pazi2 <= 0:
+                    pazi2 = pazi2+180.
+                if radians:
+                    lonsdata[iii] = _DG2RAD * pazi1
+                    latsdata[iii] = _DG2RAD * pazi2
+                else:
+                    lonsdata[iii] = pazi1
+                    latsdata[iii] = pazi2
+                azdata[iii] = ps12
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -176,12 +178,13 @@ cdef class Geod:
         # do inverse computation to set azimuths, distance.
         # in proj 4.9.3 and later the next two steps can be replace by a call
         # to geod_inverseline with del_s = line.s13/(npts+1)
-        geod_inverse(
-            &self._geod_geodesic,
-            lat1, lon1, lat2, lon2,
-            &ps12, &pazi1, &pazi2,
-        )
-        geod_lineinit(&line, &self._geod_geodesic, lat1, lon1, pazi1, 0u)
+        with nogil:
+            geod_inverse(
+                &self._geod_geodesic,
+                lat1, lon1, lat2, lon2,
+                &ps12, &pazi1, &pazi2,
+            )
+            geod_lineinit(&line, &self._geod_geodesic, lat1, lon1, pazi1, 0u)
         # distance increment.
         del_s = ps12 / (npts + 1)
         # initialize output tuples.
@@ -242,25 +245,25 @@ cdef class Geod:
         if ndim == 1:
             lonsdata[0] = 0
             return 0.0
-
-        for iii in range(ndim - 1):
-            if radians:
-                lon1 = _RAD2DG * lonsdata[iii]
-                lat1 = _RAD2DG * latsdata[iii]
-                lon2 = _RAD2DG * lonsdata[iii + 1]
-                lat2 = _RAD2DG * latsdata[iii + 1]
-            else:
-                lon1 = lonsdata[iii]
-                lat1 = latsdata[iii]
-                lon2 = lonsdata[iii + 1]
-                lat2 = latsdata[iii + 1]
-            geod_inverse(
-                &self._geod_geodesic,
-                lat1, lon1, lat2, lon2,
-                &ps12, &pazi1, &pazi2,
-            )
-            lonsdata[iii] = ps12
-            total_distance += ps12
+        with nogil:
+            for iii in range(ndim - 1):
+                if radians:
+                    lon1 = _RAD2DG * lonsdata[iii]
+                    lat1 = _RAD2DG * latsdata[iii]
+                    lon2 = _RAD2DG * lonsdata[iii + 1]
+                    lat2 = _RAD2DG * latsdata[iii + 1]
+                else:
+                    lon1 = lonsdata[iii]
+                    lat1 = latsdata[iii]
+                    lon2 = lonsdata[iii + 1]
+                    lat2 = latsdata[iii + 1]
+                geod_inverse(
+                    &self._geod_geodesic,
+                    lat1, lon1, lat2, lon2,
+                    &ps12, &pazi1, &pazi2,
+                )
+                lonsdata[iii] = ps12
+                total_distance += ps12
         return total_distance
 
     @cython.boundscheck(False)
@@ -310,16 +313,17 @@ cdef class Geod:
 
         lonsdata = <double *>londata
         latsdata = <double *>latdata
-        if radians:
-            for iii in range(ndim):
-                lonsdata[iii] *= _RAD2DG
-                latsdata[iii] *= _RAD2DG
+        with nogil:
+            if radians:
+                for iii in range(ndim):
+                    lonsdata[iii] *= _RAD2DG
+                    latsdata[iii] *= _RAD2DG
 
-        geod_polygonarea(
-            &self._geod_geodesic,
-            latsdata, lonsdata, ndim, 
-            &polygon_area, &polygon_perimeter
-        )
+            geod_polygonarea(
+                &self._geod_geodesic,
+                latsdata, lonsdata, ndim, 
+                &polygon_area, &polygon_perimeter
+            )
         return (polygon_area, polygon_perimeter)
 
 
