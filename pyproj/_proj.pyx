@@ -76,10 +76,10 @@ cdef class Proj:
         ndim = buflenx//_DOUBLESIZE
         lonsdata = <double *>londata
         latsdata = <double *>latdata
-        proj_errno_reset(self.projobj)
-        for iii in range(ndim):
-            # if inputs are nan's, return big number.
-            with nogil:
+        with nogil:
+            proj_errno_reset(self.projobj)
+            for iii in range(ndim):
+                # if inputs are nan's, return big number.
                 if lonsdata[iii] != lonsdata[iii] or latsdata[iii] != latsdata[iii]:
                     lonsdata[iii]=1.e30; latsdata[iii]=1.e30
                     if errcheck:
@@ -94,15 +94,16 @@ cdef class Proj:
                     projlonlatin.uv.v = latsdata[iii]
                 projxyout = proj_trans(self.projobj, PJ_FWD, projlonlatin)
                 errno = proj_errno(self.projobj)
-            if errcheck and errno:
-                raise ProjError("proj error: {}".format(
-                    pystrdecode(proj_errno_string(errno))))
-            elif errcheck and ProjError.internal_proj_error is not None:
-                raise ProjError("proj error")
-            # since HUGE_VAL can be 'inf',
-            # change it to a real (but very large) number.
-            # also check for NaNs.
-            with nogil:
+                if errcheck and errno:
+                    raise ProjError("proj error: {}".format(
+                        pystrdecode(proj_errno_string(errno))))
+                elif errcheck:
+                    with gil:
+                        if ProjError.internal_proj_error is not None:
+                            raise ProjError("proj error")
+                # since HUGE_VAL can be 'inf',
+                # change it to a real (but very large) number.
+                # also check for NaNs.
                 if projxyout.xy.x == HUGE_VAL or\
                         projxyout.xy.x != projxyout.xy.x or\
                         projxyout.xy.y == HUGE_VAL or\
@@ -154,46 +155,51 @@ cdef class Proj:
         ndim = buflenx//_DOUBLESIZE
         xdatab = <double *>xdata
         ydatab = <double *>ydata
-        # reset errors potentially left over
-        proj_errno_reset(self.projobj)
-
-        for iii in range(ndim):
-            # if inputs are nan's, return big number.
-            if xdatab[iii] != xdatab[iii] or ydatab[iii] != ydatab[iii]:
-                xdatab[iii]=1.e30; ydatab[iii]=1.e30
-                if errcheck:
-                    raise ProjError("projection_undefined")
-                continue
-            if proj_angular_input(self.projobj, PJ_INV):
-                projxyin.uv.u = _DG2RAD * xdatab[iii]
-                projxyin.uv.v = _DG2RAD * ydatab[iii]
-            else:
-                projxyin.uv.u = xdatab[iii]
-                projxyin.uv.v = ydatab[iii]
-            projlonlatout = proj_trans(self.projobj, PJ_INV, projxyin)
-            errno = proj_errno(self.projobj)
-            if errcheck and errno:
-                raise ProjError("proj error: {}".format(
-                    pystrdecode(proj_errno_string(errno))))
-            elif errcheck and ProjError.internal_proj_error is not None:
-                raise ProjError("proj error")
-            # since HUGE_VAL can be 'inf',
-            # change it to a real (but very large) number.
-            # also check for NaNs.
-            if projlonlatout.uv.u == HUGE_VAL or \
-                    projlonlatout.uv.u != projlonlatout.uv.u or \
-                    projlonlatout.uv.v == HUGE_VAL or \
-                    projlonlatout.uv.v != projlonlatout.uv.v:
-                if errcheck:
-                    raise ProjError("projection_undefined")
-                xdatab[iii] = 1.e30
-                ydatab[iii] = 1.e30
-            elif proj_angular_output(self.projobj, PJ_INV):
-                xdatab[iii] = _RAD2DG * projlonlatout.uv.u
-                ydatab[iii] = _RAD2DG * projlonlatout.uv.v
-            else:
-                xdatab[iii] = projlonlatout.uv.u
-                ydatab[iii] = projlonlatout.uv.v
+        with nogil:
+            # reset errors potentially left over
+            proj_errno_reset(self.projobj)
+            for iii in range(ndim):
+                # if inputs are nan's, return big number.
+                if xdatab[iii] != xdatab[iii] or ydatab[iii] != ydatab[iii]:
+                    xdatab[iii]=1.e30; ydatab[iii]=1.e30
+                    if errcheck:
+                        with gil:
+                            raise ProjError("projection_undefined")
+                    continue
+                if proj_angular_input(self.projobj, PJ_INV):
+                    projxyin.uv.u = _DG2RAD * xdatab[iii]
+                    projxyin.uv.v = _DG2RAD * ydatab[iii]
+                else:
+                    projxyin.uv.u = xdatab[iii]
+                    projxyin.uv.v = ydatab[iii]
+                projlonlatout = proj_trans(self.projobj, PJ_INV, projxyin)
+                errno = proj_errno(self.projobj)
+                if errcheck and errno:
+                    with gil:
+                        raise ProjError("proj error: {}".format(
+                            pystrdecode(proj_errno_string(errno))))
+                elif errcheck:
+                    with gil:
+                        if ProjError.internal_proj_error is not None:
+                            raise ProjError("proj error")
+                # since HUGE_VAL can be 'inf',
+                # change it to a real (but very large) number.
+                # also check for NaNs.
+                if projlonlatout.uv.u == HUGE_VAL or \
+                        projlonlatout.uv.u != projlonlatout.uv.u or \
+                        projlonlatout.uv.v == HUGE_VAL or \
+                        projlonlatout.uv.v != projlonlatout.uv.v:
+                    if errcheck:
+                        with gil:
+                            raise ProjError("projection_undefined")
+                    xdatab[iii] = 1.e30
+                    ydatab[iii] = 1.e30
+                elif proj_angular_output(self.projobj, PJ_INV):
+                    xdatab[iii] = _RAD2DG * projlonlatout.uv.u
+                    ydatab[iii] = _RAD2DG * projlonlatout.uv.v
+                else:
+                    xdatab[iii] = projlonlatout.uv.u
+                    ydatab[iii] = projlonlatout.uv.v
         ProjError.clear()
 
     def __repr__(self):
