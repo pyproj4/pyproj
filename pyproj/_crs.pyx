@@ -563,7 +563,7 @@ cdef class Ellipsoid(Base):
 
     def __init__(self):
         raise RuntimeError(
-            "Ellipsoid can only be intialized like 'Ellipsoid.from_*()'."
+            "Ellipsoid can only be initialized like 'Ellipsoid.from_*()'."
         )
 
     @staticmethod
@@ -777,7 +777,7 @@ cdef class PrimeMeridian(Base):
 
     def __init__(self):
         raise RuntimeError(
-            "PrimeMeridian can only be intialized like 'PrimeMeridian.from_*()'."
+            "PrimeMeridian can only be initialized like 'PrimeMeridian.from_*()'."
         )
 
     @staticmethod
@@ -951,7 +951,7 @@ cdef class Datum(Base):
 
     def __init__(self):
         raise RuntimeError(
-            "Datum can only be intialized like 'Datum.from_*()'."
+            "Datum can only be initialized like 'Datum.from_*()'."
         )
 
     @staticmethod
@@ -1368,7 +1368,7 @@ cdef class CoordinateOperation(Base):
 
     def __init__(self):
         raise RuntimeError(
-            "CoordinateOperation can only be intialized like 'CoordinateOperation.from_*()'."
+            "CoordinateOperation can only be initialized like 'CoordinateOperation.from_*()'."
         )
 
     @staticmethod
