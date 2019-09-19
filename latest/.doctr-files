@@ -25,6 +25,7 @@ latest/_sources/history.rst.txt
 latest/_sources/index.rst.txt
 latest/_sources/installation.rst.txt
 latest/_sources/optimize_transformations.rst.txt
+latest/_sources/past_versions.rst.txt
 latest/_static/basic.css
 latest/_static/css/badge_only.css
 latest/_static/css/theme.css
@@ -97,6 +98,7 @@ latest/index.html
 latest/installation.html
 latest/objects.inv
 latest/optimize_transformations.html
+latest/past_versions.html
 latest/py-modindex.html
 latest/search.html
 latest/searchindex.js

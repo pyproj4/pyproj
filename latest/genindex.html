@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
 </ul>
 
             
@@ -248,6 +249,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/transformer.html#pyproj.transformer.TransformerGroup.best_available">best_available() (pyproj.transformer.TransformerGroup property)</a>
 </li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.BOUND_CRS">BOUND_CRS (pyproj.enums.PJType attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -258,18 +261,28 @@
 </li>
       <li><a href="api/crs.html#pyproj._crs.Param.code">code (pyproj._crs.Param attribute)</a>
 </li>
-      <li><a href="api/crs.html#pyproj.crs.CRS.coordinate_operation">coordinate_operation (pyproj.crs.CRS attribute)</a>
+      <li><a href="api/enums.html#pyproj.enums.PJType.COMPOUND_CRS">COMPOUND_CRS (pyproj.enums.PJType attribute)</a>
 </li>
-      <li><a href="api/crs.html#pyproj.crs.CRS.coordinate_system">coordinate_system (pyproj.crs.CRS attribute)</a>
+      <li><a href="api/enums.html#pyproj.enums.PJType.CONCATENATED_OPERATION">CONCATENATED_OPERATION (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.CONVERSION">CONVERSION (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/crs.html#pyproj.crs.CRS.coordinate_operation">coordinate_operation (pyproj.crs.CRS attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/crs.html#pyproj.crs.CRS.coordinate_system">coordinate_system (pyproj.crs.CRS attribute)</a>
+</li>
       <li><a href="api/crs.html#pyproj.crs.CoordinateOperation">CoordinateOperation (class in pyproj.crs)</a>
 </li>
       <li><a href="api/crs.html#pyproj._crs.CoordinateSystem">CoordinateSystem (class in pyproj._crs)</a>
 </li>
       <li><a href="api/crs.html#pyproj.crs.CRS">CRS (class in pyproj.crs)</a>
+
+      <ul>
+        <li><a href="api/enums.html#pyproj.enums.PJType.CRS">(pyproj.enums.PJType attribute)</a>
 </li>
+      </ul></li>
       <li><a href="api/proj.html#pyproj.proj.Proj.crs">crs (pyproj.proj.Proj attribute)</a>
 </li>
       <li><a href="api/exceptions.html#pyproj.exceptions.CRSError">CRSError</a>
@@ -286,6 +299,8 @@
 </li>
       <li><a href="api/crs.html#pyproj.crs.CRS.datum">datum (pyproj.crs.CRS attribute)</a>
 </li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.DATUM_ENSEMBLE">DATUM_ENSEMBLE (pyproj.enums.PJType attribute)</a>
+</li>
       <li><a href="api/transformer.html#pyproj.transformer.Transformer.definition">definition() (pyproj.transformer.Transformer property)</a>
 </li>
   </ul></td>
@@ -297,6 +312,10 @@
       <li><a href="api/crs.html#pyproj._crs.Grid.direct_download">direct_download (pyproj._crs.Grid attribute)</a>
 </li>
       <li><a href="api/crs.html#pyproj._crs.Axis.direction">direction (pyproj._crs.Axis attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.DYNAMIC_GEODETIC_REFERENCE_FRAME">DYNAMIC_GEODETIC_REFERENCE_FRAME (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.DYNAMIC_VERTICAL_REFERENCE_FRAME">DYNAMIC_VERTICAL_REFERENCE_FRAME (pyproj.enums.PJType attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -310,15 +329,19 @@
 </li>
       <li><a href="api/crs.html#pyproj.crs.Ellipsoid">Ellipsoid (class in pyproj.crs)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj.crs.CRS.ellipsoid">ellipsoid (pyproj.crs.CRS attribute)</a>
 
       <ul>
         <li><a href="api/crs.html#pyproj.crs.Datum.ellipsoid">(pyproj.crs.Datum attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/enums.html#pyproj.enums.PJType.ELLIPSOID">ELLIPSOID (pyproj.enums.PJType attribute)</a>
+</li>
       <li><a href="api/crs.html#pyproj.crs.Ellipsoid.ellipsoid_loaded">ellipsoid_loaded (pyproj.crs.Ellipsoid attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.ENGINEERING_CRS">ENGINEERING_CRS (pyproj.enums.PJType attribute)</a>
 </li>
       <li><a href="api/geod.html#pyproj.Geod.es">es (pyproj.Geod attribute)</a>
 </li>
@@ -420,24 +443,36 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/enums.html#pyproj.enums.PJType.GEOCENTRIC_CRS">GEOCENTRIC_CRS (pyproj.enums.PJType attribute)</a>
+</li>
       <li><a href="api/geod.html#pyproj.Geod">Geod (class in pyproj)</a>
 </li>
       <li><a href="api/exceptions.html#pyproj.exceptions.GeodError">GeodError</a>
 </li>
       <li><a href="api/crs.html#pyproj.crs.CRS.geodetic_crs">geodetic_crs (pyproj.crs.CRS attribute)</a>
 </li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.GEODETIC_CRS">GEODETIC_CRS (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.GEODETIC_REFERENCE_FRAME">GEODETIC_REFERENCE_FRAME (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.GEOGRAPHIC_2D_CRS">GEOGRAPHIC_2D_CRS (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.GEOGRAPHIC_3D_CRS">GEOGRAPHIC_3D_CRS (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.GEOGRAPHIC_CRS">GEOGRAPHIC_CRS (pyproj.enums.PJType attribute)</a>
+</li>
       <li><a href="api/geod.html#pyproj.Geod.geometry_area_perimeter">geometry_area_perimeter() (pyproj.Geod method)</a>
 </li>
       <li><a href="api/geod.html#pyproj.Geod.geometry_length">geometry_length() (pyproj.Geod method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/list.html#pyproj.get_angular_units_map">get_angular_units_map() (in module pyproj)</a>
 </li>
       <li><a href="api/list.html#pyproj.get_authorities">get_authorities() (in module pyproj)</a>
 </li>
       <li><a href="api/list.html#pyproj.get_codes">get_codes() (in module pyproj)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datadir.html#pyproj.datadir.get_data_dir">get_data_dir() (in module pyproj.datadir)</a>
 </li>
       <li><a href="api/list.html#pyproj.get_ellps_map">get_ellps_map() (in module pyproj)</a>
@@ -598,11 +633,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj._crs.Grid.open_license">open_license (pyproj._crs.Grid attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj.crs.CoordinateOperation.operations">operations (pyproj.crs.CoordinateOperation attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/transformer.html#pyproj.transformer.Transformer.operations">operations() (pyproj.transformer.Transformer property)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.OTHER_COORDINATE_OPERATION">OTHER_COORDINATE_OPERATION (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.OTHER_CRS">OTHER_CRS (pyproj.enums.PJType attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -616,6 +655,8 @@
 </li>
       <li><a href="api/crs.html#pyproj.crs.CoordinateOperation.params">params (pyproj.crs.CoordinateOperation attribute)</a>
 </li>
+      <li><a href="api/enums.html#pyproj.enums.PJType">PJType (class in pyproj.enums)</a>
+</li>
       <li><a href="api/geod.html#pyproj.Geod.polygon_area_perimeter">polygon_area_perimeter() (pyproj.Geod method)</a>
 </li>
       <li><a href="api/crs.html#pyproj.crs.CRS.prime_meridian">prime_meridian (pyproj.crs.CRS attribute)</a>
@@ -624,6 +665,8 @@
         <li><a href="api/crs.html#pyproj.crs.Datum.prime_meridian">(pyproj.crs.Datum attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.PRIME_MERIDIAN">PRIME_MERIDIAN (pyproj.enums.PJType attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj.crs.PrimeMeridian">PrimeMeridian (class in pyproj.crs)</a>
@@ -633,6 +676,8 @@
       <li><a href="api/enums.html#pyproj.enums.ProjVersion.PROJ_4">PROJ_4 (pyproj.enums.ProjVersion attribute)</a>
 </li>
       <li><a href="api/enums.html#pyproj.enums.ProjVersion.PROJ_5">PROJ_5 (pyproj.enums.ProjVersion attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.PROJECTED_CRS">PROJECTED_CRS (pyproj.enums.PJType attribute)</a>
 </li>
       <li><a href="api/exceptions.html#pyproj.exceptions.ProjError">ProjError</a>
 </li>
@@ -722,6 +767,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj.crs.CRS.target_crs">target_crs (pyproj.crs.CRS attribute)</a>
 </li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.TEMPORAL_CRS">TEMPORAL_CRS (pyproj.enums.PJType attribute)</a>
+</li>
       <li><a href="api/crs.html#pyproj.crs.CRS.to_authority">to_authority() (pyproj.crs.CRS method)</a>
 </li>
       <li><a href="api/crs.html#pyproj.crs.CRS.to_cf">to_cf() (pyproj.crs.CRS method)</a>
@@ -800,6 +847,8 @@
         <li><a href="api/transformer.html#pyproj.transformer.Transformer.transform">(pyproj.transformer.Transformer method)</a>
 </li>
       </ul></li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.TRANSFORMATION">TRANSFORMATION (pyproj.enums.PJType attribute)</a>
+</li>
       <li><a href="api/enums.html#pyproj.enums.TransformDirection">TransformDirection (class in pyproj.enums)</a>
 </li>
       <li><a href="api/transformer.html#pyproj.transformer.Transformer">Transformer (class in pyproj.transformer)</a>
@@ -846,6 +895,8 @@
         <li><a href="api/crs.html#pyproj.crs.PrimeMeridian.unit_name">(pyproj.crs.PrimeMeridian attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.UNKNOWN">UNKNOWN (pyproj.enums.PJType attribute)</a>
+</li>
       <li><a href="api/crs.html#pyproj._crs.Grid.url">url (pyproj._crs.Grid attribute)</a>
 </li>
   </ul></td>
@@ -855,6 +906,12 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs.html#pyproj._crs.Param.value">value (pyproj._crs.Param attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/enums.html#pyproj.enums.PJType.VERTICAL_CRS">VERTICAL_CRS (pyproj.enums.PJType attribute)</a>
+</li>
+      <li><a href="api/enums.html#pyproj.enums.PJType.VERTICAL_REFERENCE_FRAME">VERTICAL_REFERENCE_FRAME (pyproj.enums.PJType attribute)</a>
 </li>
   </ul></td>
 </tr></table>
