@@ -1,0 +1,454 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Gotchas/FAQ &mdash; pyproj 2.4.rc0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Advanced Examples" href="advanced_examples.html" />
+    <link rel="prev" title="Getting Started" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.4.rc0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gotchas/FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-the-best-format-to-store-the-crs-information">What is the best format to store the CRS information?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#axis-order-changes-in-proj-6">Axis order changes in PROJ 6+</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#init-auth-auth-code-should-be-replaced-with-auth-auth-code"><cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> should be replaced with <cite>&lt;auth&gt;:&lt;auth_code&gt;</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#proj-not-a-generic-latitude-longitude-to-projection-converter">Proj (Not a generic latitude/longitude to projection converter)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx">Why does the EPSG code return when using <cite>EPSG:xxxx</cite> and not with <cite>+init=EPSG:xxxx</cite>?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upgrading-to-pyproj-2-from-pyproj-1">Upgrading to pyproj 2 from pyproj 1</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Gotchas/FAQ</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/gotchas.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gotchas-faq">
+<span id="gotchas"></span><h1>Gotchas/FAQ<a class="headerlink" href="#gotchas-faq" title="Permalink to this headline">¶</a></h1>
+<p>This is a page for some suggestions, gotchas, and FAQs.</p>
+<dl class="simple">
+<dt>Also see:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p></li>
+<li><p><a class="reference external" href="https://proj.org/faq.html">PROJ FAQ</a></p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="what-is-the-best-format-to-store-the-crs-information">
+<h2>What is the best format to store the CRS information?<a class="headerlink" href="#what-is-the-best-format-to-store-the-crs-information" title="Permalink to this headline">¶</a></h2>
+<p>PROJ strings can be lossy for storing CRS information.
+If you can avoid it, it is best to not use them.
+Additionally, PROJ strings will likely not be supported
+in future major version of PROJ for storing CRS information.</p>
+<p>More info: <a class="reference external" href="https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
+</div>
+<div class="section" id="axis-order-changes-in-proj-6">
+<h2>Axis order changes in PROJ 6+<a class="headerlink" href="#axis-order-changes-in-proj-6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent</a></p></li>
+<li><p>See warning at the top of <a class="reference internal" href="api/transformer.html#transformer"><span class="std std-ref">Transformer</span></a></p></li>
+<li><p>Examples of how to handle it: <a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p></li>
+<li><p><a class="reference internal" href="#min-confidence"><span class="std std-ref">Why does the EPSG code return when using EPSG:xxxx and not with +init=EPSG:xxxx?</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="init-auth-auth-code-should-be-replaced-with-auth-auth-code">
+<h2><cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> should be replaced with <cite>&lt;auth&gt;:&lt;auth_code&gt;</cite><a class="headerlink" href="#init-auth-auth-code-should-be-replaced-with-auth-auth-code" title="Permalink to this headline">¶</a></h2>
+<p>The <cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> syntax is deprecated and will be removed
+in future versions of PROJ. Also, if you use the <cite>+init</cite> syntax,
+you may have problems initializing projections when the other syntax works.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;ESRI:54009&quot;</span><span class="p">)</span>
+<span class="go">&lt;Projected CRS: ESRI:54009&gt;</span>
+<span class="go">Name: World_Mollweide</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- E[east]: Easting (metre)</span>
+<span class="go">- N[north]: Northing (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: World</span>
+<span class="go">- bounds: (-180.0, -90.0, 180.0, 90.0)</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: World_Mollweide</span>
+<span class="go">- method: Mollweide</span>
+<span class="go">Datum: World Geodetic System 1984</span>
+<span class="go">- Ellipsoid: WGS 84</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+init=ESRI:54009&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">pyproj.exceptions.CRSError: Invalid projection: +init=ESRI:54009 +type=crs: (Internal Proj Error: proj_create: cannot expand +init=ESRI:54009 +type=crs)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="proj-not-a-generic-latitude-longitude-to-projection-converter">
+<h2>Proj (Not a generic latitude/longitude to projection converter)<a class="headerlink" href="#proj-not-a-generic-latitude-longitude-to-projection-converter" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a> is limited to converting between geographic and
+projection coordinates within one datum. If you have coordinates in latitude
+and longitude, and you want to convert it to your projection, it is recommended
+to use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> as it takes into account datum
+shifts.</p>
+<p>You likely want to start from <cite>EPSG:4326</cite> (WGS84) for coordinates as
+latitude and longitude.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span>
+<span class="go">&lt;Geographic 2D CRS: EPSG:4326&gt;</span>
+<span class="go">Name: WGS 84</span>
+<span class="go">Axis Info [ellipsoidal]:</span>
+<span class="go">- Lat[north]: Geodetic latitude (degree)</span>
+<span class="go">- Lon[east]: Geodetic longitude (degree)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: World</span>
+<span class="go">- bounds: (-180.0, -90.0, 180.0, 90.0)</span>
+<span class="go">Datum: World Geodetic System 1984</span>
+<span class="go">- Ellipsoid: WGS 84</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+</pre></div>
+</div>
+<p>Then, use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> to transform from latitude
+and longitude to your projection as you might have a projection with a different
+datum.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_proj</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:28992&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_proj</span>
+<span class="go">&lt;Projected CRS: EPSG:28992&gt;</span>
+<span class="go">Name: Amersfoort / RD New</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- X[east]: Easting (metre)</span>
+<span class="go">- Y[north]: Northing (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: Netherlands - onshore</span>
+<span class="go">- bounds: (3.2, 50.75, 7.22, 53.7)</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: RD New</span>
+<span class="go">- method: Oblique Stereographic</span>
+<span class="go">Datum: Amersfoort</span>
+<span class="go">- Ellipsoid: Bessel 1841</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_proj</span><span class="o">.</span><span class="n">datum</span> <span class="o">==</span> <span class="n">crs_4326</span><span class="o">.</span><span class="n">datum</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs_4326</span><span class="p">,</span> <span class="n">crs_proj</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">52.067567</span><span class="p">,</span> <span class="mf">5.068913</span><span class="p">)</span>
+<span class="go">(133175.3690698233, 453300.86739169655)</span>
+</pre></div>
+</div>
+<p>If you use <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a>, it will use the geodetic CRS with
+from the projected CRS with the same datum to do the transformation,
+which may not be what you want.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:28992&#39;</span><span class="p">)(</span><span class="mf">5.068913</span><span class="p">,</span> <span class="mf">52.067567</span><span class="p">)</span>
+<span class="go">(133148.22970574044, 453192.24450392975)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transg</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs_proj</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">,</span> <span class="n">crs_proj</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transg</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">52.067567</span><span class="p">,</span> <span class="mf">5.068913</span><span class="p">)</span>
+<span class="go">(133148.22970574044, 453192.24450392975)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx">
+<span id="min-confidence"></span><h2>Why does the EPSG code return when using <cite>EPSG:xxxx</cite> and not with <cite>+init=EPSG:xxxx</cite>?<a class="headerlink" href="#why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx" title="Permalink to this headline">¶</a></h2>
+<p>From: <a class="reference external" href="https://gis.stackexchange.com/a/326919/144357">https://gis.stackexchange.com/a/326919/144357</a></p>
+<p>The reason that the EPSG code does not appear with the CRS initialized with
+the <cite>init=</cite> syntax is that the CRS are different.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4544&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;epsg:4544&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">==</span> <span class="n">crs_deprecated</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>Upon further inspection of the <cite>Axis Info</cite> section, you can see that the difference
+is in the <strong>axis order</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span>
+<span class="go">&lt;Projected CRS: +init=epsg:4544 +type=crs&gt;</span>
+<span class="go">Name: CGCS2000 / 3-degree Gauss-Kruger CM 105E</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- E[east]: Easting (metre)</span>
+<span class="go">- N[north]: Northing (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: China - 103.5°E to 106.5°E</span>
+<span class="go">- bounds: (103.5, 22.5, 106.5, 42.21)</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: Gauss-Kruger CM 105E</span>
+<span class="go">- method: Transverse Mercator</span>
+<span class="go">Datum: China 2000</span>
+<span class="go">- Ellipsoid: CGCS2000</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
+<span class="go">&lt;Projected CRS: EPSG:4544&gt;</span>
+<span class="go">Name: CGCS2000 / 3-degree Gauss-Kruger CM 105E</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- X[north]: Northing (metre)</span>
+<span class="go">- Y[east]: Easting (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: China - 103.5°E to 106.5°E</span>
+<span class="go">- bounds: (103.5, 22.5, 106.5, 42.21)</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: Gauss-Kruger CM 105E</span>
+<span class="go">- method: Transverse Mercator</span>
+<span class="go">Datum: China 2000</span>
+<span class="go">- Ellipsoid: CGCS2000</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+</pre></div>
+</div>
+<p>The reason the <cite>min_confidence</cite> parameter in
+<a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_epsg" title="pyproj.crs.CRS.to_epsg"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_epsg()</span></code></a> and <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_authority" title="pyproj.crs.CRS.to_authority"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_authority()</span></code></a>
+exists is because you can initialize a CRS in several different methods and
+some of them do not always coorespond to an EPSG or authortiy code, but it
+can be close enough.</p>
+<p>For example, if you have a WKT/PROJ string and you use it to create the CRS instance,
+in most cases you want to be sure that the EPSG code given by to_epsg will give you a
+CRS instance similar to the one created by the WKT/PROJ string.
+However, if an EPSG code does not exist that matches you WKT/PROJ string with
+a <cite>min_confidence</cite> you don’t want to get that EPSG code back as it will make
+you think that the WKT/PROJ string and the EPSG code are one and the same when
+they are not.</p>
+<p>However, if you are only wanting to get the EPSG code that is closest
+to the PROJ/WKT string, then you can reduce your min_confidence to a
+threshold you are comfortable with.</p>
+<p>Here is an example of that:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+init=epsg:4326&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="go">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_latlon</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+proj=latlon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_latlon</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_latlon</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
+<span class="go">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_epsg</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_epsg</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="go">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_wkt</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">crs_epsg</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_wkt</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="go">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_wkt</span> <span class="o">==</span> <span class="n">crs_epsg</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_epsg</span> <span class="o">==</span> <span class="n">crs_latlon</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_epsg</span> <span class="o">==</span> <span class="n">crs_deprecated</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="upgrading-to-pyproj-2-from-pyproj-1">
+<h2>Upgrading to pyproj 2 from pyproj 1<a class="headerlink" href="#upgrading-to-pyproj-2-from-pyproj-1" title="Permalink to this headline">¶</a></h2>
+<p>We recommended using the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> and
+<a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a> and
+<a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">transform()</span></code></a>.</p>
+<dl class="simple">
+<dt>Also see:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p></li>
+<li><p><a class="reference internal" href="optimize_transformations.html#optimize-transformations"><span class="std std-ref">Optimize Transformations</span></a></p></li>
+</ul>
+</dd>
+</dl>
+<p>pyproj 1 style:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">transform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_4326</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_3857</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">proj_4326</span><span class="p">,</span> <span class="n">proj_3857</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>pyproj 2 style:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advanced_examples.html" class="btn btn-neutral float-right" title="Advanced Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Jeffrey Whitaker
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
