@@ -21,6 +21,7 @@ GitHub Repository: https://github.com/pyproj4/pyproj
    api/index
    optimize_transformations
    history
+   past_versions
 
 Indices and tables
 ==================
