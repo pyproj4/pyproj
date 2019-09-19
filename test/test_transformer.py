@@ -1,3 +1,7 @@
+import os
+import shutil
+import tempfile
+
 import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
@@ -534,7 +538,28 @@ def test_transform_group__missing_best():
     assert len(trans_group.unavailable_operations) == 41
 
 
-def test_transform_group__area_of_interest():
+@pytest.fixture(scope="module")
+def aoi_data_directory():
+    """
+    This is to ensure that the ntv2_0.gsb file is actually
+    missing for the AOI tests.
+    """
+    data_dir = pyproj.datadir.get_data_dir()
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_data_dir = os.path.join(tmpdir, "proj")
+        shutil.copytree(data_dir, tmp_data_dir)
+        try:
+            os.remove(os.path.join(str(tmp_data_dir), "ntv2_0.gsb"))
+        except OSError:
+            pass
+        try:
+            pyproj.datadir.set_data_dir(str(tmp_data_dir))
+            yield
+        finally:
+            pyproj.datadir.set_data_dir(data_dir)
+
+
+def test_transform_group__area_of_interest(aoi_data_directory):
     with pytest.warns(
         UserWarning, match="Best transformation is not available due to missing Grid"
     ):
@@ -552,27 +577,27 @@ def test_transformer_group__get_transform_crs():
     assert len(tg.transformers) == 4
 
 
-def test_transformer__area_of_interest():
+def test_transformer__area_of_interest(aoi_data_directory):
     transformer = Transformer.from_crs(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
     )
     assert transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
 
 
-def test_transformer_proj__area_of_interest():
+def test_transformer_proj__area_of_interest(aoi_data_directory):
     transformer = Transformer.from_proj(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
     )
     assert transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
 
 
-def test_transformer__area_of_interest__invalid():
+def test_transformer__area_of_interest__invalid(aoi_data_directory):
     with pytest.raises(ProjError):
         Transformer.from_crs(
             4326, 2964, area_of_interest=(-136.46, 49.0, -60.72, 83.17)
         )
 
 
-def test_transformer_group__area_of_interest__invalid():
+def test_transformer_group__area_of_interest__invalid(aoi_data_directory):
     with pytest.raises(ProjError):
         TransformerGroup(4326, 2964, area_of_interest=(-136.46, 49.0, -60.72, 83.17))
