@@ -13,5 +13,5 @@ Enumerations
     :members:
 
 
-.. autoclass:: pyproj.enums.PJTypes
+.. autoclass:: pyproj.enums.PJType
     :members:
