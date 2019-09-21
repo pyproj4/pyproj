@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyproj.crs &mdash; pyproj 2.4.rc1 documentation</title>
+  <title>pyproj.crs &mdash; pyproj 2.4.0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                2.4.rc1
+                2.4.0
               </div>
             
           
@@ -595,7 +595,10 @@
 
 <div class="viewcode-block" id="CRS.from_authority"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_authority">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_authority</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make a CRS from an authority name and authority code</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.2.0</span>
+<span class="sd">        </span>
+<span class="sd">        Make a CRS from an authority name and authority code</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -627,7 +630,10 @@
 
 <div class="viewcode-block" id="CRS.from_proj4"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_proj4">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_proj4</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_proj_string</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make a CRS from a PROJ string</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.2.0</span>
+
+<span class="sd">        Make a CRS from a PROJ string</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -644,7 +650,10 @@
 
 <div class="viewcode-block" id="CRS.from_wkt"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_wkt">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_wkt</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_wkt_string</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make a CRS from a WKT string</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.2.0</span>
+
+<span class="sd">        Make a CRS from a WKT string</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -661,7 +670,8 @@
 
 <div class="viewcode-block" id="CRS.from_string"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_string">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make a CRS from:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make a CRS from:</span>
 
 <span class="sd">        Initialize a CRS class instance with:</span>
 <span class="sd">         - PROJ string</span>
@@ -681,7 +691,10 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.to_string"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Convert the CRS to a string.</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.2.0</span>
+
+<span class="sd">        Convert the CRS to a string.</span>
 
 <span class="sd">        It attempts to convert it to the authority string.</span>
 <span class="sd">        Otherwise, it uses the string format of the user</span>
@@ -742,7 +755,10 @@
 
 <div class="viewcode-block" id="CRS.from_dict"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">proj_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make a CRS from a dictionary of PROJ parameters.</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.2.0</span>
+
+<span class="sd">        Make a CRS from a dictionary of PROJ parameters.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -758,9 +774,9 @@
 <div class="viewcode-block" id="CRS.from_json"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_json">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">crs_json</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create CRS from a CRS JSON string.</span>
-
 <span class="sd">        .. versionadded:: 2.4.0</span>
+
+<span class="sd">        Create CRS from a CRS JSON string.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -776,9 +792,9 @@
 <div class="viewcode-block" id="CRS.from_json_dict"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.from_json_dict">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_json_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">crs_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create CRS from a JSON dictionary.</span>
-
 <span class="sd">        .. versionadded:: 2.4.0</span>
+
+<span class="sd">        Create CRS from a JSON dictionary.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
