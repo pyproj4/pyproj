@@ -4,16 +4,17 @@ Change Log
 2.4.0
 ~~~~~
 * Minimum PROJ version is 6.2.0 (issue #411)
-* Remove global pyproj context (issue #418)
+* Removed global pyproj context (issue #418)
 * Added support for PROJ JSON in `pyproj.crs` objects and `pyproj.Transformer` (pull #432)
-* Move doctests code out of `pyproj.__init__` (issue #417)
+* Moved doctests code out of `pyproj.__init__` (issue #417)
 * Added version information to `python -m pyproj` (pull #429)
 * Added `scope` & `remarks` to `pyproj.crs` objects and `pyproj.Transformer` (issue #441)
 * Added `operations` to `pyproj.crs.CoordinateOperation` objects and `pyproj.Transformer` (issue #441)
 * Added :func:`~pyproj.get_authorities` and :func:`~pyproj.get_codes` (issue #440)
 * Release gil in core cython/PROJ code (issue #386)
-* BUG: Add checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
-* BUG: added fix for get_transform_crs when checking type (pull #439)
+* BUG: Added checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
+* BUG: Added fix for get_transform_crs when checking type (pull #439)
+* DOC: Build docs with python3 (pull #428)
 
 2.3.1
 ~~~~~
