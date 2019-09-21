@@ -438,7 +438,10 @@ class CRS(_CRS):
 
     @classmethod
     def from_authority(cls, auth_name, code):
-        """Make a CRS from an authority name and authority code
+        """
+        .. versionadded:: 2.2.0
+        
+        Make a CRS from an authority name and authority code
 
         Parameters
         ----------
@@ -470,7 +473,10 @@ class CRS(_CRS):
 
     @classmethod
     def from_proj4(cls, in_proj_string):
-        """Make a CRS from a PROJ string
+        """
+        .. versionadded:: 2.2.0
+
+        Make a CRS from a PROJ string
 
         Parameters
         ----------
@@ -487,7 +493,10 @@ class CRS(_CRS):
 
     @classmethod
     def from_wkt(cls, in_wkt_string):
-        """Make a CRS from a WKT string
+        """
+        .. versionadded:: 2.2.0
+
+        Make a CRS from a WKT string
 
         Parameters
         ----------
@@ -504,7 +513,8 @@ class CRS(_CRS):
 
     @classmethod
     def from_string(cls, in_crs_string):
-        """Make a CRS from:
+        """
+        Make a CRS from:
 
         Initialize a CRS class instance with:
          - PROJ string
@@ -524,7 +534,10 @@ class CRS(_CRS):
         return cls(_prepare_from_string(in_crs_string))
 
     def to_string(self):
-        """Convert the CRS to a string.
+        """
+        .. versionadded:: 2.2.0
+
+        Convert the CRS to a string.
 
         It attempts to convert it to the authority string.
         Otherwise, it uses the string format of the user
@@ -585,7 +598,10 @@ class CRS(_CRS):
 
     @classmethod
     def from_dict(cls, proj_dict):
-        """Make a CRS from a dictionary of PROJ parameters.
+        """
+        .. versionadded:: 2.2.0
+
+        Make a CRS from a dictionary of PROJ parameters.
 
         Parameters
         ----------
@@ -601,9 +617,9 @@ class CRS(_CRS):
     @classmethod
     def from_json(cls, crs_json):
         """
-        Create CRS from a CRS JSON string.
-
         .. versionadded:: 2.4.0
+
+        Create CRS from a CRS JSON string.
 
         Parameters
         ----------
@@ -619,9 +635,9 @@ class CRS(_CRS):
     @classmethod
     def from_json_dict(cls, crs_dict):
         """
-        Create CRS from a JSON dictionary.
-
         .. versionadded:: 2.4.0
+
+        Create CRS from a JSON dictionary.
 
         Parameters
         ----------
