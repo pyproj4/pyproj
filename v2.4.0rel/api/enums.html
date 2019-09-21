@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Enumerations &mdash; pyproj 2.4.rc1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exceptions" href="exceptions.html" />
+    <link rel="prev" title="Data Directory" href="datadir.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.4.rc1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crs.html">CRS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformer.html">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Documentation</a> &raquo;</li>
+        
+      <li>Enumerations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/enums.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="enumerations">
+<h1>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pyproj.enums.WktVersion">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.enums.</code><code class="sig-name descname">WktVersion</code><a class="reference internal" href="../_modules/pyproj/enums.html#WktVersion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.enums.WktVersion" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</div></blockquote>
+<p>Supported CRS WKT string versions</p>
+<dl class="attribute">
+<dt id="pyproj.enums.WktVersion.WKT1_ESRI">
+<code class="sig-name descname">WKT1_ESRI</code><em class="property"> = 'WKT1_ESRI'</em><a class="headerlink" href="#pyproj.enums.WktVersion.WKT1_ESRI" title="Permalink to this definition">¶</a></dt>
+<dd><p>WKT Version 1 ESRI Style</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.WktVersion.WKT1_GDAL">
+<code class="sig-name descname">WKT1_GDAL</code><em class="property"> = 'WKT1_GDAL'</em><a class="headerlink" href="#pyproj.enums.WktVersion.WKT1_GDAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>WKT Version 1 GDAL Style</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.WktVersion.WKT2_2015">
+<code class="sig-name descname">WKT2_2015</code><em class="property"> = 'WKT2_2015'</em><a class="headerlink" href="#pyproj.enums.WktVersion.WKT2_2015" title="Permalink to this definition">¶</a></dt>
+<dd><p>WKT Version 2 from 2015</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.WktVersion.WKT2_2015_SIMPLIFIED">
+<code class="sig-name descname">WKT2_2015_SIMPLIFIED</code><em class="property"> = 'WKT2_2015_SIMPLIFIED'</em><a class="headerlink" href="#pyproj.enums.WktVersion.WKT2_2015_SIMPLIFIED" title="Permalink to this definition">¶</a></dt>
+<dd><p>WKT Version 2 from 2015 Simplified</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.WktVersion.WKT2_2018">
+<code class="sig-name descname">WKT2_2018</code><em class="property"> = 'WKT2_2018'</em><a class="headerlink" href="#pyproj.enums.WktVersion.WKT2_2018" title="Permalink to this definition">¶</a></dt>
+<dd><p>WKT Version 2 from 2018</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.WktVersion.WKT2_2018_SIMPLIFIED">
+<code class="sig-name descname">WKT2_2018_SIMPLIFIED</code><em class="property"> = 'WKT2_2018_SIMPLIFIED'</em><a class="headerlink" href="#pyproj.enums.WktVersion.WKT2_2018_SIMPLIFIED" title="Permalink to this definition">¶</a></dt>
+<dd><p>WKT Version 2 from 2018 Simplified</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyproj.enums.ProjVersion">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.enums.</code><code class="sig-name descname">ProjVersion</code><a class="reference internal" href="../_modules/pyproj/enums.html#ProjVersion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.enums.ProjVersion" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p>Supported CRS PROJ string versions</p>
+<dl class="attribute">
+<dt id="pyproj.enums.ProjVersion.PROJ_4">
+<code class="sig-name descname">PROJ_4</code><em class="property"> = 4</em><a class="headerlink" href="#pyproj.enums.ProjVersion.PROJ_4" title="Permalink to this definition">¶</a></dt>
+<dd><p>PROJ String version 4</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.ProjVersion.PROJ_5">
+<code class="sig-name descname">PROJ_5</code><em class="property"> = 5</em><a class="headerlink" href="#pyproj.enums.ProjVersion.PROJ_5" title="Permalink to this definition">¶</a></dt>
+<dd><p>PROJ String version 5</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyproj.enums.TransformDirection">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.enums.</code><code class="sig-name descname">TransformDirection</code><a class="reference internal" href="../_modules/pyproj/enums.html#TransformDirection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.enums.TransformDirection" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p>Supported transform directions</p>
+<dl class="attribute">
+<dt id="pyproj.enums.TransformDirection.FORWARD">
+<code class="sig-name descname">FORWARD</code><em class="property"> = 'FORWARD'</em><a class="headerlink" href="#pyproj.enums.TransformDirection.FORWARD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward direction</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.TransformDirection.IDENT">
+<code class="sig-name descname">IDENT</code><em class="property"> = 'IDENT'</em><a class="headerlink" href="#pyproj.enums.TransformDirection.IDENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do nothing</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.TransformDirection.INVERSE">
+<code class="sig-name descname">INVERSE</code><em class="property"> = 'INVERSE'</em><a class="headerlink" href="#pyproj.enums.TransformDirection.INVERSE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse direction</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyproj.enums.PJType">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.enums.</code><code class="sig-name descname">PJType</code><a class="reference internal" href="../_modules/pyproj/enums.html#PJType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.enums.PJType" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>PJ Types for listing codes with <a class="reference internal" href="list.html#pyproj.get_codes" title="pyproj.get_codes"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_codes()</span></code></a></p>
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.UNKNOWN">
+<code class="sig-name descname">UNKNOWN</code><a class="headerlink" href="#pyproj.enums.PJType.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.ELLIPSOID">
+<code class="sig-name descname">ELLIPSOID</code><a class="headerlink" href="#pyproj.enums.PJType.ELLIPSOID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.PRIME_MERIDIAN">
+<code class="sig-name descname">PRIME_MERIDIAN</code><a class="headerlink" href="#pyproj.enums.PJType.PRIME_MERIDIAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.GEODETIC_REFERENCE_FRAME">
+<code class="sig-name descname">GEODETIC_REFERENCE_FRAME</code><a class="headerlink" href="#pyproj.enums.PJType.GEODETIC_REFERENCE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.DYNAMIC_GEODETIC_REFERENCE_FRAME">
+<code class="sig-name descname">DYNAMIC_GEODETIC_REFERENCE_FRAME</code><a class="headerlink" href="#pyproj.enums.PJType.DYNAMIC_GEODETIC_REFERENCE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.VERTICAL_REFERENCE_FRAME">
+<code class="sig-name descname">VERTICAL_REFERENCE_FRAME</code><a class="headerlink" href="#pyproj.enums.PJType.VERTICAL_REFERENCE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.DYNAMIC_VERTICAL_REFERENCE_FRAME">
+<code class="sig-name descname">DYNAMIC_VERTICAL_REFERENCE_FRAME</code><a class="headerlink" href="#pyproj.enums.PJType.DYNAMIC_VERTICAL_REFERENCE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.DATUM_ENSEMBLE">
+<code class="sig-name descname">DATUM_ENSEMBLE</code><a class="headerlink" href="#pyproj.enums.PJType.DATUM_ENSEMBLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.CRS">
+<code class="sig-name descname">CRS</code><a class="headerlink" href="#pyproj.enums.PJType.CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.GEODETIC_CRS">
+<code class="sig-name descname">GEODETIC_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.GEODETIC_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.GEOCENTRIC_CRS">
+<code class="sig-name descname">GEOCENTRIC_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.GEOCENTRIC_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.GEOGRAPHIC_CRS">
+<code class="sig-name descname">GEOGRAPHIC_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.GEOGRAPHIC_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.GEOGRAPHIC_2D_CRS">
+<code class="sig-name descname">GEOGRAPHIC_2D_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.GEOGRAPHIC_2D_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.GEOGRAPHIC_3D_CRS">
+<code class="sig-name descname">GEOGRAPHIC_3D_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.GEOGRAPHIC_3D_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.VERTICAL_CRS">
+<code class="sig-name descname">VERTICAL_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.VERTICAL_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.PROJECTED_CRS">
+<code class="sig-name descname">PROJECTED_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.PROJECTED_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.COMPOUND_CRS">
+<code class="sig-name descname">COMPOUND_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.COMPOUND_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.TEMPORAL_CRS">
+<code class="sig-name descname">TEMPORAL_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.TEMPORAL_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.ENGINEERING_CRS">
+<code class="sig-name descname">ENGINEERING_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.ENGINEERING_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.BOUND_CRS">
+<code class="sig-name descname">BOUND_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.BOUND_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.OTHER_CRS">
+<code class="sig-name descname">OTHER_CRS</code><a class="headerlink" href="#pyproj.enums.PJType.OTHER_CRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.CONVERSION">
+<code class="sig-name descname">CONVERSION</code><a class="headerlink" href="#pyproj.enums.PJType.CONVERSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.TRANSFORMATION">
+<code class="sig-name descname">TRANSFORMATION</code><a class="headerlink" href="#pyproj.enums.PJType.TRANSFORMATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.CONCATENATED_OPERATION">
+<code class="sig-name descname">CONCATENATED_OPERATION</code><a class="headerlink" href="#pyproj.enums.PJType.CONCATENATED_OPERATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.enums.PJType.OTHER_COORDINATE_OPERATION">
+<code class="sig-name descname">OTHER_COORDINATE_OPERATION</code><a class="headerlink" href="#pyproj.enums.PJType.OTHER_COORDINATE_OPERATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="exceptions.html" class="btn btn-neutral float-right" title="Exceptions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="datadir.html" class="btn btn-neutral float-left" title="Data Directory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Jeffrey Whitaker
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
