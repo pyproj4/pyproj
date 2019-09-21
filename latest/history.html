@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Change Log &mdash; pyproj 2.4.rc1 documentation</title>
+  <title>Change Log &mdash; pyproj 2.4.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                2.4.rc1
+                2.4.0
               </div>
             
           
@@ -198,16 +198,17 @@
 <h2>2.4.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Minimum PROJ version is 6.2.0 (issue #411)</p></li>
-<li><p>Remove global pyproj context (issue #418)</p></li>
+<li><p>Removed global pyproj context (issue #418)</p></li>
 <li><p>Added support for PROJ JSON in <cite>pyproj.crs</cite> objects and <cite>pyproj.Transformer</cite> (pull #432)</p></li>
-<li><p>Move doctests code out of <cite>pyproj.__init__</cite> (issue #417)</p></li>
+<li><p>Moved doctests code out of <cite>pyproj.__init__</cite> (issue #417)</p></li>
 <li><p>Added version information to <cite>python -m pyproj</cite> (pull #429)</p></li>
 <li><p>Added <cite>scope</cite> &amp; <cite>remarks</cite> to <cite>pyproj.crs</cite> objects and <cite>pyproj.Transformer</cite> (issue #441)</p></li>
 <li><p>Added <cite>operations</cite> to <cite>pyproj.crs.CoordinateOperation</cite> objects and <cite>pyproj.Transformer</cite> (issue #441)</p></li>
 <li><p>Added <a class="reference internal" href="api/list.html#pyproj.get_authorities" title="pyproj.get_authorities"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_authorities()</span></code></a> and <a class="reference internal" href="api/list.html#pyproj.get_codes" title="pyproj.get_codes"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_codes()</span></code></a> (issue #440)</p></li>
 <li><p>Release gil in core cython/PROJ code (issue #386)</p></li>
-<li><p>BUG: Add checks for unititialized <cite>pyproj.crs</cite> objects to prevent core dumping (issue #433)</p></li>
-<li><p>BUG: added fix for get_transform_crs when checking type (pull #439)</p></li>
+<li><p>BUG: Added checks for unititialized <cite>pyproj.crs</cite> objects to prevent core dumping (issue #433)</p></li>
+<li><p>BUG: Added fix for get_transform_crs when checking type (pull #439)</p></li>
+<li><p>DOC: Build docs with python3 (pull #428)</p></li>
 </ul>
 </div>
 <div class="section" id="id2">
