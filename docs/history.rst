@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2.4.1
+~~~~~
+* Only require gil for `pyproj_log_function` when needed (pull #458)
+
 2.4.0
 ~~~~~
 * Minimum PROJ version is 6.2.0 (issue #411)

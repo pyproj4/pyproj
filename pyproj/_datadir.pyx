@@ -7,12 +7,13 @@ from pyproj.datadir import get_data_dir
 from pyproj.exceptions import ProjError, DataDirError
 
 
-cdef void pyproj_log_function(void *user_data, int level, const char *error_msg):
+cdef void pyproj_log_function(void *user_data, int level, const char *error_msg) nogil:
     """
     Log function for catching PROJ errors.
     """
     if level == PJ_LOG_ERROR:
-        ProjError.internal_proj_error = pystrdecode(error_msg)
+        with gil:
+            ProjError.internal_proj_error = pystrdecode(error_msg)
 
 
 cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
