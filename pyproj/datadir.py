@@ -18,7 +18,7 @@ def set_data_dir(proj_data_dir):
     Parameters
     ----------
     proj_data_dir: str
-        The path to rhe PROJ data directory.
+        The path to the PROJ data directory.
     """
     global _USER_PROJ_DATA
     global _VALIDATED_PROJ_DATA
@@ -40,7 +40,7 @@ def append_data_dir(proj_data_dir):
     Parameters
     ----------
     proj_data_dir: str
-        The path to rhe PROJ data directory.
+        The path to the PROJ data directory.
     """
     set_data_dir(os.pathsep.join([get_data_dir(), proj_data_dir]))
 
