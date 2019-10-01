@@ -25,8 +25,8 @@ def test_to_cf_transverse_mercator():
         "grid_mapping_name": "transverse_mercator",
         "latitude_of_projection_origin": 0,
         "longitude_of_central_meridian": 15,
-        "fase_easting": 2520000,
-        "fase_northing": 0,
+        "false_easting": 2520000,
+        "false_northing": 0,
         "reference_ellipsoid_name": "intl",
         "towgs84": towgs84_test,
         "unit": "m",
@@ -53,8 +53,8 @@ def test_from_cf_transverse_mercator():
             "grid_mapping_name": "transverse_mercator",
             "latitude_of_projection_origin": 0,
             "longitude_of_central_meridian": 15,
-            "fase_easting": 2520000,
-            "fase_northing": 0,
+            "false_easting": 2520000,
+            "false_northing": 0,
             "reference_ellipsoid_name": "intl",
             "towgs84": towgs84_test,
             "unit": "m",
@@ -67,8 +67,8 @@ def test_from_cf_transverse_mercator():
     assert cf_dict["grid_mapping_name"] == "transverse_mercator"
     assert cf_dict["latitude_of_projection_origin"] == 0
     assert cf_dict["longitude_of_central_meridian"] == 15
-    assert cf_dict["fase_easting"] == 2520000
-    assert cf_dict["fase_northing"] == 0
+    assert cf_dict["false_easting"] == 2520000
+    assert cf_dict["false_northing"] == 0
     assert cf_dict["reference_ellipsoid_name"] == "intl"
     assert cf_dict["unit"] == "m"
     assert_almost_equal(cf_dict["towgs84"], list(towgs84_test))
@@ -200,8 +200,8 @@ def test_cf_lambert_conformal_conic():
         "scale_factor_at_projection_origin": 1,
         "standard_parallel": 25,
         "latitude_of_projection_origin": 25,
-        "fase_easting": 0,
-        "fase_northing": 0,
+        "false_easting": 0,
+        "false_northing": 0,
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
@@ -225,8 +225,8 @@ def test_cf_lambert_conformal_conic_1sp():
         "scale_factor_at_projection_origin": 1,
         "standard_parallel": 25,
         "latitude_of_projection_origin": 25,
-        "fase_easting": 0,
-        "fase_northing": 0,
+        "false_easting": 0,
+        "false_northing": 0,
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
@@ -263,8 +263,8 @@ def test_cf_lambert_conformal_conic_2sp():
         "longitude_of_central_meridian": 265,
         "standard_parallel": [25, 30],
         "latitude_of_projection_origin": 25,
-        "fase_easting": 0,
-        "fase_northing": 0,
+        "false_easting": 0,
+        "false_northing": 0,
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
@@ -303,8 +303,8 @@ def test_oblique_mercator():
         "latitude_of_projection_origin": 10,
         "longitude_of_projection_origin": 15,
         "azimuth_of_central_line": 0.35,
-        "fase_easting": 0,
-        "fase_northing": 0,
+        "false_easting": 0,
+        "false_northing": 0,
         "reference_ellipsoid_name": "WGS84",
         "unit": "m",
     }
@@ -372,8 +372,8 @@ def test_crs_sweep():
         "longitude_of_projection_origin": 0,
         "sweep_angle_axis": "x",
         "perspective_point_height": 1,
-        "fase_easting": 0,
-        "fase_northing": 0,
+        "false_easting": 0,
+        "false_northing": 0,
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
@@ -394,8 +394,8 @@ def test_crs_fixed_angle_axis():
         "longitude_of_projection_origin": 0,
         "sweep_angle_axis": "x",
         "perspective_point_height": 1,
-        "fase_easting": 0,
-        "fase_northing": 0,
+        "false_easting": 0,
+        "false_northing": 0,
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
@@ -410,4 +410,38 @@ def test_ob_tran_not_rotated_latlon():
         "longitude_of_projection_origin": -90,
         "grid_north_pole_latitude": 45,
         "grid_north_pole_longitude": -90,
+    }
+
+
+def test_mercator():
+    crs = CRS.from_cf(
+        {
+            "grid_mapping_name": "mercator",
+            "longitude_of_projection_origin": 10,
+            "standard_parallel": 21.354,
+            "false_easting": 0,
+            "false_northing": 0,
+        }
+    )
+    assert crs.to_dict() == {
+        "datum": "WGS84",
+        "lat_ts": 21.354,
+        "lon_0": 10,
+        "no_defs": None,
+        "proj": "merc",
+        "type": "crs",
+        "units": "m",
+        "x_0": 0,
+        "y_0": 0,
+    }
+    cf_dict = crs.to_cf()
+    assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
+    assert cf_dict == {
+        "grid_mapping_name": "mercator",
+        "longitude_of_projection_origin": 10,
+        "standard_parallel": 21.354,
+        "false_easting": 0,
+        "false_northing": 0,
+        "horizontal_datum_name": "WGS84",
+        "unit": "m",
     }

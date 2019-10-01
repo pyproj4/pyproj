@@ -41,8 +41,8 @@ INVERSE_GRID_MAPPING_NAME_MAP = {
 PROJ_PARAM_MAP = {
     "azimuth_of_central_line": "alpha",
     "earth_radius": "R",
-    "fase_easting": "x_0",
-    "fase_northing": "y_0",
+    "false_easting": "x_0",
+    "false_northing": "y_0",
     "latitude_of_projection_origin": "lat_0",
     "north_pole_grid_longitude": "lon_0",
     "straight_vertical_longitude_from_pole": "lon_0",
@@ -95,8 +95,8 @@ PARAM_TO_CF_MAP = {
     "Scale factor at natural origin": "scale_factor_at_central_meridian",
     "Easting at projection centre": "false_easting",
     "Northing at projection centre": "false_northing",
-    "Easting at false origin": "fase_easting",
-    "Northing at false origin": "fase_northing",
+    "Easting at false origin": "false_easting",
+    "Northing at false origin": "false_northing",
     "False easting": "false_easting",
     "False northing": "false_northing",
 }

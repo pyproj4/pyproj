@@ -775,6 +775,8 @@ class CRS(_CRS):
             ]
         elif "lat_1" in proj_dict:
             cf_dict["standard_parallel"] = proj_dict.pop("lat_1")
+        elif "lat_ts" in proj_dict:
+            cf_dict["standard_parallel"] = proj_dict.pop("lat_ts")
 
         skipped_params = []
         for proj_param, proj_val in proj_dict.items():
@@ -840,6 +842,8 @@ class CRS(_CRS):
             if isinstance(standard_parallel, list):
                 proj_dict["lat_1"] = standard_parallel[0]
                 proj_dict["lat_2"] = standard_parallel[1]
+            elif proj_name == "merc":
+                proj_dict["lat_ts"] = standard_parallel
             else:
                 proj_dict["lat_1"] = standard_parallel
 
