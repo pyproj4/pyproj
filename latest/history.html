@@ -93,22 +93,23 @@
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change Log</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">2.4.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">2.3.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">2.3.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">2.2.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">2.2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">2.2.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">2.1.3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">2.1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">2.1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">2.1.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">2.0.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id12">2.0.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id13">2.0.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">1.9.6</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id15">1.9.5.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id16">1.9.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">2.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">2.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">2.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">2.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">2.1.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">2.1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">2.1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">2.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">2.0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">2.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">2.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">1.9.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">1.9.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">1.9.5</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#git-tag-v1-9-4rel">1.9.4 (git tag v1.9.4rel)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#svn-revision-327">1.9.3 (svn revision 327)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#svn-revision-301">1.9.2 (svn revision 301)</a></li>
@@ -121,10 +122,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#svn-revision-155">1.8.5 (svn revision 155)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#svn-revision-151">1.8.4 (svn revision 151)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#svn-revision-146">1.8.3 (svn revision 146)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id17">1.8.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id18">1.8.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id19">1.8.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id20">1.7.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id18">1.8.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id19">1.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id20">1.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id21">1.7.3</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
@@ -195,7 +196,13 @@
   <div class="section" id="change-log">
 <h1>Change Log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>2.4.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>2.4.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fix setting lat_ts for mercator projection in <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_cf()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_cf()</span></code> (issue #461)</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>2.4.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Minimum PROJ version is 6.2.0 (issue #411)</p></li>
 <li><p>Removed global pyproj context (issue #418)</p></li>
@@ -211,16 +218,16 @@
 <li><p>DOC: Build docs with python3 (pull #428)</p></li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h2>2.3.1<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>2.3.1<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added cleanup for internal PROJ errors (issue #413)</p></li>
 <li><p>Delay checking for pyproj data directory until importing pyproj (issue #415)</p></li>
 <li><p>Address issue where PROJ core dumps on proj_create with +init= when global context does not have data directory set (issue #415 &amp; issue #368)</p></li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>2.3.0<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>2.3.0<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Minimum supported Python version 3.5 (issue #331)</p></li>
 <li><dl class="simple">
@@ -253,8 +260,8 @@ and added interface to calculate total length of a line
 <li><p>Search on <cite>sys.prefix</cite> for the PROJ data directory (issue #387)</p></li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h2>2.2.2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>2.2.2<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Update wheels to PROJ 6.1.1</p></li>
 <li><p>Add deprecation warning when using +init= syntax (pull #358)</p></li>
@@ -266,8 +273,8 @@ and added interface to calculate total length of a line
 <li><p><a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_cf()</span></code></a> export transverse mercator parameters for UTM zones (pull #362)</p></li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>2.2.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>2.2.1<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added <a class="reference internal" href="api/show_versions.html#pyproj.show_versions" title="pyproj.show_versions"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show_versions()</span></code></a> (issue #334)</p></li>
 <li><p>Added fix for whitepace around ‘=’ in PROJ strings (issue #345)</p></li>
@@ -277,8 +284,8 @@ and added interface to calculate total length of a line
 <li><p>Test fixes (pull #333, pull #335)</p></li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h2>2.2.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>2.2.0<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Minimum PROJ version is now 6.1.0</p></li>
 <li><dl class="simple">
@@ -324,8 +331,8 @@ CRS and easting, northing for most projected CRS (issue #225)</p></li>
 <li><p>Docs/Build/Test fixes (pull #278, pull #245, pull #248, pull #247, issue #253, pull #252)</p></li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h2>2.1.3<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2>2.1.3<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added support for time transformations (issue #208)</p></li>
 <li><p>Fixed projection equivalence testing for transformations (pull #231).</p></li>
@@ -335,8 +342,8 @@ CRS and easting, northing for most projected CRS (issue #225)</p></li>
 <li><p>Fix data dir path separator to be (;) for windows and (:) for linux (pull #234)</p></li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h2>2.1.2<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>2.1.2<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Updated to use the CRS definition for Proj instances in transforms (issue #207)</p></li>
 <li><p>Add option to skip tranformation operation if input and output projections are equivalent
@@ -345,8 +352,8 @@ and always skip if the input and output projections are exact (issue #128)</p></
 <li><p>Add internal proj error log messages to exceptions (pull #215)</p></li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h2>2.1.1<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h2>2.1.1<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Restore behavior of 1.9.6 when illegal projection transformation requested
 (return <code class="docutils literal notranslate"><span class="pre">inf</span></code> instead of raising an exception, issue #202).  kwarg <code class="docutils literal notranslate"><span class="pre">errcheck</span></code>
@@ -354,8 +361,8 @@ added to <a class="reference internal" href="api/transformer.html#pyproj.transfo
 (default <code class="docutils literal notranslate"><span class="pre">False</span></code>). When <code class="docutils literal notranslate"><span class="pre">errcheck=True</span></code> an exception is raised.</p></li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h2>2.1.0<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2>2.1.0<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> to make repetitive transformations more efficient (issue #187)</p></li>
 <li><p>Added fix for using local datumgrids with transform (issue #191)</p></li>
@@ -363,23 +370,23 @@ added to <a class="reference internal" href="api/transformer.html#pyproj.transfo
 <li><p>Added fix for conversion between radians/degrees for transformations (issues #192 &amp; #195)</p></li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h2>2.0.2<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2>2.0.2<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>add filter for boolean values in dict2string so “no_rot=True” works (issue #183).</p></li>
 <li><p>make sure .pxd files included in source tarball.</p></li>
 <li><p>add radians flag back in for transform/itransform (issue #185).</p></li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h2>2.0.1<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h2>2.0.1<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Ensure data path set properly for TransProj (pull request #179, addressed
 issue #176).</p></li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h2>2.0.0<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id14">
+<h2>2.0.0<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Update to PROJ version 6.0.0 &amp; removed support for older PROJ versions.</p></li>
 <li><p>Added pyproj.CRS class.</p></li>
@@ -390,22 +397,22 @@ issue #176).</p></li>
 <li><p>Added pyproject.toml.</p></li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h2>1.9.6<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h2>1.9.6<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>fix segfault when inverse projection not defined (issue #43, pull request
 #44).</p></li>
 <li><p>supports python 3.7</p></li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h2>1.9.5.1<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id16">
+<h2>1.9.5.1<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>fix for issue #42 (compilation error with microsoft visual studio).</p></li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h2>1.9.5<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id17">
+<h2>1.9.5<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>update proj4 source to latest github master (commit 953cc00fd87425395cabe37641cda905c4b587c1).</p></li>
 <li><p>port of basemap fix for input arrays in fortran order</p></li>
@@ -541,8 +548,8 @@ transform (if errcheck=False).</p></li>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id17">
-<h2>1.8.2<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h2>1.8.2<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>added ‘srs’ (spatial reference system) instance variable to Proj.</p></li>
@@ -559,8 +566,8 @@ from M. v. Loewis:
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id18">
-<h2>1.8.1<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id19">
+<h2>1.8.1<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>if given tuples, returns tuples (instead of lists).</p></li>
@@ -576,8 +583,8 @@ This is necessary when pyrex 0.9.5 is used.</p></li>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id19">
-<h2>1.8.0<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h2>1.8.0<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>Better error handling Proj.__init__.</p></li>
@@ -586,8 +593,8 @@ This is necessary when pyrex 0.9.5 is used.</p></li>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id20">
-<h2>1.7.3<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id21">
+<h2>1.7.3<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>python 2.5 support.</p></li>
