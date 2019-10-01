@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2.4.1
+~~~~~
+* Fix setting lat_ts for mercator projection in :meth:`~pyproj.CRS.from_cf` and :meth:`~pyproj.CRS.to_cf` (issue #461)
+
 2.4.0
 ~~~~~
 * Minimum PROJ version is 6.2.0 (issue #411)
