@@ -226,7 +226,7 @@ class CRS(_CRS):
                 ORDER[2],
                 LENGTHUNIT["metre",1,
                     ID["EPSG",9001]]]
-        >>> crs_utm.coordinate_operation
+        >>> print(crs_utm.coordinate_operation.to_wkt(pretty=True))
         CONVERSION["UTM zone 15N",
             METHOD["Transverse Mercator",
                 ID["EPSG",9807]],

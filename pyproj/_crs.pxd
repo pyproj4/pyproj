@@ -109,6 +109,7 @@ cdef class CoordinateOperation(Base):
     cdef readonly object has_ballpark_transformation
     cdef readonly object _towgs84
     cdef readonly object _operations
+    cdef readonly type_name
 
     @staticmethod
     cdef create(PJ_CONTEXT* context, PJ* coordinate_operation_pj)

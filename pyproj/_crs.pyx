@@ -1327,6 +1327,14 @@ cdef class Grid:
         )
 
 
+_COORDINATE_OPERATION_TYPE_MAP = {
+    PJ_TYPE_UNKNOWN: "Unknown",
+    PJ_TYPE_CONVERSION: "Conversion",
+    PJ_TYPE_TRANSFORMATION: "Transformation",
+    PJ_TYPE_CONCATENATED_OPERATION: "Concatenated Operation",
+    PJ_TYPE_OTHER_COORDINATE_OPERATION: "Other Coordinate Operation",
+}
+
 cdef class CoordinateOperation(Base):
     """
     .. versionadded:: 2.2.0
@@ -1405,6 +1413,8 @@ cdef class CoordinateOperation(Base):
                 coord_operation.context,
                 coord_operation.projobj
             ) == 1
+        cdef PJ_TYPE operation_type = proj_get_type(coord_operation.projobj)
+        coord_operation.type_name = _COORDINATE_OPERATION_TYPE_MAP[operation_type]
         CRSError.clear()
         return coord_operation
 
@@ -1664,6 +1674,18 @@ cdef class CoordinateOperation(Base):
             return self._operations
         self._operations = _get_concatenated_operations(self.context, self.projobj)
         return self._operations
+
+    def __repr__(self):
+        return (
+            "<Coordinate Operation: {type_name}>\n"
+            "{name}\n"
+            "Area of Use:\n{area_of_use}"
+        ).format(
+            type_name=self.type_name,
+            name=self.name,
+            area_of_use=self.area_of_use or "- undefined",
+        )
+
 
 _CRS_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown CRS",
