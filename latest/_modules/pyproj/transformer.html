@@ -239,6 +239,15 @@
 <span class="sd">            The area of interest to help order the transformations based on the</span>
 <span class="sd">            best operation for the area.</span>
 
+<span class="sd">        Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj.transformer import TransformerGroup</span>
+<span class="sd">        &gt;&gt;&gt; trans_group = TransformerGroup(4326, 2964)</span>
+<span class="sd">        &gt;&gt;&gt; trans_group</span>
+<span class="sd">        &lt;TransformerGroup: best_available=True&gt;</span>
+<span class="sd">        - transformers: 8</span>
+<span class="sd">        - unavailable_operations: 1</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TransformerGroup</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">),</span>
@@ -273,7 +282,18 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        bool: If True, the best possible transformer is available.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;&lt;TransformerGroup: best_available=</span><span class="si">{best_available}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;- transformers: </span><span class="si">{transformers}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;- unavailable_operations: </span><span class="si">{unavailable_operations}</span><span class="s2">&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">best_available</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_available</span><span class="p">,</span>
+            <span class="n">transformers</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">),</span>
+            <span class="n">unavailable_operations</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">),</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">:</span>
