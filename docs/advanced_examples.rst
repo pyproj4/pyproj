@@ -70,6 +70,10 @@ transformations as well as missing transformations.
 
     >>> from pyproj.transformer import TransformerGroup
     >>> trans_group = TransformerGroup("epsg:4326","epsg:2964")
+    >>> trans_group
+    <TransformerGroup: best_available=True>
+    - transformers: 8
+    - unavailable_operations: 1
     >>> trans_group.best_available
     True
     >>> trans_group.transformers[0].transform(66, -153)
@@ -90,8 +94,10 @@ transformations as well as missing transformations.
     >>> tg = TransformerGroup("epsg:4326", "+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m", always_xy=True)
     UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)
     "{!r}".format(operation.grids[0])
-    >>> tg.best_available
-    False
+    >>> tg
+    <TransformerGroup: best_available=False>
+    - transformers: 37
+    - unavailable_operations: 41
     >>> tg.transformers[0].description
     'axis order change (2D) + Inverse of NAD27 to WGS 84 (3) + axis order change (2D) + unknown'
     >>> tg.unavailable_operations[0].name
