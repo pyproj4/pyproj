@@ -656,6 +656,13 @@ for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
 <li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help order the transformations based on the
 best operation for the area.</p></li>
+<li><p><strong>Example</strong> – </p></li>
+<li><p><strong>from pyproj.transformer import TransformerGroup</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>trans_group = TransformerGroup</strong><strong>(</strong><strong>4326</strong><strong>, </strong><strong>2964</strong><strong>)</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>trans_group</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>&lt;TransformerGroup</strong> (<em>best_available=True&gt;</em>) – </p></li>
+<li><p><strong>transformers</strong> (<em>-</em>) – </p></li>
+<li><p><strong>unavailable_operations</strong> (<em>-</em>) – </p></li>
 </ul>
 </dd>
 </dl>
