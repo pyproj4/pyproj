@@ -82,6 +82,15 @@ class TransformerGroup(_TransformerGroup):
             The area of interest to help order the transformations based on the
             best operation for the area.
 
+        Example:
+
+        >>> from pyproj.transformer import TransformerGroup
+        >>> trans_group = TransformerGroup(4326, 2964)
+        >>> trans_group
+        <TransformerGroup: best_available=True>
+        - transformers: 8
+        - unavailable_operations: 1
+
         """
         super(TransformerGroup, self).__init__(
             CRS.from_user_input(crs_from),
@@ -117,6 +126,17 @@ class TransformerGroup(_TransformerGroup):
         bool: If True, the best possible transformer is available.
         """
         return self._best_available
+
+    def __repr__(self):
+        return (
+            "<TransformerGroup: best_available={best_available}>\n"
+            "- transformers: {transformers}\n"
+            "- unavailable_operations: {unavailable_operations}"
+        ).format(
+            best_available=self.best_available,
+            transformers=len(self.transformers),
+            unavailable_operations=len(self.unavailable_operations),
+        )
 
 
 class Transformer:

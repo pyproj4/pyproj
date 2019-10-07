@@ -463,7 +463,13 @@ def test_coordinate_system_geog():
 
 def test_coordinate_operation():
     crs = CRS.from_epsg(26915)
-    assert repr(crs.coordinate_operation).startswith('CONVERSION["UTM zone 15N"')
+    assert repr(crs.coordinate_operation) == (
+        "<Coordinate Operation: Conversion>\n"
+        "UTM zone 15N\n"
+        "Area of Use:\n"
+        "- name: World - N hemisphere - 96°W to 90°W\n"
+        "- bounds: (-96.0, 0.0, -90.0, 84.0)"
+    )
     assert crs.coordinate_operation.method_name == "Transverse Mercator"
     assert crs.coordinate_operation.name == str(crs.coordinate_operation)
     assert crs.coordinate_operation.method_auth_name == "EPSG"
