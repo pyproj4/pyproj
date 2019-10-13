@@ -1,13 +1,14 @@
 import os
 import shutil
 import tempfile
+from distutils.version import LooseVersion
 
 import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
 
 import pyproj
-from pyproj import Proj, Transformer, itransform, transform
+from pyproj import Proj, Transformer, itransform, proj_version_str, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
@@ -260,7 +261,11 @@ def test_transform_no_exception():
 def test_transform__out_of_bounds():
     with pytest.warns(DeprecationWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
-    assert np.all(np.isinf(transformer.transform(100000, 100000, errcheck=True)))
+    if LooseVersion(proj_version_str) > LooseVersion("6.2.0"):
+        with pytest.raises(ProjError):
+            transformer.transform(100000, 100000, errcheck=True)
+    else:
+        assert np.all(np.isinf(transformer.transform(100000, 100000, errcheck=True)))
 
 
 def test_transform_radians():
