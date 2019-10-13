@@ -1,6 +1,8 @@
+from distutils.version import LooseVersion
+
 import pytest
 
-from pyproj import CRS, Transformer
+from pyproj import CRS, Transformer, proj_version_str
 from pyproj._crs import CoordinateSystem
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
 from pyproj.enums import ProjVersion, WktVersion
@@ -880,8 +882,24 @@ def test_to_dict_no_proj4():
             "proj": "ob_tran",
         }
     )
-    assert crs.to_proj4() is None
-    assert crs.to_dict() == {}
+    if LooseVersion(proj_version_str) > LooseVersion("6.2.0"):
+        assert crs.to_proj4() == (
+            "+proj=ob_tran +o_proj=longlat +lon_0=-10 +o_lat_p=30 "
+            "+o_lon_p=0 +R=6371229 +no_defs +type=crs"
+        )
+        assert crs.to_dict() == {
+            "R": 6371229,
+            "lon_0": -10,
+            "no_defs": None,
+            "o_lat_p": 30,
+            "o_lon_p": 0,
+            "o_proj": "longlat",
+            "proj": "ob_tran",
+            "type": "crs",
+        }
+    else:
+        assert crs.to_proj4() is None
+        assert crs.to_dict() == {}
 
 
 def test_to_dict_from_dict():
