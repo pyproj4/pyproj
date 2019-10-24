@@ -34,10 +34,12 @@ matrix:
       env:
         - PROJSOURCE=6.2.0
     - python: 3.7
-      dist: xenial
       env:
         - PROJSOURCE=6.2.0
         - DOC=true
+    - python: 3.8
+      env:
+        - PROJSOURCE=6.2.0
     - python: "nightly"
       env:
         - PROJSOURCE=git
