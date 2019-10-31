@@ -150,38 +150,26 @@ def test_cf_rotated_latlon():
         )
     )
     cf_dict = crs.to_cf()
+    assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
     if LooseVersion(proj_version_str) > LooseVersion("6.2.0"):
         assert crs.to_dict() == {
             "proj": "ob_tran",
-            "o_proj": "latlon",
+            "o_proj": "longlat",
             "o_lat_p": 32.5,
             "o_lon_p": 170.0,
             "datum": "WGS84",
             "no_defs": None,
             "type": "crs",
         }
-        assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
         assert cf_dict == dict(
             grid_mapping_name="rotated_latitude_longitude",
             grid_north_pole_latitude=32.5,
             grid_north_pole_longitude=170.0,
-            geographic_crs_name="unnamed",
             horizontal_datum_name="WGS84",
         )
     else:
-        assert crs.to_dict() == {
-            "proj": "ob_tran",
-            "o_proj": "latlon",
-            "o_lat_p": 32.5,
-            "o_lon_p": 170.0,
-            "type": "crs",
-        }
-        assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
-        assert cf_dict == dict(
-            grid_mapping_name="rotated_latitude_longitude",
-            grid_north_pole_latitude=32.5,
-            grid_north_pole_longitude=170.0,
-        )
+        assert cf_dict == {}
+        assert crs.to_dict() == {}
 
 
 def test_cf_rotated_latlon__grid():
@@ -196,7 +184,7 @@ def test_cf_rotated_latlon__grid():
     if LooseVersion(proj_version_str) > LooseVersion("6.2.0"):
         assert crs.to_dict() == {
             "proj": "ob_tran",
-            "o_proj": "latlon",
+            "o_proj": "longlat",
             "o_lat_p": 32.5,
             "o_lon_p": 170.0,
             "lon_0": 0,
@@ -205,14 +193,7 @@ def test_cf_rotated_latlon__grid():
             "type": "crs",
         }
     else:
-        assert crs.to_dict() == {
-            "proj": "ob_tran",
-            "o_proj": "latlon",
-            "o_lat_p": 32.5,
-            "o_lon_p": 170.0,
-            "lon_0": 0,
-            "type": "crs",
-        }
+        assert crs.to_dict() == {}
 
 
 def test_cf_lambert_conformal_conic():

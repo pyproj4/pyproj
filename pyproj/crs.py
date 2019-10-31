@@ -720,12 +720,15 @@ class CRS(_CRS):
         """
 
         cf_dict = {"crs_wkt": self.to_wkt(wkt_version)}
-        if self.is_geographic and self.name != "unknown":
+        missing_names = ("unknown", "unnamed")
+        if self.is_geographic and self.name not in missing_names:
             cf_dict["geographic_crs_name"] = self.name
-        elif self.is_projected and self.name != "unknown":
+        elif self.is_projected and self.name not in missing_names:
             cf_dict["projected_crs_name"] = self.name
 
         proj_dict = self.to_dict()
+        if not proj_dict:
+            return cf_dict
         proj_name = proj_dict.pop("proj")
         lonlat_possible_names = ("lonlat", "latlon", "longlat", "latlong")
         if proj_name in lonlat_possible_names:
@@ -830,7 +833,7 @@ class CRS(_CRS):
             )
         proj_dict = {"proj": proj_name}
         if grid_mapping_name == "rotated_latitude_longitude":
-            proj_dict["o_proj"] = "latlon"
+            proj_dict["o_proj"] = "longlat"
         elif grid_mapping_name == "oblique_mercator":
             try:
                 proj_dict["lonc"] = in_cf.pop("longitude_of_projection_origin")
