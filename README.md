@@ -32,7 +32,8 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 <table>
   <tr>
     <td align="center"><a href="https://github.com/jswhit"><img src="https://avatars2.githubusercontent.com/u/579593?v=4" width="100px;" alt="Jeff Whitaker"/><br /><sub><b>Jeff Whitaker</b></sub></a><br /><a href="https://github.com/snowman2/pyproj/commits?author=jswhit" title="Documentation">📖</a> <a href="https://github.com/snowman2/pyproj/commits?author=jswhit" title="Tests">⚠️</a> <a href="https://github.com/snowman2/pyproj/commits?author=jswhit" title="Code">💻</a> <a href="#example-jswhit" title="Examples">💡</a> <a href="#ideas-jswhit" title="Ideas, Planning, & Feedback">🤔</a> <a href="#review-jswhit" title="Reviewed Pull Requests">👀</a> <a href="#question-jswhit" title="Answering Questions">💬</a> <a href="#maintenance-jswhit" title="Maintenance">🚧</a> <a href="#infra-jswhit" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
@@ -65,13 +66,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://lizards.opensuse.org/author/bmwiedemann/"><img src="https://avatars3.githubusercontent.com/u/637990?v=4" width="100px;" alt="Bernhard M. Wiedemann"/><br /><sub><b>Bernhard M. Wiedemann</b></sub></a><br /><a href="https://github.com/snowman2/pyproj/commits?author=bmwiedemann" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ReallyNiceGuy"><img src="https://avatars0.githubusercontent.com/u/6545730?v=4" width="100px;" alt="Marco Aurélio da Costa"/><br /><sub><b>Marco Aurélio da Costa</b></sub></a><br /><a href="https://github.com/snowman2/pyproj/commits?author=ReallyNiceGuy" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ChrisBarker-NOAA"><img src="https://avatars2.githubusercontent.com/u/916576?v=4" width="100px;" alt="Christopher H. Barker"/><br /><sub><b>Christopher H. Barker</b></sub></a><br /><a href="https://github.com/snowman2/pyproj/commits?author=ChrisBarker-NOAA" title="Code">💻</a></td>
-    <td align="center"><a href="https://evers.dev/"><img src="https://avatars3.githubusercontent.com/u/13132571?v=4" width="100px;" alt="Kristian Evers"/><br /><sub><b>Kristian Evers</b></sub></a><br /><a href="#question-kbevers" title="Answering Questions">💬</a> <a href="#ideas-kbevers" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://evers.dev/"><img src="https://avatars3.githubusercontent.com/u/13132571?v=4" width="100px;" alt="Kristian Evers"/><br /><sub><b>Kristian Evers</b></sub></a><br /><a href="#question-kbevers" title="Answering Questions">💬</a> <a href="#ideas-kbevers" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/snowman2/pyproj/commits?author=kbevers" title="Documentation">📖</a></td>
     <td align="center"><a href="http://www.spatialys.com/en/about/"><img src="https://avatars2.githubusercontent.com/u/1192433?v=4" width="100px;" alt="Even Rouault"/><br /><sub><b>Even Rouault</b></sub></a><br /><a href="#question-rouault" title="Answering Questions">💬</a></td>
     <td align="center"><a href="https://github.com/cgohlke"><img src="https://avatars3.githubusercontent.com/u/483428?v=4" width="100px;" alt="Christoph Gohlke"/><br /><sub><b>Christoph Gohlke</b></sub></a><br /><a href="#platform-cgohlke" title="Packaging/porting to new platform">📦</a> <a href="#question-cgohlke" title="Answering Questions">💬</a> <a href="https://github.com/snowman2/pyproj/issues?q=author%3Acgohlke" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/chrrrisw"><img src="https://avatars0.githubusercontent.com/u/5555320?v=4" width="100px;" alt="Chris Willoughby"/><br /><sub><b>Chris Willoughby</b></sub></a><br /><a href="https://github.com/snowman2/pyproj/commits?author=chrrrisw" title="Code">💻</a></td>
   </tr>
 </table>
 
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
