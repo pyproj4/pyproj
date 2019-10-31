@@ -151,7 +151,7 @@ def test_cf_rotated_latlon():
     )
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
-    if LooseVersion(proj_version_str) > LooseVersion("6.2.0"):
+    if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
         assert crs.to_dict() == {
             "proj": "ob_tran",
             "o_proj": "longlat",
@@ -181,7 +181,7 @@ def test_cf_rotated_latlon__grid():
             north_pole_grid_longitude=0,
         )
     )
-    if LooseVersion(proj_version_str) > LooseVersion("6.2.0"):
+    if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
         assert crs.to_dict() == {
             "proj": "ob_tran",
             "o_proj": "longlat",

@@ -261,7 +261,7 @@ def test_transform_no_exception():
 def test_transform__out_of_bounds():
     with pytest.warns(DeprecationWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
-    if LooseVersion(proj_version_str) > LooseVersion("6.2.0"):
+    if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
         with pytest.raises(ProjError):
             transformer.transform(100000, 100000, errcheck=True)
     else:
