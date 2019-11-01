@@ -3,8 +3,9 @@ Change Log
 
 2.4.1
 ~~~~~
-* Fix setting lat_ts for mercator projection in :meth:`~pyproj.CRS.from_cf` and :meth:`~pyproj.CRS.to_cf` (issue #461)
-* Add repr for `pyproj.crs.CoordinateOperation` and for `pyproj.transformer.TransformerGroup` (pull #464)
+* BUG: Fix setting lat_ts for mercator projection in :meth:`~pyproj.CRS.from_cf` and :meth:`~pyproj.CRS.to_cf` (issue #461)
+* BUG: latlon -> longlat in `CRS.from_cf()` for o_proj so behavior consistent in PROJ 6.2.0 and 6.2.1 (pull #472)
+* ENH: Add repr for `pyproj.crs.CoordinateOperation` and for `pyproj.transformer.TransformerGroup` (pull #464)
 
 2.4.0
 ~~~~~

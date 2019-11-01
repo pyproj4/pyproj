@@ -198,8 +198,9 @@
 <div class="section" id="id1">
 <h2>2.4.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Fix setting lat_ts for mercator projection in <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_cf()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_cf()</span></code> (issue #461)</p></li>
-<li><p>Add repr for <cite>pyproj.crs.CoordinateOperation</cite> and for <cite>pyproj.transformer.TransformerGroup</cite> (pull #464)</p></li>
+<li><p>BUG: Fix setting lat_ts for mercator projection in <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_cf()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_cf()</span></code> (issue #461)</p></li>
+<li><p>BUG: latlon -&gt; longlat in <cite>CRS.from_cf()</cite> for o_proj so behavior consistent in PROJ 6.2.0 and 6.2.1 (pull #472)</p></li>
+<li><p>ENH: Add repr for <cite>pyproj.crs.CoordinateOperation</cite> and for <cite>pyproj.transformer.TransformerGroup</cite> (pull #464)</p></li>
 </ul>
 </div>
 <div class="section" id="id2">
