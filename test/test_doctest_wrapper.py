@@ -5,6 +5,7 @@ pytest can conveniently run all the tests in a single command line.
 import doctest
 import os
 import platform
+import sys
 
 import pyproj
 
@@ -25,12 +26,16 @@ def test_doctests():
         + failure_count_geod
         + failure_count_transform
     )
-    # shapely wheels not on windows, so allow failures there
+    # Missing shapely wheels for Windows, non x86_64 platforms, and python 3.8
     expected_failure_count = 0
     try:
         import shapely  # noqa
     except ImportError:
-        if os.name == "nt" or platform.uname()[4] != "x86_64":
+        if (
+            os.name == "nt"
+            or platform.uname()[4] != "x86_64"
+            or (sys.version_info.major, sys.version_info.minor) >= (3, 8)
+        ):
             expected_failure_count = 6
 
     # if the below line fails, doctests have failed

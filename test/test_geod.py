@@ -3,6 +3,7 @@ import os
 import pickle
 import platform
 import shutil
+import sys
 import tempfile
 from contextlib import contextmanager
 
@@ -28,8 +29,13 @@ except ImportError:
 
 
 skip_shapely = pytest.mark.skipif(
-    not SHAPELY_LOADED and (os.name == "nt" or platform.uname()[4] != "x86_64"),
-    reason="Missing shapely wheels for Windows.",
+    not SHAPELY_LOADED
+    and (
+        os.name == "nt"
+        or platform.uname()[4] != "x86_64"
+        or (sys.version_info.major, sys.version_info.minor) >= (3, 8)
+    ),
+    reason="Missing shapely wheels for Windows, non x86_64 platforms, and python 3.8.",
 )
 
 
