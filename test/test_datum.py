@@ -3,7 +3,7 @@ from numpy.testing import assert_almost_equal
 from pyproj import Proj, transform
 
 
-def test_datum():
+def test_datum(aoi_data_directory):
     p1 = Proj(proj="latlong", datum="WGS84")
     s_1 = -111.5
     s_2 = 45.25919444444

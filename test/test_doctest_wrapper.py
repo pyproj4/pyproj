@@ -10,7 +10,7 @@ import sys
 import pyproj
 
 
-def test_doctests():
+def test_doctests(aoi_data_directory):
     """run the examples in the docstrings using the doctest module"""
 
     failure_count_proj, test_count = doctest.testmod(pyproj.proj, verbose=True)
