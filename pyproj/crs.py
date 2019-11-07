@@ -440,7 +440,7 @@ class CRS(_CRS):
     def from_authority(cls, auth_name, code):
         """
         .. versionadded:: 2.2.0
-        
+
         Make a CRS from an authority name and authority code
 
         Parameters

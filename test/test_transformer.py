@@ -1,6 +1,3 @@
-import os
-import shutil
-import tempfile
 from distutils.version import LooseVersion
 
 import numpy as np
