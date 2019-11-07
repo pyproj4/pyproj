@@ -11,7 +11,7 @@ _USER_PROJ_DATA = None
 _VALIDATED_PROJ_DATA = None
 
 
-def set_data_dir(proj_data_dir):
+def set_data_dir(proj_data_dir: str) -> None:
     """
     Set the data directory for PROJ to use.
 
@@ -33,7 +33,7 @@ def set_data_dir(proj_data_dir):
     pyproj_global_context_initialize()
 
 
-def append_data_dir(proj_data_dir):
+def append_data_dir(proj_data_dir: str) -> None:
     """
     Add an additional data directory for PROJ to use.
 
@@ -45,7 +45,7 @@ def append_data_dir(proj_data_dir):
     set_data_dir(os.pathsep.join([get_data_dir(), proj_data_dir]))
 
 
-def get_data_dir():
+def get_data_dir() -> str:
     """
     The order of preference for the data directory is:
 
@@ -57,7 +57,8 @@ def get_data_dir():
 
     Returns
     -------
-    str: The valid data directory.
+    str:
+        The valid data directory.
 
     """
     # to avoid re-validating

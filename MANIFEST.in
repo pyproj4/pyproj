@@ -7,6 +7,7 @@ include pyproj/*.pyd
 include pyproj/*.pyx
 include pyproj/*.pxd
 include pyproj/*.pxi
+include pyproj/*.pyi
 include test/sample.out
 include test/conftest.py
 recursive-include docs *

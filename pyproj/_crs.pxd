@@ -33,7 +33,7 @@ cdef class Base:
     cdef readonly object name
     cdef readonly object _remarks
     cdef readonly object _scope
-
+    cdef _set_base_info(self)
 
 cdef class _CRSParts(Base):
     pass

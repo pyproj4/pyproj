@@ -244,7 +244,8 @@ cdef class _Transformer(Base):
         """
         Returns
         -------
-        AreaOfUse: The area of use object with associated attributes.
+        AreaOfUse:
+            The area of use object with associated attributes.
         """
         if self._area_of_use is not None:
             return self._area_of_use
@@ -256,7 +257,8 @@ cdef class _Transformer(Base):
         """
         .. versionadded:: 2.4.0
 
-        tuple[CoordinateOperation]: The operations in a concatenated operation.
+        Tuple[CoordinateOperation]:
+            The operations in a concatenated operation.
         """
         if self._operations is not None:
             return self._operations
@@ -399,7 +401,16 @@ cdef class _Transformer(Base):
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _transform(self, inx, iny, inz, intime, direction, radians, errcheck):
+    def _transform(
+        self,
+        object inx,
+        object iny,
+        object inz,
+        object intime,
+        object direction,
+        bint radians,
+        bint errcheck,
+    ):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
@@ -485,8 +496,14 @@ cdef class _Transformer(Base):
     @cython.boundscheck(False)
     @cython.wraparound(False)
     def _transform_sequence(
-        self, Py_ssize_t stride, object inseq, bint switch,
-        direction, time_3rd, radians, errcheck
+        self,
+        Py_ssize_t stride,
+        object inseq,
+        bint switch,
+        object direction,
+        bint time_3rd,
+        bint radians,
+        bint errcheck,
     ):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return

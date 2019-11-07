@@ -389,7 +389,7 @@ cdef class Base:
         if self.context != NULL:
             proj_context_destroy(self.context)
 
-    def _set_base_info(self):
+    cdef _set_base_info(self):
         """
         Set the name of the PJ
         """
@@ -410,7 +410,10 @@ cdef class Base:
         """
         .. versionadded:: 2.4.0
 
-        str: Remarks about object.
+        Returns
+        -------
+        str:
+            Remarks about object.
         """
         return self._remarks
 
@@ -419,7 +422,10 @@ cdef class Base:
         """
         .. versionadded:: 2.4.0
 
-        str: Scope of object.
+        Returns
+        -------
+        str:
+            Scope of object.
         """
         return self._scope
 
@@ -446,7 +452,7 @@ cdef class Base:
  
         Returns
         -------
-        str: The WKT string.
+        str
         """
         return _to_wkt(self.context, self.projobj, version, pretty=pretty)
 
@@ -465,7 +471,7 @@ cdef class Base:
  
         Returns
         -------
-        str: The JSON string.
+        str
         """
         cdef const char* options[3]
         multiline = b"MULTILINE=NO"
@@ -494,7 +500,7 @@ cdef class Base:
 
         Returns
         -------
-        dict: The JSON dictionary.
+        dict
         """
         return json.loads(self.to_json())
 
@@ -619,7 +625,8 @@ cdef class CoordinateSystem(_CRSParts):
         """
         Returns
         -------
-        list[Axis]: The Axis list for the coordinate system.
+        list[Axis]:
+            The Axis list for the coordinate system.
         """
         if self._axis_list is not None:
             return self._axis_list
@@ -1594,7 +1601,8 @@ cdef class Datum(_CRSParts):
         """
         Returns
         -------
-        Ellipsoid: The ellipsoid object with associated attributes.
+        Ellipsoid:
+            The ellipsoid object with associated attributes.
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
@@ -1617,7 +1625,8 @@ cdef class Datum(_CRSParts):
         """
         Returns
         -------
-        PrimeMeridian: The CRS prime meridian object with associated attributes.
+        PrimeMeridian:
+            The CRS prime meridian object with associated attributes.
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is False else self._prime_meridian
@@ -2137,7 +2146,8 @@ cdef class CoordinateOperation(_CRSParts):
         """
         Returns
         -------
-        list[Param]: The coordinate operation parameters.
+        List[Param]:
+            The coordinate operation parameters.
         """
         if self._params is not None:
             return self._params
@@ -2163,7 +2173,8 @@ cdef class CoordinateOperation(_CRSParts):
         """
         Returns
         -------
-        list[Grid]: The coordinate operation grids.
+        List[Grid]:
+            The coordinate operation grids.
         """
         if self._grids is not None:
             return self._grids
@@ -2189,7 +2200,8 @@ cdef class CoordinateOperation(_CRSParts):
         """
         Returns
         -------
-        AreaOfUse: The area of use object with associated attributes.
+        AreaOfUse:
+            The area of use object with associated attributes.
         """
         if self._area_of_use is not None:
             return self._area_of_use
@@ -2208,7 +2220,9 @@ cdef class CoordinateOperation(_CRSParts):
 
         Returns
         -------
-        str: The PROJ string.
+        str:
+            The PROJ string.
+
         """
         return _to_proj4(self.context, self.projobj, version)
 
@@ -2217,8 +2231,9 @@ cdef class CoordinateOperation(_CRSParts):
         """
         Returns
         -------
-        list(float): A list of 3 or 7 towgs84 values if they exist.
-            Otherwise an empty list.
+        List[float]:
+            A list of 3 or 7 towgs84 values if they exist.
+
         """
         if self._towgs84 is not None:
             return self._towgs84
@@ -2244,7 +2259,11 @@ cdef class CoordinateOperation(_CRSParts):
         """
         .. versionadded:: 2.4.0
 
-        tuple[CoordinateOperation]: The operations in a concatenated operation.
+        Returns
+        -------
+        Tuple[CoordinateOperation]:
+            The operations in a concatenated operation.
+
         """
         if self._operations is not None:
             return self._operations
@@ -2327,7 +2346,8 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        list[Axis]: The list of axis information.
+        List[Axis]:
+            The list of axis information.
         """
         return self.coordinate_system.axis_list if self.coordinate_system else []
 
@@ -2336,7 +2356,8 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        AreaOfUse: The area of use object with associated attributes.
+        AreaOfUse:
+            The area of use object with associated attributes.
         """
         if self._area_of_use is not None:
             return self._area_of_use
@@ -2350,7 +2371,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        Ellipsoid: The ellipsoid object with associated attributes.
+        Ellipsoid:
+            The ellipsoid object with associated attributes.
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
@@ -2375,7 +2397,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        PrimeMeridian: The prime meridian object with associated attributes.
+        PrimeMeridian:
+            The prime meridian object with associated attributes.
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is True else self._prime_meridian
@@ -2400,7 +2423,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        Datum: The datum.
+        Datum
         """
         if self._datum is not None:
             return None if self._datum is False else self._datum
@@ -2430,7 +2453,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        CoordinateSystem: The coordinate system.
+        CoordinateSystem
         """
         if self._coordinate_system is not None:
             return None if self._coordinate_system is False else self._coordinate_system
@@ -2459,7 +2482,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        CoordinateOperation: The coordinate operation.
+        CoordinateOperation
         """
         if self._coordinate_operation is not None:
             return (
@@ -2487,10 +2510,12 @@ cdef class _CRS(Base):
     @property
     def source_crs(self):
         """
+        The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
+        or the source CRS of a CoordinateOperation.
+
         Returns
         -------
-        _CRS: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
-            or the source CRS of a CoordinateOperation.
+        _CRS
         """
         if self._source_crs is not None:
             return None if self._source_crs is False else self._source_crs
@@ -2512,7 +2537,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        _CRS: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
+        _CRS:
+            The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
         """
         if self._target_crs is not None:
             return None if self._target_crs is False else self._target_crs
@@ -2534,7 +2560,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        list[_CRS]
+        List[_CRS]
         """
         if self._sub_crs_list is not None:
             return self._sub_crs_list
@@ -2564,9 +2590,11 @@ cdef class _CRS(Base):
         """
         .. versionadded:: 2.2.0
 
+        The the geodeticCRS / geographicCRS from the CRS.
+
         Returns
         -------
-        _CRS: The the geodeticCRS / geographicCRS from the CRS.
+        _CRS
         """
         if self._geodetic_crs is not None:
             return self._geodetic_crs if self. _geodetic_crs is not False else None
@@ -2597,7 +2625,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        str: The PROJ string.
+        str
         """
         warnings.warn(
             "You will likely lose important projection information when "
@@ -2639,7 +2667,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        int or None: The best matching EPSG code matching the confidence level.
+        Optional[int]:
+            The best matching EPSG code matching the confidence level.
         """
         auth_info = self.to_authority(
             auth_name="EPSG",
@@ -2684,8 +2713,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        tuple(str, str) or None: The best matching (<auth_name>, <code>)
-            matching the confidence level.
+        tuple(str, str) or None:
+            The best matching (<auth_name>, <code>) for the confidence level.
         """
         # get list of possible matching projections
         cdef PJ_OBJ_LIST *proj_list = NULL
@@ -2768,7 +2797,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        bool: True if the CRS has this property.
+        bool:
+            True if the CRS has this property.
         """
         if self.sub_crs_list:
             sub_crs = self.sub_crs_list[sub_crs_index]
@@ -2792,7 +2822,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        bool: True if the CRS is in geographic (lon/lat) coordinates.
+        bool:
+            True if the CRS is in geographic (lon/lat) coordinates.
         """
         return self._is_crs_property(
             "is_geographic", 
@@ -2813,7 +2844,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        bool: True if CRS is projected.
+        bool:
+            True if CRS is projected.
         """
         return self._is_crs_property(
             "is_projected", 
@@ -2832,7 +2864,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        bool: True if CRS is vertical.
+        bool:
+            True if CRS is vertical.
         """
         return self._is_crs_property(
             "is_vertical", 
@@ -2845,7 +2878,8 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        bool: True if CRS is bound.
+        bool:
+            True if CRS is bound.
         """
         return self._type == PJ_TYPE_BOUND_CRS
 
@@ -2856,7 +2890,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        bool: True if CRS is local/engineering.
+        bool:
+            True if CRS is local/engineering.
         """
         return self._type == PJ_TYPE_ENGINEERING_CRS
 
@@ -2868,7 +2903,8 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        bool: True if CRS is in geocentric (x/y) coordinates.
+        bool:
+            True if CRS is in geocentric (x/y) coordinates.
         """
         if self.is_bound:
             return self.source_crs.is_geocentric

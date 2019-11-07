@@ -2,6 +2,7 @@ cython>=0.28.4
 black; python_version >= '3.6'
 flake8
 mock
+mypy
 numpy
 pylint
 pytest>3.6

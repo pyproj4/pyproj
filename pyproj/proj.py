@@ -36,6 +36,7 @@ NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 import re
 import warnings
+from typing import Any, Optional, Tuple, Type
 
 from pyproj._list import get_proj_operations_map
 from pyproj._proj import Factors, _Proj, proj_version_str  # noqa: F401
@@ -82,7 +83,9 @@ class Proj(_Proj):
 
     """
 
-    def __init__(self, projparams=None, preserve_units=True, **kwargs):
+    def __init__(
+        self, projparams: Any = None, preserve_units: bool = True, **kwargs
+    ) -> None:
         """
         initialize a Proj class instance.
 
@@ -167,7 +170,7 @@ class Proj(_Proj):
         projstring = re.sub(r"\s\+?type=crs", "", projstring)
         super().__init__(cstrencode(projstring.strip()))
 
-    def __call__(self, *args, **kw):
+    def __call__(self, *args, **kw) -> Tuple[Any, Any]:
         # ,lon,lat,inverse=False,errcheck=False):
         """
         Calling a Proj class instance with the arguments lon, lat will
@@ -202,8 +205,12 @@ class Proj(_Proj):
         return outx, outy
 
     def get_factors(
-        self, longitude, latitude, radians=False, errcheck=False,
-    ):
+        self,
+        longitude: Any,
+        latitude: Any,
+        radians: bool = False,
+        errcheck: bool = False,
+    ) -> Factors:
         """
         .. versionadded:: 2.6.0
 
@@ -268,33 +275,32 @@ class Proj(_Proj):
             dy_dphi=_convertback(xisfloat, xislist, xistuple, factors.dy_dphi),
         )
 
-    def definition_string(self):
+    def definition_string(self) -> str:
         """Returns formal definition string for projection
 
         >>> Proj("epsg:4326").definition_string()
         'proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0'
-        >>>
         """
         return pystrdecode(self.definition)
 
-    def to_latlong_def(self):
+    def to_latlong_def(self) -> Optional[str]:
         """return the definition string of the geographic (lat/lon)
         coordinate version of the current projection"""
-        return self.crs.geodetic_crs.to_proj4(4)
+        return self.crs.geodetic_crs.to_proj4(4) if self.crs.geodetic_crs else None
 
-    def to_latlong(self):
+    def to_latlong(self) -> "Proj":
         """return a new Proj instance which is the geographic (lat/lon)
         coordinate version of the current projection"""
         return Proj(self.crs.geodetic_crs)
 
-    def __reduce__(self):
+    def __reduce__(self) -> Tuple[Type["Proj"], Tuple[str]]:
         """special method that allows pyproj.Proj instance to be pickled"""
         return self.__class__, (self.crs.srs,)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Proj):
             return False
         return self._is_equivalent(other)

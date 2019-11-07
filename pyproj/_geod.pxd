@@ -28,8 +28,8 @@ cdef extern from "geodesic.h":
 cdef class Geod:
     cdef geod_geodesic _geod_geodesic
     cdef readonly object initstring
-    cdef readonly object a
-    cdef readonly object b
-    cdef readonly object f
-    cdef readonly object es
-    cdef readonly object sphere
+    cdef readonly double a
+    cdef readonly double b
+    cdef readonly double f
+    cdef readonly double es
+    cdef readonly bint sphere

@@ -1,3 +1,5 @@
+from typing import Union
+
 from pyproj._crs import CoordinateSystem
 from pyproj.crs.enums import (
     Cartesian2DCSAxis,
@@ -55,7 +57,10 @@ class Ellipsoidal2DCS(CoordinateSystem):
     This generates an Ellipsoidal 2D Coordinate System
     """
 
-    def __new__(cls, axis=Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE):
+    def __new__(
+        cls,
+        axis: Union[Ellipsoidal2DCSAxis, str] = Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE,
+    ):
         """
         Parameters
         ----------
@@ -122,7 +127,12 @@ class Ellipsoidal3DCS(CoordinateSystem):
     This generates an Ellipsoidal 3D Coordinate System
     """
 
-    def __new__(cls, axis=Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT):
+    def __new__(
+        cls,
+        axis: Union[
+            Ellipsoidal3DCSAxis, str
+        ] = Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT,
+    ):
         """
         Parameters
         ----------
@@ -265,7 +275,9 @@ class Cartesian2DCS(CoordinateSystem):
     This generates an Cartesian 2D Coordinate System
     """
 
-    def __new__(cls, axis=Cartesian2DCSAxis.EASTING_NORTHING):
+    def __new__(
+        cls, axis: Union[Cartesian2DCSAxis, str] = Cartesian2DCSAxis.EASTING_NORTHING
+    ):
         """
         Parameters
         ----------
@@ -346,7 +358,7 @@ class VerticalCS(CoordinateSystem):
     This generates an Vertical Coordinate System
     """
 
-    def __new__(cls, axis=VerticalCSAxis.GRAVITY_HEIGHT):
+    def __new__(cls, axis: Union[VerticalCSAxis, str] = VerticalCSAxis.GRAVITY_HEIGHT):
         """
         Parameters
         ----------

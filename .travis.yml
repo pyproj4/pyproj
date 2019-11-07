@@ -115,6 +115,12 @@ install:
 script:
   - python -c "import pyproj; pyproj.Proj('epsg:4269')"
   - make test-coverage
+  - |
+    if [ "$TRAVIS_PYTHON_VERSION" = "3.5" ]; then
+        make check-type;
+    else
+        make check;
+    fi
   # Building and uploading docs with doctr
   - set -e
   - |
