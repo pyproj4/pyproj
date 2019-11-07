@@ -1,6 +1,3 @@
-import os
-import shutil
-import tempfile
 from distutils.version import LooseVersion
 
 import numpy as np
@@ -515,7 +512,7 @@ def test_transformer_group():
     assert trans_group.best_available
 
 
-def test_transformer_group__unavailable():
+def test_transformer_group__unavailable(aoi_data_directory):
     trans_group = TransformerGroup(4326, 2964)
     assert len(trans_group.unavailable_operations) == 1
     assert (
@@ -526,7 +523,7 @@ def test_transformer_group__unavailable():
     assert trans_group.best_available
 
 
-def test_transform_group__missing_best():
+def test_transform_group__missing_best(aoi_data_directory):
     with pytest.warns(DeprecationWarning):
         lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
         alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
@@ -541,27 +538,6 @@ def test_transform_group__missing_best():
     assert not trans_group.best_available
     assert len(trans_group.transformers) == 37
     assert len(trans_group.unavailable_operations) == 41
-
-
-@pytest.fixture(scope="module")
-def aoi_data_directory():
-    """
-    This is to ensure that the ntv2_0.gsb file is actually
-    missing for the AOI tests.
-    """
-    data_dir = pyproj.datadir.get_data_dir()
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmp_data_dir = os.path.join(tmpdir, "proj")
-        shutil.copytree(data_dir, tmp_data_dir)
-        try:
-            os.remove(os.path.join(str(tmp_data_dir), "ntv2_0.gsb"))
-        except OSError:
-            pass
-        try:
-            pyproj.datadir.set_data_dir(str(tmp_data_dir))
-            yield
-        finally:
-            pyproj.datadir.set_data_dir(data_dir)
 
 
 def test_transform_group__area_of_interest(aoi_data_directory):
