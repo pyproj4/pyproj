@@ -12,6 +12,8 @@ The easiest methods for installing pyproj are:
     
       pip install pyproj
 
+  .. note:: pip>=19.0 is required to install manylinux2010 wheels
+
   - The MacOS and Linux wheels are powered by `multibuild by Matthew Brett <https://github.com/matthew-brett/multibuild>`__
   - The Windows wheels are built by `Christoph Gohlke <https://www.lfd.uci.edu/~gohlke/pythonlibs/>`__
 
