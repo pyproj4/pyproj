@@ -42,7 +42,16 @@ def get_proj_dir():
         if proj is None:
             proj = find_executable("proj")
         if proj is None:
-            sys.exit("Proj executable not found. Please set PROJ_DIR variable.")
+            manylinux2010_message = ""
+            if os.name == "posix":
+                manylinux2010_message = (
+                    " pip>=19.0 is required to install manylinux2010 wheels."
+                )
+            sys.exit(
+                "proj executable not found. Please set the PROJ_DIR variable.{}".format(
+                    manylinux2010_message
+                )
+            )
         proj_dir = os.path.dirname(os.path.dirname(proj))
     elif proj_dir is not None and os.path.exists(proj_dir):
         print("PROJ_DIR is set, using existing proj4 installation..\n")
