@@ -167,7 +167,7 @@ class CRS(_CRS):
           - An EPSG integer code [i.e. 4326]
           - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
           - An object with a `to_wkt` method.
-          - A :class:`~pyproj.CRS`
+          - A :class:`~pyproj.crs.CRS` class
 
         Example usage:
 
@@ -565,7 +565,7 @@ class CRS(_CRS):
           - An EPSG integer code [i.e. 4326]
           - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
           - An object with a `to_wkt` method.
-          - A :class:`~pyproj.CRS`
+          - A :class:`~pyproj.crs.CRS` class
 
         Parameters
         ----------
