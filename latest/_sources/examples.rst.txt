@@ -244,7 +244,7 @@ and documentation see :class:`~pyproj.crs.CRS`.
 Note that `crs_4326` has the latitude (north) axis first and the `crs_26917`
 has the easting axis first. This means that in the transformation, we will need
 to input the data with latitude first and longitude second. Also, note that the
-second projection is a UTM procection with bounds (-84.0, 23.81, -78.0, 84.0) which
+second projection is a UTM projection with bounds (-84.0, 23.81, -78.0, 84.0) which
 are in the form (min_x, min_y, max_x, max_y), so the transformation input/output should
 be within those bounds for best results.
 
