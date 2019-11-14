@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+2.4.2
+~~~~~
+* Elevate +init= warning to FutureWarning (pull #486)
+* Add UserWarning to :meth:`~pyproj.crs.CRS.to_proj4` (pull #486)
+
 2.4.1
 ~~~~~
 * Wheels contain PROJ version is 6.2.1 (issue #456)
