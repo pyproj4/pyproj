@@ -71,6 +71,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/cgohlke"><img src="https://avatars3.githubusercontent.com/u/483428?v=4" width="100px;" alt="Christoph Gohlke"/><br /><sub><b>Christoph Gohlke</b></sub></a><br /><a href="#platform-cgohlke" title="Packaging/porting to new platform">📦</a> <a href="#question-cgohlke" title="Answering Questions">💬</a> <a href="https://github.com/snowman2/pyproj/issues?q=author%3Acgohlke" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/chrrrisw"><img src="https://avatars0.githubusercontent.com/u/5555320?v=4" width="100px;" alt="Chris Willoughby"/><br /><sub><b>Chris Willoughby</b></sub></a><br /><a href="https://github.com/snowman2/pyproj/commits?author=chrrrisw" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/glostis"><img src="https://avatars0.githubusercontent.com/u/25295717?v=4" width="100px;" alt="Guillaume Lostis"/><br /><sub><b>Guillaume Lostis</b></sub></a><br /><a href="https://github.com/snowman2/pyproj/commits?author=glostis" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
