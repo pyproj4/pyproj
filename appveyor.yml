@@ -94,10 +94,10 @@ build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - proj
   # Build and install pyproj
-  - "%CMD_IN_ENV% pip install \"pip>=10.0.1,<19.1\""
+  - "python -m pip install \"pip>=10.0.1,<19.1\""
   - set PYPROJ_FULL_COVERAGE=YES
-  - "%CMD_IN_ENV% pip install -e ."
-  - "%CMD_IN_ENV% pip install -r requirements-dev.txt"
+  - "python -m pip install -e ."
+  - "python -m pip install -r requirements-dev.txt"
 
 
 install:
@@ -119,10 +119,10 @@ install:
 
   # Upgrade to the latest version of pip to avoid it displaying warnings
   # about it being out of date.
-  - "pip install --disable-pip-version-check --user --upgrade pip==19.0.3"
+  - "python -m pip install --disable-pip-version-check --user --upgrade pip==19.0.3"
   
   # install wheel, caching
-  - "%CMD_IN_ENV% pip install wheel"
+  - "python -m pip install wheel"
   # update vcpkg
   - cmd: |
       cd "C:\Tools\vcpkg"
@@ -150,7 +150,7 @@ after_test:
   # - "%CMD_IN_ENV% python setup.py bdist_wininst"
   # - "%CMD_IN_ENV% python setup.py bdist_msi"
   # test wheel
-  - pip install pyproj --ignore-installed -f dist
+  - python -m pip install pyproj --ignore-installed -f dist
   - python -c "import pyproj; pyproj.Proj('epsg:4269')"
   # cleanup for test dir
   - if %PROJSOURCE% == git del /F /Q dist\*

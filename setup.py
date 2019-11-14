@@ -23,7 +23,10 @@ def check_proj_version(proj_dir):
     if proj_version < PROJ_MIN_VERSION:
         sys.exit(
             "ERROR: Minimum supported proj version is {}, installed "
-            "version is {}.".format(PROJ_MIN_VERSION, proj_version)
+            "version is {}. For more information see: "
+            "https://pyproj4.github.io/pyproj/stable/installation.html".format(
+                PROJ_MIN_VERSION, proj_version
+            )
         )
 
     return proj_version
@@ -42,15 +45,10 @@ def get_proj_dir():
         if proj is None:
             proj = find_executable("proj")
         if proj is None:
-            manylinux2010_message = ""
-            if os.name == "posix":
-                manylinux2010_message = (
-                    " pip>=19.0 is required to install manylinux2010 wheels."
-                )
             sys.exit(
-                "proj executable not found. Please set the PROJ_DIR variable.{}".format(
-                    manylinux2010_message
-                )
+                "proj executable not found. Please set the PROJ_DIR variable."
+                "For more information see: "
+                "https://pyproj4.github.io/pyproj/stable/installation.html"
             )
         proj_dir = os.path.dirname(os.path.dirname(proj))
     elif proj_dir is not None and os.path.exists(proj_dir):
