@@ -117,7 +117,7 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
     # https://github.com/jswhit/pyproj/issues/8
 
     def setUp(self):
-        with pytest.warns(DeprecationWarning):
+        with pytest.warns(FutureWarning):
             self.p = Proj(init="epsg:4269")
 
     def test_tranform_none_1st_parmeter(self):
@@ -372,7 +372,8 @@ class Geod_NaN_Issue112_Test(unittest.TestCase):
 def test_proj_equals():
     assert Proj(4326) == Proj("epsg:4326")
     assert Proj(4326) != Proj("epsg:3857")
-    assert Proj(4326) == Proj(Proj("epsg:4326").crs.to_proj4())
+    with pytest.warns(UserWarning):
+        assert Proj(4326) == Proj(Proj("epsg:4326").crs.to_proj4())
 
 
 def test_initialize_proj_crs_no_proj4():

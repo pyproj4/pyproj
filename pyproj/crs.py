@@ -119,7 +119,7 @@ def _prepare_from_string(in_crs_string):
             warnings.warn(
                 "'+init=<authority>:<code>' syntax is deprecated."
                 " '<authority>:<code>' is the preferred initialization method.",
-                DeprecationWarning,
+                FutureWarning,
             )
     return in_crs_string
 
@@ -371,8 +371,6 @@ class CRS(_CRS):
           }
         }
         >>> crs = CRS(proj='utm', zone=10, ellps='WGS84')
-        >>> crs.to_proj4()
-        '+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs'
         >>> print(crs.to_wkt(pretty=True))
         PROJCRS["unknown",
             BASEGEOGCRS["unknown",
@@ -726,7 +724,15 @@ class CRS(_CRS):
         elif self.is_projected and self.name not in missing_names:
             cf_dict["projected_crs_name"] = self.name
 
-        proj_dict = self.to_dict()
+        # ignore warning here as WKT string provided with projection
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                "You will likely lose important projection information",
+                UserWarning,
+            )
+            proj_dict = self.to_dict()
+
         if not proj_dict:
             return cf_dict
         proj_name = proj_dict.pop("proj")

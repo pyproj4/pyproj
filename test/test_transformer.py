@@ -23,7 +23,7 @@ def test_tranform_wgs84_to_custom():
 
 
 def test_transform_wgs84_to_alaska():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
         alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
     test = (-179.72638, 49.752533)
@@ -33,7 +33,7 @@ def test_transform_wgs84_to_alaska():
 
 def test_illegal_transformation():
     # issue 202
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         p1 = pyproj.Proj(init="epsg:4326")
         p2 = pyproj.Proj(init="epsg:3857")
     xx, yy = pyproj.transform(
@@ -49,7 +49,7 @@ def test_illegal_transformation():
 
 def test_lambert_conformal_transform():
     # issue 207
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         Midelt = pyproj.Proj(init="epsg:26191")
         WGS84 = pyproj.Proj(init="epsg:4326")
 
@@ -83,9 +83,11 @@ def test_equivalent_crs__different():
 
 
 def test_equivalent_proj():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(UserWarning):
+        proj_to = pyproj.Proj(4326).crs.to_proj4()
+    with pytest.warns(FutureWarning):
         transformer = Transformer.from_proj(
-            "+init=epsg:4326", pyproj.Proj(4326).crs.to_proj4(), skip_equivalent=True
+            "+init=epsg:4326", proj_to, skip_equivalent=True
         )
     assert transformer._transformer.skip_equivalent
     assert transformer._transformer.projections_equivalent
@@ -93,7 +95,8 @@ def test_equivalent_proj():
 
 
 def test_equivalent_proj__disabled():
-    transformer = Transformer.from_proj(3857, pyproj.Proj(3857).crs.to_proj4())
+    with pytest.warns(UserWarning):
+        transformer = Transformer.from_proj(3857, pyproj.Proj(3857).crs.to_proj4())
     assert not transformer._transformer.skip_equivalent
     assert transformer._transformer.projections_equivalent
     assert not transformer._transformer.projections_exact_same
@@ -234,14 +237,14 @@ def test_itransform_time_3rd_invalid():
 
 
 def test_transform_no_error():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
     transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
 
 
 def test_itransform_no_error():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
     list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
@@ -249,14 +252,14 @@ def test_itransform_no_error():
 
 def test_transform_no_exception():
     # issue 249
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
     transformer.transform(1.716073972, 52.658007833, errcheck=True)
     transformer.itransform([(1.716073972, 52.658007833)], errcheck=True)
 
 
 def test_transform__out_of_bounds():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
     if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
         with pytest.raises(ProjError):
@@ -266,7 +269,7 @@ def test_transform__out_of_bounds():
 
 
 def test_transform_radians():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         WGS84 = pyproj.Proj("+init=EPSG:4326")
     ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
     assert_almost_equal(
@@ -290,7 +293,7 @@ def test_transform_radians():
 
 
 def test_itransform_radians():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         WGS84 = pyproj.Proj("+init=EPSG:4326")
     ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
     assert_almost_equal(
@@ -524,7 +527,7 @@ def test_transformer_group__unavailable(aoi_data_directory):
 
 
 def test_transform_group__missing_best(aoi_data_directory):
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
         alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
 

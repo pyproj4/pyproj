@@ -17,8 +17,9 @@ class CustomCRS(object):
 def test_from_proj4_json():
     json_str = '{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}'
     proj = CRS.from_string(json_str)
-    assert proj.to_proj4(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
-    assert proj.to_proj4(5) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    with pytest.warns(UserWarning):
+        assert proj.to_proj4(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+        assert proj.to_proj4(5) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     # Test with invalid JSON code
     with pytest.raises(CRSError):
         assert CRS.from_string("{foo: bar}")
@@ -26,7 +27,8 @@ def test_from_proj4_json():
 
 def test_from_proj4():
     proj = CRS.from_proj4("+proj=longlat +datum=WGS84 +no_defs +type=crs")
-    assert proj.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    with pytest.warns(UserWarning):
+        assert proj.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
 
 
 def test_from_proj4__invalid():
@@ -55,15 +57,17 @@ def test_from_epsg_string():
 
 def test_from_string():
     wgs84_crs = CRS.from_string("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
-    assert wgs84_crs.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+    with pytest.warns(UserWarning):
+        assert wgs84_crs.to_proj4() == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
     # Make sure this doesn't get handled using the from_epsg()
     # even though 'epsg' is in the string
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         epsg_init_crs = CRS.from_string("+init=epsg:26911 +units=m +no_defs=True")
-    assert (
-        epsg_init_crs.to_proj4()
-        == "+proj=utm +zone=11 +datum=NAD83 +units=m +no_defs +type=crs"
-    )
+    with pytest.warns(UserWarning):
+        assert (
+            epsg_init_crs.to_proj4()
+            == "+proj=utm +zone=11 +datum=NAD83 +units=m +no_defs +type=crs"
+        )
 
 
 def test_bare_parameters():
@@ -76,7 +80,8 @@ def test_bare_parameters():
         "+proj=lcc +lon_0=-95 +ellps=GRS80 +y_0=0 +no_defs=True "
         "+x_0=0 +units=m +lat_2=77 +lat_1=49 +lat_0=0"
     )
-    assert "+no_defs" in proj.to_proj4(4)
+    with pytest.warns(UserWarning):
+        assert "+no_defs" in proj.to_proj4(4)
 
     # TODO: THIS DOES NOT WORK
     proj = CRS.from_string(
@@ -139,9 +144,11 @@ def test_is_same_crs():
 
 
 def test_to_proj4():
-    assert (
-        CRS("EPSG:4326").to_proj4(4) == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
-    )
+    with pytest.warns(UserWarning):
+        assert (
+            CRS("EPSG:4326").to_proj4(4) == 
+            "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+        )
 
 
 def test_empty_json():
@@ -154,7 +161,7 @@ def test_empty_json():
 
 
 def test_has_wkt_property():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert (
             CRS({"init": "EPSG:4326"})
             .to_wkt("WKT1_GDAL")
@@ -169,7 +176,7 @@ def test_to_wkt_pretty():
 
 
 def test_repr():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert repr(CRS({"init": "EPSG:4326"})) == (
             "<Geographic 2D CRS: +init=epsg:4326 +type=crs>\n"
             "Name: WGS 84\n"
@@ -186,7 +193,7 @@ def test_repr():
 
 
 def test_repr__long():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
             '<Geographic 2D CRS: GEOGCRS["WGS 84",'
             'DATUM["World Geodetic System 1984 ...>\n'
@@ -264,12 +271,12 @@ def test_repr_compound():
 
 
 def test_dunder_str():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert str(CRS({"init": "EPSG:4326"})) == CRS({"init": "EPSG:4326"}).srs
 
 
 def test_epsg():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert CRS({"init": "EPSG:4326"}).to_epsg(20) == 4326
         assert CRS({"init": "EPSG:4326"}).to_epsg() is None
     assert CRS.from_user_input(4326).to_epsg() == 4326
@@ -319,7 +326,7 @@ def test_epsg__no_code_available():
 def test_crs_OSR_equivalence():
     crs1 = CRS.from_string("+proj=longlat +datum=WGS84 +no_defs")
     crs2 = CRS.from_string("+proj=latlong +datum=WGS84 +no_defs")
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         crs3 = CRS({"init": "EPSG:4326"})
     assert crs1 == crs2
     # these are not equivalent in proj.4 now as one uses degrees and the othe radians
@@ -352,12 +359,13 @@ def test_from_wkt():
 
 
 def test_from_wkt_invalid():
-    with pytest.raises(CRSError):
+    with pytest.raises(CRSError), pytest.warns(UserWarning):
         CRS.from_wkt(CRS(4326).to_proj4())
 
 
 def test_from_user_input_epsg():
-    assert "+proj=longlat" in CRS.from_user_input("EPSG:4326").to_proj4(4)
+    with pytest.warns(UserWarning):
+        assert "+proj=longlat" in CRS.from_user_input("EPSG:4326").to_proj4(4)
 
 
 def test_from_esri_wkt():
@@ -382,11 +390,12 @@ def test_from_esri_wkt():
     )
     proj_crs_str = CRS.from_string(projection_string)
     proj_crs_wkt = CRS(projection_string)
-    assert proj_crs_str.to_proj4() == proj_crs_wkt.to_proj4()
-    assert proj_crs_str.to_proj4(4) == (
-        "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 "
-        "+lat_2=45.5 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs"
-    )
+    with pytest.warns(UserWarning):
+        assert proj_crs_str.to_proj4() == proj_crs_wkt.to_proj4()
+        assert proj_crs_str.to_proj4(4) == (
+            "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 "
+            "+lat_2=45.5 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs"
+        )
 
 
 def test_compound_crs():
@@ -663,8 +672,9 @@ def test_to_wkt_enum__invalid():
 
 def test_to_proj4_enum():
     crs = CRS.from_epsg(4326)
-    assert crs.to_proj4(4) == crs.to_proj4(ProjVersion.PROJ_4)
-    assert crs.to_proj4(5) == crs.to_proj4(ProjVersion.PROJ_5)
+    with pytest.warns(UserWarning):
+        assert crs.to_proj4(4) == crs.to_proj4(ProjVersion.PROJ_4)
+        assert crs.to_proj4(5) == crs.to_proj4(ProjVersion.PROJ_5)
 
 
 def test_datum__from_string():
@@ -717,7 +727,7 @@ def test_coordinate_operation__from_string__invalid():
 
 def test_to_proj4_enum__invalid():
     crs = CRS.from_epsg(4326)
-    with pytest.raises(ValueError, match="Invalid value"):
+    with pytest.raises(ValueError, match="Invalid value"), pytest.warns(UserWarning):
         crs.to_proj4(1)
 
 
@@ -769,12 +779,13 @@ def test_crs_init_user_input():
     assert CRS(4326).to_epsg() == 4326
 
     proj4_dict = {"proj": "longlat", "datum": "WGS84", "no_defs": None, "type": "crs"}
-    assert CRS({"proj": "lonlat", "datum": "WGS84"}).to_dict() == proj4_dict
-    assert CRS(proj="lonlat", datum="WGS84").to_dict() == proj4_dict
-    assert (
-        CRS('{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}').to_dict()
-        == proj4_dict
-    )
+    with pytest.warns(UserWarning):
+        assert CRS({"proj": "lonlat", "datum": "WGS84"}).to_dict() == proj4_dict
+        assert CRS(proj="lonlat", datum="WGS84").to_dict() == proj4_dict
+        assert (
+            CRS('{"proj": "longlat", "ellps": "WGS84", "datum": "WGS84"}').to_dict()
+            == proj4_dict
+        )
     assert CRS(CRS(4326)).is_exact_same(CRS(CustomCRS()))
 
 
@@ -808,14 +819,14 @@ def test_is_exact_same_different_type():
 def test_compare_crs_non_crs():
     assert CRS.from_epsg(4326) != 4.2
     assert CRS.from_epsg(4326) == 4326
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert CRS.from_dict({"init": "epsg:4326"}) == {"init": "epsg:4326"}
         assert CRS.from_dict({"init": "epsg:4326"}) != "epsg:4326"
     assert CRS("epsg:4326") == CustomCRS()
 
 
 def test_is_geocentric__bound():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         ccs = CRS("+init=epsg:4328 +towgs84=0,0,0")
     assert ccs.is_geocentric
 
@@ -843,7 +854,7 @@ def test_is_engineering():
 
 
 def test_source_crs__bound():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert CRS("+init=epsg:4328 +towgs84=0,0,0").source_crs.name == "unknown"
 
 
@@ -852,7 +863,7 @@ def test_source_crs__missing():
 
 
 def test_target_crs__bound():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert CRS("+init=epsg:4328 +towgs84=0,0,0").target_crs.name == "WGS 84"
 
 
@@ -883,28 +894,31 @@ def test_to_dict_no_proj4():
         }
     )
     if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
-        assert crs.to_proj4() == (
-            "+proj=ob_tran +o_proj=longlat +lon_0=-10 +o_lat_p=30 "
-            "+o_lon_p=0 +R=6371229 +no_defs +type=crs"
-        )
-        assert crs.to_dict() == {
-            "R": 6371229,
-            "lon_0": -10,
-            "no_defs": None,
-            "o_lat_p": 30,
-            "o_lon_p": 0,
-            "o_proj": "longlat",
-            "proj": "ob_tran",
-            "type": "crs",
-        }
+        with pytest.warns(UserWarning):
+            assert crs.to_proj4() == (
+                "+proj=ob_tran +o_proj=longlat +lon_0=-10 +o_lat_p=30 "
+                "+o_lon_p=0 +R=6371229 +no_defs +type=crs"
+            )
+            assert crs.to_dict() == {
+                "R": 6371229,
+                "lon_0": -10,
+                "no_defs": None,
+                "o_lat_p": 30,
+                "o_lon_p": 0,
+                "o_proj": "longlat",
+                "proj": "ob_tran",
+                "type": "crs",
+            }
     else:
-        assert crs.to_proj4() is None
-        assert crs.to_dict() == {}
+        with pytest.warns(UserWarning):
+            assert crs.to_proj4() is None
+            assert crs.to_dict() == {}
 
 
 def test_to_dict_from_dict():
     cc = CRS.from_epsg(4326)
-    assert CRS.from_dict(cc.to_dict()).name == "unknown"
+    with pytest.warns(UserWarning):
+        assert CRS.from_dict(cc.to_dict()).name == "unknown"
 
 
 @pytest.mark.parametrize(
