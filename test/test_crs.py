@@ -146,8 +146,8 @@ def test_is_same_crs():
 def test_to_proj4():
     with pytest.warns(UserWarning):
         assert (
-            CRS("EPSG:4326").to_proj4(4) == 
-            "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+            CRS("EPSG:4326").to_proj4(4)
+            == "+proj=longlat +datum=WGS84 +no_defs +type=crs"
         )
 
 
