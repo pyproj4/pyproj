@@ -51,10 +51,21 @@ Available methods for download include:
 Installing from source
 ======================
 
+Version compatibility matrix:
+
+==================   ============
+pyproj               PROJ
+==================   ============
+<= 1.9.6             <= 5.2
+2.0-2.1              6.0+
+2.2-2.3              6.1+
+2.4+                 6.2+
+==================   ============
+
 Setup PROJ
 ------------
 
-PROJ 6.2.0+ is required when building from source.
+PROJ is required when building from source.
 You can download PROJ from https://download.osgeo.org/proj
 or from https://github.com/OSGeo/PROJ. 
 Installation instructions can be fount at https://proj.org/.
