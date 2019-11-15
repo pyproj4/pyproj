@@ -1,5 +1,4 @@
-import warnings
-
+import pytest
 from numpy.testing import assert_almost_equal
 
 from pyproj import Proj, proj_version_str, transform
@@ -30,8 +29,7 @@ WGS84_lon = 13.759554722  # Degrees
 UTM_z = WGS84_z = 52.8  # Ellipsoidical height in meters
 WGS84_PROJ = Proj(proj="latlong", datum="WGS84")
 UTM_33_PROJ = Proj(proj="utm", zone="33")
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore", DeprecationWarning)
+with pytest.warns(FutureWarning):
     GAUSSSB_PROJ = Proj(
         init="epsg:3004", towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
     )

@@ -33,19 +33,20 @@ def test_to_cf_transverse_mercator():
         "towgs84": towgs84_test,
         "unit": "m",
     }
-    assert crs.to_dict() == {
-        "proj": "tmerc",
-        "lat_0": 0,
-        "lon_0": 15,
-        "k": 0.9996,
-        "x_0": 2520000,
-        "y_0": 0,
-        "ellps": "intl",
-        "towgs84": towgs84_test,
-        "units": "m",
-        "no_defs": None,
-        "type": "crs",
-    }
+    with pytest.warns(UserWarning):
+        assert crs.to_dict() == {
+            "proj": "tmerc",
+            "lat_0": 0,
+            "lon_0": 15,
+            "k": 0.9996,
+            "x_0": 2520000,
+            "y_0": 0,
+            "ellps": "intl",
+            "towgs84": towgs84_test,
+            "units": "m",
+            "no_defs": None,
+            "type": "crs",
+        }
 
 
 def test_from_cf_transverse_mercator():
@@ -152,15 +153,16 @@ def test_cf_rotated_latlon():
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
     if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
-        assert crs.to_dict() == {
-            "proj": "ob_tran",
-            "o_proj": "longlat",
-            "o_lat_p": 32.5,
-            "o_lon_p": 170.0,
-            "datum": "WGS84",
-            "no_defs": None,
-            "type": "crs",
-        }
+        with pytest.warns(UserWarning):
+            assert crs.to_dict() == {
+                "proj": "ob_tran",
+                "o_proj": "longlat",
+                "o_lat_p": 32.5,
+                "o_lon_p": 170.0,
+                "datum": "WGS84",
+                "no_defs": None,
+                "type": "crs",
+            }
         assert cf_dict == dict(
             grid_mapping_name="rotated_latitude_longitude",
             grid_north_pole_latitude=32.5,
@@ -169,7 +171,8 @@ def test_cf_rotated_latlon():
         )
     else:
         assert cf_dict == {}
-        assert crs.to_dict() == {}
+        with pytest.warns(UserWarning):
+            assert crs.to_dict() == {}
 
 
 def test_cf_rotated_latlon__grid():
@@ -181,19 +184,20 @@ def test_cf_rotated_latlon__grid():
             north_pole_grid_longitude=0,
         )
     )
-    if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
-        assert crs.to_dict() == {
-            "proj": "ob_tran",
-            "o_proj": "longlat",
-            "o_lat_p": 32.5,
-            "o_lon_p": 170.0,
-            "lon_0": 0,
-            "datum": "WGS84",
-            "no_defs": None,
-            "type": "crs",
-        }
-    else:
-        assert crs.to_dict() == {}
+    with pytest.warns(UserWarning):
+        if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
+            assert crs.to_dict() == {
+                "proj": "ob_tran",
+                "o_proj": "longlat",
+                "o_lat_p": 32.5,
+                "o_lon_p": 170.0,
+                "lon_0": 0,
+                "datum": "WGS84",
+                "no_defs": None,
+                "type": "crs",
+            }
+        else:
+            assert crs.to_dict() == {}
 
 
 def test_cf_lambert_conformal_conic():
@@ -244,7 +248,8 @@ def test_cf_lambert_conformal_conic_1sp():
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
-    proj_dict = crs.to_dict()
+    with pytest.warns(UserWarning):
+        proj_dict = crs.to_dict()
     assert proj_dict == {
         "proj": "lcc",
         "lat_1": 25,
@@ -282,7 +287,8 @@ def test_cf_lambert_conformal_conic_2sp():
         "horizontal_datum_name": "WGS84",
         "unit": "m",
     }
-    proj_dict = crs.to_dict()
+    with pytest.warns(UserWarning):
+        proj_dict = crs.to_dict()
     assert proj_dict == {
         "proj": "lcc",
         "lat_1": 25,
@@ -322,20 +328,21 @@ def test_oblique_mercator():
         "reference_ellipsoid_name": "WGS84",
         "unit": "m",
     }
-    assert crs.to_dict() == {
-        "proj": "omerc",
-        "lat_0": 10,
-        "lonc": 15,
-        "alpha": 0.35,
-        "gamma": 0.35,
-        "k": 1,
-        "x_0": 0,
-        "y_0": 0,
-        "ellps": "WGS84",
-        "units": "m",
-        "no_defs": None,
-        "type": "crs",
-    }
+    with pytest.warns(UserWarning):
+        assert crs.to_dict() == {
+            "proj": "omerc",
+            "lat_0": 10,
+            "lonc": 15,
+            "alpha": 0.35,
+            "gamma": 0.35,
+            "k": 1,
+            "x_0": 0,
+            "y_0": 0,
+            "ellps": "WGS84",
+            "units": "m",
+            "no_defs": None,
+            "type": "crs",
+        }
     # test CRS with input as lon_0 from the user
     lon0crs_cf = CRS(
         {
@@ -437,17 +444,18 @@ def test_mercator():
             "false_northing": 0,
         }
     )
-    assert crs.to_dict() == {
-        "datum": "WGS84",
-        "lat_ts": 21.354,
-        "lon_0": 10,
-        "no_defs": None,
-        "proj": "merc",
-        "type": "crs",
-        "units": "m",
-        "x_0": 0,
-        "y_0": 0,
-    }
+    with pytest.warns(UserWarning):
+        assert crs.to_dict() == {
+            "datum": "WGS84",
+            "lat_ts": 21.354,
+            "lon_0": 10,
+            "no_defs": None,
+            "proj": "merc",
+            "type": "crs",
+            "units": "m",
+            "x_0": 0,
+            "y_0": 0,
+        }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
     assert cf_dict == {

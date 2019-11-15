@@ -35,6 +35,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 import re
+import warnings
 
 from pyproj import _proj
 from pyproj._list import get_proj_operations_map
@@ -145,12 +146,27 @@ class Proj(_proj.Proj):
         self.crs = CRS.from_user_input(projparams if projparams is not None else kwargs)
         # make sure units are meters if preserve_units is False.
         if not preserve_units and "foot" in self.crs.axis_info[0].unit_name:
-            projstring = self.crs.to_proj4(4)
+            # ignore export to PROJ string deprecation warning
+            with warnings.catch_warnings():
+                warnings.filterwarnings(
+                    "ignore",
+                    "You will likely lose important projection information",
+                    UserWarning,
+                )
+                projstring = self.crs.to_proj4(4)
             projstring = re.sub(r"\s\+units=[\w-]+", "", projstring)
             projstring += " +units=m"
             self.crs = CRS(projstring)
 
-        projstring = self.crs.to_proj4() or self.crs.srs
+        # ignore export to PROJ string deprecation warning
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                "You will likely lose important projection information",
+                UserWarning,
+            )
+            projstring = self.crs.to_proj4() or self.crs.srs
+
         projstring = re.sub(r"\s\+?type=crs", "", projstring)
         super(Proj, self).__init__(cstrencode(projstring.strip()))
 

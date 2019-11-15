@@ -2025,6 +2025,12 @@ cdef class _CRS(Base):
         -------
         str: The PROJ string.
         """
+        warnings.warn(
+            "You will likely lose important projection information when "
+            "converting to a PROJ string from another format. See: "
+            "https://proj.org/faq.html#what-is-the-best-format-for-describing-"
+            "coordinate-reference-systems"
+        )
         return _to_proj4(self.context, self.projobj, version)
 
     def to_epsg(self, min_confidence=70):
