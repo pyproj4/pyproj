@@ -276,7 +276,7 @@
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s2">&quot;&#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated.&quot;</span>
                 <span class="s2">&quot; &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method.&quot;</span><span class="p">,</span>
-                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="ne">FutureWarning</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="n">in_crs_string</span>
 
@@ -528,8 +528,6 @@
 <span class="sd">          }</span>
 <span class="sd">        }</span>
 <span class="sd">        &gt;&gt;&gt; crs = CRS(proj=&#39;utm&#39;, zone=10, ellps=&#39;WGS84&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; crs.to_proj4()</span>
-<span class="sd">        &#39;+proj=utm +zone=10 +ellps=WGS84 +units=m +no_defs +type=crs&#39;</span>
 <span class="sd">        &gt;&gt;&gt; print(crs.to_wkt(pretty=True))</span>
 <span class="sd">        PROJCRS[&quot;unknown&quot;,</span>
 <span class="sd">            BASEGEOGCRS[&quot;unknown&quot;,</span>
@@ -883,7 +881,15 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_projected</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">missing_names</span><span class="p">:</span>
             <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;projected_crs_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-        <span class="n">proj_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="c1"># ignore warning here as WKT string provided with projection</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                <span class="s2">&quot;ignore&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;You will likely lose important projection information&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">proj_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">proj_dict</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">cf_dict</span>
         <span class="n">proj_name</span> <span class="o">=</span> <span class="n">proj_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;proj&quot;</span><span class="p">)</span>
