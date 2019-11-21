@@ -86,6 +86,14 @@ cdef class Proj:
                         with gil:
                             raise ProjError("projection_undefined")
                     continue
+
+                # init all 4 fields in the the input PJ_COORD variable
+                # before use, otherwise 32-bit pyproj may show strange errors
+                projlonlatin.v[0] = 0.0
+                projlonlatin.v[1] = 0.0
+                projlonlatin.v[2] = 0.0
+                projlonlatin.v[3] = 0.0
+
                 if proj_angular_input(self.projobj, PJ_FWD):
                     projlonlatin.uv.u = _DG2RAD * lonsdata[iii]
                     projlonlatin.uv.v = _DG2RAD * latsdata[iii]
@@ -166,6 +174,14 @@ cdef class Proj:
                         with gil:
                             raise ProjError("projection_undefined")
                     continue
+
+                # init all 4 fields in the the input PJ_COORD variable
+                # before use, otherwise 32-bit pyproj may show strange errors
+                projxyin.v[0] = 0.0
+                projxyin.v[1] = 0.0
+                projxyin.v[2] = 0.0
+                projxyin.v[3] = 0.0
+
                 if proj_angular_input(self.projobj, PJ_INV):
                     projxyin.uv.u = _DG2RAD * xdatab[iii]
                     projxyin.uv.v = _DG2RAD * ydatab[iii]
