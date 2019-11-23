@@ -58,7 +58,7 @@ cdef class Proj:
         raised and 1.e30 is returned.
         """
         cdef PJ_COORD projxyout
-        cdef PJ_COORD projlonlatin
+        cdef PJ_COORD projlonlatin = proj_coord(0, 0, 0, float("inf"))
         cdef Py_ssize_t buflenx, bufleny, ndim, iii
         cdef double *lonsdata
         cdef double *latsdata
@@ -134,7 +134,7 @@ cdef class Proj:
         if not self.has_inverse:
             raise ProjError('inverse projection undefined')
 
-        cdef PJ_COORD projxyin
+        cdef PJ_COORD projxyin = proj_coord(0, 0, 0, float("inf"))
         cdef PJ_COORD projlonlatout
         cdef Py_ssize_t buflenx, bufleny, ndim, iii
         cdef void *xdata
