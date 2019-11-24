@@ -5,6 +5,8 @@ Change Log
 ~~~~~
 * Elevate +init= warning to FutureWarning (pull #486)
 * Add UserWarning to :meth:`~pyproj.crs.CRS.to_proj4` (pull #486)
+* BUG: Fix for 32-bit i686 plaforms (issue #481)
+* Return HUGE_VAL ('inf') in Proj for instead if 1.e30 (pull #491)
 
 2.4.1
 ~~~~~
