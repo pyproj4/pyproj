@@ -69,7 +69,7 @@ class Proj(_proj.Proj):
     lon/lat is performed. If optional keyword 'errcheck' is True (default is
     False) an exception is raised if the transformation is invalid.
     If errcheck=False and the transformation is invalid, no
-    exception is raised and 1.e30 is returned. If the optional keyword
+    exception is raised and 'inf' is returned. If the optional keyword
     'preserve_units' is True, the units in map projection coordinates
     are not forced to be meters.
 
@@ -180,7 +180,7 @@ class Proj(_proj.Proj):
         lon/lat is performed. If optional keyword 'errcheck' is True (default is
         False) an exception is raised if the transformation is invalid.
         If errcheck=False and the transformation is invalid, no
-        exception is raised and 1.e30 is returned.
+        exception is raised and 'inf' is returned.
 
         Inputs should be doubles (they will be cast to doubles if they
         are not, causing a slight performance hit).
