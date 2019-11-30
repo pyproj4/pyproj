@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyproj.geod &mdash; pyproj 2.4.2.rc0 documentation</title>
+  <title>pyproj.geod &mdash; pyproj 2.4.2 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                2.4.2.rc0
+                2.4.2
               </div>
             
           
@@ -190,11 +190,11 @@
 
 <span class="kn">import</span> <span class="nn">math</span>
 
-<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="k">import</span> <span class="n">Geod</span> <span class="k">as</span> <span class="n">_Geod</span>
-<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="k">import</span> <span class="n">geodesic_version_str</span>
-<span class="kn">from</span> <span class="nn">pyproj._list</span> <span class="k">import</span> <span class="n">get_ellps_map</span>
-<span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">GeodError</span>
-<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
+<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="kn">import</span> <span class="n">Geod</span> <span class="k">as</span> <span class="n">_Geod</span>
+<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="kn">import</span> <span class="n">geodesic_version_str</span>
+<span class="kn">from</span> <span class="nn">pyproj._list</span> <span class="kn">import</span> <span class="n">get_ellps_map</span>
+<span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">GeodError</span>
+<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
 <span class="n">pj_ellps</span> <span class="o">=</span> <span class="n">get_ellps_map</span><span class="p">()</span>
 
@@ -229,7 +229,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Geod.__init__"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initstring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Geod.__init__"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initstring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        initialize a Geod class instance.</span>
 
@@ -701,7 +701,7 @@
             <span class="k">return</span> <span class="n">total_area</span><span class="p">,</span> <span class="n">total_perimeter</span>
         <span class="k">raise</span> <span class="n">GeodError</span><span class="p">(</span><span class="s2">&quot;Invalid geometry provided.&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># search for ellipse name</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">ellps</span><span class="p">,</span> <span class="n">vals</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pj_ellps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="n">vals</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]:</span>
@@ -717,7 +717,7 @@
         <span class="c1"># no ellipse name found, call super class</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        equality operator == for Geod objects</span>
 

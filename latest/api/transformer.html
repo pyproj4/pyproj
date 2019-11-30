@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Transformer &mdash; pyproj 2.4.2.rc0 documentation</title>
+  <title>Transformer &mdash; pyproj 2.4.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                2.4.2.rc0
+                2.4.2
               </div>
             
           
@@ -387,7 +387,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd>
 </dl>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Transformer</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">2100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">22.95</span><span class="p">,</span> <span class="mf">40.63</span><span class="p">),</span> <span class="p">(</span><span class="mf">22.81</span><span class="p">,</span> <span class="mf">40.53</span><span class="p">),</span> <span class="p">(</span><span class="mf">23.51</span><span class="p">,</span> <span class="mf">40.86</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transformer</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span><span class="n">points</span><span class="p">):</span> <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
@@ -576,7 +576,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd>
 </dl>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Transformer</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:3857&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%.3f</span><span class="s2">  </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
@@ -785,7 +785,7 @@ lists/tuples or scalars. Arrays are fastest.  For projections in
 geocentric coordinates, values of x and y are given in meters.
 z is always meters.</p>
 <p>Example usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">transform</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">transform</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: UTM zone 15, grs80 ellipse, NAD83 datum</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 26915)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:26915&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -823,7 +823,7 @@ z is always meters.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x2</span><span class="p">)[:</span><span class="mi">9</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">y2</span><span class="p">)[:</span><span class="mi">9</span><span class="p">])</span>
 <span class="go">&#39;1402291.0  5076289.5&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c1</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;latlong&#39;</span><span class="p">,</span><span class="n">datum</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">111.5</span><span class="p">;</span> <span class="n">y1</span> <span class="o">=</span> <span class="mf">45.25919444444</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s2">&quot;utm&quot;</span><span class="p">,</span><span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">datum</span><span class="o">=</span><span class="s1">&#39;NAD27&#39;</span><span class="p">)</span>
@@ -883,7 +883,7 @@ transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.</p>
 <p>Example usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">itransform</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">itransform</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: WGS84</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 4326)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:4326&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
