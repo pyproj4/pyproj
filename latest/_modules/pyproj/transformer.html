@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyproj.transformer &mdash; pyproj 2.4.2.rc0 documentation</title>
+  <title>pyproj.transformer &mdash; pyproj 2.4.2 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                2.4.2.rc0
+                2.4.2
               </div>
             
           
@@ -182,15 +182,15 @@
     <span class="s2">&quot;AreaOfInterest&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="kn">from</span> <span class="nn">array</span> <span class="k">import</span> <span class="n">array</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
+<span class="kn">from</span> <span class="nn">array</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
 
-<span class="kn">from</span> <span class="nn">pyproj</span> <span class="k">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Proj</span>
-<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="k">import</span> <span class="n">AreaOfInterest</span><span class="p">,</span> <span class="n">_Transformer</span><span class="p">,</span> <span class="n">_TransformerGroup</span>  <span class="c1"># noqa</span>
-<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="k">import</span> <span class="n">cstrencode</span>
-<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="k">import</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
-<span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="k">import</span> <span class="n">ProjError</span>
-<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="k">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Proj</span>
+<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="kn">import</span> <span class="n">AreaOfInterest</span><span class="p">,</span> <span class="n">_Transformer</span><span class="p">,</span> <span class="n">_TransformerGroup</span>  <span class="c1"># noqa</span>
+<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="kn">import</span> <span class="n">cstrencode</span>
+<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
+<span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">ProjError</span>
+<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
 
 <div class="viewcode-block" id="TransformerGroup"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup">[docs]</a><span class="k">class</span> <span class="nc">TransformerGroup</span><span class="p">(</span><span class="n">_TransformerGroup</span><span class="p">):</span>
@@ -209,7 +209,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TransformerGroup.__init__"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="TransformerGroup.__init__"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">crs_from</span><span class="p">,</span>
         <span class="n">crs_to</span><span class="p">,</span>
@@ -284,7 +284,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s2">&quot;&lt;TransformerGroup: best_available=</span><span class="si">{best_available}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="s2">&quot;- transformers: </span><span class="si">{transformers}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -308,7 +308,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_transformer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_transformer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base_transformer</span><span class="p">,</span> <span class="n">_Transformer</span><span class="p">):</span>
             <span class="n">ProjError</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
@@ -794,10 +794,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s2">&quot;&lt;</span><span class="si">{type_name}</span><span class="s2">: </span><span class="si">{name}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">Description: </span><span class="si">{description}</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="s2">&quot;Area of Use:</span><span class="se">\n</span><span class="si">{area_of_use}</span><span class="s2">&quot;</span>
