@@ -8,6 +8,7 @@ include pyproj/*.pyx
 include pyproj/*.pxd
 include pyproj/*.pxi
 include test/sample.out
+include test/conftest.py
 recursive-include docs *
 prune docs/_build
 prune pyproj/proj_dir
