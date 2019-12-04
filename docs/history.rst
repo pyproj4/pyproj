@@ -4,6 +4,7 @@ Change Log
 2.5.0
 ~~~~~
 * Remove deprecated PyObject_AsWriteBuffer (issue #495)
+* ENH: Added :meth:`~pyproj.crs.CRS.equals` with `ignore_axis_order` kwarg (issue #493)
 
 2.4.2
 ~~~~~

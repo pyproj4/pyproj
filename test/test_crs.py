@@ -1,7 +1,6 @@
 from distutils.version import LooseVersion
 
 import pytest
-
 from pyproj import CRS, Transformer, proj_version_str
 from pyproj._crs import CoordinateSystem
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
@@ -789,6 +788,12 @@ def test_crs_init_user_input():
     assert CRS(CRS(4326)).is_exact_same(CRS(CustomCRS()))
 
 
+def test_crs_is_exact_same__non_crs_input():
+    assert CRS(4326).is_exact_same("epsg:4326")
+    with pytest.warns(FutureWarning):
+        assert not CRS(4326).is_exact_same("+init=epsg:4326")
+
+
 def test_to_string__no_auth():
     proj = CRS("+proj=latlong +ellps=GRS80 +towgs84=-199.87,74.79,246.62")
     assert (
@@ -964,3 +969,11 @@ def test_operations__scope_remarks():
     assert [op.remarks for op in transformer.operations] == [
         op.remarks for op in coord_op.operations
     ]
+
+
+def test_crs_equals():
+    assert CRS(4326).equals("epsg:4326")
+
+def test_crs_equals__ignore_axis_order():
+    with pytest.warns(FutureWarning):
+        assert CRS("epsg:4326").equals("+init=epsg:4326", ignore_axis_order=True)
