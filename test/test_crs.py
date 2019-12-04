@@ -1,6 +1,7 @@
 from distutils.version import LooseVersion
 
 import pytest
+
 from pyproj import CRS, Transformer, proj_version_str
 from pyproj._crs import CoordinateSystem
 from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
