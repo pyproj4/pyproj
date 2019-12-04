@@ -974,6 +974,7 @@ def test_operations__scope_remarks():
 def test_crs_equals():
     assert CRS(4326).equals("epsg:4326")
 
+
 def test_crs_equals__ignore_axis_order():
     with pytest.warns(FutureWarning):
         assert CRS("epsg:4326").equals("+init=epsg:4326", ignore_axis_order=True)
