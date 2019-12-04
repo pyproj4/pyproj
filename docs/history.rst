@@ -44,7 +44,7 @@ Change Log
     * Added support for calculating geodesic area (:meth:`~pyproj.Geod.polygon_area_perimeter`)
       and added interface to calculate total length of a line
       (:meth:`~pyproj.Geod.line_length` & :meth:`~pyproj.Geod.line_lengths`) (issue #210).
-    * Added support for calculating geodesic area and line lemgths with shapely geometries
+    * Added support for calculating geodesic area and line lengths with shapely geometries
       (:meth:`~pyproj.Geod.geometry_area_perimeter` & :meth:`~pyproj.Geod.geometry_length`)
       (pull #366)
 * New `pyproj.transformer` additions:
