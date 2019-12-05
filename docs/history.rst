@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2.5.0
+~~~~~
+* Remove deprecated PyObject_AsWriteBuffer (issue #495)
+
 2.4.2
 ~~~~~
 * Elevate +init= warning to FutureWarning (pull #486)
