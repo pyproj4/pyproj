@@ -39,61 +39,45 @@ cdef class Geod:
         forward azimuth and distance.
         if radians=True, lons/lats are radians instead of degrees.
         """
-        cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, iii
-        cdef double lat1,lon1,az1,s12,plon2,plat2,pazi2
-        cdef double *lonsdata
-        cdef double *latsdata
-        cdef double *azdata
-        cdef double *distdata
-        cdef void *londata
-        cdef void *latdata
-        cdef void *azdat
-        cdef void *distdat
-        # if buffer api is supported, get pointer to data buffers.
-        if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
-            raise GeodError
-        if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
-            raise GeodError
-        if PyObject_AsWriteBuffer(az, &azdat, &buflenaz) <> 0:
-            raise GeodError
-        if PyObject_AsWriteBuffer(dist, &distdat, &buflend) <> 0:
-            raise GeodError
+        cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
+        cdef PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
+        cdef PyBuffWriteManager azbuff = PyBuffWriteManager(az)
+        cdef PyBuffWriteManager distbuff = PyBuffWriteManager(dist)
+  
         # process data in buffer
-        if not buflenlons == buflenlats == buflenaz == buflend:
-            raise GeodError("Buffer lengths not the same")
-        ndim = buflenlons//_DOUBLESIZE
-        lonsdata = <double *>londata
-        latsdata = <double *>latdata
-        azdata = <double *>azdat
-        distdata = <double *>distdat
+        if not lonbuff.len == latbuff.len == azbuff.len == distbuff.len:
+            raise GeodError("Array lengths are not the same.")
+
+        cdef double lat1, lon1, az1, s12, plon2, plat2, pazi2
+        cdef Py_ssize_t iii
         with nogil:
-            for iii in range(ndim):
+            for iii in range(lonbuff.len):
                 if not radians:
-                    lon1 = lonsdata[iii]
-                    lat1 = latsdata[iii]
-                    az1 = azdata[iii]
-                    s12 = distdata[iii]
+                    lon1 = lonbuff.data[iii]
+                    lat1 = latbuff.data[iii]
+                    az1 = azbuff.data[iii]
+                    s12 = distbuff.data[iii]
                 else:
-                    lon1 = _RAD2DG * lonsdata[iii]
-                    lat1 = _RAD2DG * latsdata[iii]
-                    az1 = _RAD2DG * azdata[iii]
-                    s12 = distdata[iii]
+                    lon1 = _RAD2DG * lonbuff.data[iii]
+                    lat1 = _RAD2DG * latbuff.data[iii]
+                    az1 = _RAD2DG * azbuff.data[iii]
+                    s12 = distbuff.data[iii]
                 geod_direct(&self._geod_geodesic, lat1, lon1, az1, s12,\
                     &plat2, &plon2, &pazi2)
                 # back azimuth needs to be flipped 180 degrees
-                # to match what proj4 geod utility produces.
+                # to match what PROJ geod utility produces.
                 if pazi2 > 0:
                     pazi2 = pazi2 - 180.
                 elif pazi2 <= 0:
                     pazi2 = pazi2 + 180.
                 if not radians:
-                    lonsdata[iii] = plon2
-                    latsdata[iii] = plat2
-                    azdata[iii] = pazi2
+                    lonbuff.data[iii] = plon2
+                    latbuff.data[iii] = plat2
+                    azbuff.data[iii] = pazi2
                 else:
-                    lonsdata[iii] = _DG2RAD * plon2
-                    latsdata[iii] = _DG2RAD * plat2
-                    azdata[iii] = _DG2RAD * pazi2
+                    lonbuff.data[iii] = _DG2RAD * plon2
+                    latbuff.data[iii] = _DG2RAD * plat2
+                    azbuff.data[iii] = _DG2RAD * pazi2
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -103,45 +87,29 @@ cdef class Geod:
         between an initial and terminus lat/lon pair.
         if radians=True, lons/lats are radians instead of degree
         """
-        cdef double lat1,lon1,lat2,lon2,pazi1,pazi2,ps12
-        cdef Py_ssize_t buflenlons, buflenlats, buflenaz, buflend, ndim, iii
-        cdef double *lonsdata
-        cdef double *latsdata
-        cdef double *azdata
-        cdef double *distdata
-        cdef void *londata
-        cdef void *latdata
-        cdef void *azdat
-        cdef void *distdat
-        # if buffer api is supported, get pointer to data buffers.
-        if PyObject_AsWriteBuffer(lons1, &londata, &buflenlons) <> 0:
-            raise GeodError
-        if PyObject_AsWriteBuffer(lats1, &latdata, &buflenlats) <> 0:
-            raise GeodError
-        if PyObject_AsWriteBuffer(lons2, &azdat, &buflenaz) <> 0:
-            raise GeodError
-        if PyObject_AsWriteBuffer(lats2, &distdat, &buflend) <> 0:
-            raise GeodError
+        cdef PyBuffWriteManager lon1buff = PyBuffWriteManager(lons1)
+        cdef PyBuffWriteManager lat1buff = PyBuffWriteManager(lats1)
+        cdef PyBuffWriteManager lon2buff = PyBuffWriteManager(lons2)
+        cdef PyBuffWriteManager lat2buff = PyBuffWriteManager(lats2)
+
         # process data in buffer
-        if not buflenlons == buflenlats == buflenaz == buflend:
-            raise GeodError("Buffer lengths not the same")
-        ndim = buflenlons//_DOUBLESIZE
-        lonsdata = <double *>londata
-        latsdata = <double *>latdata
-        azdata = <double *>azdat
-        distdata = <double *>distdat
+        if not lon1buff.len == lat1buff.len == lon2buff.len == lat2buff.len:
+            raise GeodError("Array lengths are not the same.")
+
+        cdef double lat1, lon1, lat2, lon2, pazi1, pazi2, ps12
+        cdef Py_ssize_t iii
         with nogil:
-            for iii in range(ndim):
+            for iii in range(lon1buff.len):
                 if radians:
-                    lon1 = _RAD2DG * lonsdata[iii]
-                    lat1 = _RAD2DG * latsdata[iii]
-                    lon2 = _RAD2DG * azdata[iii]
-                    lat2 = _RAD2DG * distdata[iii]
+                    lon1 = _RAD2DG * lon1buff.data[iii]
+                    lat1 = _RAD2DG * lat1buff.data[iii]
+                    lon2 = _RAD2DG * lon2buff.data[iii]
+                    lat2 = _RAD2DG * lat2buff.data[iii]
                 else:
-                    lon1 = lonsdata[iii]
-                    lat1 = latsdata[iii]
-                    lon2 = azdata[iii]
-                    lat2 = distdata[iii]
+                    lon1 = lon1buff.data[iii]
+                    lat1 = lat1buff.data[iii]
+                    lon2 = lon2buff.data[iii]
+                    lat2 = lat2buff.data[iii]
                 geod_inverse(
                     &self._geod_geodesic,
                     lat1, lon1, lat2, lon2,
@@ -154,12 +122,13 @@ cdef class Geod:
                 elif pazi2 <= 0:
                     pazi2 = pazi2+180.
                 if radians:
-                    lonsdata[iii] = _DG2RAD * pazi1
-                    latsdata[iii] = _DG2RAD * pazi2
+                    lon1buff.data[iii] = _DG2RAD * pazi1
+                    lat1buff.data[iii] = _DG2RAD * pazi2
                 else:
-                    lonsdata[iii] = pazi1
-                    latsdata[iii] = pazi2
-                azdata[iii] = ps12
+                    lon1buff.data[iii] = pazi1
+                    lat1buff.data[iii] = pazi2
+                # write azimuth data into lon2 buffer
+                lon2buff.data[iii] = ps12
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -223,46 +192,38 @@ cdef class Geod:
         float: The total distance.
     
         """
-        cdef double lat1,lon1,lat2,lon2,pazi1,pazi2,ps12
-        cdef double total_distance = 0.0
-        cdef Py_ssize_t buflenlons, buflenlats, ndim, iii
-        cdef double *lonsdata
-        cdef double *latsdata
-        cdef void *londata
-        cdef void *latdata
-        # if buffer api is supported, get pointer to data buffers.
-        if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
-            raise GeodError
-        if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
-            raise GeodError
-        # process data in buffer
-        if buflenlons != buflenlats:
-            raise GeodError("Buffer lengths not the same")
-        ndim = buflenlons//_DOUBLESIZE
-        lonsdata = <double *>londata
-        latsdata = <double *>latdata
+        cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
+        cdef PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
 
-        if ndim == 1:
-            lonsdata[0] = 0
+        # process data in buffer
+        if lonbuff.len != latbuff.len:
+            raise GeodError("Array lengths are not the same.")
+
+        if lonbuff.len == 1:
+            lonbuff.data[0] = 0
             return 0.0
+
+        cdef double lat1, lon1, lat2, lon2, pazi1, pazi2, ps12
+        cdef double total_distance = 0.0
+        cdef Py_ssize_t iii
         with nogil:
-            for iii in range(ndim - 1):
+            for iii in range(lonbuff.len - 1):
                 if radians:
-                    lon1 = _RAD2DG * lonsdata[iii]
-                    lat1 = _RAD2DG * latsdata[iii]
-                    lon2 = _RAD2DG * lonsdata[iii + 1]
-                    lat2 = _RAD2DG * latsdata[iii + 1]
+                    lon1 = _RAD2DG * lonbuff.data[iii]
+                    lat1 = _RAD2DG * latbuff.data[iii]
+                    lon2 = _RAD2DG * lonbuff.data[iii + 1]
+                    lat2 = _RAD2DG * latbuff.data[iii + 1]
                 else:
-                    lon1 = lonsdata[iii]
-                    lat1 = latsdata[iii]
-                    lon2 = lonsdata[iii + 1]
-                    lat2 = latsdata[iii + 1]
+                    lon1 = lonbuff.data[iii]
+                    lat1 = latbuff.data[iii]
+                    lon2 = lonbuff.data[iii + 1]
+                    lat2 = latbuff.data[iii + 1]
                 geod_inverse(
                     &self._geod_geodesic,
                     lat1, lon1, lat2, lon2,
                     &ps12, &pazi1, &pazi2,
                 )
-                lonsdata[iii] = ps12
+                lonbuff.data[iii] = ps12
                 total_distance += ps12
         return total_distance
 
@@ -293,35 +254,26 @@ cdef class Geod:
         (float, float): The area (meter^2) and permimeter (meters) of the polygon.
 
         """
-        cdef Py_ssize_t buflenlons, buflenlats, ndim, iii
-        cdef void *londata
-        cdef void *latdata
-        cdef double *lonsdata
-        cdef double *latsdata
-        # if buffer api is supported, get pointer to data buffers.
-        if PyObject_AsWriteBuffer(lons, &londata, &buflenlons) <> 0:
-            raise GeodError
-        if PyObject_AsWriteBuffer(lats, &latdata, &buflenlats) <> 0:
-            raise GeodError
+        cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
+        cdef PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
+
         # process data in buffer
-        if not buflenlons == buflenlats:
-            raise GeodError("Buffer lengths not the same")
+        if not lonbuff.len == latbuff.len:
+            raise GeodError("Array lengths are not the same.")
 
         cdef double polygon_area
         cdef double polygon_perimeter
-        ndim = buflenlons//_DOUBLESIZE
+        cdef Py_ssize_t iii
 
-        lonsdata = <double *>londata
-        latsdata = <double *>latdata
         with nogil:
             if radians:
-                for iii in range(ndim):
-                    lonsdata[iii] *= _RAD2DG
-                    latsdata[iii] *= _RAD2DG
+                for iii in range(lonbuff.len):
+                    lonbuff.data[iii] *= _RAD2DG
+                    latbuff.data[iii] *= _RAD2DG
 
             geod_polygonarea(
                 &self._geod_geodesic,
-                latsdata, lonsdata, ndim, 
+                latbuff.data, lonbuff.data, lonbuff.len, 
                 &polygon_area, &polygon_perimeter
             )
         return (polygon_area, polygon_perimeter)
