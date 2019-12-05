@@ -56,42 +56,35 @@ cdef class Proj:
         if errcheck=False and the forward transformation is invalid, no exception is
         raised and 'inf' is returned.
         """
+        cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
+        cdef PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
+
+        # process data in buffer
+        if lonbuff.len != latbuff.len:
+            raise ProjError("Buffer lengths not the same")
+
         cdef PJ_COORD projxyout
         cdef PJ_COORD projlonlatin = proj_coord(0, 0, 0, HUGE_VAL)
-        cdef Py_ssize_t buflenx, bufleny, ndim, iii
-        cdef double *lonsdata
-        cdef double *latsdata
-        cdef void *londata
-        cdef void *latdata
+        cdef Py_ssize_t iii
         cdef int errno
-        # if buffer api is supported, get pointer to data buffers.
-        if PyObject_AsWriteBuffer(lons, &londata, &buflenx) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-        if PyObject_AsWriteBuffer(lats, &latdata, &bufleny) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-        # process data in buffer
-        if buflenx != bufleny:
-            raise ProjError("Buffer lengths not the same")
-        ndim = buflenx//_DOUBLESIZE
-        lonsdata = <double *>londata
-        latsdata = <double *>latdata
+
         with nogil:
             proj_errno_reset(self.projobj)
-            for iii in range(ndim):
+            for iii in range(latbuff.len):
                 # if inputs are nan's, return big number.
-                if lonsdata[iii] != lonsdata[iii] or latsdata[iii] != latsdata[iii]:
-                    lonsdata[iii] = HUGE_VAL
-                    latsdata[iii] = HUGE_VAL
+                if lonbuff.data[iii] != lonbuff.data[iii] or latbuff.data[iii] != latbuff.data[iii]:
+                    lonbuff.data[iii] = HUGE_VAL
+                    latbuff.data[iii] = HUGE_VAL
                     if errcheck:
                         with gil:
                             raise ProjError("projection_undefined")
                     continue
                 if proj_angular_input(self.projobj, PJ_FWD):
-                    projlonlatin.uv.u = _DG2RAD * lonsdata[iii]
-                    projlonlatin.uv.v = _DG2RAD * latsdata[iii]
+                    projlonlatin.uv.u = _DG2RAD * lonbuff.data[iii]
+                    projlonlatin.uv.v = _DG2RAD * latbuff.data[iii]
                 else:
-                    projlonlatin.uv.u = lonsdata[iii]
-                    projlonlatin.uv.v = latsdata[iii]
+                    projlonlatin.uv.u = lonbuff.data[iii]
+                    projlonlatin.uv.v = latbuff.data[iii]
                 projxyout = proj_trans(self.projobj, PJ_FWD, projlonlatin)
                 errno = proj_errno(self.projobj)
                 if errcheck and errno:
@@ -111,20 +104,20 @@ cdef class Proj:
                     if errcheck:
                         with gil:
                             raise ProjError("Projection undefined.")
-                    lonsdata[iii] = HUGE_VAL
-                    latsdata[iii] = HUGE_VAL
+                    lonbuff.data[iii] = HUGE_VAL
+                    latbuff.data[iii] = HUGE_VAL
                 elif proj_angular_output(self.projobj, PJ_FWD):
-                    lonsdata[iii] = _RAD2DG * projxyout.xy.x
-                    latsdata[iii] = _RAD2DG * projxyout.xy.y
+                    lonbuff.data[iii] = _RAD2DG * projxyout.xy.x
+                    latbuff.data[iii] = _RAD2DG * projxyout.xy.y
                 else:
-                    lonsdata[iii] = projxyout.xy.x
-                    latsdata[iii] = projxyout.xy.y
+                    lonbuff.data[iii] = projxyout.xy.x
+                    latbuff.data[iii] = projxyout.xy.y
         ProjError.clear()
 
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _inv(self, object x, object y, bint errcheck=False):
+    def _inv(self, object xx, object yy, bint errcheck=False):
         """
         inverse transformation - x,y to lons,lats (done in place).
         if errcheck=True, an exception is raised if the inverse transformation is invalid.
@@ -134,45 +127,36 @@ cdef class Proj:
         if not self.has_inverse:
             raise ProjError('inverse projection undefined')
 
+        cdef PyBuffWriteManager xbuff = PyBuffWriteManager(xx)
+        cdef PyBuffWriteManager ybuff = PyBuffWriteManager(yy)
+
+        # process data in buffer
+        if xbuff.len != ybuff.len:
+            raise ProjError("Array lengths not the same.")
+
         cdef PJ_COORD projxyin = proj_coord(0, 0, 0, HUGE_VAL)
         cdef PJ_COORD projlonlatout
-        cdef Py_ssize_t buflenx, bufleny, ndim, iii
-        cdef void *xdata
-        cdef void *ydata
-        cdef double *xdatab
-        cdef double *ydatab
+        cdef Py_ssize_t iii
         cdef int errno
 
-        # if buffer api is supported, get pointer to data buffers.
-        if PyObject_AsWriteBuffer(x, &xdata, &buflenx) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-        if PyObject_AsWriteBuffer(y, &ydata, &bufleny) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-        # process data in buffer
-        # (for numpy/regular python arrays).
-        if buflenx != bufleny:
-            raise ProjError("Buffer lengths not the same")
-        ndim = buflenx//_DOUBLESIZE
-        xdatab = <double *>xdata
-        ydatab = <double *>ydata
         with nogil:
             # reset errors potentially left over
             proj_errno_reset(self.projobj)
-            for iii in range(ndim):
+            for iii in range(xbuff.len):
                 # if inputs are nan's, return big number.
-                if xdatab[iii] != xdatab[iii] or ydatab[iii] != ydatab[iii]:
-                    xdatab[iii] = HUGE_VAL
-                    ydatab[iii] = HUGE_VAL
+                if xbuff.data[iii] != xbuff.data[iii] or ybuff.data[iii] != ybuff.data[iii]:
+                    xbuff.data[iii] = HUGE_VAL
+                    ybuff.data[iii] = HUGE_VAL
                     if errcheck:
                         with gil:
                             raise ProjError("projection_undefined")
                     continue
                 if proj_angular_input(self.projobj, PJ_INV):
-                    projxyin.xy.x = _DG2RAD * xdatab[iii]
-                    projxyin.xy.y = _DG2RAD * ydatab[iii]
+                    projxyin.xy.x = _DG2RAD * xbuff.data[iii]
+                    projxyin.xy.y = _DG2RAD * ybuff.data[iii]
                 else:
-                    projxyin.xy.x = xdatab[iii]
-                    projxyin.xy.y = ydatab[iii]
+                    projxyin.xy.x = xbuff.data[iii]
+                    projxyin.xy.y = ybuff.data[iii]
                 projlonlatout = proj_trans(self.projobj, PJ_INV, projxyin)
                 errno = proj_errno(self.projobj)
                 if errcheck and errno:
@@ -193,14 +177,14 @@ cdef class Proj:
                     if errcheck:
                         with gil:
                             raise ProjError("projection_undefined")
-                    xdatab[iii] = HUGE_VAL
-                    ydatab[iii] = HUGE_VAL
+                    xbuff.data[iii] = HUGE_VAL
+                    ybuff.data[iii] = HUGE_VAL
                 elif proj_angular_output(self.projobj, PJ_INV):
-                    xdatab[iii] = _RAD2DG * projlonlatout.uv.u
-                    ydatab[iii] = _RAD2DG * projlonlatout.uv.v
+                    xbuff.data[iii] = _RAD2DG * projlonlatout.uv.u
+                    ybuff.data[iii] = _RAD2DG * projlonlatout.uv.v
                 else:
-                    xdatab[iii] = projlonlatout.uv.u
-                    ydatab[iii] = projlonlatout.uv.v
+                    xbuff.data[iii] = projlonlatout.uv.u
+                    ybuff.data[iii] = projlonlatout.uv.v
         ProjError.clear()
 
     def __repr__(self):

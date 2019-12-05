@@ -404,68 +404,59 @@ cdef class _Transformer(Base):
             return
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
-        # private function to call pj_transform
-        cdef void *xdata
-        cdef void *ydata
-        cdef void *zdata
-        cdef void *tdata
-        cdef double *xx
-        cdef double *yy
-        cdef double *zz
-        cdef double *tt
-        cdef Py_ssize_t buflenx, bufleny, buflenz, buflent, npts, iii
-        cdef int err
-        if PyObject_AsWriteBuffer(inx, &xdata, &buflenx) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-        if PyObject_AsWriteBuffer(iny, &ydata, &bufleny) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-        if inz is not None and PyObject_AsWriteBuffer(inz, &zdata, &buflenz) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-        else:
-            buflenz = bufleny
-        if intime is not None and PyObject_AsWriteBuffer(intime, &tdata, &buflent) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-        else:
-            buflent = bufleny
+        cdef PyBuffWriteManager xbuff = PyBuffWriteManager(inx)
+        cdef PyBuffWriteManager ybuff = PyBuffWriteManager(iny)
 
-        if not buflenx or not (buflenx == bufleny == buflenz == buflent):
-            raise ProjError('x,y,z, and time must be same size')
-        xx = <double *>xdata
-        yy = <double *>ydata
+        cdef PyBuffWriteManager zbuff
+        cdef Py_ssize_t buflenz
+        cdef double* zz
         if inz is not None:
-            zz = <double *>zdata
+            zbuff = PyBuffWriteManager(inz)
+            buflenz = zbuff.len
+            zz = zbuff.data
         else:
+            buflenz = xbuff.len
             zz = NULL
-        if intime is not None:
-            tt = <double *>tdata
-        else:
-            tt = NULL
-        npts = buflenx//8
 
+        cdef PyBuffWriteManager tbuff
+        cdef Py_ssize_t buflent
+        cdef double* tt
+        if intime is not None:
+            tbuff = PyBuffWriteManager(intime)
+            buflent = tbuff.len
+            tt = tbuff.data
+        else:
+            buflent = xbuff.len
+            tt = NULL
+
+        if not xbuff.len or not (xbuff.len == ybuff.len == buflenz == buflent):
+            raise ProjError('x, y, z, and time must be same size')
+
+        cdef Py_ssize_t iii
         # degrees to radians
         if not self.is_pipeline and not radians\
                 and self._input_radians[pj_direction]:
             with nogil:
-                for iii in range(npts):
-                    xx[iii] = xx[iii]*_DG2RAD
-                    yy[iii] = yy[iii]*_DG2RAD
+                for iii in range(xbuff.len):
+                    xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
+                    ybuff.data[iii] = ybuff.data[iii]*_DG2RAD
         # radians to degrees
         elif not self.is_pipeline and radians\
                 and not self._input_radians[pj_direction]\
                 and self.input_geographic:
             with nogil:
-                for iii in range(npts):
-                    xx[iii] = xx[iii]*_RAD2DG
-                    yy[iii] = yy[iii]*_RAD2DG
+                for iii in range(xbuff.len):
+                    xbuff.data[iii] = xbuff.data[iii]*_RAD2DG
+                    ybuff.data[iii] = ybuff.data[iii]*_RAD2DG
         with nogil:
             proj_errno_reset(self.projobj)
             proj_trans_generic(
                 self.projobj,
                 pj_direction,
-                xx, _DOUBLESIZE, npts,
-                yy, _DOUBLESIZE, npts,
-                zz, _DOUBLESIZE, npts,
-                tt, _DOUBLESIZE, npts,
+                xbuff.data, _DOUBLESIZE, xbuff.len,
+                ybuff.data, _DOUBLESIZE, ybuff.len,
+                zz, _DOUBLESIZE, xbuff.len,
+                tt, _DOUBLESIZE, xbuff.len,
             )
         cdef int errno = proj_errno(self.projobj)
         if errcheck and errno:
@@ -478,23 +469,23 @@ cdef class _Transformer(Base):
         if not self.is_pipeline and not radians\
                 and self._output_radians[pj_direction]:
             with nogil:
-                for iii in range(npts):
-                    xx[iii] = xx[iii]*_RAD2DG
-                    yy[iii] = yy[iii]*_RAD2DG
+                for iii in range(xbuff.len):
+                    xbuff.data[iii] = xbuff.data[iii]*_RAD2DG
+                    ybuff.data[iii] = ybuff.data[iii]*_RAD2DG
         # degrees to radians
         elif not self.is_pipeline and radians\
                 and not self._output_radians[pj_direction]\
                 and self.output_geographic:
             with nogil:
-                for iii in range(npts):
-                    xx[iii] = xx[iii]*_DG2RAD
-                    yy[iii] = yy[iii]*_DG2RAD
+                for iii in range(xbuff.len):
+                    xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
+                    ybuff.data[iii] = ybuff.data[iii]*_DG2RAD
         ProjError.clear()
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
     def _transform_sequence(
-        self, Py_ssize_t stride, inseq, bint switch,
+        self, Py_ssize_t stride, object inseq, bint switch,
         direction, time_3rd, radians, errcheck
     ):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
@@ -502,31 +493,25 @@ cdef class _Transformer(Base):
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
         # private function to itransform function
-        cdef:
-            void *buffer
-            double *coords
-            double *x
-            double *y
-            double *z
-            double *tt
-            Py_ssize_t buflen, npts, iii, jjj
+        cdef double *x
+        cdef double *y
+        cdef double *z
+        cdef double *tt
 
         if stride < 2:
             raise ProjError("coordinates must contain at least 2 values")
-        if PyObject_AsWriteBuffer(inseq, &buffer, &buflen) <> 0:
-            raise ProjError("object does not provide the python buffer writeable interface")
-
-        coords = <double*>buffer
-        npts = buflen // (stride * _DOUBLESIZE)
-
+        
+        cdef PyBuffWriteManager coordbuff = PyBuffWriteManager(inseq)
+        cdef Py_ssize_t npts, iii, jjj
+        npts = coordbuff.len // stride
         # degrees to radians
         if not self.is_pipeline and not radians\
                 and self._input_radians[pj_direction]:
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
-                    coords[jjj] *= _DG2RAD
-                    coords[jjj + 1] *= _DG2RAD
+                    coordbuff.data[jjj] *= _DG2RAD
+                    coordbuff.data[jjj + 1] *= _DG2RAD
         # radians to degrees
         elif not self.is_pipeline and radians\
                 and not self._input_radians[pj_direction]\
@@ -534,26 +519,26 @@ cdef class _Transformer(Base):
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
-                    coords[jjj] *= _RAD2DG
-                    coords[jjj + 1] *= _RAD2DG
+                    coordbuff.data[jjj] *= _RAD2DG
+                    coordbuff.data[jjj + 1] *= _RAD2DG
 
         if not switch:
-            x = coords
-            y = coords + 1
+            x = coordbuff.data
+            y = coordbuff.data + 1
         else:
-            x = coords + 1
-            y = coords
+            x = coordbuff.data + 1
+            y = coordbuff.data
 
         # z coordinate
         if stride == 4 or (stride == 3 and not time_3rd):
-            z = coords + 2
+            z = coordbuff.data + 2
         else:
             z = NULL
         # time
         if stride == 3 and time_3rd:
-            tt = coords + 2
+            tt = coordbuff.data + 2
         elif stride == 4:
-            tt = coords + 3
+            tt = coordbuff.data + 3
         else:
             tt = NULL
 
@@ -581,8 +566,8 @@ cdef class _Transformer(Base):
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
-                    coords[jjj] *= _RAD2DG
-                    coords[jjj + 1] *= _RAD2DG
+                    coordbuff.data[jjj] *= _RAD2DG
+                    coordbuff.data[jjj + 1] *= _RAD2DG
         # degrees to radians
         elif not self.is_pipeline and radians\
                 and not self._output_radians[pj_direction]\
@@ -590,7 +575,7 @@ cdef class _Transformer(Base):
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
-                    coords[jjj] *= _DG2RAD
-                    coords[jjj + 1] *= _DG2RAD
+                    coordbuff.data[jjj] *= _DG2RAD
+                    coordbuff.data[jjj + 1] *= _DG2RAD
 
         ProjError.clear()
