@@ -25,7 +25,7 @@ cdef class PyBuffWriteManager:
 
     def __init__(self, object data):
         if PyObject_GetBuffer(<PyObject *>data, &self.buffer, PyBUF_WRITABLE) <> 0:
-            raise MemoryError("pyproj had a problem getting the buffer from data.")
+            raise BufferError("pyproj had a problem getting the buffer from data.")
         self.data = <double *>self.buffer.buf
         self.len = self.buffer.len // self.buffer.itemsize
 
