@@ -1034,12 +1034,56 @@
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.is_exact_same"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.is_exact_same">[docs]</a>    <span class="k">def</span> <span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the CRS objects are the exact same.</span>
+
+<span class="sd">        Properties</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other: Any</span>
+<span class="sd">            Check if the other CRS is the exact same to this object.</span>
+<span class="sd">            If the other object is not a CRS, it will try to create one.</span>
+<span class="sd">            On Failure, it will return False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">CRSError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CRS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CRS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">is_exact_same</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CRS.equals"><a class="viewcode-back" href="../../api/crs.html#pyproj.crs.CRS.equals">[docs]</a>    <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        .. versionadded:: 2.5.0</span>
+
+<span class="sd">        Check if the CRS objects are equivalent.</span>
+
+<span class="sd">        Properties</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other: Any</span>
+<span class="sd">            Check if the other object is equivalent to this object.</span>
+<span class="sd">            If the other object is not a CRS, it will try to create one.</span>
+<span class="sd">            On Failure, it will return False.</span>
+<span class="sd">        ignore_axis_order: bool, optional</span>
+<span class="sd">            If True, it will compare the CRS class and ignore the axis order.</span>
+<span class="sd">            Default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">CRSError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CRS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="o">=</span><span class="n">ignore_axis_order</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;special method that allows CRS instance to be pickled&quot;&quot;&quot;</span>
