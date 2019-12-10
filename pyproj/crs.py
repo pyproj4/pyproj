@@ -877,12 +877,56 @@ class CRS(_CRS):
 
         return cls(proj_dict)
 
-    def __eq__(self, other):
+    def is_exact_same(self, other, ignore_axis_order=False):
+        """
+        Check if the CRS objects are the exact same.
+
+        Properties
+        ----------
+        other: Any
+            Check if the other CRS is the exact same to this object.
+            If the other object is not a CRS, it will try to create one.
+            On Failure, it will return False.
+
+        Returns
+        -------
+        bool
+        """
         try:
             other = CRS.from_user_input(other)
         except CRSError:
             return False
-        return super(CRS, self).__eq__(other)
+        return super(CRS, self).is_exact_same(other)
+
+    def equals(self, other, ignore_axis_order=False):
+        """
+
+        .. versionadded:: 2.5.0
+
+        Check if the CRS objects are equivalent.
+
+        Properties
+        ----------
+        other: Any
+            Check if the other object is equivalent to this object.
+            If the other object is not a CRS, it will try to create one.
+            On Failure, it will return False.
+        ignore_axis_order: bool, optional
+            If True, it will compare the CRS class and ignore the axis order.
+            Default is False.
+
+        Returns
+        -------
+        bool
+        """
+        try:
+            other = CRS.from_user_input(other)
+        except CRSError:
+            return False
+        return super(CRS, self).equals(other, ignore_axis_order=ignore_axis_order)
+
+    def __eq__(self, other):
+        return self.equals(other)
 
     def __reduce__(self):
         """special method that allows CRS instance to be pickled"""

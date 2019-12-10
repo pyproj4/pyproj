@@ -2299,3 +2299,33 @@ cdef class _CRS(Base):
         if self.is_bound:
             return self.source_crs.is_geocentric
         return self._type == PJ_TYPE_GEOCENTRIC_CRS
+
+    def _equals(self, _CRS other, bint ignore_axis_order):
+        if ignore_axis_order:
+            # Only to be used with DerivedCRS/ProjectedCRS/GeographicCRS
+            return proj_is_equivalent_to(
+                self.projobj,
+                other.projobj,
+                PJ_COMP_EQUIVALENT_EXCEPT_AXIS_ORDER_GEOGCRS,
+            ) == 1
+        return self._is_equivalent(other)
+
+    def equals(self, other, ignore_axis_order=False):
+        """
+        Check if the projection objects are equivalent.
+
+        Properties
+        ----------
+        other: CRS
+            Check if the other object
+        ignore_axis_order: bool, optional
+            If True, it will compare the CRS class and ignore the axis order.
+            Default is False.
+
+        Returns
+        -------
+        bool
+        """
+        if not isinstance(other, _CRS):
+            return False
+        return self._equals(other, ignore_axis_order=ignore_axis_order)
