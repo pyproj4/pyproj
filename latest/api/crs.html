@@ -578,6 +578,32 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.CRS.equals">
+<code class="sig-name descname">equals</code><span class="sig-paren">(</span><em class="sig-param">other</em>, <em class="sig-param">ignore_axis_order=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.equals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.equals" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Check if the CRS objects are equivalent.</p>
+<dl class="simple">
+<dt>other: Any</dt><dd><p>Check if the other object is equivalent to this object.
+If the other object is not a CRS, it will try to create one.
+On Failure, it will return False.</p>
+</dd>
+<dt>ignore_axis_order: bool, optional</dt><dd><p>If True, it will compare the CRS class and ignore the axis order.
+Default is False.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.CRS.from_authority">
 <em class="property">classmethod </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.from_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -858,8 +884,22 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.is_exact_same">
-<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.is_exact_same" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compares projection objects to see if they are exactly the same.</p>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">other</em>, <em class="sig-param">ignore_axis_order=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.is_exact_same"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the CRS objects are the exact same.</p>
+<dl class="simple">
+<dt>other: Any</dt><dd><p>Check if the other CRS is the exact same to this object.
+If the other object is not a CRS, it will try to create one.
+On Failure, it will return False.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
