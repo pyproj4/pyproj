@@ -3,14 +3,10 @@ import re
 import warnings
 from collections import OrderedDict
 
-from pyproj.compat import cstrencode, pystrdecode
 from pyproj._datadir cimport pyproj_context_initialize
-from pyproj.enums import (
-    CoordinateOperationType,
-    DatumType,
-    ProjVersion,
-    WktVersion,
-)
+from pyproj.compat import cstrencode, pystrdecode
+from pyproj.crs.enums import CoordinateOperationType, DatumType
+from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 
 
@@ -275,7 +271,7 @@ cdef class Axis:
         )
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* projobj, int index):
+    cdef Axis create(PJ_CONTEXT* context, PJ* projobj, int index):
         cdef Axis axis_info = Axis()
         cdef const char * name = NULL
         cdef const char * abbrev = NULL
@@ -347,7 +343,7 @@ cdef class AreaOfUse:
         )
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* projobj):
+    cdef AreaOfUse create(PJ_CONTEXT* context, PJ* projobj):
         cdef AreaOfUse area_of_use = AreaOfUse()
         cdef const char * area_name = NULL
         if not proj_get_area_of_use(
@@ -596,7 +592,7 @@ cdef class CoordinateSystem(_CRSParts):
         raise RuntimeError("CoordinateSystem is not initializable.")
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* coord_system_pj):
+    cdef CoordinateSystem create(PJ_CONTEXT* context, PJ* coord_system_pj):
         cdef CoordinateSystem coord_system = CoordinateSystem.__new__(CoordinateSystem)
         coord_system.context = context
         coord_system.projobj = coord_system_pj
@@ -740,7 +736,7 @@ cdef class Ellipsoid(_CRSParts):
         )
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* ellipsoid_pj):
+    cdef Ellipsoid create(PJ_CONTEXT* context, PJ* ellipsoid_pj):
         cdef Ellipsoid ellips = Ellipsoid.__new__(Ellipsoid)
         ellips.context = context
         ellips.projobj = ellipsoid_pj
@@ -981,7 +977,7 @@ cdef class PrimeMeridian(_CRSParts):
         )
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* prime_meridian_pj):
+    cdef PrimeMeridian create(PJ_CONTEXT* context, PJ* prime_meridian_pj):
         cdef PrimeMeridian prime_meridian = PrimeMeridian.__new__(PrimeMeridian)
         prime_meridian.context = context
         prime_meridian.projobj = prime_meridian_pj
@@ -1255,7 +1251,7 @@ cdef class Datum(_CRSParts):
         )
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* datum_pj):
+    cdef Datum create(PJ_CONTEXT* context, PJ* datum_pj):
         cdef Datum datum = Datum.__new__(Datum)
         datum.context = context
         datum.projobj = datum_pj
@@ -1570,7 +1566,7 @@ cdef class Param:
         self.unit_category = "undefined"
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* projobj, int param_idx):
+    cdef Param create(PJ_CONTEXT* context, PJ* projobj, int param_idx):
         cdef Param param = Param()
         cdef char *out_name
         cdef char *out_auth_name
@@ -1661,7 +1657,7 @@ cdef class Grid:
         self.available = False
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* projobj, int grid_idx):
+    cdef Grid create(PJ_CONTEXT* context, PJ* projobj, int grid_idx):
         cdef Grid grid = Grid()
         cdef char *out_short_name
         cdef char *out_full_name
@@ -1769,7 +1765,7 @@ cdef class CoordinateOperation(_CRSParts):
         )
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* coord_operation_pj):
+    cdef CoordinateOperation create(PJ_CONTEXT* context, PJ* coord_operation_pj):
         cdef CoordinateOperation coord_operation = CoordinateOperation.__new__(
             CoordinateOperation
         )
@@ -2167,7 +2163,6 @@ _CRS_TYPE_MAP = {
 }
 
 
-
 cdef class _CRS(Base):
     """
     .. versionadded:: 2.0.0
@@ -2239,21 +2234,7 @@ cdef class _CRS(Base):
         -------
         Ellipsoid: The ellipsoid object with associated attributes.
         """
-        if self._ellipsoid is not None:
-            return None if self._ellipsoid is False else self._ellipsoid
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
-        cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
-            context,
-            self.projobj
-        )
-        CRSError.clear()
-        if ellipsoid_pj == NULL:
-            proj_context_destroy(context)
-            self._ellipsoid = False
-            return None
-        self._ellipsoid = Ellipsoid.create(context, ellipsoid_pj)
-        return self._ellipsoid
+        return self.datum.ellipsoid
 
     @property
     def prime_meridian(self):
@@ -2262,23 +2243,9 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        PrimeMeridian: The CRS prime meridian object with associated attributes.
+        PrimeMeridian: The prime meridian object with associated attributes.
         """
-        if self._prime_meridian is not None:
-            return None if self._prime_meridian is True else self._prime_meridian
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
-        cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
-            context,
-            self.projobj,
-        )
-        CRSError.clear()
-        if prime_meridian_pj == NULL:
-            proj_context_destroy(context)
-            self._prime_meridian = False
-            return None
-        self._prime_meridian = PrimeMeridian.create(context, prime_meridian_pj)
-        return self._prime_meridian
+        return self.datum.prime_meridian
 
     @property
     def datum(self):
@@ -2376,7 +2343,7 @@ cdef class _CRS(Base):
         """
         Returns
         -------
-        CRS: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
+        _CRS: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
             or the source CRS of a CoordinateOperation.
         """
         if self._source_crs is not None:
@@ -2387,7 +2354,7 @@ cdef class _CRS(Base):
             self._source_crs = False
             return None
         try:
-            self._source_crs = self.__class__(_to_wkt(self.context, projobj))
+            self._source_crs = _CRS(_to_wkt(self.context, projobj))
         finally:
             proj_destroy(projobj)
         return self._source_crs
@@ -2399,7 +2366,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        CRS: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
+        _CRS: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
         """
         if self._target_crs is not None:
             return None if self._target_crs is False else self._target_crs
@@ -2409,7 +2376,7 @@ cdef class _CRS(Base):
             self._target_crs = False
             return None
         try:
-            self._target_crs = self.__class__(_to_wkt(self.context, projobj))
+            self._target_crs = _CRS(_to_wkt(self.context, projobj))
         finally:
             proj_destroy(projobj)
         return self._target_crs
@@ -2421,7 +2388,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        list[CRS]
+        list[_CRS]
         """
         if self._sub_crs_list is not None:
             return self._sub_crs_list
@@ -2434,7 +2401,7 @@ cdef class _CRS(Base):
         self._sub_crs_list = []
         while projobj != NULL:
             try:
-                self._sub_crs_list.append(self.__class__(_to_wkt(self.context, projobj)))
+                self._sub_crs_list.append(_CRS(_to_wkt(self.context, projobj)))
             finally:
                 proj_destroy(projobj) # deallocate temp proj
             iii += 1
@@ -2453,7 +2420,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        pyproj.CRS: The the geodeticCRS / geographicCRS from the CRS.
+        _CRS: The the geodeticCRS / geographicCRS from the CRS.
         """
         if self._geodetic_crs is not None:
             return self._geodetic_crs if self. _geodetic_crs is not False else None
@@ -2463,11 +2430,10 @@ cdef class _CRS(Base):
             self._geodetic_crs = False
             return None
         try:
-            self._geodetic_crs = self.__class__(_to_wkt(self.context, projobj))
-            return self._geodetic_crs
+            self._geodetic_crs = _CRS(_to_wkt(self.context, projobj))
         finally:
             proj_destroy(projobj) # deallocate temp proj
-
+        return self._geodetic_crs
 
     def to_proj4(self, version=ProjVersion.PROJ_4):
         """
@@ -2494,7 +2460,7 @@ cdef class _CRS(Base):
             "coordinate-reference-systems"
         )
         return _to_proj4(self.context, self.projobj, version)
-
+        
     def to_epsg(self, min_confidence=70):
         """
         Return the EPSG code best matching the CRS

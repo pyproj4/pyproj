@@ -93,7 +93,7 @@ class TransformerGroup(_TransformerGroup):
         - unavailable_operations: 1
 
         """
-        super(TransformerGroup, self).__init__(
+        super().__init__(
             CRS.from_user_input(crs_from),
             CRS.from_user_input(crs_to),
             skip_equivalent=skip_equivalent,

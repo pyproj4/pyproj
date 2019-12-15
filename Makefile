@@ -56,6 +56,8 @@ clean-setup: ## run python setup.py clean
 
 clean-cython: ## clean the cython files
 	rm -f pyproj/*.so
+	rm -f pyproj/*/*.so
+	rm -f pyproj/*/*.c
 	rm -f pyproj/*.c
 
 lint: ## check style with flake8

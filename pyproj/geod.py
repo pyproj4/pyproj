@@ -195,7 +195,7 @@ class Geod(_Geod):
         if math.fabs(f) < 1.0e-8:
             sphere = True
 
-        super(Geod, self).__init__(a, f, sphere, b, es)
+        super().__init__(a, f, sphere, b, es)
 
     def fwd(self, lons, lats, az, dist, radians=False):
         """
@@ -302,9 +302,7 @@ class Geod(_Geod):
         '46.805  -114.051'
         '46.262  -118.924'
         """
-        lons, lats = super(Geod, self)._npts(
-            lon1, lat1, lon2, lat2, npts, radians=radians
-        )
+        lons, lats = super()._npts(lon1, lat1, lon2, lat2, npts, radians=radians)
         return list(zip(lons, lats))
 
     def line_length(self, lons, lats, radians=False):
@@ -558,7 +556,7 @@ class Geod(_Geod):
                     )
 
         # no ellipse name found, call super class
-        return super(Geod, self).__repr__()
+        return super().__repr__()
 
     def __eq__(self, other):
         """

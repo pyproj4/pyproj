@@ -38,12 +38,18 @@ matrix:
       env:
         - DOC=true
     - python: 3.8
-    - python: "nightly"
+    - python: 3.8
       env:
         - PROJSOURCE=git
+    # - python: "nightly"
+    #   env:
+    #     - PROJSOURCE=git
     
   allow_failures:
-    - python: "nightly"
+    # - python: "nightly"
+    #   env:
+    #     - PROJSOURCE=git
+    - python: 3.8
       env:
         - PROJSOURCE=git
 

@@ -11,7 +11,8 @@ from pyproj.crs import (
     Ellipsoid,
     PrimeMeridian,
 )
-from pyproj.enums import CoordinateOperationType, DatumType, ProjVersion, WktVersion
+from pyproj.crs.enums import CoordinateOperationType, DatumType
+from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 
 
