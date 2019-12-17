@@ -264,7 +264,7 @@ for more information about projection parameters.</p>
 </dd>
 </dl>
 <p>Example usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;utm&#39;</span><span class="p">,</span><span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="p">(</span><span class="o">-</span><span class="mf">120.108</span><span class="p">,</span> <span class="mf">34.36116666</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;x=</span><span class="si">%9.3f</span><span class="s1"> y=</span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
@@ -310,7 +310,7 @@ for more information about projection parameters.</p>
 <dt id="pyproj.proj.Proj.definition_string">
 <code class="sig-name descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns formal definition string for projection</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
 <span class="go">&#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>
