@@ -736,23 +736,6 @@ def transform(
     >>> xy = lons+lats
     >>> '%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f' % xy
     ' -92.220  -94.720  -90.370 38.830 39.320 38.750'
-    >>> # test datum shifting, installation of extra datum grid files.
-    >>> p1 = Proj(proj='latlong',datum='WGS84')
-    >>> x1 = -111.5; y1 = 45.25919444444
-    >>> p2 = Proj(proj="utm",zone=10,datum='NAD27', preserve_units=False)
-    >>> x2, y2 = transform(p1, p2, x1, y1)
-    >>> "%s  %s" % (str(x2)[:9],str(y2)[:9])
-    '1402291.0  5076289.5'
-    >>> from pyproj import CRS
-    >>> c1 = CRS(proj='latlong',datum='WGS84')
-    >>> x1 = -111.5; y1 = 45.25919444444
-    >>> c2 = CRS(proj="utm",zone=10,datum='NAD27')
-    >>> x2, y2 = transform(c1, c2, x1, y1)
-    >>> "%s  %s" % (str(x2)[:9],str(y2)[:9])
-    '1402291.0  5076289.5'
-    >>> xeq, yeq = transform(4326, 4326, 30, 60, skip_equivalent=True)
-    >>> "%.0f %.0f" % (xeq, yeq)
-    '30 60'
     """
     return Transformer.from_proj(
         p1, p2, skip_equivalent=skip_equivalent, always_xy=always_xy

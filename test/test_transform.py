@@ -46,3 +46,8 @@ def test_transform():
     assert_allclose(numpy.maximum.reduce(numpy.ravel(x3 - x1)), 0, atol=1e-4)
     assert_allclose(numpy.minimum.reduce(numpy.ravel(y3 - y1)), 0, atol=1e-4)
     assert_allclose(numpy.maximum.reduce(numpy.ravel(y3 - y1)), 0, atol=1e-4)
+
+
+def test_skip_equivalent():
+    xeq, yeq = transform(4326, 4326, 30, 60, skip_equivalent=True)
+    assert (xeq, yeq) == (30, 60)
