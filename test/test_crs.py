@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from distutils.version import LooseVersion
 
 import pytest
@@ -889,15 +890,17 @@ def test_whitepace_between_equals():
 
 def test_to_dict_no_proj4():
     crs = CRS(
-        {
-            "a": 6371229.0,
-            "b": 6371229.0,
-            "lon_0": -10.0,
-            "o_lat_p": 30.0,
-            "o_lon_p": 0.0,
-            "o_proj": "longlat",
-            "proj": "ob_tran",
-        }
+        OrderedDict(
+            {
+                "a": 6371229.0,
+                "b": 6371229.0,
+                "lon_0": -10.0,
+                "o_lat_p": 30.0,
+                "o_lon_p": 0.0,
+                "o_proj": "longlat",
+                "proj": "ob_tran",
+            }
+        )
     )
     if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
         with pytest.warns(UserWarning):
