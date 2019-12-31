@@ -493,7 +493,9 @@ def test_transformer__operations__scope_remarks():
         None,
     ]
     assert [str(op.remarks)[:5] for op in transformer.operations] == [
-        "None", "Scale", "None"
+        "None",
+        "Scale",
+        "None",
     ]
 
 
