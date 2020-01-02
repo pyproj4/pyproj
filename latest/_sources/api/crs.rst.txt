@@ -32,7 +32,7 @@ Area Of Use
 Coordinate System
 -----------------
 
-.. autoclass:: pyproj._crs.CoordinateSystem
+.. autoclass:: pyproj.crs.CoordinateSystem
     :members:
     :inherited-members:
 
