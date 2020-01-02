@@ -559,7 +559,7 @@ cdef class CoordinateSystem(Base):
         if coordinate_system_pj == NULL or proj_cs_get_type(
             context,
             coordinate_system_pj,
-        ) not in _COORD_SYSTEM_TYPE_MAP:
+        ) == PJ_CS_TYPE_UNKNOWN:
             proj_destroy(coordinate_system_pj)
             proj_context_destroy(context)
             raise CRSError(
