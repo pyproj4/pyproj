@@ -22,6 +22,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 __all__ = [
     "CRS",
     "CoordinateOperation",
+    "CoordinateSystem",
     "Datum",
     "Ellipsoid",
     "PrimeMeridian",
@@ -36,6 +37,7 @@ import warnings
 from pyproj._crs import (  # noqa
     _CRS,
     CoordinateOperation,
+    CoordinateSystem,
     Datum,
     Ellipsoid,
     PrimeMeridian,

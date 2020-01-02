@@ -725,6 +725,27 @@ def test_coordinate_operation__from_string__invalid():
         CoordinateOperation.from_string("urn:ogc:def:datum:EPSG::6326")
 
 
+def test_coordinate_system__from_string():
+    cs = CoordinateSystem.from_string(
+        '{"$schema":"https://proj.org/schemas/v0.2/projjson.schema.json",'
+        '"type":"CoordinateSystem","subtype":"ellipsoidal",'
+        '"axis":[{"name":"Geodetic latitude","abbreviation":"Lat",'
+        '"direction":"north","unit":"degree"},'
+        '{"name":"Geodetic longitude","abbreviation":"Lon",'
+        '"direction":"east","unit":"degree"}],'
+        '"id":{"authority":"EPSG","code":6422}}'
+    )
+    assert cs.name == "ellipsoidal"
+
+
+@pytest.mark.parametrize(
+    "invalid_cs_string", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"]
+)
+def test_coordinate_system__from_string__invalid(invalid_cs_string):
+    with pytest.raises(CRSError, match="Invalid coordinate system string"):
+        CoordinateSystem.from_string(invalid_cs_string)
+
+
 def test_to_proj4_enum__invalid():
     crs = CRS.from_epsg(4326)
     with pytest.raises(ValueError, match="Invalid value"), pytest.warns(UserWarning):
