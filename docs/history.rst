@@ -5,6 +5,8 @@ Change Log
 ~~~~~
 * Remove deprecated PyObject_AsWriteBuffer (issue #495)
 * ENH: Added :meth:`~pyproj.crs.CRS.equals` with `ignore_axis_order` kwarg (issue #493)
+* ENH: Added :meth:`~pyproj.crs.CoordinateSystem.from_json`, :meth:`~pyproj.crs.CoordinateSystem.from_json_dict`, and :meth:`~pyproj.crs.CoordinateSystem.from_string` (pull #501)
+* ENH: Added :class:`~pyproj.crs.CoordinateSystem` to `pyproj.crs` namespace (issue #501)
 
 2.4.2
 ~~~~~

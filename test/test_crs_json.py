@@ -1,6 +1,13 @@
 import pytest
 
-from pyproj.crs import CRS, CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
+from pyproj.crs import (
+    CRS,
+    CoordinateOperation,
+    CoordinateSystem,
+    Datum,
+    Ellipsoid,
+    PrimeMeridian,
+)
 
 
 def test_crs_to_json_dict():
@@ -98,7 +105,6 @@ def test_properties_to_json__pretty__indentation(property_name, expected_type):
         ("datum", "GeodeticReferenceFrame"),
         ("ellipsoid", "Ellipsoid"),
         ("prime_meridian", "PrimeMeridian"),
-        ("coordinate_system", "CoordinateSystem"),
     ],
 )
 def test_properties_to_json_dict(property_name, expected_type):
@@ -120,15 +126,15 @@ def test_properties_from_json_dict(property_name, init_class):
     assert init_class.from_json_dict(prop.to_json_dict()) == prop
 
 
-@pytest.mark.parametrize(
-    "property_name, init_class",
-    [
-        ("coordinate_operation", CoordinateOperation),
-        ("datum", Datum),
-        ("ellipsoid", Ellipsoid),
-        ("prime_meridian", PrimeMeridian),
-    ],
-)
-def test_properties_from_json(property_name, init_class):
-    prop = getattr(CRS.from_epsg(26915), property_name)
-    assert init_class.from_json(prop.to_json()) == prop
+def test_coordinate_system_from_json_dict():
+    # separate test from other properties due to
+    # https://github.com/OSGeo/PROJ/issues/1818
+    aeqd_cs = CRS(proj="aeqd", lon_0=-80, lat_0=40.5).coordinate_system
+    assert CoordinateSystem.from_json_dict(aeqd_cs.to_json_dict()) == aeqd_cs
+
+
+def test_coordinate_system_from_json():
+    # separate test from other properties due to
+    # https://github.com/OSGeo/PROJ/issues/1818
+    aeqd_cs = CRS(proj="aeqd", lon_0=-80, lat_0=40.5).coordinate_system
+    assert CoordinateSystem.from_json(aeqd_cs.to_json()) == aeqd_cs

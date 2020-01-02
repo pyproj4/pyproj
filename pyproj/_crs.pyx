@@ -504,11 +504,7 @@ cdef class CoordinateSystem(Base):
             coord_system.context,
             coord_system.projobj,
         )
-        try:
-            coord_system.name = _COORD_SYSTEM_TYPE_MAP[cs_type]
-        except KeyError:
-            raise CRSError("Not a coordinate system.")
-        CRSError.clear()
+        coord_system.name = _COORD_SYSTEM_TYPE_MAP[cs_type]
         return coord_system
 
     @property
@@ -535,6 +531,80 @@ cdef class CoordinateSystem(Base):
                 )
             )
         return self._axis_list
+
+    @staticmethod
+    def from_string(coordinate_system_string):
+        """
+        .. versionadded:: 2.5.0
+
+        .. note:: Only works with PROJ JSON.
+
+        Create a Coordinate System from a string.
+
+        Parameters
+        ----------
+        coordinate_system_string: str
+            Coordinate System string.
+
+        Returns
+        -------
+        CoordinateSystem
+        """
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
+        cdef PJ* coordinate_system_pj = proj_create(
+            context,
+            cstrencode(coordinate_system_string)
+        )
+        if coordinate_system_pj == NULL or proj_cs_get_type(
+            context,
+            coordinate_system_pj,
+        ) not in _COORD_SYSTEM_TYPE_MAP:
+            proj_destroy(coordinate_system_pj)
+            proj_context_destroy(context)
+            raise CRSError(
+                "Invalid coordinate system string: {}".format(
+                    pystrdecode(coordinate_system_string)
+                )
+            )
+        CRSError.clear()
+        return CoordinateSystem.create(context, coordinate_system_pj)
+
+    @staticmethod
+    def from_json_dict(coordinate_system_dict):
+        """
+        .. versionadded:: 2.5.0
+
+        Create Coordinate System from a JSON dictionary.
+  
+        Parameters
+        ----------
+        coordinate_system_dict: str
+            Coordinate System dictionary.
+
+        Returns
+        -------
+        CoordinateSystem
+        """
+        return CoordinateSystem.from_string(json.dumps(coordinate_system_dict))
+
+    @staticmethod
+    def from_json(coordinate_system_json_str):
+        """
+        .. versionadded:: 2.5.0
+
+        Create Coordinate System from a JSON string.
+
+        Parameters
+        ----------
+        coordinate_system_json_str: str
+            Coordinate System JSON string.
+
+        Returns
+        -------
+        CoordinateSystem
+        """
+        return CoordinateSystem.from_json_dict(_load_proj_json(coordinate_system_json_str))
 
 
 cdef class Ellipsoid(Base):
