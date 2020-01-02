@@ -893,23 +893,6 @@
 <span class="sd">    &gt;&gt;&gt; xy = lons+lats</span>
 <span class="sd">    &gt;&gt;&gt; &#39;%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f&#39; % xy</span>
 <span class="sd">    &#39; -92.220  -94.720  -90.370 38.830 39.320 38.750&#39;</span>
-<span class="sd">    &gt;&gt;&gt; # test datum shifting, installation of extra datum grid files.</span>
-<span class="sd">    &gt;&gt;&gt; p1 = Proj(proj=&#39;latlong&#39;,datum=&#39;WGS84&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; x1 = -111.5; y1 = 45.25919444444</span>
-<span class="sd">    &gt;&gt;&gt; p2 = Proj(proj=&quot;utm&quot;,zone=10,datum=&#39;NAD27&#39;, preserve_units=False)</span>
-<span class="sd">    &gt;&gt;&gt; x2, y2 = transform(p1, p2, x1, y1)</span>
-<span class="sd">    &gt;&gt;&gt; &quot;%s  %s&quot; % (str(x2)[:9],str(y2)[:9])</span>
-<span class="sd">    &#39;1402291.0  5076289.5&#39;</span>
-<span class="sd">    &gt;&gt;&gt; from pyproj import CRS</span>
-<span class="sd">    &gt;&gt;&gt; c1 = CRS(proj=&#39;latlong&#39;,datum=&#39;WGS84&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; x1 = -111.5; y1 = 45.25919444444</span>
-<span class="sd">    &gt;&gt;&gt; c2 = CRS(proj=&quot;utm&quot;,zone=10,datum=&#39;NAD27&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; x2, y2 = transform(c1, c2, x1, y1)</span>
-<span class="sd">    &gt;&gt;&gt; &quot;%s  %s&quot; % (str(x2)[:9],str(y2)[:9])</span>
-<span class="sd">    &#39;1402291.0  5076289.5&#39;</span>
-<span class="sd">    &gt;&gt;&gt; xeq, yeq = transform(4326, 4326, 30, 60, skip_equivalent=True)</span>
-<span class="sd">    &gt;&gt;&gt; &quot;%.0f %.0f&quot; % (xeq, yeq)</span>
-<span class="sd">    &#39;30 60&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span>
         <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span>
