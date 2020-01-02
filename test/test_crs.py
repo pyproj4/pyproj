@@ -901,10 +901,6 @@ def test_to_dict_no_proj4():
     )
     if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
         with pytest.warns(UserWarning):
-            assert crs.to_proj4() == (
-                "+proj=ob_tran +o_proj=longlat +lon_0=-10 +o_lat_p=30 "
-                "+o_lon_p=0 +R=6371229 +no_defs +type=crs"
-            )
             assert crs.to_dict() == {
                 "R": 6371229,
                 "lon_0": -10,
