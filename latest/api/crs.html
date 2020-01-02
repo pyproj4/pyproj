@@ -1286,15 +1286,15 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <div class="section" id="coordinate-system">
 <h2>Coordinate System<a class="headerlink" href="#coordinate-system" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="pyproj._crs.CoordinateSystem">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">CoordinateSystem</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CoordinateSystem</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
 <p>Coordinate System for CRS</p>
 <dl class="attribute">
-<dt id="pyproj._crs.CoordinateSystem.name">
-<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.name" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the coordinate system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1304,21 +1304,85 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pyproj._crs.CoordinateSystem.axis_list">
-<code class="sig-name descname">axis_list</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.axis_list" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem.axis_list">
+<code class="sig-name descname">axis_list</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem.axis_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: <strong>list[Axis]</strong>
 :rtype: The Axis list for the coordinate system.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pyproj._crs.CoordinateSystem.is_exact_same">
-<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem.from_json">
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param">coordinate_system_json_str</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create Coordinate System from a JSON string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinate_system_json_str</strong> (<em>str</em>) – Coordinate System JSON string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateSystem" title="pyproj.crs.CoordinateSystem">CoordinateSystem</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.CoordinateSystem.from_json_dict">
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param">coordinate_system_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create Coordinate System from a JSON dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinate_system_dict</strong> (<em>str</em>) – Coordinate System dictionary.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateSystem" title="pyproj.crs.CoordinateSystem">CoordinateSystem</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.CoordinateSystem.from_string">
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">coordinate_system_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only works with PROJ JSON.</p>
+</div>
+<p>Create a Coordinate System from a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinate_system_string</strong> (<em>str</em>) – Coordinate System string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateSystem" title="pyproj.crs.CoordinateSystem">CoordinateSystem</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.CoordinateSystem.is_exact_same">
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pyproj._crs.CoordinateSystem.remarks">
-<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.remarks" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem.remarks" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1326,8 +1390,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pyproj._crs.CoordinateSystem.scope">
-<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj._crs.CoordinateSystem.scope" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem.scope" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1335,8 +1399,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="method">
-<dt id="pyproj._crs.CoordinateSystem.to_json">
-<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pretty=False</em>, <em class="sig-param">indentation=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.to_json" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem.to_json">
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pretty=False</em>, <em class="sig-param">indentation=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1358,8 +1422,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="method">
-<dt id="pyproj._crs.CoordinateSystem.to_json_dict">
-<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem.to_json_dict">
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.to_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1375,8 +1439,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="method">
-<dt id="pyproj._crs.CoordinateSystem.to_wkt">
-<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj._crs.CoordinateSystem.to_wkt" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.crs.CoordinateSystem.to_wkt">
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
