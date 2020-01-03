@@ -35,7 +35,11 @@ cdef class Base:
     cdef readonly object _scope
 
 
-cdef class Ellipsoid(Base):
+cdef class _CRSParts(Base):
+    pass
+
+
+cdef class Ellipsoid(_CRSParts):
     cdef double _semi_major_metre
     cdef double _semi_minor_metre
     cdef readonly object is_semi_minor_computed
@@ -45,7 +49,8 @@ cdef class Ellipsoid(Base):
     @staticmethod
     cdef create(PJ_CONTEXT* context, PJ* ellipsoid_pj)
 
-cdef class PrimeMeridian(Base):
+
+cdef class PrimeMeridian(_CRSParts):
     cdef readonly double longitude
     cdef readonly double unit_conversion_factor
     cdef readonly object unit_name
@@ -54,7 +59,7 @@ cdef class PrimeMeridian(Base):
     cdef create(PJ_CONTEXT* context, PJ* prime_meridian_pj)
 
 
-cdef class Datum(Base):
+cdef class Datum(_CRSParts):
     cdef readonly object _ellipsoid
     cdef readonly object _prime_meridian
 
@@ -62,7 +67,7 @@ cdef class Datum(Base):
     cdef create(PJ_CONTEXT* context, PJ* datum_pj)
 
 
-cdef class CoordinateSystem(Base):
+cdef class CoordinateSystem(_CRSParts):
     cdef readonly object _axis_list
 
     @staticmethod
@@ -97,7 +102,7 @@ cdef class Grid:
     cdef create(PJ_CONTEXT* context, PJ* projobj, int grid_idx)
 
 
-cdef class CoordinateOperation(Base):
+cdef class CoordinateOperation(_CRSParts):
     cdef readonly object _params
     cdef readonly object _grids
     cdef readonly object _area_of_use
