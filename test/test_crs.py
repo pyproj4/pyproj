@@ -1,10 +1,16 @@
+import json
 from distutils.version import LooseVersion
 
 import pytest
 
 from pyproj import CRS, Transformer, proj_version_str
-from pyproj._crs import CoordinateSystem
-from pyproj.crs import CoordinateOperation, Datum, Ellipsoid, PrimeMeridian
+from pyproj.crs import (
+    CoordinateOperation,
+    CoordinateSystem,
+    Datum,
+    Ellipsoid,
+    PrimeMeridian,
+)
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 
@@ -545,6 +551,27 @@ def test_coordinate_operation__from_authority():
     assert cc.method_code == "9807"
 
 
+@pytest.mark.parametrize(
+    "user_input",
+    [
+        1671,
+        ("EPSG", 1671),
+        "urn:ogc:def:coordinateOperation:EPSG::1671",
+        CoordinateOperation.from_epsg(1671),
+        CoordinateOperation.from_epsg(1671).to_json_dict(),
+    ],
+)
+def test_coordinate_operation__from_user_input(user_input):
+    assert CoordinateOperation.from_user_input(
+        user_input
+    ) == CoordinateOperation.from_epsg(1671)
+
+
+def test_coordinate_operation__from_user_input__invalid():
+    with pytest.raises(CRSError, match="Invalid coordinate operation"):
+        CoordinateOperation.from_user_input({})
+
+
 def test_coordinate_operation__from_epsg__empty():
     with pytest.raises(CRSError, match="Invalid authority"):
         CoordinateOperation.from_epsg(1)
@@ -578,6 +605,25 @@ def test_datum__from_authority__invalid():
         Datum.from_authority("BOB", 1)
 
 
+@pytest.mark.parametrize(
+    "user_input",
+    [
+        6326,
+        ("EPSG", 6326),
+        "urn:ogc:def:datum:EPSG::6326",
+        Datum.from_epsg(6326),
+        Datum.from_epsg(6326).to_json_dict(),
+    ],
+)
+def test_datum__from_user_input(user_input):
+    assert Datum.from_user_input(user_input) == Datum.from_epsg(6326)
+
+
+def test_datum__from_user_input__invalid():
+    with pytest.raises(CRSError, match="Invalid datum"):
+        Datum.from_user_input({})
+
+
 def test_prime_meridian__from_epsg():
     assert PrimeMeridian.from_epsg(8903).to_wkt() == (
         'PRIMEM["Paris",2.5969213,ANGLEUNIT["grad",0.0157079632679489],ID["EPSG",8903]]'
@@ -596,6 +642,25 @@ def test_prime_meridian__from_epsg__invalid():
 def test_prime_meridian__from_authority__invalid():
     with pytest.raises(CRSError, match="Invalid authority"):
         PrimeMeridian.from_authority("Bob", 1)
+
+
+@pytest.mark.parametrize(
+    "user_input",
+    [
+        8901,
+        ("EPSG", 8901),
+        "urn:ogc:def:meridian:EPSG::8901",
+        PrimeMeridian.from_epsg(8901),
+        PrimeMeridian.from_epsg(8901).to_json_dict(),
+    ],
+)
+def test_prime_meridian__from_user_input(user_input):
+    assert PrimeMeridian.from_user_input(user_input) == PrimeMeridian.from_epsg(8901)
+
+
+def test_prime_meridian__from_user_input__invalid():
+    with pytest.raises(CRSError, match="Invalid prime meridian"):
+        PrimeMeridian.from_user_input({})
 
 
 def test_ellipsoid__from_epsg():
@@ -617,6 +682,70 @@ def test_ellipsoid__from_epsg__invalid():
 def test_ellipsoid__from_authority__invalid():
     with pytest.raises(CRSError, match="Invalid authority"):
         Ellipsoid.from_authority("BOB", 1)
+
+
+@pytest.mark.parametrize(
+    "user_input",
+    [
+        7001,
+        ("EPSG", 7001),
+        "urn:ogc:def:ellipsoid:EPSG::7001",
+        Ellipsoid.from_epsg(7001),
+        Ellipsoid.from_epsg(7001).to_json_dict(),
+    ],
+)
+def test_ellipsoid__from_user_input(user_input):
+    assert Ellipsoid.from_user_input(user_input) == Ellipsoid.from_epsg(7001)
+
+
+def test_ellipsoid__from_user_input__invalid():
+    with pytest.raises(CRSError, match="Invalid ellipsoid"):
+        Ellipsoid.from_user_input({})
+
+
+CS_JSON_DICT = {
+    "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+    "type": "CoordinateSystem",
+    "subtype": "Cartesian",
+    "axis": [
+        {"name": "Easting", "abbreviation": "E", "direction": "east", "unit": "metre"},
+        {
+            "name": "Northing",
+            "abbreviation": "N",
+            "direction": "north",
+            "unit": "metre",
+        },
+    ],
+}
+
+
+@pytest.mark.parametrize(
+    "user_input",
+    [
+        CS_JSON_DICT,
+        json.dumps(CS_JSON_DICT),
+        CoordinateSystem.from_json_dict(CS_JSON_DICT),
+    ],
+)
+def test_coordinate_system__from_user_input(user_input):
+    assert CoordinateSystem.from_user_input(
+        user_input
+    ) == CoordinateSystem.from_json_dict(CS_JSON_DICT)
+
+
+@pytest.mark.parametrize(
+    "user_input",
+    [
+        7001,
+        ("EPSG", 7001),
+        "urn:ogc:def:ellipsoid:EPSG::7001",
+        Ellipsoid.from_epsg(7001),
+        Ellipsoid.from_epsg(7001).to_json_dict(),
+    ],
+)
+def test_coordinate_system__from_user_input__invalid(user_input):
+    with pytest.raises(CRSError, match="Invalid"):
+        CoordinateSystem.from_user_input(user_input)
 
 
 def test_bound_crs_is_geographic():

@@ -4,14 +4,15 @@ Change Log
 2.5.0
 ~~~~~
 * Remove deprecated PyObject_AsWriteBuffer (issue #495)
-* ENH: Added :meth:`~pyproj.crs.CRS.equals` with `ignore_axis_order` kwarg (issue #493)
-* ENH: Added :meth:`~pyproj.crs.CoordinateSystem.from_json`, :meth:`~pyproj.crs.CoordinateSystem.from_json_dict`, and :meth:`~pyproj.crs.CoordinateSystem.from_string` (pull #501)
-* ENH: Added :class:`~pyproj.crs.CoordinateSystem` to `pyproj.crs` namespace (issue #501)
+* ENH: Added :meth:`pyproj.crs.CRS.equals` with `ignore_axis_order` kwarg (issue #493)
+* ENH: Added :meth:`pyproj.crs.CoordinateSystem.from_json`, :meth:`pyproj.crs.CoordinateSystem.from_json_dict`, and :meth:`pyproj.crs.CoordinateSystem.from_string` (pull #501)
+* ENH: Added :class:`pyproj.crs.CoordinateSystem` to `pyproj.crs` namespace (pull #501)
+* ENH: Added :meth:`pyproj.crs.CoordinateSystem.from_user_input`, :meth:`pyproj.crs.CoordinateOperation.from_user_input`, :meth:`pyproj.crs.Datum.from_user_input`, :meth:`pyproj.crs.PrimeMeridian.from_user_input`, :meth:`pyproj.crs.Ellipsoid.from_user_input` (pull #502)
 
 2.4.2
 ~~~~~
 * Elevate +init= warning to FutureWarning (pull #486)
-* Add UserWarning to :meth:`~pyproj.crs.CRS.to_proj4` (pull #486)
+* Add UserWarning to :meth:`pyproj.crs.CRS.to_proj4` (pull #486)
 * BUG: Fix for 32-bit i686 plaforms (issue #481)
 * Return 'inf' in Proj instead of 1.e30 (pull #491)
 
@@ -19,7 +20,7 @@ Change Log
 ~~~~~
 * Wheels contain PROJ version is 6.2.1 (issue #456)
 * Wheels for Linux x86_64 use manylinux2010 (pyproj4/pyproj-wheels/pull/18)
-* BUG: Fix setting lat_ts for mercator projection in :meth:`~pyproj.crs.CRS.from_cf` and :meth:`~pyproj.crs.CRS.to_cf` (issue #461)
+* BUG: Fix setting lat_ts for mercator projection in :meth:`pyproj.crs.CRS.from_cf` and :meth:`pyproj.crs.CRS.to_cf` (issue #461)
 * BUG: latlon -> longlat in `CRS.from_cf()` for o_proj so behavior consistent in PROJ 6.2.0 and 6.2.1 (pull #472)
 * ENH: Add repr for `pyproj.crs.CoordinateOperation` and for `pyproj.transformer.TransformerGroup` (pull #464)
 
@@ -32,7 +33,7 @@ Change Log
 * Added version information to `python -m pyproj` (pull #429)
 * Added `scope` & `remarks` to `pyproj.crs` objects and `pyproj.Transformer` (issue #441)
 * Added `operations` to `pyproj.crs.CoordinateOperation` objects and `pyproj.Transformer` (issue #441)
-* Added :func:`~pyproj.get_authorities` and :func:`~pyproj.get_codes` (issue #440)
+* Added :func:`pyproj.get_authorities` and :func:`pyproj.get_codes` (issue #440)
 * Release gil in core cython/PROJ code (issue #386)
 * BUG: Added checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
 * BUG: Added fix for get_transform_crs when checking type (pull #439)
@@ -48,18 +49,18 @@ Change Log
 ~~~~~
 * Minimum supported Python version 3.5 (issue #331)
 * New `pyproj.geod.Geod` additions:
-    * Added support for calculating geodesic area (:meth:`~pyproj.Geod.polygon_area_perimeter`)
+    * Added support for calculating geodesic area (:meth:`pyproj.Geod.polygon_area_perimeter`)
       and added interface to calculate total length of a line
-      (:meth:`~pyproj.Geod.line_length` & :meth:`~pyproj.Geod.line_lengths`) (issue #210).
+      (:meth:`pyproj.Geod.line_length` & :meth:`pyproj.Geod.line_lengths`) (issue #210).
     * Added support for calculating geodesic area and line lengths with shapely geometries
-      (:meth:`~pyproj.Geod.geometry_area_perimeter` & :meth:`~pyproj.Geod.geometry_length`)
+      (:meth:`pyproj.Geod.geometry_area_perimeter` & :meth:`pyproj.Geod.geometry_length`)
       (pull #366)
 * New `pyproj.transformer` additions:
-    * Added :class:`~pyproj.transformer.TransformerGroup` to make all transformations available (issue #381)
-    * Added option for `area_of_interest` for :meth:`~pyproj.transformer.Transformer.from_crs`,
-      :meth:`~pyproj.transformer.Transformer.from_proj` and :class:`~pyproj.transformer.TransformerGroup`
-    * Added :attr:`~pyproj.transformer.Transformer.area_of_use` (issue #385)
-* Added :attr:`~pyproj.crs.CoordinateOperation.area_of_use` (issue #385)
+    * Added :class:`pyproj.transformer.TransformerGroup` to make all transformations available (issue #381)
+    * Added option for `area_of_interest` for :meth:`pyproj.transformer.Transformer.from_crs`,
+      :meth:`pyproj.transformer.Transformer.from_proj` and :class:`pyproj.transformer.TransformerGroup`
+    * Added :attr:`pyproj.transformer.Transformer.area_of_use` (issue #385)
+* Added :attr:`pyproj.crs.CoordinateOperation.area_of_use` (issue #385)
 * Updated to only have one PJ_CONTEXT per pyproj session (issue #374)
 * Always return latlon with Proj (issue #356)
 * Remove aenum dependency (issue #339)
@@ -70,16 +71,16 @@ Change Log
 ~~~~~
 * Update wheels to PROJ 6.1.1
 * Add deprecation warning when using +init= syntax (pull #358)
-* Added :meth:`~pyproj.crs.is_proj` (pull #359)
-* Fixed case in :meth:`~pyproj.crs.CRS.to_dict` with :meth:`~pyproj.crs.CRS.to_proj4` returning None (pull #359)
+* Added :meth:`pyproj.crs.is_proj` (pull #359)
+* Fixed case in :meth:`pyproj.crs.CRS.to_dict` with :meth:`pyproj.crs.CRS.to_proj4` returning None (pull #359)
 * Keep `no_defs` in input PROJ string as it does not hurt/help anything in current code (pull #359)
 * Made public properties on C classes readonly (pull #359)
 * Update data dir exception handling to prevent ignoring errors (pull #361)
-* :meth:`~pyproj.crs.CRS.to_cf` export transverse mercator parameters for UTM zones (pull #362)
+* :meth:`pyproj.crs.CRS.to_cf` export transverse mercator parameters for UTM zones (pull #362)
 
 2.2.1
 ~~~~~
-* Added :meth:`~pyproj.show_versions` (issue #334)
+* Added :meth:`pyproj.show_versions` (issue #334)
 * Added fix for whitepace around '=' in PROJ strings (issue #345)
 * Update version check in `setup.py` (issue #323)
 * Add "stable" doc site pointing to latest release (issue #347, pull #348)
@@ -92,32 +93,32 @@ Change Log
 * `pyproj.crs` updates:
     * Updated CRS repr (issue #264)
     * Add Datum, CoordinateSystem, CoordinateOperation clases (issue #262)
-    * Added :meth:`~pyproj.crs.CRS.to_cf` and :meth:`~pyproj.crs.CRS.from_cf` for
+    * Added :meth:`pyproj.crs.CRS.to_cf` and :meth:`pyproj.crs.CRS.from_cf` for
       converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)
-    * Added :meth:`~pyproj.crs.CRS.to_dict` (issue #226)
-    * Added :meth:`~pyproj.crs.CRS.to_authority` (pull #294)
-    * Added :attr:`~pyproj.crs.CRS.is_vertical` and :attr:`~pyproj.crs.CRS.is_engineering` (issue #316)
-    * Added :attr:`~pyproj.crs.CRS.target_crs` (pull #328)
-    * Provide option to "pretty print" WKT in :attr:`~pyproj.crs.CRS.to_wkt` (issue #258)
-    * Add support for Bound and Compound CRS for :attr:`~pyproj.crs.CRS.is_geographic`, :attr:`~pyproj.crs.CRS.is_projected` (issue #274)
-    * Add support for Bound CRS for :attr:`~pyproj.crs.CRS.is_geocentric` (issue #374)
-    * Add support for comparison with CRS a non-crs type supported by :meth:`~pyproj.crs.CRS.from_user_input` (issue #312)
+    * Added :meth:`pyproj.crs.CRS.to_dict` (issue #226)
+    * Added :meth:`pyproj.crs.CRS.to_authority` (pull #294)
+    * Added :attr:`pyproj.crs.CRS.is_vertical` and :attr:`pyproj.crs.CRS.is_engineering` (issue #316)
+    * Added :attr:`pyproj.crs.CRS.target_crs` (pull #328)
+    * Provide option to "pretty print" WKT in :attr:`pyproj.crs.CRS.to_wkt` (issue #258)
+    * Add support for Bound and Compound CRS for :attr:`pyproj.crs.CRS.is_geographic`, :attr:`pyproj.crs.CRS.is_projected` (issue #274)
+    * Add support for Bound CRS for :attr:`pyproj.crs.CRS.is_geocentric` (issue #374)
+    * Add support for comparison with CRS a non-crs type supported by :meth:`pyproj.crs.CRS.from_user_input` (issue #312)
     * Added support for ITRF, compound EPSG, and urn projection strings in CRS (pull #289)
     * Better handle Compound CRS (issue #265)
     * Disallow creation of non-CRS object (eg pipeline) in CRS class (issue #267)
-    * Added check in :meth:`~pyproj.crs.CRS.to_epsg` for when `proj_list` is null (issue #257)
+    * Added check in :meth:`pyproj.crs.CRS.to_epsg` for when `proj_list` is null (issue #257)
     * Fix comparing classes of non-instance types (issue #310)
 * `pyroj.transformer` updates:
     * Added `always_xy` option to Transformer so the transform method will
       always accept as input and return as output coordinates using the
       traditional GIS order, that is longitude, latitudecfor geographic
       CRS and easting, northing for most projected CRS (issue #225)
-    * Provide `direction` option in :meth:`~pyproj.transformer.Transformer.transform` (issue #266)
+    * Provide `direction` option in :meth:`pyproj.transformer.Transformer.transform` (issue #266)
     * Add check for valid initialization of Transformer and ensure it is a transformer (issue #321)
-    * Added :meth:`~pyproj.transformer.Transformer.to_wkt` as well as attributes related to `PJ_PROJ_INFO` (pull #322)
-    * Undo deprecation of :meth:`~pyproj.transformer.Transformer.from_crs` (issue #275)
+    * Added :meth:`pyproj.transformer.Transformer.to_wkt` as well as attributes related to `PJ_PROJ_INFO` (pull #322)
+    * Undo deprecation of :meth:`pyproj.transformer.Transformer.from_crs` (issue #275)
     * Fix false positive errors raised in transformer (issue #249)
-* Fix :class:`~pyproj.proj.Proj` initialization from DerivedGeographicCRS (issue #270)
+* Fix :class:`pyproj.proj.Proj` initialization from DerivedGeographicCRS (issue #270)
 * Add interface to get the projection/ellps/prime_meridian/units lists (issue #251)
 * Docs/Build/Test fixes (pull #278, pull #245, pull #248, pull #247, issue #253, pull #252)
 
@@ -142,14 +143,14 @@ Change Log
 ~~~~~
 * Restore behavior of 1.9.6 when illegal projection transformation requested
   (return ``inf`` instead of raising an exception, issue #202).  kwarg ``errcheck``
-  added to :func:`~pyproj.transformer.transform` and :func:`~pyproj.transformer.itransform`
+  added to :func:`pyproj.transformer.transform` and :func:`pyproj.transformer.itransform`
   (default ``False``). When ``errcheck=True`` an exception is raised.
 
 2.1.0
 ~~~~~
-* Added :class:`~pyproj.transformer.Transformer` to make repetitive transformations more efficient (issue #187)
+* Added :class:`pyproj.transformer.Transformer` to make repetitive transformations more efficient (issue #187)
 * Added fix for using local datumgrids with transform (issue #191)
-* Added :meth:`~pyproj.transformer.Transformer.from_pipeline` to support pipeline transformations.
+* Added :meth:`pyproj.transformer.Transformer.from_pipeline` to support pipeline transformations.
 * Added fix for conversion between radians/degrees for transformations (issues #192 & #195)
 
 2.0.2

@@ -1,11 +1,9 @@
-from distutils.version import LooseVersion
-
 import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
 
 import pyproj
-from pyproj import Proj, Transformer, itransform, proj_version_str, transform
+from pyproj import Proj, Transformer, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup

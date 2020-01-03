@@ -464,6 +464,53 @@ cdef class Base:
         return self._is_exact_same(other)
 
 
+
+cdef class _CRSParts(Base):
+    @classmethod
+    def from_user_input(cls, user_input):
+        """
+        .. versionadded:: 2.5.0
+
+        Create cls from user input:
+          - PROJ JSON string
+          - PROJ JSON dict
+          - WKT string
+          - An authority string
+          - An EPSG integer code
+          - A tuple of ("auth_name": "auth_code")
+          - An object with a `to_json` method.
+
+        Parameters
+        ----------
+        user_input: str, dict, int
+            Intput to create cls.
+
+        Returns
+        -------
+        cls
+        """
+        if isinstance(user_input, str):
+            prepared = cls.from_string(user_input)
+        elif isinstance(user_input, dict):
+            prepared = cls.from_json_dict(user_input)
+        elif isinstance(user_input, int) and hasattr(cls, "from_epsg"):
+            prepared = cls.from_epsg(user_input)
+        elif (
+            isinstance(user_input, (list, tuple))
+            and len(user_input) == 2
+            and hasattr(cls, "from_authority")
+        ):
+            prepared = cls.from_authority(*user_input)
+        elif hasattr(user_input, "to_json"):
+            prepared = cls.from_json(user_input.to_json())
+        else:
+            raise CRSError("Invalid {} input: {!r}".format(
+                cls.__name__,
+                user_input,
+            ))
+        return prepared
+
+
 _COORD_SYSTEM_TYPE_MAP = {
     PJ_CS_TYPE_UNKNOWN: "unknown",
     PJ_CS_TYPE_CARTESIAN: "cartesian",
@@ -477,7 +524,7 @@ _COORD_SYSTEM_TYPE_MAP = {
     PJ_CS_TYPE_TEMPORALMEASURE: "temporalmeasure",
 }
 
-cdef class CoordinateSystem(Base):
+cdef class CoordinateSystem(_CRSParts):
     """
     .. versionadded:: 2.2.0
 
@@ -607,7 +654,7 @@ cdef class CoordinateSystem(Base):
         return CoordinateSystem.from_json_dict(_load_proj_json(coordinate_system_json_str))
 
 
-cdef class Ellipsoid(Base):
+cdef class Ellipsoid(_CRSParts):
     """
     .. versionadded:: 2.0.0
 
@@ -828,7 +875,7 @@ cdef class Ellipsoid(Base):
         return float("NaN")
 
 
-cdef class PrimeMeridian(Base):
+cdef class PrimeMeridian(_CRSParts):
     """
     .. versionadded:: 2.0.0
 
@@ -1003,7 +1050,7 @@ cdef class PrimeMeridian(Base):
         return PrimeMeridian.from_json_dict(_load_proj_json(prime_meridian_json_str))
 
 
-cdef class Datum(Base):
+cdef class Datum(_CRSParts):
     """
     .. versionadded:: 2.2.0
 
@@ -1405,7 +1452,7 @@ _COORDINATE_OPERATION_TYPE_MAP = {
     PJ_TYPE_OTHER_COORDINATE_OPERATION: "Other Coordinate Operation",
 }
 
-cdef class CoordinateOperation(Base):
+cdef class CoordinateOperation(_CRSParts):
     """
     .. versionadded:: 2.2.0
 

@@ -759,7 +759,7 @@ class CRS(_CRS):
         """
         Check if the CRS objects are the exact same.
 
-        Properties
+        Parameters
         ----------
         other: Any
             Check if the other CRS is the exact same to this object.
@@ -783,7 +783,7 @@ class CRS(_CRS):
 
         Check if the CRS objects are equivalent.
 
-        Properties
+        Parameters
         ----------
         other: Any
             Check if the other object is equivalent to this object.
