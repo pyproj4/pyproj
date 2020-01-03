@@ -460,21 +460,21 @@
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
 <p>Check if the CRS objects are equivalent.</p>
-<dl class="simple">
-<dt>other: Any</dt><dd><p>Check if the other object is equivalent to this object.
-If the other object is not a CRS, it will try to create one.
-On Failure, it will return False.</p>
-</dd>
-<dt>ignore_axis_order: bool, optional</dt><dd><p>If True, it will compare the CRS class and ignore the axis order.
-Default is False.</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<em>Any</em>) – Check if the other object is equivalent to this object.
+If the other object is not a CRS, it will try to create one.
+On Failure, it will return False.</p></li>
+<li><p><strong>ignore_axis_order</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, it will compare the CRS class and ignore the axis order.
+Default is False.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>bool</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -762,18 +762,17 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dt id="pyproj.crs.CRS.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">other</em>, <em class="sig-param">ignore_axis_order=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/crs.html#CRS.is_exact_same"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the CRS objects are the exact same.</p>
-<dl class="simple">
-<dt>other: Any</dt><dd><p>Check if the other CRS is the exact same to this object.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Any</em>) – Check if the other CRS is the exact same to this object.
 If the other object is not a CRS, it will try to create one.
 On Failure, it will return False.</p>
 </dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>bool</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1375,6 +1374,37 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.CoordinateSystem.from_user_input">
+<code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">type cls</em>, <em class="sig-param">user_input</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.from_user_input" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<dl class="simple">
+<dt>Create cls from user input:</dt><dd><ul class="simple">
+<li><p>PROJ JSON string</p></li>
+<li><p>PROJ JSON dict</p></li>
+<li><p>WKT string</p></li>
+<li><p>An authority string</p></li>
+<li><p>An EPSG integer code</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An object with a <cite>to_json</cite> method.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.CoordinateSystem.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
@@ -1745,6 +1775,37 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation">CoordinateOperation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.CoordinateOperation.from_user_input">
+<code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">type cls</em>, <em class="sig-param">user_input</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_user_input" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<dl class="simple">
+<dt>Create cls from user input:</dt><dd><ul class="simple">
+<li><p>PROJ JSON string</p></li>
+<li><p>PROJ JSON dict</p></li>
+<li><p>WKT string</p></li>
+<li><p>An authority string</p></li>
+<li><p>An EPSG integer code</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An object with a <cite>to_json</cite> method.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2221,6 +2282,37 @@ ID[“EPSG”,6326]]</p></li>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.Datum.from_user_input">
+<code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">type cls</em>, <em class="sig-param">user_input</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_user_input" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<dl class="simple">
+<dt>Create cls from user input:</dt><dd><ul class="simple">
+<li><p>PROJ JSON string</p></li>
+<li><p>PROJ JSON dict</p></li>
+<li><p>WKT string</p></li>
+<li><p>An authority string</p></li>
+<li><p>An EPSG integer code</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An object with a <cite>to_json</cite> method.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.Datum.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares projection objects to see if they are exactly the same.</p>
@@ -2474,6 +2566,37 @@ ID[“EPSG”,7001]]</p></li>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Ellipsoid" title="pyproj.crs.Ellipsoid">Ellipsoid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Ellipsoid.from_user_input">
+<code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">type cls</em>, <em class="sig-param">user_input</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_user_input" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<dl class="simple">
+<dt>Create cls from user input:</dt><dd><ul class="simple">
+<li><p>PROJ JSON string</p></li>
+<li><p>PROJ JSON dict</p></li>
+<li><p>WKT string</p></li>
+<li><p>An authority string</p></li>
+<li><p>An EPSG integer code</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An object with a <cite>to_json</cite> method.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2757,6 +2880,37 @@ ID[“EPSG”,8901]]</p></li>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_user_input">
+<code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">type cls</em>, <em class="sig-param">user_input</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_user_input" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<dl class="simple">
+<dt>Create cls from user input:</dt><dd><ul class="simple">
+<li><p>PROJ JSON string</p></li>
+<li><p>PROJ JSON dict</p></li>
+<li><p>WKT string</p></li>
+<li><p>An authority string</p></li>
+<li><p>An EPSG integer code</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An object with a <cite>to_json</cite> method.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
 </dd>
 </dl>
 </dd></dl>
