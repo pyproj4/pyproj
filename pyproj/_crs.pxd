@@ -60,6 +60,7 @@ cdef class PrimeMeridian(_CRSParts):
 
 
 cdef class Datum(_CRSParts):
+    cdef readonly object type_name
     cdef readonly object _ellipsoid
     cdef readonly object _prime_meridian
 

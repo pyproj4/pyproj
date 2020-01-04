@@ -77,7 +77,7 @@ class PJType(BaseEnum):
     """
     .. versionadded:: 2.4.0
 
-    PJ Types for listing codes with :func:`~pyproj.get_codes`
+    PJ Types for listing codes with :func:`pyproj.get_codes`
 
     Attributes
     ----------
@@ -130,6 +130,49 @@ class PJType(BaseEnum):
     ENGINEERING_CRS = "ENGINEERING_CRS"
     BOUND_CRS = "BOUND_CRS"
     OTHER_CRS = "OTHER_CRS"
+    CONVERSION = "CONVERSION"
+    TRANSFORMATION = "TRANSFORMATION"
+    CONCATENATED_OPERATION = "CONCATENATED_OPERATION"
+    OTHER_COORDINATE_OPERATION = "OTHER_COORDINATE_OPERATION"
+
+
+class DatumType(BaseEnum):
+    """
+    .. versionadded:: 2.5.0
+
+    Datum Types for creating datum with :meth:`pyproj.crs.Datum.from_name`
+
+    Attributes
+    ----------
+    GEODETIC_REFERENCE_FRAME
+    DYNAMIC_GEODETIC_REFERENCE_FRAME
+    VERTICAL_REFERENCE_FRAME
+    DYNAMIC_VERTICAL_REFERENCE_FRAME
+    DATUM_ENSEMBLE
+    """
+
+    GEODETIC_REFERENCE_FRAME = "GEODETIC_REFERENCE_FRAME"
+    DYNAMIC_GEODETIC_REFERENCE_FRAME = "DYNAMIC_GEODETIC_REFERENCE_FRAME"
+    VERTICAL_REFERENCE_FRAME = "VERTICAL_REFERENCE_FRAME"
+    DYNAMIC_VERTICAL_REFERENCE_FRAME = "DYNAMIC_VERTICAL_REFERENCE_FRAME"
+    DATUM_ENSEMBLE = "DATUM_ENSEMBLE"
+
+
+class CoordinateOperationType(BaseEnum):
+    """
+    .. versionadded:: 2.5.0
+
+    Coordinate Operation Types for creating operation
+    with :meth:`pyproj.crs.CoordinateOperation.from_name`
+
+    Attributes
+    ----------
+    CONVERSION
+    TRANSFORMATION
+    CONCATENATED_OPERATION
+    OTHER_COORDINATE_OPERATION
+    """
+
     CONVERSION = "CONVERSION"
     TRANSFORMATION = "TRANSFORMATION"
     CONCATENATED_OPERATION = "CONCATENATED_OPERATION"

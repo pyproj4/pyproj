@@ -383,6 +383,14 @@ cdef extern from "proj.h":
                                   int usePROJAlternativeGridNames,
                                   const char* const *options)
 
+    PJ_OBJ_LIST *proj_create_from_name(PJ_CONTEXT *ctx,
+                                       const char *auth_name,
+                                       const char *searchedName,
+                                       const PJ_TYPE* types,
+                                       size_t typesCount,
+                                       int approximateMatch,
+                                       size_t limitResultCount,
+                                       const char* const *options)
 
     ctypedef struct PJ_OPERATION_FACTORY_CONTEXT
 
