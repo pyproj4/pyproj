@@ -838,6 +838,14 @@ def test_datum_from_name__auth_type():
 @pytest.mark.parametrize(
     "invalid_str", ["3-598y5-98y", "urn:ogc:def:ellipsoid:EPSG::7001"]
 )
+def test_datum__from_name__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid datum"):
+        Datum.from_name(invalid_str)
+
+
+@pytest.mark.parametrize(
+    "invalid_str", ["3-598y5-98y", "urn:ogc:def:ellipsoid:EPSG::7001"]
+)
 def test_datum__from_string__invalid(invalid_str):
     with pytest.raises(CRSError, match="Invalid datum"):
         Datum.from_string(invalid_str)
@@ -852,6 +860,12 @@ def test_ellipsoid__from_string(input_str):
 def test_ellipsoid__from_name():
     ee = Ellipsoid.from_name("Airy 1830")
     assert ee.name == "Airy 1830"
+
+
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_ellipsoid__from_name__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid ellipsoid"):
+        Ellipsoid.from_name(invalid_str)
 
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
@@ -877,6 +891,12 @@ def test_prime_meridian__from_name():
     assert pm.name == "Greenwich"
 
 
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_prime_meridian__from_name__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid prime meridian"):
+        PrimeMeridian.from_name(invalid_str)
+
+
 @pytest.mark.parametrize(
     "input_str", ["urn:ogc:def:coordinateOperation:EPSG::1671", "RGF93 to WGS 84 (1)"]
 )
@@ -897,6 +917,12 @@ def test_coordinate_operation__from_name_auth_type():
         coordinate_operation_type=CoordinateOperationType.TRANSFORMATION,
     )
     assert co.name == "ITRF_2000_To_WGS_1984"
+
+
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_coordinate_operation__from_name__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid coordinate operation"):
+        CoordinateOperation.from_name(invalid_str)
 
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
