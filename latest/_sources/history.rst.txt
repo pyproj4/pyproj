@@ -8,6 +8,7 @@ Change Log
 * ENH: Added :meth:`pyproj.crs.CoordinateSystem.from_json`, :meth:`pyproj.crs.CoordinateSystem.from_json_dict`, and :meth:`pyproj.crs.CoordinateSystem.from_string` (pull #501)
 * ENH: Added :class:`pyproj.crs.CoordinateSystem` to `pyproj.crs` namespace (pull #501)
 * ENH: Added :meth:`pyproj.crs.CoordinateSystem.from_user_input`, :meth:`pyproj.crs.CoordinateOperation.from_user_input`, :meth:`pyproj.crs.Datum.from_user_input`, :meth:`pyproj.crs.PrimeMeridian.from_user_input`, :meth:`pyproj.crs.Ellipsoid.from_user_input` (pull #502)
+* ENH: Added :meth:`pyproj.crs.CoordinateSystem.from_name`, :meth:`pyproj.crs.CoordinateOperation.from_name`, :meth:`pyproj.crs.Datum.from_name`, :meth:`pyproj.crs.PrimeMeridian.from_name`, :meth:`pyproj.crs.Ellipsoid.from_name` (pull #505)
 
 2.4.2
 ~~~~~
