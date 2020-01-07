@@ -11,7 +11,7 @@ from pyproj.crs import (
     Ellipsoid,
     PrimeMeridian,
 )
-from pyproj.enums import ProjVersion, WktVersion
+from pyproj.enums import CoordinateOperationType, DatumType, ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 
 
@@ -559,6 +559,7 @@ def test_coordinate_operation__from_authority():
         "urn:ogc:def:coordinateOperation:EPSG::1671",
         CoordinateOperation.from_epsg(1671),
         CoordinateOperation.from_epsg(1671).to_json_dict(),
+        "RGF93 to WGS 84 (1)",
     ],
 )
 def test_coordinate_operation__from_user_input(user_input):
@@ -613,6 +614,7 @@ def test_datum__from_authority__invalid():
         "urn:ogc:def:datum:EPSG::6326",
         Datum.from_epsg(6326),
         Datum.from_epsg(6326).to_json_dict(),
+        "World Geodetic System 1984",
     ],
 )
 def test_datum__from_user_input(user_input):
@@ -652,6 +654,7 @@ def test_prime_meridian__from_authority__invalid():
         "urn:ogc:def:meridian:EPSG::8901",
         PrimeMeridian.from_epsg(8901),
         PrimeMeridian.from_epsg(8901).to_json_dict(),
+        "Greenwich",
     ],
 )
 def test_prime_meridian__from_user_input(user_input):
@@ -692,6 +695,7 @@ def test_ellipsoid__from_authority__invalid():
         "urn:ogc:def:ellipsoid:EPSG::7001",
         Ellipsoid.from_epsg(7001),
         Ellipsoid.from_epsg(7001).to_json_dict(),
+        "Airy 1830",
     ],
 )
 def test_ellipsoid__from_user_input(user_input):
@@ -806,52 +810,125 @@ def test_to_proj4_enum():
         assert crs.to_proj4(5) == crs.to_proj4(ProjVersion.PROJ_5)
 
 
-def test_datum__from_string():
-    dd = Datum.from_string("urn:ogc:def:datum:EPSG::6326")
+@pytest.mark.parametrize(
+    "input_str", ["urn:ogc:def:datum:EPSG::6326", "World Geodetic System 1984"]
+)
+def test_datum__from_string(input_str):
+    dd = Datum.from_string(input_str)
     assert dd.name == "World Geodetic System 1984"
 
 
-def test_datum__from_string__invalid():
-    with pytest.raises(CRSError, match="Invalid datum string"):
-        Datum.from_string("3-598y5-98y")
-    with pytest.raises(CRSError, match="Invalid datum string"):
-        Datum.from_string("urn:ogc:def:ellipsoid:EPSG::7001")
+@pytest.mark.parametrize(
+    "input_name", ["World Geodetic System 1984", "WGS84", "WGS 84"]
+)
+def test_datum__from_name(input_name):
+    dd = Datum.from_name(input_name)
+    assert dd.name == "World Geodetic System 1984"
 
 
-def test_ellipsoid__from_string():
-    ee = Ellipsoid.from_string("urn:ogc:def:ellipsoid:EPSG::7001")
+def test_datum_from_name__auth_type():
+    dd = Datum.from_name(
+        "WGS_1984_Geoid",
+        auth_name="ESRI",
+        datum_type=DatumType.VERTICAL_REFERENCE_FRAME,
+    )
+    assert dd.name == "WGS_1984_Geoid"
+
+
+@pytest.mark.parametrize(
+    "invalid_str", ["3-598y5-98y", "urn:ogc:def:ellipsoid:EPSG::7001"]
+)
+def test_datum__from_name__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid datum"):
+        Datum.from_name(invalid_str)
+
+
+@pytest.mark.parametrize(
+    "invalid_str", ["3-598y5-98y", "urn:ogc:def:ellipsoid:EPSG::7001"]
+)
+def test_datum__from_string__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid datum"):
+        Datum.from_string(invalid_str)
+
+
+@pytest.mark.parametrize("input_str", ["urn:ogc:def:ellipsoid:EPSG::7001", "Airy 1830"])
+def test_ellipsoid__from_string(input_str):
+    ee = Ellipsoid.from_string(input_str)
     assert ee.name == "Airy 1830"
 
 
-def test_ellipsoid__from_string__invalid():
-    with pytest.raises(CRSError, match="Invalid ellipsoid string"):
-        Ellipsoid.from_string("3-598y5-98y")
-    with pytest.raises(CRSError, match="Invalid ellipsoid string"):
-        Ellipsoid.from_string("urn:ogc:def:datum:EPSG::6326")
+def test_ellipsoid__from_name():
+    ee = Ellipsoid.from_name("Airy 1830")
+    assert ee.name == "Airy 1830"
 
 
-def test_prime_meridian__from_string():
-    pm = PrimeMeridian.from_string("urn:ogc:def:meridian:EPSG::8901")
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_ellipsoid__from_name__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid ellipsoid"):
+        Ellipsoid.from_name(invalid_str)
+
+
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_ellipsoid__from_string__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid ellipsoid"):
+        Ellipsoid.from_string(invalid_str)
+
+
+@pytest.mark.parametrize("input_str", ["urn:ogc:def:meridian:EPSG::8901", "Greenwich"])
+def test_prime_meridian__from_string(input_str):
+    pm = PrimeMeridian.from_string(input_str)
     assert pm.name == "Greenwich"
 
 
-def test_prime_meridian__from_string__invalid():
-    with pytest.raises(CRSError, match="Invalid prime meridian string"):
-        PrimeMeridian.from_string("3-598y5-98y")
-    with pytest.raises(CRSError, match="Invalid prime meridian string"):
-        PrimeMeridian.from_string("urn:ogc:def:datum:EPSG::6326")
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_prime_meridian__from_string__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid prime meridian"):
+        PrimeMeridian.from_string(invalid_str)
 
 
-def test_coordinate_operation__from_string():
-    co = CoordinateOperation.from_string("urn:ogc:def:coordinateOperation:EPSG::1671")
+def test_prime_meridian__from_name():
+    pm = PrimeMeridian.from_name("Greenwich")
+    assert pm.name == "Greenwich"
+
+
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_prime_meridian__from_name__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid prime meridian"):
+        PrimeMeridian.from_name(invalid_str)
+
+
+@pytest.mark.parametrize(
+    "input_str", ["urn:ogc:def:coordinateOperation:EPSG::1671", "RGF93 to WGS 84 (1)"]
+)
+def test_coordinate_operation__from_string(input_str):
+    co = CoordinateOperation.from_string(input_str)
     assert co.name == "RGF93 to WGS 84 (1)"
 
 
-def test_coordinate_operation__from_string__invalid():
-    with pytest.raises(CRSError, match="Invalid coordinate operation string"):
-        CoordinateOperation.from_string("3-598y5-98y")
-    with pytest.raises(CRSError, match="Invalid coordinate operation string"):
-        CoordinateOperation.from_string("urn:ogc:def:datum:EPSG::6326")
+def test_coordinate_operation__from_name():
+    co = CoordinateOperation.from_name("UTM zone 12N")
+    assert co.name == "UTM zone 12N"
+
+
+def test_coordinate_operation__from_name_auth_type():
+    co = CoordinateOperation.from_name(
+        "ITRF_2000_To_WGS_1984",
+        auth_name="ESRI",
+        coordinate_operation_type=CoordinateOperationType.TRANSFORMATION,
+    )
+    assert co.name == "ITRF_2000_To_WGS_1984"
+
+
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_coordinate_operation__from_name__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid coordinate operation"):
+        CoordinateOperation.from_name(invalid_str)
+
+
+@pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
+def test_coordinate_operation__from_string__invalid(invalid_str):
+    with pytest.raises(CRSError, match="Invalid coordinate operation"):
+        CoordinateOperation.from_string(invalid_str)
 
 
 def test_coordinate_system__from_string():
