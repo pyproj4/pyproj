@@ -1759,12 +1759,43 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.CoordinateOperation.from_name">
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">coordinate_operation_name</em>, <em class="sig-param">auth_name=u'EPSG'</em>, <em class="sig-param">coordinate_operation_type=CoordinateOperationType.CONVERSION</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_name" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create a Coordinate Operation from a name.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>UTM zone 14N</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinate_operation_name</strong> (<em>str</em>) – Coordinate Operation name.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
+If None, will search all authorities. Default is ‘EPSG’.</p></li>
+<li><p><strong>coordinate_operation_type</strong> (<em>CoordinateOperationType</em><em>, </em><em>optional</em>) – The coordinate operation type to create.
+Default is CoordinateOperationType.CONVERSION.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation">CoordinateOperation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.CoordinateOperation.from_string">
 <em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">coordinate_operation_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from a string.</p>
 <p class="rubric">Example</p>
 <ul class="simple">
 <li><p><a class="reference external" href="urn:ogc:def:coordinateOperation:EPSG::1671">urn:ogc:def:coordinateOperation:EPSG::1671</a></p></li>
+<li><p>UTM zone 14N</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2257,6 +2288,36 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.Datum.from_name">
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">datum_name</em>, <em class="sig-param">auth_name=u'EPSG'</em>, <em class="sig-param">datum_type=DatumType.GEODETIC_REFERENCE_FRAME</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_name" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create a Datum from a name.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>WGS 84</p></li>
+<li><p>World Geodetic System 1984</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datum_name</strong> (<em>str</em>) – Datum name.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
+If None, will search all authorities. Default is ‘EPSG’.</p></li>
+<li><p><strong>datum_type</strong> (<em>DatumType</em><em>, </em><em>optional</em>) – The datum type to create. Default is DatumType.GEODETIC_REFERENCE_FRAME.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Datum" title="pyproj.crs.Datum">Datum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.Datum.from_string">
 <em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">datum_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Datum from a string.</p>
@@ -2267,6 +2328,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 ELLIPSOID[“WGS 84”,6378137,298.257223563,
 LENGTHUNIT[“metre”,1]],
 ID[“EPSG”,6326]]</p></li>
+<li><p>World Geodetic System 1984</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2544,6 +2606,34 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.Ellipsoid.from_name">
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">ellipsoid_name</em>, <em class="sig-param">auth_name=u'EPSG'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_name" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create a Ellipsoid from a name.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>WGS 84</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ellipsoid_name</strong> (<em>str</em>) – Ellipsoid name.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
+If None, will search all authorities. Default is ‘EPSG’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Ellipsoid" title="pyproj.crs.Ellipsoid">Ellipsoid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.Ellipsoid.from_string">
 <em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">ellipsoid_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -2556,6 +2646,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <li><p>ELLIPSOID[“Airy 1830”,6377563.396,299.3249646,
 LENGTHUNIT[“metre”,1],
 ID[“EPSG”,7001]]</p></li>
+<li><p>WGS 84</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2858,6 +2949,34 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_name">
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_name</em>, <em class="sig-param">auth_name=u'EPSG'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_name" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create a Prime Meridian from a name.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>Greenwich</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prime_meridian_name</strong> (<em>str</em>) – Prime Meridian name.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
+If None, will search all authorities. Default is ‘EPSG’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyproj.crs.PrimeMeridian.from_string">
 <em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -2870,6 +2989,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <li><p>PRIMEM[“Greenwich”,0,
 ANGLEUNIT[“degree”,0.0174532925199433],
 ID[“EPSG”,8901]]</p></li>
+<li><p>Greenwich</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
