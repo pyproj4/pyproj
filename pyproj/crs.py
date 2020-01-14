@@ -463,14 +463,13 @@ class CRS(_CRS):
         -------
         pyproj.geod.Geod: Geod object based on the ellipsoid.
         """
-        if self.ellipsoid is None or not self.ellipsoid.ellipsoid_loaded:
+        if self.ellipsoid is None:
             return None
         in_kwargs = {
             "a": self.ellipsoid.semi_major_metre,
             "rf": self.ellipsoid.inverse_flattening,
+            "b": self.ellipsoid.semi_minor_metre,
         }
-        if self.ellipsoid.is_semi_minor_computed:
-            in_kwargs["b"] = self.ellipsoid.semi_minor_metre
         return Geod(**in_kwargs)
 
     @classmethod

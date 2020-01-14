@@ -718,17 +718,20 @@ cdef class Ellipsoid(_CRSParts):
         The name of the ellipsoid.
     is_semi_minor_computed: int
         1 if True, 0 if False
-    ellipsoid_loaded: bool
-        True if it is loaded without errors.
+    semi_major_metre: float
+        The semi major axis in meters of the ellipsoid.
+    semi_minor_metre: float
+        The semi minor axis in meters of the ellipsoid.
+    inverse_flattening: float
+        The inverse flattening of the ellipsoid.
 
     """
     def __cinit__(self):
         # load in ellipsoid information if applicable
-        self._semi_major_metre = float("NaN")
-        self._semi_minor_metre = float("NaN")
+        self.semi_major_metre = float("NaN")
+        self.semi_minor_metre = float("NaN")
         self.is_semi_minor_computed = False
-        self._inv_flattening = float("NaN")
-        self.ellipsoid_loaded = False
+        self.inverse_flattening = float("NaN")
 
     def __init__(self):
         raise RuntimeError(
@@ -742,14 +745,13 @@ cdef class Ellipsoid(_CRSParts):
         ellips.projobj = ellipsoid_pj
         cdef int is_semi_minor_computed = 0
         proj_ellipsoid_get_parameters(
-            ellips.context,
-            ellips.projobj,
-            &ellips._semi_major_metre,
-            &ellips._semi_minor_metre,
+            context,
+            ellipsoid_pj,
+            &ellips.semi_major_metre,
+            &ellips.semi_minor_metre,
             &is_semi_minor_computed,
-            &ellips._inv_flattening,
+            &ellips.inverse_flattening,
         )
-        ellips.ellipsoid_loaded = True
         ellips.is_semi_minor_computed = is_semi_minor_computed == 1
         ellips._set_base_info()
         CRSError.clear()
@@ -953,47 +955,6 @@ cdef class Ellipsoid(_CRSParts):
             )
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
-
-    @property
-    def semi_major_metre(self):
-        """
-        The ellipsoid semi major metre.
-
-        Returns
-        -------
-        float or None: The semi major metre if the projection is an ellipsoid.
-        """
-        if self.ellipsoid_loaded:
-            return self._semi_major_metre
-        return float("NaN")
-
-    @property
-    def semi_minor_metre(self):
-        """
-        The ellipsoid semi minor metre.
-
-        Returns
-        -------
-        float or None: The semi minor metre if the projection is an ellipsoid
-            and the value was com
-            puted.
-        """
-        if self.ellipsoid_loaded and self.is_semi_minor_computed:
-            return self._semi_minor_metre
-        return float("NaN")
-
-    @property
-    def inverse_flattening(self):
-        """
-        The ellipsoid inverse flattening.
-
-        Returns
-        -------
-        float or None: The inverse flattening if the projection is an ellipsoid.
-        """
-        if self.ellipsoid_loaded:
-            return self._inv_flattening
-        return float("NaN")
 
 
 cdef class PrimeMeridian(_CRSParts):

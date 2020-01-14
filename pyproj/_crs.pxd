@@ -40,11 +40,10 @@ cdef class _CRSParts(Base):
 
 
 cdef class Ellipsoid(_CRSParts):
-    cdef double _semi_major_metre
-    cdef double _semi_minor_metre
+    cdef readonly double semi_major_metre
+    cdef readonly double semi_minor_metre
     cdef readonly object is_semi_minor_computed
-    cdef double _inv_flattening
-    cdef readonly object ellipsoid_loaded
+    cdef readonly double inverse_flattening
 
     @staticmethod
     cdef create(PJ_CONTEXT* context, PJ* ellipsoid_pj)
