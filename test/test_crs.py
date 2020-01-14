@@ -422,6 +422,13 @@ def test_ellipsoid():
     assert "{:.3f}".format(crs1.ellipsoid.semi_minor_metre) == "6356752.314"
 
 
+def test_ellipsoid__semi_minor_not_computed():
+    cc = CRS("+proj=geos +lon_0=-89.5 +a=6378137.0 +b=6356752.31 h=12345")
+    assert cc.datum.ellipsoid.semi_minor_metre == 6356752.31
+    assert cc.datum.ellipsoid.semi_major_metre == 6378137.0
+    assert not cc.datum.ellipsoid.is_semi_minor_computed
+
+
 def test_area_of_use():
     crs1 = CRS.from_epsg(4326)
     assert crs1.area_of_use.bounds == (-180.0, -90.0, 180.0, 90.0)
