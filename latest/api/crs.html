@@ -2512,12 +2512,34 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pyproj.crs.Ellipsoid.ellipsoid_loaded">
-<code class="sig-name descname">ellipsoid_loaded</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.ellipsoid_loaded" title="Permalink to this definition">¶</a></dt>
-<dd><p>True if it is loaded without errors.</p>
+<dt id="pyproj.crs.Ellipsoid.semi_major_metre">
+<code class="sig-name descname">semi_major_metre</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.semi_major_metre" title="Permalink to this definition">¶</a></dt>
+<dd><p>The semi major axis in meters of the ellipsoid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>bool</p>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Ellipsoid.semi_minor_metre">
+<code class="sig-name descname">semi_minor_metre</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.semi_minor_metre" title="Permalink to this definition">¶</a></dt>
+<dd><p>The semi minor axis in meters of the ellipsoid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Ellipsoid.inverse_flattening">
+<code class="sig-name descname">inverse_flattening</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.inverse_flattening" title="Permalink to this definition">¶</a></dt>
+<dd><p>The inverse flattening of the ellipsoid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2692,20 +2714,6 @@ ID[“EPSG”,7001]]</p></li>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pyproj.crs.Ellipsoid.inverse_flattening">
-<code class="sig-name descname">inverse_flattening</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.inverse_flattening" title="Permalink to this definition">¶</a></dt>
-<dd><p>The ellipsoid inverse flattening.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>float or None</strong></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>The inverse flattening if the projection is an ellipsoid.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="pyproj.crs.Ellipsoid.is_exact_same">
 <code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.is_exact_same" title="Permalink to this definition">¶</a></dt>
@@ -2728,35 +2736,6 @@ ID[“EPSG”,7001]]</p></li>
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
 <p>str: Scope of object.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyproj.crs.Ellipsoid.semi_major_metre">
-<code class="sig-name descname">semi_major_metre</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.semi_major_metre" title="Permalink to this definition">¶</a></dt>
-<dd><p>The ellipsoid semi major metre.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>float or None</strong></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>The semi major metre if the projection is an ellipsoid.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyproj.crs.Ellipsoid.semi_minor_metre">
-<code class="sig-name descname">semi_minor_metre</code><a class="headerlink" href="#pyproj.crs.Ellipsoid.semi_minor_metre" title="Permalink to this definition">¶</a></dt>
-<dd><p>The ellipsoid semi minor metre.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>float or None</strong> – and the value was com
-puted.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>The semi minor metre if the projection is an ellipsoid</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
