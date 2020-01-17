@@ -223,10 +223,10 @@ you may have problems initializing projections when the other syntax works.</p>
 </div>
 <div class="section" id="proj-not-a-generic-latitude-longitude-to-projection-converter">
 <h2>Proj (Not a generic latitude/longitude to projection converter)<a class="headerlink" href="#proj-not-a-generic-latitude-longitude-to-projection-converter" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a> is limited to converting between geographic and
+<p><a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> is limited to converting between geographic and
 projection coordinates within one datum. If you have coordinates in latitude
 and longitude, and you want to convert it to your projection, it is recommended
-to use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> as it takes into account datum
+to use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> as it takes into account datum
 shifts.</p>
 <p>You likely want to start from <cite>EPSG:4326</cite> (WGS84) for coordinates as
 latitude and longitude.</p>
@@ -246,7 +246,7 @@ latitude and longitude.</p>
 <span class="go">- Prime Meridian: Greenwich</span>
 </pre></div>
 </div>
-<p>Then, use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> to transform from latitude
+<p>Then, use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> to transform from latitude
 and longitude to your projection as you might have a projection with a different
 datum.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_proj</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:28992&quot;</span><span class="p">)</span>
@@ -273,7 +273,7 @@ datum.</p>
 <span class="go">(133175.3690698233, 453300.86739169655)</span>
 </pre></div>
 </div>
-<p>If you use <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a>, it will use the geodetic CRS with
+<p>If you use <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a>, it will use the geodetic CRS with
 from the projected CRS with the same datum to do the transformation,
 which may not be what you want.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span>
@@ -374,9 +374,9 @@ threshold you are comfortable with.</p>
 </div>
 <div class="section" id="upgrading-to-pyproj-2-from-pyproj-1">
 <h2>Upgrading to pyproj 2 from pyproj 1<a class="headerlink" href="#upgrading-to-pyproj-2-from-pyproj-1" title="Permalink to this headline">¶</a></h2>
-<p>We recommended using the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> and
-<a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proj</span></code></a> and
-<a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">transform()</span></code></a>.</p>
+<p>We recommended using the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> and
+<a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> and
+<a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.transform()</span></code></a>.</p>
 <dl class="simple">
 <dt>Also see:</dt><dd><ul class="simple">
 <li><p><a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p></li>

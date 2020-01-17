@@ -27,7 +27,7 @@ optimize your transformations.
     y_coords = np.random.randint(200000, 250000) 
 
 
-Example with :func:`~pyproj.transformer.transform`:
+Example with :func:`pyproj.transformer.transform`:
 
 .. code-block:: python
 
@@ -35,7 +35,7 @@ Example with :func:`~pyproj.transformer.transform`:
 
 Results: 160 ms ± 3.68 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 
-Example with :class:`~pyproj.transformer.Transformer`:
+Example with :class:`pyproj.transformer.Transformer`:
 
 .. code-block:: python
 
@@ -61,7 +61,7 @@ Transformation Group
 
 .. versionadded:: 2.3.0
 
-The :class:`~pyproj.transformer.TransformerGroup` provides both available
+The :class:`pyproj.transformer.TransformerGroup` provides both available
 transformations as well as missing transformations.
 
 1. Helpful if you want to use an alternate transformation and have a good reason for it.

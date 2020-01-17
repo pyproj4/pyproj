@@ -192,9 +192,9 @@ including support for datum transformation.</p>
 CRS’s are defined as having the first coordinate component point in a
 northerly direction (See PROJ FAQ on
 <a class="reference external" href="https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">axis order</a>).
-You can check the axis order with the <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a> class. If you prefer to
+You can check the axis order with the <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class. If you prefer to
 keep your axis order as always x,y, you can use the <cite>always_xy</cite> option when
-creating the <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a>.</p>
+creating the <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>.</p>
 </div>
 <div class="section" id="pyproj-transformer">
 <h2>pyproj.Transformer<a class="headerlink" href="#pyproj-transformer" title="Permalink to this headline">¶</a></h2>
@@ -260,7 +260,7 @@ is to make repeated transforms faster.</p>
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.from_crs">
 <em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a Transformer from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a> or input used to create one.</p>
+<dd><p>Make a Transformer from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
 </div>
@@ -273,15 +273,15 @@ is to make repeated transforms faster.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
-<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
+<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
+<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
 <li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
 projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
-<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -306,7 +306,7 @@ Default is false.</p></li>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">~Transformer</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -314,7 +314,7 @@ Default is false.</p></li>
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.from_proj">
 <em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param">proj_from</em>, <em class="sig-param">proj_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_proj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a Transformer from a <a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proj</span></code></a> or input used to create one.</p>
+<dd><p>Make a Transformer from a <a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
 </div>
@@ -327,15 +327,15 @@ Default is false.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>proj_from</strong> (<a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proj</span></code></a> or input used to create one) – Projection of input data.</p></li>
-<li><p><strong>proj_to</strong> (<a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
+<li><p><strong>proj_from</strong> (<a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one) – Projection of input data.</p></li>
+<li><p><strong>proj_to</strong> (<a class="reference internal" href="proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
 <li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
 projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
-<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -381,8 +381,8 @@ pipeline transformations.</p></li>
 <li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If True an exception is raised if the transformation is invalid.
 By default errcheck=False and an invalid transformation
 returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>
-<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
-Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FORWARD</span></code></a>.</p></li>
+<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -533,8 +533,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>WktVersion</em></a>) – The version of the WKT output.
-Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersion.WKT2_2018" title="pyproj.enums.WktVersion.WKT2_2018"><code class="xref py py-attr docutils literal notranslate"><span class="pre">WKT2_2018</span></code></a>.</p></li>
+<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersion.WKT2_2018" title="pyproj.enums.WktVersion.WKT2_2018"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2018</span></code></a>.</p></li>
 <li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -570,8 +570,8 @@ pipeline transformations.</p></li>
 <li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If True an exception is raised if the transformation is invalid.
 By default errcheck=False and an invalid transformation
 returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>
-<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
-Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FORWARD</span></code></a>.</p></li>
+<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -641,20 +641,20 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <dl class="method">
 <dt id="pyproj.transformer.TransformerGroup.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all possible transformations from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CRS</span></code></a>
+<dd><p>Get all possible transformations from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
 or input used to create one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
-<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
+<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
+<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
 <li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
 projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
-<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help order the transformations based on the
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code></a>, optional) – The area of interest to help order the transformations based on the
 best operation for the area.</p></li>
 <li><p><strong>Example</strong> – </p></li>
 <li><p><strong>from pyproj.transformer import TransformerGroup</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
@@ -682,7 +682,7 @@ best operation for the area.</p></li>
 <dl class="method">
 <dt id="pyproj.transformer.TransformerGroup.transformers">
 <em class="property">property </em><code class="sig-name descname">transformers</code><a class="headerlink" href="#pyproj.transformer.TransformerGroup.transformers" title="Permalink to this definition">¶</a></dt>
-<dd><p>list[<a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a>]:
+<dd><p>list[<a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a>]:
 List of available <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer</span></code></a>
 associated with the transformation.</p>
 </dd></dl>
@@ -690,8 +690,8 @@ associated with the transformation.</p>
 <dl class="method">
 <dt id="pyproj.transformer.TransformerGroup.unavailable_operations">
 <em class="property">property </em><code class="sig-name descname">unavailable_operations</code><a class="headerlink" href="#pyproj.transformer.TransformerGroup.unavailable_operations" title="Permalink to this definition">¶</a></dt>
-<dd><p>list[<a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a>]:
-List of <a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a> that are not
+<dd><p>list[<a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a>]:
+List of <a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a> that are not
 available due to missing grids.</p>
 </dd></dl>
 

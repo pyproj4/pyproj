@@ -190,10 +190,10 @@ section is to demonstrate recommended usage.</p>
 <p>Also see: <a class="reference internal" href="gotchas.html#gotchas"><span class="std std-ref">Gotchas/FAQ</span></a></p>
 <div class="section" id="using-crs">
 <h2>Using CRS<a class="headerlink" href="#using-crs" title="Permalink to this headline">¶</a></h2>
-<p>For more usage examples and documentation see <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a>.</p>
+<p>For more usage examples and documentation see <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
 <div class="section" id="initializing-crs">
 <h3>Initializing CRS<a class="headerlink" href="#initializing-crs" title="Permalink to this headline">¶</a></h3>
-<p>The <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a> class can be initialized in many different ways.
+<p>The <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class can be initialized in many different ways.
 Here are some examples of initialization.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
@@ -293,7 +293,7 @@ another format. See: <a class="reference external" href="https://proj4.org/faq.h
 </div>
 <div class="section" id="extracting-attributes-from-crs">
 <h3>Extracting attributes from CRS<a class="headerlink" href="#extracting-attributes-from-crs" title="Permalink to this headline">¶</a></h3>
-<p>There are many attributes you can pull from the <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a>.
+<p>There are many attributes you can pull from the <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.
 This is just a small subset of what is available.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
@@ -373,7 +373,7 @@ This is just a small subset of what is available.</p>
 <div class="section" id="step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order">
 <h3>Step 1: Inspect CRS definition to ensure proper area of use and axis order<a class="headerlink" href="#step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order" title="Permalink to this headline">¶</a></h3>
 <p>For more options available for inspection, usage examples,
-and documentation see <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a>.</p>
+and documentation see <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span>
@@ -416,10 +416,10 @@ be within those bounds for best results.</p>
 </div>
 <div class="section" id="step-2-create-transformer-to-convert-from-crs-to-crs">
 <h3>Step 2: Create Transformer to convert from CRS to CRS<a class="headerlink" href="#step-2-create-transformer-to-convert-from-crs-to-crs" title="Permalink to this headline">¶</a></h3>
-<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a> can be initialized with anything supported
-by <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_user_input()</span></code></a>. There are a couple of examples added
+<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> can be initialized with anything supported
+by <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_user_input()</span></code></a>. There are a couple of examples added
 here for demonstration. For more usage examples and documentation,
-see <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a>.</p>
+see <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs_4326</span><span class="p">,</span> <span class="n">crs_26917</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">26917</span><span class="p">)</span>
@@ -513,11 +513,11 @@ it is recommended to include the time in the transformaton operation.</p>
 <h2>Geodesic calculations<a class="headerlink" href="#geodesic-calculations" title="Permalink to this headline">¶</a></h2>
 <p>This is useful if you need to calculate the distance between two
 points or the area of a geometry on Earth’s surface.</p>
-<p>For more examples of usage and documentation, see <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">Geod</span></code></a>.</p>
+<p>For more examples of usage and documentation, see <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Geod</span></code></a>.</p>
 <div class="section" id="creating-geod-class">
 <h3>Creating Geod class<a class="headerlink" href="#creating-geod-class" title="Permalink to this headline">¶</a></h3>
-<p>This example demonstrates creating a <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">Geod</span></code></a> using an
-ellipsoid name as well as deriving one using a <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CRS</span></code></a>.</p>
+<p>This example demonstrates creating a <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Geod</span></code></a> using an
+ellipsoid name as well as deriving one using a <a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod_clrk</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod_clrk</span>
@@ -530,7 +530,7 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
 </div>
 <div class="section" id="geodesic-line-length">
 <h3>Geodesic line length<a class="headerlink" href="#geodesic-line-length" title="Permalink to this headline">¶</a></h3>
-<p>Calculate the geodesic length of a line (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.line_length" title="pyproj.Geod.line_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">line_length()</span></code></a>):</p>
+<p>Calculate the geodesic length of a line (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.line_length" title="pyproj.Geod.line_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.line_length()</span></code></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
 <span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
@@ -542,7 +542,7 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
 <span class="go">&#39;14259605.611&#39;</span>
 </pre></div>
 </div>
-<p>Calculate the geodesic length of a shapely geometry (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_length" title="pyproj.Geod.geometry_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">geometry_length()</span></code></a>):</p>
+<p>Calculate the geodesic length of a shapely geometry (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_length" title="pyproj.Geod.geometry_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.geometry_length()</span></code></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">line_string</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]))</span>
@@ -555,7 +555,7 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
 </div>
 <div class="section" id="geodesic-area">
 <h3>Geodesic area<a class="headerlink" href="#geodesic-area" title="Permalink to this headline">¶</a></h3>
-<p>Calculate the geodesic area and perimeter of a polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.polygon_area_perimeter" title="pyproj.Geod.polygon_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">polygon_area_perimeter()</span></code></a>):</p>
+<p>Calculate the geodesic area and perimeter of a polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.polygon_area_perimeter" title="pyproj.Geod.polygon_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.polygon_area_perimeter()</span></code></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
@@ -567,7 +567,7 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
 <span class="go">&#39;13376856682207.406 14710425.407&#39;</span>
 </pre></div>
 </div>
-<p>Calculate the geodesic area and perimeter of a shapely polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_area_perimeter" title="pyproj.Geod.geometry_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">geometry_area_perimeter()</span></code></a>):</p>
+<p>Calculate the geodesic area and perimeter of a shapely polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_area_perimeter" title="pyproj.Geod.geometry_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.geometry_area_perimeter()</span></code></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Polygon</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
