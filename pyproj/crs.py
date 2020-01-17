@@ -170,7 +170,7 @@ class CRS(_CRS):
           - An EPSG integer code [i.e. 4326]
           - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
           - An object with a `to_wkt` method.
-          - A :class:`~pyproj.crs.CRS` class
+          - A :class:`pyproj.crs.CRS` class
 
         Example usage:
 
@@ -442,7 +442,7 @@ class CRS(_CRS):
           - An EPSG integer code [i.e. 4326]
           - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
           - An object with a `to_wkt` method.
-          - A :class:`~pyproj.crs.CRS` class
+          - A :class:`pyproj.crs.CRS` class
 
         Parameters
         ----------
@@ -575,7 +575,7 @@ class CRS(_CRS):
         """
         .. versionadded:: 2.2.0
 
-        This converts a :obj:`~pyproj.crs.CRS` object
+        This converts a :obj:`pyproj.crs.CRS` object
         to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.
 
         .. warning:: The full projection will be stored in the
@@ -585,7 +585,7 @@ class CRS(_CRS):
         Parameters
         ----------
         wkt_version: str
-            Version of WKT supported by ~CRS.to_wkt.
+            Version of WKT supported by CRS.to_wkt.
         errcheck: bool, optional
             If True, will warn when parameters are ignored. Defaults to False.
 
@@ -684,7 +684,7 @@ class CRS(_CRS):
         .. versionadded:: 2.2.0
 
         This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
-        dict to a :obj:`~pyproj.crs.CRS` object.
+        dict to a :obj:`pyproj.crs.CRS` object.
 
         .. warning:: Parameters may be lost if a mapping
             from the CF parameter is not found. For best results

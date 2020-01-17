@@ -121,7 +121,7 @@ cdef _to_proj4(PJ_CONTEXT* context, PJ* projobj, version):
     ----------
     context: PJ_CONTEXT*
     projobj: PJ*
-    version: ~pyproj.enums.ProjVersion
+    version: pyproj.enums.ProjVersion
         The version of the PROJ string output. 
 
     Returns
@@ -430,9 +430,9 @@ cdef class Base:
 
         Parameters
         ----------
-        version: ~pyproj.enums.WktVersion
+        version: pyproj.enums.WktVersion
             The version of the WKT output.
-            Default is :attr:`~pyproj.enums.WktVersion.WKT2_2018`.
+            Default is :attr:`pyproj.enums.WktVersion.WKT2_2018`.
         pretty: bool
             If True, it will set the output to be a multiline string. Defaults to False.
  
@@ -2087,9 +2087,9 @@ cdef class CoordinateOperation(_CRSParts):
 
         Parameters
         ----------
-        version: ~pyproj.enums.ProjVersion
+        version: pyproj.enums.ProjVersion
             The version of the PROJ string output. 
-            Default is :attr:`~pyproj.enums.ProjVersion.PROJ_5`.
+            Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.
 
         Returns
         -------
@@ -2478,9 +2478,9 @@ cdef class _CRS(Base):
 
         Parameters
         ----------
-        version: ~pyproj.enums.ProjVersion
+        version: pyproj.enums.ProjVersion
             The version of the PROJ string output. 
-            Default is :attr:`~pyproj.enums.ProjVersion.PROJ_4`.
+            Default is :attr:`pyproj.enums.ProjVersion.PROJ_4`.
 
         Returns
         -------

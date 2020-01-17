@@ -80,7 +80,7 @@ class Proj(_proj.Proj):
     ----------
     srs: str
         The string form of the user input used to create the Proj.
-    crs: ~pyproj.crs.CRS
+    crs: pyproj.crs.CRS
         The CRS object associated with the Proj.
 
     """
