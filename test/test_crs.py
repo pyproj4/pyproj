@@ -833,10 +833,11 @@ def test_datum__from_name(input_name):
     assert dd.name == "World Geodetic System 1984"
 
 
-def test_datum_from_name__auth_type():
+@pytest.mark.parametrize("auth_name", [None, "ESRI"])
+def test_datum_from_name__auth_type(auth_name):
     dd = Datum.from_name(
         "WGS_1984_Geoid",
-        auth_name="ESRI",
+        auth_name=auth_name,
         datum_type=DatumType.VERTICAL_REFERENCE_FRAME,
     )
     assert dd.name == "WGS_1984_Geoid"
