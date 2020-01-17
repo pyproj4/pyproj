@@ -198,6 +198,7 @@ cdef PJ * _from_name(
         PJ *
         """
         cdef PJ_TYPE[1] pj_types = [pj_type]
+        cdef char* c_auth_name = NULL
         if auth_name is not None:
             b_auth_name = cstrencode(auth_name)
             c_auth_name = b_auth_name
