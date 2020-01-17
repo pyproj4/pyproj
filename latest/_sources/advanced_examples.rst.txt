@@ -14,7 +14,7 @@ Repeated transformations
 
 .. versionadded:: 2.1.0
 
-If you use the same transform, using the :class:`pyproj.Transformer` can help
+If you use the same transform, using the :class:`pyproj.transformer.Transformer` can help
 optimize your transformations.
 
 .. code-block:: python
@@ -22,7 +22,7 @@ optimize your transformations.
     import numpy as np                                                      
     from pyproj import Transformer, transform
     
-    transformer = Transformer.from_proj(2263, 4326)
+    transformer = Transformer.from_crs(2263, 4326)
     x_coords = np.random.randint(80000, 120000)                            
     y_coords = np.random.randint(200000, 250000) 
 
