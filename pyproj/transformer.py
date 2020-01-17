@@ -82,6 +82,7 @@ class TransformerGroup(_TransformerGroup):
             The area of interest to help order the transformations based on the
             best operation for the area.
 
+
         Example:
 
         >>> from pyproj.transformer import TransformerGroup
@@ -105,7 +106,7 @@ class TransformerGroup(_TransformerGroup):
     @property
     def transformers(self):
         """
-        list[:obj:`pyproj.crs.CoordinateOperation`]:
+        list[:obj:`Transformer`]:
             List of available :obj:`Transformer`
             associated with the transformation.
         """
