@@ -60,15 +60,15 @@ class TransformerGroup(_TransformerGroup):
         always_xy=False,
         area_of_interest=None,
     ):
-        """Get all possible transformations from a :obj:`~pyproj.crs.CRS`
+        """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
 
 
         Parameters
         ----------
-        crs_from: ~pyproj.crs.CRS or input used to create one
+        crs_from: pyproj.crs.CRS or input used to create one
             Projection of input data.
-        crs_to: ~pyproj.crs.CRS or input used to create one
+        crs_to: pyproj.crs.CRS or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
@@ -78,7 +78,7 @@ class TransformerGroup(_TransformerGroup):
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
             Default is false.
-        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional
+        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help order the transformations based on the
             best operation for the area.
 
@@ -105,8 +105,8 @@ class TransformerGroup(_TransformerGroup):
     @property
     def transformers(self):
         """
-        list[:obj:`~pyproj.crs.CoordinateOperation`]:
-            List of available :obj:`~Transformer`
+        list[:obj:`pyproj.crs.CoordinateOperation`]:
+            List of available :obj:`Transformer`
             associated with the transformation.
         """
         return self._transformers
@@ -114,8 +114,8 @@ class TransformerGroup(_TransformerGroup):
     @property
     def unavailable_operations(self):
         """
-        list[:obj:`~pyproj.crs.CoordinateOperation`]:
-            List of :obj:`~pyproj.crs.CoordinateOperation` that are not
+        list[:obj:`pyproj.crs.CoordinateOperation`]:
+            List of :obj:`pyproj.crs.CoordinateOperation` that are not
             available due to missing grids.
         """
         return self._unavailable_operations
@@ -241,7 +241,7 @@ class Transformer:
         always_xy=False,
         area_of_interest=None,
     ):
-        """Make a Transformer from a :obj:`~pyproj.proj.Proj` or input used to create one.
+        """Make a Transformer from a :obj:`pyproj.proj.Proj` or input used to create one.
 
         .. versionadded:: 2.1.2 skip_equivalent
         .. versionadded:: 2.2.0 always_xy
@@ -249,9 +249,9 @@ class Transformer:
 
         Parameters
         ----------
-        proj_from: :obj:`~pyproj.proj.Proj` or input used to create one
+        proj_from: :obj:`pyproj.proj.Proj` or input used to create one
             Projection of input data.
-        proj_to: :obj:`~pyproj.proj.Proj` or input used to create one
+        proj_to: :obj:`pyproj.proj.Proj` or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
@@ -261,12 +261,12 @@ class Transformer:
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
             Default is false.
-        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional
+        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help select the transformation.
 
         Returns
         -------
-        :obj:`~Transformer`
+        :obj:`Transformer`
 
         """
         if not isinstance(proj_from, Proj):
@@ -286,7 +286,7 @@ class Transformer:
     def from_crs(
         crs_from, crs_to, skip_equivalent=False, always_xy=False, area_of_interest=None
     ):
-        """Make a Transformer from a :obj:`~pyproj.crs.CRS` or input used to create one.
+        """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
         .. versionadded:: 2.1.2 skip_equivalent
         .. versionadded:: 2.2.0 always_xy
@@ -294,9 +294,9 @@ class Transformer:
 
         Parameters
         ----------
-        crs_from: ~pyproj.crs.CRS or input used to create one
+        crs_from: pyproj.crs.CRS or input used to create one
             Projection of input data.
-        crs_to: ~pyproj.crs.CRS or input used to create one
+        crs_to: pyproj.crs.CRS or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
@@ -306,12 +306,12 @@ class Transformer:
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
             Default is false.
-        area_of_interest: :class:`~pyproj.transformer.AreaOfInterest`, optional
+        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help select the transformation.
 
         Returns
         -------
-        :obj:`~Transformer`
+        :obj:`Transformer`
 
         """
         return Transformer(
@@ -337,7 +337,7 @@ class Transformer:
 
         Returns
         -------
-        ~Transformer
+        Transformer
 
         """
         return Transformer(_Transformer.from_pipeline(cstrencode(proj_pipeline)))
@@ -376,9 +376,9 @@ class Transformer:
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation
             returns ``inf`` and no exception is raised.
-        direction: ~pyproj.enums.TransformDirection, optional
+        direction: pyproj.enums.TransformDirection, optional
             The direction of the transform.
-            Default is :attr:`~pyproj.enums.TransformDirection.FORWARD`.
+            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
 
 
         Example:
@@ -486,9 +486,9 @@ class Transformer:
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation
             returns ``inf`` and no exception is raised.
-        direction: ~pyproj.enums.TransformDirection, optional
+        direction: pyproj.enums.TransformDirection, optional
             The direction of the transform.
-            Default is :attr:`~pyproj.enums.TransformDirection.FORWARD`.
+            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
 
 
         Example:
@@ -594,9 +594,9 @@ class Transformer:
 
         Parameters
         ----------
-        version: ~pyproj.enums.WktVersion
+        version: pyproj.enums.WktVersion
             The version of the WKT output.
-            Default is :attr:`~pyproj.enums.WktVersion.WKT2_2018`.
+            Default is :attr:`pyproj.enums.WktVersion.WKT2_2018`.
         pretty: bool
             If True, it will set the output to be a multiline string. Defaults to False.
 

@@ -80,7 +80,7 @@ class Geod(_Geod):
         can be given in a dictionary 'initparams', as keyword arguments,
         or as as proj geod initialization string.
 
-        You can get a dictionary of ellipsoids using :func:`~pyproj.get_ellps_map`
+        You can get a dictionary of ellipsoids using :func:`pyproj.get_ellps_map`
         or with the variable `pyproj.pj_ellps`.
 
         The parameters of the ellipsoid may also be set directly using

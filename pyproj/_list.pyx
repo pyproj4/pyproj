@@ -165,7 +165,7 @@ def get_codes(auth_name, pj_type, allow_deprecated=False):
     ----------
     auth_name: str
         The name of the authority.
-    pj_type: ~pyproj.enums.PJType
+    pj_type: pyproj.enums.PJType
         The type of object to get the authorities.
     allow_deprecated: bool, optional
         Allow a deprecated code in the return.
