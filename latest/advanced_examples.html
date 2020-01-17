@@ -187,12 +187,12 @@ optimize your transformations.</p>
 <span class="n">y_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">200000</span><span class="p">,</span> <span class="mi">250000</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Example with <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform()</span></code></a>:</p>
+<p>Example with <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.transformer.transform()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transform</span><span class="p">(</span><span class="mi">2263</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Results: 160 ms ± 3.68 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)</p>
-<p>Example with <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></a>:</p>
+<p>Example with <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -217,7 +217,7 @@ Parameters may be expressed in different units, provided that the value is
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>
-<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup" title="pyproj.transformer.TransformerGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerGroup</span></code></a> provides both available
+<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup" title="pyproj.transformer.TransformerGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup</span></code></a> provides both available
 transformations as well as missing transformations.</p>
 <ol class="arabic simple">
 <li><p>Helpful if you want to use an alternate transformation and have a good reason for it.</p></li>

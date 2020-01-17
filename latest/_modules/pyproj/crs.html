@@ -327,7 +327,7 @@
 <span class="sd">          - An EPSG integer code [i.e. 4326]</span>
 <span class="sd">          - A tuple of (&quot;auth_name&quot;: &quot;auth_code&quot;) [i.e (&#39;epsg&#39;, &#39;4326&#39;)]</span>
 <span class="sd">          - An object with a `to_wkt` method.</span>
-<span class="sd">          - A :class:`~pyproj.crs.CRS` class</span>
+<span class="sd">          - A :class:`pyproj.crs.CRS` class</span>
 
 <span class="sd">        Example usage:</span>
 
@@ -599,7 +599,7 @@
 <span class="sd">          - An EPSG integer code [i.e. 4326]</span>
 <span class="sd">          - A tuple of (&quot;auth_name&quot;: &quot;auth_code&quot;) [i.e (&#39;epsg&#39;, &#39;4326&#39;)]</span>
 <span class="sd">          - An object with a `to_wkt` method.</span>
-<span class="sd">          - A :class:`~pyproj.crs.CRS` class</span>
+<span class="sd">          - A :class:`pyproj.crs.CRS` class</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -732,7 +732,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
-<span class="sd">        This converts a :obj:`~pyproj.crs.CRS` object</span>
+<span class="sd">        This converts a :obj:`pyproj.crs.CRS` object</span>
 <span class="sd">        to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.</span>
 
 <span class="sd">        .. warning:: The full projection will be stored in the</span>
@@ -742,7 +742,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        wkt_version: str</span>
-<span class="sd">            Version of WKT supported by ~CRS.to_wkt.</span>
+<span class="sd">            Version of WKT supported by CRS.to_wkt.</span>
 <span class="sd">        errcheck: bool, optional</span>
 <span class="sd">            If True, will warn when parameters are ignored. Defaults to False.</span>
 
@@ -841,7 +841,7 @@
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
 <span class="sd">        This converts a Climate and Forecast (CF) Grid Mapping Version 1.8</span>
-<span class="sd">        dict to a :obj:`~pyproj.crs.CRS` object.</span>
+<span class="sd">        dict to a :obj:`pyproj.crs.CRS` object.</span>
 
 <span class="sd">        .. warning:: Parameters may be lost if a mapping</span>
 <span class="sd">            from the CF parameter is not found. For best results</span>

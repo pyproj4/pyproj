@@ -62,10 +62,10 @@ you may have problems initializing projections when the other syntax works.
 Proj (Not a generic latitude/longitude to projection converter)
 ---------------------------------------------------------------
 
-:class:`~pyproj.proj.Proj` is limited to converting between geographic and 
+:class:`pyproj.proj.Proj` is limited to converting between geographic and 
 projection coordinates within one datum. If you have coordinates in latitude
 and longitude, and you want to convert it to your projection, it is recommended
-to use the :class:`~pyproj.transformer.Transformer` as it takes into account datum
+to use the :class:`pyproj.transformer.Transformer` as it takes into account datum
 shifts.
 
 You likely want to start from `EPSG:4326` (WGS84) for coordinates as
@@ -88,7 +88,7 @@ latitude and longitude.
     - Ellipsoid: WGS 84
     - Prime Meridian: Greenwich
 
-Then, use the :class:`~pyproj.transformer.Transformer` to transform from latitude
+Then, use the :class:`pyproj.transformer.Transformer` to transform from latitude
 and longitude to your projection as you might have a projection with a different
 datum.
 
@@ -117,7 +117,7 @@ datum.
     >>> transformer.transform(52.067567, 5.068913)
     (133175.3690698233, 453300.86739169655)
 
-If you use :class:`~pyproj.proj.Proj`, it will use the geodetic CRS with
+If you use :class:`pyproj.proj.Proj`, it will use the geodetic CRS with
 from the projected CRS with the same datum to do the transformation,
 which may not be what you want.
 
@@ -236,9 +236,9 @@ Here is an example of that:
 Upgrading to pyproj 2 from pyproj 1
 -----------------------------------
 
-We recommended using the :class:`~pyproj.transformer.Transformer` and
-:class:`~pyproj.crs.CRS` in place of the :class:`~pyproj.proj.Proj` and
-:meth:`~pyproj.transformer.transform`.
+We recommended using the :class:`pyproj.transformer.Transformer` and
+:class:`pyproj.crs.CRS` in place of the :class:`pyproj.proj.Proj` and
+:meth:`pyproj.transformer.transform`.
 
 Also see:
   - :ref:`examples`

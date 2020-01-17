@@ -11,12 +11,12 @@ Also see: :ref:`gotchas`
 
 Using CRS
 ---------
-For more usage examples and documentation see :class:`~pyproj.crs.CRS`.
+For more usage examples and documentation see :class:`pyproj.crs.CRS`.
 
 Initializing CRS
 ~~~~~~~~~~~~~~~~
 
-The :class:`~pyproj.crs.CRS` class can be initialized in many different ways.
+The :class:`pyproj.crs.CRS` class can be initialized in many different ways.
 Here are some examples of initialization.
 
 
@@ -121,7 +121,7 @@ Converting CRS to a different format
 Extracting attributes from CRS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There are many attributes you can pull from the :class:`~pyproj.crs.CRS`.
+There are many attributes you can pull from the :class:`pyproj.crs.CRS`.
 This is just a small subset of what is available.
 
 
@@ -204,7 +204,7 @@ Transformations from CRS to CRS
 Step 1: Inspect CRS definition to ensure proper area of use and axis order
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 For more options available for inspection, usage examples,
-and documentation see :class:`~pyproj.crs.CRS`.
+and documentation see :class:`pyproj.crs.CRS`.
 
 .. code:: python
 
@@ -252,10 +252,10 @@ be within those bounds for best results.
 Step 2: Create Transformer to convert from CRS to CRS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The :class:`~pyproj.transformer.Transformer` can be initialized with anything supported
-by :meth:`~pyproj.crs.CRS.from_user_input`. There are a couple of examples added
+The :class:`pyproj.transformer.Transformer` can be initialized with anything supported
+by :meth:`pyproj.crs.CRS.from_user_input`. There are a couple of examples added
 here for demonstration. For more usage examples and documentation,
-see :class:`~pyproj.transformer.Transformer`.
+see :class:`pyproj.transformer.Transformer`.
 
 
 .. code:: python
@@ -362,14 +362,14 @@ Geodesic calculations
 This is useful if you need to calculate the distance between two
 points or the area of a geometry on Earth's surface.
 
-For more examples of usage and documentation, see :class:`~pyproj.Geod`.
+For more examples of usage and documentation, see :class:`pyproj.Geod`.
 
 
 Creating Geod class
 ~~~~~~~~~~~~~~~~~~~
 
-This example demonstrates creating a :class:`~pyproj.Geod` using an
-ellipsoid name as well as deriving one using a :class:`~pyproj.crs.CRS`.
+This example demonstrates creating a :class:`pyproj.Geod` using an
+ellipsoid name as well as deriving one using a :class:`pyproj.crs.CRS`.
 
 .. code:: python
 
@@ -385,7 +385,7 @@ ellipsoid name as well as deriving one using a :class:`~pyproj.crs.CRS`.
 Geodesic line length
 ~~~~~~~~~~~~~~~~~~~~
 
-Calculate the geodesic length of a line (See: :meth:`~pyproj.Geod.line_length`):
+Calculate the geodesic length of a line (See: :meth:`pyproj.Geod.line_length`):
 
 .. code:: python
 
@@ -399,7 +399,7 @@ Calculate the geodesic length of a line (See: :meth:`~pyproj.Geod.line_length`):
     >>> "{:.3f}".format(total_length)
     '14259605.611'
 
-Calculate the geodesic length of a shapely geometry (See: :meth:`~pyproj.Geod.geometry_length`):
+Calculate the geodesic length of a shapely geometry (See: :meth:`pyproj.Geod.geometry_length`):
 
 .. code:: python
 
@@ -415,7 +415,7 @@ Calculate the geodesic length of a shapely geometry (See: :meth:`~pyproj.Geod.ge
 Geodesic area
 ~~~~~~~~~~~~~
 
-Calculate the geodesic area and perimeter of a polygon (See: :meth:`~pyproj.Geod.polygon_area_perimeter`):
+Calculate the geodesic area and perimeter of a polygon (See: :meth:`pyproj.Geod.polygon_area_perimeter`):
 
 .. code:: python
 
@@ -430,7 +430,7 @@ Calculate the geodesic area and perimeter of a polygon (See: :meth:`~pyproj.Geod
     '13376856682207.406 14710425.407'
 
 
-Calculate the geodesic area and perimeter of a shapely polygon (See: :meth:`~pyproj.Geod.geometry_area_perimeter`):
+Calculate the geodesic area and perimeter of a shapely polygon (See: :meth:`pyproj.Geod.geometry_area_perimeter`):
 
 
 .. code:: python
