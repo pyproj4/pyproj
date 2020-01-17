@@ -239,6 +239,7 @@
 <span class="sd">            The area of interest to help order the transformations based on the</span>
 <span class="sd">            best operation for the area.</span>
 
+
 <span class="sd">        Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj.transformer import TransformerGroup</span>
@@ -262,7 +263,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">transformers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        list[:obj:`pyproj.crs.CoordinateOperation`]:</span>
+<span class="sd">        list[:obj:`Transformer`]:</span>
 <span class="sd">            List of available :obj:`Transformer`</span>
 <span class="sd">            associated with the transformation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
