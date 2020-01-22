@@ -5,7 +5,7 @@ API Documentation
    :maxdepth: 2
    :caption: Contents:
 
-   crs
+   crs/index
    transformer
    geod
    proj

@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
@@ -352,7 +353,7 @@
         <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-8</span><span class="p">:</span>
             <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">az</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -459,9 +460,7 @@
 <span class="sd">        &#39;46.805  -114.051&#39;</span>
 <span class="sd">        &#39;46.262  -118.924&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_npts</span><span class="p">(</span>
-            <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span>
-        <span class="p">)</span>
+        <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_npts</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Geod.line_length"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_length">[docs]</a>    <span class="k">def</span> <span class="nf">line_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -715,7 +714,7 @@
                     <span class="p">)</span>
 
         <span class="c1"># no ellipse name found, call super class</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Geod</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

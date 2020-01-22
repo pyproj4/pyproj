@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Geod" href="geod.html" />
-    <link rel="prev" title="CRS" href="crs.html" /> 
+    <link rel="prev" title="Enumerations" href="crs/enums.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,8 +90,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gotchas.html">Gotchas/FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_crs.html">Building a Coordinate Reference System</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="crs.html">CRS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crs/index.html">CRS module API Documentation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Transformer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transformer">pyproj.Transformer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-transformer-transformergroup">pyproj.transformer.TransformerGroup</a></li>
@@ -192,7 +193,7 @@ including support for datum transformation.</p>
 CRS’s are defined as having the first coordinate component point in a
 northerly direction (See PROJ FAQ on
 <a class="reference external" href="https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">axis order</a>).
-You can check the axis order with the <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class. If you prefer to
+You can check the axis order with the <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class. If you prefer to
 keep your axis order as always x,y, you can use the <cite>always_xy</cite> option when
 creating the <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>.</p>
 </div>
@@ -260,7 +261,7 @@ is to make repeated transforms faster.</p>
 <dl class="method">
 <dt id="pyproj.transformer.Transformer.from_crs">
 <em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a Transformer from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
+<dd><p>Make a Transformer from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
 </div>
@@ -273,8 +274,8 @@ is to make repeated transforms faster.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
-<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
+<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
+<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
 <li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
 projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
@@ -641,13 +642,13 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <dl class="method">
 <dt id="pyproj.transformer.TransformerGroup.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">crs_from</em>, <em class="sig-param">crs_to</em>, <em class="sig-param">skip_equivalent=False</em>, <em class="sig-param">always_xy=False</em>, <em class="sig-param">area_of_interest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all possible transformations from a <a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
+<dd><p>Get all possible transformations from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
 or input used to create one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
-<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
+<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
+<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
 <li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
 projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
@@ -692,8 +693,8 @@ associated with the transformation.</p>
 <dl class="method">
 <dt id="pyproj.transformer.TransformerGroup.unavailable_operations">
 <em class="property">property </em><code class="sig-name descname">unavailable_operations</code><a class="headerlink" href="#pyproj.transformer.TransformerGroup.unavailable_operations" title="Permalink to this definition">¶</a></dt>
-<dd><p>list[<a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a>]:
-List of <a class="reference internal" href="crs.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a> that are not
+<dd><p>list[<a class="reference internal" href="crs/coordinate_operation.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a>]:
+List of <a class="reference internal" href="crs/coordinate_operation.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a> that are not
 available due to missing grids.</p>
 </dd></dl>
 
@@ -902,7 +903,7 @@ for geographic CRS and easting, northing for most projected CRS.</p>
         <a href="geod.html" class="btn btn-neutral float-right" title="Geod" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="crs.html" class="btn btn-neutral float-left" title="CRS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="crs/enums.html" class="btn btn-neutral float-left" title="Enumerations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

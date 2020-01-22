@@ -98,6 +98,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
@@ -333,7 +334,7 @@ is in the <strong>axis order</strong>.</p>
 </pre></div>
 </div>
 <p>The reason the <cite>min_confidence</cite> parameter in
-<a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_epsg" title="pyproj.crs.CRS.to_epsg"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_epsg()</span></code></a> and <a class="reference internal" href="api/crs.html#pyproj.crs.CRS.to_authority" title="pyproj.crs.CRS.to_authority"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_authority()</span></code></a>
+<a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_epsg" title="pyproj.crs.CRS.to_epsg"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_epsg()</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_authority" title="pyproj.crs.CRS.to_authority"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_authority()</span></code></a>
 exists is because you can initialize a CRS in several different methods and
 some of them do not always coorespond to an EPSG or authortiy code, but it
 can be close enough.</p>
@@ -375,7 +376,7 @@ threshold you are comfortable with.</p>
 <div class="section" id="upgrading-to-pyproj-2-from-pyproj-1">
 <h2>Upgrading to pyproj 2 from pyproj 1<a class="headerlink" href="#upgrading-to-pyproj-2-from-pyproj-1" title="Permalink to this headline">¶</a></h2>
 <p>We recommended using the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> and
-<a class="reference internal" href="api/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> and
+<a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> and
 <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.transform()</span></code></a>.</p>
 <dl class="simple">
 <dt>Also see:</dt><dd><ul class="simple">

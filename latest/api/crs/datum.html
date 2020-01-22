@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Datum &mdash; pyproj 2.4.2.post1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Ellipsoid" href="ellipsoid.html" />
+    <link rel="prev" title="Coordinate Operations" href="coordinate_operation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.4.2.post1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">CRS module API Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="crs.html">CRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coordinate_system.html">Coordinate Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coordinate_operation.html">Coordinate Operations</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Datum</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ellipsoid">Ellipsoid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prime-meridian">Prime Meridian</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ellipsoid.html">Ellipsoid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enums.html">Enumerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../transformer.html">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geod.html">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../show_versions.html">Show Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="index.html">CRS module API Documentation</a> &raquo;</li>
+        
+      <li>Datum</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api/crs/datum.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="datum">
+<span id="id1"></span><h1>Datum<a class="headerlink" href="#datum" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>PROJ &gt;= 7.0.0 will have better support for aliases for datum names.
+Until then, you will need to use the full name of the datum. There is support
+currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
+</div>
+<dl class="class">
+<dt id="pyproj.crs.Datum">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">Datum</code><a class="headerlink" href="#pyproj.crs.Datum" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p>Datum for CRS. If it is a compound CRS it is the horizontal datum.</p>
+<dl class="attribute">
+<dt id="pyproj.crs.Datum.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.Datum.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the datum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Datum.ellipsoid">
+<code class="sig-name descname">ellipsoid</code><a class="headerlink" href="#pyproj.crs.Datum.ellipsoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: <strong>Ellipsoid</strong>
+:rtype: The ellipsoid object with associated attributes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.from_authority">
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_authority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Datum from an authority code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_name</strong> (<em>str</em>) – Name ot the authority.</p></li>
+<li><p><strong>code</strong> (<em>str</em><em> or </em><em>int</em>) – The code used by the authority.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Datum" title="pyproj.crs.Datum">Datum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.from_epsg">
+<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_epsg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Datum from an EPSG code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>code</strong> (<em>str</em><em> or </em><em>int</em>) – The code used by EPSG.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Datum" title="pyproj.crs.Datum">Datum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.from_json">
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param">datum_json_str</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Create Datum from a JSON string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>datum_json_str</strong> (<em>str</em>) – Datum JSON string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Datum" title="pyproj.crs.Datum">Datum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.from_json_dict">
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param">datum_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Create Datum from a JSON dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>datum_dict</strong> (<em>str</em>) – Datum dictionary.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Datum" title="pyproj.crs.Datum">Datum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.from_name">
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">datum_name</em>, <em class="sig-param">auth_name=u'EPSG'</em>, <em class="sig-param">datum_type=DatumType.GEODETIC_REFERENCE_FRAME</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_name" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create a Datum from a name.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>WGS 84</p></li>
+<li><p>World Geodetic System 1984</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datum_name</strong> (<em>str</em>) – Datum name.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
+If None, will search all authorities. Default is ‘EPSG’.</p></li>
+<li><p><strong>datum_type</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.DatumType" title="pyproj.crs.enums.DatumType"><em>DatumType</em></a><em>, </em><em>optional</em>) – The datum type to create. Default is DatumType.GEODETIC_REFERENCE_FRAME.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Datum" title="pyproj.crs.Datum">Datum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.from_string">
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">datum_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Datum from a string.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p><a class="reference external" href="urn:ogc:def:datum:EPSG::6326">urn:ogc:def:datum:EPSG::6326</a></p></li>
+<li><p>DATUM[“World Geodetic System 1984”,
+ELLIPSOID[“WGS 84”,6378137,298.257223563,
+LENGTHUNIT[“metre”,1]],
+ID[“EPSG”,6326]]</p></li>
+<li><p>World Geodetic System 1984</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>datum_string</strong> (<em>str</em>) – Datum string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.Datum" title="pyproj.crs.Datum">Datum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.from_user_input">
+<code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">type cls</em>, <em class="sig-param">user_input</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_user_input" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<dl class="simple">
+<dt>Create cls from user input:</dt><dd><ul class="simple">
+<li><p>PROJ JSON string</p></li>
+<li><p>PROJ JSON dict</p></li>
+<li><p>WKT string</p></li>
+<li><p>An authority string</p></li>
+<li><p>An EPSG integer code</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An object with a <cite>to_json</cite> method.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.is_exact_same">
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares projection objects to see if they are exactly the same.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Datum.prime_meridian">
+<code class="sig-name descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.Datum.prime_meridian" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: <strong>PrimeMeridian</strong>
+:rtype: The CRS prime meridian object with associated attributes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Datum.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.Datum.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Remarks about object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.Datum.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.Datum.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Scope of object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.to_json">
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pretty=False</em>, <em class="sig-param">indentation=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.to_json" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Convert the object to a JSON string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>str</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The JSON string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.to_json_dict">
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Convert the object to a JSON dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>dict</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The JSON dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.Datum.to_wkt">
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.to_wkt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a WKT string.</p>
+<dl class="simple">
+<dt>Version options:</dt><dd><ul class="simple">
+<li><p>WKT2_2015</p></li>
+<li><p>WKT2_2015_SIMPLIFIED</p></li>
+<li><p>WKT2_2018</p></li>
+<li><p>WKT2_2018_SIMPLIFIED</p></li>
+<li><p>WKT1_GDAL</p></li>
+<li><p>WKT1_ESRI</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
+Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2018" title="pyproj.enums.WktVersion.WKT2_2018"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2018</span></code></a>.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>str</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The WKT string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyproj.crs.datum.CustomDatum">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.datum.</code><code class="sig-name descname">CustomDatum</code><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomDatum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomDatum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.Datum</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Class to build a datum based on an ellipsoid and prime meridian.</p>
+<dl class="method">
+<dt id="pyproj.crs.datum.CustomDatum.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">ellipsoid='WGS 84'</em>, <em class="sig-param">prime_meridian='Greenwich'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomDatum.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomDatum.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ellipsoid</strong> (<em>Any</em><em>, </em><em>optional</em>) – Anything accepted by <a class="reference internal" href="ellipsoid.html#pyproj.crs.Ellipsoid.from_user_input" title="pyproj.crs.Ellipsoid.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Ellipsoid.from_user_input()</span></code></a>
+or a <a class="reference internal" href="ellipsoid.html#pyproj.crs.ellipsoid.CustomEllipsoid" title="pyproj.crs.ellipsoid.CustomEllipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.ellipsoid.CustomEllipsoid</span></code></a>.</p></li>
+<li><p><strong>prime_meridian</strong> (<em>Any</em><em>, </em><em>optional</em>) – Anything accepted by <a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_user_input" title="pyproj.crs.PrimeMeridian.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.PrimeMeridian.from_user_input()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="ellipsoid">
+<h2>Ellipsoid<a class="headerlink" href="#ellipsoid" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="ellipsoid.html#pyproj.crs.Ellipsoid" title="pyproj.crs.Ellipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.Ellipsoid</span></code></a></p></li>
+<li><p><a class="reference internal" href="ellipsoid.html#pyproj.crs.ellipsoid.CustomEllipsoid" title="pyproj.crs.ellipsoid.CustomEllipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.ellipsoid.CustomEllipsoid</span></code></a></p></li>
+</ul>
+</div>
+<div class="section" id="prime-meridian">
+<h2>Prime Meridian<a class="headerlink" href="#prime-meridian" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.crs.PrimeMeridian">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">PrimeMeridian</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p>Prime Meridian for CRS</p>
+<dl class="attribute">
+<dt id="pyproj.crs.PrimeMeridian.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the prime meridian.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.PrimeMeridian.unit_name">
+<code class="sig-name descname">unit_name</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.unit_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unit name for the prime meridian.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_authority">
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_authority" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p>Create a PrimeMeridian from an authority code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_name</strong> (<em>str</em>) – Name ot the authority.</p></li>
+<li><p><strong>code</strong> (<em>str</em><em> or </em><em>int</em>) – The code used by the authority.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_epsg">
+<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_epsg" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p>Create a PrimeMeridian from an EPSG code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>code</strong> (<em>str</em><em> or </em><em>int</em>) – The code used by EPSG.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_json">
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_json_str</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Create PrimeMeridian from a JSON string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prime_meridian_json_str</strong> (<em>str</em>) – PrimeMeridian JSON string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_json_dict">
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Create PrimeMeridian from a JSON dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prime_meridian_dict</strong> (<em>str</em>) – PrimeMeridian dictionary.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_name">
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_name</em>, <em class="sig-param">auth_name=u'EPSG'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_name" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create a Prime Meridian from a name.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>Greenwich</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prime_meridian_name</strong> (<em>str</em>) – Prime Meridian name.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
+If None, will search all authorities. Default is ‘EPSG’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_string">
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p>Create an PrimeMeridian from a string.</p>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p><a class="reference external" href="urn:ogc:def:meridian:EPSG::8901">urn:ogc:def:meridian:EPSG::8901</a></p></li>
+<li><p>PRIMEM[“Greenwich”,0,
+ANGLEUNIT[“degree”,0.0174532925199433],
+ID[“EPSG”,8901]]</p></li>
+<li><p>Greenwich</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prime_meridian_string</strong> (<em>str</em>) – prime meridian string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj.crs.PrimeMeridian">PrimeMeridian</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.from_user_input">
+<code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">type cls</em>, <em class="sig-param">user_input</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_user_input" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<dl class="simple">
+<dt>Create cls from user input:</dt><dd><ul class="simple">
+<li><p>PROJ JSON string</p></li>
+<li><p>PROJ JSON dict</p></li>
+<li><p>WKT string</p></li>
+<li><p>An authority string</p></li>
+<li><p>An EPSG integer code</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An object with a <cite>to_json</cite> method.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.is_exact_same">
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">other</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares projection objects to see if they are exactly the same.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.PrimeMeridian.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Remarks about object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyproj.crs.PrimeMeridian.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>str: Scope of object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.to_json">
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pretty=False</em>, <em class="sig-param">indentation=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.to_json" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Convert the object to a JSON string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>str</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The JSON string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.to_json_dict">
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Convert the object to a JSON dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>dict</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The JSON dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.crs.PrimeMeridian.to_wkt">
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.to_wkt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a WKT string.</p>
+<dl class="simple">
+<dt>Version options:</dt><dd><ul class="simple">
+<li><p>WKT2_2015</p></li>
+<li><p>WKT2_2015_SIMPLIFIED</p></li>
+<li><p>WKT2_2018</p></li>
+<li><p>WKT2_2018_SIMPLIFIED</p></li>
+<li><p>WKT1_GDAL</p></li>
+<li><p>WKT1_ESRI</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
+Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2018" title="pyproj.enums.WktVersion.WKT2_2018"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2018</span></code></a>.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>str</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The WKT string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ellipsoid.html" class="btn btn-neutral float-right" title="Ellipsoid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="coordinate_operation.html" class="btn btn-neutral float-left" title="Coordinate Operations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Jeffrey Whitaker
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
