@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
@@ -325,7 +326,7 @@
             <span class="n">projstring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span>
 
         <span class="n">projstring</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+?type=crs&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">projstring</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Proj</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">projstring</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">projstring</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span></div>
 
 <div class="viewcode-block" id="Proj.__call__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="c1"># ,lon,lat,inverse=False,errcheck=False):</span>

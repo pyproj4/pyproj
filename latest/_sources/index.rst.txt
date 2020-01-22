@@ -18,6 +18,7 @@ GitHub Repository: https://github.com/pyproj4/pyproj
    examples
    gotchas
    advanced_examples
+   build_crs
    api/index
    optimize_transformations
    history
