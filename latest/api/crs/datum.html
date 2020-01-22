@@ -298,7 +298,7 @@ currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 
 <dl class="method">
 <dt id="pyproj.crs.Datum.from_name">
-<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">datum_name</em>, <em class="sig-param">auth_name=u'EPSG'</em>, <em class="sig-param">datum_type=DatumType.GEODETIC_REFERENCE_FRAME</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">datum_name</em>, <em class="sig-param">auth_name=None</em>, <em class="sig-param">datum_type=DatumType.GEODETIC_REFERENCE_FRAME</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_name" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -312,8 +312,8 @@ currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>datum_name</strong> (<em>str</em>) – Datum name.</p></li>
-<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
-If None, will search all authorities. Default is ‘EPSG’.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search (e.g. ‘EPSG’).
+If None, will search all authorities. Default is None.</p></li>
 <li><p><strong>datum_type</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.DatumType" title="pyproj.crs.enums.DatumType"><em>DatumType</em></a><em>, </em><em>optional</em>) – The datum type to create. Default is DatumType.GEODETIC_REFERENCE_FRAME.</p></li>
 </ul>
 </dd>
@@ -635,7 +635,7 @@ or a <a class="reference internal" href="ellipsoid.html#pyproj.crs.ellipsoid.Cus
 
 <dl class="method">
 <dt id="pyproj.crs.PrimeMeridian.from_name">
-<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_name</em>, <em class="sig-param">auth_name=u'EPSG'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">prime_meridian_name</em>, <em class="sig-param">auth_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_name" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -648,8 +648,8 @@ or a <a class="reference internal" href="ellipsoid.html#pyproj.crs.ellipsoid.Cus
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prime_meridian_name</strong> (<em>str</em>) – Prime Meridian name.</p></li>
-<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
-If None, will search all authorities. Default is ‘EPSG’.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search (e.g. ‘EPSG’).
+If None, will search all authorities. Default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

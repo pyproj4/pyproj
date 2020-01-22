@@ -331,7 +331,7 @@
 
 <dl class="method">
 <dt id="pyproj.crs.Ellipsoid.from_name">
-<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">ellipsoid_name</em>, <em class="sig-param">auth_name=u'EPSG'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">ellipsoid_name</em>, <em class="sig-param">auth_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_name" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -344,8 +344,8 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ellipsoid_name</strong> (<em>str</em>) – Ellipsoid name.</p></li>
-<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search.
-If None, will search all authorities. Default is ‘EPSG’.</p></li>
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search (e.g. ‘EPSG’).
+If None, will search all authorities. Default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
