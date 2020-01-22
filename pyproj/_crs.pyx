@@ -205,7 +205,7 @@ cdef PJ * _from_name(
             cstrencode(name_string),
             <PJ_TYPE*>&pj_types,
             1,
-            True,
+            False,
             1,
             NULL,
         )
@@ -913,7 +913,7 @@ cdef class Ellipsoid(_CRSParts):
     @staticmethod
     def from_name(
         ellipsoid_name,
-        auth_name="EPSG",
+        auth_name=None,
     ):
         """
         .. versionadded:: 2.5.0
@@ -928,8 +928,8 @@ cdef class Ellipsoid(_CRSParts):
         ellipsoid_name: str
             Ellipsoid name.
         auth_name: str, optional
-            The authority name to refine search.
-            If None, will search all authorities. Default is 'EPSG'.
+            The authority name to refine search (e.g. 'EPSG').
+            If None, will search all authorities. Default is None.
 
         Returns
         -------
@@ -1157,7 +1157,7 @@ cdef class PrimeMeridian(_CRSParts):
     @staticmethod
     def from_name(
         prime_meridian_name,
-        auth_name="EPSG",
+        auth_name=None,
     ):
         """
         .. versionadded:: 2.5.0
@@ -1172,8 +1172,8 @@ cdef class PrimeMeridian(_CRSParts):
         prime_meridian_name: str
             Prime Meridian name.
         auth_name: str, optional
-            The authority name to refine search.
-            If None, will search all authorities. Default is 'EPSG'.
+            The authority name to refine search (e.g. 'EPSG').
+            If None, will search all authorities. Default is None.
 
         Returns
         -------
@@ -1388,7 +1388,7 @@ cdef class Datum(_CRSParts):
     @staticmethod
     def from_name(
         datum_name,
-        auth_name="EPSG",
+        auth_name=None,
         datum_type=DatumType.GEODETIC_REFERENCE_FRAME,
     ):
         """
@@ -1405,8 +1405,8 @@ cdef class Datum(_CRSParts):
         datum_name: str
             Datum name.
         auth_name: str, optional
-            The authority name to refine search.
-            If None, will search all authorities. Default is 'EPSG'.
+            The authority name to refine search (e.g. 'EPSG').
+            If None, will search all authorities. Default is None.
         datum_type: DatumType, optional
             The datum type to create. Default is DatumType.GEODETIC_REFERENCE_FRAME.
 
@@ -1967,7 +1967,7 @@ cdef class CoordinateOperation(_CRSParts):
     @staticmethod
     def from_name(
         coordinate_operation_name,
-        auth_name="EPSG",
+        auth_name=None,
         coordinate_operation_type=CoordinateOperationType.CONVERSION,
     ):
         """
@@ -1983,8 +1983,8 @@ cdef class CoordinateOperation(_CRSParts):
         coordinate_operation_name: str
             Coordinate Operation name.
         auth_name: str, optional
-            The authority name to refine search.
-            If None, will search all authorities. Default is 'EPSG'.
+            The authority name to refine search (e.g. 'EPSG').
+            If None, will search all authorities. Default is None.
         coordinate_operation_type: CoordinateOperationType, optional
             The coordinate operation type to create.
             Default is CoordinateOperationType.CONVERSION.
