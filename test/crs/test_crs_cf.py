@@ -200,31 +200,6 @@ def test_cf_rotated_latlon__grid():
             assert crs.to_dict() == {}
 
 
-def test_cf_lambert_conformal_conic():
-    crs = CRS.from_cf(
-        dict(
-            grid_mapping_name="lambert_conformal_conic",
-            standard_parallel=25.0,
-            longitude_of_central_meridian=265.0,
-            latitude_of_projection_origin=25.0,
-        )
-    )
-    with pytest.warns(UserWarning):
-        cf_dict = crs.to_cf(errcheck=True)
-    assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
-    assert cf_dict == {
-        "grid_mapping_name": "lambert_conformal_conic",
-        "longitude_of_central_meridian": 265,
-        "scale_factor_at_projection_origin": 1,
-        "standard_parallel": 25,
-        "latitude_of_projection_origin": 25,
-        "false_easting": 0,
-        "false_northing": 0,
-        "horizontal_datum_name": "WGS84",
-        "unit": "m",
-    }
-
-
 def test_cf_lambert_conformal_conic_1sp():
     crs = CRS.from_cf(
         dict(

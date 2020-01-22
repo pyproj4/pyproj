@@ -14,7 +14,7 @@ cdef class Axis:
     cdef readonly object unit_code
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* projobj, int index)
+    cdef Axis create(PJ_CONTEXT* context, PJ* projobj, int index)
 
 cdef class AreaOfUse:
     cdef readonly double west
@@ -24,7 +24,7 @@ cdef class AreaOfUse:
     cdef readonly object name
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* projobj)
+    cdef AreaOfUse create(PJ_CONTEXT* context, PJ* projobj)
 
 
 cdef class Base:
@@ -46,7 +46,7 @@ cdef class Ellipsoid(_CRSParts):
     cdef readonly double inverse_flattening
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* ellipsoid_pj)
+    cdef Ellipsoid create(PJ_CONTEXT* context, PJ* ellipsoid_pj)
 
 
 cdef class PrimeMeridian(_CRSParts):
@@ -55,7 +55,7 @@ cdef class PrimeMeridian(_CRSParts):
     cdef readonly object unit_name
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* prime_meridian_pj)
+    cdef PrimeMeridian create(PJ_CONTEXT* context, PJ* prime_meridian_pj)
 
 
 cdef class Datum(_CRSParts):
@@ -64,14 +64,14 @@ cdef class Datum(_CRSParts):
     cdef readonly object _prime_meridian
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* datum_pj)
+    cdef Datum create(PJ_CONTEXT* context, PJ* datum_pj)
 
 
 cdef class CoordinateSystem(_CRSParts):
     cdef readonly object _axis_list
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* coordinate_system_pj)
+    cdef CoordinateSystem create(PJ_CONTEXT* context, PJ* coordinate_system_pj)
 
 
 cdef class Param:
@@ -86,7 +86,7 @@ cdef class Param:
     cdef readonly object unit_category
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* projobj, int param_idx)
+    cdef Param create(PJ_CONTEXT* context, PJ* projobj, int param_idx)
 
 
 cdef class Grid:
@@ -99,7 +99,7 @@ cdef class Grid:
     cdef readonly object available
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* projobj, int grid_idx)
+    cdef Grid create(PJ_CONTEXT* context, PJ* projobj, int grid_idx)
 
 
 cdef class CoordinateOperation(_CRSParts):
@@ -117,7 +117,7 @@ cdef class CoordinateOperation(_CRSParts):
     cdef readonly type_name
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context, PJ* coordinate_operation_pj)
+    cdef CoordinateOperation create(PJ_CONTEXT* context, PJ* coordinate_operation_pj)
 
 
 cdef class _CRS(Base):

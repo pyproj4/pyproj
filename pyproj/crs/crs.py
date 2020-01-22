@@ -1,35 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 This module interfaces with PROJ to produce a pythonic interface
-to the coordinate reference system (CRS) information through the CRS
-class.
+to the coordinate reference system (CRS) information.
 
 Original Author: Alan D. Snow [github.com/snowman2] (2019)
-
-Permission to use, copy, modify, and distribute this software
-and its documentation for any purpose and without fee is hereby
-granted, provided that the above copyright notice appear in all
-copies and that both the copyright notice and this permission
-notice appear in supporting documentation. THE AUTHOR DISCLAIMS
-ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT
-SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """
-__all__ = [
-    "CRS",
-    "CoordinateOperation",
-    "CoordinateSystem",
-    "Datum",
-    "Ellipsoid",
-    "PrimeMeridian",
-    "is_wkt",
-    "is_proj",
-]
-
 import json
 import re
 import warnings
@@ -45,7 +20,7 @@ from pyproj._crs import (  # noqa
     is_proj,
     is_wkt,
 )
-from pyproj.cf1x8 import (
+from pyproj.crs._cf1x8 import (
     GRID_MAPPING_NAME_MAP,
     INVERSE_GRID_MAPPING_NAME_MAP,
     INVERSE_PROJ_PARAM_MAP,
@@ -55,6 +30,7 @@ from pyproj.cf1x8 import (
     PARAM_TO_CF_MAP,
     PROJ_PARAM_MAP,
 )
+from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal2DCS, VerticalCS
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
 
@@ -311,10 +287,10 @@ class CRS(_CRS):
         else:
             raise CRSError("Invalid CRS input: {!r}".format(projparams))
 
-        super(CRS, self).__init__(projstring)
+        super().__init__(projstring)
 
-    @classmethod
-    def from_authority(cls, auth_name, code):
+    @staticmethod
+    def from_authority(auth_name, code):
         """
         .. versionadded:: 2.2.0
 
@@ -331,10 +307,10 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(_prepare_from_authority(auth_name, code))
+        return CRS(_prepare_from_authority(auth_name, code))
 
-    @classmethod
-    def from_epsg(cls, code):
+    @staticmethod
+    def from_epsg(code):
         """Make a CRS from an EPSG code
 
         Parameters
@@ -346,10 +322,10 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(_prepare_from_epsg(code))
+        return CRS(_prepare_from_epsg(code))
 
-    @classmethod
-    def from_proj4(cls, in_proj_string):
+    @staticmethod
+    def from_proj4(in_proj_string):
         """
         .. versionadded:: 2.2.0
 
@@ -366,10 +342,10 @@ class CRS(_CRS):
         """
         if not is_proj(in_proj_string):
             raise CRSError("Invalid PROJ string: {}".format(in_proj_string))
-        return cls(_prepare_from_string(in_proj_string))
+        return CRS(_prepare_from_string(in_proj_string))
 
-    @classmethod
-    def from_wkt(cls, in_wkt_string):
+    @staticmethod
+    def from_wkt(in_wkt_string):
         """
         .. versionadded:: 2.2.0
 
@@ -386,10 +362,10 @@ class CRS(_CRS):
         """
         if not is_wkt(in_wkt_string):
             raise CRSError("Invalid WKT string: {}".format(in_wkt_string))
-        return cls(_prepare_from_string(in_wkt_string))
+        return CRS(_prepare_from_string(in_wkt_string))
 
-    @classmethod
-    def from_string(cls, in_crs_string):
+    @staticmethod
+    def from_string(in_crs_string):
         """
         Make a CRS from:
 
@@ -408,7 +384,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(_prepare_from_string(in_crs_string))
+        return CRS(_prepare_from_string(in_crs_string))
 
     def to_string(self):
         """
@@ -429,8 +405,8 @@ class CRS(_CRS):
             return ":".join(auth_info)
         return self.srs
 
-    @classmethod
-    def from_user_input(cls, value):
+    @staticmethod
+    def from_user_input(value):
         """
         Initialize a CRS class instance with:
           - PROJ string
@@ -455,7 +431,7 @@ class CRS(_CRS):
         """
         if isinstance(value, CRS):
             return value
-        return cls(value)
+        return CRS(value)
 
     def get_geod(self):
         """
@@ -472,8 +448,8 @@ class CRS(_CRS):
         }
         return Geod(**in_kwargs)
 
-    @classmethod
-    def from_dict(cls, proj_dict):
+    @staticmethod
+    def from_dict(proj_dict):
         """
         .. versionadded:: 2.2.0
 
@@ -488,10 +464,10 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(_prepare_from_dict(proj_dict))
+        return CRS(_prepare_from_dict(proj_dict))
 
-    @classmethod
-    def from_json(cls, crs_json):
+    @staticmethod
+    def from_json(crs_json):
         """
         .. versionadded:: 2.4.0
 
@@ -506,10 +482,10 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls.from_json_dict(_load_proj_json(crs_json))
+        return CRS.from_json_dict(_load_proj_json(crs_json))
 
-    @classmethod
-    def from_json_dict(cls, crs_dict):
+    @staticmethod
+    def from_json_dict(crs_dict):
         """
         .. versionadded:: 2.4.0
 
@@ -524,7 +500,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        return cls(json.dumps(crs_dict))
+        return CRS(json.dumps(crs_dict))
 
     def to_dict(self):
         """
@@ -678,8 +654,8 @@ class CRS(_CRS):
             )
         return cf_dict
 
-    @classmethod
-    def from_cf(cls, in_cf, errcheck=False):
+    @staticmethod
+    def from_cf(in_cf, errcheck=False):
         """
         .. versionadded:: 2.2.0
 
@@ -752,7 +728,7 @@ class CRS(_CRS):
                 "CF parameters not mapped to PROJ: {}".format(tuple(skipped_params))
             )
 
-        return cls(proj_dict)
+        return CRS(proj_dict)
 
     def is_exact_same(self, other, ignore_axis_order=False):
         """
@@ -773,7 +749,7 @@ class CRS(_CRS):
             other = CRS.from_user_input(other)
         except CRSError:
             return False
-        return super(CRS, self).is_exact_same(other)
+        return super().is_exact_same(other)
 
     def equals(self, other, ignore_axis_order=False):
         """
@@ -800,7 +776,56 @@ class CRS(_CRS):
             other = CRS.from_user_input(other)
         except CRSError:
             return False
-        return super(CRS, self).equals(other, ignore_axis_order=ignore_axis_order)
+        return super().equals(other, ignore_axis_order=ignore_axis_order)
+
+    @property
+    def geodetic_crs(self):
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        CRS: The the geodeticCRS / geographicCRS from the CRS.
+        """
+        if super().geodetic_crs is None:
+            return None
+        return CRS(super().geodetic_crs.srs)
+
+    @property
+    def source_crs(self):
+        """
+        Returns
+        -------
+        CRS: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
+            or the source CRS of a CoordinateOperation.
+        """
+        if super().source_crs is None:
+            return None
+        return CRS(super().source_crs.srs)
+
+    @property
+    def target_crs(self):
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        CRS: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
+        """
+        if super().target_crs is None:
+            return None
+        return CRS(super().target_crs.srs)
+
+    @property
+    def sub_crs_list(self):
+        """
+        If the CRS is a compound CRS, it will return a list of sub CRS objects.
+
+        Returns
+        -------
+        list[CRS]
+        """
+        return [CRS(sub_crs.srs) for sub_crs in super().sub_crs_list]
 
     def __eq__(self, other):
         return self.equals(other)
@@ -888,3 +913,187 @@ class CRS(_CRS):
             sub_crs_repr=sub_crs_repr,
         )
         return string_repr
+
+
+class GeographicCRS(CRS):
+    """
+    .. versionadded:: 2.5.0
+
+    This class is for building a Geographic CRS
+    """
+
+    def __init__(
+        self,
+        name="undefined",
+        datum="urn:ogc:def:datum:EPSG::6326",
+        ellipsoidal_cs=Ellipsoidal2DCS(),
+    ):
+        """
+        Parameters
+        ----------
+        name: str, optional
+            Name of the CRS. Default is undefined.
+        datum: Any, optional
+            Anything accepted by :meth:`pyproj.crs.Datum.from_user_input` or
+            a :class:`pyproj.crs.datum.CustomDatum`.
+        ellipsoidal_cs: Any, optional
+            Input to create an Ellipsoidal Coordinate System.
+            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
+        """
+        geographic_crs_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "GeographicCRS",
+            "name": name,
+            "datum": Datum.from_user_input(datum).to_json_dict(),
+            "coordinate_system": CoordinateSystem.from_user_input(
+                ellipsoidal_cs
+            ).to_json_dict(),
+        }
+        super().__init__(geographic_crs_json)
+
+
+class ProjectedCRS(CRS):
+    """
+    .. versionadded:: 2.5.0
+
+    This class is for building a Projected CRS.
+    """
+
+    def __init__(
+        self,
+        conversion,
+        name="undefined",
+        cartesian_cs=Cartesian2DCS(),
+        geodetic_crs=GeographicCRS(),
+    ):
+        """
+        Parameters
+        ----------
+        conversion: Any
+            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or a conversion from :ref:`coordinate_operation`.
+        name: str, optional
+            The name of the Projected CRS. Default is undefined.
+        cartesian_cs: Any, optional
+            Input to create a Cartesian Coordinate System.
+            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or :class:`pyproj.crs.coordinate_system.Cartesian2DCS`.
+        geodetic_crs: Any, optional
+            Input to create the Geodetic CRS, a :class:`GeographicCRS` or
+            anything accepted by :meth:`pyproj.crs.CRS.from_user_input`.
+        """
+        proj_crs_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "ProjectedCRS",
+            "name": name,
+            "base_crs": CRS.from_user_input(geodetic_crs).to_json_dict(),
+            "conversion": CoordinateOperation.from_user_input(
+                conversion
+            ).to_json_dict(),
+            "coordinate_system": CoordinateSystem.from_user_input(
+                cartesian_cs
+            ).to_json_dict(),
+        }
+        super().__init__(proj_crs_json)
+
+
+class VerticalCRS(CRS):
+    """
+    .. versionadded:: 2.5.0
+
+    This class is for building a Vetical CRS.
+
+    .. warning:: geoid_model support only exists in PROJ >= 6.3.0
+
+    """
+
+    def __init__(self, name, datum, vertical_cs=VerticalCS(), geoid_model=None):
+        """
+        Parameters
+        ----------
+        name: str
+            The name of the Vertical CRS (e.g. NAVD88 height).
+        datum: Any
+            Anything accepted by :meth:`pyproj.crs.Datum.from_user_input`
+        vertical_cs: Any, optional
+            Input to create a Vertical Coordinate System accepted by
+            :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or :class:`pyproj.crs.coordinate_system.VerticalCS`
+        geoid_model: str, optional
+            The name of the GEOID Model (e.g. GEOID12B).
+        """
+        vert_crs_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "VerticalCRS",
+            "name": name,
+            "datum": Datum.from_user_input(datum).to_json_dict(),
+            "coordinate_system": CoordinateSystem.from_user_input(
+                vertical_cs
+            ).to_json_dict(),
+        }
+        if geoid_model is not None:
+            vert_crs_json["geoid_model"] = {"name": geoid_model}
+
+        super().__init__(vert_crs_json)
+
+
+class CompoundCRS(CRS):
+    """
+    .. versionadded:: 2.5.0
+
+    This class is for building a Compound CRS.
+    """
+
+    def __init__(self, name, components):
+        """
+        Parameters
+        ----------
+        name: str
+            The name of the Compound CRS.
+        components: List[Any], optional
+            List of CRS to create a Compound Coordinate System.
+            List of anything accepted by :meth:`pyproj.crs.CRS.from_user_input`
+        """
+        compound_crs_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "CompoundCRS",
+            "name": name,
+            "components": [
+                CRS.from_user_input(component).to_json_dict()
+                for component in components
+            ],
+        }
+
+        super().__init__(compound_crs_json)
+
+
+class BoundCRS(CRS):
+    """
+    .. versionadded:: 2.5.0
+
+    This class is for building a Bound CRS.
+    """
+
+    def __init__(self, source_crs, target_crs, transformation):
+        """
+        Parameters
+        ----------
+        source_crs: Any
+            Input to create a source CRS.
+        target_crs: Any
+            Input to create the target CRS.
+        transformation: Any
+            Input to create the transformation.
+        """
+        bound_crs_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "BoundCRS",
+            "source_crs": CRS.from_user_input(source_crs).to_json_dict(),
+            "target_crs": CRS.from_user_input(target_crs).to_json_dict(),
+            "transformation": CoordinateOperation.from_user_input(
+                transformation
+            ).to_json_dict(),
+        }
+
+        super().__init__(bound_crs_json)

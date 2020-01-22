@@ -18,7 +18,7 @@ class ProjError(RuntimeError):
                 internal_proj_error=self.internal_proj_error,
             )
             ProjError.clear()
-        super(ProjError, self).__init__(error_message)
+        super().__init__(error_message)
 
     @staticmethod
     def clear():

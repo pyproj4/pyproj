@@ -168,7 +168,7 @@ class Proj(_proj.Proj):
             projstring = self.crs.to_proj4() or self.crs.srs
 
         projstring = re.sub(r"\s\+?type=crs", "", projstring)
-        super(Proj, self).__init__(cstrencode(projstring.strip()))
+        super().__init__(cstrencode(projstring.strip()))
 
     def __call__(self, *args, **kw):
         # ,lon,lat,inverse=False,errcheck=False):
