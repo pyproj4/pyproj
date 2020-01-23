@@ -405,11 +405,11 @@ def test_orthographic_operation():
 
 
 def test_polar_stereographic_a_operation__defaults():
-    aeaop = PolarStereographicAConversion()
+    aeaop = PolarStereographicAConversion(90)
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "Polar Stereographic (variant A)"
     assert _to_dict(aeaop) == {
-        "Latitude of natural origin": 0.0,
+        "Latitude of natural origin": 90.0,
         "Longitude of natural origin": 0.0,
         "False easting": 0.0,
         "False northing": 0.0,
@@ -419,7 +419,7 @@ def test_polar_stereographic_a_operation__defaults():
 
 def test_polar_stereographic_a_operation():
     aeaop = PolarStereographicAConversion(
-        latitude_natural_origin=1,
+        latitude_natural_origin=-90,
         longitude_natural_origin=2,
         false_easting=3,
         false_northing=4,
@@ -428,7 +428,7 @@ def test_polar_stereographic_a_operation():
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "Polar Stereographic (variant A)"
     assert _to_dict(aeaop) == {
-        "Latitude of natural origin": 1.0,
+        "Latitude of natural origin": -90.0,
         "Longitude of natural origin": 2.0,
         "False easting": 3.0,
         "False northing": 4.0,
@@ -601,20 +601,14 @@ def test_vertical_perspective_operation():
 
 
 def test_rotated_latitude_longitude_operation__defaults():
-    aeaop = RotatedLatitudeLongitudeConversion(
-        grid_north_pole_latitude=1, grid_north_pole_longitude=2
-    )
+    aeaop = RotatedLatitudeLongitudeConversion(o_lat_p=1, o_lon_p=2)
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "PROJ ob_tran o_proj=longlat"
     assert _to_dict(aeaop) == {"o_lat_p": 1.0, "o_lon_p": 2.0, "lon_0": 0.0}
 
 
 def test_rotated_latitude_longitude_operation():
-    aeaop = RotatedLatitudeLongitudeConversion(
-        grid_north_pole_latitude=1,
-        grid_north_pole_longitude=2,
-        north_pole_grid_longitude=3,
-    )
+    aeaop = RotatedLatitudeLongitudeConversion(o_lat_p=1, o_lon_p=2, lon_0=3)
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "PROJ ob_tran o_proj=longlat"
     assert _to_dict(aeaop) == {"o_lat_p": 1.0, "o_lon_p": 2.0, "lon_0": 3.0}
@@ -622,7 +616,7 @@ def test_rotated_latitude_longitude_operation():
 
 def test_lambert_cylindrical_equal_area_scale_operation__defaults():
     lceaop = LambertCylindricalEqualAreaScaleConversion()
-    if LooseVersion(proj_version_str) >= LooseVersion("7.0.0"):
+    if LooseVersion(proj_version_str) >= LooseVersion("6.3.1"):
         assert lceaop.name == "unknown"
         assert lceaop.method_name == "Lambert Cylindrical Equal Area"
         assert _to_dict(lceaop) == {
@@ -647,12 +641,12 @@ def test_lambert_cylindrical_equal_area_scale_operation():
         false_northing=4,
         scale_factor_natural_origin=0.999,
     )
-    if LooseVersion(proj_version_str) >= LooseVersion("7.0.0"):
+    if LooseVersion(proj_version_str) >= LooseVersion("6.3.1"):
         assert lceaop.name == "unknown"
         assert lceaop.method_name == "Lambert Cylindrical Equal Area"
         op_dict = _to_dict(lceaop)
         assert_almost_equal(
-            op_dict.pop("Latitude of 1st standard parallel"), 2.57, decimal=2,
+            op_dict.pop("Latitude of 1st standard parallel"), 2.57, decimal=2
         )
         assert op_dict == {
             "Longitude of natural origin": 2.0,

@@ -1,8 +1,7 @@
 from distutils.version import LooseVersion
 
-from pyproj import proj_version_str
 from pyproj._crs import CoordinateOperation
-from pyproj.crs import CRS
+from pyproj._proj import proj_version_str
 from pyproj.exceptions import CRSError
 
 
@@ -577,6 +576,8 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
             Scale factor at natural origin (k or k_0). Defaults to 1.0
 
         """
+        from pyproj.crs import CRS
+
         # hack due to: https://github.com/OSGeo/PROJ/issues/1881
         # https://proj.org/operations/projections/cea.html
         proj_string = (
@@ -591,7 +592,7 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
                 scale_factor_natural_origin=scale_factor_natural_origin,
             )
         )
-        if LooseVersion(proj_version_str) >= LooseVersion("7.0.0"):
+        if LooseVersion(proj_version_str) >= LooseVersion("6.3.1"):
             return cls.from_json(CRS(proj_string).coordinate_operation.to_json())
         return cls.from_string(proj_string)
 
@@ -910,7 +911,7 @@ class PolarStereographicAConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin=0.0,
+        latitude_natural_origin,
         longitude_natural_origin=0.0,
         false_easting=0.0,
         false_northing=0.0,
@@ -919,8 +920,8 @@ class PolarStereographicAConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        longitude_natural_origin: float, optional
-            Latitude of natural origin (lat_0). Defaults to 0.0.
+        latitude_natural_origin: float, optional
+            Latitude of natural origin (lat_0). Either +90 or -90.
         longitude_natural_origin: float, optional
             Longitude of natural origin (lon_0). Defaults to 0.0.
         false_easting: float, optional
@@ -1053,7 +1054,7 @@ class SinusoidalConversion(CoordinateOperation):
     """
 
     def __new__(
-        cls, longitude_natural_origin=0.0, false_easting=0.0, false_northing=0.0,
+        cls, longitude_natural_origin=0.0, false_easting=0.0, false_northing=0.0
     ):
         """
         Parameters
@@ -1178,9 +1179,7 @@ class UTMConversion(CoordinateOperation):
     https://proj.org/operations/projections/utm.html
     """
 
-    def __new__(
-        cls, zone, hemisphere="N",
-    ):
+    def __new__(cls, zone, hemisphere="N"):
         """
         Parameters
         ----------
@@ -1364,21 +1363,18 @@ class RotatedLatitudeLongitudeConversion(CoordinateOperation):
     https://proj.org/operations/projections/ob_tran.html
     """
 
-    def __new__(
-        cls,
-        grid_north_pole_latitude,
-        grid_north_pole_longitude,
-        north_pole_grid_longitude=0.0,
-    ):
+    def __new__(cls, o_lat_p, o_lon_p, lon_0=0.0):
         """
         Parameters
         ----------
-        grid_north_pole_latitude: float
-            Grid north pole latitude (o_lat_p).
-        grid_north_pole_longitude:
-            Grid north pole longitude (o_lon_p).
-        north_pole_grid_longitude: float, optional
-            North pole grid longitude (lon_0). Defaults to 0.0.
+        o_lat_p: float
+            Latitude of the North pole of the unrotated source CRS,
+            expressed in the rotated geographic CRS.
+        o_lon_p:
+            Longitude of the North pole of the unrotated source CRS,
+            expressed in the rotated geographic CRS.
+        lon_0: float, optional
+            Longitude of projection center (lon_0). Defaults to 0.0.
 
         """
         rot_latlon_json = {
@@ -1387,17 +1383,9 @@ class RotatedLatitudeLongitudeConversion(CoordinateOperation):
             "name": "unknown",
             "method": {"name": "PROJ ob_tran o_proj=longlat"},
             "parameters": [
-                {
-                    "name": "o_lat_p",
-                    "value": grid_north_pole_latitude,
-                    "unit": "degree",
-                },
-                {
-                    "name": "o_lon_p",
-                    "value": grid_north_pole_longitude,
-                    "unit": "degree",
-                },
-                {"name": "lon_0", "value": north_pole_grid_longitude, "unit": "degree"},
+                {"name": "o_lat_p", "value": o_lat_p, "unit": "degree"},
+                {"name": "o_lon_p", "value": o_lon_p, "unit": "degree"},
+                {"name": "lon_0", "value": lon_0, "unit": "degree"},
             ],
         }
         return cls.from_json_dict(rot_latlon_json)
@@ -1518,6 +1506,8 @@ class ToWGS84Transformation(CoordinateOperation):
         scale_difference: float, optional
             Scale difference. Defaults to 0.0.
         """
+        from pyproj.crs import CRS
+
         towgs84_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "Transformation",

@@ -3,10 +3,18 @@ from distutils.version import LooseVersion
 import pytest
 
 from pyproj import proj_version_str
-from pyproj.crs import BoundCRS, CompoundCRS, GeographicCRS, ProjectedCRS, VerticalCRS
+from pyproj.crs import (
+    BoundCRS,
+    CompoundCRS,
+    DerivedGeographicCRS,
+    GeographicCRS,
+    ProjectedCRS,
+    VerticalCRS,
+)
 from pyproj.crs.coordinate_operation import (
     AlbersEqualAreaConversion,
     LambertConformalConic2SPConversion,
+    RotatedLatitudeLongitudeConversion,
     ToWGS84Transformation,
     TransverseMercatorConversion,
     UTMConversion,
@@ -35,6 +43,14 @@ def test_make_geographic_3d_crs():
     gcrs = GeographicCRS(ellipsoidal_cs=Ellipsoidal3DCS())
     assert gcrs.type_name == "Geographic 3D CRS"
     assert gcrs.to_authority() == ("IGNF", "WGS84GEODD")
+
+
+def test_make_derived_geographic_crs():
+    conversion = RotatedLatitudeLongitudeConversion(o_lat_p=0, o_lon_p=0)
+    dgc = DerivedGeographicCRS(base_crs=GeographicCRS(), conversion=conversion)
+    assert dgc.name == "undefined"
+    assert dgc.type_name == "Geographic 2D CRS"
+    assert dgc.coordinate_operation == conversion
 
 
 def test_vertical_crs():
