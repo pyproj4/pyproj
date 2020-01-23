@@ -524,10 +524,11 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <p>Class to build a custom ellipsoid.</p>
 <dl class="method">
 <dt id="pyproj.crs.ellipsoid.CustomEllipsoid.__new__">
-<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">semi_major_axis=None</em>, <em class="sig-param">inverse_flattening=None</em>, <em class="sig-param">semi_minor_axis=None</em>, <em class="sig-param">radius=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/ellipsoid.html#CustomEllipsoid.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.ellipsoid.CustomEllipsoid.__new__" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">name='undefined'</em>, <em class="sig-param">semi_major_axis=None</em>, <em class="sig-param">inverse_flattening=None</em>, <em class="sig-param">semi_minor_axis=None</em>, <em class="sig-param">radius=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/ellipsoid.html#CustomEllipsoid.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.ellipsoid.CustomEllipsoid.__new__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the ellipsoid. Default is ‘undefined’.</p></li>
 <li><p><strong>semi_major_axis</strong> (<em>float</em><em>, </em><em>optional</em>) – The semi major axis in meters. Required if missing radius.</p></li>
 <li><p><strong>inverse_flattening</strong> (<em>float</em><em>, </em><em>optional</em>) – The inverse flattening in meters.
 Required if missing semi_minor_axis and radius.</p></li>
