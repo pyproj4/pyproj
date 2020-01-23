@@ -66,7 +66,7 @@ build_script:
         appveyor DownloadFile https://sqlite.org/2018/sqlite-tools-win32-x86-3250100.zip
         7z x sqlite-tools-win32-x86-3250100.zip
   - copy "%APPVEYOR_BUILD_FOLDER%"\sqlite-tools-win32-x86-3250100\sqlite3.exe %SQLITE3_BIN%
-  - set PATH=%PATH%;%SQLITE3_BIN%
+  - set PATH=%SQLITE3_BIN%;%PATH%
   # setup PROJ.4
   - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/proj.4.git proj-git
   - if not "%PROJSOURCE%" == "git" if not exist %PROJ_DIR% set BUILD_PROJ_STABLE=1
@@ -85,7 +85,7 @@ build_script:
   - if defined BUILD_PROJ cd build
   - if defined BUILD_PROJ cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBPROJ_SHARED="%BUILD_LIBPROJ_SHARED%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
   - if defined BUILD_PROJ cmake --build . --config Release --target install
-  - set PATH=%PATH%;%PROJ_DIR%\bin
+  - set PATH=%PROJ_DIR%\bin;%PATH%
   - set PROJ_LIB=%PROJ_DIR%\share\proj
   - if defined BUILD_PROJ cd %PROJ_LIB%
   - if defined BUILD_PROJ curl -O http://download.osgeo.org/proj/proj-datumgrid-1.8.zip
