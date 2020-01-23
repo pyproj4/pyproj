@@ -19,8 +19,10 @@ def test_custom_ellipsoid():
 
 
 def test_custom_ellipsoid__minor():
-    ce = CustomEllipsoid(semi_major_axis=6378137, semi_minor_axis=6356752.314)
-    assert ce.name == "undefined"
+    ce = CustomEllipsoid(
+        name="test", semi_major_axis=6378137, semi_minor_axis=6356752.314
+    )
+    assert ce.name == "test"
     assert ce.semi_major_metre == 6378137
     assert ce.semi_minor_metre == 6356752.314
     assert_almost_equal(ce.inverse_flattening, 298.25722014)

@@ -10,6 +10,7 @@ class CustomEllipsoid(Ellipsoid):
 
     def __new__(
         cls,
+        name="undefined",
         semi_major_axis=None,
         inverse_flattening=None,
         semi_minor_axis=None,
@@ -18,6 +19,8 @@ class CustomEllipsoid(Ellipsoid):
         """
         Parameters
         ----------
+        name: str, optional
+            Name of the ellipsoid. Default is 'undefined'.
         semi_major_axis: float, optional
             The semi major axis in meters. Required if missing radius.
         inverse_flattening: float, optional
@@ -33,7 +36,7 @@ class CustomEllipsoid(Ellipsoid):
         ellipsoid_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "Ellipsoid",
-            "name": "undefined",
+            "name": name,
         }
         if semi_major_axis is not None:
             ellipsoid_json["semi_major_axis"] = semi_major_axis

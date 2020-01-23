@@ -848,8 +848,13 @@ def test_datum_from_name__auth_type(auth_name):
     "invalid_str", ["3-598y5-98y", "urn:ogc:def:ellipsoid:EPSG::7001"]
 )
 def test_datum__from_name__invalid(invalid_str):
-    with pytest.raises(CRSError, match="Invalid datum"):
+    with pytest.raises(CRSError, match="Invalid datum name:"):
         Datum.from_name(invalid_str)
+
+
+def test_datum__from_name__invalid_type():
+    with pytest.raises(CRSError, match="Invalid datum name: WGS84"):
+        Datum.from_name("WGS84", datum_type="VERTICAL_REFERENCE_FRAME")
 
 
 @pytest.mark.parametrize(
@@ -866,15 +871,28 @@ def test_ellipsoid__from_string(input_str):
     assert ee.name == "Airy 1830"
 
 
-def test_ellipsoid__from_name():
-    ee = Ellipsoid.from_name("Airy 1830")
-    assert ee.name == "Airy 1830"
+@pytest.mark.parametrize(
+    "input_str,long_name",
+    [
+        ("Airy 1830", "Airy 1830"),
+        ("intl", "International 1909 (Hayford)"),
+        ("International 1909 (Hayford)", "International 1909 (Hayford)"),
+    ],
+)
+def test_ellipsoid__from_name(input_str, long_name):
+    ee = Ellipsoid.from_name(input_str)
+    assert ee.name == long_name
 
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
 def test_ellipsoid__from_name__invalid(invalid_str):
     with pytest.raises(CRSError, match="Invalid ellipsoid"):
         Ellipsoid.from_name(invalid_str)
+
+
+def test_ellipsoid__from_name__invalid__auth():
+    with pytest.raises(CRSError, match="Invalid ellipsoid"):
+        Ellipsoid.from_name("intl", auth_name="ESRI")
 
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
