@@ -871,11 +871,14 @@ def test_ellipsoid__from_string(input_str):
     assert ee.name == "Airy 1830"
 
 
-@pytest.mark.parametrize("input_str,long_name", [
-    ("Airy 1830", "Airy 1830"),
-    ("intl", "International 1909 (Hayford)"),
-    ("International 1909 (Hayford)", "International 1909 (Hayford)"),
-])
+@pytest.mark.parametrize(
+    "input_str,long_name",
+    [
+        ("Airy 1830", "Airy 1830"),
+        ("intl", "International 1909 (Hayford)"),
+        ("International 1909 (Hayford)", "International 1909 (Hayford)"),
+    ],
+)
 def test_ellipsoid__from_name(input_str, long_name):
     ee = Ellipsoid.from_name(input_str)
     assert ee.name == long_name
