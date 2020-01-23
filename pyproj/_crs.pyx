@@ -5,9 +5,18 @@ from collections import OrderedDict
 
 from pyproj._datadir cimport pyproj_context_initialize
 from pyproj.compat import cstrencode, pystrdecode
+from pyproj.crs.ellipsoid import CustomEllipsoid
 from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
+from pyproj.geod import pj_ellps
+
+
+# This is for looking up the ellipsoid parameters
+# based on the long name
+_PJ_ELLPS_NAME_MAP = {
+    ellps["description"]: ellps_id for ellps_id, ellps in pj_ellps.items()
+}
 
 
 cdef cstrdecode(const char *instring):
@@ -911,6 +920,47 @@ cdef class Ellipsoid(_CRSParts):
         return Ellipsoid.from_json_dict(_load_proj_json(ellipsoid_json_str))
 
     @staticmethod
+    def _from_name(
+        ellipsoid_name,
+        auth_name,
+    ):
+        """
+        .. versionadded:: 2.5.0
+
+        Create a Ellipsoid from a name.
+
+        Parameters
+        ----------
+        ellipsoid_name: str
+            Ellipsoid name.
+        auth_name: str
+            The authority name to refine search (e.g. 'EPSG').
+            If None, will search all authorities.
+
+        Returns
+        -------
+        Ellipsoid
+        """
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
+        cdef PJ* ellipsoid_pj = _from_name(
+            context,
+            ellipsoid_name,
+            auth_name,
+            PJ_TYPE_ELLIPSOID,
+        )
+        if ellipsoid_pj == NULL:
+            proj_context_destroy(context)
+            raise CRSError(
+                "Invalid ellipsoid name: {}".format(
+                    pystrdecode(ellipsoid_name)
+                )
+            )
+        CRSError.clear()
+        return Ellipsoid.create(context, ellipsoid_pj)
+
+
+    @staticmethod
     def from_name(
         ellipsoid_name,
         auth_name=None,
@@ -935,23 +985,29 @@ cdef class Ellipsoid(_CRSParts):
         -------
         Ellipsoid
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
-        cdef PJ* ellipsoid_pj = _from_name(
-            context,
-            ellipsoid_name,
-            auth_name,
-            PJ_TYPE_ELLIPSOID,
-        )
-        if ellipsoid_pj == NULL:
-            proj_context_destroy(context)
-            raise CRSError(
-                "Invalid ellipsoid name: {}".format(
-                    pystrdecode(ellipsoid_name)
-                )
+        try:
+            return Ellipsoid._from_name(
+                ellipsoid_name=ellipsoid_name,
+                auth_name=auth_name,
             )
-        CRSError.clear()
-        return Ellipsoid.create(context, ellipsoid_pj)
+        except CRSError:
+            if auth_name not in ("PROJ", None):
+                raise
+            pass
+
+        # add support for past names for PROJ ellipsoids
+        try:
+            ellipsoid_params = pj_ellps[
+                _PJ_ELLPS_NAME_MAP.get(ellipsoid_name, ellipsoid_name)
+            ]
+        except KeyError:
+            raise CRSError("Invalid ellipsoid name: {}".format(ellipsoid_name))
+        return CustomEllipsoid(
+            name=ellipsoid_params["description"],
+            semi_major_axis=ellipsoid_params["a"],
+            semi_minor_axis=ellipsoid_params.get("b"),
+            inverse_flattening=ellipsoid_params.get("rf"),
+        )
 
 
 cdef class PrimeMeridian(_CRSParts):
@@ -1386,6 +1442,50 @@ cdef class Datum(_CRSParts):
             return Datum.from_name(datum_string)
 
     @staticmethod
+    def _from_name(
+        datum_name,
+        auth_name,
+        datum_type,
+    ):
+        """
+        .. versionadded:: 2.5.0
+
+        Create a Datum from a name.
+
+        Parameters
+        ----------
+        datum_name: str
+            Datum name.
+        auth_name: str
+            The authority name to refine search (e.g. 'EPSG').
+            If None, will search all authorities.
+        datum_type: DatumType, optional
+            The datum type to create.
+
+        Returns
+        -------
+        Datum
+        """
+        pj_datum_type = _PJ_DATUM_TYPE_MAP[datum_type]
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
+        cdef PJ* datum_pj = _from_name(
+            context,
+            datum_name,
+            auth_name,
+            <PJ_TYPE>pj_datum_type,
+        )
+        if datum_pj == NULL:
+            proj_context_destroy(context)
+            raise CRSError(
+                "Invalid datum name: {}".format(
+                    pystrdecode(datum_name)
+                )
+            )
+        CRSError.clear()
+        return Datum.create(context, datum_pj)
+
+    @staticmethod
     def from_name(
         datum_name,
         auth_name=None,
@@ -1414,30 +1514,33 @@ cdef class Datum(_CRSParts):
         -------
         Datum
         """
-        pj_datum_type = _PJ_DATUM_TYPE_MAP[DatumType.create(datum_type)]
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
-        # ensure the PROJ string name matches properly
-        # https://github.com/OSGeo/PROJ/issues/1823
-        datum_name = _DATUM_NAME_MAP.get(
-            datum_name.upper().replace(" ", ""),
-            datum_name,
-        )
-        cdef PJ* datum_pj = _from_name(
-            context,
-            datum_name,
-            auth_name,
-            <PJ_TYPE>pj_datum_type,
-        )
-        if datum_pj == NULL:
-            proj_context_destroy(context)
-            raise CRSError(
-                "Invalid datum name: {}".format(
-                    pystrdecode(datum_name)
-                )
+        datum_type = DatumType.create(datum_type)
+        try:
+            return Datum._from_name(
+                datum_name=datum_name,
+                auth_name=auth_name,
+                datum_type=datum_type,
             )
-        CRSError.clear()
-        return Datum.create(context, datum_pj)
+        except CRSError:
+            if (
+                auth_name not in ("PROJ", None)
+                or datum_type!=DatumType.GEODETIC_REFERENCE_FRAME
+            ):
+                raise
+            pass
+        # add support for PROJ datum aliases
+        # https://github.com/OSGeo/PROJ/issues/1823
+        try:
+            datum_name=_DATUM_NAME_MAP[datum_name.upper().replace(" ", "")]
+        except KeyError:
+            raise CRSError(
+                "Invalid datum name: {}".format(datum_name)
+            )
+        return Datum.from_name(
+            datum_name=datum_name,
+            auth_name=auth_name,
+            datum_type=datum_type,
+        )
 
     @staticmethod
     def from_json_dict(datum_dict):
