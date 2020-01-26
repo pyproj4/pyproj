@@ -539,6 +539,58 @@ class LambertCylindricalEqualAreaConversion(CoordinateOperation):
         return cls.from_json_dict(cea_json)
 
 
+class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
+    """
+    .. versionadded:: 2.5.0
+
+    Class for constructing the Lambert Cylindrical Equal Area conversion.
+
+    This version uses the scale factor and differs from the official version.
+
+    The scale factor will be converted to the Latitude of 1st standard parallel (lat_ts)
+    when exporting to WKT in PROJ>=7.0.0. Previous version will export it as a
+    PROJ-based coordinate operation in the WKT.
+
+    https://proj.org/operations/projections/cea.html
+    """
+
+    def __new__(
+        cls,
+        longitude_natural_origin=0.0,
+        false_easting=0.0,
+        false_northing=0.0,
+        scale_factor_natural_origin=1.0,
+    ):
+        """
+        Parameters
+        ----------
+        longitude_natural_origin: float, optional
+            Longitude of projection center (lon_0). Defaults to 0.0.
+        false_easting: float, optional
+            False easting (x_0). Defaults to 0.0.
+        false_northing: float, optional
+            False northing (y_0). Defaults to 0.0.
+        scale_factor_natural_origin: float, optional
+            Scale factor at natural origin (k or k_0). Defaults to 1.0
+
+        """
+        # hack due to: https://github.com/OSGeo/PROJ/issues/1881
+        # https://proj.org/operations/projections/cea.html
+        return cls.from_string(
+            "+proj=cea "
+            "+lon_0={longitude_natural_origin} "
+            "+x_0={false_easting} "
+            "+y_0={false_northing} "
+            "+k_0={scale_factor_natural_origin}"
+            .format(
+                longitude_natural_origin=longitude_natural_origin,
+                false_easting=false_easting,
+                false_northing=false_northing,
+                scale_factor_natural_origin=scale_factor_natural_origin,
+            )
+        )
+
+
 class MercatorAConversion(CoordinateOperation):
     """
     .. versionadded:: 2.5.0
@@ -1270,6 +1322,84 @@ class RotatedLatitudeLongitudeConversion(CoordinateOperation):
             ],
         }
         return cls.from_json_dict(rot_latlon_json)
+
+
+class EquidistantCylindricalConversion(CoordinateOperation):
+    """
+    .. versionadded:: 2.5.0
+
+    Class for constructing the Equidistant Cylintrical (Plate Carrée) conversion.
+
+    https://proj.org/operations/projections/eqc.html
+    """
+    def __new__(
+        cls,
+        latitude_first_parallel=0.0,
+        latitude_natural_origin=0.0,
+        longitude_natural_origin=0.0,
+        false_easting=0.0,
+        false_northing=0.0,
+    ):
+        """
+        Parameters
+        ----------
+        latitude_first_parallel: float, optional
+            Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.
+        latitude_natural_origin: float, optional
+            Longitude of projection center (lon_0). Defaults to 0.0.
+        longitude_natural_origin: float, optional
+            Longitude of projection center (lon_0). Defaults to 0.0.
+        false_easting: float, optional
+            False easting (x_0). Defaults to 0.0.
+        false_northing: float, optional
+            False northing (y_0). Defaults to 0.0.
+        """
+        eqc_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "Conversion",
+            "name": "unknown",
+            "method": {
+                "name": "Equidistant Cylindrical",
+                "id": {"authority": "EPSG", "code": 1028},
+            },
+            "parameters": [
+                {
+                    "name": "Latitude of 1st standard parallel",
+                    "value": latitude_first_parallel,
+                    "unit": "degree",
+                    "id": {"authority": "EPSG", "code": 8823},
+                },
+                {
+                    "name": "Latitude of natural origin",
+                    "value": latitude_natural_origin,
+                    "unit": "degree",
+                    "id": {"authority": "EPSG", "code": 8801},
+                },
+                {
+                    "name": "Longitude of natural origin",
+                    "value": longitude_natural_origin,
+                    "unit": "degree",
+                    "id": {"authority": "EPSG", "code": 8802},
+                },
+                {
+                    "name": "False easting",
+                    "value": false_easting,
+                    "unit": "metre",
+                    "id": {"authority": "EPSG", "code": 8806},
+                },
+                {
+                    "name": "False northing",
+                    "value": false_northing,
+                    "unit": "metre",
+                    "id": {"authority": "EPSG", "code": 8807},
+                },
+            ],
+        }
+        return cls.from_json_dict(eqc_json)
+
+
+# Add an alias for PlateCaree
+PlateCareeConversion = EquidistantCylindricalConversion
 
 
 class ToWGS84Transformation(CoordinateOperation):

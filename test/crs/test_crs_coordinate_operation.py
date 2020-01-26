@@ -4,15 +4,18 @@ from pyproj.crs import GeographicCRS
 from pyproj.crs.coordinate_operation import (
     AlbersEqualAreaConversion,
     AzumuthalEquidistantConversion,
+    EquidistantCylindricalConversion,
     GeostationarySatelliteConversion,
     HotineObliqueMercatorBConversion,
     LambertAzumuthalEqualAreaConversion,
     LambertConformalConic1SPConversion,
     LambertConformalConic2SPConversion,
     LambertCylindricalEqualAreaConversion,
+    LambertCylindricalEqualAreaScaleConversion,
     MercatorAConversion,
     MercatorBConversion,
     OrthographicConversion,
+    PlateCareeConversion,
     PolarStereographicAConversion,
     PolarStereographicBConversion,
     RotatedLatitudeLongitudeConversion,
@@ -221,7 +224,7 @@ def test_lambert_conformat_conic_1sp_operation():
         longitude_natural_origin=2,
         false_easting=3,
         false_northing=4,
-        scale_factor_natural_origin=5,
+        scale_factor_natural_origin=0.5,
     )
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "Lambert Conic Conformal (1SP)"
@@ -230,7 +233,7 @@ def test_lambert_conformat_conic_1sp_operation():
         "Longitude of natural origin": 2.0,
         "False easting": 3.0,
         "False northing": 4.0,
-        "Scale factor at natural origin": 5.0,
+        "Scale factor at natural origin": 0.5,
     }
 
 
@@ -282,7 +285,7 @@ def test_mercator_a_operation():
         longitude_natural_origin=2,
         false_easting=3,
         false_northing=4,
-        scale_factor_natural_origin=5,
+        scale_factor_natural_origin=0.5,
     )
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "Mercator (variant A)"
@@ -291,7 +294,7 @@ def test_mercator_a_operation():
         "Longitude of natural origin": 2.0,
         "False easting": 3.0,
         "False northing": 4.0,
-        "Scale factor at natural origin": 5.0,
+        "Scale factor at natural origin": 0.5,
     }
 
 
@@ -350,7 +353,7 @@ def test_hotline_oblique_mercator_b_operation():
         longitude_projection_centre=2,
         azimuth_initial_line=3,
         angle_from_rectified_to_skew_grid=4,
-        scale_factor_on_initial_line=5,
+        scale_factor_on_initial_line=0.5,
         easting_projection_centre=6,
         northing_projection_centre=7,
     )
@@ -361,7 +364,7 @@ def test_hotline_oblique_mercator_b_operation():
         "Longitude of projection centre": 2.0,
         "Azimuth of initial line": 3.0,
         "Angle from Rectified to Skew Grid": 4.0,
-        "Scale factor on initial line": 5.0,
+        "Scale factor on initial line": 0.5,
         "Easting at projection centre": 6.0,
         "Northing at projection centre": 7.0,
     }
@@ -415,7 +418,7 @@ def test_polar_stereographic_a_operation():
         longitude_natural_origin=2,
         false_easting=3,
         false_northing=4,
-        scale_factor_natural_origin=5,
+        scale_factor_natural_origin=0.5,
     )
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "Polar Stereographic (variant A)"
@@ -424,7 +427,7 @@ def test_polar_stereographic_a_operation():
         "Longitude of natural origin": 2.0,
         "False easting": 3.0,
         "False northing": 4.0,
-        "Scale factor at natural origin": 5.0,
+        "Scale factor at natural origin": 0.5,
     }
 
 
@@ -512,7 +515,7 @@ def test_transverse_mercator_operation():
         longitude_natural_origin=2,
         false_easting=3,
         false_northing=4,
-        scale_factor_natural_origin=5,
+        scale_factor_natural_origin=0.5,
     )
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "Transverse Mercator"
@@ -521,7 +524,7 @@ def test_transverse_mercator_operation():
         "Longitude of natural origin": 2.0,
         "False easting": 3.0,
         "False northing": 4.0,
-        "Scale factor at natural origin": 5.0,
+        "Scale factor at natural origin": 0.5,
     }
 
 
@@ -578,6 +581,68 @@ def test_rotated_latitude_longitude_operation():
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "PROJ ob_tran o_proj=longlat"
     assert _to_dict(aeaop) == {"o_lat_p": 1.0, "o_lon_p": 2.0, "lon_0": 3.0}
+
+
+def test_lambert_cylindrical_equidistant_scale_operation__defaults():
+    aeaop = LambertCylindricalEqualAreaScaleConversion()
+    assert aeaop.name == "PROJ-based coordinate operation"
+    assert aeaop.method_name == (
+        "PROJ-based operation method: +proj=cea +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k_0=1.0"
+    )
+    assert _to_dict(aeaop) == {}
+
+
+def test_lambert_cylindrical_equidistant_scale_operation():
+    aeaop = LambertCylindricalEqualAreaScaleConversion(
+        longitude_natural_origin=2,
+        false_easting=3,
+        false_northing=4,
+        scale_factor_natural_origin=0.5,
+    )
+    assert aeaop.name == "PROJ-based coordinate operation"
+    assert aeaop.method_name == (
+        "PROJ-based operation method: +proj=cea +lon_0=2 +x_0=3 +y_0=4 +k_0=0.5"
+    )
+    assert _to_dict(aeaop) == {}
+
+
+@pytest.mark.parametrize("eqc_class", [
+    EquidistantCylindricalConversion,
+    PlateCareeConversion,
+])
+def test_equidistant_cylindrical_conversion__defaults(eqc_class):
+    eqc = eqc_class()
+    assert eqc.name == "unknown"
+    assert eqc.method_name == "Equidistant Cylindrical"
+    assert _to_dict(eqc) == {
+        "Latitude of 1st standard parallel": 0.0,
+        "Latitude of natural origin": 0.0,
+        "Longitude of natural origin": 0.0,
+        "False easting": 0.0,
+        "False northing": 0.0,
+    }
+
+@pytest.mark.parametrize("eqc_class", [
+    EquidistantCylindricalConversion,
+    PlateCareeConversion,
+])
+def test_equidistant_cylindrical_conversion(eqc_class):
+    eqc = eqc_class(
+        latitude_first_parallel=1.0,
+        latitude_natural_origin=2.0,
+        longitude_natural_origin=3.0,
+        false_easting=4.0,
+        false_northing=5.0,
+    )
+    assert eqc.name == "unknown"
+    assert eqc.method_name == "Equidistant Cylindrical"
+    assert _to_dict(eqc) == {
+        "Latitude of 1st standard parallel": 1.0,
+        "Latitude of natural origin": 2.0,
+        "Longitude of natural origin": 3.0,
+        "False easting": 4.0,
+        "False northing": 5.0,
+    }
 
 
 def test_towgs84_transformation():
