@@ -94,15 +94,15 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">CRS module API Documentation</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">CRS</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyproj-crs">pyproj.CRS</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyproj-crs-geographiccrs">pyproj.crs.GeographicCRS</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyproj-crs-projectedcrs">pyproj.crs.ProjectedCRS</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyproj-crs-verticalcrs">pyproj.crs.VerticalCRS</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyproj-crs-boundcrs">pyproj.crs.BoundCRS</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyproj-crs-compoundcrs">pyproj.crs.CompoundCRS</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyproj-crs-is-wkt">pyproj.crs.is_wkt</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyproj-crs-is-proj">pyproj.crs.is_proj</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#area-of-use">Area Of Use</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">CRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#geographiccrs">GeographicCRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#projectedcrs">ProjectedCRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verticalcrs">VerticalCRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boundcrs">BoundCRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compoundcrs">CompoundCRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#is-wkt">is_wkt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#is-proj">is_proj</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#areaofuse">AreaOfUse</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="coordinate_system.html">Coordinate Systems</a></li>
@@ -195,8 +195,8 @@
             
   <div class="section" id="crs">
 <span id="id1"></span><h1>CRS<a class="headerlink" href="#crs" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="pyproj-crs">
-<h2>pyproj.CRS<a class="headerlink" href="#pyproj-crs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>CRS<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.CRS">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CRS</code><span class="sig-paren">(</span><em class="sig-param">projparams=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS" title="Permalink to this definition">¶</a></dt>
@@ -1180,8 +1180,8 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </dd></dl>
 
 </div>
-<div class="section" id="pyproj-crs-geographiccrs">
-<h2>pyproj.crs.GeographicCRS<a class="headerlink" href="#pyproj-crs-geographiccrs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="geographiccrs">
+<h2>GeographicCRS<a class="headerlink" href="#geographiccrs" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.GeographicCRS">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">GeographicCRS</code><span class="sig-paren">(</span><em class="sig-param">name='undefined', datum='urn:ogc:def:datum:EPSG::6326', ellipsoidal_cs=CS[ellipsoidal,2],     AXIS[&quot;longitude&quot;,east,         ORDER[1],         ANGLEUNIT[&quot;degree&quot;,0.0174532925199433,             ID[&quot;EPSG&quot;,9122]]],     AXIS[&quot;latitude&quot;,north,         ORDER[2],         ANGLEUNIT[&quot;degree&quot;,0.0174532925199433,             ID[&quot;EPSG&quot;,9122]]]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#GeographicCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.GeographicCRS" title="Permalink to this definition">¶</a></dt>
@@ -1210,8 +1210,8 @@ or an Ellipsoidal Coordinate System created from <a class="reference internal" h
 </dd></dl>
 
 </div>
-<div class="section" id="pyproj-crs-projectedcrs">
-<h2>pyproj.crs.ProjectedCRS<a class="headerlink" href="#pyproj-crs-projectedcrs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="projectedcrs">
+<h2>ProjectedCRS<a class="headerlink" href="#projectedcrs" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.ProjectedCRS">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">ProjectedCRS</code><span class="sig-paren">(</span><em class="sig-param">conversion, name='undefined', cartesian_cs=CS[Cartesian,2],     AXIS[&quot;(E)&quot;,east,         ORDER[1],         LENGTHUNIT[&quot;metre&quot;,1,             ID[&quot;EPSG&quot;,9001]]],     AXIS[&quot;(N)&quot;,north,         ORDER[2],         LENGTHUNIT[&quot;metre&quot;,1,             ID[&quot;EPSG&quot;,9001]]], geodetic_crs=&lt;Geographic 2D CRS: {&quot;$schema&quot;: &quot;https://proj.org/schemas/v0.2/projjso ...&gt; Name: undefined Axis Info [ellipsoidal]: - lon[east]: Longitude (degree) - lat[north]: Latitude (degree) Area of Use: - undefined Datum: World Geodetic System 1984 - Ellipsoid: WGS 84 - Prime Meridian: Greenwich </em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#ProjectedCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.ProjectedCRS" title="Permalink to this definition">¶</a></dt>
@@ -1242,8 +1242,8 @@ anything accepted by <a class="reference internal" href="#pyproj.crs.CRS.from_us
 </dd></dl>
 
 </div>
-<div class="section" id="pyproj-crs-verticalcrs">
-<h2>pyproj.crs.VerticalCRS<a class="headerlink" href="#pyproj-crs-verticalcrs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="verticalcrs">
+<h2>VerticalCRS<a class="headerlink" href="#verticalcrs" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.VerticalCRS">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">VerticalCRS</code><span class="sig-paren">(</span><em class="sig-param">name, datum, vertical_cs=CS[vertical,1],     AXIS[&quot;gravity-related height (H)&quot;,up,         LENGTHUNIT[&quot;metre&quot;,1,             ID[&quot;EPSG&quot;,9001]]], geoid_model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#VerticalCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.VerticalCRS" title="Permalink to this definition">¶</a></dt>
@@ -1276,8 +1276,8 @@ or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordin
 </dd></dl>
 
 </div>
-<div class="section" id="pyproj-crs-boundcrs">
-<h2>pyproj.crs.BoundCRS<a class="headerlink" href="#pyproj-crs-boundcrs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="boundcrs">
+<h2>BoundCRS<a class="headerlink" href="#boundcrs" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.BoundCRS">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">BoundCRS</code><span class="sig-paren">(</span><em class="sig-param">source_crs</em>, <em class="sig-param">target_crs</em>, <em class="sig-param">transformation</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#BoundCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.BoundCRS" title="Permalink to this definition">¶</a></dt>
@@ -1303,8 +1303,8 @@ or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordin
 </dd></dl>
 
 </div>
-<div class="section" id="pyproj-crs-compoundcrs">
-<h2>pyproj.crs.CompoundCRS<a class="headerlink" href="#pyproj-crs-compoundcrs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="compoundcrs">
+<h2>CompoundCRS<a class="headerlink" href="#compoundcrs" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.CompoundCRS">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CompoundCRS</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">components</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CompoundCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CompoundCRS" title="Permalink to this definition">¶</a></dt>
@@ -1330,8 +1330,8 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </dd></dl>
 
 </div>
-<div class="section" id="pyproj-crs-is-wkt">
-<h2>pyproj.crs.is_wkt<a class="headerlink" href="#pyproj-crs-is-wkt" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="is-wkt">
+<h2>is_wkt<a class="headerlink" href="#is-wkt" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.crs.is_wkt">
 <code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">is_wkt</code><span class="sig-paren">(</span><em class="sig-param">proj_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_wkt" title="Permalink to this definition">¶</a></dt>
@@ -1353,8 +1353,8 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </dd></dl>
 
 </div>
-<div class="section" id="pyproj-crs-is-proj">
-<h2>pyproj.crs.is_proj<a class="headerlink" href="#pyproj-crs-is-proj" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="is-proj">
+<h2>is_proj<a class="headerlink" href="#is-proj" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyproj.crs.is_proj">
 <code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">is_proj</code><span class="sig-paren">(</span><em class="sig-param">proj_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_proj" title="Permalink to this definition">¶</a></dt>
@@ -1376,8 +1376,8 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </dd></dl>
 
 </div>
-<div class="section" id="area-of-use">
-<h2>Area Of Use<a class="headerlink" href="#area-of-use" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="areaofuse">
+<h2>AreaOfUse<a class="headerlink" href="#areaofuse" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj._crs.AreaOfUse">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">AreaOfUse</code><a class="headerlink" href="#pyproj._crs.AreaOfUse" title="Permalink to this definition">¶</a></dt>
