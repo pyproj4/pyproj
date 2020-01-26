@@ -581,8 +581,7 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
             "+lon_0={longitude_natural_origin} "
             "+x_0={false_easting} "
             "+y_0={false_northing} "
-            "+k_0={scale_factor_natural_origin}"
-            .format(
+            "+k_0={scale_factor_natural_origin}".format(
                 longitude_natural_origin=longitude_natural_origin,
                 false_easting=false_easting,
                 false_northing=false_northing,
@@ -1332,6 +1331,7 @@ class EquidistantCylindricalConversion(CoordinateOperation):
 
     https://proj.org/operations/projections/eqc.html
     """
+
     def __new__(
         cls,
         latitude_first_parallel=0.0,

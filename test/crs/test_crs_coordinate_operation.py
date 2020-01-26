@@ -606,10 +606,9 @@ def test_lambert_cylindrical_equidistant_scale_operation():
     assert _to_dict(aeaop) == {}
 
 
-@pytest.mark.parametrize("eqc_class", [
-    EquidistantCylindricalConversion,
-    PlateCareeConversion,
-])
+@pytest.mark.parametrize(
+    "eqc_class", [EquidistantCylindricalConversion, PlateCareeConversion,]
+)
 def test_equidistant_cylindrical_conversion__defaults(eqc_class):
     eqc = eqc_class()
     assert eqc.name == "unknown"
@@ -622,10 +621,10 @@ def test_equidistant_cylindrical_conversion__defaults(eqc_class):
         "False northing": 0.0,
     }
 
-@pytest.mark.parametrize("eqc_class", [
-    EquidistantCylindricalConversion,
-    PlateCareeConversion,
-])
+
+@pytest.mark.parametrize(
+    "eqc_class", [EquidistantCylindricalConversion, PlateCareeConversion,]
+)
 def test_equidistant_cylindrical_conversion(eqc_class):
     eqc = eqc_class(
         latitude_first_parallel=1.0,
