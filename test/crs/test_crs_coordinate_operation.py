@@ -607,7 +607,7 @@ def test_lambert_cylindrical_equidistant_scale_operation():
 
 
 @pytest.mark.parametrize(
-    "eqc_class", [EquidistantCylindricalConversion, PlateCareeConversion,]
+    "eqc_class", [EquidistantCylindricalConversion, PlateCareeConversion]
 )
 def test_equidistant_cylindrical_conversion__defaults(eqc_class):
     eqc = eqc_class()
@@ -623,7 +623,7 @@ def test_equidistant_cylindrical_conversion__defaults(eqc_class):
 
 
 @pytest.mark.parametrize(
-    "eqc_class", [EquidistantCylindricalConversion, PlateCareeConversion,]
+    "eqc_class", [EquidistantCylindricalConversion, PlateCareeConversion]
 )
 def test_equidistant_cylindrical_conversion(eqc_class):
     eqc = eqc_class(
