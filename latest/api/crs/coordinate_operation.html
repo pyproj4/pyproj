@@ -101,6 +101,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#grid">Grid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#albersequalareaconversion">AlbersEqualAreaConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#azumuthalequidistantconversion">AzumuthalEquidistantConversion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#equidistantcylindricalconversion">EquidistantCylindricalConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#geostationarysatelliteconversion">GeostationarySatelliteConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#lambertazumuthalequalareaconversion">LambertAzumuthalEqualAreaConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#lambertconformalconic1spconversion">LambertConformalConic1SPConversion</a></li>
@@ -110,6 +111,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#mercatorbconversion">MercatorBConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#hotineobliquemercatorbconversion">HotineObliqueMercatorBConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#orthographicconversion">OrthographicConversion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#platecareeconversion">PlateCareeConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#polarstereographicaconversion">PolarStereographicAConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#polarstereographicbconversion">PolarStereographicBConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sinusoidalconversion">SinusoidalConversion</a></li>
@@ -875,6 +877,36 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </dd></dl>
 
 </div>
+<div class="section" id="equidistantcylindricalconversion">
+<h2>EquidistantCylindricalConversion<a class="headerlink" href="#equidistantcylindricalconversion" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.crs.coordinate_operation.EquidistantCylindricalConversion">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">EquidistantCylindricalConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#EquidistantCylindricalConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Class for constructing the Equidistant Cylintrical (Plate Carrée) conversion.</p>
+<p><a class="reference external" href="https://proj.org/operations/projections/eqc.html">https://proj.org/operations/projections/eqc.html</a></p>
+<dl class="method">
+<dt id="pyproj.crs.coordinate_operation.EquidistantCylindricalConversion.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">latitude_first_parallel=0.0</em>, <em class="sig-param">latitude_natural_origin=0.0</em>, <em class="sig-param">longitude_natural_origin=0.0</em>, <em class="sig-param">false_easting=0.0</em>, <em class="sig-param">false_northing=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#EquidistantCylindricalConversion.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latitude_first_parallel</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="geostationarysatelliteconversion">
 <h2>GeostationarySatelliteConversion<a class="headerlink" href="#geostationarysatelliteconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -1024,6 +1056,29 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 
 </dd></dl>
 
+<dl class="class">
+<dt id="pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaScaleConversion">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertCylindricalEqualAreaScaleConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertCylindricalEqualAreaScaleConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaScaleConversion" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Class for constructing the Lambert Cylindrical Equal Area conversion.</p>
+<p>This version uses the scale factor and differs from the official version.</p>
+<p>The scale factor will be converted to the Latitude of 1st standard parallel (lat_ts)
+when exporting to WKT in PROJ&gt;=7.0.0. Previous version will export it as a
+PROJ-based coordinate operation in the WKT.</p>
+<p><a class="reference external" href="https://proj.org/operations/projections/cea.html">https://proj.org/operations/projections/cea.html</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Members</dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">Show-inheritance</dt>
+<dd class="field-even"><p></p></dd>
+<dt class="field-odd">Special-members</dt>
+<dd class="field-odd"><p>__new__</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="mercatoraconversion">
 <h2>MercatorAConversion<a class="headerlink" href="#mercatoraconversion" title="Permalink to this headline">¶</a></h2>
@@ -1142,6 +1197,15 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+</div>
+<div class="section" id="platecareeconversion">
+<h2>PlateCareeConversion<a class="headerlink" href="#platecareeconversion" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="pyproj.crs.coordinate_operation.PlateCareeConversion">
+<code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">PlateCareeConversion</code><a class="headerlink" href="#pyproj.crs.coordinate_operation.PlateCareeConversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion" title="pyproj.crs.coordinate_operation.EquidistantCylindricalConversion"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_operation.EquidistantCylindricalConversion</span></code></a></p>
 </dd></dl>
 
 </div>
