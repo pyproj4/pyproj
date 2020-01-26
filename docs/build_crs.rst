@@ -31,7 +31,7 @@ Here are links to the API docs for the pieces you need to get started:
 - :ref:`coordinate_operation`
 - :ref:`datum`
 - :ref:`ellipsoid`
-- :ref:`coordinate_operation`
+- :ref:`coordinate_system`
 
 
 Geographic CRS

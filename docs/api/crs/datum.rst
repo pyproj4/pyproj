@@ -9,11 +9,16 @@ Datum
           currently for the old PROJ names for datums such as WGS84 and NAD83.
 
 
+Datum
+---------
 
 .. autoclass:: pyproj.crs.Datum
     :members:
     :inherited-members:
 
+
+CustomDatum
+------------
 
 .. autoclass:: pyproj.crs.datum.CustomDatum
     :members:

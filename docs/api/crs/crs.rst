@@ -3,8 +3,8 @@
 CRS
 ===
 
-pyproj.CRS
-----------
+CRS
+----
 
 .. autoclass:: pyproj.crs.CRS
     :members:
@@ -12,7 +12,7 @@ pyproj.CRS
     :special-members: __init__
 
 
-pyproj.crs.GeographicCRS
+GeographicCRS
 ------------------------
 
 .. autoclass:: pyproj.crs.GeographicCRS
@@ -21,7 +21,7 @@ pyproj.crs.GeographicCRS
     :special-members: __init__
 
 
-pyproj.crs.ProjectedCRS
+ProjectedCRS
 -----------------------
 
 .. autoclass:: pyproj.crs.ProjectedCRS
@@ -30,7 +30,7 @@ pyproj.crs.ProjectedCRS
     :special-members: __init__
 
 
-pyproj.crs.VerticalCRS
+VerticalCRS
 -----------------------
 
 .. autoclass:: pyproj.crs.VerticalCRS
@@ -39,7 +39,7 @@ pyproj.crs.VerticalCRS
     :special-members: __init__
 
 
-pyproj.crs.BoundCRS
+BoundCRS
 -----------------------
 
 .. autoclass:: pyproj.crs.BoundCRS
@@ -47,8 +47,7 @@ pyproj.crs.BoundCRS
     :show-inheritance:
     :special-members: __init__
 
-
-pyproj.crs.CompoundCRS
+CompoundCRS
 -----------------------
 
 .. autoclass:: pyproj.crs.CompoundCRS
@@ -57,19 +56,19 @@ pyproj.crs.CompoundCRS
     :special-members: __init__
 
 
-pyproj.crs.is_wkt
+is_wkt
 -----------------
 
 .. autofunction:: pyproj.crs.is_wkt
 
 
-pyproj.crs.is_proj
+is_proj
 ------------------
 
 .. autofunction:: pyproj.crs.is_proj
 
 
-Area Of Use
+AreaOfUse
 -----------
 
 .. autoclass:: pyproj._crs.AreaOfUse
