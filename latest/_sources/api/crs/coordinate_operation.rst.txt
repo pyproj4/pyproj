@@ -41,6 +41,14 @@ AzumuthalEquidistantConversion
     :special-members: __new__
 
 
+EquidistantCylindricalConversion
+--------------------------------
+.. autoclass:: pyproj.crs.coordinate_operation.EquidistantCylindricalConversion
+    :members:
+    :show-inheritance:
+    :special-members: __new__
+
+
 GeostationarySatelliteConversion
 --------------------------------
 
@@ -84,6 +92,12 @@ LambertCylindricalEqualAreaConversion
     :show-inheritance:
     :special-members: __new__
 
+.. autoclass:: pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaScaleConversion
+
+    :members:
+    :show-inheritance:
+    :special-members: __new__
+
 
 MercatorAConversion
 --------------------
@@ -115,6 +129,14 @@ OrthographicConversion
 -----------------------
 
 .. autoclass:: pyproj.crs.coordinate_operation.OrthographicConversion
+    :members:
+    :show-inheritance:
+    :special-members: __new__
+
+
+PlateCareeConversion
+--------------------------------
+.. autoclass:: pyproj.crs.coordinate_operation.PlateCareeConversion
     :members:
     :show-inheritance:
     :special-members: __new__

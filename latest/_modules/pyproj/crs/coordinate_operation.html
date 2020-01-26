@@ -697,6 +697,57 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">cea_json</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="LambertCylindricalEqualAreaScaleConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaScaleConversion">[docs]</a><span class="k">class</span> <span class="nc">LambertCylindricalEqualAreaScaleConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Class for constructing the Lambert Cylindrical Equal Area conversion.</span>
+
+<span class="sd">    This version uses the scale factor and differs from the official version.</span>
+
+<span class="sd">    The scale factor will be converted to the Latitude of 1st standard parallel (lat_ts)</span>
+<span class="sd">    when exporting to WKT in PROJ&gt;=7.0.0. Previous version will export it as a</span>
+<span class="sd">    PROJ-based coordinate operation in the WKT.</span>
+
+<span class="sd">    https://proj.org/operations/projections/cea.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        longitude_natural_origin: float, optional</span>
+<span class="sd">            Longitude of projection center (lon_0). Defaults to 0.0.</span>
+<span class="sd">        false_easting: float, optional</span>
+<span class="sd">            False easting (x_0). Defaults to 0.0.</span>
+<span class="sd">        false_northing: float, optional</span>
+<span class="sd">            False northing (y_0). Defaults to 0.0.</span>
+<span class="sd">        scale_factor_natural_origin: float, optional</span>
+<span class="sd">            Scale factor at natural origin (k or k_0). Defaults to 1.0</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># hack due to: https://github.com/OSGeo/PROJ/issues/1881</span>
+        <span class="c1"># https://proj.org/operations/projections/cea.html</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span>
+            <span class="s2">&quot;+proj=cea &quot;</span>
+            <span class="s2">&quot;+lon_0=</span><span class="si">{longitude_natural_origin}</span><span class="s2"> &quot;</span>
+            <span class="s2">&quot;+x_0=</span><span class="si">{false_easting}</span><span class="s2"> &quot;</span>
+            <span class="s2">&quot;+y_0=</span><span class="si">{false_northing}</span><span class="s2"> &quot;</span>
+            <span class="s2">&quot;+k_0=</span><span class="si">{scale_factor_natural_origin}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="n">longitude_natural_origin</span><span class="p">,</span>
+                <span class="n">false_easting</span><span class="o">=</span><span class="n">false_easting</span><span class="p">,</span>
+                <span class="n">false_northing</span><span class="o">=</span><span class="n">false_northing</span><span class="p">,</span>
+                <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="n">scale_factor_natural_origin</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="MercatorAConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.MercatorAConversion">[docs]</a><span class="k">class</span> <span class="nc">MercatorAConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
@@ -1428,6 +1479,85 @@
             <span class="p">],</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">rot_latlon_json</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="EquidistantCylindricalConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion">[docs]</a><span class="k">class</span> <span class="nc">EquidistantCylindricalConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Class for constructing the Equidistant Cylintrical (Plate Carrée) conversion.</span>
+
+<span class="sd">    https://proj.org/operations/projections/eqc.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="EquidistantCylindricalConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">latitude_first_parallel</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        latitude_first_parallel: float, optional</span>
+<span class="sd">            Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.</span>
+<span class="sd">        latitude_natural_origin: float, optional</span>
+<span class="sd">            Longitude of projection center (lon_0). Defaults to 0.0.</span>
+<span class="sd">        longitude_natural_origin: float, optional</span>
+<span class="sd">            Longitude of projection center (lon_0). Defaults to 0.0.</span>
+<span class="sd">        false_easting: float, optional</span>
+<span class="sd">            False easting (x_0). Defaults to 0.0.</span>
+<span class="sd">        false_northing: float, optional</span>
+<span class="sd">            False northing (y_0). Defaults to 0.0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eqc_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Conversion&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Equidistant Cylindrical&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">1028</span><span class="p">},</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latitude of 1st standard parallel&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">latitude_first_parallel</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8823</span><span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latitude of natural origin&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">latitude_natural_origin</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8801</span><span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Longitude of natural origin&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">longitude_natural_origin</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8802</span><span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;False easting&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">false_easting</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;metre&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8806</span><span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;False northing&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">false_northing</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;metre&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8807</span><span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">eqc_json</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># Add an alias for PlateCaree</span>
+<span class="n">PlateCareeConversion</span> <span class="o">=</span> <span class="n">EquidistantCylindricalConversion</span>
 
 
 <div class="viewcode-block" id="ToWGS84Transformation"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.ToWGS84Transformation">[docs]</a><span class="k">class</span> <span class="nc">ToWGS84Transformation</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
