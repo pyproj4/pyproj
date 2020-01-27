@@ -125,15 +125,7 @@ def test_bound_crs__example():
             scale_factor_natural_origin=0.9996,
         ),
         geodetic_crs=GeographicCRS(
-            datum=CustomDatum(
-                ellipsoid={
-                    "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
-                    "type": "Ellipsoid",
-                    "name": "International 1909 (Hayford)",
-                    "semi_major_axis": 6378388,
-                    "inverse_flattening": 297,
-                }
-            )
+            datum=CustomDatum(ellipsoid="International 1909 (Hayford)")
         ),
     )
     bound_crs = BoundCRS(

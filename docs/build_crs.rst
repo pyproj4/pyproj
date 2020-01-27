@@ -140,9 +140,7 @@ PROJ string::
             scale_factor_natural_origin=0.9996,
         ),
         geodetic_crs=GeographicCRS(
-            datum=CustomDatum(
-                ellipsoid="International 1909 (Hayford)"
-            )
+            datum=CustomDatum(ellipsoid="International 1909 (Hayford)")
         ),
     )
     bound_crs = BoundCRS(
