@@ -134,9 +134,9 @@ OrthographicConversion
     :special-members: __new__
 
 
-PlateCareeConversion
+PlateCarreeConversion
 --------------------------------
-.. autoclass:: pyproj.crs.coordinate_operation.PlateCareeConversion
+.. autoclass:: pyproj.crs.coordinate_operation.PlateCarreeConversion
     :members:
     :show-inheritance:
     :special-members: __new__
