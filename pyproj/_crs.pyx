@@ -2023,6 +2023,7 @@ cdef class CoordinateOperation(_CRSParts):
         Example:
           - urn:ogc:def:coordinateOperation:EPSG::1671
           - UTM zone 14N
+          - +proj=utm +zone=14
 
         Parameters
         ----------
