@@ -172,7 +172,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        ellipsoid: Any, optional</span>
 <span class="sd">            Anything accepted by :meth:`pyproj.crs.Ellipsoid.from_user_input`</span>
-<span class="sd">            or a :class:`pyproj.crs.ellipsoid.CustomEllipsoid`.</span>
+<span class="sd">            or a :class:`pyproj.crs.datum.CustomEllipsoid`.</span>
 <span class="sd">        prime_meridian: Any, optional</span>
 <span class="sd">            Anything accepted by :meth:`pyproj.crs.PrimeMeridian.from_user_input`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -185,6 +185,54 @@
             <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">datum_json</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CustomEllipsoid"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomEllipsoid">[docs]</a><span class="k">class</span> <span class="nc">CustomEllipsoid</span><span class="p">(</span><span class="n">Ellipsoid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Class to build a custom ellipsoid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CustomEllipsoid.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomEllipsoid.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
+        <span class="n">semi_major_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">inverse_flattening</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">semi_minor_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name: str, optional</span>
+<span class="sd">            Name of the ellipsoid. Default is &#39;undefined&#39;.</span>
+<span class="sd">        semi_major_axis: float, optional</span>
+<span class="sd">            The semi major axis in meters. Required if missing radius.</span>
+<span class="sd">        inverse_flattening: float, optional</span>
+<span class="sd">            The inverse flattening in meters.</span>
+<span class="sd">            Required if missing semi_minor_axis and radius.</span>
+<span class="sd">        semi_minor_axis: float, optional</span>
+<span class="sd">            The semi minor axis in meters.</span>
+<span class="sd">            Required if missing inverse_flattening and radius.</span>
+<span class="sd">        radius: float, optional</span>
+<span class="sd">            The radius in meters. Can only be used alone.</span>
+<span class="sd">            Cannot be mixed with other parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ellipsoid_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Ellipsoid&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">semi_major_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;semi_major_axis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_major_axis</span>
+        <span class="k">if</span> <span class="n">inverse_flattening</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;inverse_flattening&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inverse_flattening</span>
+        <span class="k">if</span> <span class="n">semi_minor_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;semi_minor_axis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_minor_axis</span>
+        <span class="k">if</span> <span class="n">radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">radius</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">ellipsoid_json</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

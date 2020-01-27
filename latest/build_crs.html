@@ -193,7 +193,6 @@ names for datums such as WGS84 and NAD83.</p>
 <li><p><a class="reference internal" href="api/crs/crs.html#crs"><span class="std std-ref">CRS</span></a></p></li>
 <li><p><a class="reference internal" href="api/crs/coordinate_operation.html#coordinate-operation"><span class="std std-ref">Coordinate Operations</span></a></p></li>
 <li><p><a class="reference internal" href="api/crs/datum.html#datum"><span class="std std-ref">Datum</span></a></p></li>
-<li><p><a class="reference internal" href="api/crs/ellipsoid.html#ellipsoid"><span class="std std-ref">Ellipsoid</span></a></p></li>
 <li><p><a class="reference internal" href="api/crs/coordinate_system.html#coordinate-system"><span class="std std-ref">Coordinate Systems</span></a></p></li>
 </ul>
 <div class="section" id="geographic-crs">
@@ -249,8 +248,7 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_operation</span> <span class="kn">import</span> <span class="n">UTMConversion</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.datum</span> <span class="kn">import</span> <span class="n">CustomDatum</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.ellipsoid</span> <span class="kn">import</span> <span class="n">CustomEllipsoid</span>
+<span class="kn">from</span> <span class="nn">pyproj.crs.datum</span> <span class="kn">import</span> <span class="n">CustomDatum</span><span class="p">,</span> <span class="n">CustomEllipsoid</span>
 
 <span class="n">ell</span> <span class="o">=</span> <span class="n">CustomEllipsoid</span><span class="p">(</span>
     <span class="n">semi_major_axis</span><span class="o">=</span><span class="mi">6378137</span><span class="p">,</span>
@@ -288,15 +286,7 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
         <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">0.9996</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">GeographicCRS</span><span class="p">(</span>
-        <span class="n">datum</span><span class="o">=</span><span class="n">CustomDatum</span><span class="p">(</span>
-            <span class="n">ellipsoid</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Ellipsoid&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;International 1909 (Hayford)&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;semi_major_axis&quot;</span><span class="p">:</span> <span class="mi">6378388</span><span class="p">,</span>
-                <span class="s2">&quot;inverse_flattening&quot;</span><span class="p">:</span> <span class="mi">297</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="n">datum</span><span class="o">=</span><span class="n">CustomDatum</span><span class="p">(</span><span class="n">ellipsoid</span><span class="o">=</span><span class="s2">&quot;International 1909 (Hayford)&quot;</span><span class="p">)</span>
     <span class="p">),</span>
 <span class="p">)</span>
 <span class="n">bound_crs</span> <span class="o">=</span> <span class="n">BoundCRS</span><span class="p">(</span>
