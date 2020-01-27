@@ -1247,6 +1247,80 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">sinu_json</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="StereographicConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.StereographicConversion">[docs]</a><span class="k">class</span> <span class="nc">StereographicConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Class for constructing the Stereographic conversion.</span>
+
+<span class="sd">    https://proj.org/operations/projections/stere.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="StereographicConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.StereographicConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        longitude_natural_origin: float, optional</span>
+<span class="sd">            Latitude of natural origin (lat_0). Defaults to 0.0.</span>
+<span class="sd">        longitude_natural_origin: float, optional</span>
+<span class="sd">            Longitude of natural origin (lon_0). Defaults to 0.0.</span>
+<span class="sd">        false_easting: float, optional</span>
+<span class="sd">            False easting (x_0). Defaults to 0.0.</span>
+<span class="sd">        false_northing: float, optional</span>
+<span class="sd">            False northing (y_0). Defaults to 0.0.</span>
+<span class="sd">        scale_factor_natural_origin: float, optional</span>
+<span class="sd">            Scale factor at natural origin (k or k_0). Defaults to 1.0</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">stere_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Conversion&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Stereographic&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latitude of natural origin&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">latitude_natural_origin</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8801</span><span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Longitude of natural origin&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">longitude_natural_origin</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8802</span><span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Scale factor at natural origin&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">scale_factor_natural_origin</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;unity&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8805</span><span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;False easting&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">false_easting</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;metre&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8806</span><span class="p">},</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;False northing&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">false_northing</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;metre&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8807</span><span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">stere_json</span><span class="p">)</span></div></div>
+
+
 <div class="viewcode-block" id="UTMConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.UTMConversion">[docs]</a><span class="k">class</span> <span class="nc">UTMConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
