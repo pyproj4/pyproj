@@ -5,7 +5,6 @@ latest/_modules/pyproj/crs/coordinate_operation.html
 latest/_modules/pyproj/crs/coordinate_system.html
 latest/_modules/pyproj/crs/crs.html
 latest/_modules/pyproj/crs/datum.html
-latest/_modules/pyproj/crs/ellipsoid.html
 latest/_modules/pyproj/crs/enums.html
 latest/_modules/pyproj/datadir.html
 latest/_modules/pyproj/enums.html
@@ -18,7 +17,6 @@ latest/_sources/api/crs/coordinate_operation.rst.txt
 latest/_sources/api/crs/coordinate_system.rst.txt
 latest/_sources/api/crs/crs.rst.txt
 latest/_sources/api/crs/datum.rst.txt
-latest/_sources/api/crs/ellipsoid.rst.txt
 latest/_sources/api/crs/enums.rst.txt
 latest/_sources/api/crs/index.rst.txt
 latest/_sources/api/datadir.rst.txt
@@ -96,7 +94,6 @@ latest/api/crs/coordinate_operation.html
 latest/api/crs/coordinate_system.html
 latest/api/crs/crs.html
 latest/api/crs/datum.html
-latest/api/crs/ellipsoid.html
 latest/api/crs/enums.html
 latest/api/crs/index.html
 latest/api/datadir.html
