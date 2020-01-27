@@ -27,10 +27,20 @@ CustomDatum
 
 
 Ellipsoid
----------
+----------
 
-- :class:`pyproj.crs.Ellipsoid`
-- :class:`pyproj.crs.ellipsoid.CustomEllipsoid`
+.. autoclass:: pyproj.crs.Ellipsoid
+    :members:
+    :inherited-members:
+
+
+CustomEllipsoid
+----------------
+
+.. autoclass:: pyproj.crs.datum.CustomEllipsoid
+    :members:
+    :show-inheritance:
+    :special-members: __new__
 
 
 Prime Meridian

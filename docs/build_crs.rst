@@ -30,7 +30,6 @@ Here are links to the API docs for the pieces you need to get started:
 - :ref:`crs`
 - :ref:`coordinate_operation`
 - :ref:`datum`
-- :ref:`ellipsoid`
 - :ref:`coordinate_system`
 
 
@@ -100,8 +99,7 @@ PROJ string::
 
     from pyproj.crs import GeographicCRS, ProjectedCRS
     from pyproj.crs.coordinate_operation import UTMConversion
-    from pyproj.crs.datum import CustomDatum
-    from pyproj.crs.ellipsoid import CustomEllipsoid
+    from pyproj.crs.datum import CustomDatum, CustomEllipsoid
 
     ell = CustomEllipsoid(
         semi_major_axis=6378137,
@@ -142,15 +140,7 @@ PROJ string::
             scale_factor_natural_origin=0.9996,
         ),
         geodetic_crs=GeographicCRS(
-            datum=CustomDatum(
-                ellipsoid={
-                    "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
-                    "type": "Ellipsoid",
-                    "name": "International 1909 (Hayford)",
-                    "semi_major_axis": 6378388,
-                    "inverse_flattening": 297,
-                }
-            )
+            datum=CustomDatum(ellipsoid="International 1909 (Hayford)")
         ),
     )
     bound_crs = BoundCRS(

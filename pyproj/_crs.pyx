@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 from pyproj._datadir cimport pyproj_context_initialize
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj.crs.ellipsoid import CustomEllipsoid
+from pyproj.crs.datum import CustomEllipsoid
 from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
