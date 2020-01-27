@@ -20,6 +20,7 @@ from pyproj.crs.coordinate_operation import (
     PolarStereographicBConversion,
     RotatedLatitudeLongitudeConversion,
     SinusoidalConversion,
+    StereographicConversion,
     ToWGS84Transformation,
     TransverseMercatorConversion,
     UTMConversion,
@@ -481,6 +482,38 @@ def test_sinusoidal_operation():
         "Longitude of natural origin": 2.0,
         "False easting": 3.0,
         "False northing": 4.0,
+    }
+
+
+def test_stereographic_operation__defaults():
+    aeaop = StereographicConversion()
+    assert aeaop.name == "unknown"
+    assert aeaop.method_name == "Stereographic"
+    assert _to_dict(aeaop) == {
+        "Latitude of natural origin": 0.0,
+        "Longitude of natural origin": 0.0,
+        "False easting": 0.0,
+        "False northing": 0.0,
+        "Scale factor at natural origin": 1.0,
+    }
+
+
+def test_stereographic_operation():
+    aeaop = StereographicConversion(
+        latitude_natural_origin=1,
+        longitude_natural_origin=2,
+        false_easting=3,
+        false_northing=4,
+        scale_factor_natural_origin=0.5,
+    )
+    assert aeaop.name == "unknown"
+    assert aeaop.method_name == "Stereographic"
+    assert _to_dict(aeaop) == {
+        "Latitude of natural origin": 1.0,
+        "Longitude of natural origin": 2.0,
+        "False easting": 3.0,
+        "False northing": 4.0,
+        "Scale factor at natural origin": 0.5,
     }
 
 
