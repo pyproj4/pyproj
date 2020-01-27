@@ -1398,8 +1398,8 @@ class EquidistantCylindricalConversion(CoordinateOperation):
         return cls.from_json_dict(eqc_json)
 
 
-# Add an alias for PlateCaree
-PlateCareeConversion = EquidistantCylindricalConversion
+# Add an alias for PlateCarree
+PlateCarreeConversion = EquidistantCylindricalConversion
 
 
 class ToWGS84Transformation(CoordinateOperation):
