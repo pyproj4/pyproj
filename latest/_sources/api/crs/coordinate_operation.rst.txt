@@ -169,6 +169,15 @@ SinusoidalConversion
     :special-members: __new__
 
 
+StereographicConversion
+---------------------
+
+.. autoclass:: pyproj.crs.coordinate_operation.StereographicConversion
+    :members:
+    :show-inheritance:
+    :special-members: __new__
+
+
 UTMConversion
 -------------
 

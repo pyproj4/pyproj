@@ -115,6 +115,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#polarstereographicaconversion">PolarStereographicAConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#polarstereographicbconversion">PolarStereographicBConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sinusoidalconversion">SinusoidalConversion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stereographicconversion">StereographicConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#utmconversion">UTMConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transversemercatorconversion">TransverseMercatorConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#verticalperspectiveconversion">VerticalPerspectiveConversion</a></li>
@@ -1288,6 +1289,36 @@ PROJ-based coordinate operation in the WKT.</p>
 <li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
 <li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
 <li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="stereographicconversion">
+<h2>StereographicConversion<a class="headerlink" href="#stereographicconversion" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.crs.coordinate_operation.StereographicConversion">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">StereographicConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#StereographicConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.StereographicConversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Class for constructing the Stereographic conversion.</p>
+<p><a class="reference external" href="https://proj.org/operations/projections/stere.html">https://proj.org/operations/projections/stere.html</a></p>
+<dl class="method">
+<dt id="pyproj.crs.coordinate_operation.StereographicConversion.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">latitude_natural_origin=0.0</em>, <em class="sig-param">longitude_natural_origin=0.0</em>, <em class="sig-param">false_easting=0.0</em>, <em class="sig-param">false_northing=0.0</em>, <em class="sig-param">scale_factor_natural_origin=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#StereographicConversion.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.StereographicConversion.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of natural origin (lat_0). Defaults to 0.0.</p></li>
+<li><p><strong>longitude_natural_origin</strong> – Longitude of natural origin (lon_0). Defaults to 0.0.</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor at natural origin (k or k_0). Defaults to 1.0</p></li>
 </ul>
 </dd>
 </dl>
