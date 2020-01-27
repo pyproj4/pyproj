@@ -880,8 +880,11 @@ cdef class Ellipsoid(_CRSParts):
         """
         try:
             return Ellipsoid._from_string(ellipsoid_string)
-        except CRSError:
-            return Ellipsoid.from_name(ellipsoid_string)
+        except CRSError as crs_err:
+            try:
+                return Ellipsoid.from_name(ellipsoid_string)
+            except CRSError:
+                raise crs_err
 
     @staticmethod
     def from_json_dict(ellipsoid_dict):
@@ -1171,8 +1174,11 @@ cdef class PrimeMeridian(_CRSParts):
         """
         try:
             return PrimeMeridian._from_string(prime_meridian_string)
-        except CRSError:
-            return PrimeMeridian.from_name(prime_meridian_string)
+        except CRSError as crs_err:
+            try:
+                return PrimeMeridian.from_name(prime_meridian_string)
+            except CRSError:
+                raise crs_err
 
     @staticmethod
     def from_json_dict(prime_meridian_dict):
@@ -1438,8 +1444,11 @@ cdef class Datum(_CRSParts):
         """
         try:
             return Datum._from_string(datum_string)
-        except CRSError:
-            return Datum.from_name(datum_string)
+        except CRSError as crs_err:
+            try:
+                return Datum.from_name(datum_string)
+            except CRSError:
+                raise crs_err
 
     @staticmethod
     def _from_name(
@@ -2014,6 +2023,7 @@ cdef class CoordinateOperation(_CRSParts):
         Example:
           - urn:ogc:def:coordinateOperation:EPSG::1671
           - UTM zone 14N
+          - +proj=utm +zone=14
 
         Parameters
         ----------
@@ -2026,8 +2036,11 @@ cdef class CoordinateOperation(_CRSParts):
         """
         try:
             return CoordinateOperation._from_string(coordinate_operation_string)
-        except CRSError:
-            return CoordinateOperation.from_name(coordinate_operation_string)
+        except CRSError as crs_err:
+            try:
+                return CoordinateOperation.from_name(coordinate_operation_string)
+            except CRSError:
+                raise crs_err
 
     @staticmethod
     def from_json_dict(coordinate_operation_dict):

@@ -861,7 +861,7 @@ def test_datum__from_name__invalid_type():
     "invalid_str", ["3-598y5-98y", "urn:ogc:def:ellipsoid:EPSG::7001"]
 )
 def test_datum__from_string__invalid(invalid_str):
-    with pytest.raises(CRSError, match="Invalid datum"):
+    with pytest.raises(CRSError, match="Invalid datum string"):
         Datum.from_string(invalid_str)
 
 
@@ -886,18 +886,18 @@ def test_ellipsoid__from_name(input_str, long_name):
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
 def test_ellipsoid__from_name__invalid(invalid_str):
-    with pytest.raises(CRSError, match="Invalid ellipsoid"):
+    with pytest.raises(CRSError, match="Invalid ellipsoid name"):
         Ellipsoid.from_name(invalid_str)
 
 
 def test_ellipsoid__from_name__invalid__auth():
-    with pytest.raises(CRSError, match="Invalid ellipsoid"):
+    with pytest.raises(CRSError, match="Invalid ellipsoid name"):
         Ellipsoid.from_name("intl", auth_name="ESRI")
 
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
 def test_ellipsoid__from_string__invalid(invalid_str):
-    with pytest.raises(CRSError, match="Invalid ellipsoid"):
+    with pytest.raises(CRSError, match="Invalid ellipsoid string"):
         Ellipsoid.from_string(invalid_str)
 
 
@@ -909,7 +909,7 @@ def test_prime_meridian__from_string(input_str):
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
 def test_prime_meridian__from_string__invalid(invalid_str):
-    with pytest.raises(CRSError, match="Invalid prime meridian"):
+    with pytest.raises(CRSError, match="Invalid prime meridian string"):
         PrimeMeridian.from_string(invalid_str)
 
 
@@ -920,7 +920,7 @@ def test_prime_meridian__from_name():
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
 def test_prime_meridian__from_name__invalid(invalid_str):
-    with pytest.raises(CRSError, match="Invalid prime meridian"):
+    with pytest.raises(CRSError, match="Invalid prime meridian name"):
         PrimeMeridian.from_name(invalid_str)
 
 
@@ -948,13 +948,13 @@ def test_coordinate_operation__from_name_auth_type():
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
 def test_coordinate_operation__from_name__invalid(invalid_str):
-    with pytest.raises(CRSError, match="Invalid coordinate operation"):
+    with pytest.raises(CRSError, match="Invalid coordinate operation name"):
         CoordinateOperation.from_name(invalid_str)
 
 
 @pytest.mark.parametrize("invalid_str", ["3-598y5-98y", "urn:ogc:def:datum:EPSG::6326"])
 def test_coordinate_operation__from_string__invalid(invalid_str):
-    with pytest.raises(CRSError, match="Invalid coordinate operation"):
+    with pytest.raises(CRSError, match="Invalid coordinate operation string"):
         CoordinateOperation.from_string(invalid_str)
 
 
