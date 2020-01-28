@@ -239,7 +239,7 @@ setup(
         "Topic :: Scientific/Engineering :: Mathematics",
         "Operating System :: OS Independent",
     ],
-    packages=["pyproj"],
+    packages=["pyproj", "pyproj.crs"],
     python_requires=">=3.5",
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
