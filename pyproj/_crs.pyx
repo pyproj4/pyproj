@@ -2350,7 +2350,21 @@ cdef class _CRS(Base):
         -------
         Ellipsoid: The ellipsoid object with associated attributes.
         """
-        return self.datum.ellipsoid
+        if self._ellipsoid is not None:
+            return None if self._ellipsoid is False else self._ellipsoid
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
+        cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
+            context,
+            self.projobj
+        )
+        CRSError.clear()
+        if ellipsoid_pj == NULL:
+            proj_context_destroy(context)
+            self._ellipsoid = False
+            return None
+        self._ellipsoid = Ellipsoid.create(context, ellipsoid_pj)
+        return self._ellipsoid
 
     @property
     def prime_meridian(self):
@@ -2361,7 +2375,21 @@ cdef class _CRS(Base):
         -------
         PrimeMeridian: The prime meridian object with associated attributes.
         """
-        return self.datum.prime_meridian
+        if self._prime_meridian is not None:
+            return None if self._prime_meridian is True else self._prime_meridian
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context, True)
+        cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
+            context,
+            self.projobj,
+        )
+        CRSError.clear()
+        if prime_meridian_pj == NULL:
+            proj_context_destroy(context)
+            self._prime_meridian = False
+            return None
+        self._prime_meridian = PrimeMeridian.create(context, prime_meridian_pj)
+        return self._prime_meridian
 
     @property
     def datum(self):
