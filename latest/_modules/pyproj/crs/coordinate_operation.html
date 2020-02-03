@@ -156,7 +156,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyproj.crs.coordinate_operation</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">CoordinateOperation</span>
+<span></span><span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">LooseVersion</span>
+
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">proj_version_str</span>
+<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">CoordinateOperation</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">CRSError</span>
 
@@ -734,7 +737,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># hack due to: https://github.com/OSGeo/PROJ/issues/1881</span>
         <span class="c1"># https://proj.org/operations/projections/cea.html</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span>
+        <span class="n">proj_string</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">&quot;+proj=cea &quot;</span>
             <span class="s2">&quot;+lon_0=</span><span class="si">{longitude_natural_origin}</span><span class="s2"> &quot;</span>
             <span class="s2">&quot;+x_0=</span><span class="si">{false_easting}</span><span class="s2"> &quot;</span>
@@ -745,7 +748,10 @@
                 <span class="n">false_northing</span><span class="o">=</span><span class="n">false_northing</span><span class="p">,</span>
                 <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="n">scale_factor_natural_origin</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">proj_version_str</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s2">&quot;7.0.0&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">CRS</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MercatorAConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.MercatorAConversion">[docs]</a><span class="k">class</span> <span class="nc">MercatorAConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
