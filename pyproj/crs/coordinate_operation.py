@@ -1,3 +1,6 @@
+from distutils.version import LooseVersion
+
+from pyproj import proj_version_str
 from pyproj._crs import CoordinateOperation
 from pyproj.crs import CRS
 from pyproj.exceptions import CRSError
@@ -576,7 +579,7 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
         """
         # hack due to: https://github.com/OSGeo/PROJ/issues/1881
         # https://proj.org/operations/projections/cea.html
-        return cls.from_string(
+        proj_string = (
             "+proj=cea "
             "+lon_0={longitude_natural_origin} "
             "+x_0={false_easting} "
@@ -588,6 +591,9 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
                 scale_factor_natural_origin=scale_factor_natural_origin,
             )
         )
+        if LooseVersion(proj_version_str) >= LooseVersion("7.0.0"):
+            return cls.from_json(CRS(proj_string).coordinate_operation.to_json())
+        return cls.from_string(proj_string)
 
 
 class MercatorAConversion(CoordinateOperation):
