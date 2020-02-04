@@ -11,6 +11,7 @@ Change Log
 * ENH: Added :meth:`pyproj.crs.CoordinateSystem.from_name`, :meth:`pyproj.crs.CoordinateOperation.from_name`, :meth:`pyproj.crs.Datum.from_name`, :meth:`pyproj.crs.PrimeMeridian.from_name`, :meth:`pyproj.crs.Ellipsoid.from_name` (pull #505)
 * BUG: Fix getting :attr:`pyproj.crs.Ellipsoid.semi_minor_metre` when not computed (issue #457)
 * ENH: Added support for custom CRS (issue #389)
+* ENH: Added enumeration for WKT2_2019 (issue #526)
 
 2.4.2
 ~~~~~

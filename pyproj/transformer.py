@@ -580,15 +580,15 @@ class Transformer:
             for pt in zip(*([iter(buff)] * stride)):
                 yield pt
 
-    def to_wkt(self, version=WktVersion.WKT2_2018, pretty=False):
+    def to_wkt(self, version=WktVersion.WKT2_2019, pretty=False):
         """
         Convert the projection to a WKT string.
 
         Version options:
           - WKT2_2015
           - WKT2_2015_SIMPLIFIED
-          - WKT2_2018
-          - WKT2_2018_SIMPLIFIED
+          - WKT2_2019
+          - WKT2_2019_SIMPLIFIED
           - WKT1_GDAL
           - WKT1_ESRI
 
@@ -597,7 +597,7 @@ class Transformer:
         ----------
         version: pyproj.enums.WktVersion
             The version of the WKT output.
-            Default is :attr:`pyproj.enums.WktVersion.WKT2_2018`.
+            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
         pretty: bool
             If True, it will set the output to be a multiline string. Defaults to False.
 

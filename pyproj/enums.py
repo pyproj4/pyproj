@@ -35,10 +35,14 @@ class WktVersion(BaseEnum):
     WKT2_2015 = "WKT2_2015"
     #: WKT Version 2 from 2015 Simplified
     WKT2_2015_SIMPLIFIED = "WKT2_2015_SIMPLIFIED"
-    #: WKT Version 2 from 2018
+    #: Deprecated alias for WKT Version 2 from 2019
     WKT2_2018 = "WKT2_2018"
-    #: WKT Version 2 from 2018 Simplified
+    #: Deprecated alias for WKT Version 2 from 2019 Simplified
     WKT2_2018_SIMPLIFIED = "WKT2_2018_SIMPLIFIED"
+    #: WKT Version 2 from 2019
+    WKT2_2019 = "WKT2_2019"
+    #: WKT Version 2 from 2019 Simplified
+    WKT2_2019_SIMPLIFIED = "WKT2_2019_SIMPLIFIED"
     #: WKT Version 1 GDAL Style
     WKT1_GDAL = "WKT1_GDAL"
     #: WKT Version 1 ESRI Style
