@@ -189,6 +189,7 @@
     <span class="n">PROJ_PARAM_MAP</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_system</span> <span class="kn">import</span> <span class="n">Cartesian2DCS</span><span class="p">,</span> <span class="n">Ellipsoidal2DCS</span><span class="p">,</span> <span class="n">VerticalCS</span>
+<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">WktVersion</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">CRSError</span>
 <span class="kn">from</span> <span class="nn">pyproj.geod</span> <span class="kn">import</span> <span class="n">Geod</span>
 
@@ -705,7 +706,7 @@
 
         <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="CRS.to_cf"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_cf">[docs]</a>    <span class="k">def</span> <span class="nf">to_cf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wkt_version</span><span class="o">=</span><span class="s2">&quot;WKT2_2018&quot;</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_cf"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_cf">[docs]</a>    <span class="k">def</span> <span class="nf">to_cf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wkt_version</span><span class="o">=</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -718,8 +719,9 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        wkt_version: str</span>
+<span class="sd">        wkt_version: str or pyproj.enums.WktVersion</span>
 <span class="sd">            Version of WKT supported by CRS.to_wkt.</span>
+<span class="sd">            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.</span>
 <span class="sd">        errcheck: bool, optional</span>
 <span class="sd">            If True, will warn when parameters are ignored. Defaults to False.</span>
 
