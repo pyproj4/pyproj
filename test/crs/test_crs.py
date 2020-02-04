@@ -792,15 +792,18 @@ def test_coordinate_operation_towgs84_missing():
     assert crs.coordinate_operation.towgs84 == []
 
 
-@pytest.mark.parametrize("wkt_version_str, wkt_version_enum", [
-    ("WKT1_GDAL", WktVersion.WKT1_GDAL),
-    ("WKT2_2018", WktVersion.WKT2_2018),
-    ("WKT2_2018_SIMPLIFIED", WktVersion.WKT2_2018_SIMPLIFIED),
-    ("WKT2_2019", WktVersion.WKT2_2019),
-    ("WKT2_2019_SIMPLIFIED", WktVersion.WKT2_2019_SIMPLIFIED),
-    ("WKT2_2015", WktVersion.WKT2_2015),
-    ("WKT2_2015_SIMPLIFIED", WktVersion.WKT2_2015_SIMPLIFIED),
-])
+@pytest.mark.parametrize(
+    "wkt_version_str, wkt_version_enum",
+    [
+        ("WKT1_GDAL", WktVersion.WKT1_GDAL),
+        ("WKT2_2018", WktVersion.WKT2_2018),
+        ("WKT2_2018_SIMPLIFIED", WktVersion.WKT2_2018_SIMPLIFIED),
+        ("WKT2_2019", WktVersion.WKT2_2019),
+        ("WKT2_2019_SIMPLIFIED", WktVersion.WKT2_2019_SIMPLIFIED),
+        ("WKT2_2015", WktVersion.WKT2_2015),
+        ("WKT2_2015_SIMPLIFIED", WktVersion.WKT2_2015_SIMPLIFIED),
+    ],
+)
 def test_to_wkt_enum(wkt_version_str, wkt_version_enum):
     crs = CRS.from_epsg(4326)
     assert crs.to_wkt(wkt_version_str) == crs.to_wkt(wkt_version_enum)
