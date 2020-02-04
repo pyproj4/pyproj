@@ -972,7 +972,7 @@ the source CRS:</p>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_cf">
-<code class="sig-name descname">to_cf</code><span class="sig-paren">(</span><em class="sig-param">wkt_version='WKT2_2018'</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_cf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_cf</code><span class="sig-paren">(</span><em class="sig-param">wkt_version=&lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_cf" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -987,7 +987,8 @@ if a mapping to the CF parameter is not found.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>wkt_version</strong> (<em>str</em>) – Version of WKT supported by CRS.to_wkt.</p></li>
+<li><p><strong>wkt_version</strong> (<em>str</em><em> or </em><a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – Version of WKT supported by CRS.to_wkt.
+Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
 <li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will warn when parameters are ignored. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -1146,14 +1147,14 @@ input to create the CRS.</p>
 
 <dl class="method">
 <dt id="pyproj.crs.CRS.to_wkt">
-<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=u'WKT2_2018'</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=WktVersion.WKT2_2019</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
 <li><p>WKT2_2015</p></li>
 <li><p>WKT2_2015_SIMPLIFIED</p></li>
-<li><p>WKT2_2018</p></li>
-<li><p>WKT2_2018_SIMPLIFIED</p></li>
+<li><p>WKT2_2019</p></li>
+<li><p>WKT2_2019_SIMPLIFIED</p></li>
 <li><p>WKT1_GDAL</p></li>
 <li><p>WKT1_ESRI</p></li>
 </ul>
@@ -1163,7 +1164,7 @@ input to create the CRS.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
-Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2018" title="pyproj.enums.WktVersion.WKT2_2018"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2018</span></code></a>.</p></li>
+Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
 <li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
 </ul>
 </dd>

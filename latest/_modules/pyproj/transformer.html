@@ -738,15 +738,15 @@
             <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="nb">iter</span><span class="p">(</span><span class="n">buff</span><span class="p">)]</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)):</span>
                 <span class="k">yield</span> <span class="n">pt</span></div>
 
-<div class="viewcode-block" id="Transformer.to_wkt"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_wkt">[docs]</a>    <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2018</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Transformer.to_wkt"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_wkt">[docs]</a>    <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a WKT string.</span>
 
 <span class="sd">        Version options:</span>
 <span class="sd">          - WKT2_2015</span>
 <span class="sd">          - WKT2_2015_SIMPLIFIED</span>
-<span class="sd">          - WKT2_2018</span>
-<span class="sd">          - WKT2_2018_SIMPLIFIED</span>
+<span class="sd">          - WKT2_2019</span>
+<span class="sd">          - WKT2_2019_SIMPLIFIED</span>
 <span class="sd">          - WKT1_GDAL</span>
 <span class="sd">          - WKT1_ESRI</span>
 
@@ -755,7 +755,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        version: pyproj.enums.WktVersion</span>
 <span class="sd">            The version of the WKT output.</span>
-<span class="sd">            Default is :attr:`pyproj.enums.WktVersion.WKT2_2018`.</span>
+<span class="sd">            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.</span>
 <span class="sd">        pretty: bool</span>
 <span class="sd">            If True, it will set the output to be a multiline string. Defaults to False.</span>
 
