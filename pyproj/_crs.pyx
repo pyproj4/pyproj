@@ -72,7 +72,7 @@ def is_proj(proj_string):
 cdef _to_wkt(
     PJ_CONTEXT* context,
     PJ* projobj,
-    version=WktVersion.WKT2_2018,
+    version=WktVersion.WKT2_2019,
     pretty=False
 ):
     """
@@ -95,6 +95,8 @@ cdef _to_wkt(
         WktVersion.WKT2_2015_SIMPLIFIED: PJ_WKT2_2015_SIMPLIFIED,
         WktVersion.WKT2_2018: PJ_WKT2_2018,
         WktVersion.WKT2_2018_SIMPLIFIED: PJ_WKT2_2018_SIMPLIFIED,
+        WktVersion.WKT2_2019: PJ_WKT2_2018,
+        WktVersion.WKT2_2019_SIMPLIFIED: PJ_WKT2_2018_SIMPLIFIED,
         WktVersion.WKT1_GDAL: PJ_WKT1_GDAL,
         WktVersion.WKT1_ESRI: PJ_WKT1_ESRI
     }
@@ -421,15 +423,15 @@ cdef class Base:
         """
         return self._scope
 
-    def to_wkt(self, version="WKT2_2018", pretty=False):
+    def to_wkt(self, version=WktVersion.WKT2_2019, pretty=False):
         """
         Convert the projection to a WKT string.
 
         Version options:
           - WKT2_2015
           - WKT2_2015_SIMPLIFIED
-          - WKT2_2018
-          - WKT2_2018_SIMPLIFIED
+          - WKT2_2019
+          - WKT2_2019_SIMPLIFIED
           - WKT1_GDAL
           - WKT1_ESRI
 
@@ -438,7 +440,7 @@ cdef class Base:
         ----------
         version: pyproj.enums.WktVersion
             The version of the WKT output.
-            Default is :attr:`pyproj.enums.WktVersion.WKT2_2018`.
+            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
         pretty: bool
             If True, it will set the output to be a multiline string. Defaults to False.
  

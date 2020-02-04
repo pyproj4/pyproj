@@ -31,6 +31,7 @@ from pyproj.crs._cf1x8 import (
     PROJ_PARAM_MAP,
 )
 from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal2DCS, VerticalCS
+from pyproj.enums import WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
 
@@ -547,7 +548,7 @@ class CRS(_CRS):
 
         return {key: value for key, value in items if value is not False}
 
-    def to_cf(self, wkt_version="WKT2_2018", errcheck=False):
+    def to_cf(self, wkt_version=WktVersion.WKT2_2019, errcheck=False):
         """
         .. versionadded:: 2.2.0
 
@@ -560,8 +561,9 @@ class CRS(_CRS):
 
         Parameters
         ----------
-        wkt_version: str
+        wkt_version: str or pyproj.enums.WktVersion
             Version of WKT supported by CRS.to_wkt.
+            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
         errcheck: bool, optional
             If True, will warn when parameters are ignored. Defaults to False.
 
