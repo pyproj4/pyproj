@@ -561,8 +561,9 @@ class CRS(_CRS):
 
         Parameters
         ----------
-        wkt_version: str
+        wkt_version: str or pyproj.enums.WktVersion
             Version of WKT supported by CRS.to_wkt.
+            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
         errcheck: bool, optional
             If True, will warn when parameters are ignored. Defaults to False.
 
