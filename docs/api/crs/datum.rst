@@ -43,10 +43,18 @@ CustomEllipsoid
     :special-members: __new__
 
 
-Prime Meridian
+PrimeMeridian
 --------------
 
 .. autoclass:: pyproj.crs.PrimeMeridian
     :members:
     :inherited-members:
 
+
+CustomPrimeMeridian
+--------------
+
+.. autoclass:: pyproj.crs.datum.CustomPrimeMeridian
+    :members:
+    :show-inheritance:
+    :special-members: __new__

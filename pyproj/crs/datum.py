@@ -19,6 +19,7 @@ class CustomDatum(Datum):
             Anything accepted by :meth:`pyproj.crs.PrimeMeridian.from_user_input`.
         """
         datum_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "GeodeticReferenceFrame",
             "name": "unknown",
             "ellipsoid": Ellipsoid.from_user_input(ellipsoid).to_json_dict(),
@@ -75,3 +76,28 @@ class CustomEllipsoid(Ellipsoid):
         if radius is not None:
             ellipsoid_json["radius"] = radius
         return cls.from_json_dict(ellipsoid_json)
+
+
+class CustomPrimeMeridian(PrimeMeridian):
+    """
+    .. versionadded:: 2.5.0
+
+    Class to build a prime meridian based on a longitude.
+    """
+
+    def __new__(cls, longitude, name="undefined"):
+        """
+        Parameters
+        ----------
+        longitude: float
+            Longitude of prime meridian.
+        name: str, optional
+            Name of the prime meridian.
+        """
+        datum_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "PrimeMeridian",
+            "name": name,
+            "longitude": longitude,
+        }
+        return cls.from_json_dict(datum_json)
