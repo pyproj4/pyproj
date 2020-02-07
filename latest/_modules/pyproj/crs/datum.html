@@ -177,6 +177,7 @@
 <span class="sd">            Anything accepted by :meth:`pyproj.crs.PrimeMeridian.from_user_input`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">datum_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;GeodeticReferenceFrame&quot;</span><span class="p">,</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
             <span class="s2">&quot;ellipsoid&quot;</span><span class="p">:</span> <span class="n">Ellipsoid</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">ellipsoid</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
@@ -233,6 +234,31 @@
         <span class="k">if</span> <span class="n">radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">radius</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">ellipsoid_json</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CustomPrimeMeridian"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomPrimeMeridian">[docs]</a><span class="k">class</span> <span class="nc">CustomPrimeMeridian</span><span class="p">(</span><span class="n">PrimeMeridian</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Class to build a prime meridian based on a longitude.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CustomPrimeMeridian.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomPrimeMeridian.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">longitude</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        longitude: float</span>
+<span class="sd">            Longitude of prime meridian.</span>
+<span class="sd">        name: str, optional</span>
+<span class="sd">            Name of the prime meridian.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">datum_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;PrimeMeridian&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">datum_json</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

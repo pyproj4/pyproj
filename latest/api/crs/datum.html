@@ -101,7 +101,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#customdatum">CustomDatum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ellipsoid">Ellipsoid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#customellipsoid">CustomEllipsoid</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#prime-meridian">Prime Meridian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#primemeridian">PrimeMeridian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#customprimemeridian">CustomPrimeMeridian</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="enums.html">Enumerations</a></li>
@@ -885,8 +886,8 @@ Cannot be mixed with other parameters.</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="prime-meridian">
-<h2>Prime Meridian<a class="headerlink" href="#prime-meridian" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="primemeridian">
+<h2>PrimeMeridian<a class="headerlink" href="#primemeridian" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.crs.PrimeMeridian">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">PrimeMeridian</code><a class="headerlink" href="#pyproj.crs.PrimeMeridian" title="Permalink to this definition">¶</a></dt>
@@ -1178,6 +1179,32 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>The WKT string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="customprimemeridian">
+<h2>CustomPrimeMeridian<a class="headerlink" href="#customprimemeridian" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.crs.datum.CustomPrimeMeridian">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.datum.</code><code class="sig-name descname">CustomPrimeMeridian</code><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomPrimeMeridian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomPrimeMeridian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.PrimeMeridian</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Class to build a prime meridian based on a longitude.</p>
+<dl class="method">
+<dt id="pyproj.crs.datum.CustomPrimeMeridian.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">longitude</em>, <em class="sig-param">name='undefined'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomPrimeMeridian.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomPrimeMeridian.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>longitude</strong> (<em>float</em>) – Longitude of prime meridian.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the prime meridian.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
