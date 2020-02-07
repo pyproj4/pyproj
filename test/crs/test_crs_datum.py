@@ -1,6 +1,12 @@
 from numpy.testing import assert_almost_equal
 
-from pyproj.crs.datum import CustomDatum, CustomEllipsoid, Ellipsoid, PrimeMeridian
+from pyproj.crs.datum import (
+    CustomDatum,
+    CustomEllipsoid,
+    CustomPrimeMeridian,
+    Ellipsoid,
+    PrimeMeridian,
+)
 
 
 def test_custom_datum():
@@ -57,3 +63,15 @@ def test_custom_ellipsoid__radius():
     assert ce.semi_minor_metre == 6378137
     assert ce.inverse_flattening == 0
     assert sorted(ce.to_json_dict()) == ["$schema", "name", "radius", "type"]
+
+
+def test_custom_prime_meridian():
+    pm = CustomPrimeMeridian(longitude=2)
+    assert pm.name == "undefined"
+    assert pm.longitude == 2
+
+
+def test_custom_prime_meridian__name():
+    pm = CustomPrimeMeridian(longitude=1, name="frank")
+    assert pm.name == "frank"
+    assert pm.longitude == 1
