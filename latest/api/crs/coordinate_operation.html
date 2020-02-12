@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -1223,12 +1223,12 @@ PROJ-based coordinate operation in the WKT.</p>
 <p><a class="reference external" href="https://proj.org/operations/projections/stere.html">https://proj.org/operations/projections/stere.html</a></p>
 <dl class="method">
 <dt id="pyproj.crs.coordinate_operation.PolarStereographicAConversion.__new__">
-<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">latitude_natural_origin=0.0</em>, <em class="sig-param">longitude_natural_origin=0.0</em>, <em class="sig-param">false_easting=0.0</em>, <em class="sig-param">false_northing=0.0</em>, <em class="sig-param">scale_factor_natural_origin=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#PolarStereographicAConversion.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.PolarStereographicAConversion.__new__" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">latitude_natural_origin</em>, <em class="sig-param">longitude_natural_origin=0.0</em>, <em class="sig-param">false_easting=0.0</em>, <em class="sig-param">false_northing=0.0</em>, <em class="sig-param">scale_factor_natural_origin=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#PolarStereographicAConversion.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.PolarStereographicAConversion.__new__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of natural origin (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> – Longitude of natural origin (lon_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of natural origin (lat_0). Either +90 or -90.</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of natural origin (lon_0). Defaults to 0.0.</p></li>
 <li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
 <li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
 <li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor at natural origin (k or k_0). Defaults to 1.0</p></li>
@@ -1428,13 +1428,15 @@ PROJ-based coordinate operation in the WKT.</p>
 <p><a class="reference external" href="https://proj.org/operations/projections/ob_tran.html">https://proj.org/operations/projections/ob_tran.html</a></p>
 <dl class="method">
 <dt id="pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion.__new__">
-<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">grid_north_pole_latitude</em>, <em class="sig-param">grid_north_pole_longitude</em>, <em class="sig-param">north_pole_grid_longitude=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#RotatedLatitudeLongitudeConversion.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion.__new__" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">o_lat_p</em>, <em class="sig-param">o_lon_p</em>, <em class="sig-param">lon_0=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#RotatedLatitudeLongitudeConversion.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion.__new__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>grid_north_pole_latitude</strong> (<em>float</em>) – Grid north pole latitude (o_lat_p).</p></li>
-<li><p><strong>grid_north_pole_longitude</strong> – Grid north pole longitude (o_lon_p).</p></li>
-<li><p><strong>north_pole_grid_longitude</strong> (<em>float</em><em>, </em><em>optional</em>) – North pole grid longitude (lon_0). Defaults to 0.0.</p></li>
+<li><p><strong>o_lat_p</strong> (<em>float</em>) – Latitude of the North pole of the unrotated source CRS,
+expressed in the rotated geographic CRS.</p></li>
+<li><p><strong>o_lon_p</strong> – Longitude of the North pole of the unrotated source CRS,
+expressed in the rotated geographic CRS.</p></li>
+<li><p><strong>lon_0</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
 </ul>
 </dd>
 </dl>

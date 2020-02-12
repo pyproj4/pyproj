@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -96,6 +96,7 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">CRS</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id2">CRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#geographiccrs">GeographicCRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#derivedgeographiccrs">DerivedGeographicCRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#projectedcrs">ProjectedCRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#verticalcrs">VerticalCRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#boundcrs">BoundCRS</a></li>
@@ -530,7 +531,8 @@ store the WKT of the projection in the crs_wkt attribute.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>in_cf</strong> (<em>dict</em>) – CF version of the projection.</p></li>
-<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will warn when parameters are ignored. Defaults to False.</p></li>
+<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>optional</em>) – This parameter is for backwards compatibility with the old version.
+It currently does nothing when True or False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1202,6 +1204,38 @@ a <a class="reference internal" href="datum.html#pyproj.crs.datum.CustomDatum" t
 <li><p><strong>ellipsoidal_cs</strong> (<em>Any</em><em>, </em><em>optional</em>) – Input to create an Ellipsoidal Coordinate System.
 Anything accepted by <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
 or an Ellipsoidal Coordinate System created from <a class="reference internal" href="coordinate_system.html#coordinate-system"><span class="std std-ref">Coordinate Systems</span></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="derivedgeographiccrs">
+<h2>DerivedGeographicCRS<a class="headerlink" href="#derivedgeographiccrs" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.crs.DerivedGeographicCRS">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">DerivedGeographicCRS</code><span class="sig-paren">(</span><em class="sig-param">base_crs, conversion, ellipsoidal_cs=CS[ellipsoidal,2],     AXIS[&quot;longitude&quot;,east,         ORDER[1],         ANGLEUNIT[&quot;degree&quot;,0.0174532925199433,             ID[&quot;EPSG&quot;,9122]]],     AXIS[&quot;latitude&quot;,north,         ORDER[2],         ANGLEUNIT[&quot;degree&quot;,0.0174532925199433,             ID[&quot;EPSG&quot;,9122]]], name='undefined'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#DerivedGeographicCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.DerivedGeographicCRS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.crs.CRS</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>This class is for building a Derived Geographic CRS</p>
+<dl class="method">
+<dt id="pyproj.crs.DerivedGeographicCRS.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">base_crs, conversion, ellipsoidal_cs=CS[ellipsoidal,2],     AXIS[&quot;longitude&quot;,east,         ORDER[1],         ANGLEUNIT[&quot;degree&quot;,0.0174532925199433,             ID[&quot;EPSG&quot;,9122]]],     AXIS[&quot;latitude&quot;,north,         ORDER[2],         ANGLEUNIT[&quot;degree&quot;,0.0174532925199433,             ID[&quot;EPSG&quot;,9122]]], name='undefined'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#DerivedGeographicCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.DerivedGeographicCRS.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_crs</strong> (<em>Any</em>) – Input to create the Geodetic CRS, a <a class="reference internal" href="#pyproj.crs.GeographicCRS" title="pyproj.crs.GeographicCRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeographicCRS</span></code></a> or
+anything accepted by <a class="reference internal" href="#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_user_input()</span></code></a>.</p></li>
+<li><p><strong>conversion</strong> (<em>Any</em>) – Anything accepted by <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
+or a conversion from <a class="reference internal" href="coordinate_operation.html#coordinate-operation"><span class="std std-ref">Coordinate Operations</span></a>.</p></li>
+<li><p><strong>ellipsoidal_cs</strong> (<em>Any</em><em>, </em><em>optional</em>) – Input to create an Ellipsoidal Coordinate System.
+Anything accepted by <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
+or an Ellipsoidal Coordinate System created from <a class="reference internal" href="coordinate_system.html#coordinate-system"><span class="std std-ref">Coordinate Systems</span></a>.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the CRS. Default is undefined.</p></li>
 </ul>
 </dd>
 </dl>

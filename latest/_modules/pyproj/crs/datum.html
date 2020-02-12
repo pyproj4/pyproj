@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -166,10 +166,12 @@
 <span class="sd">    Class to build a datum based on an ellipsoid and prime meridian.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CustomDatum.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ellipsoid</span><span class="o">=</span><span class="s2">&quot;WGS 84&quot;</span><span class="p">,</span> <span class="n">prime_meridian</span><span class="o">=</span><span class="s2">&quot;Greenwich&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="CustomDatum.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span> <span class="n">ellipsoid</span><span class="o">=</span><span class="s2">&quot;WGS 84&quot;</span><span class="p">,</span> <span class="n">prime_meridian</span><span class="o">=</span><span class="s2">&quot;Greenwich&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
+<span class="sd">        name: str, optional</span>
+<span class="sd">            Name of the datum. Default is &#39;undefined&#39;.</span>
 <span class="sd">        ellipsoid: Any, optional</span>
 <span class="sd">            Anything accepted by :meth:`pyproj.crs.Ellipsoid.from_user_input`</span>
 <span class="sd">            or a :class:`pyproj.crs.datum.CustomEllipsoid`.</span>
@@ -179,7 +181,7 @@
         <span class="n">datum_json</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;GeodeticReferenceFrame&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;ellipsoid&quot;</span><span class="p">:</span> <span class="n">Ellipsoid</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">ellipsoid</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
             <span class="s2">&quot;prime_meridian&quot;</span><span class="p">:</span> <span class="n">PrimeMeridian</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span>
                 <span class="n">prime_meridian</span>
