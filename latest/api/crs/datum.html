@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -506,10 +506,11 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <p>Class to build a datum based on an ellipsoid and prime meridian.</p>
 <dl class="method">
 <dt id="pyproj.crs.datum.CustomDatum.__new__">
-<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">ellipsoid='WGS 84'</em>, <em class="sig-param">prime_meridian='Greenwich'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomDatum.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomDatum.__new__" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">name='undefined'</em>, <em class="sig-param">ellipsoid='WGS 84'</em>, <em class="sig-param">prime_meridian='Greenwich'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomDatum.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomDatum.__new__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the datum. Default is ‘undefined’.</p></li>
 <li><p><strong>ellipsoid</strong> (<em>Any</em><em>, </em><em>optional</em>) – Anything accepted by <a class="reference internal" href="#pyproj.crs.Ellipsoid.from_user_input" title="pyproj.crs.Ellipsoid.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Ellipsoid.from_user_input()</span></code></a>
 or a <a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid" title="pyproj.crs.datum.CustomEllipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.datum.CustomEllipsoid</span></code></a>.</p></li>
 <li><p><strong>prime_meridian</strong> (<em>Any</em><em>, </em><em>optional</em>) – Anything accepted by <a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_user_input" title="pyproj.crs.PrimeMeridian.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.PrimeMeridian.from_user_input()</span></code></a>.</p></li>

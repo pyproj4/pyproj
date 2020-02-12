@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -158,9 +158,8 @@
   <h1>Source code for pyproj.crs.coordinate_operation</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">LooseVersion</span>
 
-<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">proj_version_str</span>
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">CoordinateOperation</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">pyproj._proj</span> <span class="kn">import</span> <span class="n">proj_version_str</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">CRSError</span>
 
 
@@ -735,6 +734,8 @@
 <span class="sd">            Scale factor at natural origin (k or k_0). Defaults to 1.0</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+
         <span class="c1"># hack due to: https://github.com/OSGeo/PROJ/issues/1881</span>
         <span class="c1"># https://proj.org/operations/projections/cea.html</span>
         <span class="n">proj_string</span> <span class="o">=</span> <span class="p">(</span>
@@ -749,7 +750,7 @@
                 <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="n">scale_factor_natural_origin</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">proj_version_str</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s2">&quot;7.0.0&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">proj_version_str</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s2">&quot;6.3.1&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">CRS</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span></div>
 
@@ -1068,7 +1069,7 @@
 
 <div class="viewcode-block" id="PolarStereographicAConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.PolarStereographicAConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">,</span>
         <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
@@ -1077,8 +1078,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        longitude_natural_origin: float, optional</span>
-<span class="sd">            Latitude of natural origin (lat_0). Defaults to 0.0.</span>
+<span class="sd">        latitude_natural_origin: float, optional</span>
+<span class="sd">            Latitude of natural origin (lat_0). Either +90 or -90.</span>
 <span class="sd">        longitude_natural_origin: float, optional</span>
 <span class="sd">            Longitude of natural origin (lon_0). Defaults to 0.0.</span>
 <span class="sd">        false_easting: float, optional</span>
@@ -1211,7 +1212,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SinusoidalConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.SinusoidalConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1336,9 +1337,7 @@
 <span class="sd">    https://proj.org/operations/projections/utm.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="UTMConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.UTMConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="UTMConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.UTMConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1522,21 +1521,18 @@
 <span class="sd">    https://proj.org/operations/projections/ob_tran.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="RotatedLatitudeLongitudeConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">grid_north_pole_latitude</span><span class="p">,</span>
-        <span class="n">grid_north_pole_longitude</span><span class="p">,</span>
-        <span class="n">north_pole_grid_longitude</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="RotatedLatitudeLongitudeConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">o_lat_p</span><span class="p">,</span> <span class="n">o_lon_p</span><span class="p">,</span> <span class="n">lon_0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        grid_north_pole_latitude: float</span>
-<span class="sd">            Grid north pole latitude (o_lat_p).</span>
-<span class="sd">        grid_north_pole_longitude:</span>
-<span class="sd">            Grid north pole longitude (o_lon_p).</span>
-<span class="sd">        north_pole_grid_longitude: float, optional</span>
-<span class="sd">            North pole grid longitude (lon_0). Defaults to 0.0.</span>
+<span class="sd">        o_lat_p: float</span>
+<span class="sd">            Latitude of the North pole of the unrotated source CRS,</span>
+<span class="sd">            expressed in the rotated geographic CRS.</span>
+<span class="sd">        o_lon_p:</span>
+<span class="sd">            Longitude of the North pole of the unrotated source CRS,</span>
+<span class="sd">            expressed in the rotated geographic CRS.</span>
+<span class="sd">        lon_0: float, optional</span>
+<span class="sd">            Longitude of projection center (lon_0). Defaults to 0.0.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rot_latlon_json</span> <span class="o">=</span> <span class="p">{</span>
@@ -1545,17 +1541,9 @@
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
             <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;PROJ ob_tran o_proj=longlat&quot;</span><span class="p">},</span>
             <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;o_lat_p&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">grid_north_pole_latitude</span><span class="p">,</span>
-                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="p">{</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;o_lon_p&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">grid_north_pole_longitude</span><span class="p">,</span>
-                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;lon_0&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">north_pole_grid_longitude</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">},</span>
+                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;o_lat_p&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">o_lat_p</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">},</span>
+                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;o_lon_p&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">o_lon_p</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">},</span>
+                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;lon_0&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">lon_0</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">},</span>
             <span class="p">],</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">rot_latlon_json</span><span class="p">)</span></div></div>
@@ -1676,6 +1664,8 @@
 <span class="sd">        scale_difference: float, optional</span>
 <span class="sd">            Scale difference. Defaults to 0.0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+
         <span class="n">towgs84_json</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Transformation&quot;</span><span class="p">,</span>

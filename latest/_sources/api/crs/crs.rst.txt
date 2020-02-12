@@ -21,6 +21,15 @@ GeographicCRS
     :special-members: __init__
 
 
+DerivedGeographicCRS
+------------------------
+
+.. autoclass:: pyproj.crs.DerivedGeographicCRS
+    :members:
+    :show-inheritance:
+    :special-members: __init__
+
+
 ProjectedCRS
 -----------------------
 
