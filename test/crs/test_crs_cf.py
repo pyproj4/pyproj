@@ -620,6 +620,10 @@ def test_export_compound_crs():
     _test_roundtrip(expected_cf, "COMPOUNDCRS[")
 
 
+@pytest.mark.skipif(
+    LooseVersion(proj_version_str) < LooseVersion("6.3.0"),
+    reason="geoid model does not work in PROJ < 6.3.0",
+)
 def test_geoid_model_name():
     wkt = (
         'COMPOUNDCRS["NAD83 / Pennsylvania South + NAVD88 height",\n'
