@@ -5,6 +5,7 @@ from numpy.testing import assert_almost_equal
 
 from pyproj import CRS, proj_version_str
 from pyproj.crs import ProjectedCRS
+from pyproj.crs._cf1x8 import _try_list_if_string
 from pyproj.crs.coordinate_operation import (
     LambertAzumuthalEqualAreaConversion,
     LambertCylindricalEqualAreaConversion,
@@ -95,8 +96,14 @@ def test_to_cf_transverse_mercator():
         }
 
 
-def test_from_cf_transverse_mercator():
-    towgs84_test = (-122.74, -34.27, -22.83, -1.884, -3.4, -3.03, -15.62)
+@pytest.mark.parametrize(
+    "towgs84_test",
+    [
+        (-122.74, -34.27, -22.83, -1.884, -3.4, -3.03, -15.62),
+        "-122.74, -34.27, -22.83, -1.884, -3.4, -3.03, -15.62",
+    ],
+)
+def test_from_cf_transverse_mercator(towgs84_test):
     crs = CRS.from_cf(
         {
             "grid_mapping_name": "transverse_mercator",
@@ -125,10 +132,10 @@ def test_from_cf_transverse_mercator():
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("BOUNDCRS[")
-    assert_almost_equal(cf_dict.pop("towgs84"), towgs84_test)
+    assert_almost_equal(cf_dict.pop("towgs84"), _try_list_if_string(towgs84_test))
     assert cf_dict == expected_cf
     # test roundtrip
-    expected_cf["towgs84"] = towgs84_test
+    expected_cf["towgs84"] = _try_list_if_string(towgs84_test)
     _test_roundtrip(expected_cf, "BOUNDCRS[")
 
 
@@ -341,11 +348,12 @@ def test_cf_lambert_conformal_conic_1sp():
     }
 
 
-def test_cf_lambert_conformal_conic_2sp():
+@pytest.mark.parametrize("standard_parallel", [[25.0, 30.0], "25., 30.",])
+def test_cf_lambert_conformal_conic_2sp(standard_parallel):
     crs = CRS.from_cf(
         dict(
             grid_mapping_name="lambert_conformal_conic",
-            standard_parallel=[25.0, 30.0],
+            standard_parallel=standard_parallel,
             longitude_of_central_meridian=265.0,
             latitude_of_projection_origin=25.0,
         )

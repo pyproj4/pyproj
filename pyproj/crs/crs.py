@@ -26,6 +26,7 @@ from pyproj.crs._cf1x8 import (
     _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP,
     _INVERSE_GRID_MAPPING_NAME_MAP,
     _horizontal_datum_from_params,
+    _try_list_if_string,
 )
 from pyproj.crs.coordinate_operation import ToWGS84Transformation
 from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal2DCS, VerticalCS
@@ -530,10 +531,7 @@ class CRS(_CRS):
                 return float(val)
             except ValueError:
                 pass
-            val_split = val.split(",")
-            if len(val_split) > 1:
-                val = [float(sval.strip()) for sval in val_split]
-            return val
+            return _try_list_if_string(val)
 
         proj_string = self.to_proj4()
         if proj_string is None:
@@ -741,7 +739,7 @@ class CRS(_CRS):
                 source_crs=projected_crs,
                 target_crs="WGS 84",
                 transformation=ToWGS84Transformation(
-                    projected_crs.geodetic_crs, *in_cf["towgs84"]
+                    projected_crs.geodetic_crs, *_try_list_if_string(in_cf["towgs84"])
                 ),
             )
         if "geopotential_datum_name" not in in_cf:

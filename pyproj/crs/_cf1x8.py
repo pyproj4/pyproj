@@ -72,7 +72,20 @@ def _horizontal_datum_from_params(cf_params):
     return None
 
 
+def _try_list_if_string(input_str):
+    """
+    Attempt to convert string to list if it is a string
+    """
+    if not isinstance(input_str, str):
+        return input_str
+    val_split = input_str.split(",")
+    if len(val_split) > 1:
+        return [float(sval.strip()) for sval in val_split]
+    return input_str
+
+
 def _get_standard_parallels(standard_parallel):
+    standard_parallel = _try_list_if_string(standard_parallel)
     try:
         first_parallel = float(standard_parallel)
         second_parallel = None
