@@ -8,10 +8,12 @@ class CustomDatum(Datum):
     Class to build a datum based on an ellipsoid and prime meridian.
     """
 
-    def __new__(cls, ellipsoid="WGS 84", prime_meridian="Greenwich"):
+    def __new__(cls, name="undefined", ellipsoid="WGS 84", prime_meridian="Greenwich"):
         """
         Parameters
         ----------
+        name: str, optional
+            Name of the datum. Default is 'undefined'.
         ellipsoid: Any, optional
             Anything accepted by :meth:`pyproj.crs.Ellipsoid.from_user_input`
             or a :class:`pyproj.crs.datum.CustomEllipsoid`.
@@ -21,7 +23,7 @@ class CustomDatum(Datum):
         datum_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "GeodeticReferenceFrame",
-            "name": "unknown",
+            "name": name,
             "ellipsoid": Ellipsoid.from_user_input(ellipsoid).to_json_dict(),
             "prime_meridian": PrimeMeridian.from_user_input(
                 prime_meridian

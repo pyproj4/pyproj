@@ -20,6 +20,7 @@ from pyproj.crs.crs import (  # noqa: F401
     CRS,
     BoundCRS,
     CompoundCRS,
+    DerivedGeographicCRS,
     GeographicCRS,
     ProjectedCRS,
     VerticalCRS,

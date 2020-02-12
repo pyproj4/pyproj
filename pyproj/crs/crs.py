@@ -21,15 +21,14 @@ from pyproj._crs import (  # noqa
     is_wkt,
 )
 from pyproj.crs._cf1x8 import (
-    GRID_MAPPING_NAME_MAP,
-    INVERSE_GRID_MAPPING_NAME_MAP,
-    INVERSE_PROJ_PARAM_MAP,
-    K_0_MAP,
-    LON_0_MAP,
-    METHOD_NAME_TO_CF_MAP,
-    PARAM_TO_CF_MAP,
-    PROJ_PARAM_MAP,
+    _GEOGRAPHIC_GRID_MAPPING_NAME_MAP,
+    _GRID_MAPPING_NAME_MAP,
+    _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP,
+    _INVERSE_GRID_MAPPING_NAME_MAP,
+    _horizontal_datum_from_params,
+    _try_list_if_string,
 )
+from pyproj.crs.coordinate_operation import ToWGS84Transformation
 from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal2DCS, VerticalCS
 from pyproj.enums import WktVersion
 from pyproj.exceptions import CRSError
@@ -532,10 +531,7 @@ class CRS(_CRS):
                 return float(val)
             except ValueError:
                 pass
-            val_split = val.split(",")
-            if len(val_split) > 1:
-                val = [float(sval.strip()) for sval in val_split]
-            return val
+            return _try_list_if_string(val)
 
         proj_string = self.to_proj4()
         if proj_string is None:
@@ -572,88 +568,95 @@ class CRS(_CRS):
         dict: CF-1.8 version of the projection.
 
         """
-
+        unknown_names = ("unknown", "undefined")
         cf_dict = {"crs_wkt": self.to_wkt(wkt_version)}
-        missing_names = ("unknown", "unnamed")
-        if self.is_geographic and self.name not in missing_names:
-            cf_dict["geographic_crs_name"] = self.name
-        elif self.is_projected and self.name not in missing_names:
-            cf_dict["projected_crs_name"] = self.name
 
-        # ignore warning here as WKT string provided with projection
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore",
-                "You will likely lose important projection information",
-                UserWarning,
-            )
-            proj_dict = self.to_dict()
-
-        if not proj_dict:
+        # handle bound CRS
+        if self.is_bound and self.coordinate_operation.towgs84:
+            sub_cf = self.source_crs.to_cf(errcheck=errcheck)
+            sub_cf.pop("crs_wkt")
+            cf_dict.update(sub_cf)
+            cf_dict["towgs84"] = self.coordinate_operation.towgs84
             return cf_dict
-        proj_name = proj_dict.pop("proj")
-        lonlat_possible_names = ("lonlat", "latlon", "longlat", "latlong")
-        if proj_name in lonlat_possible_names:
-            grid_mapping_name = "latitude_longitude"
-        else:
-            grid_mapping_name = INVERSE_GRID_MAPPING_NAME_MAP.get(proj_name, "unknown")
 
-        if grid_mapping_name == "rotated_latitude_longitude":
-            if proj_dict.pop("o_proj") not in lonlat_possible_names:
-                grid_mapping_name = "unknown"
+        # handle compound CRS
+        elif self.sub_crs_list:
+            for sub_crs in self.sub_crs_list:
+                sub_cf = sub_crs.to_cf(errcheck=errcheck)
+                sub_cf.pop("crs_wkt")
+                cf_dict.update(sub_cf)
+            return cf_dict
 
-        # derive parameters from the coordinate operation
-        if (
-            grid_mapping_name == "unknown"
-            and self.coordinate_operation
-            and self.coordinate_operation.method_name in METHOD_NAME_TO_CF_MAP
-        ):
-            grid_mapping_name = METHOD_NAME_TO_CF_MAP[
-                self.coordinate_operation.method_name
-            ]
-            for param in self.coordinate_operation.params:
-                cf_dict[PARAM_TO_CF_MAP[param.name]] = param.value
+        # handle vertical CRS
+        elif self.is_vertical:
+            vert_json = self.to_json_dict()
+            if "geoid_model" in vert_json:
+                cf_dict["geoid_name"] = vert_json["geoid_model"]["name"]
+            if self.datum.name not in unknown_names:
+                cf_dict["geopotential_datum_name"] = self.datum.name
+            return cf_dict
 
-        cf_dict["grid_mapping_name"] = grid_mapping_name
-
-        # get best match for lon_0 value for projetion name
-        lon_0 = proj_dict.pop("lon_0", None)
-        if lon_0 is not None:
-            try:
-                cf_dict[LON_0_MAP[grid_mapping_name]] = lon_0
-            except KeyError:
-                cf_dict[LON_0_MAP["DEFAULT"]] = lon_0
-
-        # get best match for k_0 value for projetion name
-        k_0 = proj_dict.pop("k_0", None)
-        if k_0 is not None:
-            try:
-                cf_dict[K_0_MAP[grid_mapping_name]] = k_0
-            except KeyError:
-                cf_dict[K_0_MAP["DEFAULT"]] = k_0
-
-        # format the lat_1 and lat_2 for the standard parallel
-        if "lat_1" in proj_dict and "lat_2" in proj_dict:
-            cf_dict["standard_parallel"] = [
-                proj_dict.pop("lat_1"),
-                proj_dict.pop("lat_2"),
-            ]
-        elif "lat_1" in proj_dict:
-            cf_dict["standard_parallel"] = proj_dict.pop("lat_1")
-        elif "lat_ts" in proj_dict:
-            cf_dict["standard_parallel"] = proj_dict.pop("lat_ts")
-
-        skipped_params = []
-        for proj_param, proj_val in proj_dict.items():
-            try:
-                cf_dict[INVERSE_PROJ_PARAM_MAP[proj_param]] = proj_val
-            except KeyError:
-                skipped_params.append(proj_param)
-
-        if errcheck and skipped_params:
-            warnings.warn(
-                "PROJ parameters not mapped to CF: {}".format(tuple(skipped_params))
+        # write out datum parameters
+        if self.ellipsoid:
+            cf_dict.update(
+                semi_major_axis=self.ellipsoid.semi_major_metre,
+                semi_minor_axis=self.ellipsoid.semi_minor_metre,
+                inverse_flattening=self.ellipsoid.inverse_flattening,
             )
+            if self.ellipsoid.name not in unknown_names:
+                cf_dict["reference_ellipsoid_name"] = self.ellipsoid.name
+        if self.prime_meridian:
+            cf_dict["longitude_of_prime_meridian"] = self.prime_meridian.longitude
+            if self.prime_meridian.name not in unknown_names:
+                cf_dict["prime_meridian_name"] = self.prime_meridian.name
+
+        # handle geographic CRS
+        if self.geodetic_crs and self.geodetic_crs.name not in unknown_names:
+            cf_dict["geographic_crs_name"] = self.geodetic_crs.name
+
+        if self.is_geographic:
+            if self.coordinate_operation:
+                cf_dict.update(
+                    _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP[
+                        self.coordinate_operation.method_name.lower()
+                    ](self.coordinate_operation)
+                )
+                if self.datum.name not in unknown_names:
+                    cf_dict["horizontal_datum_name"] = self.datum.name
+            else:
+                cf_dict["grid_mapping_name"] = "latitude_longitude"
+            return cf_dict
+
+        # handle projected CRS
+        if self.is_projected and self.datum.name not in unknown_names:
+            cf_dict["horizontal_datum_name"] = self.datum.name
+        coordinate_operation = None
+        if not self.is_bound and self.is_projected:
+            coordinate_operation = self.coordinate_operation
+            if self.name not in unknown_names:
+                cf_dict["projected_crs_name"] = self.name
+        if (
+            not coordinate_operation
+            or coordinate_operation.method_name.lower()
+            not in _INVERSE_GRID_MAPPING_NAME_MAP
+        ):
+            if errcheck:
+                if coordinate_operation:
+                    warnings.warn(
+                        "Unsupported coordinate operation: {}".format(
+                            coordinate_operation.name
+                        )
+                    )
+                else:
+                    warnings.warn("Coordinate operation not found.")
+
+            return {"crs_wkt": self.to_wkt(wkt_version)}
+
+        cf_dict.update(
+            _INVERSE_GRID_MAPPING_NAME_MAP[coordinate_operation.method_name.lower()](
+                coordinate_operation
+            )
+        )
         return cf_dict
 
     @staticmethod
@@ -673,64 +676,86 @@ class CRS(_CRS):
         in_cf: dict
             CF version of the projection.
         errcheck: bool, optional
-            If True, will warn when parameters are ignored. Defaults to False.
+            This parameter is for backwards compatibility with the old version.
+            It currently does nothing when True or False.
 
         Returns
         -------
         CRS
         """
-        in_cf = in_cf.copy()  # preserve user input
         if "crs_wkt" in in_cf:
             return CRS(in_cf["crs_wkt"])
         elif "spatial_ref" in in_cf:  # for previous supported WKT key
             return CRS(in_cf["spatial_ref"])
 
-        grid_mapping_name = in_cf.pop("grid_mapping_name", None)
+        grid_mapping_name = in_cf.get("grid_mapping_name")
         if grid_mapping_name is None:
             raise CRSError("CF projection parameters missing 'grid_mapping_name'")
-        proj_name = GRID_MAPPING_NAME_MAP.get(grid_mapping_name)
-        if proj_name is None:
+
+        # build datum if possible
+        datum = _horizontal_datum_from_params(in_cf)
+
+        # build geographic CRS
+        try:
+            geographic_conversion_method = _GEOGRAPHIC_GRID_MAPPING_NAME_MAP[
+                grid_mapping_name
+            ]
+        except KeyError:
+            geographic_conversion_method = None
+
+        geographic_crs_name = in_cf.get("geographic_crs_name")
+        if datum:
+            geographic_crs = GeographicCRS(
+                name=geographic_crs_name or "undefined", datum=datum,
+            )
+        elif geographic_crs_name:
+            geographic_crs = CRS(geographic_crs_name)
+        else:
+            geographic_crs = GeographicCRS()
+        if grid_mapping_name == "latitude_longitude":
+            return geographic_crs
+        if geographic_conversion_method is not None:
+            return DerivedGeographicCRS(
+                base_crs=geographic_crs, conversion=geographic_conversion_method(in_cf),
+            )
+
+        # build projected CRS
+        try:
+            conversion_method = _GRID_MAPPING_NAME_MAP[grid_mapping_name]
+        except KeyError:
             raise CRSError(
                 "Unsupported grid mapping name: {}".format(grid_mapping_name)
             )
-        proj_dict = {"proj": proj_name}
-        if grid_mapping_name == "rotated_latitude_longitude":
-            proj_dict["o_proj"] = "longlat"
-        elif grid_mapping_name == "oblique_mercator":
-            try:
-                proj_dict["lonc"] = in_cf.pop("longitude_of_projection_origin")
-            except KeyError:
-                pass
+        projected_crs = ProjectedCRS(
+            name=in_cf.get("projected_crs_name", "undefined"),
+            conversion=conversion_method(in_cf),
+            geodetic_crs=geographic_crs,
+        )
 
-        if "standard_parallel" in in_cf:
-            standard_parallel = in_cf.pop("standard_parallel")
-            if isinstance(standard_parallel, list):
-                proj_dict["lat_1"] = standard_parallel[0]
-                proj_dict["lat_2"] = standard_parallel[1]
-            elif proj_name == "merc":
-                proj_dict["lat_ts"] = standard_parallel
-            else:
-                proj_dict["lat_1"] = standard_parallel
-
-        # The values are opposite to sweep_angle_axis
-        if "fixed_angle_axis" in in_cf:
-            proj_dict["sweep"] = {"x": "y", "y": "x"}[
-                in_cf.pop("fixed_angle_axis").lower()
-            ]
-
-        skipped_params = []
-        for cf_param, proj_val in in_cf.items():
-            try:
-                proj_dict[PROJ_PARAM_MAP[cf_param]] = proj_val
-            except KeyError:
-                skipped_params.append(cf_param)
-
-        if errcheck and skipped_params:
-            warnings.warn(
-                "CF parameters not mapped to PROJ: {}".format(tuple(skipped_params))
+        # build bound CRS if exists
+        bound_crs = None
+        if "towgs84" in in_cf:
+            bound_crs = BoundCRS(
+                source_crs=projected_crs,
+                target_crs="WGS 84",
+                transformation=ToWGS84Transformation(
+                    projected_crs.geodetic_crs, *_try_list_if_string(in_cf["towgs84"])
+                ),
             )
+        if "geopotential_datum_name" not in in_cf:
+            return bound_crs or projected_crs
 
-        return CRS(proj_dict)
+        # build Vertical CRS
+        vertical_crs = VerticalCRS(
+            name="undefined",
+            datum=in_cf["geopotential_datum_name"],
+            geoid_model=in_cf.get("geoid_name"),
+        )
+
+        # build compound CRS
+        return CompoundCRS(
+            name="undefined", components=[bound_crs or projected_crs, vertical_crs]
+        )
 
     def is_exact_same(self, other, ignore_axis_order=False):
         """
@@ -953,6 +978,47 @@ class GeographicCRS(CRS):
             ).to_json_dict(),
         }
         super().__init__(geographic_crs_json)
+
+
+class DerivedGeographicCRS(CRS):
+    """
+    .. versionadded:: 2.5.0
+
+    This class is for building a Derived Geographic CRS
+    """
+
+    def __init__(
+        self, base_crs, conversion, ellipsoidal_cs=Ellipsoidal2DCS(), name="undefined",
+    ):
+        """
+        Parameters
+        ----------
+        base_crs: Any
+            Input to create the Geodetic CRS, a :class:`GeographicCRS` or
+            anything accepted by :meth:`pyproj.crs.CRS.from_user_input`.
+        conversion: Any
+            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or a conversion from :ref:`coordinate_operation`.
+        ellipsoidal_cs: Any, optional
+            Input to create an Ellipsoidal Coordinate System.
+            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
+        name: str, optional
+            Name of the CRS. Default is undefined.
+        """
+        derived_geographic_crs_json = {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "DerivedGeographicCRS",
+            "name": name,
+            "base_crs": CRS.from_user_input(base_crs).to_json_dict(),
+            "conversion": CoordinateOperation.from_user_input(
+                conversion
+            ).to_json_dict(),
+            "coordinate_system": CoordinateSystem.from_user_input(
+                ellipsoidal_cs
+            ).to_json_dict(),
+        }
+        super().__init__(derived_geographic_crs_json)
 
 
 class ProjectedCRS(CRS):
