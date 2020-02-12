@@ -348,7 +348,7 @@ def test_cf_lambert_conformal_conic_1sp():
     }
 
 
-@pytest.mark.parametrize("standard_parallel", [[25.0, 30.0], "25., 30.",])
+@pytest.mark.parametrize("standard_parallel", [[25.0, 30.0], "25., 30."])
 def test_cf_lambert_conformal_conic_2sp(standard_parallel):
     crs = CRS.from_cf(
         dict(
