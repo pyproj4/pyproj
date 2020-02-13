@@ -37,7 +37,7 @@ matrix:
     - python: 3.6
       env:
         - PROJSOURCE=6.3.0
-      - python: 3.7
+    - python: 3.7
       env:
         - DOC=true
     - python: 3.8
