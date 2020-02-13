@@ -644,7 +644,7 @@ class CRS(_CRS):
                 if coordinate_operation:
                     warnings.warn(
                         "Unsupported coordinate operation: {}".format(
-                            coordinate_operation.name
+                            coordinate_operation.method_name
                         )
                     )
                 else:
