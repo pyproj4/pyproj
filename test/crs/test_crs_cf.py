@@ -445,6 +445,18 @@ def test_oblique_mercator():
         }
 
 
+def test_oblique_mercator_losing_gamma():
+    crs = CRS(
+        "+proj=omerc +lat_0=-36.10360962430914 +lonc=147.0632291727015 "
+        "+alpha=-54.78622979612904 +k=1 +x_0=0 +y_0=0 +gamma=-54.78622979612904"
+    )
+    with pytest.warns(
+        UserWarning,
+        match="angle from rectified to skew grid parameter lost in conversion to CF",
+    ):
+        crs.to_cf()
+
+
 def test_cf_from_invalid():
     with pytest.raises(CRSError):
         CRS.from_cf(
@@ -459,7 +471,7 @@ def test_cf_from_invalid():
         )
 
 
-def test_crs_sweep():
+def test_geos_crs_sweep():
     crs = CRS.from_cf(
         dict(
             grid_mapping_name="geostationary",
@@ -490,7 +502,7 @@ def test_crs_sweep():
     _test_roundtrip(expected_cf, "PROJCRS[")
 
 
-def test_crs_fixed_angle_axis():
+def test_geos_crs_fixed_angle_axis():
     crs = CRS.from_cf(
         dict(
             grid_mapping_name="geostationary",
@@ -509,6 +521,29 @@ def test_crs_fixed_angle_axis():
         "grid_mapping_name": "geostationary",
         "sweep_angle_axis": "x",
         "perspective_point_height": 1.0,
+        "latitude_of_projection_origin": 0.0,
+        "longitude_of_projection_origin": 0.0,
+        "false_easting": 0.0,
+        "false_northing": 0.0,
+    }
+    cf_dict = crs.to_cf()
+    assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
+    assert cf_dict == expected_cf
+    # test roundtrip
+    _test_roundtrip(expected_cf, "PROJCRS[")
+
+
+def test_geos_proj_string():
+    crs = CRS({"proj": "geos", "h": 35785831.0, "a": 6378169.0, "b": 6356583.8})
+    expected_cf = {
+        "semi_major_axis": 6378169.0,
+        "semi_minor_axis": 6356583.8,
+        "inverse_flattening": crs.ellipsoid.inverse_flattening,
+        "longitude_of_prime_meridian": 0.0,
+        "prime_meridian_name": "Greenwich",
+        "grid_mapping_name": "geostationary",
+        "sweep_angle_axis": "y",
+        "perspective_point_height": 35785831.0,
         "latitude_of_projection_origin": 0.0,
         "longitude_of_projection_origin": 0.0,
         "false_easting": 0.0,
