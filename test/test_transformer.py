@@ -1,3 +1,5 @@
+from distutils.version import LooseVersion
+
 import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
@@ -549,7 +551,10 @@ def test_transform_group__area_of_interest(aoi_data_directory):
 
 def test_transformer_group__get_transform_crs():
     tg = TransformerGroup("epsg:4258", "epsg:7415")
-    assert len(tg.transformers) == 4
+    if LooseVersion(pyproj.proj_version_str) >= LooseVersion("6.3.1"):
+        assert len(tg.transformers) == 1
+    else:
+        assert len(tg.transformers) == 4
 
 
 def test_transformer__area_of_interest(aoi_data_directory):
