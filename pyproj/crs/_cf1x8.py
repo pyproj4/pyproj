@@ -5,6 +5,8 @@ a CRS to a CF-1.8 compliant projection.
 http://cfconventions.org/cf-conventions/cf-conventions.html#appendix-grid-mappings
 
 """
+import warnings
+
 from pyproj._crs import Datum, Ellipsoid, PrimeMeridian
 from pyproj.crs.coordinate_operation import (
     AlbersEqualAreaConversion,
@@ -412,7 +414,9 @@ def _geostationary__to_cf(conversion):
         "grid_mapping_name": "geostationary",
         "sweep_angle_axis": sweep_angle_axis,
         "perspective_point_height": params["satellite height"],
-        "latitude_of_projection_origin": params["latitude of natural origin"],
+        # geostationary satellites orbit arount equator
+        # so latitude of natural origin is often left off and assumed to be 0.0
+        "latitude_of_projection_origin": params.get("latitude of natural origin", 0.0),
         "longitude_of_projection_origin": params["longitude of natural origin"],
         "false_easting": params["false easting"],
         "false_northing": params["false northing"],
@@ -503,6 +507,10 @@ def _oblique_mercator__to_cf(conversion):
     http://cfconventions.org/cf-conventions/cf-conventions.html#_oblique_mercator
     """
     params = _to_dict(conversion)
+    if params["angle from rectified to skew grid"] != 0:
+        warnings.warn(
+            "angle from rectified to skew grid parameter lost in conversion to CF"
+        )
     return {
         "grid_mapping_name": "oblique_mercator",
         "latitude_of_projection_origin": params["latitude of projection centre"],
