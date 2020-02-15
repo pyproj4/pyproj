@@ -158,7 +158,6 @@ def get_extension_modules():
     # setup cythonized modules
     return cythonize(
         [
-            Extension("pyproj._proj", ["pyproj/_proj.pyx"], **ext_options),
             Extension("pyproj._geod", ["pyproj/_geod.pyx"], **ext_options),
             Extension("pyproj._crs", ["pyproj/_crs.pyx"], **ext_options),
             Extension(

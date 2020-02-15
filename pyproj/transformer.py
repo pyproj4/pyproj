@@ -28,8 +28,14 @@ __all__ = [
 from array import array
 from itertools import chain, islice
 
-from pyproj import CRS, Proj
-from pyproj._transformer import AreaOfInterest, _Transformer, _TransformerGroup  # noqa
+from pyproj import CRS
+from pyproj._transformer import (  # noqa
+    AreaOfInterest,
+    Factors,
+    _Transformer,
+    _TransformerGroup,
+    proj_version_str,
+)
 from pyproj.compat import cstrencode
 from pyproj.enums import TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
@@ -140,18 +146,7 @@ class TransformerGroup(_TransformerGroup):
         )
 
 
-class Transformer:
-    """
-    The Transformer class is for facilitating re-using
-    transforms without needing to re-create them. The goal
-    is to make repeated transforms faster.
-
-    Additionally, it provides multiple methods for initialization.
-
-    .. versionadded:: 2.1.0
-
-    """
-
+class _BaseTransformer:
     def __init__(self, base_transformer=None):
         if not isinstance(base_transformer, _Transformer):
             ProjError.clear()
@@ -233,115 +228,6 @@ class Transformer:
         tuple[CoordinateOperation]: The operations in a concatenated operation.
         """
         return self._transformer.operations
-
-    @staticmethod
-    def from_proj(
-        proj_from,
-        proj_to,
-        skip_equivalent=False,
-        always_xy=False,
-        area_of_interest=None,
-    ):
-        """Make a Transformer from a :obj:`pyproj.proj.Proj` or input used to create one.
-
-        .. versionadded:: 2.1.2 skip_equivalent
-        .. versionadded:: 2.2.0 always_xy
-        .. versionadded:: 2.3.0 area_of_interest
-
-        Parameters
-        ----------
-        proj_from: :obj:`pyproj.proj.Proj` or input used to create one
-            Projection of input data.
-        proj_to: :obj:`pyproj.proj.Proj` or input used to create one
-            Projection of output data.
-        skip_equivalent: bool, optional
-            If true, will skip the transformation operation if input and output
-            projections are equivalent. Default is false.
-        always_xy: bool, optional
-            If true, the transform method will accept as input and return as output
-            coordinates using the traditional GIS order, that is longitude, latitude
-            for geographic CRS and easting, northing for most projected CRS.
-            Default is false.
-        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
-            The area of interest to help select the transformation.
-
-        Returns
-        -------
-        :obj:`Transformer`
-
-        """
-        if not isinstance(proj_from, Proj):
-            proj_from = Proj(proj_from)
-        if not isinstance(proj_to, Proj):
-            proj_to = Proj(proj_to)
-
-        return Transformer.from_crs(
-            proj_from.crs,
-            proj_to.crs,
-            skip_equivalent=skip_equivalent,
-            always_xy=always_xy,
-            area_of_interest=area_of_interest,
-        )
-
-    @staticmethod
-    def from_crs(
-        crs_from, crs_to, skip_equivalent=False, always_xy=False, area_of_interest=None
-    ):
-        """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
-
-        .. versionadded:: 2.1.2 skip_equivalent
-        .. versionadded:: 2.2.0 always_xy
-        .. versionadded:: 2.3.0 area_of_interest
-
-        Parameters
-        ----------
-        crs_from: pyproj.crs.CRS or input used to create one
-            Projection of input data.
-        crs_to: pyproj.crs.CRS or input used to create one
-            Projection of output data.
-        skip_equivalent: bool, optional
-            If true, will skip the transformation operation if input and output
-            projections are equivalent. Default is false.
-        always_xy: bool, optional
-            If true, the transform method will accept as input and return as output
-            coordinates using the traditional GIS order, that is longitude, latitude
-            for geographic CRS and easting, northing for most projected CRS.
-            Default is false.
-        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
-            The area of interest to help select the transformation.
-
-        Returns
-        -------
-        :obj:`Transformer`
-
-        """
-        return Transformer(
-            _Transformer.from_crs(
-                CRS.from_user_input(crs_from),
-                CRS.from_user_input(crs_to),
-                skip_equivalent=skip_equivalent,
-                always_xy=always_xy,
-                area_of_interest=area_of_interest,
-            )
-        )
-
-    @staticmethod
-    def from_pipeline(proj_pipeline):
-        """Make a Transformer from a PROJ pipeline string.
-
-        https://proj.org/operations/pipeline.html
-
-        Parameters
-        ----------
-        proj_pipeline: str
-            Projection pipeline string.
-
-        Returns
-        -------
-        Transformer
-
-        """
-        return Transformer(_Transformer.from_pipeline(cstrencode(proj_pipeline)))
 
     def transform(
         self,
@@ -651,6 +537,141 @@ class Transformer:
             description=self.description,
             area_of_use=self.area_of_use or "- undefined",
         )
+
+    def __eq__(self, other):
+        if not isinstance(other, _BaseTransformer):
+            return False
+        return self._transformer == other._transformer
+
+    def is_exact_same(self, other):
+        """
+        bool: If the transformers are the exact same
+        """
+        return self._transformer.is_exact_same(other)
+
+
+class Transformer(_BaseTransformer):
+    """
+    The Transformer class is for facilitating re-using
+    transforms without needing to re-create them. The goal
+    is to make repeated transforms faster.
+
+    Additionally, it provides multiple methods for initialization.
+
+    .. versionadded:: 2.1.0
+
+    """
+
+    @staticmethod
+    def from_proj(
+        proj_from,
+        proj_to,
+        skip_equivalent=False,
+        always_xy=False,
+        area_of_interest=None,
+    ):
+        """Make a Transformer from a :obj:`pyproj.proj.Proj` or input used to create one.
+
+        .. versionadded:: 2.1.2 skip_equivalent
+        .. versionadded:: 2.2.0 always_xy
+        .. versionadded:: 2.3.0 area_of_interest
+
+        Parameters
+        ----------
+        proj_from: :obj:`pyproj.proj.Proj` or input used to create one
+            Projection of input data.
+        proj_to: :obj:`pyproj.proj.Proj` or input used to create one
+            Projection of output data.
+        skip_equivalent: bool, optional
+            If true, will skip the transformation operation if input and output
+            projections are equivalent. Default is false.
+        always_xy: bool, optional
+            If true, the transform method will accept as input and return as output
+            coordinates using the traditional GIS order, that is longitude, latitude
+            for geographic CRS and easting, northing for most projected CRS.
+            Default is false.
+        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
+            The area of interest to help select the transformation.
+
+        Returns
+        -------
+        :obj:`Transformer`
+
+        """
+        from pyproj import Proj
+
+        if not isinstance(proj_from, Proj):
+            proj_from = Proj(proj_from)
+        if not isinstance(proj_to, Proj):
+            proj_to = Proj(proj_to)
+
+        return Transformer.from_crs(
+            proj_from.crs,
+            proj_to.crs,
+            skip_equivalent=skip_equivalent,
+            always_xy=always_xy,
+            area_of_interest=area_of_interest,
+        )
+
+    @staticmethod
+    def from_crs(
+        crs_from, crs_to, skip_equivalent=False, always_xy=False, area_of_interest=None
+    ):
+        """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
+
+        .. versionadded:: 2.1.2 skip_equivalent
+        .. versionadded:: 2.2.0 always_xy
+        .. versionadded:: 2.3.0 area_of_interest
+
+        Parameters
+        ----------
+        crs_from: pyproj.crs.CRS or input used to create one
+            Projection of input data.
+        crs_to: pyproj.crs.CRS or input used to create one
+            Projection of output data.
+        skip_equivalent: bool, optional
+            If true, will skip the transformation operation if input and output
+            projections are equivalent. Default is false.
+        always_xy: bool, optional
+            If true, the transform method will accept as input and return as output
+            coordinates using the traditional GIS order, that is longitude, latitude
+            for geographic CRS and easting, northing for most projected CRS.
+            Default is false.
+        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
+            The area of interest to help select the transformation.
+
+        Returns
+        -------
+        :obj:`Transformer`
+
+        """
+        return Transformer(
+            _Transformer.from_crs(
+                CRS.from_user_input(crs_from),
+                CRS.from_user_input(crs_to),
+                skip_equivalent=skip_equivalent,
+                always_xy=always_xy,
+                area_of_interest=area_of_interest,
+            )
+        )
+
+    @staticmethod
+    def from_pipeline(proj_pipeline):
+        """Make a Transformer from a PROJ pipeline string.
+
+        https://proj.org/operations/pipeline.html
+
+        Parameters
+        ----------
+        proj_pipeline: str
+            Projection pipeline string.
+
+        Returns
+        -------
+        Transformer
+
+        """
+        return Transformer(_Transformer.from_pipeline(cstrencode(proj_pipeline)))
 
 
 def transform(

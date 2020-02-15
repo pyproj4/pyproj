@@ -43,6 +43,13 @@ pyproj.transformer.AreaOfInterest
     :members:
 
 
+pyproj.transformer.Factors
+-----------------------------------
+
+.. autoclass:: pyproj.transformer.Factors
+    :members:
+
+
 pyproj.transform
 ----------------
 

@@ -35,21 +35,18 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 import re
-import warnings
 
-from pyproj import _proj
 from pyproj._list import get_proj_operations_map
-from pyproj.compat import cstrencode, pystrdecode
+from pyproj._transformer import Factors, _Transformer, proj_version_str  # noqa:F401
 from pyproj.crs import CRS
+from pyproj.enums import TransformDirection
+from pyproj.transformer import _BaseTransformer
 from pyproj.utils import _convertback, _copytobuffer
-
-# import numpy as np
-proj_version_str = _proj.proj_version_str
 
 pj_list = get_proj_operations_map()
 
 
-class Proj(_proj.Proj):
+class Proj(_BaseTransformer):
     """
     Performs cartographic transformations (converts from
     longitude,latitude to native map projection x,y coordinates and
@@ -78,8 +75,6 @@ class Proj(_proj.Proj):
 
     Attributes
     ----------
-    srs: str
-        The string form of the user input used to create the Proj.
     crs: pyproj.crs.CRS
         The CRS object associated with the Proj.
 
@@ -146,32 +141,16 @@ class Proj(_proj.Proj):
         self.crs = CRS.from_user_input(projparams if projparams is not None else kwargs)
         # make sure units are meters if preserve_units is False.
         if not preserve_units and "foot" in self.crs.axis_info[0].unit_name:
-            # ignore export to PROJ string deprecation warning
-            with warnings.catch_warnings():
-                warnings.filterwarnings(
-                    "ignore",
-                    "You will likely lose important projection information",
-                    UserWarning,
-                )
-                projstring = self.crs.to_proj4(4)
+            projstring = self.crs.to_proj4(4)
             projstring = re.sub(r"\s\+units=[\w-]+", "", projstring)
             projstring += " +units=m"
             self.crs = CRS(projstring)
 
-        # ignore export to PROJ string deprecation warning
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore",
-                "You will likely lose important projection information",
-                UserWarning,
-            )
-            projstring = self.crs.to_proj4() or self.crs.srs
+        super().__init__(
+            _Transformer.from_crs(self.crs.geodetic_crs, self.crs, always_xy=True)
+        )
 
-        projstring = re.sub(r"\s\+?type=crs", "", projstring)
-        super().__init__(cstrencode(projstring.strip()))
-
-    def __call__(self, *args, **kw):
-        # ,lon,lat,inverse=False,errcheck=False):
+    def __call__(self, xx, yy, radians=False, inverse=False, errcheck=False):
         """
         Calling a Proj class instance with the arguments lon, lat will
         convert lon/lat (in degrees) to x/y native map projection
@@ -188,30 +167,90 @@ class Proj(_proj.Proj):
         Works with numpy and regular python array objects, python
         sequences and scalars, but is fastest for array objects.
         """
-        inverse = kw.get("inverse", False)
-        errcheck = kw.get("errcheck", False)
-        lon, lat = args
-        # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lon)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lat)
         # call PROJ functions. inx and iny modified in place.
+        direction = TransformDirection.FORWARD
         if inverse:
-            self._inv(inx, iny, errcheck=errcheck)
-        else:
-            self._fwd(inx, iny, errcheck=errcheck)
+            direction = TransformDirection.INVERSE
+        return self.transform(
+            xx, yy, radians=radians, errcheck=errcheck, direction=direction
+        )
+
+    def get_factors(
+        self, longitude, latitude, radians=False, errcheck=False,
+    ):
+        """
+        .. versionadded:: 2.5.0
+
+        Calculate various cartographic properties, such as scale factors, angular
+        distortion and meridian convergence. Depending on the underlying projection
+        values will be calculated either numerically (default) or analytically.
+
+        The function also calculates the partial derivatives of the given
+        coordinate.
+
+        Parameters
+        ----------
+        longitude: scalar or array (numpy or python)
+            Input longitude coordinate(s).
+        latitude: scalar or array (numpy or python)
+            Input latitude coordinate(s).
+        radians: boolean, optional
+            If True, will expect input data to be in radians.
+            Default is False (degrees). Ignored for pipeline transformations.
+        errcheck: boolean, optional (default False)
+            If True an exception is raised if the errors are found in the process.
+            By default errcheck=False and ``inf`` is returned.
+
+        Returns
+        -------
+        Factors
+        """
+        # process inputs, making copies that support buffer API.
+        inx, xisfloat, xislist, xistuple = _copytobuffer(longitude)
+        iny, yisfloat, yislist, yistuple = _copytobuffer(latitude)
+
+        # calculate the factors
+        factors = self._transformer._get_factors(
+            inx, iny, radians=radians, errcheck=errcheck
+        )
+
         # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, xistuple, iny)
-        return outx, outy
+        return Factors(
+            meridional_scale=_convertback(
+                xisfloat, xislist, xistuple, factors.meridional_scale
+            ),
+            parallel_scale=_convertback(
+                xisfloat, xislist, xistuple, factors.parallel_scale
+            ),
+            areal_scale=_convertback(xisfloat, xislist, xistuple, factors.areal_scale),
+            angular_distortion=_convertback(
+                xisfloat, xislist, xistuple, factors.angular_distortion
+            ),
+            meridian_parallel_angle=_convertback(
+                xisfloat, xislist, xistuple, factors.meridian_parallel_angle
+            ),
+            meridian_convergence=_convertback(
+                xisfloat, xislist, xistuple, factors.meridian_convergence
+            ),
+            tissot_semimajor=_convertback(
+                xisfloat, xislist, xistuple, factors.tissot_semimajor
+            ),
+            tissot_semiminor=_convertback(
+                xisfloat, xislist, xistuple, factors.tissot_semiminor
+            ),
+            dx_dlam=_convertback(xisfloat, xislist, xistuple, factors.dx_dlam),
+            dx_dphi=_convertback(xisfloat, xislist, xistuple, factors.dx_dphi),
+            dy_dlam=_convertback(xisfloat, xislist, xistuple, factors.dy_dlam),
+            dy_dphi=_convertback(xisfloat, xislist, xistuple, factors.dy_dphi),
+        )
 
     def definition_string(self):
-        """Returns formal definition string for projection
+        """Returns formal definition string for the CRS
 
         >>> Proj("epsg:4326").definition_string()
-        'proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0'
-        >>>
+        '+proj=longlat +datum=WGS84 +no_defs '
         """
-        return pystrdecode(self.definition)
+        return self.crs.to_proj4().replace("+type=crs", "")
 
     def to_latlong_def(self):
         """return the definition string of the geographic (lat/lon)
@@ -227,10 +266,9 @@ class Proj(_proj.Proj):
         """special method that allows pyproj.Proj instance to be pickled"""
         return self.__class__, (self.crs.srs,)
 
-    def __repr__(self):
-        return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
-
-    def __eq__(self, other):
-        if not isinstance(other, Proj):
-            return False
-        return self._is_equivalent(other)
+    @property
+    def srs(self):
+        """
+        str: The string form of the user input used to create the Proj.
+        """
+        return self.crs.srs

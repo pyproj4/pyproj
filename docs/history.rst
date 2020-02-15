@@ -13,6 +13,8 @@ Change Log
 * ENH: Added support for custom CRS (issue #389)
 * ENH: Added enumeration for WKT2_2019 (issue #526)
 * ENH: Update from_cf/to_cf to use WKT instead of PROJ strings for internal management (issue #515)
+* ENH: Added Proj.get_factors (issue #503)
+* ENH: Made Proj inherit from Transformer (issue #533)
 
 2.4.2
 ~~~~~

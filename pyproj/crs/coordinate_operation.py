@@ -1,7 +1,7 @@
 from distutils.version import LooseVersion
 
 from pyproj._crs import CoordinateOperation
-from pyproj._proj import proj_version_str
+from pyproj._transformer import proj_version_str
 from pyproj.exceptions import CRSError
 
 

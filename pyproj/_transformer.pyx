@@ -2,7 +2,9 @@ include "base.pxi"
 
 cimport cython
 
+import copy
 import warnings
+from array import array
 from collections import namedtuple
 
 from pyproj._crs cimport (
@@ -52,6 +54,67 @@ east_lon_degree: float
 north_lat_degree: float
     The north bound in degrees of the area of interest.
 """
+
+Factors = namedtuple("Factors",
+    [
+        "meridional_scale",
+        "parallel_scale",
+        "areal_scale",
+        "angular_distortion",
+        "meridian_parallel_angle",
+        "meridian_convergence",
+        "tissot_semimajor",
+        "tissot_semiminor",
+        "dx_dlam",
+        "dx_dphi",
+        "dy_dlam",
+        "dy_dphi",
+    ]
+)
+Factors.__doc__ = """
+.. versionadded:: 2.5.0
+
+These are the scaling and angular distortion factors.
+
+Parameters
+----------
+meridional_scale: List[float]
+     Meridional scale at coordinate :math:`\left(\lambda,\phi\right)`.
+parallel_scale: List[float]
+    Parallel scale at coordinate :math:`\left(\lambda,\phi\right)`.
+areal_scale: List[float]
+    Areal scale factor at coordinate :math:`\left(\lambda,\phi\right)`.
+angular_distortion: List[float]
+    Angular distortion at coordinate :math:`\left(\lambda,\phi\right)`.
+meridian_parallel_angle: List[float]
+    Meridian/parallel angle, :math:`\theta^\prime`, at coordinate :math:`\left(\lambda,\phi\right)`.
+meridian_convergence: List[float]
+    Meridian convergence at coordinate :math:`\left(\lambda,\phi\right)`.
+    Sometimes also described as *grid declination*.
+tissot_semimajor: List[float]
+    Maximum scale factor.
+tissot_semiminor: List[float]
+    Minimum scale factor.
+dx_dlam: List[float]
+    Partial derivative :math:`\frac{\partial x}{\partial \lambda}` of coordinate
+    :math:`\left(\lambda,\phi\right)`.
+dx_dphi: List[float]
+    Partial derivative :math:`\frac{\partial x}{\partial \phi}` of coordinate
+    :math:`\left(\lambda,\phi\right)`.
+dy_dlam: List[float]
+    Partial derivative :math:`\frac{\partial y}{\partial \lambda}` of coordinate
+    :math:`\left(\lambda,\phi\right)
+dy_dphi: List[float]
+    Partial derivative :math:`\frac{\partial y}{\partial \phi}` of coordinate
+    :math:`\left(\lambda,\phi\right)`.
+"""
+
+# version number string for PROJ
+proj_version_str = "{0}.{1}.{2}".format(
+    PROJ_VERSION_MAJOR,
+    PROJ_VERSION_MINOR,
+    PROJ_VERSION_PATCH
+)
 
 cdef class _TransformerGroup:
     def __cinit__(self):
@@ -579,3 +642,120 @@ cdef class _Transformer(Base):
                     coordbuff.data[jjj + 1] *= _DG2RAD
 
         ProjError.clear()
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    def _get_factors(self, longitude, latitude, bint radians, bint errcheck):
+        # only to use with the Proj object
+        cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(longitude)
+        cdef PyBuffWriteManager latbuff = PyBuffWriteManager(longitude)
+
+        if not lonbuff.len or not (lonbuff.len == latbuff.len):
+            raise ProjError('longitude and latitude must be same size')
+
+        cdef Py_ssize_t iii
+        # degrees to radians
+        if not self.is_pipeline and not radians\
+                and proj_angular_input(self.projobj, PJ_FWD):
+            with nogil:
+                for iii in range(lonbuff.len):
+                    lonbuff.data[iii] = lonbuff.data[iii] * _DG2RAD
+                    latbuff.data[iii] = latbuff.data[iii] * _DG2RAD
+        # radians to degrees
+        elif not self.is_pipeline and radians\
+                and proj_angular_input(self.projobj, PJ_FWD):
+            with nogil:
+                for iii in range(lonbuff.len):
+                    lonbuff.data[iii] = lonbuff.data[iii] * _RAD2DG
+                    latbuff.data[iii] = latbuff.data[iii] * _RAD2DG
+
+        # prepare the factors output
+        meridional_scale = copy.deepcopy(longitude)
+        parallel_scale = copy.deepcopy(longitude)
+        areal_scale = copy.deepcopy(longitude)
+        angular_distortion = copy.deepcopy(longitude)
+        meridian_parallel_angle = copy.deepcopy(longitude)
+        meridian_convergence = copy.deepcopy(longitude)
+        tissot_semimajor = copy.deepcopy(longitude)
+        tissot_semiminor = copy.deepcopy(longitude)
+        dx_dlam = copy.deepcopy(longitude)
+        dx_dphi = copy.deepcopy(longitude)
+        dy_dlam = copy.deepcopy(longitude)
+        dy_dphi = copy.deepcopy(longitude)
+        cdef PyBuffWriteManager meridional_scale_buff = PyBuffWriteManager(meridional_scale)
+        cdef PyBuffWriteManager parallel_scale_buff = PyBuffWriteManager(parallel_scale)
+        cdef PyBuffWriteManager areal_scale_buff = PyBuffWriteManager(areal_scale)
+        cdef PyBuffWriteManager angular_distortion_buff = PyBuffWriteManager(angular_distortion)
+        cdef PyBuffWriteManager meridian_parallel_angle_buff = PyBuffWriteManager(meridian_parallel_angle)
+        cdef PyBuffWriteManager meridian_convergence_buff = PyBuffWriteManager(meridian_convergence)
+        cdef PyBuffWriteManager tissot_semimajor_buff = PyBuffWriteManager(tissot_semimajor)
+        cdef PyBuffWriteManager tissot_semiminor_buff = PyBuffWriteManager(tissot_semiminor)
+        cdef PyBuffWriteManager dx_dlam_buff = PyBuffWriteManager(dx_dlam)
+        cdef PyBuffWriteManager dx_dphi_buff = PyBuffWriteManager(dx_dphi)
+        cdef PyBuffWriteManager dy_dlam_buff = PyBuffWriteManager(dy_dlam)
+        cdef PyBuffWriteManager dy_dphi_buff = PyBuffWriteManager(dy_dphi)
+
+        # calculate the factors
+        cdef PJ_COORD pj_coord = proj_coord(0, 0, 0, HUGE_VAL)
+        cdef PJ_FACTORS pj_factors
+        cdef int errno = 0
+        with nogil:
+            for iii in range(lonbuff.len):
+                pj_coord.uv.u = lonbuff.data[iii]
+                pj_coord.uv.v = latbuff.data[iii]
+
+                # set both to HUGE_VAL if inf or nan
+                if pj_coord.uv.v == HUGE_VAL or pj_coord.uv.v != pj_coord.uv.v:
+                    pj_coord.uv.v = HUGE_VAL
+                    pj_coord.uv.u = HUGE_VAL
+
+                if pj_coord.uv.u != HUGE_VAL or pj_coord.uv.u != pj_coord.uv.u:
+                    pj_factors = proj_factors(self.projobj, pj_coord)
+                    errno = proj_errno(self.projobj)
+
+                if errcheck and errno:
+                    with gil:
+                        raise ProjError("proj error: {}".format(
+                            pystrdecode(proj_errno_string(errno))))
+
+                if errno or pj_coord.uv.u == HUGE_VAL:
+                    meridional_scale_buff.data[iii] = HUGE_VAL
+                    parallel_scale_buff.data[iii] = HUGE_VAL
+                    areal_scale_buff.data[iii] = HUGE_VAL
+                    angular_distortion_buff.data[iii] = HUGE_VAL
+                    meridian_parallel_angle_buff.data[iii] = HUGE_VAL
+                    meridian_convergence_buff.data[iii] = HUGE_VAL
+                    tissot_semimajor_buff.data[iii] = HUGE_VAL
+                    tissot_semiminor_buff.data[iii] = HUGE_VAL
+                    dx_dlam_buff.data[iii] = HUGE_VAL
+                    dx_dphi_buff.data[iii] = HUGE_VAL
+                    dy_dlam_buff.data[iii] = HUGE_VAL
+                    dy_dphi_buff.data[iii] = HUGE_VAL
+                else:
+                    meridional_scale_buff.data[iii] = pj_factors.meridional_scale
+                    parallel_scale_buff.data[iii] = pj_factors.parallel_scale
+                    areal_scale_buff.data[iii] = pj_factors.areal_scale
+                    angular_distortion_buff.data[iii] = pj_factors.angular_distortion * _RAD2DG
+                    meridian_parallel_angle_buff.data[iii] = pj_factors.meridian_parallel_angle
+                    meridian_convergence_buff.data[iii] = pj_factors.meridian_convergence
+                    tissot_semimajor_buff.data[iii] = pj_factors.tissot_semimajor
+                    tissot_semiminor_buff.data[iii] = pj_factors.tissot_semiminor
+                    dx_dlam_buff.data[iii] = pj_factors.dx_dlam
+                    dx_dphi_buff.data[iii] = pj_factors.dx_dphi
+                    dy_dlam_buff.data[iii] = pj_factors.dy_dlam
+                    dy_dphi_buff.data[iii] = pj_factors.dy_dphi
+
+        return Factors(
+            meridional_scale=meridional_scale,
+            parallel_scale=parallel_scale,
+            areal_scale=areal_scale,
+            angular_distortion=angular_distortion,
+            meridian_parallel_angle=meridian_parallel_angle,
+            meridian_convergence=meridian_convergence,
+            tissot_semimajor=tissot_semimajor,
+            tissot_semiminor=tissot_semiminor,
+            dx_dlam=dx_dlam,
+            dx_dphi=dx_dphi,
+            dy_dlam=dy_dlam,
+            dy_dphi=dy_dphi,
+        )

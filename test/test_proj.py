@@ -3,10 +3,12 @@ import math
 import sys
 import unittest
 
+import numpy as np
 import pytest
+from numpy.testing import assert_almost_equal
 
 from pyproj import Geod, Proj, pj_ellps, pj_list, transform
-from pyproj.crs import CRSError
+from pyproj.exceptions import CRSError, ProjError
 
 
 class BasicTest(unittest.TestCase):
@@ -212,7 +214,13 @@ class ReprTests(unittest.TestCase):
     # test __repr__ for Proj object
     def test_repr(self):
         p = Proj(proj="latlong", preserve_units=True)
-        expected = "Proj('+proj=longlat +datum=WGS84 +no_defs', preserve_units=True)"
+        expected = (
+            "<Transformation Transformer: noop>\n"
+            "Description: Null geographic offset from unknown to unknown\n"
+            "Area of Use:\n"
+            "- name: World\n"
+            "- bounds: (-180.0, -90.0, 180.0, 90.0)"
+        )
         self.assertEqual(repr(p), expected)
 
     # test __repr__ for Geod object
@@ -372,8 +380,6 @@ class Geod_NaN_Issue112_Test(unittest.TestCase):
 def test_proj_equals():
     assert Proj(4326) == Proj("epsg:4326")
     assert Proj(4326) != Proj("epsg:3857")
-    with pytest.warns(UserWarning):
-        assert Proj(4326) == Proj(Proj("epsg:4326").crs.to_proj4())
 
 
 def test_initialize_proj_crs_no_proj4():
@@ -412,5 +418,83 @@ def test_reset_errno():
     assert proj(0, 0, inverse=True, errcheck=True) == (0.0, -90.0)
 
 
-if __name__ == "__main__":
-    unittest.main()
+def test_get_factors__2d_input():
+    transformer = Proj(3857)
+    factors = transformer.get_factors(
+        longitude=np.array([[0, 1], [2, 3]]), latitude=np.array([[1, 2], [3, 4]])
+    )
+    assert_almost_equal(
+        factors.meridional_scale, [[112069.7, 111290.8], [np.inf, np.inf]], decimal=1
+    )
+    assert_almost_equal(
+        factors.parallel_scale, [[111319.5, 205543.0], [np.inf, np.inf]], decimal=1
+    )
+    assert_almost_equal(
+        factors.areal_scale,
+        [[12475545067.5, 22875039902.9], [np.inf, np.inf]],
+        decimal=1,
+    )
+    assert_almost_equal(
+        factors.angular_distortion, [[0.3848486, 34.6127991], [np.inf, np.inf]]
+    )
+    assert_almost_equal(
+        factors.meridian_parallel_angle, [[1.5707963, 1.5707963], [np.inf, np.inf]]
+    )
+    assert_almost_equal(factors.meridian_convergence, [[0, 0], [np.inf, np.inf]])
+    assert_almost_equal(
+        factors.tissot_semimajor, [[112069.7, 205543.0], [np.inf, np.inf]], decimal=1
+    )
+    assert_almost_equal(
+        factors.tissot_semiminor, [[111319.5, 111290.8], [np.inf, np.inf]], decimal=1
+    )
+    assert_almost_equal(
+        factors.dx_dlam, [[111319.4907933, 111319.4907935], [np.inf, np.inf]]
+    )
+    assert_almost_equal(factors.dx_dphi, [[0, 0], [np.inf, np.inf]], decimal=1)
+    assert_almost_equal(factors.dy_dlam, [[0, 0], [np.inf, np.inf]], decimal=1)
+    assert_almost_equal(
+        factors.dy_dphi, [[111319.4907732, 111336.4478777], [np.inf, np.inf]]
+    )
+
+
+def test_get_factors__nan_inf():
+    transformer = Proj(3857)
+    factors = transformer.get_factors(
+        longitude=[0, np.nan, np.inf, 0], latitude=[np.nan, 2, 2, np.inf]
+    )
+    assert_almost_equal(
+        factors.meridional_scale, [112069.7281186, np.inf, np.inf, 112069.7281186]
+    )
+    assert_almost_equal(
+        factors.parallel_scale, [111319.4907933, np.inf, np.inf, 111319.4907933]
+    )
+    assert_almost_equal(
+        factors.areal_scale, [12475545067.5, np.inf, np.inf, 12475545067.5], decimal=1
+    )
+    assert_almost_equal(
+        factors.angular_distortion, [0.3848486, np.inf, np.inf, 0.3848486]
+    )
+    assert_almost_equal(
+        factors.meridian_parallel_angle, [1.5707963, np.inf, np.inf, 1.5707963]
+    )
+    assert_almost_equal(factors.meridian_convergence, [0.0, np.inf, np.inf, 0.0])
+    assert_almost_equal(
+        factors.tissot_semimajor, [112069.7281186, np.inf, np.inf, 112069.7281186]
+    )
+    assert_almost_equal(
+        factors.tissot_semiminor, [111319.4907933, np.inf, np.inf, 111319.4907933]
+    )
+    assert_almost_equal(
+        factors.dx_dlam, [111319.4907933, np.inf, np.inf, 111319.4907933]
+    )
+    assert_almost_equal(factors.dx_dphi, [0.0, np.inf, np.inf, 0.0])
+    assert_almost_equal(factors.dy_dlam, [0.0, np.inf, np.inf, 0.0])
+    assert_almost_equal(
+        factors.dy_dphi, [111319.4907732, np.inf, np.inf, 111319.4907732]
+    )
+
+
+def test_get_factors__errcheck():
+    transformer = Proj(3857)
+    with pytest.raises(ProjError):
+        transformer.get_factors(longitude=3, latitude=4, errcheck=True)
