@@ -533,13 +533,19 @@ def test_coordinate_operation_grids__alternative_grid_name():
     cc = CoordinateOperation.from_epsg(1312, True)
     assert len(cc.grids) == 1
     grid = cc.grids[0]
-    assert grid.short_name == "ntv1_can.dat"
-    assert grid.full_name.endswith(grid.short_name)
-    assert grid.package_name == "proj-datumgrid"
-    assert grid.url.startswith("https://download.osgeo.org/proj/proj-datumgrid")
     assert grid.direct_download is True
     assert grid.open_license is True
     assert grid.available is True
+    if LooseVersion(proj_version_str) >= LooseVersion("7.0.0"):
+        assert grid.short_name == "ca_nrc_ntv1_can.tif"
+        assert grid.full_name.endswith("ntv1_can.dat")
+        assert grid.package_name == ""
+        assert grid.url == "https://cdn.proj.org/ca_nrc_ntv1_can.tif"
+    else:
+        assert grid.short_name == "ntv1_can.dat"
+        assert grid.full_name.endswith(grid.short_name)
+        assert grid.package_name == "proj-datumgrid"
+        assert grid.url.startswith("https://download.osgeo.org/proj/proj-datumgrid")
 
 
 def test_coordinate_operation__missing():

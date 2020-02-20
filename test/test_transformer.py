@@ -261,7 +261,11 @@ def test_transform_no_exception():
 def test_transform__out_of_bounds():
     with pytest.warns(FutureWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
-    assert np.all(np.isinf(transformer.transform(100000, 100000, errcheck=True)))
+    if LooseVersion(pyproj.proj_version_str) >= LooseVersion("7.0.0"):
+        with pytest.raises(pyproj.exceptions.ProjError):
+            transformer.transform(100000, 100000, errcheck=True)
+    else:
+        assert np.all(np.isinf(transformer.transform(100000, 100000, errcheck=True)))
 
 
 def test_transform_radians():
