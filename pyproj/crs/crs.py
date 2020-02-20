@@ -95,8 +95,11 @@ def _prepare_from_string(in_crs_string):
         in_crs_string = in_crs_string.replace("+init=EPSG", "+init=epsg").strip()
         if in_crs_string.startswith(("+init", "init")):
             warnings.warn(
-                "'+init=<authority>:<code>' syntax is deprecated."
-                " '<authority>:<code>' is the preferred initialization method.",
+                "'+init=<authority>:<code>' syntax is deprecated. "
+                "'<authority>:<code>' is the preferred initialization method. "
+                "When making the change, be mindful of axis order changes: "
+                "https://pyproj4.github.io/pyproj/stable/gotchas.html"
+                "#axis-order-changes-in-proj-6",
                 FutureWarning,
                 stacklevel=2,
             )
