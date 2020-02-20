@@ -796,11 +796,12 @@
             <span class="n">coordinate_operation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
                 <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;projected_crs_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="ow">not</span> <span class="n">coordinate_operation</span>
-            <span class="ow">or</span> <span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="ow">not</span> <span class="ow">in</span> <span class="n">_INVERSE_GRID_MAPPING_NAME_MAP</span>
-        <span class="p">):</span>
+        <span class="n">coordinate_operation_name</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">None</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">coordinate_operation</span>
+            <span class="k">else</span> <span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">coordinate_operation_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_INVERSE_GRID_MAPPING_NAME_MAP</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">errcheck</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">coordinate_operation</span><span class="p">:</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -814,7 +815,7 @@
             <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">wkt_version</span><span class="p">)}</span>
 
         <span class="n">cf_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-            <span class="n">_INVERSE_GRID_MAPPING_NAME_MAP</span><span class="p">[</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()](</span>
+            <span class="n">_INVERSE_GRID_MAPPING_NAME_MAP</span><span class="p">[</span><span class="n">coordinate_operation_name</span><span class="p">](</span>
                 <span class="n">coordinate_operation</span>
             <span class="p">)</span>
         <span class="p">)</span>
