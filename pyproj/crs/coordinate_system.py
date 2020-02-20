@@ -140,7 +140,12 @@ class Ellipsoidal3DCS(CoordinateSystem):
 
 _CARTESIAN_2D_AXIS_MAP = {
     Cartesian2DCSAxis.EASTING_NORTHING: [
-        {"name": "Easting", "abbreviation": "E", "direction": "east", "unit": "metre"},
+        {
+            "name": "Easting",
+            "abbreviation": "E",
+            "direction": "east",
+            "unit": UNIT_METRE,
+        },
         {
             "name": "Northing",
             "abbreviation": "N",
