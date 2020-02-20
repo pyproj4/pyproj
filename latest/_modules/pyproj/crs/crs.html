@@ -253,8 +253,11 @@
         <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+init=EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;+init=epsg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">)):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;&#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated.&quot;</span>
-                <span class="s2">&quot; &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;&#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &quot;</span>
+                <span class="s2">&quot;&#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. &quot;</span>
+                <span class="s2">&quot;When making the change, be mindful of axis order changes: &quot;</span>
+                <span class="s2">&quot;https://pyproj4.github.io/pyproj/stable/gotchas.html&quot;</span>
+                <span class="s2">&quot;#axis-order-changes-in-proj-6&quot;</span><span class="p">,</span>
                 <span class="ne">FutureWarning</span><span class="p">,</span>
                 <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="p">)</span>
