@@ -108,14 +108,20 @@ Converting CRS to a different format
     'crs_wkt': 'BOUNDCRS[SOURCECRS[PROJCRS["unknown",BASEGEOGCRS["unknown",DATUM["Unknown '
     ...
                 'difference",1,ID["EPSG",8611]]]]',
-    'fase_easting': 0,
-    'fase_northing': 0,
+    'false_easting': 0.0,
+    'false_northing': 0.0,
     'grid_mapping_name': 'oblique_mercator',
-    'latitude_of_projection_origin': -36,
-    'longitude_of_projection_origin': 147,
-    'reference_ellipsoid_name': 'WGS84',
-    'towgs84': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-    'unit': 'm'}
+    'horizontal_datum_name': 'Unknown based on WGS84 ellipsoid',
+    'inverse_flattening': 298.257223563,
+    'latitude_of_projection_origin': -36.0,
+    'longitude_of_prime_meridian': 0.0,
+    'longitude_of_projection_origin': 147.0,
+    'prime_meridian_name': 'Greenwich',
+    'reference_ellipsoid_name': 'WGS 84',
+    'scale_factor_at_projection_origin': 1.0,
+    'semi_major_axis': 6378137.0,
+    'semi_minor_axis': 6356752.314245179,
+    'towgs84': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}
 
 
 Extracting attributes from CRS
