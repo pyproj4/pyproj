@@ -170,7 +170,7 @@ SinusoidalConversion
 
 
 StereographicConversion
----------------------
+------------------------
 
 .. autoclass:: pyproj.crs.coordinate_operation.StereographicConversion
     :members:
