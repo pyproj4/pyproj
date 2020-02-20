@@ -365,7 +365,7 @@ _GEOGRAPHIC_GRID_MAPPING_NAME_MAP = {
 def _to_dict(operation):
     param_dict = {}
     for param in operation.params:
-        param_dict[param.name.lower()] = param.value
+        param_dict[param.name.lower().replace(" ", "_")] = param.value
     return param_dict
 
 
@@ -378,13 +378,13 @@ def _albers_conical_equal_area__to_cf(conversion):
     return {
         "grid_mapping_name": "albers_conical_equal_area",
         "standard_parallel": (
-            params["latitude of 1st standard parallel"],
-            params["latitude of 2nd standard parallel"],
+            params["latitude_of_1st_standard_parallel"],
+            params["latitude_of_2nd_standard_parallel"],
         ),
-        "latitude_of_projection_origin": params["latitude of false origin"],
-        "longitude_of_central_meridian": params["longitude of false origin"],
-        "false_easting": params["easting at false origin"],
-        "false_northing": params["northing at false origin"],
+        "latitude_of_projection_origin": params["latitude_of_false_origin"],
+        "longitude_of_central_meridian": params["longitude_of_false_origin"],
+        "false_easting": params["easting_at_false_origin"],
+        "false_northing": params["northing_at_false_origin"],
     }
 
 
@@ -395,10 +395,10 @@ def _azimuthal_equidistant__to_cf(conversion):
     params = _to_dict(conversion)
     return {
         "grid_mapping_name": "azimuthal_equidistant",
-        "latitude_of_projection_origin": params["latitude of natural origin"],
-        "longitude_of_projection_origin": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        "latitude_of_projection_origin": params["latitude_of_natural_origin"],
+        "longitude_of_projection_origin": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -408,18 +408,18 @@ def _geostationary__to_cf(conversion):
     """
     params = _to_dict(conversion)
     sweep_angle_axis = "y"
-    if conversion.method_name.lower().endswith("(sweep x)"):
+    if conversion.method_name.lower().replace(" ", "_").endswith("(sweep_x)"):
         sweep_angle_axis = "x"
     return {
         "grid_mapping_name": "geostationary",
         "sweep_angle_axis": sweep_angle_axis,
-        "perspective_point_height": params["satellite height"],
+        "perspective_point_height": params["satellite_height"],
         # geostationary satellites orbit arount equator
-        # so latitude of natural origin is often left off and assumed to be 0.0
-        "latitude_of_projection_origin": params.get("latitude of natural origin", 0.0),
-        "longitude_of_projection_origin": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        # so latitude_of_natural_origin is often left off and assumed to be 0.0
+        "latitude_of_projection_origin": params.get("latitude_of_natural_origin", 0.0),
+        "longitude_of_projection_origin": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -430,10 +430,10 @@ def _lambert_azimuthal_equal_area__to_cf(conversion):
     params = _to_dict(conversion)
     return {
         "grid_mapping_name": "lambert_azimuthal_equal_area",
-        "latitude_of_projection_origin": params["latitude of natural origin"],
-        "longitude_of_projection_origin": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        "latitude_of_projection_origin": params["latitude_of_natural_origin"],
+        "longitude_of_projection_origin": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -446,20 +446,20 @@ def _lambert_conformal_conic__to_cf(conversion):
         return {
             "grid_mapping_name": "lambert_conformal_conic",
             "standard_parallel": (
-                params["latitude of 1st standard parallel"],
-                params["latitude of 2nd standard parallel"],
+                params["latitude_of_1st_standard_parallel"],
+                params["latitude_of_2nd_standard_parallel"],
             ),
-            "latitude_of_projection_origin": params["latitude of false origin"],
-            "longitude_of_central_meridian": params["longitude of false origin"],
-            "false_easting": params["easting at false origin"],
-            "false_northing": params["northing at false origin"],
+            "latitude_of_projection_origin": params["latitude_of_false_origin"],
+            "longitude_of_central_meridian": params["longitude_of_false_origin"],
+            "false_easting": params["easting_at_false_origin"],
+            "false_northing": params["northing_at_false_origin"],
         }
     return {
         "grid_mapping_name": "lambert_conformal_conic",
-        "standard_parallel": params["latitude of natural origin"],
-        "longitude_of_central_meridian": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        "standard_parallel": params["latitude_of_natural_origin"],
+        "longitude_of_central_meridian": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -470,10 +470,10 @@ def _lambert_cylindrical_equal_area__to_cf(conversion):
     params = _to_dict(conversion)
     return {
         "grid_mapping_name": "lambert_cylindrical_equal_area",
-        "standard_parallel": params["latitude of 1st standard parallel"],
-        "longitude_of_central_meridian": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        "standard_parallel": params["latitude_of_1st_standard_parallel"],
+        "longitude_of_central_meridian": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -482,23 +482,23 @@ def _mercator__to_cf(conversion):
     http://cfconventions.org/cf-conventions/cf-conventions.html#_mercator
     """
     params = _to_dict(conversion)
-    if conversion.method_name.lower().endswith("(variant a)"):
+    if conversion.method_name.lower().replace(" ", "_").endswith("(variant_a)"):
         return {
             "grid_mapping_name": "mercator",
-            "standard_parallel": params["latitude of natural origin"],
-            "longitude_of_projection_origin": params["longitude of natural origin"],
-            "false_easting": params["false easting"],
-            "false_northing": params["false northing"],
+            "standard_parallel": params["latitude_of_natural_origin"],
+            "longitude_of_projection_origin": params["longitude_of_natural_origin"],
+            "false_easting": params["false_easting"],
+            "false_northing": params["false_northing"],
             "scale_factor_at_projection_origin": params[
-                "scale factor at natural origin"
+                "scale_factor_at_natural_origin"
             ],
         }
     return {
         "grid_mapping_name": "mercator",
-        "standard_parallel": params["latitude of 1st standard parallel"],
-        "longitude_of_projection_origin": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        "standard_parallel": params["latitude_of_1st_standard_parallel"],
+        "longitude_of_projection_origin": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -507,18 +507,18 @@ def _oblique_mercator__to_cf(conversion):
     http://cfconventions.org/cf-conventions/cf-conventions.html#_oblique_mercator
     """
     params = _to_dict(conversion)
-    if params["angle from rectified to skew grid"] != 0:
+    if params["angle_from_rectified_to_skew_grid"] != 0:
         warnings.warn(
             "angle from rectified to skew grid parameter lost in conversion to CF"
         )
     return {
         "grid_mapping_name": "oblique_mercator",
-        "latitude_of_projection_origin": params["latitude of projection centre"],
-        "longitude_of_projection_origin": params["longitude of projection centre"],
-        "azimuth_of_central_line": params["azimuth of initial line"],
-        "scale_factor_at_projection_origin": params["scale factor on initial line"],
-        "false_easting": params["easting at projection centre"],
-        "false_northing": params["northing at projection centre"],
+        "latitude_of_projection_origin": params["latitude_of_projection_centre"],
+        "longitude_of_projection_origin": params["longitude_of_projection_centre"],
+        "azimuth_of_central_line": params["azimuth_of_initial_line"],
+        "scale_factor_at_projection_origin": params["scale_factor_on_initial_line"],
+        "false_easting": params["easting_at_projection_centre"],
+        "false_northing": params["northing_at_projection_centre"],
     }
 
 
@@ -529,10 +529,10 @@ def _orthographic__to_cf(conversion):
     params = _to_dict(conversion)
     return {
         "grid_mapping_name": "orthographic",
-        "latitude_of_projection_origin": params["latitude of natural origin"],
-        "longitude_of_projection_origin": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        "latitude_of_projection_origin": params["latitude_of_natural_origin"],
+        "longitude_of_projection_origin": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -544,18 +544,18 @@ def _polar_stereographic__to_cf(conversion):
     if conversion.method_name.lower().endswith("(variant b)"):
         return {
             "grid_mapping_name": "polar_stereographic",
-            "standard_parallel": params["latitude of standard parallel"],
-            "straight_vertical_longitude_from_pole": params["longitude of origin"],
-            "false_easting": params["false easting"],
-            "false_northing": params["false northing"],
+            "standard_parallel": params["latitude_of_standard_parallel"],
+            "straight_vertical_longitude_from_pole": params["longitude_of_origin"],
+            "false_easting": params["false_easting"],
+            "false_northing": params["false_northing"],
         }
     return {
         "grid_mapping_name": "polar_stereographic",
-        "latitude_of_projection_origin": params["latitude of natural origin"],
-        "straight_vertical_longitude_from_pole": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
-        "scale_factor_at_projection_origin": params["scale factor at natural origin"],
+        "latitude_of_projection_origin": params["latitude_of_natural_origin"],
+        "straight_vertical_longitude_from_pole": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
+        "scale_factor_at_projection_origin": params["scale_factor_at_natural_origin"],
     }
 
 
@@ -566,9 +566,9 @@ def _sinusoidal__to_cf(conversion):
     params = _to_dict(conversion)
     return {
         "grid_mapping_name": "sinusoidal",
-        "longitude_of_projection_origin": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        "longitude_of_projection_origin": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -579,11 +579,11 @@ def _stereographic__to_cf(conversion):
     params = _to_dict(conversion)
     return {
         "grid_mapping_name": "stereographic",
-        "latitude_of_projection_origin": params["latitude of natural origin"],
-        "longitude_of_projection_origin": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
-        "scale_factor_at_projection_origin": params["scale factor at natural origin"],
+        "latitude_of_projection_origin": params["latitude_of_natural_origin"],
+        "longitude_of_projection_origin": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
+        "scale_factor_at_projection_origin": params["scale_factor_at_natural_origin"],
     }
 
 
@@ -594,11 +594,11 @@ def _transverse_mercator__to_cf(conversion):
     params = _to_dict(conversion)
     return {
         "grid_mapping_name": "transverse_mercator",
-        "latitude_of_projection_origin": params["latitude of natural origin"],
-        "longitude_of_central_meridian": params["longitude of natural origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
-        "scale_factor_at_central_meridian": params["scale factor at natural origin"],
+        "latitude_of_projection_origin": params["latitude_of_natural_origin"],
+        "longitude_of_central_meridian": params["longitude_of_natural_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
+        "scale_factor_at_central_meridian": params["scale_factor_at_natural_origin"],
     }
 
 
@@ -609,11 +609,11 @@ def _vertical_perspective__to_cf(conversion):
     params = _to_dict(conversion)
     return {
         "grid_mapping_name": "vertical_perspective",
-        "perspective_point_height": params["viewpoint height"],
-        "latitude_of_projection_origin": params["latitude of topocentric origin"],
-        "longitude_of_projection_origin": params["longitude of topocentric origin"],
-        "false_easting": params["false easting"],
-        "false_northing": params["false northing"],
+        "perspective_point_height": params["viewpoint_height"],
+        "latitude_of_projection_origin": params["latitude_of_topocentric_origin"],
+        "longitude_of_projection_origin": params["longitude_of_topocentric_origin"],
+        "false_easting": params["false_easting"],
+        "false_northing": params["false_northing"],
     }
 
 
@@ -631,24 +631,24 @@ def _rotated_latitude_longitude__to_cf(conversion):
 
 
 _INVERSE_GRID_MAPPING_NAME_MAP = {
-    "albers equal area": _albers_conical_equal_area__to_cf,
-    "modified azimuthal equidistant": _azimuthal_equidistant__to_cf,
-    "geostationary satellite (sweep x)": _geostationary__to_cf,
-    "geostationary satellite (sweep y)": _geostationary__to_cf,
-    "lambert azimuthal equal area": _lambert_azimuthal_equal_area__to_cf,
-    "lambert conic conformal (2sp)": _lambert_conformal_conic__to_cf,
-    "lambert conic conformal (1sp)": _lambert_conformal_conic__to_cf,
-    "lambert cylindrical equal area": _lambert_cylindrical_equal_area__to_cf,
-    "mercator (variant a)": _mercator__to_cf,
-    "mercator (variant b)": _mercator__to_cf,
-    "hotine oblique mercator (variant b)": _oblique_mercator__to_cf,
+    "albers_equal_area": _albers_conical_equal_area__to_cf,
+    "modified_azimuthal_equidistant": _azimuthal_equidistant__to_cf,
+    "geostationary_satellite_(sweep_x)": _geostationary__to_cf,
+    "geostationary_satellite_(sweep_y)": _geostationary__to_cf,
+    "lambert_azimuthal_equal_area": _lambert_azimuthal_equal_area__to_cf,
+    "lambert_conic_conformal_(2sp)": _lambert_conformal_conic__to_cf,
+    "lambert_conic_conformal_(1sp)": _lambert_conformal_conic__to_cf,
+    "lambert_cylindrical_equal_area": _lambert_cylindrical_equal_area__to_cf,
+    "mercator_(variant_a)": _mercator__to_cf,
+    "mercator_(variant_b)": _mercator__to_cf,
+    "hotine_oblique_mercator_(variant_b)": _oblique_mercator__to_cf,
     "orthographic": _orthographic__to_cf,
-    "polar stereographic (variant a)": _polar_stereographic__to_cf,
-    "polar stereographic (variant b)": _polar_stereographic__to_cf,
+    "polar_stereographic_(variant_a)": _polar_stereographic__to_cf,
+    "polar_stereographic_(variant_b)": _polar_stereographic__to_cf,
     "sinusoidal": _sinusoidal__to_cf,
     "stereographic": _stereographic__to_cf,
-    "transverse mercator": _transverse_mercator__to_cf,
-    "vertical perspective": _vertical_perspective__to_cf,
+    "transverse_mercator": _transverse_mercator__to_cf,
+    "vertical_perspective": _vertical_perspective__to_cf,
 }
 
 _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP = {

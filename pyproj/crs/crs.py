@@ -638,11 +638,12 @@ class CRS(_CRS):
             coordinate_operation = self.coordinate_operation
             if self.name not in unknown_names:
                 cf_dict["projected_crs_name"] = self.name
-        if (
-            not coordinate_operation
-            or coordinate_operation.method_name.lower()
-            not in _INVERSE_GRID_MAPPING_NAME_MAP
-        ):
+        coordinate_operation_name = (
+            None
+            if not coordinate_operation
+            else coordinate_operation.method_name.lower().replace(" ", "_")
+        )
+        if coordinate_operation_name not in _INVERSE_GRID_MAPPING_NAME_MAP:
             if errcheck:
                 if coordinate_operation:
                     warnings.warn(
@@ -656,7 +657,7 @@ class CRS(_CRS):
             return {"crs_wkt": self.to_wkt(wkt_version)}
 
         cf_dict.update(
-            _INVERSE_GRID_MAPPING_NAME_MAP[coordinate_operation.method_name.lower()](
+            _INVERSE_GRID_MAPPING_NAME_MAP[coordinate_operation_name](
                 coordinate_operation
             )
         )
