@@ -120,14 +120,15 @@ def test_geostationary_operation__defaults():
 
 
 def test_geostationary_operation():
-    geop = GeostationarySatelliteConversion(
-        sweep_angle_axis="y",
-        satellite_height=11,
-        latitude_natural_origin=1,
-        longitude_natural_origin=2,
-        false_easting=3,
-        false_northing=4,
-    )
+    with pytest.warns(UserWarning):
+        geop = GeostationarySatelliteConversion(
+            sweep_angle_axis="y",
+            satellite_height=11,
+            latitude_natural_origin=1,
+            longitude_natural_origin=2,
+            false_easting=3,
+            false_northing=4,
+        )
     assert geop.name == "unknown"
     assert geop.method_name == "Geostationary Satellite (Sweep Y)"
     assert _to_dict(geop) == {

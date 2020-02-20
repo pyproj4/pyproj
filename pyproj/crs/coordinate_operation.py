@@ -1,3 +1,4 @@
+import warnings
 from distutils.version import LooseVersion
 
 from pyproj._crs import CoordinateOperation
@@ -203,6 +204,13 @@ class GeostationarySatelliteConversion(CoordinateOperation):
         valid_sweep_axis = ("X", "Y")
         if sweep_angle_axis not in valid_sweep_axis:
             raise CRSError("sweep_angle_axis only supports {}".format(valid_sweep_axis))
+
+        if latitude_natural_origin != 0:
+            warnings.warn(
+                "The latitude of natural origin (lat_0) is not used "
+                "within PROJ. It is only supported for exporting to "
+                "the WKT or PROJ JSON formats."
+            )
 
         geos_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
