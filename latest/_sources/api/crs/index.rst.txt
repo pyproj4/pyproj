@@ -9,5 +9,4 @@ CRS module API Documentation
    coordinate_system
    coordinate_operation
    datum
-   ellipsoid
    enums

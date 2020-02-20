@@ -52,7 +52,7 @@ PrimeMeridian
 
 
 CustomPrimeMeridian
---------------
+--------------------
 
 .. autoclass:: pyproj.crs.datum.CustomPrimeMeridian
     :members:
