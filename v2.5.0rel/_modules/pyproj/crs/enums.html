@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyproj.crs.enums &mdash; pyproj 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyproj.crs.enums</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyproj.crs.enums</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains enumerations used in pyproj.crs.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">BaseEnum</span>
+
+
+<div class="viewcode-block" id="DatumType"><a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.DatumType">[docs]</a><span class="k">class</span> <span class="nc">DatumType</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Datum Types for creating datum with :meth:`pyproj.crs.Datum.from_name`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    GEODETIC_REFERENCE_FRAME</span>
+<span class="sd">    DYNAMIC_GEODETIC_REFERENCE_FRAME</span>
+<span class="sd">    VERTICAL_REFERENCE_FRAME</span>
+<span class="sd">    DYNAMIC_VERTICAL_REFERENCE_FRAME</span>
+<span class="sd">    DATUM_ENSEMBLE</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;GEODETIC_REFERENCE_FRAME&quot;</span>
+    <span class="n">DYNAMIC_GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_GEODETIC_REFERENCE_FRAME&quot;</span>
+    <span class="n">VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;VERTICAL_REFERENCE_FRAME&quot;</span>
+    <span class="n">DYNAMIC_VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_VERTICAL_REFERENCE_FRAME&quot;</span>
+    <span class="n">DATUM_ENSEMBLE</span> <span class="o">=</span> <span class="s2">&quot;DATUM_ENSEMBLE&quot;</span></div>
+
+
+<div class="viewcode-block" id="CoordinateOperationType"><a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.CoordinateOperationType">[docs]</a><span class="k">class</span> <span class="nc">CoordinateOperationType</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Coordinate Operation Types for creating operation</span>
+<span class="sd">    with :meth:`pyproj.crs.CoordinateOperation.from_name`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    CONVERSION</span>
+<span class="sd">    TRANSFORMATION</span>
+<span class="sd">    CONCATENATED_OPERATION</span>
+<span class="sd">    OTHER_COORDINATE_OPERATION</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONVERSION</span> <span class="o">=</span> <span class="s2">&quot;CONVERSION&quot;</span>
+    <span class="n">TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;TRANSFORMATION&quot;</span>
+    <span class="n">CONCATENATED_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;CONCATENATED_OPERATION&quot;</span>
+    <span class="n">OTHER_COORDINATE_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;OTHER_COORDINATE_OPERATION&quot;</span></div>
+
+
+<div class="viewcode-block" id="Cartesian2DCSAxis"><a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.Cartesian2DCSAxis">[docs]</a><span class="k">class</span> <span class="nc">Cartesian2DCSAxis</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Cartesian 2D Coordinate System Axis for creating axis with</span>
+<span class="sd">    with :class:`pyproj.crs.coordinate_system.Cartesian2DCS`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    EASTING_NORTHING</span>
+<span class="sd">    NORTHING_EASTING</span>
+<span class="sd">    EASTING_NORTHING_FT</span>
+<span class="sd">    NORTHING_EASTING_FT</span>
+<span class="sd">    EASTING_NORTHING_US_FT</span>
+<span class="sd">    NORTHING_EASTING_US_FT</span>
+<span class="sd">    NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH</span>
+<span class="sd">    SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH</span>
+<span class="sd">    WESTING_SOUTHING</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">EASTING_NORTHING</span> <span class="o">=</span> <span class="s2">&quot;EASTING_NORTHING&quot;</span>
+    <span class="n">NORTHING_EASTING</span> <span class="o">=</span> <span class="s2">&quot;NORTHING_EASTING&quot;</span>
+    <span class="n">EASTING_NORTHING_FT</span> <span class="o">=</span> <span class="s2">&quot;EASTING_NORTHING_FT&quot;</span>
+    <span class="n">NORTHING_EASTING_FT</span> <span class="o">=</span> <span class="s2">&quot;NORTHING_EASTING_FT&quot;</span>
+    <span class="n">EASTING_NORTHING_US_FT</span> <span class="o">=</span> <span class="s2">&quot;EASTING_NORTHING_US_FT&quot;</span>
+    <span class="n">NORTHING_EASTING_US_FT</span> <span class="o">=</span> <span class="s2">&quot;NORTHING_EASTING_US_FT&quot;</span>
+    <span class="n">NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH</span> <span class="o">=</span> <span class="s2">&quot;NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH&quot;</span>
+    <span class="n">SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH</span> <span class="o">=</span> <span class="s2">&quot;SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH&quot;</span>
+    <span class="n">WESTING_SOUTHING</span> <span class="o">=</span> <span class="s2">&quot;WESTING_SOUTHING&quot;</span></div>
+
+
+<div class="viewcode-block" id="Ellipsoidal2DCSAxis"><a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.Ellipsoidal2DCSAxis">[docs]</a><span class="k">class</span> <span class="nc">Ellipsoidal2DCSAxis</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Ellisoidal 2D Coordinate System Axis for creating axis with</span>
+<span class="sd">    with :class:`pyproj.crs.coordinate_system.Ellipsoidal2DCS`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    LONGITUDE_LATITUDE</span>
+<span class="sd">    LATITUDE_LONGITUDE</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">LONGITUDE_LATITUDE</span> <span class="o">=</span> <span class="s2">&quot;LONGITUDE_LATITUDE&quot;</span>
+    <span class="n">LATITUDE_LONGITUDE</span> <span class="o">=</span> <span class="s2">&quot;LATITUDE_LONGITUDE&quot;</span></div>
+
+
+<div class="viewcode-block" id="Ellipsoidal3DCSAxis"><a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.Ellipsoidal3DCSAxis">[docs]</a><span class="k">class</span> <span class="nc">Ellipsoidal3DCSAxis</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Ellisoidal 3D Coordinate System Axis for creating axis with</span>
+<span class="sd">    with :class:`pyproj.crs.coordinate_system.Ellipsoidal3DCS`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    LONGITUDE_LATITUDE_HEIGHT</span>
+<span class="sd">    LATITUDE_LONGITUDE_HEIGHT</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">LONGITUDE_LATITUDE_HEIGHT</span> <span class="o">=</span> <span class="s2">&quot;LONGITUDE_LATITUDE_HEIGHT&quot;</span>
+    <span class="n">LATITUDE_LONGITUDE_HEIGHT</span> <span class="o">=</span> <span class="s2">&quot;LATITUDE_LONGITUDE_HEIGHT&quot;</span></div>
+
+
+<div class="viewcode-block" id="VerticalCSAxis"><a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.VerticalCSAxis">[docs]</a><span class="k">class</span> <span class="nc">VerticalCSAxis</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.5.0</span>
+
+<span class="sd">    Vertical Coordinate System Axis for creating axis with</span>
+<span class="sd">    with :class:`pyproj.crs.coordinate_system.VerticalCS`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    UP</span>
+<span class="sd">    UP_FT</span>
+<span class="sd">    UP_US_FT</span>
+<span class="sd">    DEPTH</span>
+<span class="sd">    DEPTH_FT</span>
+<span class="sd">    DEPTH_US_FT</span>
+<span class="sd">    GRAVITY_HEIGHT</span>
+<span class="sd">    GRAVITY_HEIGHT_FT</span>
+<span class="sd">    GRAVITY_HEIGHT_US_FT</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">GRAVITY_HEIGHT</span> <span class="o">=</span> <span class="s2">&quot;GRAVITY_HEIGHT&quot;</span>
+    <span class="n">GRAVITY_HEIGHT_FT</span> <span class="o">=</span> <span class="s2">&quot;GRAVITY_HEIGHT_FT&quot;</span>
+    <span class="n">GRAVITY_HEIGHT_US_FT</span> <span class="o">=</span> <span class="s2">&quot;GRAVITY_HEIGHT_US_FT&quot;</span>
+    <span class="n">DEPTH</span> <span class="o">=</span> <span class="s2">&quot;DEPTH&quot;</span>
+    <span class="n">DEPTH_FT</span> <span class="o">=</span> <span class="s2">&quot;DEPTH_FT&quot;</span>
+    <span class="n">DEPTH_US_FT</span> <span class="o">=</span> <span class="s2">&quot;DEPTH_US_FT&quot;</span>
+    <span class="n">UP</span> <span class="o">=</span> <span class="s2">&quot;UP&quot;</span>
+    <span class="n">UP_FT</span> <span class="o">=</span> <span class="s2">&quot;UP_FT&quot;</span>
+    <span class="n">UP_US_FT</span> <span class="o">=</span> <span class="s2">&quot;UP_US_FT&quot;</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Jeffrey Whitaker
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
