@@ -3,6 +3,7 @@ Change Log
 
 2.5.0
 ~~~~~
+* Wheels contain PROJ version is 6.3.1
 * Remove deprecated PyObject_AsWriteBuffer (issue #495)
 * ENH: Added :meth:`pyproj.crs.CRS.equals` with `ignore_axis_order` kwarg (issue #493)
 * ENH: Added :meth:`pyproj.crs.CoordinateSystem.from_json`, :meth:`pyproj.crs.CoordinateSystem.from_json_dict`, and :meth:`pyproj.crs.CoordinateSystem.from_string` (pull #501)
