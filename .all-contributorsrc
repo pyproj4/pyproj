@@ -1,6 +1,6 @@
 {
   "projectName": "pyproj",
-  "projectOwner": "snowman2",
+  "projectOwner": "pyproj4",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
@@ -305,6 +305,15 @@
       "name": "Guillaume Lostis",
       "avatar_url": "https://avatars0.githubusercontent.com/u/25295717?v=4",
       "profile": "https://github.com/glostis",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "edpop",
+      "name": "Eduard Popov",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/13479292?v=4",
+      "profile": "https://github.com/edpop",
       "contributions": [
         "doc"
       ]

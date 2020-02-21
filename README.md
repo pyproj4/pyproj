@@ -73,6 +73,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/glostis"><img src="https://avatars0.githubusercontent.com/u/25295717?v=4" width="100px;" alt="Guillaume Lostis"/><br /><sub><b>Guillaume Lostis</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=glostis" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/edpop"><img src="https://avatars3.githubusercontent.com/u/13479292?v=4" width="100px;" alt="Eduard Popov"/><br /><sub><b>Eduard Popov</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=edpop" title="Documentation">📖</a></td>
   </tr>
 </table>
 
