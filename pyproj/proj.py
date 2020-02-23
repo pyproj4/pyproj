@@ -37,19 +37,16 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 import re
 import warnings
 
-from pyproj import _proj
 from pyproj._list import get_proj_operations_map
+from pyproj._proj import Factors, _Proj, proj_version_str  # noqa: F401
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.crs import CRS
 from pyproj.utils import _convertback, _copytobuffer
 
-# import numpy as np
-proj_version_str = _proj.proj_version_str
-
 pj_list = get_proj_operations_map()
 
 
-class Proj(_proj.Proj):
+class Proj(_Proj):
     """
     Performs cartographic transformations (converts from
     longitude,latitude to native map projection x,y coordinates and
@@ -203,6 +200,73 @@ class Proj(_proj.Proj):
         outx = _convertback(xisfloat, xislist, xistuple, inx)
         outy = _convertback(yisfloat, yislist, xistuple, iny)
         return outx, outy
+
+    def get_factors(
+        self, longitude, latitude, radians=False, errcheck=False,
+    ):
+        """
+        .. versionadded:: 2.6.0
+
+        Calculate various cartographic properties, such as scale factors, angular
+        distortion and meridian convergence. Depending on the underlying projection
+        values will be calculated either numerically (default) or analytically.
+
+        The function also calculates the partial derivatives of the given
+        coordinate.
+
+        Parameters
+        ----------
+        longitude: scalar or array (numpy or python)
+            Input longitude coordinate(s).
+        latitude: scalar or array (numpy or python)
+            Input latitude coordinate(s).
+        radians: boolean, optional
+            If True, will expect input data to be in radians.
+            Default is False (degrees).
+        errcheck: boolean, optional (default False)
+            If True an exception is raised if the errors are found in the process.
+            By default errcheck=False and ``inf`` is returned.
+
+        Returns
+        -------
+        Factors
+        """
+        # process inputs, making copies that support buffer API.
+        inx, xisfloat, xislist, xistuple = _copytobuffer(longitude)
+        iny, yisfloat, yislist, yistuple = _copytobuffer(latitude)
+
+        # calculate the factors
+        factors = self._get_factors(inx, iny, radians=radians, errcheck=errcheck)
+
+        # if inputs were lists, tuples or floats, convert back.
+        return Factors(
+            meridional_scale=_convertback(
+                xisfloat, xislist, xistuple, factors.meridional_scale
+            ),
+            parallel_scale=_convertback(
+                xisfloat, xislist, xistuple, factors.parallel_scale
+            ),
+            areal_scale=_convertback(xisfloat, xislist, xistuple, factors.areal_scale),
+            angular_distortion=_convertback(
+                xisfloat, xislist, xistuple, factors.angular_distortion
+            ),
+            meridian_parallel_angle=_convertback(
+                xisfloat, xislist, xistuple, factors.meridian_parallel_angle
+            ),
+            meridian_convergence=_convertback(
+                xisfloat, xislist, xistuple, factors.meridian_convergence
+            ),
+            tissot_semimajor=_convertback(
+                xisfloat, xislist, xistuple, factors.tissot_semimajor
+            ),
+            tissot_semiminor=_convertback(
+                xisfloat, xislist, xistuple, factors.tissot_semiminor
+            ),
+            dx_dlam=_convertback(xisfloat, xislist, xistuple, factors.dx_dlam),
+            dx_dphi=_convertback(xisfloat, xislist, xistuple, factors.dx_dphi),
+            dy_dlam=_convertback(xisfloat, xislist, xistuple, factors.dy_dlam),
+            dy_dphi=_convertback(xisfloat, xislist, xistuple, factors.dy_dphi),
+        )
 
     def definition_string(self):
         """Returns formal definition string for projection
