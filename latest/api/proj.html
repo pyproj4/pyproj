@@ -97,6 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Proj</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-proj">pyproj.Proj</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-proj-factors">pyproj.proj.Factors</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
@@ -188,7 +189,7 @@ projection coordinates within one datum.
 <dl class="class">
 <dt id="pyproj.proj.Proj">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Proj</code><span class="sig-paren">(</span><em class="sig-param">projparams=None</em>, <em class="sig-param">preserve_units=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj.Proj</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj._Proj</span></code></p>
 <p>Performs cartographic transformations (converts from
 longitude,latitude to native map projection x,y coordinates and
 vice versa) using proj (<a class="reference external" href="https://proj.org">https://proj.org</a>).</p>
@@ -318,6 +319,37 @@ for more information about projection parameters.</p>
 </div>
 </dd></dl>
 
+<dl class="method">
+<dt id="pyproj.proj.Proj.get_factors">
+<code class="sig-name descname">get_factors</code><span class="sig-paren">(</span><em class="sig-param">longitude</em>, <em class="sig-param">latitude</em>, <em class="sig-param">radians=False</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.get_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.get_factors" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.6.0.</span></p>
+</div>
+<p>Calculate various cartographic properties, such as scale factors, angular
+distortion and meridian convergence. Depending on the underlying projection
+values will be calculated either numerically (default) or analytically.</p>
+<p>The function also calculates the partial derivatives of the given
+coordinate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>longitude</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input longitude coordinate(s).</p></li>
+<li><p><strong>latitude</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input latitude coordinate(s).</p></li>
+<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians.
+Default is False (degrees).</p></li>
+<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If True an exception is raised if the errors are found in the process.
+By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.proj.Factors" title="pyproj.proj.Factors">Factors</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="pyproj.proj.Proj.has_inverse">
 <code class="sig-name descname">has_inverse</code><a class="headerlink" href="#pyproj.proj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
@@ -342,6 +374,109 @@ coordinate version of the current projection</p>
 <code class="sig-name descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the definition string of the geographic (lat/lon)
 coordinate version of the current projection</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-proj-factors">
+<h2>pyproj.proj.Factors<a class="headerlink" href="#pyproj-proj-factors" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyproj.proj.Factors">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Factors</code><a class="headerlink" href="#pyproj.proj.Factors" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.6.0.</span></p>
+</div>
+<p>These are the scaling and angular distortion factors.</p>
+<p>See <a class="reference external" href="https://proj.org/development/reference/datatypes.html?highlight=pj_factors#c.PJ_FACTORS">PJ_FACTORS documentation</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>meridional_scale</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Meridional scale at coordinate.</p></li>
+<li><p><strong>parallel_scale</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Parallel scale at coordinate.</p></li>
+<li><p><strong>areal_scale</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Areal scale factor at coordinate.</p></li>
+<li><p><strong>angular_distortion</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Angular distortion at coordinate.</p></li>
+<li><p><strong>meridian_parallel_angle</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Meridian/parallel angle at coordinate.</p></li>
+<li><p><strong>meridian_convergence</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Meridian convergence at coordinate. Sometimes also described as <em>grid declination</em>.</p></li>
+<li><p><strong>tissot_semimajor</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Maximum scale factor.</p></li>
+<li><p><strong>tissot_semiminor</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Minimum scale factor.</p></li>
+<li><p><strong>dx_dlam</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Partial derivative of coordinate.</p></li>
+<li><p><strong>dx_dphi</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Partial derivative of coordinate.</p></li>
+<li><p><strong>dy_dlam</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Partial derivative of coordinate.</p></li>
+<li><p><strong>dy_dphi</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Partial derivative of coordinate.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pyproj.proj.Factors.angular_distortion">
+<em class="property">property </em><code class="sig-name descname">angular_distortion</code><a class="headerlink" href="#pyproj.proj.Factors.angular_distortion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.areal_scale">
+<em class="property">property </em><code class="sig-name descname">areal_scale</code><a class="headerlink" href="#pyproj.proj.Factors.areal_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.dx_dlam">
+<em class="property">property </em><code class="sig-name descname">dx_dlam</code><a class="headerlink" href="#pyproj.proj.Factors.dx_dlam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 8</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.dx_dphi">
+<em class="property">property </em><code class="sig-name descname">dx_dphi</code><a class="headerlink" href="#pyproj.proj.Factors.dx_dphi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 9</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.dy_dlam">
+<em class="property">property </em><code class="sig-name descname">dy_dlam</code><a class="headerlink" href="#pyproj.proj.Factors.dy_dlam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 10</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.dy_dphi">
+<em class="property">property </em><code class="sig-name descname">dy_dphi</code><a class="headerlink" href="#pyproj.proj.Factors.dy_dphi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 11</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.meridian_convergence">
+<em class="property">property </em><code class="sig-name descname">meridian_convergence</code><a class="headerlink" href="#pyproj.proj.Factors.meridian_convergence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.meridian_parallel_angle">
+<em class="property">property </em><code class="sig-name descname">meridian_parallel_angle</code><a class="headerlink" href="#pyproj.proj.Factors.meridian_parallel_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.meridional_scale">
+<em class="property">property </em><code class="sig-name descname">meridional_scale</code><a class="headerlink" href="#pyproj.proj.Factors.meridional_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.parallel_scale">
+<em class="property">property </em><code class="sig-name descname">parallel_scale</code><a class="headerlink" href="#pyproj.proj.Factors.parallel_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.tissot_semimajor">
+<em class="property">property </em><code class="sig-name descname">tissot_semimajor</code><a class="headerlink" href="#pyproj.proj.Factors.tissot_semimajor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 6</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyproj.proj.Factors.tissot_semiminor">
+<em class="property">property </em><code class="sig-name descname">tissot_semiminor</code><a class="headerlink" href="#pyproj.proj.Factors.tissot_semiminor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 7</p>
 </dd></dl>
 
 </dd></dl>

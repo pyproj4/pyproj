@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2.6.0
+~~~~~
+* ENH: Added Proj.get_factors() (issue #503) 
+
 2.5.0
 ~~~~~
 * Wheels contain PROJ version is 6.3.1
