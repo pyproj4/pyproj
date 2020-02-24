@@ -434,3 +434,19 @@ cdef extern from "proj.h":
         PROJ_GRID_AVAILABILITY_USED_FOR_SORTING
         PROJ_GRID_AVAILABILITY_DISCARD_OPERATION_IF_MISSING_GRID
         PROJ_GRID_AVAILABILITY_IGNORED
+
+    ctypedef struct PJ_FACTORS:
+        double meridional_scale
+        double parallel_scale
+        double areal_scale
+        double angular_distortion
+        double meridian_parallel_angle
+        double meridian_convergence
+        double tissot_semimajor
+        double tissot_semiminor
+        double dx_dlam
+        double dx_dphi
+        double dy_dlam
+        double dy_dphi
+
+    PJ_FACTORS proj_factors(PJ *P, PJ_COORD lp) nogil
