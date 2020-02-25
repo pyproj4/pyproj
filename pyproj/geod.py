@@ -47,8 +47,6 @@ class Geod(_Geod):
     performs forward and inverse geodetic, or Great Circle,
     computations.  The forward computation (using the 'fwd' method)
     involves determining latitude, longitude and back azimuth of a
-    computations.  The forward computation (using the 'fwd' method)
-    involves determining latitude, longitude and back azimuth of a
     terminus point given the latitude and longitude of an initial
     point, plus azimuth and distance. The inverse computation (using
     the 'inv' method) involves determining the forward and back
@@ -201,8 +199,6 @@ class Geod(_Geod):
         """
         forward transformation - Returns longitudes, latitudes and back
         azimuths of terminus points given longitudes (lons) and
-        latitudes (lats) of initial points, plus forward azimuths (az)
-        and distances (dist).
         latitudes (lats) of initial points, plus forward azimuths (az)
         and distances (dist).
 
