@@ -22,11 +22,9 @@ def check_proj_version(proj_dir):
     proj_version = parse_version(proj_ver_bytes)
     if proj_version < PROJ_MIN_VERSION:
         sys.exit(
-            "ERROR: Minimum supported proj version is {}, installed "
-            "version is {}. For more information see: "
-            "https://pyproj4.github.io/pyproj/stable/installation.html".format(
-                PROJ_MIN_VERSION, proj_version
-            )
+            f"ERROR: Minimum supported proj version is {PROJ_MIN_VERSION}, installed "
+            f"version is {proj_version}. For more information see: "
+            "https://pyproj4.github.io/pyproj/stable/installation.html"
         )
 
     return proj_version
@@ -39,7 +37,7 @@ def get_proj_dir():
     proj_dir = os.environ.get("PROJ_DIR")
     if proj_dir is None and os.path.exists(INTERNAL_PROJ_DIR):
         proj_dir = INTERNAL_PROJ_DIR
-        print("Internally compiled directory being used {}.".format(INTERNAL_PROJ_DIR))
+        print(f"Internally compiled directory being used {INTERNAL_PROJ_DIR}.")
     elif proj_dir is None and not os.path.exists(INTERNAL_PROJ_DIR):
         proj = find_executable("proj", path=sys.prefix)
         if proj is None:
@@ -54,7 +52,7 @@ def get_proj_dir():
     elif proj_dir is not None and os.path.exists(proj_dir):
         print("PROJ_DIR is set, using existing proj4 installation..\n")
     else:
-        sys.exit("ERROR: Invalid path for PROJ_DIR {}".format(proj_dir))
+        sys.exit(f"ERROR: Invalid path for PROJ_DIR {proj_dir}")
 
     # check_proj_version
     check_proj_version(proj_dir)
@@ -168,7 +166,7 @@ def get_extension_modules():
             Extension("pyproj._list", ["pyproj/_list.pyx"], **ext_options),
         ],
         quiet=True,
-        **get_cythonize_options()
+        **get_cythonize_options(),
     )
 
 
@@ -229,7 +227,6 @@ setup(
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -239,7 +236,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     packages=["pyproj", "pyproj.crs"],
-    python_requires=">=3.5",
+    python_requires=">=3.6",
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
 )

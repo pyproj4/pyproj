@@ -17,10 +17,8 @@ class BaseEnum(Enum):
             if member.value == item:
                 return member
         raise ValueError(
-            "Invalid value supplied '{}'. "
-            "Only {} are supported.".format(
-                item, tuple(version.value for version in cls)
-            )
+            f"Invalid value supplied '{item}'. "
+            f"Only {tuple(version.value for version in cls)} are supported."
         )
 
 

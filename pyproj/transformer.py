@@ -107,13 +107,9 @@ class TransformerGroup(_TransformerGroup):
 
     def __repr__(self) -> str:
         return (
-            "<TransformerGroup: best_available={best_available}>\n"
-            "- transformers: {transformers}\n"
-            "- unavailable_operations: {unavailable_operations}"
-        ).format(
-            best_available=self.best_available,
-            transformers=len(self.transformers),
-            unavailable_operations=len(self.unavailable_operations),
+            f"<TransformerGroup: best_available={self.best_available}>\n"
+            f"- transformers: {len(self.transformers)}\n"
+            f"- unavailable_operations: {len(self.unavailable_operations)}"
         )
 
 
@@ -378,7 +374,7 @@ class Transformer:
         >>> from pyproj import Transformer
         >>> transformer = Transformer.from_crs("epsg:4326", "epsg:3857")
         >>> x3, y3 = transformer.transform(33, 98)
-        >>> "%.3f  %.3f" % (x3, y3)
+        >>> f"{x3:.3f}  {y3:.3f}"
         '10909310.098  3895303.963'
         >>> pipeline_str = (
         ...     "+proj=pipeline +step +proj=longlat +ellps=WGS84 "
@@ -386,7 +382,7 @@ class Transformer:
         ... )
         >>> pipe_trans = Transformer.from_pipeline(pipeline_str)
         >>> xt, yt = pipe_trans.transform(2.1, 0.001)
-        >>> "%.3f  %.3f" % (xt, yt)
+        >>> f"{xt:.3f}  {yt:.3f}"
         '2.100  0.001'
         >>> transproj = Transformer.from_crs(
         ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
@@ -399,7 +395,7 @@ class Transformer:
         ...     3895878.820,
         ...     radians=True,
         ... )
-        >>> "%.3f %.3f %.3f" % (xpj, ypj, zpj)
+        >>> f"{xpj:.3f} {ypj:.3f} {zpj:.3f}"
         '-2.137 0.661 -20.531'
         >>> transprojr = Transformer.from_crs(
         ...     "EPSG:4326",
@@ -407,11 +403,11 @@ class Transformer:
         ...     always_xy=True,
         ... )
         >>> xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)
-        >>> "%.3f %.3f %.3f" % (xpjr, ypjr, zpjr)
+        >>> f"{xpjr:.3f} {ypjr:.3f} {zpjr:.3f}"
         '-2704026.010 -4253051.810 3895878.820'
         >>> transformer = Transformer.from_proj("epsg:4326", 4326, skip_equivalent=True)
         >>> xeq, yeq = transformer.transform(33, 98)
-        >>> "%.0f  %.0f" % (xeq, yeq)
+        >>> f"{xeq:.0f}  {yeq:.0f}"
         '33  98'
 
         """
@@ -645,13 +641,9 @@ class Transformer:
 
     def __repr__(self) -> str:
         return (
-            "<{type_name}: {name}>\nDescription: {description}\n"
-            "Area of Use:\n{area_of_use}"
-        ).format(
-            type_name=self._transformer.type_name,
-            name=self.name,
-            description=self.description,
-            area_of_use=self.area_of_use or "- undefined",
+            f"<{self._transformer.type_name}: {self.name}>\n"
+            f"Description: {self.description}\n"
+            f"Area of Use:\n{self.area_of_use or '- undefined'}"
         )
 
     def __eq__(self, other: Any) -> bool:

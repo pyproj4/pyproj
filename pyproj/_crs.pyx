@@ -262,23 +262,13 @@ cdef class Axis:
         self.unit_code = "undefined"
 
     def __str__(self):
-        return "{abbrev}[{direction}]: {name} ({unit_name})".format(
-            name=self.name,
-            direction=self.direction,
-            abbrev=self.abbrev,
-            unit_name=self.unit_name,
-        )
+        return f"{self.abbrev}[{self.direction}]: {self.name} ({self.unit_name})"
 
     def __repr__(self):
-        return ("Axis(name={name}, abbrev={abbrev}, direction={direction}, "
-                "unit_auth_code={unit_auth_code}, unit_code={unit_code}, "
-                "unit_name={unit_name})").format(
-            name=self.name,
-            abbrev=self.abbrev,
-            direction=self.direction,
-            unit_name=self.unit_name,
-            unit_auth_code=self.unit_auth_code,
-            unit_code=self.unit_code,
+        return (
+            f"Axis(name={self.name}, abbrev={self.abbrev}, "
+            f"direction={self.direction}, unit_auth_code={self.unit_auth_code}, "
+            f"unit_code={self.unit_code}, unit_name={self.unit_name})"
         )
 
     @staticmethod
@@ -339,18 +329,15 @@ cdef class AreaOfUse:
         self.name = "undefined"
 
     def __str__(self):
-        return "- name: {name}\n" \
-               "- bounds: {bounds}".format(
-            name=self.name, bounds=self.bounds)
+        return (
+            f"- name: {self.name}\n"
+            f"- bounds: {self.bounds}"
+        )
 
     def __repr__(self):
-        return ("AreaOfUse(name={name}, west={west}, south={south},"
-                " east={east}, north={north})").format(
-            name=self.name,
-            west=self.west,
-            south=self.south,
-            east=self.east,
-            north=self.north
+        return (
+            f"AreaOfUse(name={self.name}, west={self.west}, south={self.south},"
+            f" east={self.east}, north={self.north})"
         )
 
     @staticmethod
@@ -477,9 +464,7 @@ cdef class Base:
         multiline = b"MULTILINE=NO"
         if pretty:
             multiline = b"MULTILINE=YES"
-        indentation_width = cstrencode(
-            "INDENTATION_WIDTH={:.0f}".format(indentation)
-        )
+        indentation_width = cstrencode(f"INDENTATION_WIDTH={indentation:.0f}")
         options[0] = multiline
         options[1] = indentation_width
         options[2] = NULL
@@ -569,10 +554,7 @@ cdef class _CRSParts(Base):
         elif hasattr(user_input, "to_json"):
             prepared = cls.from_json(user_input.to_json())
         else:
-            raise CRSError("Invalid {} input: {!r}".format(
-                cls.__name__,
-                user_input,
-            ))
+            raise CRSError(f"Invalid {cls.__name__} input: {user_input!r}")
         return prepared
 
 
@@ -676,9 +658,8 @@ cdef class CoordinateSystem(_CRSParts):
             proj_destroy(coordinate_system_pj)
             proj_context_destroy(context)
             raise CRSError(
-                "Invalid coordinate system string: {}".format(
-                    pystrdecode(coordinate_system_string)
-                )
+                "Invalid coordinate system string: "
+                f"{pystrdecode(coordinate_system_string)}"
             )
         CRSError.clear()
         return CoordinateSystem.create(context, coordinate_system_pj)
@@ -804,9 +785,7 @@ cdef class Ellipsoid(_CRSParts):
 
         if ellipsoid_pj == NULL:
             proj_context_destroy(context)
-            raise CRSError(
-                "Invalid authority or code ({0}, {1})".format(auth_name, code)
-            )
+            raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
 
@@ -858,9 +837,7 @@ cdef class Ellipsoid(_CRSParts):
             proj_destroy(ellipsoid_pj)
             proj_context_destroy(context)
             raise CRSError(
-                "Invalid ellipsoid string: {}".format(
-                    pystrdecode(ellipsoid_string)
-                )
+                f"Invalid ellipsoid string: {pystrdecode(ellipsoid_string)}"
             )
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
@@ -964,11 +941,7 @@ cdef class Ellipsoid(_CRSParts):
         )
         if ellipsoid_pj == NULL:
             proj_context_destroy(context)
-            raise CRSError(
-                "Invalid ellipsoid name: {}".format(
-                    pystrdecode(ellipsoid_name)
-                )
-            )
+            raise CRSError(f"Invalid ellipsoid name: {pystrdecode(ellipsoid_name)}")
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
 
@@ -1013,7 +986,7 @@ cdef class Ellipsoid(_CRSParts):
                 _PJ_ELLPS_NAME_MAP.get(ellipsoid_name, ellipsoid_name)
             ]
         except KeyError:
-            raise CRSError("Invalid ellipsoid name: {}".format(ellipsoid_name))
+            raise CRSError(f"Invalid ellipsoid name: {ellipsoid_name}")
         return CustomEllipsoid(
             name=ellipsoid_params["description"],
             semi_major_axis=ellipsoid_params["a"],
@@ -1094,9 +1067,7 @@ cdef class PrimeMeridian(_CRSParts):
 
         if prime_meridian_pj == NULL:
             proj_context_destroy(context)
-            raise CRSError(
-                "Invalid authority or code ({0}, {1})".format(auth_name, code)
-            )
+            raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return PrimeMeridian.create(context, prime_meridian_pj)
 
@@ -1151,9 +1122,7 @@ cdef class PrimeMeridian(_CRSParts):
             proj_destroy(prime_meridian_pj)
             proj_context_destroy(context)
             raise CRSError(
-                "Invalid prime meridian string: {}".format(
-                    pystrdecode(prime_meridian_string)
-                )
+                f"Invalid prime meridian string: {pystrdecode(prime_meridian_string)}"
             )
         CRSError.clear()
         return PrimeMeridian.create(context, prime_meridian_pj)
@@ -1261,9 +1230,7 @@ cdef class PrimeMeridian(_CRSParts):
         if prime_meridian_pj == NULL:
             proj_context_destroy(context)
             raise CRSError(
-                "Invalid prime meridian name: {}".format(
-                    pystrdecode(prime_meridian_name)
-                )
+                f"Invalid prime meridian name: {pystrdecode(prime_meridian_name)}"
             )
         CRSError.clear()
         return PrimeMeridian.create(context, prime_meridian_pj)
@@ -1361,9 +1328,7 @@ cdef class Datum(_CRSParts):
 
         if datum_pj == NULL:
             proj_context_destroy(context)
-            raise CRSError(
-                "Invalid authority or code ({0}, {1})".format(auth_name, code)
-            )
+            raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return Datum.create(context, datum_pj)
 
@@ -1422,11 +1387,7 @@ cdef class Datum(_CRSParts):
         ):
             proj_destroy(datum_pj)
             proj_context_destroy(context)
-            raise CRSError(
-                "Invalid datum string: {}".format(
-                    pystrdecode(datum_string)
-                )
-            )
+            raise CRSError(f"Invalid datum string: {pystrdecode(datum_string)}")
         CRSError.clear()
         return Datum.create(context, datum_pj)
 
@@ -1496,11 +1457,7 @@ cdef class Datum(_CRSParts):
         )
         if datum_pj == NULL:
             proj_context_destroy(context)
-            raise CRSError(
-                "Invalid datum name: {}".format(
-                    pystrdecode(datum_name)
-                )
-            )
+            raise CRSError(f"Invalid datum name: {pystrdecode(datum_name)}")
         CRSError.clear()
         return Datum.create(context, datum_pj)
 
@@ -1552,9 +1509,7 @@ cdef class Datum(_CRSParts):
         try:
             datum_name=_DATUM_NAME_MAP[datum_name.upper().replace(" ", "")]
         except KeyError:
-            raise CRSError(
-                "Invalid datum name: {}".format(datum_name)
-            )
+            raise CRSError(f"Invalid datum name: {datum_name}")
         return Datum.from_name(
             datum_name=datum_name,
             auth_name=auth_name,
@@ -1729,21 +1684,14 @@ cdef class Param:
         return param
 
     def __str__(self):
-        return "{auth_name}:{auth_code}".format(self.auth_name, self.auth_code)
+        return f"{self.auth_name}:{self.auth_code}"
 
     def __repr__(self):
-        return ("Param(name={name}, auth_name={auth_name}, code={code}, "
-                "value={value}, unit_name={unit_name}, "
-                "unit_auth_name={unit_auth_name}, unit_code={unit_code}, "
-                "unit_category={unit_category})").format(
-            name=self.name,
-            auth_name=self.auth_name,
-            code=self.code,
-            value=self.value,
-            unit_name=self.unit_name,
-            unit_auth_name=self.unit_auth_name,
-            unit_code=self.unit_code,
-            unit_category=self.unit_category,
+        return (
+            f"Param(name={self.name}, auth_name={self.auth_name}, code={self.code}, "
+            f"value={self.value}, unit_name={self.unit_name}, "
+            f"unit_auth_name={self.unit_auth_name}, unit_code={self.unit_code}, "
+            f"unit_category={self.unit_category})"
         )
 
 
@@ -1816,17 +1764,11 @@ cdef class Grid:
         return self.full_name
 
     def __repr__(self):
-        return ("Grid(short_name={short_name}, full_name={full_name}, "
-                "package_name={package_name}, url={url}, "
-                "direct_download={direct_download}, open_license={open_license}, "
-                "available={available})").format(
-            short_name=self.short_name,
-            full_name=self.full_name,
-            package_name=self.package_name,
-            url=self.url,
-            direct_download=self.direct_download,
-            open_license=self.open_license,
-            available=self.available
+        return (
+            f"Grid(short_name={self.short_name}, full_name={self.full_name}, "
+            f"package_name={self.package_name}, url={self.url}, "
+            f"direct_download={self.direct_download}, "
+            f"open_license={self.open_license}, available={self.available})"
         )
 
 
@@ -1962,9 +1904,7 @@ cdef class CoordinateOperation(_CRSParts):
 
         if coord_operation_pj == NULL:
             proj_context_destroy(context)
-            raise CRSError(
-                "Invalid authority or code ({0}, {1})".format(auth_name, code)
-            )
+            raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return CoordinateOperation.create(context, coord_operation_pj)
 
@@ -2023,9 +1963,8 @@ cdef class CoordinateOperation(_CRSParts):
             proj_destroy(coord_operation_pj)
             proj_context_destroy(context)
             raise CRSError(
-                "Invalid coordinate operation string: {}".format(
-                    pystrdecode(coordinate_operation_string)
-                )
+                "Invalid coordinate operation string: "
+                f"{pystrdecode(coordinate_operation_string)}"
             )
         CRSError.clear()
         return CoordinateOperation.create(context, coord_operation_pj)
@@ -2138,9 +2077,8 @@ cdef class CoordinateOperation(_CRSParts):
         if coordinate_operation_pj == NULL:
             proj_context_destroy(context)
             raise CRSError(
-                "Invalid coordinate operation name: {}".format(
-                    pystrdecode(coordinate_operation_name)
-                )
+                "Invalid coordinate operation name: "
+                f"{pystrdecode(coordinate_operation_name)}"
             )
         CRSError.clear()
         return CoordinateOperation.create(context, coordinate_operation_pj)
@@ -2276,15 +2214,10 @@ cdef class CoordinateOperation(_CRSParts):
 
     def __repr__(self):
         return (
-            "<Coordinate Operation: {type_name}>\n"
-            "Name: {name}\n"
-            "Method: {method_name}\n"
-            "Area of Use:\n{area_of_use}"
-        ).format(
-            type_name=self.type_name,
-            name=self.name,
-            method_name=self.method_name,
-            area_of_use=self.area_of_use or "- undefined",
+            f"<Coordinate Operation: {self.type_name}>\n"
+            f"Name: {self.name}\n"
+            f"Method: {self.method_name}\n"
+            f"Area of Use:\n{self.area_of_use or '- undefined'}"
         )
 
 
@@ -2335,11 +2268,10 @@ cdef class _CRS(Base):
             cstrencode(proj_string),
         )
         if self.projobj == NULL:
-            raise CRSError(
-                "Invalid projection: {}".format(pystrdecode(proj_string)))
+            raise CRSError(f"Invalid projection: {pystrdecode(proj_string)}")
         # make sure the input is a CRS
         if not proj_is_crs(self.projobj):
-            raise CRSError("Input is not a CRS: {}".format(proj_string))
+            raise CRSError(f"Input is not a CRS: {proj_string}")
         # set proj information
         self.srs = pystrdecode(proj_string)
         self._type = proj_get_type(self.projobj)

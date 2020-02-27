@@ -11,11 +11,7 @@ from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import ProjError
 
 # version number string for PROJ
-proj_version_str = "{0}.{1}.{2}".format(
-    PROJ_VERSION_MAJOR,
-    PROJ_VERSION_MINOR,
-    PROJ_VERSION_PATCH
-)
+proj_version_str = f"{PROJ_VERSION_MAJOR}.{PROJ_VERSION_MINOR}.{PROJ_VERSION_PATCH}"
 
 
 Factors = namedtuple(
@@ -83,7 +79,7 @@ cdef class _Proj:
         # initialize projection
         self.projobj = proj_create(self.context, projstring)
         if self.projobj is NULL:
-            raise ProjError("Invalid projection {}.".format(projstring))
+            raise ProjError(f"Invalid projection {projstring}.")
         self.projobj_info = proj_pj_info(self.projobj)
         ProjError.clear()
 
@@ -147,8 +143,9 @@ cdef class _Proj:
                 projxyout = proj_trans(self.projobj, PJ_FWD, projlonlatin)
                 errno = proj_errno(self.projobj)
                 if errcheck and errno:
-                    raise ProjError("proj error: {}".format(
-                        pystrdecode(proj_errno_string(errno))))
+                    raise ProjError(
+                        f"proj error: {pystrdecode(proj_errno_string(errno)))}"
+                    )
                 elif errcheck:
                     with gil:
                         if ProjError.internal_proj_error is not None:
@@ -223,8 +220,9 @@ cdef class _Proj:
                 errno = proj_errno(self.projobj)
                 if errcheck and errno:
                     with gil:
-                        raise ProjError("proj error: {}".format(
-                            pystrdecode(proj_errno_string(errno))))
+                        raise ProjError(
+                            f"proj error: {pystrdecode(proj_errno_string(errno))}"
+                        )
                 elif errcheck:
                     with gil:
                         if ProjError.internal_proj_error is not None:
@@ -324,8 +322,9 @@ cdef class _Proj:
                 errno = proj_errno(self.projobj)
                 if errcheck and errno:
                     with gil:
-                        raise ProjError("proj error: {}".format(
-                            pystrdecode(proj_errno_string(errno))))
+                        raise ProjError(
+                            f"proj error: {pystrdecode(proj_errno_string(errno))}"
+                        )
 
                 if errno or invalid_coord:
                     meridional_scale_buff.data[iii] = HUGE_VAL
@@ -378,7 +377,7 @@ cdef class _Proj:
         )
 
     def __repr__(self):
-        return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
+        return f"Proj('{self.srs}', preserve_units=True)"
 
     def _is_exact_same(self, _Proj other):
         return proj_is_equivalent_to(

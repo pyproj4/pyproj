@@ -53,9 +53,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"pyproj"
-copyright = u"2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors"
-author = u"Jeffrey Whitaker"
+project = "pyproj"
+copyright = "2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors"
+author = "Jeffrey Whitaker"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -131,7 +131,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass
 # [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "pyproj.tex", u"pyproj Documentation", u"Delta", "manual")
+    (master_doc, "pyproj.tex", "pyproj Documentation", "Delta", "manual")
 ]
 
 
@@ -139,7 +139,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "pyproj", u"pyproj Documentation", [author], 1)]
+man_pages = [(master_doc, "pyproj", "pyproj Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------
@@ -151,7 +151,7 @@ texinfo_documents = [
     (
         master_doc,
         "pyproj",
-        u"pyproj Documentation",
+        "pyproj Documentation",
         author,
         "pyproj",
         "One line description of project.",

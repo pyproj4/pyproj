@@ -5,10 +5,8 @@ cimport cython
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import GeodError
 
-geodesic_version_str = "{0}.{1}.{2}".format(
-    GEODESIC_VERSION_MAJOR,
-    GEODESIC_VERSION_MINOR,
-    GEODESIC_VERSION_PATCH
+geodesic_version_str = (
+    f"{GEODESIC_VERSION_MAJOR}.{GEODESIC_VERSION_MINOR}.{GEODESIC_VERSION_PATCH}"
 )
 
 cdef class Geod:
@@ -19,7 +17,7 @@ cdef class Geod:
         # convert 'a' only for initstring
         a_str = int(a) if a.is_integer() else a
         f_str = int(f) if f.is_integer() else f
-        self.initstring = pystrdecode(cstrencode("+a=%s +f=%s" % (a_str, f_str)))
+        self.initstring = pystrdecode(cstrencode(f"+a={a_str} +f={f_str}"))
         self.sphere = sphere
         self.b = b
         self.es = es
@@ -316,7 +314,4 @@ cdef class Geod:
         return (polygon_area, polygon_perimeter)
 
     def __repr__(self):
-        return "{classname}({init!r})".format(
-            classname=self.__class__.__name__,
-            init=self.initstring,
-        )
+        return f"{self.__class__.__name__}({self.initstring!r})"

@@ -166,7 +166,7 @@ cdef class _TransformerGroup:
                         self._best_available = False
                         warnings.warn(
                             "Best transformation is not available due to missing "
-                            "{!r}".format(coordinate_operation.grids[0])
+                            f"{coordinate_operation.grids[0]!r}"
                         )
         finally:
             if operation_factory_context != NULL:
@@ -367,7 +367,7 @@ cdef class _Transformer(Base):
             proj_pipeline,
         )
         if transformer.projobj is NULL:
-            raise ProjError("Invalid projection {}.".format(proj_pipeline))
+            raise ProjError(f"Invalid projection {proj_pipeline}.")
         transformer._initialize_from_projobj()
         transformer._set_radians_io()
         transformer.is_pipeline = True
@@ -484,8 +484,9 @@ cdef class _Transformer(Base):
             )
         cdef int errno = proj_errno(self.projobj)
         if errcheck and errno:
-            raise ProjError("transform error: {}".format(
-                pystrdecode(proj_errno_string(errno))))
+            raise ProjError(
+                f"transform error: {pystrdecode(proj_errno_string(errno))}"
+            )
         elif errcheck and ProjError.internal_proj_error is not None:
             raise ProjError("transform error")
 
@@ -583,8 +584,9 @@ cdef class _Transformer(Base):
             )
         cdef int errno = proj_errno(self.projobj)
         if errcheck and errno:
-            raise ProjError("itransform error: {}".format(
-                pystrdecode(proj_errno_string(errno))))
+            raise ProjError(
+                f"itransform error: {pystrdecode(proj_errno_string(errno))}"
+            )
         elif errcheck and ProjError.internal_proj_error is not None:
             raise ProjError("itransform error")
 

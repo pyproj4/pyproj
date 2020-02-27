@@ -45,17 +45,17 @@ def _prepare_from_dict(projparams: dict, allow_json: bool = True) -> str:
             value = ",".join([str(val) for val in value])
         # issue 183 (+ no_rot)
         if value is None or str(value) == "True":
-            pjargs.append("+{key}".format(key=key))
+            pjargs.append(f"+{key}")
         elif str(value) == "False":
             pass
         else:
-            pjargs.append("+{key}={value}".format(key=key, value=value))
+            pjargs.append(f"+{key}={value}")
     return _prepare_from_string(" ".join(pjargs))
 
 
 def _prepare_from_string(in_crs_string: str) -> str:
     if not in_crs_string:
-        raise CRSError("CRS is empty or invalid: {!r}".format(in_crs_string))
+        raise CRSError(f"CRS is empty or invalid: {in_crs_string!r}")
     elif "{" in in_crs_string:
         # may be json, try to decode it
         try:
@@ -105,7 +105,7 @@ def _prepare_from_string(in_crs_string: str) -> str:
 
 
 def _prepare_from_authority(auth_name: str, auth_code: Union[str, int]):
-    return "{}:{}".format(auth_name, auth_code)
+    return f"{auth_name}:{auth_code}"
 
 
 def _prepare_from_epsg(auth_code: Union[str, int]):
@@ -266,7 +266,7 @@ class CRS(_CRS):
                     LENGTHUNIT["metre",1,
                         ID["EPSG",9001]]]]
         >>> geod = crs.get_geod()
-        >>> "+a={:.0f} +f={:.8f}".format(geod.a, geod.f)
+        >>> f"+a={geod.a:.0f} +f={geod.f:.8f}"
         '+a=6378137 +f=0.00335281'
         >>> crs.is_projected
         True
@@ -287,7 +287,7 @@ class CRS(_CRS):
             elif hasattr(projparams, "to_wkt"):
                 projstring = projparams.to_wkt()  # type: ignore
             else:
-                raise CRSError("Invalid CRS input: {!r}".format(projparams))
+                raise CRSError(f"Invalid CRS input: {projparams!r}")
 
         if kwargs:
             projkwargs = _prepare_from_dict(kwargs, allow_json=False)
@@ -347,7 +347,7 @@ class CRS(_CRS):
         CRS
         """
         if not is_proj(in_proj_string):
-            raise CRSError("Invalid PROJ string: {}".format(in_proj_string))
+            raise CRSError(f"Invalid PROJ string: {in_proj_string}")
         return CRS(_prepare_from_string(in_proj_string))
 
     @staticmethod
@@ -367,7 +367,7 @@ class CRS(_CRS):
         CRS
         """
         if not is_wkt(in_wkt_string):
-            raise CRSError("Invalid WKT string: {}".format(in_wkt_string))
+            raise CRSError(f"Invalid WKT string: {in_wkt_string}")
         return CRS(_prepare_from_string(in_wkt_string))
 
     @staticmethod
@@ -656,9 +656,8 @@ class CRS(_CRS):
             if errcheck:
                 if coordinate_operation:
                     warnings.warn(
-                        "Unsupported coordinate operation: {}".format(
-                            coordinate_operation.method_name
-                        )
+                        "Unsupported coordinate operation: "
+                        f"{coordinate_operation.method_name}"
                     )
                 else:
                     warnings.warn("Coordinate operation not found.")
@@ -737,9 +736,7 @@ class CRS(_CRS):
         try:
             conversion_method = _GRID_MAPPING_NAME_MAP[grid_mapping_name]
         except KeyError:
-            raise CRSError(
-                "Unsupported grid mapping name: {}".format(grid_mapping_name)
-            )
+            raise CRSError(f"Unsupported grid mapping name: {grid_mapping_name}")
         projected_crs = ProjectedCRS(
             name=in_cf.get("projected_crs_name", "undefined"),
             conversion=conversion_method(in_cf),
@@ -932,7 +929,7 @@ class CRS(_CRS):
             coordinate_system_name = str(self.coordinate_system)
         elif self.is_bound and self.source_crs:
             coordinate_system_name = str(self.source_crs.coordinate_system)
-            source_crs_repr = "Source CRS: {}\n".format(self.source_crs.name)
+            source_crs_repr = f"Source CRS: {self.source_crs.name}\n"
         else:
             coordinate_system_names = []
             sub_crs_repr_list = ["Sub CRS:\n"]
@@ -959,34 +956,21 @@ class CRS(_CRS):
         # get SRS representation
         srs_repr = self.to_string()
         srs_repr = srs_repr if len(srs_repr) <= 50 else " ".join([srs_repr[:50], "..."])
-        string_repr = (
-            "<{type_name}: {srs_repr}>\n"
-            "Name: {name}\n"
-            "Axis Info [{coordinate_system}]:\n"
-            "{axis_info_str}"
+        axis_info_str = axis_info_str or "- undefined\n"
+        return (
+            f"<{self.type_name}: {srs_repr}>\n"
+            f"Name: {self.name}\n"
+            f"Axis Info [{coordinate_system_name or 'undefined'}]:\n"
+            f"{axis_info_str}"
             "Area of Use:\n"
-            "{area_of_use}\n"
-            "{coordinate_operation}"
-            "Datum: {datum}\n"
-            "- Ellipsoid: {ellipsoid}\n"
-            "- Prime Meridian: {prime_meridian}\n"
-            "{source_crs_repr}"
-            "{sub_crs_repr}"
-        ).format(
-            type_name=self.type_name,
-            srs_repr=srs_repr,
-            name=self.name,
-            axis_info_str=axis_info_str or "- undefined\n",
-            area_of_use=self.area_of_use or "- undefined",
-            coordinate_system=coordinate_system_name or "undefined",
-            coordinate_operation=coordinate_operation,
-            datum=self.datum,
-            ellipsoid=self.ellipsoid or "undefined",
-            prime_meridian=self.prime_meridian or "undefined",
-            source_crs_repr=source_crs_repr,
-            sub_crs_repr=sub_crs_repr,
+            f"{self.area_of_use or '- undefined'}\n"
+            f"{coordinate_operation}"
+            f"Datum: {self.datum}\n"
+            f"- Ellipsoid: {self.ellipsoid or 'undefined'}\n"
+            f"- Prime Meridian: {self.prime_meridian or 'undefined'}\n"
+            f"{source_crs_repr}"
+            f"{sub_crs_repr}"
         )
-        return string_repr
 
 
 class GeographicCRS(CRS):

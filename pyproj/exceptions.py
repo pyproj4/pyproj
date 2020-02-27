@@ -11,10 +11,7 @@ class ProjError(RuntimeError):
     def __init__(self, error_message: str) -> None:
         if self.internal_proj_error is not None:
             error_message = (
-                "{error_message}: (Internal Proj Error: {internal_proj_error})"
-            ).format(
-                error_message=error_message,
-                internal_proj_error=self.internal_proj_error,
+                f"{error_message}: (Internal Proj Error: {self.internal_proj_error})"
             )
             ProjError.clear()
         super().__init__(error_message)
