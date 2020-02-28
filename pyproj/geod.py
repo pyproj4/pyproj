@@ -197,16 +197,34 @@ class Geod(_Geod):
 
     def fwd(self, lons, lats, az, dist, radians=False):
         """
-        forward transformation - Returns longitudes, latitudes and back
-        azimuths of terminus points given longitudes (lons) and
-        latitudes (lats) of initial points, plus forward azimuths (az)
-        and distances (dist).
+        Forward transformation
 
-        Works with numpy and regular python array objects, python
-        sequences and scalars.
+        Determine longitudes, latitudes and back azimuths of terminus
+        points given longitudes and latitudes of initial points,
+        plus forward azimuths and distances.
 
-        if radians=True, lons/lats and azimuths are radians instead of
-        degrees. Distances are in meters.
+        Parameters
+        ----------
+        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            Longitude(s) of initial point(s)
+        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            Latitude(s) of initial point(s)
+        az: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            Forward azimuth(s)
+        dist: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            Distance(s) between initial and terminus point(s)
+            in meters
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+            Longitude(s) of terminus point(s)
+        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+            Latitude(s) of terminus point(s)
+        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+            Back azimuth(s)
         """
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
@@ -222,15 +240,33 @@ class Geod(_Geod):
 
     def inv(self, lons1, lats1, lons2, lats2, radians=False):
         """
-        inverse transformation - Returns forward and back azimuths, plus
-        distances between initial points (specified by lons1, lats1) and
-        terminus points (specified by lons2, lats2).
+        Inverse transformation
 
-        Works with numpy and regular python array objects, python
-        sequences and scalars.
+        Determine forward and back azimuths, plus distances
+        between initial points and terminus points.
 
-        if radians=True, lons/lats and azimuths are radians instead of
-        degrees. Distances are in meters.
+        Parameters
+        ----------
+        lons1: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            Longitude(s) of initial point(s)
+        lats1: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            Latitude(s) of initial point(s)
+        lons2: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            Longitude(s) of terminus point(s)
+        lats2: array, :class:`numpy.ndarray`, list, tuple, or scalar
+            Latitude(s) of terminus point(s)
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+            Forward azimuth(s)
+        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+            Back azimuth(s)
+        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+            Distance(s) between initial and terminus point(s)
+            in meters
         """
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(lons1)
@@ -246,13 +282,10 @@ class Geod(_Geod):
 
     def npts(self, lon1, lat1, lon2, lat2, npts, radians=False):
         """
-        Given a single initial point and terminus point (specified by
-        python floats lon1,lat1 and lon2,lat2), returns a list of
-        longitude/latitude pairs describing npts equally spaced
-        intermediate points along the geodesic between the initial and
-        terminus points.
-
-        if radians=True, lons/lats are radians instead of degrees.
+        Given a single initial point and terminus point, returns
+        a list of longitude/latitude pairs describing npts equally
+        spaced intermediate points along the geodesic between the
+        initial and terminus points.
 
         Example usage:
 
@@ -297,6 +330,27 @@ class Geod(_Geod):
         '47.136  -109.100'
         '46.805  -114.051'
         '46.262  -118.924'
+
+        Parameters
+        ----------
+        lon1: float
+            Longitude of the initial point
+        lat1: float
+            Latitude of the initial point
+        lon2: float
+            Longitude of the terminus point
+        lat2: float
+            Latitude of the terminus point
+        npts: int
+            Number of points to be returned
+        radians: bool, optional
+            If True, the input data is assumed to be in radians.
+
+        Returns
+        -------
+        list of tuples:
+            list of (lon, lat) points along the geodesic
+            between the initial and terminus points.
         """
         lons, lats = super()._npts(lon1, lat1, lon2, lat2, npts, radians=radians)
         return list(zip(lons, lats))
@@ -508,7 +562,7 @@ class Geod(_Geod):
         radians: bool, optional
             If True, the input data is assumed to be in radians.
 
-         Returns
+        Returns
         -------
         (float, float):
             The geodesic area (meters^2) and permimeter (meters) of the polygon.
