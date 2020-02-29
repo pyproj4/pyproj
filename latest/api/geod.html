@@ -313,14 +313,30 @@ information about specifying ellipsoid parameters.</p>
 <dl class="method">
 <dt id="pyproj.Geod.fwd">
 <code class="sig-name descname">fwd</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">az</em>, <em class="sig-param">dist</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.fwd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.fwd" title="Permalink to this definition">¶</a></dt>
-<dd><p>forward transformation - Returns longitudes, latitudes and back
-azimuths of terminus points given longitudes (lons) and
-latitudes (lats) of initial points, plus forward azimuths (az)
-and distances (dist).</p>
-<p>Works with numpy and regular python array objects, python
-sequences and scalars.</p>
-<p>if radians=True, lons/lats and azimuths are radians instead of
-degrees. Distances are in meters.</p>
+<dd><p>Forward transformation</p>
+<p>Determine longitudes, latitudes and back azimuths of terminus
+points given longitudes and latitudes of initial points,
+plus forward azimuths and distances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Longitude(s) of initial point(s)</p></li>
+<li><p><strong>lats</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Latitude(s) of initial point(s)</p></li>
+<li><p><strong>az</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Forward azimuth(s)</p></li>
+<li><p><strong>dist</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Distance(s) between initial and terminus point(s)
+in meters</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar – Longitude(s) of terminus point(s)</p></li>
+<li><p>array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar – Latitude(s) of terminus point(s)</p></li>
+<li><p>array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar – Back azimuth(s)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -366,12 +382,14 @@ the sum of the areas and perimeters of all geometries.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.BaseGeometry</span></code>) – The geometry to calculate the area and perimeter from.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – <p>If True, the input data is assumed to be in radians.</p>
-<p>Returns</p>
-</p></li>
-<li><p><strong>-------</strong> – </p></li>
-<li><p><strong>float</strong><strong>)</strong> (<em>(</em><em>float</em><em>,</em>) – The geodesic area (meters^2) and permimeter (meters) of the polygon.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The geodesic area (meters^2) and permimeter (meters) of the polygon.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(float, float)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -415,13 +433,29 @@ the sum of the lengths.</p>
 <dl class="method">
 <dt id="pyproj.Geod.inv">
 <code class="sig-name descname">inv</code><span class="sig-paren">(</span><em class="sig-param">lons1</em>, <em class="sig-param">lats1</em>, <em class="sig-param">lons2</em>, <em class="sig-param">lats2</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.inv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.inv" title="Permalink to this definition">¶</a></dt>
-<dd><p>inverse transformation - Returns forward and back azimuths, plus
-distances between initial points (specified by lons1, lats1) and
-terminus points (specified by lons2, lats2).</p>
-<p>Works with numpy and regular python array objects, python
-sequences and scalars.</p>
-<p>if radians=True, lons/lats and azimuths are radians instead of
-degrees. Distances are in meters.</p>
+<dd><p>Inverse transformation</p>
+<p>Determine forward and back azimuths, plus distances
+between initial points and terminus points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons1</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Longitude(s) of initial point(s)</p></li>
+<li><p><strong>lats1</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Latitude(s) of initial point(s)</p></li>
+<li><p><strong>lons2</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Longitude(s) of terminus point(s)</p></li>
+<li><p><strong>lats2</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Latitude(s) of terminus point(s)</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar – Forward azimuth(s)</p></li>
+<li><p>array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar – Back azimuth(s)</p></li>
+<li><p>array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar – Distance(s) between initial and terminus point(s)
+in meters</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -496,12 +530,10 @@ degrees. Distances are in meters.</p>
 <dl class="method">
 <dt id="pyproj.Geod.npts">
 <code class="sig-name descname">npts</code><span class="sig-paren">(</span><em class="sig-param">lon1</em>, <em class="sig-param">lat1</em>, <em class="sig-param">lon2</em>, <em class="sig-param">lat2</em>, <em class="sig-param">npts</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.npts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.npts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a single initial point and terminus point (specified by
-python floats lon1,lat1 and lon2,lat2), returns a list of
-longitude/latitude pairs describing npts equally spaced
-intermediate points along the geodesic between the initial and
-terminus points.</p>
-<p>if radians=True, lons/lats are radians instead of degrees.</p>
+<dd><p>Given a single initial point and terminus point, returns
+a list of longitude/latitude pairs describing npts equally
+spaced intermediate points along the geodesic between the
+initial and terminus points.</p>
 <p>Example usage:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
@@ -546,6 +578,25 @@ terminus points.</p>
 <span class="go">&#39;46.262  -118.924&#39;</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lon1</strong> (<em>float</em>) – Longitude of the initial point</p></li>
+<li><p><strong>lat1</strong> (<em>float</em>) – Latitude of the initial point</p></li>
+<li><p><strong>lon2</strong> (<em>float</em>) – Longitude of the terminus point</p></li>
+<li><p><strong>lat2</strong> (<em>float</em>) – Latitude of the terminus point</p></li>
+<li><p><strong>npts</strong> (<em>int</em>) – Number of points to be returned</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of (lon, lat) points along the geodesic
+between the initial and terminus points.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of tuples</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
