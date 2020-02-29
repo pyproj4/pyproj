@@ -355,16 +355,34 @@
 
 <div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">az</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        forward transformation - Returns longitudes, latitudes and back</span>
-<span class="sd">        azimuths of terminus points given longitudes (lons) and</span>
-<span class="sd">        latitudes (lats) of initial points, plus forward azimuths (az)</span>
-<span class="sd">        and distances (dist).</span>
+<span class="sd">        Forward transformation</span>
 
-<span class="sd">        Works with numpy and regular python array objects, python</span>
-<span class="sd">        sequences and scalars.</span>
+<span class="sd">        Determine longitudes, latitudes and back azimuths of terminus</span>
+<span class="sd">        points given longitudes and latitudes of initial points,</span>
+<span class="sd">        plus forward azimuths and distances.</span>
 
-<span class="sd">        if radians=True, lons/lats and azimuths are radians instead of</span>
-<span class="sd">        degrees. Distances are in meters.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            Longitude(s) of initial point(s)</span>
+<span class="sd">        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            Latitude(s) of initial point(s)</span>
+<span class="sd">        az: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            Forward azimuth(s)</span>
+<span class="sd">        dist: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            Distance(s) between initial and terminus point(s)</span>
+<span class="sd">            in meters</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">            Longitude(s) of terminus point(s)</span>
+<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">            Latitude(s) of terminus point(s)</span>
+<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">            Back azimuth(s)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
@@ -380,15 +398,33 @@
 
 <div class="viewcode-block" id="Geod.inv"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons1</span><span class="p">,</span> <span class="n">lats1</span><span class="p">,</span> <span class="n">lons2</span><span class="p">,</span> <span class="n">lats2</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        inverse transformation - Returns forward and back azimuths, plus</span>
-<span class="sd">        distances between initial points (specified by lons1, lats1) and</span>
-<span class="sd">        terminus points (specified by lons2, lats2).</span>
+<span class="sd">        Inverse transformation</span>
 
-<span class="sd">        Works with numpy and regular python array objects, python</span>
-<span class="sd">        sequences and scalars.</span>
+<span class="sd">        Determine forward and back azimuths, plus distances</span>
+<span class="sd">        between initial points and terminus points.</span>
 
-<span class="sd">        if radians=True, lons/lats and azimuths are radians instead of</span>
-<span class="sd">        degrees. Distances are in meters.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lons1: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            Longitude(s) of initial point(s)</span>
+<span class="sd">        lats1: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            Latitude(s) of initial point(s)</span>
+<span class="sd">        lons2: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            Longitude(s) of terminus point(s)</span>
+<span class="sd">        lats2: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">            Latitude(s) of terminus point(s)</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">            Forward azimuth(s)</span>
+<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">            Back azimuth(s)</span>
+<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">            Distance(s) between initial and terminus point(s)</span>
+<span class="sd">            in meters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">)</span>
@@ -404,13 +440,10 @@
 
 <div class="viewcode-block" id="Geod.npts"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.npts">[docs]</a>    <span class="k">def</span> <span class="nf">npts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Given a single initial point and terminus point (specified by</span>
-<span class="sd">        python floats lon1,lat1 and lon2,lat2), returns a list of</span>
-<span class="sd">        longitude/latitude pairs describing npts equally spaced</span>
-<span class="sd">        intermediate points along the geodesic between the initial and</span>
-<span class="sd">        terminus points.</span>
-
-<span class="sd">        if radians=True, lons/lats are radians instead of degrees.</span>
+<span class="sd">        Given a single initial point and terminus point, returns</span>
+<span class="sd">        a list of longitude/latitude pairs describing npts equally</span>
+<span class="sd">        spaced intermediate points along the geodesic between the</span>
+<span class="sd">        initial and terminus points.</span>
 
 <span class="sd">        Example usage:</span>
 
@@ -455,6 +488,27 @@
 <span class="sd">        &#39;47.136  -109.100&#39;</span>
 <span class="sd">        &#39;46.805  -114.051&#39;</span>
 <span class="sd">        &#39;46.262  -118.924&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lon1: float</span>
+<span class="sd">            Longitude of the initial point</span>
+<span class="sd">        lat1: float</span>
+<span class="sd">            Latitude of the initial point</span>
+<span class="sd">        lon2: float</span>
+<span class="sd">            Longitude of the terminus point</span>
+<span class="sd">        lat2: float</span>
+<span class="sd">            Latitude of the terminus point</span>
+<span class="sd">        npts: int</span>
+<span class="sd">            Number of points to be returned</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of tuples:</span>
+<span class="sd">            list of (lon, lat) points along the geodesic</span>
+<span class="sd">            between the initial and terminus points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_npts</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">))</span></div>
@@ -666,7 +720,7 @@
 <span class="sd">        radians: bool, optional</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
 
-<span class="sd">         Returns</span>
+<span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        (float, float):</span>
 <span class="sd">            The geodesic area (meters^2) and permimeter (meters) of the polygon.</span>
