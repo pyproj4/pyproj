@@ -169,7 +169,7 @@
 <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="set_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.set_data_dir">[docs]</a><span class="k">def</span> <span class="nf">set_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">):</span>
+<div class="viewcode-block" id="set_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.set_data_dir">[docs]</a><span class="k">def</span> <span class="nf">set_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the data directory for PROJ to use.</span>
 
@@ -191,7 +191,7 @@
     <span class="n">pyproj_global_context_initialize</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="append_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.append_data_dir">[docs]</a><span class="k">def</span> <span class="nf">append_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">):</span>
+<div class="viewcode-block" id="append_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.append_data_dir">[docs]</a><span class="k">def</span> <span class="nf">append_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add an additional data directory for PROJ to use.</span>
 
@@ -203,7 +203,7 @@
     <span class="n">set_data_dir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">get_data_dir</span><span class="p">(),</span> <span class="n">proj_data_dir</span><span class="p">]))</span></div>
 
 
-<div class="viewcode-block" id="get_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.get_data_dir">[docs]</a><span class="k">def</span> <span class="nf">get_data_dir</span><span class="p">():</span>
+<div class="viewcode-block" id="get_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.get_data_dir">[docs]</a><span class="k">def</span> <span class="nf">get_data_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The order of preference for the data directory is:</span>
 
@@ -215,7 +215,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    str: The valid data directory.</span>
+<span class="sd">    str:</span>
+<span class="sd">        The valid data directory.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># to avoid re-validating</span>

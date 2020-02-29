@@ -158,6 +158,7 @@
   <h1>Source code for pyproj.crs.coordinate_operation</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">LooseVersion</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">CoordinateOperation</span>
 <span class="kn">from</span> <span class="nn">pyproj._proj</span> <span class="kn">import</span> <span class="n">proj_version_str</span>
@@ -175,12 +176,12 @@
 
 <div class="viewcode-block" id="AlbersEqualAreaConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.AlbersEqualAreaConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_first_parallel</span><span class="p">,</span>
-        <span class="n">latitude_second_parallel</span><span class="p">,</span>
-        <span class="n">latitude_false_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_false_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">easting_false_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">northing_false_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">latitude_second_parallel</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">latitude_false_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_false_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">easting_false_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">northing_false_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -267,10 +268,10 @@
 
 <div class="viewcode-block" id="AzumuthalEquidistantConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.AzumuthalEquidistantConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -334,12 +335,12 @@
 
 <div class="viewcode-block" id="GeostationarySatelliteConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">sweep_angle_axis</span><span class="p">,</span>
-        <span class="n">satellite_height</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">sweep_angle_axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">satellite_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -423,10 +424,10 @@
 
 <div class="viewcode-block" id="LambertAzumuthalEqualAreaConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertAzumuthalEqualAreaConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -490,12 +491,12 @@
 
 <div class="viewcode-block" id="LambertConformalConic2SPConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertConformalConic2SPConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_first_parallel</span><span class="p">,</span>
-        <span class="n">latitude_second_parallel</span><span class="p">,</span>
-        <span class="n">latitude_false_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_false_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">easting_false_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">northing_false_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">latitude_second_parallel</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">latitude_false_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_false_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">easting_false_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">northing_false_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -575,11 +576,11 @@
 
 <div class="viewcode-block" id="LambertConformalConic1SPConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertConformalConic1SPConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -651,10 +652,10 @@
 
 <div class="viewcode-block" id="LambertCylindricalEqualAreaConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_first_parallel</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -724,10 +725,10 @@
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -759,7 +760,9 @@
             <span class="p">)</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">proj_version_str</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s2">&quot;6.3.1&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">CRS</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span>
+                <span class="n">CRS</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span></div>
 
 
@@ -774,11 +777,11 @@
 
 <div class="viewcode-block" id="MercatorAConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.MercatorAConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -850,10 +853,10 @@
 
 <div class="viewcode-block" id="MercatorBConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.MercatorBConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_first_parallel</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -917,13 +920,13 @@
 
 <div class="viewcode-block" id="HotineObliqueMercatorBConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.HotineObliqueMercatorBConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_projection_centre</span><span class="p">,</span>
-        <span class="n">longitude_projection_centre</span><span class="p">,</span>
-        <span class="n">azimuth_initial_line</span><span class="p">,</span>
-        <span class="n">angle_from_rectified_to_skew_grid</span><span class="p">,</span>
-        <span class="n">scale_factor_on_initial_line</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">easting_projection_centre</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">northing_projection_centre</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_projection_centre</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">longitude_projection_centre</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">azimuth_initial_line</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">angle_from_rectified_to_skew_grid</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">scale_factor_on_initial_line</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">easting_projection_centre</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">northing_projection_centre</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1010,10 +1013,10 @@
 
 <div class="viewcode-block" id="OrthographicConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.OrthographicConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1077,11 +1080,11 @@
 
 <div class="viewcode-block" id="PolarStereographicAConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.PolarStereographicAConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1154,10 +1157,10 @@
 
 <div class="viewcode-block" id="PolarStereographicBConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.PolarStereographicBConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_standard_parallel</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_standard_parallel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1220,7 +1223,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SinusoidalConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.SinusoidalConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1273,11 +1279,11 @@
 
 <div class="viewcode-block" id="StereographicConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.StereographicConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1345,7 +1351,7 @@
 <span class="sd">    https://proj.org/operations/projections/utm.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="UTMConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.UTMConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="UTMConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.UTMConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">zone</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">hemisphere</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;N&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1370,11 +1376,11 @@
 
 <div class="viewcode-block" id="TransverseMercatorConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.TransverseMercatorConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1446,12 +1452,12 @@
 
 <div class="viewcode-block" id="VerticalPerspectiveConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.VerticalPerspectiveConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">viewpoint_height</span><span class="p">,</span>
-        <span class="n">latitude_topocentric_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_topocentric_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">ellipsoidal_height_topocentric_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">viewpoint_height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">latitude_topocentric_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_topocentric_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">ellipsoidal_height_topocentric_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1529,14 +1535,14 @@
 <span class="sd">    https://proj.org/operations/projections/ob_tran.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="RotatedLatitudeLongitudeConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">o_lat_p</span><span class="p">,</span> <span class="n">o_lon_p</span><span class="p">,</span> <span class="n">lon_0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<div class="viewcode-block" id="RotatedLatitudeLongitudeConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">o_lat_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">o_lon_p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">lon_0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        o_lat_p: float</span>
 <span class="sd">            Latitude of the North pole of the unrotated source CRS,</span>
 <span class="sd">            expressed in the rotated geographic CRS.</span>
-<span class="sd">        o_lon_p:</span>
+<span class="sd">        o_lon_p: float</span>
 <span class="sd">            Longitude of the North pole of the unrotated source CRS,</span>
 <span class="sd">            expressed in the rotated geographic CRS.</span>
 <span class="sd">        lon_0: float, optional</span>
@@ -1568,11 +1574,11 @@
 
 <div class="viewcode-block" id="EquidistantCylindricalConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">latitude_first_parallel</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_easting</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">false_northing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1645,18 +1651,20 @@
 
 <div class="viewcode-block" id="ToWGS84Transformation.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.ToWGS84Transformation.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">source_crs</span><span class="p">,</span>
-        <span class="n">x_axis_translation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">y_axis_translation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">z_axis_translation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">x_axis_rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">y_axis_rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">z_axis_rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">scale_difference</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">source_crs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">x_axis_translation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">y_axis_translation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">z_axis_translation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">x_axis_rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">y_axis_rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">z_axis_rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">scale_difference</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
+<span class="sd">        source_crs: Any</span>
+<span class="sd">            Input to create the Source CRS.</span>
 <span class="sd">        x_axis_translation: float, optional</span>
 <span class="sd">            X-axis translation. Defaults to 0.0.</span>
 <span class="sd">        y_axis_translation: float, optional</span>

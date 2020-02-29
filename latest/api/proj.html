@@ -188,7 +188,7 @@ projection coordinates within one datum.
 <h2>pyproj.Proj<a class="headerlink" href="#pyproj-proj" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.proj.Proj">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Proj</code><span class="sig-paren">(</span><em class="sig-param">projparams=None</em>, <em class="sig-param">preserve_units=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Proj</code><span class="sig-paren">(</span><em class="sig-param">projparams: Any = None</em>, <em class="sig-param">preserve_units: bool = True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj._Proj</span></code></p>
 <p>Performs cartographic transformations (converts from
 longitude,latitude to native map projection x,y coordinates and
@@ -235,7 +235,7 @@ sequences and scalars.</p>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.__call__">
-<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span> &#x2192; Tuple[Any, Any]<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calling a Proj class instance with the arguments lon, lat will
 convert lon/lat (in degrees) to x/y native map projection
 coordinates (in meters).  If optional keyword ‘inverse’ is True
@@ -252,7 +252,7 @@ sequences and scalars, but is fastest for array objects.</p>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">projparams=None</em>, <em class="sig-param">preserve_units=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">projparams: Any = None</em>, <em class="sig-param">preserve_units: bool = True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize a Proj class instance.</p>
 <p>See the PROJ documentation (<a class="reference external" href="https://proj.org">https://proj.org</a>)
 for more information about projection parameters.</p>
@@ -310,18 +310,17 @@ for more information about projection parameters.</p>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.definition_string">
-<code class="sig-name descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns formal definition string for projection</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
 <span class="go">&#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
-<span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.get_factors">
-<code class="sig-name descname">get_factors</code><span class="sig-paren">(</span><em class="sig-param">longitude</em>, <em class="sig-param">latitude</em>, <em class="sig-param">radians=False</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.get_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.get_factors" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_factors</code><span class="sig-paren">(</span><em class="sig-param">longitude: Any</em>, <em class="sig-param">latitude: Any</em>, <em class="sig-param">radians: bool = False</em>, <em class="sig-param">errcheck: bool = False</em><span class="sig-paren">)</span> &#x2192; importlib._bootstrap.Factors<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.get_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.get_factors" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.0.</span></p>
 </div>
@@ -364,14 +363,14 @@ By default errcheck=False and <code class="docutils literal notranslate"><span c
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.to_latlong">
-<code class="sig-name descname">to_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pyproj.proj.Proj<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong" title="Permalink to this definition">¶</a></dt>
 <dd><p>return a new Proj instance which is the geographic (lat/lon)
 coordinate version of the current projection</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.to_latlong_def">
-<code class="sig-name descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Optional[str]<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the definition string of the geographic (lat/lon)
 coordinate version of the current projection</p>
 </dd></dl>
