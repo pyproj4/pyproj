@@ -156,7 +156,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyproj.crs.datum</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">Datum</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">PrimeMeridian</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">Datum</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">PrimeMeridian</span>
 
 
 <div class="viewcode-block" id="CustomDatum"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum">[docs]</a><span class="k">class</span> <span class="nc">CustomDatum</span><span class="p">(</span><span class="n">Datum</span><span class="p">):</span>
@@ -166,7 +168,12 @@
 <span class="sd">    Class to build a datum based on an ellipsoid and prime meridian.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CustomDatum.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span> <span class="n">ellipsoid</span><span class="o">=</span><span class="s2">&quot;WGS 84&quot;</span><span class="p">,</span> <span class="n">prime_meridian</span><span class="o">=</span><span class="s2">&quot;Greenwich&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="CustomDatum.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
+        <span class="n">ellipsoid</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;WGS 84&quot;</span><span class="p">,</span>
+        <span class="n">prime_meridian</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;Greenwich&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -199,11 +206,11 @@
 
 <div class="viewcode-block" id="CustomEllipsoid.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomEllipsoid.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
-        <span class="n">semi_major_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">inverse_flattening</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">semi_minor_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
+        <span class="n">semi_major_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">inverse_flattening</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">semi_minor_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">radius</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -226,7 +233,7 @@
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Ellipsoid&quot;</span><span class="p">,</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-        <span class="p">}</span>
+        <span class="p">}</span>  <span class="c1"># type: Dict[str, Union[float, str]]</span>
         <span class="k">if</span> <span class="n">semi_major_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;semi_major_axis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_major_axis</span>
         <span class="k">if</span> <span class="n">inverse_flattening</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -245,7 +252,7 @@
 <span class="sd">    Class to build a prime meridian based on a longitude.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CustomPrimeMeridian.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomPrimeMeridian.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">longitude</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="CustomPrimeMeridian.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomPrimeMeridian.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

@@ -156,7 +156,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyproj.crs.coordinate_system</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">CoordinateSystem</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">CoordinateSystem</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs.enums</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Cartesian2DCSAxis</span><span class="p">,</span>
     <span class="n">Ellipsoidal2DCSAxis</span><span class="p">,</span>
@@ -213,7 +215,10 @@
 <span class="sd">    This generates an Ellipsoidal 2D Coordinate System</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Ellipsoidal2DCS.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.Ellipsoidal2DCS.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">Ellipsoidal2DCSAxis</span><span class="o">.</span><span class="n">LONGITUDE_LATITUDE</span><span class="p">):</span>
+<div class="viewcode-block" id="Ellipsoidal2DCS.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.Ellipsoidal2DCS.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Ellipsoidal2DCSAxis</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ellipsoidal2DCSAxis</span><span class="o">.</span><span class="n">LONGITUDE_LATITUDE</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -280,7 +285,12 @@
 <span class="sd">    This generates an Ellipsoidal 3D Coordinate System</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Ellipsoidal3DCS.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.Ellipsoidal3DCS.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">Ellipsoidal3DCSAxis</span><span class="o">.</span><span class="n">LONGITUDE_LATITUDE_HEIGHT</span><span class="p">):</span>
+<div class="viewcode-block" id="Ellipsoidal3DCS.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.Ellipsoidal3DCS.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Ellipsoidal3DCSAxis</span><span class="p">,</span> <span class="nb">str</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">Ellipsoidal3DCSAxis</span><span class="o">.</span><span class="n">LONGITUDE_LATITUDE_HEIGHT</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -423,7 +433,9 @@
 <span class="sd">    This generates an Cartesian 2D Coordinate System</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Cartesian2DCS.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.Cartesian2DCS.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">Cartesian2DCSAxis</span><span class="o">.</span><span class="n">EASTING_NORTHING</span><span class="p">):</span>
+<div class="viewcode-block" id="Cartesian2DCS.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.Cartesian2DCS.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Cartesian2DCSAxis</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cartesian2DCSAxis</span><span class="o">.</span><span class="n">EASTING_NORTHING</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -504,7 +516,7 @@
 <span class="sd">    This generates an Vertical Coordinate System</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="VerticalCS.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.VerticalCS.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">VerticalCSAxis</span><span class="o">.</span><span class="n">GRAVITY_HEIGHT</span><span class="p">):</span>
+<div class="viewcode-block" id="VerticalCS.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.VerticalCS.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VerticalCSAxis</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">VerticalCSAxis</span><span class="o">.</span><span class="n">GRAVITY_HEIGHT</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

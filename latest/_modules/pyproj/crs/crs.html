@@ -162,10 +162,12 @@
 <span class="sd">to the coordinate reference system (CRS) information.</span>
 
 <span class="sd">Original Author: Alan D. Snow [github.com/snowman2] (2019)</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
     <span class="n">_CRS</span><span class="p">,</span>
@@ -193,7 +195,7 @@
 <span class="kn">from</span> <span class="nn">pyproj.geod</span> <span class="kn">import</span> <span class="n">Geod</span>
 
 
-<span class="k">def</span> <span class="nf">_prepare_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="c1"># check if it is a PROJ JSON dict</span>
     <span class="k">if</span> <span class="s2">&quot;proj&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">projparams</span> <span class="ow">and</span> <span class="s2">&quot;init&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">projparams</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
@@ -213,7 +215,7 @@
     <span class="k">return</span> <span class="n">_prepare_from_string</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pjargs</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">_prepare_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">in_crs_string</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is empty or invalid: </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">))</span>
     <span class="k">elif</span> <span class="s2">&quot;{&quot;</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
@@ -231,7 +233,7 @@
         <span class="c1"># make sure the projection starts with +proj or +init</span>
         <span class="n">starting_params</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">):</span>
-            <span class="n">kvpairs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">kvpairs</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
             <span class="n">first_item_inserted</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">for</span> <span class="n">kvpair</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">first_item_inserted</span> <span class="ow">and</span> <span class="p">(</span><span class="n">kvpair</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">)):</span>
@@ -264,11 +266,11 @@
     <span class="k">return</span> <span class="n">in_crs_string</span>
 
 
-<span class="k">def</span> <span class="nf">_prepare_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
     <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_prepare_from_epsg</span><span class="p">(</span><span class="n">auth_code</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_epsg</span><span class="p">(</span><span class="n">auth_code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
     <span class="k">return</span> <span class="n">_prepare_from_authority</span><span class="p">(</span><span class="s2">&quot;epsg&quot;</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">)</span>
 
 
@@ -295,7 +297,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CRS class instance with:</span>
 <span class="sd">          - PROJ string</span>
@@ -444,14 +446,14 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">projstring</span> <span class="o">=</span> <span class="n">_prepare_from_authority</span><span class="p">(</span><span class="o">*</span><span class="n">projparams</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="s2">&quot;to_wkt&quot;</span><span class="p">):</span>
-            <span class="n">projstring</span> <span class="o">=</span> <span class="n">projparams</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">projparams</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;Invalid CRS input: </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">projparams</span><span class="p">))</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">projstring</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CRS.from_authority"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_authority">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -471,7 +473,7 @@
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">_prepare_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">code</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_epsg"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_epsg">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a CRS from an EPSG code</span>
 
 <span class="sd">        Parameters</span>
@@ -486,7 +488,7 @@
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">_prepare_from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_proj4"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_proj4">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_proj4</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_proj4</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -506,7 +508,7 @@
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_wkt"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_wkt">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_wkt</span><span class="p">(</span><span class="n">in_wkt_string</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_wkt</span><span class="p">(</span><span class="n">in_wkt_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -526,7 +528,7 @@
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_wkt_string</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_string"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_string">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make a CRS from:</span>
 
@@ -547,7 +549,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="CRS.to_string"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_string"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -559,7 +561,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        str: String representation of the CRS.</span>
+<span class="sd">        str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">auth_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_authority</span><span class="p">(</span><span class="n">min_confidence</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">auth_info</span><span class="p">:</span>
@@ -567,7 +569,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">srs</span></div>
 
 <div class="viewcode-block" id="CRS.from_user_input"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_user_input">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_user_input</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_user_input</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CRS class instance with:</span>
 <span class="sd">          - PROJ string</span>
@@ -594,23 +596,23 @@
             <span class="k">return</span> <span class="n">value</span>
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRS.get_geod"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.get_geod">[docs]</a>    <span class="k">def</span> <span class="nf">get_geod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.get_geod"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.get_geod">[docs]</a>    <span class="k">def</span> <span class="nf">get_geod</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Geod</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        pyproj.geod.Geod: Geod object based on the ellipsoid.</span>
+<span class="sd">        pyproj.geod.Geod:</span>
+<span class="sd">            Geod object based on the ellipsoid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="n">in_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_major_metre</span><span class="p">,</span>
-            <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">inverse_flattening</span><span class="p">,</span>
-            <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_minor_metre</span><span class="p">,</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">Geod</span><span class="p">(</span><span class="o">**</span><span class="n">in_kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">Geod</span><span class="p">(</span>
+            <span class="n">a</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_major_metre</span><span class="p">,</span>
+            <span class="n">rf</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">inverse_flattening</span><span class="p">,</span>
+            <span class="n">b</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_minor_metre</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="CRS.from_dict"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -628,7 +630,7 @@
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_json"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_json">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="n">crs_json</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="n">crs_json</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
@@ -646,7 +648,7 @@
         <span class="k">return</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">_load_proj_json</span><span class="p">(</span><span class="n">crs_json</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_json_dict"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_json_dict">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_json_dict</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_json_dict</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
@@ -663,7 +665,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="CRS.to_dict"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_dict"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -675,7 +677,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        dict: PROJ params in dict format.</span>
+<span class="sd">        dict:</span>
+<span class="sd">            PROJ params in dict format.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -705,7 +708,11 @@
 
         <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="CRS.to_cf"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_cf">[docs]</a>    <span class="k">def</span> <span class="nf">to_cf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wkt_version</span><span class="o">=</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_cf"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_cf">[docs]</a>    <span class="k">def</span> <span class="nf">to_cf</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">wkt_version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WktVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
+        <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -726,15 +733,20 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        dict: CF-1.8 version of the projection.</span>
+<span class="sd">        dict:</span>
+<span class="sd">            CF-1.8 version of the projection.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">unknown_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;undefined&quot;</span><span class="p">)</span>
-        <span class="n">cf_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">wkt_version</span><span class="p">)}</span>
+        <span class="n">cf_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">wkt_version</span><span class="p">)}</span>  <span class="c1"># type: Dict[str, Any]</span>
 
         <span class="c1"># handle bound CRS</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">towgs84</span><span class="p">:</span>
-            <span class="n">sub_cf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">towgs84</span>
+        <span class="p">):</span>
+            <span class="n">sub_cf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
             <span class="n">sub_cf</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">)</span>
             <span class="n">cf_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sub_cf</span><span class="p">)</span>
             <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;towgs84&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">towgs84</span>
@@ -753,7 +765,7 @@
             <span class="n">vert_json</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span>
             <span class="k">if</span> <span class="s2">&quot;geoid_model&quot;</span> <span class="ow">in</span> <span class="n">vert_json</span><span class="p">:</span>
                 <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;geoid_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vert_json</span><span class="p">[</span><span class="s2">&quot;geoid_model&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
                 <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;geopotential_datum_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span>
             <span class="k">return</span> <span class="n">cf_dict</span>
 
@@ -782,14 +794,14 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
                     <span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="p">)</span>
                 <span class="p">)</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
                     <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;horizontal_datum_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;grid_mapping_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;latitude_longitude&quot;</span>
             <span class="k">return</span> <span class="n">cf_dict</span>
 
         <span class="c1"># handle projected CRS</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_projected</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_projected</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
             <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;horizontal_datum_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">name</span>
         <span class="n">coordinate_operation</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_projected</span><span class="p">:</span>
@@ -822,7 +834,7 @@
         <span class="k">return</span> <span class="n">cf_dict</span></div>
 
 <div class="viewcode-block" id="CRS.from_cf"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_cf">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_cf</span><span class="p">(</span><span class="n">in_cf</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_cf</span><span class="p">(</span><span class="n">in_cf</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -861,7 +873,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">geographic_conversion_method</span> <span class="o">=</span> <span class="n">_GEOGRAPHIC_GRID_MAPPING_NAME_MAP</span><span class="p">[</span>
                 <span class="n">grid_mapping_name</span>
-            <span class="p">]</span>
+            <span class="p">]</span>  <span class="c1"># type: Optional[Callable]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">geographic_conversion_method</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -869,7 +881,7 @@
         <span class="k">if</span> <span class="n">datum</span><span class="p">:</span>
             <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">geographic_crs_name</span> <span class="ow">or</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span> <span class="n">datum</span><span class="o">=</span><span class="n">datum</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="p">)</span>  <span class="c1"># type: CRS</span>
         <span class="k">elif</span> <span class="n">geographic_crs_name</span><span class="p">:</span>
             <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">geographic_crs_name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -919,7 +931,7 @@
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">bound_crs</span> <span class="ow">or</span> <span class="n">projected_crs</span><span class="p">,</span> <span class="n">vertical_crs</span><span class="p">]</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRS.is_exact_same"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.is_exact_same">[docs]</a>    <span class="k">def</span> <span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.is_exact_same"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.is_exact_same">[docs]</a>    <span class="k">def</span> <span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the CRS objects are the exact same.</span>
 
@@ -940,7 +952,7 @@
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">is_exact_same</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRS.equals"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.equals">[docs]</a>    <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.equals"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.equals">[docs]</a>    <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        .. versionadded:: 2.5.0</span>
@@ -968,70 +980,79 @@
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="o">=</span><span class="n">ignore_axis_order</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">geodetic_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geodetic_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;CRS&quot;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        CRS: The the geodeticCRS / geographicCRS from the CRS.</span>
+<span class="sd">        CRS:</span>
+<span class="sd">            The the geodeticCRS / geographicCRS from the CRS.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">geodetic_crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">geodetic_crs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">geodetic_crs</span>
+        <span class="k">if</span> <span class="n">geodetic_crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">geodetic_crs</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">source_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">source_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;CRS&quot;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,</span>
+<span class="sd">        or the source CRS of a CoordinateOperation.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        CRS: The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,</span>
-<span class="sd">            or the source CRS of a CoordinateOperation.</span>
+<span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">source_crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">source_crs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">source_crs</span>
+        <span class="k">if</span> <span class="n">source_crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">source_crs</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">target_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">target_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;CRS&quot;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        CRS: The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.</span>
+<span class="sd">        CRS:</span>
+<span class="sd">            The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">target_crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">target_crs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">target_crs</span>
+        <span class="k">if</span> <span class="n">target_crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">target_crs</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">target_crs</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">sub_crs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sub_crs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;CRS&quot;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If the CRS is a compound CRS, it will return a list of sub CRS objects.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        list[CRS]</span>
+<span class="sd">        List[CRS]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">CRS</span><span class="p">(</span><span class="n">sub_crs</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span> <span class="k">for</span> <span class="n">sub_crs</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;CRS&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;special method that allows CRS instance to be pickled&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span>
 
-    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">srs</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="c1"># get axis/coordinate system information</span>
-        <span class="n">axis_info_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">axis_info_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
 
         <span class="k">def</span> <span class="nf">extent_axis</span><span class="p">(</span><span class="n">axis_list</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">axis_info</span> <span class="ow">in</span> <span class="n">axis_list</span><span class="p">:</span>
@@ -1042,7 +1063,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis_info</span><span class="p">:</span>
             <span class="n">extent_axis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis_info</span><span class="p">)</span>
             <span class="n">coordinate_system_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="p">:</span>
             <span class="n">extent_axis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">axis_info</span><span class="p">)</span>
             <span class="n">coordinate_system_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">)</span>
             <span class="n">source_crs_repr</span> <span class="o">=</span> <span class="s2">&quot;Source CRS: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -1113,10 +1134,10 @@
 
 <div class="viewcode-block" id="GeographicCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.GeographicCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
-        <span class="n">datum</span><span class="o">=</span><span class="s2">&quot;urn:ogc:def:datum:EPSG::6326&quot;</span><span class="p">,</span>
-        <span class="n">ellipsoidal_cs</span><span class="o">=</span><span class="n">Ellipsoidal2DCS</span><span class="p">(),</span>
-    <span class="p">):</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
+        <span class="n">datum</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;urn:ogc:def:datum:EPSG::6326&quot;</span><span class="p">,</span>
+        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Ellipsoidal2DCS</span><span class="p">(),</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1150,8 +1171,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DerivedGeographicCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.DerivedGeographicCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">base_crs</span><span class="p">,</span> <span class="n">conversion</span><span class="p">,</span> <span class="n">ellipsoidal_cs</span><span class="o">=</span><span class="n">Ellipsoidal2DCS</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
-    <span class="p">):</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">base_crs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Ellipsoidal2DCS</span><span class="p">(),</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1192,11 +1217,11 @@
 
 <div class="viewcode-block" id="ProjectedCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.ProjectedCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">conversion</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
-        <span class="n">cartesian_cs</span><span class="o">=</span><span class="n">Cartesian2DCS</span><span class="p">(),</span>
-        <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">GeographicCRS</span><span class="p">(),</span>
-    <span class="p">):</span>
+        <span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
+        <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Cartesian2DCS</span><span class="p">(),</span>
+        <span class="n">geodetic_crs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(),</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1238,7 +1263,13 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="VerticalCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.VerticalCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">datum</span><span class="p">,</span> <span class="n">vertical_cs</span><span class="o">=</span><span class="n">VerticalCS</span><span class="p">(),</span> <span class="n">geoid_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="VerticalCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.VerticalCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">datum</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">VerticalCS</span><span class="p">(),</span>
+        <span class="n">geoid_model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1275,7 +1306,7 @@
 <span class="sd">    This class is for building a Compound CRS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CompoundCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CompoundCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">components</span><span class="p">):</span>
+<div class="viewcode-block" id="CompoundCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CompoundCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1305,7 +1336,7 @@
 <span class="sd">    This class is for building a Bound CRS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="BoundCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.BoundCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_crs</span><span class="p">,</span> <span class="n">target_crs</span><span class="p">,</span> <span class="n">transformation</span><span class="p">):</span>
+<div class="viewcode-block" id="BoundCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.BoundCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_crs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">target_crs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">transformation</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

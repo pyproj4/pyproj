@@ -220,8 +220,8 @@ currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 <dl class="attribute">
 <dt id="pyproj.crs.Datum.ellipsoid">
 <code class="sig-name descname">ellipsoid</code><a class="headerlink" href="#pyproj.crs.Datum.ellipsoid" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns: <strong>Ellipsoid</strong>
-:rtype: The ellipsoid object with associated attributes.</p>
+<dd><p>returns: The ellipsoid object with associated attributes.
+:rtype: Ellipsoid</p>
 </dd></dl>
 
 <dl class="method">
@@ -397,8 +397,8 @@ ID[“EPSG”,6326]]</p></li>
 <dl class="attribute">
 <dt id="pyproj.crs.Datum.prime_meridian">
 <code class="sig-name descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.Datum.prime_meridian" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns: <strong>PrimeMeridian</strong>
-:rtype: The CRS prime meridian object with associated attributes.</p>
+<dd><p>returns: The CRS prime meridian object with associated attributes.
+:rtype: PrimeMeridian</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -407,7 +407,14 @@ ID[“EPSG”,6326]]</p></li>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
-<p>str: Remarks about object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Remarks about object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -416,7 +423,14 @@ ID[“EPSG”,6326]]</p></li>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
-<p>str: Scope of object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Scope of object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -434,10 +448,10 @@ ID[“EPSG”,6326]]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>str</strong></p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The JSON string.</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -451,10 +465,10 @@ ID[“EPSG”,6326]]</p></li>
 <p>Convert the object to a JSON dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>dict</strong></p>
+<dd class="field-odd"><p></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>The JSON dictionary.</p>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -483,10 +497,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>str</strong></p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The WKT string.</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -506,7 +520,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <p>Class to build a datum based on an ellipsoid and prime meridian.</p>
 <dl class="method">
 <dt id="pyproj.crs.datum.CustomDatum.__new__">
-<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">name='undefined'</em>, <em class="sig-param">ellipsoid='WGS 84'</em>, <em class="sig-param">prime_meridian='Greenwich'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomDatum.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomDatum.__new__" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">name: str = 'undefined'</em>, <em class="sig-param">ellipsoid: Any = 'WGS 84'</em>, <em class="sig-param">prime_meridian: Any = 'Greenwich'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomDatum.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomDatum.__new__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -768,7 +782,14 @@ ID[“EPSG”,7001]]</p></li>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
-<p>str: Remarks about object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Remarks about object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -777,7 +798,14 @@ ID[“EPSG”,7001]]</p></li>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
-<p>str: Scope of object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Scope of object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -795,10 +823,10 @@ ID[“EPSG”,7001]]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>str</strong></p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The JSON string.</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -812,10 +840,10 @@ ID[“EPSG”,7001]]</p></li>
 <p>Convert the object to a JSON dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>dict</strong></p>
+<dd class="field-odd"><p></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>The JSON dictionary.</p>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -844,10 +872,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>str</strong></p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The WKT string.</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -867,7 +895,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <p>Class to build a custom ellipsoid.</p>
 <dl class="method">
 <dt id="pyproj.crs.datum.CustomEllipsoid.__new__">
-<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">name='undefined'</em>, <em class="sig-param">semi_major_axis=None</em>, <em class="sig-param">inverse_flattening=None</em>, <em class="sig-param">semi_minor_axis=None</em>, <em class="sig-param">radius=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomEllipsoid.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomEllipsoid.__new__" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">name: str = 'undefined'</em>, <em class="sig-param">semi_major_axis: Optional[float] = None</em>, <em class="sig-param">inverse_flattening: Optional[float] = None</em>, <em class="sig-param">semi_minor_axis: Optional[float] = None</em>, <em class="sig-param">radius: Optional[float] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomEllipsoid.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomEllipsoid.__new__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1100,7 +1128,14 @@ ID[“EPSG”,8901]]</p></li>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
-<p>str: Remarks about object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Remarks about object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -1109,7 +1144,14 @@ ID[“EPSG”,8901]]</p></li>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
-<p>str: Scope of object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Scope of object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -1127,10 +1169,10 @@ ID[“EPSG”,8901]]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>str</strong></p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The JSON string.</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1144,10 +1186,10 @@ ID[“EPSG”,8901]]</p></li>
 <p>Convert the object to a JSON dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>dict</strong></p>
+<dd class="field-odd"><p></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>The JSON dictionary.</p>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1176,10 +1218,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>str</strong></p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The WKT string.</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1199,7 +1241,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <p>Class to build a prime meridian based on a longitude.</p>
 <dl class="method">
 <dt id="pyproj.crs.datum.CustomPrimeMeridian.__new__">
-<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">longitude</em>, <em class="sig-param">name='undefined'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomPrimeMeridian.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomPrimeMeridian.__new__" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">longitude: float</em>, <em class="sig-param">name: str = 'undefined'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomPrimeMeridian.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.datum.CustomPrimeMeridian.__new__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

@@ -181,7 +181,7 @@
 <h2>pyproj.Geod<a class="headerlink" href="#pyproj-geod" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyproj.Geod">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">Geod</code><span class="sig-paren">(</span><em class="sig-param">initstring=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">Geod</code><span class="sig-paren">(</span><em class="sig-param">initstring: Optional[str] = None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._geod.Geod</span></code></p>
 <p>performs forward and inverse geodetic, or Great Circle,
 computations.  The forward computation (using the ‘fwd’ method)
@@ -259,7 +259,7 @@ initial and terminus point.</p>
 
 <dl class="method">
 <dt id="pyproj.Geod.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">initstring=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">initstring: Optional[str] = None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize a Geod class instance.</p>
 <p>Geodetic parameters for specifying the ellipsoid
 can be given in a dictionary ‘initparams’, as keyword arguments,
@@ -312,7 +312,7 @@ information about specifying ellipsoid parameters.</p>
 
 <dl class="method">
 <dt id="pyproj.Geod.fwd">
-<code class="sig-name descname">fwd</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">az</em>, <em class="sig-param">dist</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.fwd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.fwd" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fwd</code><span class="sig-paren">(</span><em class="sig-param">lons: Any</em>, <em class="sig-param">lats: Any</em>, <em class="sig-param">az: Any</em>, <em class="sig-param">dist: Any</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span> &#x2192; Tuple[Any, Any, Any]<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.fwd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.fwd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Forward transformation</p>
 <p>Determine longitudes, latitudes and back azimuths of terminus
 points given longitudes and latitudes of initial points,
@@ -341,7 +341,7 @@ in meters</p></li>
 
 <dl class="method">
 <dt id="pyproj.Geod.geometry_area_perimeter">
-<code class="sig-name descname">geometry_area_perimeter</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_area_perimeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.geometry_area_perimeter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">geometry_area_perimeter</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">radians: bool = False</em><span class="sig-paren">)</span> &#x2192; Tuple[float, float]<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_area_perimeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.geometry_area_perimeter" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>
@@ -396,7 +396,7 @@ the sum of the areas and perimeters of all geometries.</p>
 
 <dl class="method">
 <dt id="pyproj.Geod.geometry_length">
-<code class="sig-name descname">geometry_length</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.geometry_length" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">geometry_length</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">radians: bool = False</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.geometry_length" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>
@@ -422,17 +422,17 @@ the sum of the lengths.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>float</strong></p>
+<dd class="field-even"><p>The total geodesic length of the geometry (meters).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The total geodesic length of the geometry (meters)</p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.Geod.inv">
-<code class="sig-name descname">inv</code><span class="sig-paren">(</span><em class="sig-param">lons1</em>, <em class="sig-param">lats1</em>, <em class="sig-param">lons2</em>, <em class="sig-param">lats2</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.inv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.inv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">inv</code><span class="sig-paren">(</span><em class="sig-param">lons1: Any</em>, <em class="sig-param">lats1: Any</em>, <em class="sig-param">lons2: Any</em>, <em class="sig-param">lats2: Any</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span> &#x2192; Tuple[Any, Any, Any]<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.inv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.inv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Inverse transformation</p>
 <p>Determine forward and back azimuths, plus distances
 between initial points and terminus points.</p>
@@ -460,7 +460,7 @@ in meters</p></li>
 
 <dl class="method">
 <dt id="pyproj.Geod.line_length">
-<code class="sig-name descname">line_length</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.line_length" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">line_length</code><span class="sig-paren">(</span><em class="sig-param">lons: Any</em>, <em class="sig-param">lats: Any</em>, <em class="sig-param">radians: bool = False</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.line_length" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>
@@ -485,17 +485,17 @@ in meters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>float</strong></p>
+<dd class="field-even"><p>The total length of the line.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>The total length of the line.</p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.Geod.line_lengths">
-<code class="sig-name descname">line_lengths</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.line_lengths" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">line_lengths</code><span class="sig-paren">(</span><em class="sig-param">lons: Any</em>, <em class="sig-param">lats: Any</em>, <em class="sig-param">radians: bool = False</em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.line_lengths" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>
@@ -529,7 +529,7 @@ in meters</p></li>
 
 <dl class="method">
 <dt id="pyproj.Geod.npts">
-<code class="sig-name descname">npts</code><span class="sig-paren">(</span><em class="sig-param">lon1</em>, <em class="sig-param">lat1</em>, <em class="sig-param">lon2</em>, <em class="sig-param">lat2</em>, <em class="sig-param">npts</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.npts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.npts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">npts</code><span class="sig-paren">(</span><em class="sig-param">lon1: float</em>, <em class="sig-param">lat1: float</em>, <em class="sig-param">lon2: float</em>, <em class="sig-param">lat2: float</em>, <em class="sig-param">npts: int</em>, <em class="sig-param">radians: bool = False</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.npts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.npts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a single initial point and terminus point, returns
 a list of longitude/latitude pairs describing npts equally
 spaced intermediate points along the geodesic between the
@@ -601,7 +601,7 @@ between the initial and terminus points.</p>
 
 <dl class="method">
 <dt id="pyproj.Geod.polygon_area_perimeter">
-<code class="sig-name descname">polygon_area_perimeter</code><span class="sig-paren">(</span><em class="sig-param">lons</em>, <em class="sig-param">lats</em>, <em class="sig-param">radians=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.polygon_area_perimeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.polygon_area_perimeter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">polygon_area_perimeter</code><span class="sig-paren">(</span><em class="sig-param">lons: Any</em>, <em class="sig-param">lats: Any</em>, <em class="sig-param">radians: bool = False</em><span class="sig-paren">)</span> &#x2192; Tuple[float, float]<a class="reference internal" href="../_modules/pyproj/geod.html#Geod.polygon_area_perimeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Geod.polygon_area_perimeter" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>

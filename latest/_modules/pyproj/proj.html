@@ -194,6 +194,7 @@
 <span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._list</span> <span class="kn">import</span> <span class="n">get_proj_operations_map</span>
 <span class="kn">from</span> <span class="nn">pyproj._proj</span> <span class="kn">import</span> <span class="n">Factors</span><span class="p">,</span> <span class="n">_Proj</span><span class="p">,</span> <span class="n">proj_version_str</span>  <span class="c1"># noqa: F401</span>
@@ -240,7 +241,9 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Proj.__init__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Proj.__init__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">preserve_units</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        initialize a Proj class instance.</span>
 
@@ -325,7 +328,7 @@
         <span class="n">projstring</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+?type=crs&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">projstring</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">projstring</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span></div>
 
-<div class="viewcode-block" id="Proj.__call__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+<div class="viewcode-block" id="Proj.__call__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="c1"># ,lon,lat,inverse=False,errcheck=False):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calling a Proj class instance with the arguments lon, lat will</span>
@@ -360,8 +363,12 @@
         <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span></div>
 
 <div class="viewcode-block" id="Proj.get_factors"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.get_factors">[docs]</a>    <span class="k">def</span> <span class="nf">get_factors</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">longitude</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">):</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">longitude</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Factors</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.6.0</span>
 
@@ -426,33 +433,32 @@
             <span class="n">dy_dphi</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dy_dphi</span><span class="p">),</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Proj.definition_string"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.definition_string">[docs]</a>    <span class="k">def</span> <span class="nf">definition_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Proj.definition_string"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.definition_string">[docs]</a>    <span class="k">def</span> <span class="nf">definition_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns formal definition string for projection</span>
 
 <span class="sd">        &gt;&gt;&gt; Proj(&quot;epsg:4326&quot;).definition_string()</span>
 <span class="sd">        &#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
-<span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pystrdecode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Proj.to_latlong_def"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong_def">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong_def</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Proj.to_latlong_def"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong_def">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong_def</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;return the definition string of the geographic (lat/lon)</span>
 <span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span> <span class="k">else</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Proj.to_latlong"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Proj.to_latlong"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Proj&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;return a new Proj instance which is the geographic (lat/lon)</span>
 <span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Proj&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;special method that allows pyproj.Proj instance to be pickled&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;Proj(&#39;</span><span class="si">{srs}</span><span class="s2">&#39;, preserve_units=True)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_equivalent</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
