@@ -12,16 +12,14 @@ geodesic_version_str = "{0}.{1}.{2}".format(
 )
 
 cdef class Geod:
-    def __init__(self, a, f, sphere, b, es):
+    def __init__(self, double a, double f, bint sphere, double b, double es):
         geod_init(&self._geod_geodesic, <double> a, <double> f)
         self.a = a
         self.f = f
-        if isinstance(a, float) and a.is_integer():
-            # convert 'a' only for initstring
-            a = int(a)
-        if f == 0.0:
-            f = 0
-        self.initstring = pystrdecode(cstrencode("+a=%s +f=%s" % (a, f)))
+        # convert 'a' only for initstring
+        a_str = int(a) if a.is_integer() else a
+        f_str = int(f) if f.is_integer() else f
+        self.initstring = pystrdecode(cstrencode("+a=%s +f=%s" % (a_str, f_str)))
         self.sphere = sphere
         self.b = b
         self.es = es
@@ -189,7 +187,8 @@ cdef class Geod:
 
         Returns
         -------
-        float: The total distance.
+        float:
+            The total distance.
     
         """
         cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
@@ -251,7 +250,8 @@ cdef class Geod:
 
         Returns
         -------
-        (float, float): The area (meter^2) and permimeter (meters) of the polygon.
+        (float, float):
+            The area (meter^2) and permimeter (meters) of the polygon.
 
         """
         cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)

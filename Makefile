@@ -63,7 +63,10 @@ clean-cython: ## clean the cython files
 lint: ## check style with flake8
 	flake8 --max-line-length 88 setup.py pyproj/ test/ docs/
 
-check: lint ## flake8 black isort check
+check-type:
+	mypy pyproj
+
+check: lint check-type ## flake8 black isort check
 	black --check setup.py pyproj/ test/ docs/
 	isort --check --recursive -m 3 -w 88 -tc -p test setup.py pyproj/ test/ docs/
 

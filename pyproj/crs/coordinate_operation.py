@@ -1,5 +1,6 @@
 import warnings
 from distutils.version import LooseVersion
+from typing import Any
 
 from pyproj._crs import CoordinateOperation
 from pyproj._proj import proj_version_str
@@ -17,12 +18,12 @@ class AlbersEqualAreaConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_first_parallel,
-        latitude_second_parallel,
-        latitude_false_origin=0.0,
-        longitude_false_origin=0.0,
-        easting_false_origin=0.0,
-        northing_false_origin=0.0,
+        latitude_first_parallel: float,
+        latitude_second_parallel: float,
+        latitude_false_origin: float = 0.0,
+        longitude_false_origin: float = 0.0,
+        easting_false_origin: float = 0.0,
+        northing_false_origin: float = 0.0,
     ):
         """
         Parameters
@@ -109,10 +110,10 @@ class AzumuthalEquidistantConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -176,12 +177,12 @@ class GeostationarySatelliteConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        sweep_angle_axis,
-        satellite_height,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        sweep_angle_axis: str,
+        satellite_height: float,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -265,10 +266,10 @@ class LambertAzumuthalEqualAreaConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -332,12 +333,12 @@ class LambertConformalConic2SPConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_first_parallel,
-        latitude_second_parallel,
-        latitude_false_origin=0.0,
-        longitude_false_origin=0.0,
-        easting_false_origin=0.0,
-        northing_false_origin=0.0,
+        latitude_first_parallel: float,
+        latitude_second_parallel: float,
+        latitude_false_origin: float = 0.0,
+        longitude_false_origin: float = 0.0,
+        easting_false_origin: float = 0.0,
+        northing_false_origin: float = 0.0,
     ):
         """
         Parameters
@@ -417,11 +418,11 @@ class LambertConformalConic1SPConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
-        scale_factor_natural_origin=1.0,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
+        scale_factor_natural_origin: float = 1.0,
     ):
         """
         Parameters
@@ -493,10 +494,10 @@ class LambertCylindricalEqualAreaConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_first_parallel=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        latitude_first_parallel: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -566,10 +567,10 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
-        scale_factor_natural_origin=1.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
+        scale_factor_natural_origin: float = 1.0,
     ):
         """
         Parameters
@@ -601,7 +602,9 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
             )
         )
         if LooseVersion(proj_version_str) >= LooseVersion("6.3.1"):
-            return cls.from_json(CRS(proj_string).coordinate_operation.to_json())
+            return cls.from_json(
+                CRS(proj_string).coordinate_operation.to_json()  # type: ignore
+            )
         return cls.from_string(proj_string)
 
 
@@ -616,11 +619,11 @@ class MercatorAConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
-        scale_factor_natural_origin=1.0,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
+        scale_factor_natural_origin: float = 1.0,
     ):
         """
         Parameters
@@ -692,10 +695,10 @@ class MercatorBConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_first_parallel=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        latitude_first_parallel: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -759,13 +762,13 @@ class HotineObliqueMercatorBConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_projection_centre,
-        longitude_projection_centre,
-        azimuth_initial_line,
-        angle_from_rectified_to_skew_grid,
-        scale_factor_on_initial_line=1.0,
-        easting_projection_centre=0.0,
-        northing_projection_centre=0.0,
+        latitude_projection_centre: float,
+        longitude_projection_centre: float,
+        azimuth_initial_line: float,
+        angle_from_rectified_to_skew_grid: float,
+        scale_factor_on_initial_line: float = 1.0,
+        easting_projection_centre: float = 0.0,
+        northing_projection_centre: float = 0.0,
     ):
         """
         Parameters
@@ -852,10 +855,10 @@ class OrthographicConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -919,11 +922,11 @@ class PolarStereographicAConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
-        scale_factor_natural_origin=1.0,
+        latitude_natural_origin: float,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
+        scale_factor_natural_origin: float = 1.0,
     ):
         """
         Parameters
@@ -996,10 +999,10 @@ class PolarStereographicBConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_standard_parallel=0.0,
-        longitude_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        latitude_standard_parallel: float = 0.0,
+        longitude_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -1062,7 +1065,10 @@ class SinusoidalConversion(CoordinateOperation):
     """
 
     def __new__(
-        cls, longitude_natural_origin=0.0, false_easting=0.0, false_northing=0.0
+        cls,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -1115,11 +1121,11 @@ class StereographicConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
-        scale_factor_natural_origin=1.0,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
+        scale_factor_natural_origin: float = 1.0,
     ):
         """
         Parameters
@@ -1187,7 +1193,7 @@ class UTMConversion(CoordinateOperation):
     https://proj.org/operations/projections/utm.html
     """
 
-    def __new__(cls, zone, hemisphere="N"):
+    def __new__(cls, zone: str, hemisphere: str = "N"):
         """
         Parameters
         ----------
@@ -1212,11 +1218,11 @@ class TransverseMercatorConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
-        scale_factor_natural_origin=1.0,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
+        scale_factor_natural_origin: float = 1.0,
     ):
         """
         Parameters
@@ -1288,12 +1294,12 @@ class VerticalPerspectiveConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        viewpoint_height,
-        latitude_topocentric_origin=0.0,
-        longitude_topocentric_origin=0.0,
-        ellipsoidal_height_topocentric_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        viewpoint_height: float,
+        latitude_topocentric_origin: float = 0.0,
+        longitude_topocentric_origin: float = 0.0,
+        ellipsoidal_height_topocentric_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -1371,14 +1377,14 @@ class RotatedLatitudeLongitudeConversion(CoordinateOperation):
     https://proj.org/operations/projections/ob_tran.html
     """
 
-    def __new__(cls, o_lat_p, o_lon_p, lon_0=0.0):
+    def __new__(cls, o_lat_p: float, o_lon_p: float, lon_0: float = 0.0):
         """
         Parameters
         ----------
         o_lat_p: float
             Latitude of the North pole of the unrotated source CRS,
             expressed in the rotated geographic CRS.
-        o_lon_p:
+        o_lon_p: float
             Longitude of the North pole of the unrotated source CRS,
             expressed in the rotated geographic CRS.
         lon_0: float, optional
@@ -1410,11 +1416,11 @@ class EquidistantCylindricalConversion(CoordinateOperation):
 
     def __new__(
         cls,
-        latitude_first_parallel=0.0,
-        latitude_natural_origin=0.0,
-        longitude_natural_origin=0.0,
-        false_easting=0.0,
-        false_northing=0.0,
+        latitude_first_parallel: float = 0.0,
+        latitude_natural_origin: float = 0.0,
+        longitude_natural_origin: float = 0.0,
+        false_easting: float = 0.0,
+        false_northing: float = 0.0,
     ):
         """
         Parameters
@@ -1487,18 +1493,20 @@ class ToWGS84Transformation(CoordinateOperation):
 
     def __new__(
         cls,
-        source_crs,
-        x_axis_translation=0,
-        y_axis_translation=0,
-        z_axis_translation=0,
-        x_axis_rotation=0,
-        y_axis_rotation=0,
-        z_axis_rotation=0,
-        scale_difference=0,
+        source_crs: Any,
+        x_axis_translation: float = 0,
+        y_axis_translation: float = 0,
+        z_axis_translation: float = 0,
+        x_axis_rotation: float = 0,
+        y_axis_rotation: float = 0,
+        z_axis_rotation: float = 0,
+        scale_difference: float = 0,
     ):
         """
         Parameters
         ----------
+        source_crs: Any
+            Input to create the Source CRS.
         x_axis_translation: float, optional
             X-axis translation. Defaults to 0.0.
         y_axis_translation: float, optional

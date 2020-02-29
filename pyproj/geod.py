@@ -32,6 +32,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
 __all__ = ["Geod", "pj_ellps", "geodesic_version_str"]
 
 import math
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pyproj._geod import Geod as _Geod
 from pyproj._geod import geodesic_version_str
@@ -70,7 +71,7 @@ class Geod(_Geod):
 
     """
 
-    def __init__(self, initstring=None, **kwargs):
+    def __init__(self, initstring: Optional[str] = None, **kwargs) -> None:
         """
         initialize a Geod class instance.
 
@@ -127,7 +128,7 @@ class Geod(_Geod):
         """
         # if initparams is a proj-type init string,
         # convert to dict.
-        ellpsd = {}
+        ellpsd = {}  # type: Dict[str, Union[str, float]]
         if initstring is not None:
             for kvpair in initstring.split():
                 # Actually only +a and +b are needed
@@ -137,21 +138,22 @@ class Geod(_Geod):
                 k, v = kvpair.split("=")
                 k = k.lstrip("+")
                 if k in ["a", "b", "rf", "f", "es", "e"]:
-                    v = float(v)
-                ellpsd[k] = v
+                    ellpsd[k] = float(v)
+                else:
+                    ellpsd[k] = v
         # merge this dict with kwargs dict.
         kwargs = dict(list(kwargs.items()) + list(ellpsd.items()))
         sphere = False
         if "ellps" in kwargs:
             # ellipse name given, look up in pj_ellps dict
             ellps_dict = pj_ellps[kwargs["ellps"]]
-            a = ellps_dict["a"]
+            a = ellps_dict["a"]  # type: float
             if ellps_dict["description"] == "Normal Sphere":
                 sphere = True
             if "b" in ellps_dict:
-                b = ellps_dict["b"]
-                es = 1.0 - (b * b) / (a * a)
-                f = (a - b) / a
+                b = ellps_dict["b"]  # type: float
+                es = 1.0 - (b * b) / (a * a)  # type: float
+                f = (a - b) / a  # type: float
             elif "rf" in ellps_dict:
                 f = 1.0 / ellps_dict["rf"]
                 b = a * (1.0 - f)
@@ -195,7 +197,9 @@ class Geod(_Geod):
 
         super().__init__(a, f, sphere, b, es)
 
-    def fwd(self, lons, lats, az, dist, radians=False):
+    def fwd(
+        self, lons: Any, lats: Any, az: Any, dist: Any, radians=False
+    ) -> Tuple[Any, Any, Any]:
         """
         Forward transformation
 
@@ -238,7 +242,9 @@ class Geod(_Geod):
         outz = _convertback(zisfloat, zislist, zistuple, inz)
         return outx, outy, outz
 
-    def inv(self, lons1, lats1, lons2, lats2, radians=False):
+    def inv(
+        self, lons1: Any, lats1: Any, lons2: Any, lats2: Any, radians=False
+    ) -> Tuple[Any, Any, Any]:
         """
         Inverse transformation
 
@@ -280,7 +286,15 @@ class Geod(_Geod):
         outz = _convertback(zisfloat, zislist, zistuple, inz)
         return outx, outy, outz
 
-    def npts(self, lon1, lat1, lon2, lat2, npts, radians=False):
+    def npts(
+        self,
+        lon1: float,
+        lat1: float,
+        lon2: float,
+        lat2: float,
+        npts: int,
+        radians: bool = False,
+    ) -> List:
         """
         Given a single initial point and terminus point, returns
         a list of longitude/latitude pairs describing npts equally
@@ -355,7 +369,7 @@ class Geod(_Geod):
         lons, lats = super()._npts(lon1, lat1, lon2, lat2, npts, radians=radians)
         return list(zip(lons, lats))
 
-    def line_length(self, lons, lats, radians=False):
+    def line_length(self, lons: Any, lats: Any, radians: bool = False) -> float:
         """
         .. versionadded:: 2.3.0
 
@@ -383,14 +397,15 @@ class Geod(_Geod):
 
         Returns
         -------
-        float: The total length of the line.
+        float:
+            The total length of the line.
         """
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
         iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
         return self._line_length(inx, iny, radians=radians)
 
-    def line_lengths(self, lons, lats, radians=False):
+    def line_lengths(self, lons: Any, lats: Any, radians: bool = False) -> Any:
         """
         .. versionadded:: 2.3.0
 
@@ -426,7 +441,9 @@ class Geod(_Geod):
         line_lengths = _convertback(xisfloat, xislist, xistuple, inx)
         return line_lengths if xisfloat else line_lengths[:-1]
 
-    def polygon_area_perimeter(self, lons, lats, radians=False):
+    def polygon_area_perimeter(
+        self, lons: Any, lats: Any, radians: bool = False
+    ) -> Tuple[float, float]:
         """
         .. versionadded:: 2.3.0
 
@@ -472,7 +489,7 @@ class Geod(_Geod):
             _copytobuffer(lons)[0], _copytobuffer(lats)[0], radians=radians
         )
 
-    def geometry_length(self, geometry, radians=False):
+    def geometry_length(self, geometry, radians: bool = False) -> float:
         """
         .. versionadded:: 2.3.0
 
@@ -501,11 +518,11 @@ class Geod(_Geod):
 
         Returns
         -------
-        float: The total geodesic length of the geometry (meters).
-
+        float:
+            The total geodesic length of the geometry (meters).
         """
         try:
-            return self.line_length(*geometry.xy, radians=radians)
+            return self.line_length(*geometry.xy, radians=radians)  # type: ignore
         except (AttributeError, NotImplementedError):
             pass
         if hasattr(geometry, "exterior"):
@@ -517,7 +534,9 @@ class Geod(_Geod):
             return total_length
         raise GeodError("Invalid geometry provided.")
 
-    def geometry_area_perimeter(self, geometry, radians=False):
+    def geometry_area_perimeter(
+        self, geometry, radians: bool = False
+    ) -> Tuple[float, float]:
         """
         .. versionadded:: 2.3.0
 
@@ -568,7 +587,9 @@ class Geod(_Geod):
             The geodesic area (meters^2) and permimeter (meters) of the polygon.
        """
         try:
-            return self.polygon_area_perimeter(*geometry.xy, radians=radians)
+            return self.polygon_area_perimeter(  # type: ignore
+                *geometry.xy, radians=radians,
+            )
         except (AttributeError, NotImplementedError):
             pass
         # polygon
@@ -592,7 +613,7 @@ class Geod(_Geod):
             return total_area, total_perimeter
         raise GeodError("Invalid geometry provided.")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         # search for ellipse name
         for (ellps, vals) in pj_ellps.items():
             if self.a == vals["a"]:
@@ -608,7 +629,7 @@ class Geod(_Geod):
         # no ellipse name found, call super class
         return super().__repr__()
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         """
         equality operator == for Geod objects
 

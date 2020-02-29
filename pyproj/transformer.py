@@ -24,11 +24,12 @@ __all__ = [
     "TransformerGroup",
     "AreaOfInterest",
 ]
-
 from array import array
 from itertools import chain, islice
+from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union
 
 from pyproj import CRS, Proj
+from pyproj._crs import AreaOfUse, CoordinateOperation
 from pyproj._transformer import AreaOfInterest, _Transformer, _TransformerGroup  # noqa
 from pyproj.compat import cstrencode
 from pyproj.enums import TransformDirection, WktVersion
@@ -54,12 +55,12 @@ class TransformerGroup(_TransformerGroup):
 
     def __init__(
         self,
-        crs_from,
-        crs_to,
-        skip_equivalent=False,
-        always_xy=False,
-        area_of_interest=None,
-    ):
+        crs_from: Any,
+        crs_to: Any,
+        skip_equivalent: bool = False,
+        always_xy: bool = False,
+        area_of_interest: Optional[AreaOfInterest] = None,
+    ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
 
@@ -104,7 +105,7 @@ class TransformerGroup(_TransformerGroup):
             self._transformers[iii] = Transformer(transformer)
 
     @property
-    def transformers(self):
+    def transformers(self) -> List["Transformer"]:
         """
         list[:obj:`Transformer`]:
             List of available :obj:`Transformer`
@@ -113,7 +114,7 @@ class TransformerGroup(_TransformerGroup):
         return self._transformers
 
     @property
-    def unavailable_operations(self):
+    def unavailable_operations(self) -> List[CoordinateOperation]:
         """
         list[:obj:`pyproj.crs.CoordinateOperation`]:
             List of :obj:`pyproj.crs.CoordinateOperation` that are not
@@ -122,13 +123,13 @@ class TransformerGroup(_TransformerGroup):
         return self._unavailable_operations
 
     @property
-    def best_available(self):
+    def best_available(self) -> bool:
         """
         bool: If True, the best possible transformer is available.
         """
         return self._best_available
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             "<TransformerGroup: best_available={best_available}>\n"
             "- transformers: {transformers}\n"
@@ -152,7 +153,7 @@ class Transformer:
 
     """
 
-    def __init__(self, base_transformer=None):
+    def __init__(self, base_transformer: Optional[_Transformer] = None) -> None:
         if not isinstance(base_transformer, _Transformer):
             ProjError.clear()
             raise ProjError(
@@ -162,86 +163,96 @@ class Transformer:
         self._transformer = base_transformer
 
     @property
-    def name(self):
+    def name(self) -> str:
         """
         str: Name of the projection.
         """
         return self._transformer.id
 
     @property
-    def description(self):
+    def description(self) -> str:
         """
         str: Description of the projection.
         """
         return self._transformer.description
 
     @property
-    def definition(self):
+    def definition(self) -> str:
         """
         str: Definition of the projection.
         """
         return self._transformer.definition
 
     @property
-    def has_inverse(self):
+    def has_inverse(self) -> bool:
         """
         bool: True if an inverse mapping exists.
         """
         return self._transformer.has_inverse
 
     @property
-    def accuracy(self):
+    def accuracy(self) -> float:
         """
         float: Expected accuracy of the transformation. -1 if unknown.
         """
         return self._transformer.accuracy
 
     @property
-    def area_of_use(self):
+    def area_of_use(self) -> AreaOfUse:
         """
         .. versionadded:: 2.3.0
 
         Returns
         -------
-        AreaOfUse: The area of use object with associated attributes.
+        AreaOfUse:
+            The area of use object with associated attributes.
         """
         return self._transformer.area_of_use
 
     @property
-    def remarks(self):
+    def remarks(self) -> str:
         """
         .. versionadded:: 2.4.0
 
-        str: Remarks about object.
+        Returns
+        -------
+        str:
+            Remarks about object.
         """
         return self._transformer.remarks
 
     @property
-    def scope(self):
+    def scope(self) -> str:
         """
         .. versionadded:: 2.4.0
 
-        str: Scope of object.
+        Returns
+        -------
+        str:
+            Scope of object.
         """
         return self._transformer.scope
 
     @property
-    def operations(self):
+    def operations(self) -> Optional[Tuple[CoordinateOperation]]:
         """
         .. versionadded:: 2.4.0
 
-        tuple[CoordinateOperation]: The operations in a concatenated operation.
+        Returns
+        -------
+        Tuple[CoordinateOperation]:
+            The operations in a concatenated operation.
         """
         return self._transformer.operations
 
     @staticmethod
     def from_proj(
-        proj_from,
-        proj_to,
-        skip_equivalent=False,
-        always_xy=False,
-        area_of_interest=None,
-    ):
+        proj_from: Any,
+        proj_to: Any,
+        skip_equivalent: bool = False,
+        always_xy: bool = False,
+        area_of_interest: Optional[AreaOfInterest] = None,
+    ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.proj.Proj` or input used to create one.
 
         .. versionadded:: 2.1.2 skip_equivalent
@@ -267,7 +278,7 @@ class Transformer:
 
         Returns
         -------
-        :obj:`Transformer`
+        Transformer
 
         """
         if not isinstance(proj_from, Proj):
@@ -285,8 +296,12 @@ class Transformer:
 
     @staticmethod
     def from_crs(
-        crs_from, crs_to, skip_equivalent=False, always_xy=False, area_of_interest=None
-    ):
+        crs_from: Any,
+        crs_to: Any,
+        skip_equivalent: bool = False,
+        always_xy: bool = False,
+        area_of_interest: Optional[AreaOfInterest] = None,
+    ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
         .. versionadded:: 2.1.2 skip_equivalent
@@ -312,7 +327,7 @@ class Transformer:
 
         Returns
         -------
-        :obj:`Transformer`
+        Transformer
 
         """
         return Transformer(
@@ -326,7 +341,7 @@ class Transformer:
         )
 
     @staticmethod
-    def from_pipeline(proj_pipeline):
+    def from_pipeline(proj_pipeline: str) -> "Transformer":
         """Make a Transformer from a PROJ pipeline string.
 
         https://proj.org/operations/pipeline.html
@@ -345,14 +360,14 @@ class Transformer:
 
     def transform(
         self,
-        xx,
-        yy,
-        zz=None,
-        tt=None,
-        radians=False,
-        errcheck=False,
-        direction=TransformDirection.FORWARD,
-    ):
+        xx: Any,
+        yy: Any,
+        zz: Any = None,
+        tt: Any = None,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Any:
         """
         Transform points between two coordinate systems.
 
@@ -450,20 +465,24 @@ class Transformer:
         outy = _convertback(yisfloat, yislist, xistuple, iny)
         return_data = (outx, outy)
         if inz is not None:
-            return_data += (_convertback(zisfloat, zislist, zistuple, inz),)
+            return_data += (  # type: ignore
+                _convertback(zisfloat, zislist, zistuple, inz),
+            )
         if intime is not None:
-            return_data += (_convertback(tisfloat, tislist, tistuple, intime),)
+            return_data += (  # type: ignore
+                _convertback(tisfloat, tislist, tistuple, intime),
+            )
         return return_data
 
     def itransform(
         self,
-        points,
-        switch=False,
-        time_3rd=False,
-        radians=False,
-        errcheck=False,
-        direction=TransformDirection.FORWARD,
-    ):
+        points: Any,
+        switch: bool = False,
+        time_3rd: bool = False,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Iterator[Iterable]:
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
 
@@ -580,7 +599,11 @@ class Transformer:
             for pt in zip(*([iter(buff)] * stride)):
                 yield pt
 
-    def to_wkt(self, version=WktVersion.WKT2_2019, pretty=False):
+    def to_wkt(
+        self,
+        version: Union[WktVersion, str] = WktVersion.WKT2_2019,
+        pretty: bool = False,
+    ):
         """
         Convert the projection to a WKT string.
 
@@ -603,11 +626,12 @@ class Transformer:
 
         Returns
         -------
-        str: The WKT string.
+        str:
+            The WKT string.
         """
         return self._transformer.to_wkt(version=version, pretty=pretty)
 
-    def to_json(self, pretty=False, indentation=2):
+    def to_json(self, pretty: bool = False, indentation: int = 2) -> str:
         """
         Convert the projection to a JSON string.
 
@@ -622,11 +646,12 @@ class Transformer:
 
         Returns
         -------
-        str: The JSON string.
+        str:
+            The JSON string.
         """
         return self._transformer.to_json(pretty=pretty, indentation=indentation)
 
-    def to_json_dict(self):
+    def to_json_dict(self) -> dict:
         """
         Convert the projection to a JSON dictionary.
 
@@ -634,14 +659,15 @@ class Transformer:
 
         Returns
         -------
-        dict: The JSON dictionary.
+        dict:
+            The JSON dictionary.
         """
         return self._transformer.to_json_dict()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.definition
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             "<{type_name}: {name}>\nDescription: {description}\n"
             "Area of Use:\n{area_of_use}"
@@ -654,16 +680,16 @@ class Transformer:
 
 
 def transform(
-    p1,
-    p2,
-    x,
-    y,
-    z=None,
-    tt=None,
-    radians=False,
-    errcheck=False,
-    skip_equivalent=False,
-    always_xy=False,
+    p1: Any,
+    p2: Any,
+    x: Any,
+    y: Any,
+    z: Any = None,
+    tt: Any = None,
+    radians: bool = False,
+    errcheck: bool = False,
+    skip_equivalent: bool = False,
+    always_xy: bool = False,
 ):
     """
     .. versionadded:: 2.1.2 skip_equivalent
@@ -744,15 +770,15 @@ def transform(
 
 
 def itransform(
-    p1,
-    p2,
-    points,
-    switch=False,
-    time_3rd=False,
-    radians=False,
-    errcheck=False,
-    skip_equivalent=False,
-    always_xy=False,
+    p1: Any,
+    p2: Any,
+    points: Iterable[Iterable],
+    switch: bool = False,
+    time_3rd: bool = False,
+    radians: bool = False,
+    errcheck: bool = False,
+    skip_equivalent: bool = False,
+    always_xy: bool = False,
 ):
     """
     .. versionadded:: 2.1.2 skip_equivalent

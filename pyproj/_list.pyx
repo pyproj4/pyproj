@@ -11,7 +11,8 @@ def get_proj_operations_map():
     """
     Returns
     -------
-    dict: operations supported by PROJ.
+    dict:
+        Operations supported by PROJ.
     """
     cdef PJ_OPERATIONS *proj_operations = proj_list_operations()
     cdef int iii = 0
@@ -27,7 +28,8 @@ def get_ellps_map():
     """
     Returns
     -------
-    dict: ellipsoids supported by PROJ.
+    dict:
+        Ellipsoids supported by PROJ.
     """
     cdef PJ_ELLPS *proj_ellps = proj_list_ellps()
     cdef int iii = 0
@@ -48,7 +50,8 @@ def get_prime_meridians_map():
     """
     Returns
     -------
-    dict: prime meridians supported by PROJ.
+    dict:
+        Prime Meridians supported by PROJ.
     """
     cdef PJ_PRIME_MERIDIANS *prime_meridians = proj_list_prime_meridians()
     cdef int iii = 0
@@ -67,7 +70,8 @@ def get_units_map():
     """
     Returns
     -------
-    dict: units supported by PROJ
+    dict:
+        Units supported by PROJ
     """
     cdef PJ_UNITS *proj_units = proj_list_units()
     cdef int iii = 0
@@ -87,7 +91,8 @@ def get_angular_units_map():
     """
     Returns
     -------
-    dict: angular units supported by PROJ
+    dict:
+        Angular units supported by PROJ
     """
     cdef PJ_UNITS *proj_units = proj_list_angular_units()
     cdef int iii = 0
@@ -109,7 +114,8 @@ def get_authorities():
 
     Returns
     -------
-    list[str]: Authorities in PROJ database.
+    List[str]:
+        Authorities in PROJ database.
     """
     cdef PJ_CONTEXT* context = proj_context_create()
     pyproj_context_initialize(context, True)
@@ -172,7 +178,8 @@ def get_codes(auth_name, pj_type, allow_deprecated=False):
 
     Returns
     -------
-    list[str]: Codes associated with authorities in PROJ database.
+    List[str]:
+        Codes associated with authorities in PROJ database.
     """
     cdef PJ_CONTEXT* context = NULL
     cdef PJ_TYPE cpj_type = PJ_TYPE_MAP[PJType.create(pj_type)]

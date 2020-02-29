@@ -1,3 +1,5 @@
+from typing import Any, Dict, Optional, Union
+
 from pyproj._crs import Datum, Ellipsoid, PrimeMeridian
 
 
@@ -8,7 +10,12 @@ class CustomDatum(Datum):
     Class to build a datum based on an ellipsoid and prime meridian.
     """
 
-    def __new__(cls, name="undefined", ellipsoid="WGS 84", prime_meridian="Greenwich"):
+    def __new__(
+        cls,
+        name: str = "undefined",
+        ellipsoid: Any = "WGS 84",
+        prime_meridian: Any = "Greenwich",
+    ):
         """
         Parameters
         ----------
@@ -41,11 +48,11 @@ class CustomEllipsoid(Ellipsoid):
 
     def __new__(
         cls,
-        name="undefined",
-        semi_major_axis=None,
-        inverse_flattening=None,
-        semi_minor_axis=None,
-        radius=None,
+        name: str = "undefined",
+        semi_major_axis: Optional[float] = None,
+        inverse_flattening: Optional[float] = None,
+        semi_minor_axis: Optional[float] = None,
+        radius: Optional[float] = None,
     ):
         """
         Parameters
@@ -68,7 +75,7 @@ class CustomEllipsoid(Ellipsoid):
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "Ellipsoid",
             "name": name,
-        }
+        }  # type: Dict[str, Union[float, str]]
         if semi_major_axis is not None:
             ellipsoid_json["semi_major_axis"] = semi_major_axis
         if inverse_flattening is not None:
@@ -87,7 +94,7 @@ class CustomPrimeMeridian(PrimeMeridian):
     Class to build a prime meridian based on a longitude.
     """
 
-    def __new__(cls, longitude, name="undefined"):
+    def __new__(cls, longitude: float, name: str = "undefined"):
         """
         Parameters
         ----------
