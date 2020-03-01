@@ -411,7 +411,7 @@ class CRS(_CRS):
         return self.srs
 
     @staticmethod
-    def from_user_input(value: str) -> "CRS":
+    def from_user_input(value: Any) -> "CRS":
         """
         Initialize a CRS class instance with:
           - PROJ string
@@ -978,7 +978,7 @@ class GeographicCRS(CRS):
         self,
         name: str = "undefined",
         datum: Any = "urn:ogc:def:datum:EPSG::6326",
-        ellipsoidal_cs: Any = Ellipsoidal2DCS(),
+        ellipsoidal_cs: Any = None,
     ) -> None:
         """
         Parameters
@@ -999,7 +999,7 @@ class GeographicCRS(CRS):
             "name": name,
             "datum": Datum.from_user_input(datum).to_json_dict(),
             "coordinate_system": CoordinateSystem.from_user_input(
-                ellipsoidal_cs
+                ellipsoidal_cs or Ellipsoidal2DCS()
             ).to_json_dict(),
         }
         super().__init__(geographic_crs_json)
@@ -1016,7 +1016,7 @@ class DerivedGeographicCRS(CRS):
         self,
         base_crs: Any,
         conversion: Any,
-        ellipsoidal_cs: Any = Ellipsoidal2DCS(),
+        ellipsoidal_cs: Any = None,
         name: str = "undefined",
     ) -> None:
         """
@@ -1044,7 +1044,7 @@ class DerivedGeographicCRS(CRS):
                 conversion
             ).to_json_dict(),
             "coordinate_system": CoordinateSystem.from_user_input(
-                ellipsoidal_cs
+                ellipsoidal_cs or Ellipsoidal2DCS()
             ).to_json_dict(),
         }
         super().__init__(derived_geographic_crs_json)
@@ -1061,8 +1061,8 @@ class ProjectedCRS(CRS):
         self,
         conversion: Any,
         name: str = "undefined",
-        cartesian_cs: Any = Cartesian2DCS(),
-        geodetic_crs: Any = GeographicCRS(),
+        cartesian_cs: Any = None,
+        geodetic_crs: Any = None,
     ) -> None:
         """
         Parameters
@@ -1084,12 +1084,14 @@ class ProjectedCRS(CRS):
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "ProjectedCRS",
             "name": name,
-            "base_crs": CRS.from_user_input(geodetic_crs).to_json_dict(),
+            "base_crs": CRS.from_user_input(
+                geodetic_crs or GeographicCRS()
+            ).to_json_dict(),
             "conversion": CoordinateOperation.from_user_input(
                 conversion
             ).to_json_dict(),
             "coordinate_system": CoordinateSystem.from_user_input(
-                cartesian_cs
+                cartesian_cs or Cartesian2DCS()
             ).to_json_dict(),
         }
         super().__init__(proj_crs_json)
@@ -1106,11 +1108,7 @@ class VerticalCRS(CRS):
     """
 
     def __init__(
-        self,
-        name: str,
-        datum: Any,
-        vertical_cs: Any = VerticalCS(),
-        geoid_model: str = None,
+        self, name: str, datum: Any, vertical_cs: Any = None, geoid_model: str = None,
     ) -> None:
         """
         Parameters
@@ -1132,7 +1130,7 @@ class VerticalCRS(CRS):
             "name": name,
             "datum": Datum.from_user_input(datum).to_json_dict(),
             "coordinate_system": CoordinateSystem.from_user_input(
-                vertical_cs
+                vertical_cs or VerticalCS()
             ).to_json_dict(),
         }
         if geoid_model is not None:
