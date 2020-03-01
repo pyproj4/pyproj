@@ -569,7 +569,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">srs</span></div>
 
 <div class="viewcode-block" id="CRS.from_user_input"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_user_input">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_user_input</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_user_input</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CRS class instance with:</span>
 <span class="sd">          - PROJ string</span>
@@ -1136,7 +1136,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
         <span class="n">datum</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;urn:ogc:def:datum:EPSG::6326&quot;</span><span class="p">,</span>
-        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Ellipsoidal2DCS</span><span class="p">(),</span>
+        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1157,7 +1157,7 @@
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;datum&quot;</span><span class="p">:</span> <span class="n">Datum</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">datum</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
             <span class="s2">&quot;coordinate_system&quot;</span><span class="p">:</span> <span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span>
-                <span class="n">ellipsoidal_cs</span>
+                <span class="n">ellipsoidal_cs</span> <span class="ow">or</span> <span class="n">Ellipsoidal2DCS</span><span class="p">()</span>
             <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
         <span class="p">}</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geographic_crs_json</span><span class="p">)</span></div></div>
@@ -1174,7 +1174,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">base_crs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Ellipsoidal2DCS</span><span class="p">(),</span>
+        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1202,7 +1202,7 @@
                 <span class="n">conversion</span>
             <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
             <span class="s2">&quot;coordinate_system&quot;</span><span class="p">:</span> <span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span>
-                <span class="n">ellipsoidal_cs</span>
+                <span class="n">ellipsoidal_cs</span> <span class="ow">or</span> <span class="n">Ellipsoidal2DCS</span><span class="p">()</span>
             <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
         <span class="p">}</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">derived_geographic_crs_json</span><span class="p">)</span></div></div>
@@ -1219,8 +1219,8 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
-        <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Cartesian2DCS</span><span class="p">(),</span>
-        <span class="n">geodetic_crs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(),</span>
+        <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">geodetic_crs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1242,12 +1242,14 @@
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ProjectedCRS&quot;</span><span class="p">,</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;base_crs&quot;</span><span class="p">:</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">geodetic_crs</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
+            <span class="s2">&quot;base_crs&quot;</span><span class="p">:</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span>
+                <span class="n">geodetic_crs</span> <span class="ow">or</span> <span class="n">GeographicCRS</span><span class="p">()</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
             <span class="s2">&quot;conversion&quot;</span><span class="p">:</span> <span class="n">CoordinateOperation</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span>
                 <span class="n">conversion</span>
             <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
             <span class="s2">&quot;coordinate_system&quot;</span><span class="p">:</span> <span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span>
-                <span class="n">cartesian_cs</span>
+                <span class="n">cartesian_cs</span> <span class="ow">or</span> <span class="n">Cartesian2DCS</span><span class="p">()</span>
             <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
         <span class="p">}</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">proj_crs_json</span><span class="p">)</span></div></div>
@@ -1267,8 +1269,8 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">datum</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-        <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">VerticalCS</span><span class="p">(),</span>
-        <span class="n">geoid_model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">geoid_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1290,7 +1292,7 @@
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;datum&quot;</span><span class="p">:</span> <span class="n">Datum</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">datum</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
             <span class="s2">&quot;coordinate_system&quot;</span><span class="p">:</span> <span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span>
-                <span class="n">vertical_cs</span>
+                <span class="n">vertical_cs</span> <span class="ow">or</span> <span class="n">VerticalCS</span><span class="p">()</span>
             <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="n">geoid_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
