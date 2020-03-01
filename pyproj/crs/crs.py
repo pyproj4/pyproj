@@ -1108,7 +1108,11 @@ class VerticalCRS(CRS):
     """
 
     def __init__(
-        self, name: str, datum: Any, vertical_cs: Any = None, geoid_model: str = None,
+        self,
+        name: str,
+        datum: Any,
+        vertical_cs: Any = None,
+        geoid_model: Optional[str] = None,
     ) -> None:
         """
         Parameters
