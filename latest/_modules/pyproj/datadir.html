@@ -243,7 +243,6 @@
         <span class="k">for</span> <span class="n">proj_data_dir</span> <span class="ow">in</span> <span class="n">potential_data_dirs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">valid_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
-                <span class="k">break</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="n">valid_data_dirs</span><span class="p">(</span><span class="n">_USER_PROJ_DATA</span><span class="p">):</span>
