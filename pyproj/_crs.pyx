@@ -2273,11 +2273,13 @@ cdef class CoordinateOperation(_CRSParts):
     def __repr__(self):
         return (
             "<Coordinate Operation: {type_name}>\n"
-            "{name}\n"
+            "Name: {name}\n"
+            "Method: {method_name}\n"
             "Area of Use:\n{area_of_use}"
         ).format(
             type_name=self.type_name,
             name=self.name,
+            method_name=self.method_name,
             area_of_use=self.area_of_use or "- undefined",
         )
 
