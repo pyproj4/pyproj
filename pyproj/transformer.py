@@ -678,6 +678,11 @@ class Transformer:
             area_of_use=self.area_of_use or "- undefined",
         )
 
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Transformer):
+            return False
+        return self._transformer.__eq__(other._transformer)
+
 
 def transform(
     p1: Any,
