@@ -3,9 +3,10 @@ Change Log
 
 2.6.0
 ~~~~~
-* ENH: Added Proj.get_factors() (issue #503) 
+* ENH: Added :meth:`pyproj.proj.Proj.get_factors` (issue #503) 
 * ENH: Added type hints (issue #369)
 * BUG: Don't use CRS classes for defaults in CRS child class init signatures (issue #554)
+* ENH: Updated :attr:`pyproj.crs.CRS.axis_info` to pull all relevant axis information from CRS.
 
 2.5.0
 ~~~~~
