@@ -585,3 +585,11 @@ def test_transformer__area_of_interest__invalid(aoi_data_directory):
 def test_transformer_group__area_of_interest__invalid(aoi_data_directory):
     with pytest.raises(ProjError):
         TransformerGroup(4326, 2964, area_of_interest=(-136.46, 49.0, -60.72, 83.17))
+
+
+def test_transformer_equals():
+    assert Transformer.from_crs(28356, 7856) == Transformer.from_crs(28356, 7856)
+
+
+def test_transformer_not_equals():
+    assert Transformer.from_crs(28356, 7856) != 22
