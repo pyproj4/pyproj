@@ -396,8 +396,17 @@
 <dl class="attribute">
 <dt id="pyproj.crs.CRS.axis_info">
 <code class="sig-name descname">axis_info</code><a class="headerlink" href="#pyproj.crs.CRS.axis_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns: The list of axis information.
-:rtype: List[Axis]</p>
+<dd><p>Retrieves all relevant axis information in the CRS.
+If it is a Bound CRS, it gets the axis list from the Source CRS.
+If it is a Compound CRS, it gets the axis list from the Sub CRS list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of axis information.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="coordinate_system.html#pyproj._crs.Axis" title="pyproj._crs.Axis">Axis</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">

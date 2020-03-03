@@ -1051,32 +1051,28 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">srs</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="c1"># get axis/coordinate system information</span>
+        <span class="c1"># get axis information</span>
         <span class="n">axis_info_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
+        <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis_info</span><span class="p">:</span>
+            <span class="n">axis_info_list</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;- &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">])</span>
+        <span class="n">axis_info_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">axis_info_list</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">extent_axis</span><span class="p">(</span><span class="n">axis_list</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">axis_info</span> <span class="ow">in</span> <span class="n">axis_list</span><span class="p">:</span>
-                <span class="n">axis_info_list</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;- &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">axis_info</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">])</span>
-
+        <span class="c1"># get coordinate system &amp; sub CRS info</span>
         <span class="n">source_crs_repr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">sub_crs_repr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis_info</span><span class="p">:</span>
-            <span class="n">extent_axis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis_info</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_system</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_system</span><span class="o">.</span><span class="n">axis_list</span><span class="p">:</span>
             <span class="n">coordinate_system_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="p">:</span>
-            <span class="n">extent_axis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">axis_info</span><span class="p">)</span>
             <span class="n">coordinate_system_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">)</span>
             <span class="n">source_crs_repr</span> <span class="o">=</span> <span class="s2">&quot;Source CRS: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">coordinate_system_names</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">sub_crs_repr_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Sub CRS:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">sub_crs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">:</span>
-                <span class="n">extent_axis</span><span class="p">(</span><span class="n">sub_crs</span><span class="o">.</span><span class="n">axis_info</span><span class="p">)</span>
                 <span class="n">coordinate_system_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sub_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">))</span>
                 <span class="n">sub_crs_repr_list</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;- &quot;</span><span class="p">,</span> <span class="n">sub_crs</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">])</span>
             <span class="n">coordinate_system_name</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coordinate_system_names</span><span class="p">)</span>
             <span class="n">sub_crs_repr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sub_crs_repr_list</span><span class="p">)</span>
-        <span class="n">axis_info_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">axis_info_list</span><span class="p">)</span>
 
         <span class="c1"># get coordinate operation repr</span>
         <span class="n">coordinate_operation</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
