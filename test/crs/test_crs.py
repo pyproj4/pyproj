@@ -277,6 +277,14 @@ def test_repr_compound():
     )
 
 
+def test_axis_info_compound():
+    assert [axis.direction for axis in CRS.from_epsg(3901).axis_info] == [
+        "north",
+        "east",
+        "up",
+    ]
+
+
 def test_dunder_str():
     with pytest.warns(FutureWarning):
         assert str(CRS({"init": "EPSG:4326"})) == CRS({"init": "EPSG:4326"}).srs
@@ -791,6 +799,14 @@ def test_coordinate_operation_towgs84_seven():
         -3.03,
         -15.62,
     ]
+
+
+def test_axis_info_bound():
+    crs = CRS(
+        "+proj=tmerc +lat_0=0 +lon_0=15 +k=0.9996 +x_0=2520000 +y_0=0 "
+        "+ellps=intl +towgs84=-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
+    )
+    assert [axis.direction for axis in crs.axis_info] == ["east", "north"]
 
 
 def test_coordinate_operation_towgs84_missing():

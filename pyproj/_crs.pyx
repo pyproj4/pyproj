@@ -2344,12 +2344,24 @@ cdef class _CRS(Base):
     @property
     def axis_info(self):
         """
+        Retrieves all relevant axis information in the CRS.
+        If it is a Bound CRS, it gets the axis list from the Source CRS.
+        If it is a Compound CRS, it gets the axis list from the Sub CRS list.
+
         Returns
         -------
         List[Axis]:
             The list of axis information.
         """
-        return self.coordinate_system.axis_list if self.coordinate_system else []
+        axis_info_list = []
+        if self.coordinate_system:
+            axis_info_list.extend(self.coordinate_system.axis_list)
+        elif self.is_bound and self.source_crs:
+            axis_info_list.extend(self.source_crs.axis_info)
+        else:
+            for sub_crs in self.sub_crs_list:
+                axis_info_list.extend(sub_crs.axis_info)
+        return axis_info_list
 
     @property
     def area_of_use(self):

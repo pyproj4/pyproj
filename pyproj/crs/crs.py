@@ -893,32 +893,28 @@ class CRS(_CRS):
         return self.srs
 
     def __repr__(self) -> str:
-        # get axis/coordinate system information
+        # get axis information
         axis_info_list = []  # type: List[str]
+        for axis in self.axis_info:
+            axis_info_list.extend(["- ", str(axis), "\n"])
+        axis_info_str = "".join(axis_info_list)
 
-        def extent_axis(axis_list):
-            for axis_info in axis_list:
-                axis_info_list.extend(["- ", str(axis_info), "\n"])
-
+        # get coordinate system & sub CRS info
         source_crs_repr = ""
         sub_crs_repr = ""
-        if self.axis_info:
-            extent_axis(self.axis_info)
+        if self.coordinate_system and self.coordinate_system.axis_list:
             coordinate_system_name = str(self.coordinate_system)
         elif self.is_bound and self.source_crs:
-            extent_axis(self.source_crs.axis_info)
             coordinate_system_name = str(self.source_crs.coordinate_system)
             source_crs_repr = "Source CRS: {}\n".format(self.source_crs.name)
         else:
             coordinate_system_names = []
             sub_crs_repr_list = ["Sub CRS:\n"]
             for sub_crs in self.sub_crs_list:
-                extent_axis(sub_crs.axis_info)
                 coordinate_system_names.append(str(sub_crs.coordinate_system))
                 sub_crs_repr_list.extend(["- ", sub_crs.name, "\n"])
             coordinate_system_name = "|".join(coordinate_system_names)
             sub_crs_repr = "".join(sub_crs_repr_list)
-        axis_info_str = "".join(axis_info_list)
 
         # get coordinate operation repr
         coordinate_operation = ""
