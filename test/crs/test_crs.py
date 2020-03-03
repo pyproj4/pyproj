@@ -498,7 +498,8 @@ def test_coordinate_operation():
     crs = CRS.from_epsg(26915)
     assert repr(crs.coordinate_operation) == (
         "<Coordinate Operation: Conversion>\n"
-        "UTM zone 15N\n"
+        "Name: UTM zone 15N\n"
+        "Method: Transverse Mercator\n"
         "Area of Use:\n"
         "- name: World - N hemisphere - 96°W to 90°W\n"
         "- bounds: (-96.0, 0.0, -90.0, 84.0)"
