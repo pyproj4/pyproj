@@ -12,7 +12,7 @@ def _copytobuffer_return_scalar(xx: Any) -> Tuple[array, bool, bool, bool]:
         # inx,isfloat,islist,istuple
         return array("d", (float(xx),)), True, False, False
     except Exception:
-        raise TypeError("input must be an array, list, tuple or scalar")
+        raise TypeError("input must be a scalar")
 
 
 def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:

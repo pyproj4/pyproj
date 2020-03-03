@@ -85,7 +85,6 @@ def get_data_dir() -> str:
         for proj_data_dir in potential_data_dirs.split(os.pathsep):
             if valid_data_dir(proj_data_dir):
                 return True
-                break
         return None
 
     if valid_data_dirs(_USER_PROJ_DATA):
