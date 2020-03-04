@@ -8,6 +8,7 @@ Change Log
 * BUG: Don't use CRS classes for defaults in CRS child class init signatures (issue #554)
 * ENH: Updated :attr:`pyproj.crs.CRS.axis_info` to pull all relevant axis information from CRS (issue #557)
 * ENH: Added :meth:`pyproj.transformer.Transform.__eq__` (issue #559)
+* ENH: Added :attr:`pyproj.crs.CRS.utm_zone` (issue #561)
 
 2.5.0
 ~~~~~
