@@ -1256,3 +1256,21 @@ def test_crs_equals():
 def test_crs_equals__ignore_axis_order():
     with pytest.warns(FutureWarning):
         assert CRS("epsg:4326").equals("+init=epsg:4326", ignore_axis_order=True)
+
+
+@pytest.mark.parametrize(
+    "crs_input",
+    [
+        "+proj=utm +zone=15",
+        26915,
+        "+proj=utm +zone=15 +towgs84=0,0,0",
+        "EPSG:26915+5717",
+    ],
+)
+def test_utm_zone(crs_input):
+    assert CRS(crs_input).utm_zone == "15N"
+
+
+@pytest.mark.parametrize("crs_input", ["+proj=tmerc", "epsg:4326"])
+def test_utm_zone__none(crs_input):
+    assert CRS(crs_input).utm_zone is None
