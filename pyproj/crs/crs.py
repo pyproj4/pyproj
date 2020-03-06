@@ -50,7 +50,7 @@ def _prepare_from_dict(projparams: dict) -> str:
         # issue 183 (+ no_rot)
         if value is None or value is True:
             pjargs.append("+{key}".format(key=key))
-        elif value is False:
+        elif str(value) == str(False):
             pass
         else:
             pjargs.append("+{key}={value}".format(key=key, value=value))

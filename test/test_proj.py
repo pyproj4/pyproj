@@ -478,3 +478,12 @@ def test_get_factors__errcheck():
     transformer = Proj(3857)
     with pytest.raises(ProjError):
         transformer.get_factors(longitude=40, latitude=70, errcheck=True, radians=True)
+
+
+def test_numpy_bool_kwarg():
+    # Issue 546
+    south = np.array(50) < 0
+    proj = Proj(
+        proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
+    )
+    assert "south" not in proj.srs
