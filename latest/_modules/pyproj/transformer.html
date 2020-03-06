@@ -569,7 +569,7 @@
 <span class="sd">        &gt;&gt;&gt; pipe_trans = Transformer.from_pipeline(pipeline_str)</span>
 <span class="sd">        &gt;&gt;&gt; xt, yt = pipe_trans.transform(2.1, 0.001)</span>
 <span class="sd">        &gt;&gt;&gt; &quot;%.3f  %.3f&quot; % (xt, yt)</span>
-<span class="sd">        &#39;120.321  0.057&#39;</span>
+<span class="sd">        &#39;2.100  0.001&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_crs(</span>
 <span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
 <span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
@@ -685,7 +685,7 @@
 <span class="sd">        &gt;&gt;&gt; pipe_trans = Transformer.from_pipeline(pipeline_str)</span>
 <span class="sd">        &gt;&gt;&gt; for pt in pipe_trans.itransform([(2.1, 0.001)]):</span>
 <span class="sd">        ...     &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
-<span class="sd">        &#39;120.321 0.057&#39;</span>
+<span class="sd">        &#39;2.100 0.001&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_crs(</span>
 <span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
 <span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
