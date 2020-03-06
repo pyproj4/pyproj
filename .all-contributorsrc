@@ -319,6 +319,17 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "jranalli",
+      "name": "Joe Ranalli",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7864460?v=4",
+      "profile": "http://www.personal.psu.edu/jar339",
+      "contributions": [
+        "bug",
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
