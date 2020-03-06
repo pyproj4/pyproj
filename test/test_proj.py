@@ -483,5 +483,7 @@ def test_get_factors__errcheck():
 def test_numpy_bool_kwarg():
     # Issue 546
     south = np.array(50) < 0
-    proj = Proj(proj='utm', zone=32, ellipsis='WGS84', datum='WGS84', units='m', south=south)
+    proj = Proj(
+        proj='utm', zone=32, ellipsis='WGS84', datum='WGS84', units='m', south=south
+    )
     assert "south" not in proj.srs
