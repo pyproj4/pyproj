@@ -411,7 +411,7 @@ class Transformer:
         >>> pipe_trans = Transformer.from_pipeline(pipeline_str)
         >>> xt, yt = pipe_trans.transform(2.1, 0.001)
         >>> "%.3f  %.3f" % (xt, yt)
-        '120.321  0.057'
+        '2.100  0.001'
         >>> transproj = Transformer.from_crs(
         ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
         ...     "EPSG:4326",
@@ -527,7 +527,7 @@ class Transformer:
         >>> pipe_trans = Transformer.from_pipeline(pipeline_str)
         >>> for pt in pipe_trans.itransform([(2.1, 0.001)]):
         ...     '{:.3f} {:.3f}'.format(*pt)
-        '120.321 0.057'
+        '2.100 0.001'
         >>> transproj = Transformer.from_crs(
         ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},
         ...     "EPSG:4326",

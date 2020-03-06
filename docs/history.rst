@@ -10,6 +10,7 @@ Change Log
 * ENH: Added :meth:`pyproj.transformer.Transform.__eq__` (issue #559)
 * ENH: Added :attr:`pyproj.crs.CRS.utm_zone` (issue #561)
 * BUG: Modify CRS dict test to accomodate numpy bool types. (issue #564)
+* BUG: Fix pipeline transformations to match cct (issue #565)
 
 2.5.0
 ~~~~~

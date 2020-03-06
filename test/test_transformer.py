@@ -593,3 +593,41 @@ def test_transformer_equals():
 
 def test_transformer_not_equals():
     assert Transformer.from_crs(28356, 7856) != 22
+
+
+@pytest.mark.parametrize(
+    "pipeline_str",
+    [
+        "+proj=pipeline +ellps=GRS80 +step +proj=cart",
+        "+proj=pipeline +step +proj=unitconvert +xy_in=deg "
+        "+xy_out=rad +ellps=GRS80 +step +proj=cart",
+    ],
+)
+def test_pipeline_transform(pipeline_str):
+    trans = Transformer.from_pipeline(pipeline_str)
+    assert_almost_equal(
+        trans.transform(50, 25, 0),
+        (3717892.6072086394, 4430811.87152035, 2679074.4628772778),
+    )
+
+
+@pytest.mark.parametrize(
+    "pipeline_str",
+    [
+        "+proj=pipeline +ellps=GRS80 +step +proj=cart",
+        "+proj=pipeline +step +proj=unitconvert +xy_in=deg "
+        "+xy_out=rad +ellps=GRS80 +step +proj=cart",
+    ],
+)
+def test_pipeline_itransform(pipeline_str):
+    trans = Transformer.from_pipeline(pipeline_str)
+    assert_almost_equal(
+        list(trans.itransform([(50, 25, 0)])),
+        [(3717892.6072086394, 4430811.87152035, 2679074.4628772778)],
+    )
+
+
+def test_pipeline_radian_transform_warning():
+    trans = Transformer.from_pipeline("+proj=pipeline +ellps=GRS80 +step +proj=cart")
+    with pytest.warns(UserWarning):
+        trans.transform(0.1, 0.1, 0, radians=True)

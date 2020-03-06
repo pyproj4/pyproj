@@ -413,6 +413,12 @@ cdef class _Transformer(Base):
     ):
         if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
             return
+        if radians and self.is_pipeline:
+            warnings.warn(
+                "radian input with pipelines is not supported and may result "
+                "in unexpected transformations."
+            )
+
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
         cdef PyBuffWriteManager xbuff = PyBuffWriteManager(inx)
@@ -445,16 +451,14 @@ cdef class _Transformer(Base):
 
         cdef Py_ssize_t iii
         # degrees to radians
-        if not self.is_pipeline and not radians\
-                and self._input_radians[pj_direction]:
+        if not radians and self._input_radians[pj_direction]:
             with nogil:
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
                     ybuff.data[iii] = ybuff.data[iii]*_DG2RAD
         # radians to degrees
-        elif not self.is_pipeline and radians\
-                and not self._input_radians[pj_direction]\
-                and self.input_geographic:
+        elif self.input_geographic and radians\
+                and not self._input_radians[pj_direction]:
             with nogil:
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_RAD2DG
@@ -477,16 +481,14 @@ cdef class _Transformer(Base):
             raise ProjError("transform error")
 
         # radians to degrees
-        if not self.is_pipeline and not radians\
-                and self._output_radians[pj_direction]:
+        if not radians and self._output_radians[pj_direction]:
             with nogil:
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_RAD2DG
                     ybuff.data[iii] = ybuff.data[iii]*_RAD2DG
         # degrees to radians
-        elif not self.is_pipeline and radians\
-                and not self._output_radians[pj_direction]\
-                and self.output_geographic:
+        elif self.output_geographic and radians\
+                and not self._output_radians[pj_direction]:
             with nogil:
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
@@ -522,17 +524,15 @@ cdef class _Transformer(Base):
         cdef Py_ssize_t npts, iii, jjj
         npts = coordbuff.len // stride
         # degrees to radians
-        if not self.is_pipeline and not radians\
-                and self._input_radians[pj_direction]:
+        if not radians and self._input_radians[pj_direction]:
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
                     coordbuff.data[jjj] *= _DG2RAD
                     coordbuff.data[jjj + 1] *= _DG2RAD
         # radians to degrees
-        elif not self.is_pipeline and radians\
-                and not self._input_radians[pj_direction]\
-                and self.input_geographic:
+        elif self.input_geographic and radians\
+                and not self._input_radians[pj_direction]:
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
@@ -578,17 +578,15 @@ cdef class _Transformer(Base):
 
 
         # radians to degrees
-        if not self.is_pipeline and not radians\
-                and self._output_radians[pj_direction]:
+        if not radians and self._output_radians[pj_direction]:
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
                     coordbuff.data[jjj] *= _RAD2DG
                     coordbuff.data[jjj + 1] *= _RAD2DG
         # degrees to radians
-        elif not self.is_pipeline and radians\
-                and not self._output_radians[pj_direction]\
-                and self.output_geographic:
+        elif self.output_geographic and radians\
+                and not self._output_radians[pj_direction]:
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
