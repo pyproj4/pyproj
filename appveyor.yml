@@ -16,18 +16,12 @@ environment:
     # See: http://www.appveyor.com/docs/installed-software#python
     # build is limited to 60 minutes, without caching each build takes 10-30 minutes
     # with caching build takes less than 1 minute     
-    # - PYTHON: "C:\\Python35-x64"
-    #   PYTHON_VERSION: "3.5"
-    #   PYTHON_ARCH: "64"
-    #   VS_VERSION: Visual Studio 14
-    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    #   PROJSOURCE: 6.3.0
     - PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 6.3.1
+      PROJSOURCE: 7.0.0
   # - PYTHON: "C:\\Python37-x64"
     #   PYTHON_VERSION: "3.7"
     #   PYTHON_ARCH: "64"
@@ -57,33 +51,29 @@ cache:
 
 build_script:
   # setup sqlite3
-  - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
-  - vcpkg install sqlite3:"%platform%"-windows
-  - set SQLITE3_BIN=%APPVEYOR_BUILD_FOLDER%\sqlite3\bin
-  - mkdir %SQLITE3_BIN%
-  - copy c:\tools\vcpkg\installed\"%platform%"-windows\bin\sqlite3.dll %SQLITE3_BIN%
-  - ps: |
-        appveyor DownloadFile https://sqlite.org/2018/sqlite-tools-win32-x86-3250100.zip
-        7z x sqlite-tools-win32-x86-3250100.zip
-  - copy "%APPVEYOR_BUILD_FOLDER%"\sqlite-tools-win32-x86-3250100\sqlite3.exe %SQLITE3_BIN%
-  - set PATH=%SQLITE3_BIN%;%PATH%
+  - vcpkg install sqlite3[core,tool]:"%platform%"-windows
+  - vcpkg install tiff:"%platform%"-windows
+  - vcpkg install curl:"%platform%"-windows
+  - dir C:\Tools\vcpkg\installed\%platform%-windows\bin
+  - set PATH=C:\Tools\vcpkg\installed\%platform%-windows\bin;%PATH%
   # setup PROJ.4
+  - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
   - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/proj.4.git proj-git
   - if not "%PROJSOURCE%" == "git" if not exist %PROJ_DIR% set BUILD_PROJ_STABLE=1
   - if defined BUILD_PROJ_STABLE curl -o "proj-%PROJSOURCE:~0,5%.zip" "https://download.osgeo.org/proj/proj-%PROJSOURCE%.zip"
   - if defined BUILD_PROJ_STABLE 7z x -aoa -y "proj-%PROJSOURCE:~0,5%.zip"
   - if not exist %PROJ_DIR% cd "%APPVEYOR_BUILD_FOLDER%\proj-%PROJSOURCE:~0,5%"
   - if "%platform%" == "x64" SET VS_FULL=%VS_VERSION% Win64
-  - if "%platform%" == "x64" SET BUILD_LIBPROJ_SHARED=ON
+  - if "%platform%" == "x64" SET BUILD_SHARED_LIBS=ON
   - if "%platform%" == "x86" SET VS_FULL=%VS_VERSION%
-  - if "%platform%" == "x86" SET BUILD_LIBPROJ_SHARED=OFF
+  - if "%platform%" == "x86" SET BUILD_SHARED_LIBS=OFF
   - echo "%VS_FULL%"
 #
   - if "%PROJSOURCE%" == "git" set BUILD_PROJ=1
   - if defined BUILD_PROJ_STABLE set BUILD_PROJ=1
   - if defined BUILD_PROJ mkdir build
   - if defined BUILD_PROJ cd build
-  - if defined BUILD_PROJ cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBPROJ_SHARED="%BUILD_LIBPROJ_SHARED%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
+  - if defined BUILD_PROJ cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS="%BUILD_SHARED_LIBS%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
   - if defined BUILD_PROJ cmake --build . --config Release --target install
   - set PATH=%PROJ_DIR%\bin;%PATH%
   - set PROJ_LIB=%PROJ_DIR%\share\proj
