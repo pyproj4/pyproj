@@ -54,6 +54,8 @@ build_script:
   - vcpkg install sqlite3[core,tool]:"%platform%"-windows
   - vcpkg install tiff:"%platform%"-windows
   - vcpkg install curl:"%platform%"-windows
+  - dir C:\Tools\vcpkg\installed\%platform%-windows\bin
+  - set PATH=C:\Tools\vcpkg\installed\%platform%-windows\bin;%PATH%
   # setup PROJ.4
   - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
   - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/proj.4.git proj-git
@@ -73,8 +75,7 @@ build_script:
   - if defined BUILD_PROJ cd build
   - if defined BUILD_PROJ cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBPROJ_SHARED="%BUILD_LIBPROJ_SHARED%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
   - if defined BUILD_PROJ cmake --build . --config Release --target install
-  - dir C:\Tools\vcpkg\installed\%platform%-windows\bin
-  - set PATH=C:\Tools\vcpkg\installed\%platform%-windows\bin;%PROJ_DIR%\bin;%PATH%
+  - set PATH=%PROJ_DIR%\bin;%PATH%
   - set PROJ_LIB=%PROJ_DIR%\share\proj
   - if defined BUILD_PROJ cd %PROJ_LIB%
   - if defined BUILD_PROJ curl -O http://download.osgeo.org/proj/proj-datumgrid-1.8.zip
