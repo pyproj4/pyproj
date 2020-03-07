@@ -21,7 +21,7 @@ environment:
       PYTHON_ARCH: "64"
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 7.0.0
+      PROJSOURCE: 6.3.1
   # - PYTHON: "C:\\Python37-x64"
     #   PYTHON_VERSION: "3.7"
     #   PYTHON_ARCH: "64"
