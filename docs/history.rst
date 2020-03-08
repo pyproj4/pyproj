@@ -3,6 +3,7 @@ Change Log
 
 2.6.0
 ~~~~~
+* WHL: Wheels contain PROJ version 7.0.0
 * ENH: Added :meth:`pyproj.proj.Proj.get_factors` (issue #503) 
 * ENH: Added type hints (issue #369)
 * BUG: Don't use CRS classes for defaults in CRS child class init signatures (issue #554)
@@ -14,7 +15,7 @@ Change Log
 
 2.5.0
 ~~~~~
-* Wheels contain PROJ version is 6.3.1
+* WHL: Wheels contain PROJ version is 6.3.1
 * Remove deprecated PyObject_AsWriteBuffer (issue #495)
 * ENH: Added :meth:`pyproj.crs.CRS.equals` with `ignore_axis_order` kwarg (issue #493)
 * ENH: Added :meth:`pyproj.crs.CoordinateSystem.from_json`, :meth:`pyproj.crs.CoordinateSystem.from_json_dict`, and :meth:`pyproj.crs.CoordinateSystem.from_string` (pull #501)
@@ -35,8 +36,8 @@ Change Log
 
 2.4.1
 ~~~~~
-* Wheels contain PROJ version is 6.2.1 (issue #456)
-* Wheels for Linux x86_64 use manylinux2010 (pyproj4/pyproj-wheels/pull/18)
+* WHL: Wheels contain PROJ version is 6.2.1 (issue #456)
+* WHL: Wheels for Linux x86_64 use manylinux2010 (pyproj4/pyproj-wheels/pull/18)
 * BUG: Fix setting lat_ts for mercator projection in :meth:`pyproj.crs.CRS.from_cf` and :meth:`pyproj.crs.CRS.to_cf` (issue #461)
 * BUG: latlon -> longlat in `CRS.from_cf()` for o_proj so behavior consistent in PROJ 6.2.0 and 6.2.1 (pull #472)
 * ENH: Add repr for `pyproj.crs.CoordinateOperation` and for `pyproj.transformer.TransformerGroup` (pull #464)
