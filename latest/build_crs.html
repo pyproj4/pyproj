@@ -250,17 +250,10 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_operation</span> <span class="kn">import</span> <span class="n">UTMConversion</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs.datum</span> <span class="kn">import</span> <span class="n">CustomDatum</span><span class="p">,</span> <span class="n">CustomEllipsoid</span>
 
-<span class="n">ell</span> <span class="o">=</span> <span class="n">CustomEllipsoid</span><span class="p">(</span>
-    <span class="n">semi_major_axis</span><span class="o">=</span><span class="mi">6378137</span><span class="p">,</span>
-    <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mi">6356752</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">cd</span> <span class="o">=</span> <span class="n">CustomDatum</span><span class="p">(</span>
-    <span class="n">ellipsoid</span><span class="o">=</span><span class="n">ell</span><span class="p">,</span>
-    <span class="n">prime_meridian</span><span class="o">=</span><span class="s2">&quot;Lisbon&quot;</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">ell</span> <span class="o">=</span> <span class="n">CustomEllipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mi">6378137</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mi">6356752</span><span class="p">,)</span>
+<span class="n">cd</span> <span class="o">=</span> <span class="n">CustomDatum</span><span class="p">(</span><span class="n">ellipsoid</span><span class="o">=</span><span class="n">ell</span><span class="p">,</span> <span class="n">prime_meridian</span><span class="o">=</span><span class="s2">&quot;Lisbon&quot;</span><span class="p">,)</span>
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">ProjectedCRS</span><span class="p">(</span>
-    <span class="n">conversion</span><span class="o">=</span><span class="n">UTMConversion</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span>
-    <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">GeographicCRS</span><span class="p">(</span><span class="n">datum</span><span class="o">=</span><span class="n">cd</span><span class="p">),</span>
+    <span class="n">conversion</span><span class="o">=</span><span class="n">UTMConversion</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">GeographicCRS</span><span class="p">(</span><span class="n">datum</span><span class="o">=</span><span class="n">cd</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">crs_wkt</span> <span class="o">=</span> <span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
 </pre></div>
@@ -274,7 +267,10 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">BoundCRS</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_operation</span> <span class="kn">import</span> <span class="n">TransverseMercatorConversion</span><span class="p">,</span> <span class="n">ToWGS84Transformation</span>
+<span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_operation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TransverseMercatorConversion</span><span class="p">,</span>
+    <span class="n">ToWGS84Transformation</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs.datum</span> <span class="kn">import</span> <span class="n">CustomDatum</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">ProjectedCRS</span><span class="p">(</span>
@@ -332,8 +328,7 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
     <span class="n">cartesian_cs</span><span class="o">=</span><span class="n">Cartesian2DCS</span><span class="p">(),</span>
 <span class="p">)</span>
 <span class="n">compcrs</span> <span class="o">=</span> <span class="n">CompoundCRS</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NAD83 / Pennsylvania South + NAVD88 height&quot;</span><span class="p">,</span>
-    <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">projcrs</span><span class="p">,</span> <span class="n">vertcrs</span><span class="p">],</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NAD83 / Pennsylvania South + NAVD88 height&quot;</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">projcrs</span><span class="p">,</span> <span class="n">vertcrs</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="n">crs_wkt</span> <span class="o">=</span> <span class="n">compcrs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
 </pre></div>

@@ -19,19 +19,19 @@ optimize your transformations.
 
 .. code-block:: python
 
-    import numpy as np                                                      
+    import numpy as np
     from pyproj import Transformer, transform
-    
+
     transformer = Transformer.from_crs(2263, 4326)
-    x_coords = np.random.randint(80000, 120000)                            
-    y_coords = np.random.randint(200000, 250000) 
+    x_coords = np.random.randint(80000, 120000)
+    y_coords = np.random.randint(200000, 250000)
 
 
 Example with :func:`pyproj.transformer.transform`:
 
 .. code-block:: python
 
-   transform(2263, 4326, x_coords, y_coords)                                             
+   transform(2263, 4326, x_coords, y_coords)
 
 Results: 160 ms ± 3.68 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 
@@ -39,7 +39,7 @@ Example with :class:`pyproj.transformer.Transformer`:
 
 .. code-block:: python
 
-   transformer.transform(x_coords, y_coords)                                             
+   transformer.transform(x_coords, y_coords)
 
 Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 
@@ -53,7 +53,7 @@ is what you want, the `skip_equivalent` option can help.
 
 .. note:: From PROJ code: The objects are equivalent for the purpose of coordinate operations.
     They can differ by the name of their objects, identifiers, other metadata.
-    Parameters may be expressed in different units, provided that the value is 
+    Parameters may be expressed in different units, provided that the value is
     (with some tolerance) the same once expressed in a common unit.
 
 Transformation Group
@@ -153,9 +153,11 @@ Here is a simple demonstration:
 
     from pyproj import Transformer
 
+
     def transform_point(point):
         transformer = Transformer.from_crs(4326, 3857)
         return transformer.transform(point, point * 2)
+
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         for result in executor.map(transform_point, range(5)):

@@ -5,8 +5,8 @@ Proj
 `pyproj.Proj` is functionally equivalent to the `proj` command line tool in PROJ.
 
 The PROJ docs say::
- 
-    The `proj` program is limited to converting between geographic and 
+
+    The `proj` program is limited to converting between geographic and
     projection coordinates within one datum.
 
 

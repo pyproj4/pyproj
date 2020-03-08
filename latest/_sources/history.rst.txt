@@ -4,7 +4,7 @@ Change Log
 2.6.0
 ~~~~~
 * WHL: Wheels contain PROJ version 7.0.0
-* ENH: Added :meth:`pyproj.proj.Proj.get_factors` (issue #503) 
+* ENH: Added :meth:`pyproj.proj.Proj.get_factors` (issue #503)
 * ENH: Added type hints (issue #369)
 * BUG: Don't use CRS classes for defaults in CRS child class init signatures (issue #554)
 * ENH: Updated :attr:`pyproj.crs.CRS.axis_info` to pull all relevant axis information from CRS (issue #557)
@@ -205,7 +205,7 @@ Change Log
 1.9.5
 ~~~~~
 * update proj4 source to latest github master (commit 953cc00fd87425395cabe37641cda905c4b587c1).
-* port of basemap fix for input arrays in fortran order 
+* port of basemap fix for input arrays in fortran order
 * restore inverse Hammer patch that was lost when proj4 source code was updated.
 
 1.9.4 (git tag v1.9.4rel)
@@ -230,7 +230,7 @@ Change Log
 
 1.9.1 (svn revision 285)
 ~~~~~~~~~~~~~~~~~~~~~~~~
- * restore compatibility with python 2.4/2.5, which was broken by the addition 
+ * restore compatibility with python 2.4/2.5, which was broken by the addition
    of the geographiclib geodesic module (issue 36).
 
 1.9.0 (svn revision 282)
@@ -272,7 +272,7 @@ Change Log
 
 1.8.5 (svn revision 155)
 ~~~~~~~~~~~~~~~~~~~~~~~~
- * allow Proj instance to be initialized using a proj4 string 
+ * allow Proj instance to be initialized using a proj4 string
    (instead of just a dict or kwargs).
 
 1.8.4 (svn revision 151)
@@ -299,11 +299,11 @@ Change Log
  * proj.4 source code now included, thus removing proj.4 lib
    dependency. Version 4.5.0 is included, with a patch to
    create an API for geodesic computations.
- * python 2.4 compatibility patch (suggested by Andrew Straw) 
+ * python 2.4 compatibility patch (suggested by Andrew Straw)
    from M. v. Loewis:
-   http://mail.python.org/pipermail/python-dev/2006-March/062561.html 
+   http://mail.python.org/pipermail/python-dev/2006-March/062561.html
 
-1.8.1 
+1.8.1
 ~~~~~
  * if given tuples, returns tuples (instead of lists).
  * test for numpy arrays first.
@@ -313,16 +313,15 @@ Change Log
    called pyproj.py.  Moved as code as possible from _pyproj.so to
    pyproj.py.
  * docstring examples now executed by doctest when 'pyproj.test()' is run.
- * added test to _pyproj.c which defines Py_ssize_t for python < 2.5. 
+ * added test to _pyproj.c which defines Py_ssize_t for python < 2.5.
    This is necessary when pyrex 0.9.5 is used.
 
 1.8.0
 ~~~~~
  * Better error handling Proj.__init__.
- * Added optional keyword 'errcheck' to __call__ method. 
+ * Added optional keyword 'errcheck' to __call__ method.
  * If True, an exception is raised if the transformation is invalid.
 
 1.7.3
 ~~~~~
  * python 2.5 support.
-
