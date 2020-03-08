@@ -21,12 +21,12 @@ Here are some examples of initialization.
 
 
 .. code:: python
-    
+
     >>> from pyproj import CRS
     >>> crs = CRS.from_epsg(4326)
     >>> crs = CRS.from_string("epsg:4326")
     >>> crs = CRS.from_proj4("+proj=latlon")
-    >>> crs = CRS.from_user_input(4326)  
+    >>> crs = CRS.from_user_input(4326)
 
 
 Converting CRS to a different format
@@ -200,7 +200,7 @@ This is just a small subset of what is available.
     'Transverse Mercator'
     >>> cop.params
     [Param(name=Latitude of natural origin, auth_name=EPSG, code=8801, value=0.0, unit_name=degree, unit_auth_name=, unit_code=, unit_category=angular),
-     ...   
+     ...
      Param(name=False northing, auth_name=EPSG, code=8807, value=0.0, unit_name=metre, unit_auth_name=, unit_code=, unit_category=linear)]
 
 
@@ -273,17 +273,17 @@ see :class:`pyproj.transformer.Transformer`.
     >>> transformer
     <Unknown Transformer: unknown>
     Inverse of NAD83 to WGS 84 (1) + UTM zone 17N
-    >>> transformer.transform(50, -80) 
+    >>> transformer.transform(50, -80)
     (571666.4475041276, 5539109.815175673)
 
-If you prefer to always have the axis order in the x,y or lon,lat order, 
+If you prefer to always have the axis order in the x,y or lon,lat order,
 you can use the `always_xy` option when creating the transformer.
 
 .. code:: python
 
     >>> from pyproj import Transformer
     >>> transformer = Transformer.from_crs("EPSG:4326", "EPSG:26917", always_xy=True)
-    >>> transformer.transform(-80, 50) 
+    >>> transformer.transform(-80, 50)
     (571666.4475041276, 5539109.815175673)
 
 
@@ -451,4 +451,4 @@ Calculate the geodesic area and perimeter of a shapely polygon (See: :meth:`pypr
             )
         )
     >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
-    '-944373881400.339 3979008.036'    
+    '-944373881400.339 3979008.036'

@@ -3,7 +3,7 @@ Building a Coordinate Reference System
 
 .. versionadded:: 2.5.0
 
-PROJ strings have the potential to lose much of the information 
+PROJ strings have the potential to lose much of the information
 about a coordinate reference system (CRS).
 
 More information: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
@@ -101,17 +101,10 @@ PROJ string::
     from pyproj.crs.coordinate_operation import UTMConversion
     from pyproj.crs.datum import CustomDatum, CustomEllipsoid
 
-    ell = CustomEllipsoid(
-        semi_major_axis=6378137,
-        semi_minor_axis=6356752,
-    )
-    cd = CustomDatum(
-        ellipsoid=ell,
-        prime_meridian="Lisbon",
-    )
+    ell = CustomEllipsoid(semi_major_axis=6378137, semi_minor_axis=6356752,)
+    cd = CustomDatum(ellipsoid=ell, prime_meridian="Lisbon",)
     proj_crs = ProjectedCRS(
-        conversion=UTMConversion(14),
-        geodetic_crs=GeographicCRS(datum=cd),
+        conversion=UTMConversion(14), geodetic_crs=GeographicCRS(datum=cd),
     )
     crs_wkt = proj_crs.to_wkt()
 
@@ -128,7 +121,10 @@ PROJ string::
 .. code-block:: python
 
     from pyproj.crs import BoundCRS, Ellipsoid, GeographicCRS, ProjectedCRS
-    from pyproj.crs.coordinate_operation import TransverseMercatorConversion, ToWGS84Transformation
+    from pyproj.crs.coordinate_operation import (
+        TransverseMercatorConversion,
+        ToWGS84Transformation,
+    )
     from pyproj.crs.datum import CustomDatum
 
     proj_crs = ProjectedCRS(
@@ -165,7 +161,7 @@ The PROJ string is quite lossy in this example, so it is not provided.
     from pyproj.crs import CompoundCRS, GeographicCRS, ProjectedCRS, VerticalCRS
     from pyproj.crs.coordinate_system import Cartesian2DCS, VerticalCS
     from pyproj.crs.coordinate_operation import LambertConformalConic2SPConversion
-        
+
 
     vertcrs = VerticalCRS(
         name="NAVD88 height",
@@ -187,7 +183,6 @@ The PROJ string is quite lossy in this example, so it is not provided.
         cartesian_cs=Cartesian2DCS(),
     )
     compcrs = CompoundCRS(
-        name="NAD83 / Pennsylvania South + NAVD88 height",
-        components=[projcrs, vertcrs],
+        name="NAD83 / Pennsylvania South + NAVD88 height", components=[projcrs, vertcrs],
     )
     crs_wkt = compcrs.to_wkt()
