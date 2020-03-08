@@ -172,7 +172,7 @@ cdef class _TransformerGroup:
             if pj_operations != NULL:
                 proj_list_destroy(pj_operations)
             ProjError.clear()
- 
+
 
 cdef _CRS get_transform_crs(_CRS in_crs):
     for sub_crs in in_crs.sub_crs_list:
@@ -238,7 +238,7 @@ cdef class _Transformer(Base):
     @property
     def accuracy(self):
         return self.proj_info.accuracy
-    
+
     @property
     def area_of_use(self):
         """
@@ -519,7 +519,7 @@ cdef class _Transformer(Base):
 
         if stride < 2:
             raise ProjError("coordinates must contain at least 2 values")
-        
+
         cdef PyBuffWriteManager coordbuff = PyBuffWriteManager(inseq)
         cdef Py_ssize_t npts, iii, jjj
         npts = coordbuff.len // stride

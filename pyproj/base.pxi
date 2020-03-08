@@ -31,4 +31,4 @@ cdef class PyBuffWriteManager:
 
     def __dealloc__(self):
         PyBuffer_Release(&self.buffer)
-        self.data = NULL       
+        self.data = NULL

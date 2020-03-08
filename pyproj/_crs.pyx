@@ -102,7 +102,7 @@ cdef _to_wkt(
     }
     cdef PJ_WKT_TYPE wkt_out_type
     wkt_out_type = supported_wkt_types[WktVersion.create(version)]
- 
+
     cdef const char* options_wkt[2]
     multiline = b"MULTILINE=NO"
     if pretty:
@@ -129,7 +129,7 @@ cdef _to_proj4(PJ_CONTEXT* context, PJ* projobj, version):
     context: PJ_CONTEXT*
     projobj: PJ*
     version: pyproj.enums.ProjVersion
-        The version of the PROJ string output. 
+        The version of the PROJ string output.
 
     Returns
     -------
@@ -449,7 +449,7 @@ cdef class Base:
             Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
         pretty: bool
             If True, it will set the output to be a multiline string. Defaults to False.
- 
+
         Returns
         -------
         str
@@ -468,7 +468,7 @@ cdef class Base:
             If True, it will set the output to be a multiline string. Defaults to False.
         indentation: int
             If pretty is True, it will set the width of the indentation. Default is 2.
- 
+
         Returns
         -------
         str
@@ -690,7 +690,7 @@ cdef class CoordinateSystem(_CRSParts):
         .. versionadded:: 2.5.0
 
         Create Coordinate System from a JSON dictionary.
-  
+
         Parameters
         ----------
         coordinate_system_dict: str
@@ -901,7 +901,7 @@ cdef class Ellipsoid(_CRSParts):
         .. versionadded:: 2.4.0
 
         Create Ellipsoid from a JSON dictionary.
-  
+
         Parameters
         ----------
         ellipsoid_dict: str
@@ -1673,7 +1673,7 @@ cdef class Param:
     unit_code: str
         The code of the unit (i.e. 9807).
     unit_category: str
-        The category of the unit (“unknown”, “none”, “linear”, 
+        The category of the unit (“unknown”, “none”, “linear”,
         “angular”, “scale”, “time” or “parametric”).
 
     """
@@ -1767,7 +1767,7 @@ cdef class Grid:
     open_license: int
         If 1, the grid is released with an open license.
     available: int
-        If 1, the grid is available at runtime. 
+        If 1, the grid is available at runtime.
 
     """
     def __cinit__(self):
@@ -1861,12 +1861,12 @@ cdef class CoordinateOperation(_CRSParts):
         The method code.
     is_instantiable: int
         If 1, a coordinate operation can be instantiated as a PROJ pipeline.
-        This also checks that referenced grids are available. 
+        This also checks that referenced grids are available.
     has_ballpark_transformation: int
-        If 1, the coordinate operation has a “ballpark” transformation, 
-        that is a very approximate one, due to lack of more accurate transformations. 
+        If 1, the coordinate operation has a “ballpark” transformation,
+        that is a very approximate one, due to lack of more accurate transformations.
     accuracy: float
-        The accuracy (in metre) of a coordinate operation. 
+        The accuracy (in metre) of a coordinate operation.
 
     """
     def __cinit__(self):
@@ -2215,7 +2215,7 @@ cdef class CoordinateOperation(_CRSParts):
         Parameters
         ----------
         version: pyproj.enums.ProjVersion
-            The version of the PROJ string output. 
+            The version of the PROJ string output.
             Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.
 
         Returns
@@ -2239,7 +2239,7 @@ cdef class CoordinateOperation(_CRSParts):
             return self._towgs84
         towgs84_dict = OrderedDict(
             (
-                ('X-axis translation', None), 
+                ('X-axis translation', None),
                 ('Y-axis translation', None),
                 ('Z-axis translation', None),
                 ('X-axis rotation', None),
@@ -2501,7 +2501,7 @@ cdef class _CRS(Base):
         if self._coordinate_operation is not None:
             return (
                 None
-                if self._coordinate_operation is False 
+                if self._coordinate_operation is False
                 else self._coordinate_operation
             )
         cdef PJ_CONTEXT* context = proj_context_create()
@@ -2634,7 +2634,7 @@ cdef class _CRS(Base):
         Parameters
         ----------
         version: pyproj.enums.ProjVersion
-            The version of the PROJ string output. 
+            The version of the PROJ string output.
             Default is :attr:`pyproj.enums.ProjVersion.PROJ_4`.
 
         Returns
@@ -2648,13 +2648,13 @@ cdef class _CRS(Base):
             "coordinate-reference-systems"
         )
         return _to_proj4(self.context, self.projobj, version)
-        
+
     def to_epsg(self, min_confidence=70):
         """
         Return the EPSG code best matching the CRS
         or None if it a match is not found.
 
-        Example: 
+        Example:
 
         >>> from pyproj import CRS
         >>> ccs = CRS("epsg:4328")
@@ -2699,7 +2699,7 @@ cdef class _CRS(Base):
         Return the authority name and code best matching the CRS
         or None if it a match is not found.
 
-        Example: 
+        Example:
 
         >>> from pyproj import CRS
         >>> ccs = CRS("epsg:4328")
@@ -2831,7 +2831,7 @@ cdef class _CRS(Base):
         """
         This checks if the CRS is geographic.
         It will check if it has a geographic CRS
-        in the sub CRS if it is a compount CRS and will check if 
+        in the sub CRS if it is a compount CRS and will check if
         the source CRS is geographic if it is a bound CRS.
 
         Returns
@@ -2840,7 +2840,7 @@ cdef class _CRS(Base):
             True if the CRS is in geographic (lon/lat) coordinates.
         """
         return self._is_crs_property(
-            "is_geographic", 
+            "is_geographic",
             (
                 PJ_TYPE_GEOGRAPHIC_CRS,
                 PJ_TYPE_GEOGRAPHIC_2D_CRS,
@@ -2862,7 +2862,7 @@ cdef class _CRS(Base):
             True if CRS is projected.
         """
         return self._is_crs_property(
-            "is_projected", 
+            "is_projected",
             (PJ_TYPE_PROJECTED_CRS,)
         )
 
@@ -2873,7 +2873,7 @@ cdef class _CRS(Base):
 
         This checks if the CRS is vertical.
         It will check if it has a vertical CRS
-        in the sub CRS if it is a compount CRS and will check if 
+        in the sub CRS if it is a compount CRS and will check if
         the source CRS is vertical if it is a bound CRS.
 
         Returns
@@ -2882,7 +2882,7 @@ cdef class _CRS(Base):
             True if CRS is vertical.
         """
         return self._is_crs_property(
-            "is_vertical", 
+            "is_vertical",
             (PJ_TYPE_VERTICAL_CRS,),
             sub_crs_index=1
         )

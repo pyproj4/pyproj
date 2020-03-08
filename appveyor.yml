@@ -1,7 +1,7 @@
 platform:
 - x64
 
-# This is based on file and files in ci/appveyor are from 
+# This is based on file and files in ci/appveyor are from
 # https://github.com/ogrisel/python-appveyor-demo
 environment:
   global:
@@ -15,7 +15,7 @@ environment:
     # Pre-installed Python versions
     # See: http://www.appveyor.com/docs/installed-software#python
     # build is limited to 60 minutes, without caching each build takes 10-30 minutes
-    # with caching build takes less than 1 minute     
+    # with caching build takes less than 1 minute
     - PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
@@ -110,7 +110,7 @@ install:
   # Upgrade to the latest version of pip to avoid it displaying warnings
   # about it being out of date.
   - "python -m pip install --disable-pip-version-check --user --upgrade pip==19.0.3"
-  
+
   # install wheel, caching
   - "python -m pip install wheel"
   # update vcpkg

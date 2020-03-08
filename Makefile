@@ -68,10 +68,10 @@ check-type:
 
 check: lint check-type ## flake8 black isort check
 	black --check setup.py pyproj/ test/ docs/
-	isort --check --recursive -m 3 -w 88 -tc -p test setup.py pyproj/ test/ docs/
+	isort --check --recursive setup.py pyproj/ test/ docs/
 
 isort: ## order imports
-	isort --recursive -m 3 -w 88 -tc -p test setup.py pyproj/ test/ docs/
+	isort --recursive setup.py pyproj/ test/ docs/
 
 black: ## black format files
 	black setup.py pyproj/ test/ docs/

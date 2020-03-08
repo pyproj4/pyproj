@@ -41,7 +41,7 @@ cdef class Geod:
         cdef PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
         cdef PyBuffWriteManager azbuff = PyBuffWriteManager(az)
         cdef PyBuffWriteManager distbuff = PyBuffWriteManager(dist)
-  
+
         # process data in buffer
         if not lonbuff.len == latbuff.len == azbuff.len == distbuff.len:
             raise GeodError("Array lengths are not the same.")
@@ -189,7 +189,7 @@ cdef class Geod:
         -------
         float:
             The total distance.
-    
+
         """
         cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
         cdef PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
@@ -231,9 +231,9 @@ cdef class Geod:
     def _polygon_area_perimeter(self, object lons, object lats, bint radians=False):
         """
         A simple interface for computing the area of a geodesic polygon.
-        
+
         lats should be in the range [-90 deg, 90 deg].
-        
+
         Only simple polygons (which are not self-intersecting) are allowed.
         There's no need to "close" the polygon by repeating the first vertex.
         The area returned is signed with counter-clockwise traversal being treated as
@@ -273,7 +273,7 @@ cdef class Geod:
 
             geod_polygonarea(
                 &self._geod_geodesic,
-                latbuff.data, lonbuff.data, lonbuff.len, 
+                latbuff.data, lonbuff.data, lonbuff.len,
                 &polygon_area, &polygon_perimeter
             )
         return (polygon_area, polygon_perimeter)

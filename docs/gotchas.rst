@@ -24,9 +24,9 @@ Axis order changes in PROJ 6+
 -----------------------------
 - https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent
 - See warning at the top of :ref:`transformer`
-- Examples of how to handle it: :ref:`examples` 
+- Examples of how to handle it: :ref:`examples`
 - :ref:`min_confidence`
- 
+
 
 `+init=<auth>:<auth_code>` should be replaced with `<auth>:<auth_code>`
 -----------------------------------------------------------------------
@@ -38,7 +38,7 @@ you may have problems initializing projections when the other syntax works.
 .. code-block:: python
 
     >>> from pyproj import CRS
-    >>> CRS("ESRI:54009") 
+    >>> CRS("ESRI:54009")
     <Projected CRS: ESRI:54009>
     Name: World_Mollweide
     Axis Info [cartesian]:
@@ -54,7 +54,7 @@ you may have problems initializing projections when the other syntax works.
     - Ellipsoid: WGS 84
     - Prime Meridian: Greenwich
 
-    >>> CRS("+init=ESRI:54009") 
+    >>> CRS("+init=ESRI:54009")
     ...
     pyproj.exceptions.CRSError: Invalid projection: +init=ESRI:54009 +type=crs: (Internal Proj Error: proj_create: cannot expand +init=ESRI:54009 +type=crs)
 
@@ -62,7 +62,7 @@ you may have problems initializing projections when the other syntax works.
 Proj (Not a generic latitude/longitude to projection converter)
 ---------------------------------------------------------------
 
-:class:`pyproj.proj.Proj` is limited to converting between geographic and 
+:class:`pyproj.proj.Proj` is limited to converting between geographic and
 projection coordinates within one datum. If you have coordinates in latitude
 and longitude, and you want to convert it to your projection, it is recommended
 to use the :class:`pyproj.transformer.Transformer` as it takes into account datum
@@ -188,7 +188,7 @@ is in the **axis order**.
     - Prime Meridian: Greenwich
 
 
-The reason the `min_confidence` parameter in 
+The reason the `min_confidence` parameter in
 :meth:`pyproj.crs.CRS.to_epsg` and :meth:`pyproj.crs.CRS.to_authority`
 exists is because you can initialize a CRS in several different methods and
 some of them do not always coorespond to an EPSG or authortiy code, but it
@@ -198,7 +198,7 @@ For example, if you have a WKT/PROJ string and you use it to create the CRS inst
 in most cases you want to be sure that the EPSG code given by to_epsg will give you a
 CRS instance similar to the one created by the WKT/PROJ string.
 However, if an EPSG code does not exist that matches you WKT/PROJ string with
-a `min_confidence` you don't want to get that EPSG code back as it will make 
+a `min_confidence` you don't want to get that EPSG code back as it will make
 you think that the WKT/PROJ string and the EPSG code are one and the same when
 they are not.
 
