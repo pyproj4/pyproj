@@ -1,5 +1,7 @@
 # Contributors Guide
 
+Based on the guide from: https://github.com/Unidata/MetPy
+
 Interested in helping build pyproj? Have code from your research that you believe others will find useful? Have a few minutes to tackle an issue? In this guide we will get you setup and integrated into contributing to pyproj!
 
 ## Introduction
@@ -75,10 +77,12 @@ environments. Our recommended setup for contributing is:
   ``cd pyproj``
 * Connect your repository to the upstream (main project).
   ``git remote add upstream https://github.com/pyproj4/pyproj.git``
-* Create the development environment by running ``conda create -n devel -c conda-forge python proj4``.
+* Create the development environment by running ``conda create -n devel -c conda-forge cython proj numpy shapely``.
 * Activate our new development environment ``conda activate devel`` on Mac/Linux or
   ``activate devel`` on Windows.
+* Install development requirements ``pip install -r requirements-dev.txt``
 * Make an editable install of pyproj by running ``pip install -e .``
+* Setup pre-commit hooks ``pre-commit install`` and ``pre-commit autoupdate``
 
 Now you're all set! You have an environment called ``devel`` that you can work in. You'll need
 to make sure to activate that environment next time you want to use it after closing the
@@ -107,7 +111,7 @@ your feature is more complex, consider adding to the examples or tutorials for p
 
 You can build the documentation locally to see how your changes will look.
 * Install docs requirements: ``make install-docs``
-* Build the docs: ``make docs`` 
+* Build the docs: ``make docs``
 * Or, to build and open in a browser: ``make docs-browser``
 
 ## Tests

@@ -7,8 +7,8 @@ cache:
     - $PROJ_BASE_DIR
     - $HOME/.cache/pip
 
-env: 
-  global: 
+env:
+  global:
     - PROJ_BASE_DIR=$HOME/proj_install
     - CYTHON_COVERAGE=True
     - PROJSOURCE=7.0.0
@@ -50,7 +50,7 @@ matrix:
     # - python: "nightly"
     #   env:
     #     - PROJSOURCE=git
-    
+
   allow_failures:
     # - python: "nightly"
     #   env:

@@ -19,7 +19,7 @@ cdef class _Transformer(Base):
     cdef readonly skip_equivalent
     cdef readonly projections_equivalent
     cdef readonly projections_exact_same
-    cdef readonly type_name  
+    cdef readonly type_name
     cdef readonly object _operations
 
     @staticmethod

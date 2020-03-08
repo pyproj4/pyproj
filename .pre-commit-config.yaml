@@ -1,0 +1,21 @@
+repos:
+    -   repo: https://github.com/pre-commit/pre-commit-hooks
+        rev: v2.5.0
+        hooks:
+        -   id: check-yaml
+        -   id: end-of-file-fixer
+        -   id: trailing-whitespace
+    -   repo: https://github.com/psf/black
+        rev: 19.10b0
+        hooks:
+        -   id: black
+    -   repo: https://github.com/timothycrosley/isort
+        rev: 4.3.21
+        hooks:
+        -   id: isort
+            args: [setup.py, pyproj/, test/, docs/]
+    -   repo: https://github.com/asottile/blacken-docs
+        rev: v1.6.0
+        hooks:
+        -   id: blacken-docs
+            args: [--skip-errors]

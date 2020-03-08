@@ -9,7 +9,7 @@ The easiest methods for installing pyproj are:
 1. Use pip to install the binary wheels on `PyPI <https://pypi.org/project/pyproj/>`__:
 
   .. code-block:: bash
-    
+
       pip install pyproj
 
   .. note:: pip>=19.0 is required to install manylinux2010 wheels
@@ -67,7 +67,7 @@ pyproj         PROJ
 
 PROJ is required when building from source.
 You can download PROJ from https://download.osgeo.org/proj
-or from https://github.com/OSGeo/PROJ. 
+or from https://github.com/OSGeo/PROJ.
 Installation instructions can be fount at https://proj.org/.
 
 In the setup.py, the order for searching for PROJ is:
@@ -77,13 +77,13 @@ In the setup.py, the order for searching for PROJ is:
     3. The `proj` executable in sys.prefix
     4. The `proj` executable on the PATH.
 
-For best results, set the PROJ_DIR environment variable to 
+For best results, set the PROJ_DIR environment variable to
 point to location of PROJ installation before running setup.py.
 
 Examples of how to set the PROJ_DIR environment variable:
 
 Windows::
-    
+
     set PROJ_DIR=C:\OSGeo4W\
 
 Linux::
@@ -127,7 +127,7 @@ From pypi:
 ^^^^^^^^^^
 
 .. code-block:: bash
-    
+
     pip install pyproj --no-binary pyproj
 
 

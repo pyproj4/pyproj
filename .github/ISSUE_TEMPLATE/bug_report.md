@@ -14,7 +14,6 @@ http://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports
 
 ```python
 # Your code here
-
 ```
 #### Problem description
 
@@ -60,4 +59,3 @@ $ conda info
 
 ```
 </details>
-

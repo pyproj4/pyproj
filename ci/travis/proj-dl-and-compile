@@ -20,7 +20,7 @@ cd ..
 # build using autotools
 sh autogen.sh
 ./configure --prefix=$PROJ_DIR
-make 
+make
 make install
 # build using cmake
 #cmake . -DCMAKE_INSTALL_PREFIX=$PROJ_DIR
