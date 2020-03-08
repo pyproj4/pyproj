@@ -135,3 +135,28 @@ which transformation operation is selected in the transformation.
     Area of Use:
     - name: Canada - NWT; Nunavut; Saskatchewan
     - bounds: (-136.46, 49.0, -60.72, 83.17)
+
+
+Multithreading
+--------------
+
+The :class:`pyproj.transformer.Transformer` and :class:`pyproj.crs.CRS`
+classes each have their own PROJ context. However, contexts cannot be
+shared across threads. As such, it is recommended to create the object
+within the thread that uses it.
+
+Here is a simple demonstration:
+
+.. code-block:: python
+
+    import concurrent.futures
+
+    from pyproj import Transformer
+
+    def transform_point(point):
+        transformer = Transformer.from_crs(4326, 3857)
+        return transformer.transform(point, point * 2)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        for result in executor.map(transform_point, range(5)):
+            print(result)
