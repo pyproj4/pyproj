@@ -202,6 +202,7 @@
 <div class="section" id="id1">
 <h2>2.6.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li><p>WHL: Wheels contain PROJ version 7.0.0</p></li>
 <li><p>ENH: Added <a class="reference internal" href="api/proj.html#pyproj.proj.Proj.get_factors" title="pyproj.proj.Proj.get_factors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.proj.Proj.get_factors()</span></code></a> (issue #503)</p></li>
 <li><p>ENH: Added type hints (issue #369)</p></li>
 <li><p>BUG: Don’t use CRS classes for defaults in CRS child class init signatures (issue #554)</p></li>
@@ -215,7 +216,7 @@
 <div class="section" id="id2">
 <h2>2.5.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Wheels contain PROJ version is 6.3.1</p></li>
+<li><p>WHL: Wheels contain PROJ version is 6.3.1</p></li>
 <li><p>Remove deprecated PyObject_AsWriteBuffer (issue #495)</p></li>
 <li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.equals" title="pyproj.crs.CRS.equals"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.equals()</span></code></a> with <cite>ignore_axis_order</cite> kwarg (issue #493)</p></li>
 <li><p>ENH: Added <a class="reference internal" href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.from_json" title="pyproj.crs.CoordinateSystem.from_json"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_json()</span></code></a>, <a class="reference internal" href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.from_json_dict" title="pyproj.crs.CoordinateSystem.from_json_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_json_dict()</span></code></a>, and <a class="reference internal" href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.from_string" title="pyproj.crs.CoordinateSystem.from_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_string()</span></code></a> (pull #501)</p></li>
@@ -240,8 +241,8 @@
 <div class="section" id="id4">
 <h2>2.4.1<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Wheels contain PROJ version is 6.2.1 (issue #456)</p></li>
-<li><p>Wheels for Linux x86_64 use manylinux2010 (pyproj4/pyproj-wheels/pull/18)</p></li>
+<li><p>WHL: Wheels contain PROJ version is 6.2.1 (issue #456)</p></li>
+<li><p>WHL: Wheels for Linux x86_64 use manylinux2010 (pyproj4/pyproj-wheels/pull/18)</p></li>
 <li><p>BUG: Fix setting lat_ts for mercator projection in <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_cf" title="pyproj.crs.CRS.from_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_cf()</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_cf()</span></code></a> (issue #461)</p></li>
 <li><p>BUG: latlon -&gt; longlat in <cite>CRS.from_cf()</cite> for o_proj so behavior consistent in PROJ 6.2.0 and 6.2.1 (pull #472)</p></li>
 <li><p>ENH: Add repr for <cite>pyproj.crs.CoordinateOperation</cite> and for <cite>pyproj.transformer.TransformerGroup</cite> (pull #464)</p></li>
