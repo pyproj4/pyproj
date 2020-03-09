@@ -1117,10 +1117,10 @@
             <span class="n">path</span> <span class="o">=</span> <span class="n">parent_module</span><span class="o">.</span><span class="n">__path__</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="n">_ERR_MSG</span> <span class="o">+</span> <span class="s1">&#39;; </span><span class="si">{!r}</span><span class="s1"> is not a package&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="n">ModuleNotFoundError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="n">_find_spec</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ModuleNotFoundError</span><span class="p">(</span><span class="n">_ERR_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="n">_ERR_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">module</span> <span class="o">=</span> <span class="n">_load_unlocked</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">parent</span><span class="p">:</span>
@@ -1143,7 +1143,7 @@
     <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;import of </span><span class="si">{}</span><span class="s1"> halted; &#39;</span>
                    <span class="s1">&#39;None in sys.modules&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-        <span class="k">raise</span> <span class="n">ModuleNotFoundError</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
     <span class="n">_lock_unlock_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">module</span>
@@ -1181,8 +1181,8 @@
                     <span class="n">where</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;.__all__&#39;</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;``from list&#39;&#39;&quot;</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Item in </span><span class="si">{where}</span><span class="s2"> must be str, &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;not {type(x).__name__}&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Item in </span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2"> must be str, &quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">recursive</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__all__&#39;</span><span class="p">):</span>
                     <span class="n">_handle_fromlist</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">module</span><span class="o">.</span><span class="n">__all__</span><span class="p">,</span> <span class="n">import_</span><span class="p">,</span>
@@ -1191,7 +1191,7 @@
                 <span class="n">from_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">_call_with_frames_removed</span><span class="p">(</span><span class="n">import_</span><span class="p">,</span> <span class="n">from_name</span><span class="p">)</span>
-                <span class="k">except</span> <span class="n">ModuleNotFoundError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">ModuleNotFoundError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                     <span class="c1"># Backwards-compatibility dictates we ignore failed</span>
                     <span class="c1"># imports triggered by fromlist for modules that don&#39;t</span>
                     <span class="c1"># exist.</span>
@@ -1214,7 +1214,7 @@
     <span class="k">if</span> <span class="n">package</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">package</span> <span class="o">!=</span> <span class="n">spec</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
             <span class="n">_warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;__package__ != __spec__.parent &quot;</span>
-                           <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{package!r}</span><span class="s2"> != </span><span class="si">{spec.parent!r}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                           <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">package</span><span class="si">!r}</span><span class="s2"> != </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">parent</span><span class="si">!r}</span><span class="s2">)&quot;</span><span class="p">,</span>
                            <span class="ne">ImportWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">package</span>
     <span class="k">elif</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
