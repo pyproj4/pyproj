@@ -101,8 +101,8 @@ PROJ string::
     from pyproj.crs.coordinate_operation import UTMConversion
     from pyproj.crs.datum import CustomDatum, CustomEllipsoid
 
-    ell = CustomEllipsoid(semi_major_axis=6378137, semi_minor_axis=6356752,)
-    cd = CustomDatum(ellipsoid=ell, prime_meridian="Lisbon",)
+    ell = CustomEllipsoid(semi_major_axis=6378137, semi_minor_axis=6356752)
+    cd = CustomDatum(ellipsoid=ell, prime_meridian="Lisbon")
     proj_crs = ProjectedCRS(
         conversion=UTMConversion(14), geodetic_crs=GeographicCRS(datum=cd),
     )
