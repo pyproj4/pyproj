@@ -253,7 +253,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        projparams: int, str, dict, pyproj.CRS</span>
-<span class="sd">            A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instnace.</span>
+<span class="sd">            A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instance.</span>
 <span class="sd">        preserve_units: bool</span>
 <span class="sd">            If false, will ensure +units=m.</span>
 <span class="sd">        **kwargs:</span>
@@ -301,7 +301,7 @@
 <span class="sd">        &gt;&gt;&gt; &#39;{:.3f} {:.3f}&#39;.format(x2, y2)</span>
 <span class="sd">        &#39;116.366 39.867&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">projparams</span> <span class="k">if</span> <span class="n">projparams</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="c1"># make sure units are meters if preserve_units is False.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">preserve_units</span> <span class="ow">and</span> <span class="s2">&quot;foot&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">axis_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit_name</span><span class="p">:</span>
             <span class="c1"># ignore export to PROJ string deprecation warning</span>
