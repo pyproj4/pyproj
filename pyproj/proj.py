@@ -95,7 +95,7 @@ class Proj(_Proj):
         Parameters
         ----------
         projparams: int, str, dict, pyproj.CRS
-            A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instnace.
+            A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instance.
         preserve_units: bool
             If false, will ensure +units=m.
         **kwargs:
@@ -143,7 +143,7 @@ class Proj(_Proj):
         >>> '{:.3f} {:.3f}'.format(x2, y2)
         '116.366 39.867'
         """
-        self.crs = CRS.from_user_input(projparams if projparams is not None else kwargs)
+        self.crs = CRS.from_user_input(projparams, **kwargs)
         # make sure units are meters if preserve_units is False.
         if not preserve_units and "foot" in self.crs.axis_info[0].unit_name:
             # ignore export to PROJ string deprecation warning

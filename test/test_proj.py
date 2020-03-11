@@ -398,6 +398,12 @@ def test_initialize_proj_crs_no_plus():
     assert proj.crs.srs == "proj=lonlat type=crs"
 
 
+def test_initialize_projparams_with_kwargs():
+    proj_mixed_args = Proj("+proj=utm +zone=10", ellps="WGS84")
+    proj_positional = Proj("+proj=utm +zone=10 +ellps=WGS84")
+    assert proj_mixed_args.is_exact_same(proj_positional)
+
+
 def test_equals_different_type():
     assert Proj("epsg:4326") != ""
 

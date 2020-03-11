@@ -37,9 +37,9 @@ from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
 
 
-def _prepare_from_dict(projparams: dict) -> str:
+def _prepare_from_dict(projparams: dict, allow_json: bool = True) -> str:
     # check if it is a PROJ JSON dict
-    if "proj" not in projparams and "init" not in projparams:
+    if "proj" not in projparams and "init" not in projparams and allow_json:
         return json.dumps(projparams)
     # convert a dict to a proj string.
     pjargs = []
@@ -277,20 +277,25 @@ class CRS(_CRS):
         >>> crs.is_geographic
         False
         """
-        if isinstance(projparams, str):
-            projstring = _prepare_from_string(projparams)
-        elif isinstance(projparams, dict):
-            projstring = _prepare_from_dict(projparams)
-        elif kwargs:
-            projstring = _prepare_from_dict(kwargs)
-        elif isinstance(projparams, int):
-            projstring = _prepare_from_epsg(projparams)
-        elif isinstance(projparams, (list, tuple)) and len(projparams) == 2:
-            projstring = _prepare_from_authority(*projparams)
-        elif hasattr(projparams, "to_wkt"):
-            projstring = projparams.to_wkt()  # type: ignore
-        else:
-            raise CRSError("Invalid CRS input: {!r}".format(projparams))
+        projstring = ""
+
+        if projparams:
+            if isinstance(projparams, str):
+                projstring = _prepare_from_string(projparams)
+            elif isinstance(projparams, dict):
+                projstring = _prepare_from_dict(projparams)
+            elif isinstance(projparams, int):
+                projstring = _prepare_from_epsg(projparams)
+            elif isinstance(projparams, (list, tuple)) and len(projparams) == 2:
+                projstring = _prepare_from_authority(*projparams)
+            elif hasattr(projparams, "to_wkt"):
+                projstring = projparams.to_wkt()  # type: ignore
+            else:
+                raise CRSError("Invalid CRS input: {!r}".format(projparams))
+
+        if kwargs:
+            projkwargs = _prepare_from_dict(kwargs, allow_json=False)
+            projstring = _prepare_from_string(" ".join((projstring, projkwargs)))
 
         super().__init__(projstring)
 
@@ -411,7 +416,7 @@ class CRS(_CRS):
         return self.srs
 
     @staticmethod
-    def from_user_input(value: Any) -> "CRS":
+    def from_user_input(value: Any, **kwargs) -> "CRS":
         """
         Initialize a CRS class instance with:
           - PROJ string
@@ -436,7 +441,7 @@ class CRS(_CRS):
         """
         if isinstance(value, CRS):
             return value
-        return CRS(value)
+        return CRS(value, **kwargs)
 
     def get_geod(self) -> Optional[Geod]:
         """
