@@ -77,6 +77,12 @@ def test_from_string():
         )
 
 
+def test_initialize_projparams_with_kwargs():
+    crs_mixed_args = CRS("+proj=utm +zone=10", ellps="WGS84")
+    crs_positional = CRS("+proj=utm +zone=10 +ellps=WGS84")
+    assert crs_mixed_args.is_exact_same(crs_positional)
+
+
 def test_bare_parameters():
     """ Make sure that bare parameters (e.g., no_defs) are handled properly,
     even if they come in with key=True.  This covers interaction with pyproj,
