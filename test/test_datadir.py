@@ -9,7 +9,13 @@ from mock import patch
 import pyproj
 from pyproj import CRS
 from pyproj._datadir import pyproj_global_context_initialize
-from pyproj.datadir import DataDirError, append_data_dir, get_data_dir, set_data_dir
+from pyproj.datadir import (
+    DataDirError,
+    append_data_dir,
+    get_data_dir,
+    get_user_data_dir,
+    set_data_dir,
+)
 
 
 def unset_data_dir():
@@ -182,3 +188,7 @@ def test_append_data_dir__internal():
 
 def test_creating_multiple_crs_without_file_limit():
     assert [CRS.from_epsg(4326) for _ in range(1200)]
+
+
+def test_get_user_data_dir():
+    assert get_user_data_dir().endswith("proj")

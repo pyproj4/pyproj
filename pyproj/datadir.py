@@ -111,3 +111,21 @@ def get_data_dir() -> str:
             "with `pyproj.datadir.set_data_dir`."
         )
     return _VALIDATED_PROJ_DATA
+
+
+def get_user_data_dir(create: bool = True) -> str:
+    """
+    Parameters
+    ----------
+    create: bool, optional
+        If True, it will create the directory if it does not already exist.
+        Default is True.
+
+    Returns
+    -------
+    str:
+        The user writable data directory.
+    """
+    from pyproj import _datadir
+
+    return _datadir.get_user_data_dir(create=create)

@@ -40,6 +40,7 @@ def test_main__verbose(option, tmpdir):
     assert "pyproj:" in output
     assert "PROJ:" in output
     assert "data dir" in output
+    assert "user_data_dir" in output
     assert "System" in output
     assert "python" in output
     assert "Python deps" in output

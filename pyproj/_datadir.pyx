@@ -51,3 +51,19 @@ cdef void pyproj_context_initialize(
 def pyproj_global_context_initialize():
     proj_log_func(NULL, NULL, pyproj_log_function)
     set_context_data_dir(NULL)
+
+
+def get_user_data_dir(bint create: bool = True) -> str:
+    """
+    Parameters
+    ----------
+    create: bool, optional
+        If True, it will create the directory if it does not already exist.
+        Default is True.
+
+    Returns
+    -------
+    str:
+        The user writable data directory.
+    """
+    return pystrdecode(proj_context_get_user_writable_directory(NULL, create))

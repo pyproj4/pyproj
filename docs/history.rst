@@ -7,6 +7,7 @@ Change Log
 * Minimum PROJ version 7.1 (issue #599)
 * Refactor Proj to inherit from Transformer (issue #624)
 * ENH: Support obects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
+* ENH: Added :func:`pyproj.datadir.get_user_data_dir` (pull #636)
 
 2.6.1
 ~~~~~

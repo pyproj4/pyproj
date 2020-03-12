@@ -45,6 +45,7 @@ def _get_proj_info():
         ("pyproj", pyproj.__version__),
         ("PROJ", pyproj.__proj_version__),
         ("data dir", data_dir),
+        ("user_data_dir", pyproj.datadir.get_user_data_dir()),
     ]
 
     return dict(blob)
