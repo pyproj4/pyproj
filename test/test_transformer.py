@@ -591,8 +591,12 @@ def test_transformer_equals():
     assert Transformer.from_crs(28356, 7856) == Transformer.from_crs(28356, 7856)
 
 
-def test_transformer_not_equals():
-    assert Transformer.from_crs(28356, 7856) != 22
+@pytest.mark.parametrize(
+    "comparison",
+    [Transformer.from_pipeline("+proj=pipeline +ellps=GRS80 +step +proj=cart"), 22],
+)
+def test_transformer_not_equals(comparison):
+    assert Transformer.from_crs(28356, 7856) != comparison
 
 
 @pytest.mark.parametrize(

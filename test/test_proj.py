@@ -440,7 +440,7 @@ def test_get_factors__2d_input(radians):
     assert_almost_equal(
         factors.areal_scale, [[1.0, 1.00030468], [1.00121946, 1.00274658]],
     )
-    assert_almost_equal(factors.angular_distortion, [[0, 0], [0.0000012, 0]])
+    assert_almost_equal(factors.angular_distortion, [[0, 0], [0, 0]], decimal=5)
     assert_almost_equal(
         factors.meridian_parallel_angle, [[90, 90], [90, 90]],
     )
