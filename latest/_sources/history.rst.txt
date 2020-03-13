@@ -3,7 +3,6 @@ Change Log
 
 2.6.0
 ~~~~~
-* WHL: Wheels contain PROJ version 7.0.0
 * ENH: Added :meth:`pyproj.proj.Proj.get_factors` (issue #503)
 * ENH: Added type hints (issue #369)
 * BUG: Don't use CRS classes for defaults in CRS child class init signatures (issue #554)
