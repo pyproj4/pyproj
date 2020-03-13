@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyproj.proj &mdash; pyproj 2.6.0rc0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.6.0rc0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyproj.proj</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyproj.proj</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cython wrapper to provide python interfaces to</span>
+<span class="sd">PROJ (https://proj.org) functions.</span>
+
+<span class="sd">Performs cartographic transformations and geodetic computations.</span>
+
+<span class="sd">The Proj class can convert from geographic (longitude,latitude)</span>
+<span class="sd">to native map projection (x,y) coordinates and vice versa, or</span>
+<span class="sd">from one map projection coordinate system directly to another.</span>
+<span class="sd">The module variable pj_list is a dictionary containing all the</span>
+<span class="sd">available projections and their descriptions.</span>
+
+<span class="sd">Input coordinates can be given as python arrays, lists/tuples,</span>
+<span class="sd">scalars or numpy/Numeric/numarray arrays. Optimized for objects</span>
+<span class="sd">that support the Python buffer protocol (regular python and</span>
+<span class="sd">numpy array objects).</span>
+
+<span class="sd">Download: http://python.org/pypi/pyproj</span>
+
+<span class="sd">Contact:  Jeffrey Whitaker &lt;jeffrey.s.whitaker@noaa.gov</span>
+
+<span class="sd">copyright (c) 2006 by Jeffrey Whitaker.</span>
+
+<span class="sd">Permission to use, copy, modify, and distribute this software</span>
+<span class="sd">and its documentation for any purpose and without fee is hereby</span>
+<span class="sd">granted, provided that the above copyright notice appear in all</span>
+<span class="sd">copies and that both the copyright notice and this permission</span>
+<span class="sd">notice appear in supporting documentation. THE AUTHOR DISCLAIMS</span>
+<span class="sd">ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL</span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT</span>
+<span class="sd">SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR</span>
+<span class="sd">CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM</span>
+<span class="sd">LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,</span>
+<span class="sd">NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN</span>
+<span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">from</span> <span class="nn">pyproj._list</span> <span class="kn">import</span> <span class="n">get_proj_operations_map</span>
+<span class="kn">from</span> <span class="nn">pyproj._proj</span> <span class="kn">import</span> <span class="n">Factors</span><span class="p">,</span> <span class="n">_Proj</span><span class="p">,</span> <span class="n">proj_version_str</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="kn">import</span> <span class="n">cstrencode</span><span class="p">,</span> <span class="n">pystrdecode</span>
+<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
+
+<span class="n">pj_list</span> <span class="o">=</span> <span class="n">get_proj_operations_map</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Proj"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj">[docs]</a><span class="k">class</span> <span class="nc">Proj</span><span class="p">(</span><span class="n">_Proj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs cartographic transformations (converts from</span>
+<span class="sd">    longitude,latitude to native map projection x,y coordinates and</span>
+<span class="sd">    vice versa) using proj (https://proj.org).</span>
+
+<span class="sd">    A Proj class instance is initialized with proj map projection</span>
+<span class="sd">    control parameter key/value pairs. The key/value pairs can</span>
+<span class="sd">    either be passed in a dictionary, or as keyword arguments,</span>
+<span class="sd">    or as a PROJ string (compatible with the proj command). See</span>
+<span class="sd">    https://proj.org/operations/projections/index.html for examples of</span>
+<span class="sd">    key/value pairs defining different map projections.</span>
+
+<span class="sd">    Calling a Proj class instance with the arguments lon, lat will</span>
+<span class="sd">    convert lon/lat (in degrees) to x/y native map projection</span>
+<span class="sd">    coordinates (in meters).  If optional keyword &#39;inverse&#39; is True</span>
+<span class="sd">    (default is False), the inverse transformation from x/y to</span>
+<span class="sd">    lon/lat is performed. If optional keyword &#39;errcheck&#39; is True (default is</span>
+<span class="sd">    False) an exception is raised if the transformation is invalid.</span>
+<span class="sd">    If errcheck=False and the transformation is invalid, no</span>
+<span class="sd">    exception is raised and &#39;inf&#39; is returned. If the optional keyword</span>
+<span class="sd">    &#39;preserve_units&#39; is True, the units in map projection coordinates</span>
+<span class="sd">    are not forced to be meters.</span>
+
+<span class="sd">    Works with numpy and regular python array objects, python</span>
+<span class="sd">    sequences and scalars.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    srs: str</span>
+<span class="sd">        The string form of the user input used to create the Proj.</span>
+<span class="sd">    crs: pyproj.crs.CRS</span>
+<span class="sd">        The CRS object associated with the Proj.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Proj.__init__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">preserve_units</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        initialize a Proj class instance.</span>
+
+<span class="sd">        See the PROJ documentation (https://proj.org)</span>
+<span class="sd">        for more information about projection parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        projparams: int, str, dict, pyproj.CRS</span>
+<span class="sd">            A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instance.</span>
+<span class="sd">        preserve_units: bool</span>
+<span class="sd">            If false, will ensure +units=m.</span>
+<span class="sd">        **kwargs:</span>
+<span class="sd">            PROJ projection parameters.</span>
+
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Proj</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(proj=&#39;utm&#39;,zone=10,ellps=&#39;WGS84&#39;, preserve_units=False)</span>
+<span class="sd">        &gt;&gt;&gt; x,y = p(-120.108, 34.36116666)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x=%9.3f y=%11.3f&#39; % (x,y)</span>
+<span class="sd">        &#39;x=765975.641 y=3805993.134&#39;</span>
+<span class="sd">        &gt;&gt;&gt; &#39;lon=%8.3f lat=%5.3f&#39; % p(x,y,inverse=True)</span>
+<span class="sd">        &#39;lon=-120.108 lat=34.361&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # do 3 cities at a time in a tuple (Fresno, LA, SF)</span>
+<span class="sd">        &gt;&gt;&gt; lons = (-119.72,-118.40,-122.38)</span>
+<span class="sd">        &gt;&gt;&gt; lats = (36.77, 33.93, 37.62 )</span>
+<span class="sd">        &gt;&gt;&gt; x,y = p(lons, lats)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x: %9.3f %9.3f %9.3f&#39; % x</span>
+<span class="sd">        &#39;x: 792763.863 925321.537 554714.301&#39;</span>
+<span class="sd">        &gt;&gt;&gt; &#39;y: %9.3f %9.3f %9.3f&#39; % y</span>
+<span class="sd">        &#39;y: 4074377.617 3763936.941 4163835.303&#39;</span>
+<span class="sd">        &gt;&gt;&gt; lons, lats = p(x, y, inverse=True) # inverse transform</span>
+<span class="sd">        &gt;&gt;&gt; &#39;lons: %8.3f %8.3f %8.3f&#39; % lons</span>
+<span class="sd">        &#39;lons: -119.720 -118.400 -122.380&#39;</span>
+<span class="sd">        &gt;&gt;&gt; &#39;lats: %8.3f %8.3f %8.3f&#39; % lats</span>
+<span class="sd">        &#39;lats:   36.770   33.930   37.620&#39;</span>
+<span class="sd">        &gt;&gt;&gt; p2 = Proj(&#39;+proj=utm +zone=10 +ellps=WGS84&#39;, preserve_units=False)</span>
+<span class="sd">        &gt;&gt;&gt; x,y = p2(-120.108, 34.36116666)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x=%9.3f y=%11.3f&#39; % (x,y)</span>
+<span class="sd">        &#39;x=765975.641 y=3805993.134&#39;</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(&quot;epsg:32667&quot;, preserve_units=False)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x=%12.3f y=%12.3f (meters)&#39; % p(-114.057222, 51.045)</span>
+<span class="sd">        &#39;x=-1783506.250 y= 6193827.033 (meters)&#39;</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(&quot;epsg:32667&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;x=%12.3f y=%12.3f (feet)&#39; % p(-114.057222, 51.045)</span>
+<span class="sd">        &#39;x=-5851386.754 y=20320914.191 (feet)&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # test data with radian inputs</span>
+<span class="sd">        &gt;&gt;&gt; p1 = Proj(&quot;epsg:4214&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; x1, y1 = p1(116.366, 39.867)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;{:.3f} {:.3f}&#39;.format(x1, y1)</span>
+<span class="sd">        &#39;116.366 39.867&#39;</span>
+<span class="sd">        &gt;&gt;&gt; x2, y2 = p1(x1, y1, inverse=True)</span>
+<span class="sd">        &gt;&gt;&gt; &#39;{:.3f} {:.3f}&#39;.format(x2, y2)</span>
+<span class="sd">        &#39;116.366 39.867&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># make sure units are meters if preserve_units is False.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">preserve_units</span> <span class="ow">and</span> <span class="s2">&quot;foot&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">axis_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit_name</span><span class="p">:</span>
+            <span class="c1"># ignore export to PROJ string deprecation warning</span>
+            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                    <span class="s2">&quot;ignore&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;You will likely lose important projection information&quot;</span><span class="p">,</span>
+                    <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">projstring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+units=[\w-]+&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">projstring</span><span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">+=</span> <span class="s2">&quot; +units=m&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">projstring</span><span class="p">)</span>
+
+        <span class="c1"># ignore export to PROJ string deprecation warning</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                <span class="s2">&quot;ignore&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;You will likely lose important projection information&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">projstring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span>
+
+        <span class="n">projstring</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+?type=crs&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">projstring</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">projstring</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span></div>
+
+<div class="viewcode-block" id="Proj.__call__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="c1"># ,lon,lat,inverse=False,errcheck=False):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calling a Proj class instance with the arguments lon, lat will</span>
+<span class="sd">        convert lon/lat (in degrees) to x/y native map projection</span>
+<span class="sd">        coordinates (in meters).  If optional keyword &#39;inverse&#39; is True</span>
+<span class="sd">        (default is False), the inverse transformation from x/y to</span>
+<span class="sd">        lon/lat is performed. If optional keyword &#39;errcheck&#39; is True (default is</span>
+<span class="sd">        False) an exception is raised if the transformation is invalid.</span>
+<span class="sd">        If errcheck=False and the transformation is invalid, no</span>
+<span class="sd">        exception is raised and &#39;inf&#39; is returned.</span>
+
+<span class="sd">        Inputs should be doubles (they will be cast to doubles if they</span>
+<span class="sd">        are not, causing a slight performance hit).</span>
+
+<span class="sd">        Works with numpy and regular python array objects, python</span>
+<span class="sd">        sequences and scalars, but is fastest for array objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inverse</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;inverse&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">errcheck</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;errcheck&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+        <span class="c1"># call PROJ functions. inx and iny modified in place.</span>
+        <span class="k">if</span> <span class="n">inverse</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span></div>
+
+<div class="viewcode-block" id="Proj.get_factors"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.get_factors">[docs]</a>    <span class="k">def</span> <span class="nf">get_factors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">longitude</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Factors</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 2.6.0</span>
+
+<span class="sd">        Calculate various cartographic properties, such as scale factors, angular</span>
+<span class="sd">        distortion and meridian convergence. Depending on the underlying projection</span>
+<span class="sd">        values will be calculated either numerically (default) or analytically.</span>
+
+<span class="sd">        The function also calculates the partial derivatives of the given</span>
+<span class="sd">        coordinate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        longitude: scalar or array (numpy or python)</span>
+<span class="sd">            Input longitude coordinate(s).</span>
+<span class="sd">        latitude: scalar or array (numpy or python)</span>
+<span class="sd">            Input latitude coordinate(s).</span>
+<span class="sd">        radians: boolean, optional</span>
+<span class="sd">            If True, will expect input data to be in radians.</span>
+<span class="sd">            Default is False (degrees).</span>
+<span class="sd">        errcheck: boolean, optional (default False)</span>
+<span class="sd">            If True an exception is raised if the errors are found in the process.</span>
+<span class="sd">            By default errcheck=False and ``inf`` is returned.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Factors</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process inputs, making copies that support buffer API.</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span>
+
+        <span class="c1"># calculate the factors</span>
+        <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_factors</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+
+        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
+        <span class="k">return</span> <span class="n">Factors</span><span class="p">(</span>
+            <span class="n">meridional_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
+                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridional_scale</span>
+            <span class="p">),</span>
+            <span class="n">parallel_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
+                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">parallel_scale</span>
+            <span class="p">),</span>
+            <span class="n">areal_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">areal_scale</span><span class="p">),</span>
+            <span class="n">angular_distortion</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
+                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">angular_distortion</span>
+            <span class="p">),</span>
+            <span class="n">meridian_parallel_angle</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
+                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridian_parallel_angle</span>
+            <span class="p">),</span>
+            <span class="n">meridian_convergence</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
+                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridian_convergence</span>
+            <span class="p">),</span>
+            <span class="n">tissot_semimajor</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
+                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">tissot_semimajor</span>
+            <span class="p">),</span>
+            <span class="n">tissot_semiminor</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
+                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">tissot_semiminor</span>
+            <span class="p">),</span>
+            <span class="n">dx_dlam</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dx_dlam</span><span class="p">),</span>
+            <span class="n">dx_dphi</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dx_dphi</span><span class="p">),</span>
+            <span class="n">dy_dlam</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dy_dlam</span><span class="p">),</span>
+            <span class="n">dy_dphi</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dy_dphi</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Proj.definition_string"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.definition_string">[docs]</a>    <span class="k">def</span> <span class="nf">definition_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns formal definition string for projection</span>
+
+<span class="sd">        &gt;&gt;&gt; Proj(&quot;epsg:4326&quot;).definition_string()</span>
+<span class="sd">        &#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pystrdecode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Proj.to_latlong_def"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong_def">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong_def</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;return the definition string of the geographic (lat/lon)</span>
+<span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Proj.to_latlong"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.to_latlong">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Proj&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;return a new Proj instance which is the geographic (lat/lon)</span>
+<span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Proj&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;special method that allows pyproj.Proj instance to be pickled&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Proj(&#39;</span><span class="si">{srs}</span><span class="s2">&#39;, preserve_units=True)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_equivalent</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Jeffrey Whitaker
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
