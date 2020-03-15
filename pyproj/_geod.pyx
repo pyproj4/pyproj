@@ -26,11 +26,18 @@ cdef class Geod:
 
     def __reduce__(self):
         """special method that allows pyproj.Geod instance to be pickled"""
-        return self.__class__,(self.initstring,)
+        return self.__class__, (self.initstring,)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _fwd(self, object lons, object lats, object az, object dist, bint radians=False):
+    def _fwd(
+        self,
+        object lons,
+        object lats,
+        object az,
+        object dist,
+        bint radians=False,
+    ):
         """
         forward transformation - determine longitude, latitude and back azimuth
         of a terminus point given an initial point longitude and latitude, plus
@@ -60,8 +67,16 @@ cdef class Geod:
                     lat1 = _RAD2DG * latbuff.data[iii]
                     az1 = _RAD2DG * azbuff.data[iii]
                     s12 = distbuff.data[iii]
-                geod_direct(&self._geod_geodesic, lat1, lon1, az1, s12,\
-                    &plat2, &plon2, &pazi2)
+                geod_direct(
+                    &self._geod_geodesic,
+                    lat1,
+                    lon1,
+                    az1,
+                    s12,
+                    &plat2,
+                    &plon2,
+                    &pazi2,
+                )
                 # back azimuth needs to be flipped 180 degrees
                 # to match what PROJ geod utility produces.
                 if pazi2 > 0:
@@ -79,7 +94,14 @@ cdef class Geod:
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _inv(self, object lons1, object lats1, object lons2, object lats2, bint radians=False):
+    def _inv(
+        self,
+        object lons1,
+        object lats1,
+        object lons2,
+        object lats2,
+        bint radians=False,
+    ):
         """
         inverse transformation - return forward and back azimuths, plus distance
         between an initial and terminus lat/lon pair.
@@ -130,13 +152,28 @@ cdef class Geod:
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _npts(self, double lon1, double lat1, double lon2, double lat2, int npts, bint radians=False):
+    def _npts(
+        self,
+        double lon1,
+        double lat1,
+        double lon2,
+        double lat2,
+        int npts,
+        bint radians=False,
+    ):
         """
         given initial and terminus lat/lon, find npts intermediate points.
         """
         cdef Py_ssize_t iii
-        cdef double del_s,ps12,pazi1,pazi2,s12,plon2,plat2
+        cdef double del_s
+        cdef double ps12
+        cdef double pazi1
+        cdef double pazi2
+        cdef double s12
+        cdef double plon2
+        cdef double plat2
         cdef geod_geodesicline line
+
         if radians:
             lon1 = _RAD2DG * lon1
             lat1 = _RAD2DG * lat1
@@ -277,7 +314,6 @@ cdef class Geod:
                 &polygon_area, &polygon_perimeter
             )
         return (polygon_area, polygon_perimeter)
-
 
     def __repr__(self):
         return "{classname}({init!r})".format(

@@ -30,7 +30,10 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
         free(c_data_dir)
 
 
-cdef void pyproj_context_initialize(PJ_CONTEXT* context, bint free_context_on_error) except *:
+cdef void pyproj_context_initialize(
+    PJ_CONTEXT* context,
+    bint free_context_on_error,
+) except *:
     """
     Setup the context for pyproj
     """
@@ -41,7 +44,7 @@ cdef void pyproj_context_initialize(PJ_CONTEXT* context, bint free_context_on_er
         set_context_data_dir(context)
     except DataDirError:
         if free_context_on_error and context != NULL:
-             proj_context_destroy(context)
+            proj_context_destroy(context)
         raise
 
 

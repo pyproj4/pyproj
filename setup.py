@@ -149,12 +149,12 @@ def get_extension_modules():
     include_dirs = get_proj_incdirs(proj_dir)
 
     # setup extension options
-    ext_options = dict(
-        include_dirs=include_dirs,
-        library_dirs=library_dirs,
-        runtime_library_dirs=library_dirs if os.name != "nt" else None,
-        libraries=get_libraries(library_dirs),
-    )
+    ext_options = {
+        "include_dirs": include_dirs,
+        "library_dirs": library_dirs,
+        "runtime_library_dirs": library_dirs if os.name != "nt" else None,
+        "libraries": get_libraries(library_dirs),
+    }
     # setup cythonized modules
     return cythonize(
         [

@@ -33,7 +33,8 @@ _TRANSFORMER_TYPE_MAP = {
 }
 
 
-AreaOfInterest = namedtuple("AreaOfInterest",
+AreaOfInterest = namedtuple(
+    "AreaOfInterest",
     ["west_lon_degree", "south_lat_degree", "east_lon_degree", "north_lat_degree"]
 )
 AreaOfInterest.__doc__ = """
@@ -99,7 +100,8 @@ cdef class _TransformerGroup:
             if area_of_interest is not None:
                 if not isinstance(area_of_interest, AreaOfInterest):
                     raise ProjError(
-                        "Area of interest must be of the type pyproj.transformer.AreaOfInterest."
+                        "Area of interest must be of the type "
+                        "pyproj.transformer.AreaOfInterest."
                     )
                 west_lon_degree = area_of_interest.west_lon_degree
                 south_lat_degree = area_of_interest.south_lat_degree
@@ -213,7 +215,7 @@ cdef class _Transformer(Base):
     def _initialize_from_projobj(self):
         self.proj_info = proj_pj_info(self.projobj)
         if self.proj_info.id == NULL:
-             raise ProjError("Input is not a transformation.")
+            raise ProjError("Input is not a transformation.")
         cdef PJ_TYPE transformer_type = proj_get_type(self.projobj)
         self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
         self._set_base_info()
@@ -277,13 +279,17 @@ cdef class _Transformer(Base):
         Create a transformer from CRS objects
         """
         cdef PJ_AREA *pj_area_of_interest = NULL
-        cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
+        cdef double west_lon_degree
+        cdef double south_lat_degree
+        cdef double east_lon_degree
+        cdef double north_lat_degree
         cdef _Transformer transformer = _Transformer()
         try:
             if area_of_interest is not None:
                 if not isinstance(area_of_interest, AreaOfInterest):
                     raise ProjError(
-                        "Area of interest must be of the type pyproj.transformer.AreaOfInterest."
+                        "Area of interest must be of the type "
+                        "pyproj.transformer.AreaOfInterest."
                     )
                 pj_area_of_interest = proj_area_create()
                 west_lon_degree = area_of_interest.west_lon_degree
@@ -411,7 +417,10 @@ cdef class _Transformer(Base):
         bint radians,
         bint errcheck,
     ):
-        if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
+        if (
+            self.projections_exact_same
+            or (self.projections_equivalent and self.skip_equivalent)
+        ):
             return
         if radians and self.is_pipeline:
             warnings.warn(
@@ -507,7 +516,10 @@ cdef class _Transformer(Base):
         bint radians,
         bint errcheck,
     ):
-        if self.projections_exact_same or (self.projections_equivalent and self.skip_equivalent):
+        if (
+            self.projections_exact_same
+            or (self.projections_equivalent and self.skip_equivalent)
+        ):
             return
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
@@ -575,7 +587,6 @@ cdef class _Transformer(Base):
                 pystrdecode(proj_errno_string(errno))))
         elif errcheck and ProjError.internal_proj_error is not None:
             raise ProjError("itransform error")
-
 
         # radians to degrees
         if not radians and self._output_radians[pj_direction]:
