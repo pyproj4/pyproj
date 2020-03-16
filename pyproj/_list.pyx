@@ -7,6 +7,7 @@ from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import PJType
 from pyproj._datadir cimport pyproj_context_initialize
 
+
 def get_proj_operations_map():
     """
     Returns
@@ -162,6 +163,7 @@ PJ_TYPE_MAP = {
     PJType.CONCATENATED_OPERATION: PJ_TYPE_CONCATENATED_OPERATION,
     PJType.OTHER_COORDINATE_OPERATION: PJ_TYPE_OTHER_COORDINATE_OPERATION,
 }
+
 
 def get_codes(auth_name, pj_type, allow_deprecated=False):
     """

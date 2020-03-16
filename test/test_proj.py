@@ -33,8 +33,8 @@ class BasicTest(unittest.TestCase):
         )
         awips221_from_dict = Proj(params, preserve_units=False)
 
-        items = sorted([val for val in awips221.crs.srs.split() if val])
-        items_dict = sorted([val for val in awips221_from_dict.crs.srs.split() if val])
+        items = sorted(val for val in awips221.crs.srs.split() if val)
+        items_dict = sorted(val for val in awips221_from_dict.crs.srs.split() if val)
         self.assertEqual(items, items_dict)
 
         expected = sorted(

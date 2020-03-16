@@ -18,7 +18,8 @@ proj_version_str = "{0}.{1}.{2}".format(
 )
 
 
-Factors = namedtuple("Factors",
+Factors = namedtuple(
+    "Factors",
     [
         "meridional_scale",
         "parallel_scale",
@@ -32,14 +33,14 @@ Factors = namedtuple("Factors",
         "dx_dphi",
         "dy_dlam",
         "dy_dphi",
-    ]
+    ],
 )
 Factors.__doc__ = """
 .. versionadded:: 2.6.0
 
 These are the scaling and angular distortion factors.
 
-See `PJ_FACTORS documentation <https://proj.org/development/reference/datatypes.html?highlight=pj_factors#c.PJ_FACTORS>`__
+See `PJ_FACTORS documentation <https://proj.org/development/reference/datatypes.html?highlight=pj_factors#c.PJ_FACTORS>`__  # noqa
 
 Parameters
 ----------
@@ -107,9 +108,9 @@ cdef class _Proj:
     def _fwd(self, object lons, object lats, bint errcheck=False):
         """
         forward transformation - lons,lats to x,y (done in place).
-        if errcheck=True, an exception is raised if the forward transformation is invalid.
-        if errcheck=False and the forward transformation is invalid, no exception is
-        raised and 'inf' is returned.
+        if errcheck=True, an exception is raised if the forward
+        transformation is invalid. if errcheck=False and the forward
+        transformation is invalid, no exception is raised and 'inf' is returned.
         """
         cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
         cdef PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
@@ -127,7 +128,10 @@ cdef class _Proj:
             proj_errno_reset(self.projobj)
             for iii in range(latbuff.len):
                 # if inputs are nan's, return big number.
-                if lonbuff.data[iii] != lonbuff.data[iii] or latbuff.data[iii] != latbuff.data[iii]:
+                if (
+                    lonbuff.data[iii] != lonbuff.data[iii]
+                    or latbuff.data[iii] != latbuff.data[iii]
+                ):
                     lonbuff.data[iii] = HUGE_VAL
                     latbuff.data[iii] = HUGE_VAL
                     if errcheck:
@@ -169,14 +173,14 @@ cdef class _Proj:
                     latbuff.data[iii] = projxyout.xy.y
         ProjError.clear()
 
-
     @cython.boundscheck(False)
     @cython.wraparound(False)
     def _inv(self, object xx, object yy, bint errcheck=False):
         """
         inverse transformation - x,y to lons,lats (done in place).
-        if errcheck=True, an exception is raised if the inverse transformation is invalid.
-        if errcheck=False and the inverse transformation is invalid, no exception is
+        if errcheck=True, an exception is raised if the inverse
+        transformation is invalid. if errcheck=False and the
+        inverse transformation is invalid, no exception is
         raised and 'inf' is returned.
         """
         if not self.has_inverse:
@@ -199,7 +203,10 @@ cdef class _Proj:
             proj_errno_reset(self.projobj)
             for iii in range(xbuff.len):
                 # if inputs are nan's, return big number.
-                if xbuff.data[iii] != xbuff.data[iii] or ybuff.data[iii] != ybuff.data[iii]:
+                if (
+                    xbuff.data[iii] != xbuff.data[iii]
+                    or ybuff.data[iii] != ybuff.data[iii]
+                ):
                     xbuff.data[iii] = HUGE_VAL
                     ybuff.data[iii] = HUGE_VAL
                     if errcheck:
@@ -269,14 +276,21 @@ cdef class _Proj:
         dx_dphi = copy.copy(longitude)
         dy_dlam = copy.copy(longitude)
         dy_dphi = copy.copy(longitude)
-        cdef PyBuffWriteManager meridional_scale_buff = PyBuffWriteManager(meridional_scale)
-        cdef PyBuffWriteManager parallel_scale_buff = PyBuffWriteManager(parallel_scale)
+        cdef PyBuffWriteManager meridional_scale_buff = PyBuffWriteManager(
+            meridional_scale)
+        cdef PyBuffWriteManager parallel_scale_buff = PyBuffWriteManager(
+            parallel_scale)
         cdef PyBuffWriteManager areal_scale_buff = PyBuffWriteManager(areal_scale)
-        cdef PyBuffWriteManager angular_distortion_buff = PyBuffWriteManager(angular_distortion)
-        cdef PyBuffWriteManager meridian_parallel_angle_buff = PyBuffWriteManager(meridian_parallel_angle)
-        cdef PyBuffWriteManager meridian_convergence_buff = PyBuffWriteManager(meridian_convergence)
-        cdef PyBuffWriteManager tissot_semimajor_buff = PyBuffWriteManager(tissot_semimajor)
-        cdef PyBuffWriteManager tissot_semiminor_buff = PyBuffWriteManager(tissot_semiminor)
+        cdef PyBuffWriteManager angular_distortion_buff = PyBuffWriteManager(
+            angular_distortion)
+        cdef PyBuffWriteManager meridian_parallel_angle_buff = PyBuffWriteManager(
+            meridian_parallel_angle)
+        cdef PyBuffWriteManager meridian_convergence_buff = PyBuffWriteManager(
+            meridian_convergence)
+        cdef PyBuffWriteManager tissot_semimajor_buff = PyBuffWriteManager(
+            tissot_semimajor)
+        cdef PyBuffWriteManager tissot_semiminor_buff = PyBuffWriteManager(
+            tissot_semiminor)
         cdef PyBuffWriteManager dx_dlam_buff = PyBuffWriteManager(dx_dlam)
         cdef PyBuffWriteManager dx_dphi_buff = PyBuffWriteManager(dx_dphi)
         cdef PyBuffWriteManager dy_dlam_buff = PyBuffWriteManager(dy_dlam)
@@ -330,9 +344,15 @@ cdef class _Proj:
                     meridional_scale_buff.data[iii] = pj_factors.meridional_scale
                     parallel_scale_buff.data[iii] = pj_factors.parallel_scale
                     areal_scale_buff.data[iii] = pj_factors.areal_scale
-                    angular_distortion_buff.data[iii] = pj_factors.angular_distortion * _RAD2DG
-                    meridian_parallel_angle_buff.data[iii] = pj_factors.meridian_parallel_angle * _RAD2DG
-                    meridian_convergence_buff.data[iii] = pj_factors.meridian_convergence * _RAD2DG
+                    angular_distortion_buff.data[iii] = (
+                        pj_factors.angular_distortion * _RAD2DG
+                    )
+                    meridian_parallel_angle_buff.data[iii] = (
+                        pj_factors.meridian_parallel_angle * _RAD2DG
+                    )
+                    meridian_convergence_buff.data[iii] = (
+                        pj_factors.meridian_convergence * _RAD2DG
+                    )
                     tissot_semimajor_buff.data[iii] = pj_factors.tissot_semimajor
                     tissot_semiminor_buff.data[iii] = pj_factors.tissot_semiminor
                     dx_dlam_buff.data[iii] = pj_factors.dx_dlam

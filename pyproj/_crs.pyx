@@ -530,7 +530,6 @@ cdef class Base:
         return self._is_exact_same(other)
 
 
-
 cdef class _CRSParts(Base):
     @classmethod
     def from_user_input(cls, user_input):
@@ -718,7 +717,9 @@ cdef class CoordinateSystem(_CRSParts):
         -------
         CoordinateSystem
         """
-        return CoordinateSystem.from_json_dict(_load_proj_json(coordinate_system_json_str))
+        return CoordinateSystem.from_json_dict(
+            _load_proj_json(coordinate_system_json_str)
+        )
 
 
 cdef class Ellipsoid(_CRSParts):
@@ -970,7 +971,6 @@ cdef class Ellipsoid(_CRSParts):
             )
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
-
 
     @staticmethod
     def from_name(
@@ -1269,7 +1269,6 @@ cdef class PrimeMeridian(_CRSParts):
         return PrimeMeridian.create(context, prime_meridian_pj)
 
 
-
 _DATUM_TYPE_MAP = {
     PJ_TYPE_GEODETIC_REFERENCE_FRAME: "Geodetic Reference Frame",
     PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME: "Dynamic Geodetic Reference Frame",
@@ -1280,9 +1279,11 @@ _DATUM_TYPE_MAP = {
 
 _PJ_DATUM_TYPE_MAP = {
     DatumType.GEODETIC_REFERENCE_FRAME: PJ_TYPE_GEODETIC_REFERENCE_FRAME,
-    DatumType.DYNAMIC_GEODETIC_REFERENCE_FRAME: PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME,
+    DatumType.DYNAMIC_GEODETIC_REFERENCE_FRAME:
+    PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME,
     DatumType.VERTICAL_REFERENCE_FRAME: PJ_TYPE_VERTICAL_REFERENCE_FRAME,
-    DatumType.DYNAMIC_VERTICAL_REFERENCE_FRAME: PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
+    DatumType.DYNAMIC_VERTICAL_REFERENCE_FRAME:
+    PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
     DatumType.DATUM_ENSEMBLE: PJ_TYPE_DATUM_ENSEMBLE,
 }
 
@@ -1732,8 +1733,9 @@ cdef class Param:
 
     def __repr__(self):
         return ("Param(name={name}, auth_name={auth_name}, code={code}, "
-                "value={value}, unit_name={unit_name}, unit_auth_name={unit_auth_name}, "
-                "unit_code={unit_code}, unit_category={unit_category})").format(
+                "value={value}, unit_name={unit_name}, "
+                "unit_auth_name={unit_auth_name}, unit_code={unit_code}, "
+                "unit_category={unit_category})").format(
             name=self.name,
             auth_name=self.auth_name,
             code=self.code,
@@ -1743,7 +1745,6 @@ cdef class Param:
             unit_code=self.unit_code,
             unit_category=self.unit_category,
         )
-
 
 
 cdef class Grid:
@@ -1815,8 +1816,9 @@ cdef class Grid:
         return self.full_name
 
     def __repr__(self):
-        return ("Grid(short_name={short_name}, full_name={full_name}, package_name={package_name}, "
-                "url={url}, direct_download={direct_download}, open_license={open_license}, "
+        return ("Grid(short_name={short_name}, full_name={full_name}, "
+                "package_name={package_name}, url={url}, "
+                "direct_download={direct_download}, open_license={open_license}, "
                 "available={available})").format(
             short_name=self.short_name,
             full_name=self.full_name,
@@ -1840,7 +1842,8 @@ _PJ_COORDINATE_OPERATION_TYPE_MAP = {
     CoordinateOperationType.CONVERSION: PJ_TYPE_CONVERSION,
     CoordinateOperationType.TRANSFORMATION: PJ_TYPE_TRANSFORMATION,
     CoordinateOperationType.CONCATENATED_OPERATION: PJ_TYPE_CONCATENATED_OPERATION,
-    CoordinateOperationType.OTHER_COORDINATE_OPERATION: PJ_TYPE_OTHER_COORDINATE_OPERATION,
+    CoordinateOperationType.OTHER_COORDINATE_OPERATION:
+    PJ_TYPE_OTHER_COORDINATE_OPERATION,
 }
 
 cdef class CoordinateOperation(_CRSParts):
@@ -1884,7 +1887,8 @@ cdef class CoordinateOperation(_CRSParts):
 
     def __init__(self):
         raise RuntimeError(
-            "CoordinateOperation can only be initialized like 'CoordinateOperation.from_*()'."
+            "CoordinateOperation can only be initialized like "
+            "CoordinateOperation.from_*()'."
         )
 
     @staticmethod
@@ -2589,7 +2593,7 @@ cdef class _CRS(Base):
             try:
                 self._sub_crs_list.append(_CRS(_to_wkt(self.context, projobj)))
             finally:
-                proj_destroy(projobj) # deallocate temp proj
+                proj_destroy(projobj)  # deallocate temp proj
             iii += 1
             projobj = proj_crs_get_sub_crs(
                 self.context,
@@ -2620,7 +2624,7 @@ cdef class _CRS(Base):
         try:
             self._geodetic_crs = _CRS(_to_wkt(self.context, projobj))
         finally:
-            proj_destroy(projobj) # deallocate temp proj
+            proj_destroy(projobj)  # deallocate temp proj
         return self._geodetic_crs
 
     def to_proj4(self, version=ProjVersion.PROJ_4):
@@ -2629,7 +2633,8 @@ cdef class _CRS(Base):
 
         .. warning:: You will likely lose important projection
           information when converting to a PROJ string from
-          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
+          another format. See:
+          https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501
 
         Parameters
         ----------
@@ -2742,7 +2747,7 @@ cdef class _CRS(Base):
             user_auth_name = b_auth_name
 
         try:
-            proj_list  = proj_identify(
+            proj_list = proj_identify(
                 self.context,
                 self.projobj,
                 user_auth_name,
@@ -2759,7 +2764,11 @@ cdef class _CRS(Base):
             CRSError.clear()
 
         # check to make sure that the projection found is valid
-        if proj_list == NULL or num_proj_objects <= 0 or out_confidence < min_confidence:
+        if (
+            proj_list == NULL
+            or num_proj_objects <= 0
+            or out_confidence < min_confidence
+        ):
             if proj_list != NULL:
                 proj_list_destroy(proj_list)
             return None
