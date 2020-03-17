@@ -156,42 +156,22 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyproj.proj</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Performs cartographic transformations (converts from</span>
+<span class="sd">longitude,latitude to native map projection x,y coordinates and</span>
+<span class="sd">vice versa) using PROJ (https://proj.org).</span>
+
+<span class="sd">A Proj class instance is initialized with proj map projection</span>
+<span class="sd">control parameter key/value pairs. The key/value pairs can</span>
+<span class="sd">either be passed in a dictionary, or as keyword arguments,</span>
+<span class="sd">or as a PROJ string (compatible with the proj command). See</span>
+<span class="sd">https://proj.org/operations/projections/index.html for examples of</span>
+<span class="sd">key/value pairs defining different map projections.</span>
+
+<span class="sd">Calling a Proj class instance with the arguments lon, lat will</span>
+<span class="sd">convert lon/lat (in degrees) to x/y native map projection</span>
+<span class="sd">coordinates (in meters).</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Cython wrapper to provide python interfaces to</span>
-<span class="sd">PROJ (https://proj.org) functions.</span>
-
-<span class="sd">Performs cartographic transformations and geodetic computations.</span>
-
-<span class="sd">The Proj class can convert from geographic (longitude,latitude)</span>
-<span class="sd">to native map projection (x,y) coordinates and vice versa, or</span>
-<span class="sd">from one map projection coordinate system directly to another.</span>
-<span class="sd">The module variable pj_list is a dictionary containing all the</span>
-<span class="sd">available projections and their descriptions.</span>
-
-<span class="sd">Input coordinates can be given as python arrays, lists/tuples,</span>
-<span class="sd">scalars or numpy/Numeric/numarray arrays. Optimized for objects</span>
-<span class="sd">that support the Python buffer protocol (regular python and</span>
-<span class="sd">numpy array objects).</span>
-
-<span class="sd">Download: http://python.org/pypi/pyproj</span>
-
-<span class="sd">Contact:  Jeffrey Whitaker &lt;jeffrey.s.whitaker@noaa.gov</span>
-
-<span class="sd">copyright (c) 2006 by Jeffrey Whitaker.</span>
-
-<span class="sd">Permission to use, copy, modify, and distribute this software</span>
-<span class="sd">and its documentation for any purpose and without fee is hereby</span>
-<span class="sd">granted, provided that the above copyright notice appear in all</span>
-<span class="sd">copies and that both the copyright notice and this permission</span>
-<span class="sd">notice appear in supporting documentation. THE AUTHOR DISCLAIMS</span>
-<span class="sd">ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL</span>
-<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT</span>
-<span class="sd">SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR</span>
-<span class="sd">CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM</span>
-<span class="sd">LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,</span>
-<span class="sd">NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN</span>
-<span class="sd">CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
@@ -209,7 +189,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs cartographic transformations (converts from</span>
 <span class="sd">    longitude,latitude to native map projection x,y coordinates and</span>
-<span class="sd">    vice versa) using proj (https://proj.org).</span>
+<span class="sd">    vice versa) using PROJ (https://proj.org).</span>
 
 <span class="sd">    A Proj class instance is initialized with proj map projection</span>
 <span class="sd">    control parameter key/value pairs. The key/value pairs can</span>
@@ -474,7 +454,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Jeffrey Whitaker
+        &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
 
     </p>
   </div>
