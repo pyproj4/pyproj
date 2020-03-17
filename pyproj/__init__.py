@@ -1,52 +1,33 @@
-# -*- coding: utf-8 -*-
 """
-Cython wrapper to provide python interfaces to
-PROJ (https://proj.org) functions.
-
-Performs cartographic transformations and geodetic computations.
-
-The Proj class can convert from geographic (longitude,latitude)
-to native map projection (x,y) coordinates and vice versa, or
-from one map projection coordinate system directly to another.
-The module variable pj_list is a dictionary containing all the
-available projections and their descriptions.
-
-The Geod class can perform forward and inverse geodetic, or
-Great Circle, computations.  The forward computation involves
-determining latitude, longitude and back azimuth of a terminus
-point given the latitude and longitude of an initial point, plus
-azimuth and distance. The inverse computation involves
-determining the forward and back azimuths and distance given the
-latitudes and longitudes of an initial and terminus point.
-
-Input coordinates can be given as python arrays, lists/tuples,
-scalars or numpy/Numeric/numarray arrays. Optimized for objects
-that support the Python buffer protocol (regular python and
-numpy array objects).
+Python interface to PROJ (https://proj.org),
+cartographic projections and coordinate transformations library.
 
 Download: http://python.org/pypi/pyproj
 
 Requirements: Python 3.5+.
 
-Example scripts are in 'test' subdirectory of source distribution.
-The 'test()' function will run the examples in the docstrings.
+Contact:  Jeffrey Whitaker <jeffrey.s.whitaker@noaa.gov>
 
-Contact:  Jeffrey Whitaker <jeffrey.s.whitaker@noaa.gov
+Copyright (c) 2006-2018, Jeffrey Whitaker.
+Copyright (c) 2019-2020, Open source contributors.
 
-copyright (c) 2006 by Jeffrey Whitaker.
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-Permission to use, copy, modify, and distribute this software
-and its documentation for any purpose and without fee is hereby
-granted, provided that the above copyright notice appear in all
-copies and that both the copyright notice and this permission
-notice appear in supporting documentation. THE AUTHOR DISCLAIMS
-ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT
-SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
 __version__ = "2.6.0rc0"
 __all__ = [
     "Proj",

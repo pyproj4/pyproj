@@ -1,3 +1,7 @@
+"""
+This module is for building coordinate systems to be used when
+building a CRS.
+"""
 from typing import Union
 
 from pyproj._crs import CoordinateSystem

@@ -1,3 +1,9 @@
+"""
+This module is for building operations to be used when
+building a CRS.
+
+https://proj.org/operations/
+"""
 import warnings
 from distutils.version import LooseVersion
 from typing import Any

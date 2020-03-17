@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # pyproj documentation build configuration file, created by
 # sphinx-quickstart on Fri Jun  9 13:47:02 2017.
@@ -55,7 +54,7 @@ master_doc = "index"
 
 # General information about the project.
 project = u"pyproj"
-copyright = u"2019, Jeffrey Whitaker"
+copyright = u"2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors"
 author = u"Jeffrey Whitaker"
 
 # The version info for the project you're documenting, acts as replacement

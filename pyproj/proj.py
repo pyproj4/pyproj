@@ -1,39 +1,19 @@
-# -*- coding: utf-8 -*-
 """
-Cython wrapper to provide python interfaces to
-PROJ (https://proj.org) functions.
+Performs cartographic transformations (converts from
+longitude,latitude to native map projection x,y coordinates and
+vice versa) using PROJ (https://proj.org).
 
-Performs cartographic transformations and geodetic computations.
+A Proj class instance is initialized with proj map projection
+control parameter key/value pairs. The key/value pairs can
+either be passed in a dictionary, or as keyword arguments,
+or as a PROJ string (compatible with the proj command). See
+https://proj.org/operations/projections/index.html for examples of
+key/value pairs defining different map projections.
 
-The Proj class can convert from geographic (longitude,latitude)
-to native map projection (x,y) coordinates and vice versa, or
-from one map projection coordinate system directly to another.
-The module variable pj_list is a dictionary containing all the
-available projections and their descriptions.
-
-Input coordinates can be given as python arrays, lists/tuples,
-scalars or numpy/Numeric/numarray arrays. Optimized for objects
-that support the Python buffer protocol (regular python and
-numpy array objects).
-
-Download: http://python.org/pypi/pyproj
-
-Contact:  Jeffrey Whitaker <jeffrey.s.whitaker@noaa.gov
-
-copyright (c) 2006 by Jeffrey Whitaker.
-
-Permission to use, copy, modify, and distribute this software
-and its documentation for any purpose and without fee is hereby
-granted, provided that the above copyright notice appear in all
-copies and that both the copyright notice and this permission
-notice appear in supporting documentation. THE AUTHOR DISCLAIMS
-ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT
-SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
+Calling a Proj class instance with the arguments lon, lat will
+convert lon/lat (in degrees) to x/y native map projection
+coordinates (in meters).
+"""
 import re
 import warnings
 from typing import Any, Optional, Tuple, Type
@@ -51,7 +31,7 @@ class Proj(_Proj):
     """
     Performs cartographic transformations (converts from
     longitude,latitude to native map projection x,y coordinates and
-    vice versa) using proj (https://proj.org).
+    vice versa) using PROJ (https://proj.org).
 
     A Proj class instance is initialized with proj map projection
     control parameter key/value pairs. The key/value pairs can

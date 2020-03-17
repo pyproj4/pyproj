@@ -1,9 +1,4 @@
 """
-Cython wrapper to provide python interfaces to
-PROJ (https://proj.org) functions.
-
-Performs geodetic computations.
-
 The Geod class can perform forward and inverse geodetic, or
 Great Circle, computations.  The forward computation involves
 determining latitude, longitude and back azimuth of a terminus
@@ -11,23 +6,7 @@ point given the latitude and longitude of an initial point, plus
 azimuth and distance. The inverse computation involves
 determining the forward and back azimuths and distance given the
 latitudes and longitudes of an initial and terminus point.
-
-Contact:  Jeffrey Whitaker <jeffrey.s.whitaker@noaa.gov
-
-copyright (c) 2006 by Jeffrey Whitaker.
-
-Permission to use, copy, modify, and distribute this software
-and its documentation for any purpose and without fee is hereby
-granted, provided that the above copyright notice appear in all
-copies and that both the copyright notice and this permission
-notice appear in supporting documentation. THE AUTHOR DISCLAIMS
-ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT
-SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. """
+"""
 
 __all__ = ["Geod", "pj_ellps", "geodesic_version_str"]
 
