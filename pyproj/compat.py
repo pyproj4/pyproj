@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+"""
+This module is for compatibility between string types
+"""
 
 
 def cstrencode(pystr):

@@ -1,5 +1,5 @@
 """
-Set the datadir path to the local data directory
+Module for managing the PROJ data directory.
 """
 import os
 import sys

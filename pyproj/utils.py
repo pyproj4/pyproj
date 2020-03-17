@@ -1,3 +1,6 @@
+"""
+Utility functions used within pyproj
+"""
 from array import array
 from typing import Any, Tuple
 

@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
 """
 This module interfaces with PROJ to produce a pythonic interface
 to the coordinate reference system (CRS) information.
-
-Original Author: Alan D. Snow [github.com/snowman2] (2019)
-
 """
 import json
 import re

@@ -223,12 +223,11 @@ setup(
     author="Jeff Whitaker",
     author_email="jeffrey.s.whitaker@noaa.gov",
     platforms=["any"],
-    license="OSI Approved",
+    license="MIT",
     keywords=["python", "map projections", "GIS", "mapping", "maps"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
-        "License :: OSI Approved",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
