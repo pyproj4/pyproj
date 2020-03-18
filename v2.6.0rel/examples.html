@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; pyproj 2.6.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Gotchas/FAQ" href="gotchas.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.6.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-crs">Using CRS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#initializing-crs">Initializing CRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#converting-crs-to-a-different-format">Converting CRS to a different format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extracting-attributes-from-crs">Extracting attributes from CRS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#transformations-from-crs-to-crs">Transformations from CRS to CRS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order">Step 1: Inspect CRS definition to ensure proper area of use and axis order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-create-transformer-to-convert-from-crs-to-crs">Step 2: Create Transformer to convert from CRS to CRS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#converting-between-geographic-and-projection-coordinates-within-one-datum">Converting between geographic and projection coordinates within one datum</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-retrieve-the-geodetic-crs-based-on-original-crs">Step 1: Retrieve the geodetic CRS based on original CRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-create-transformer-to-convert-from-geodetic-crs-to-crs">Step 2: Create Transformer to convert from geodetic CRS to CRS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#d-transformations-with-time">4D Transformations with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#geodesic-calculations">Geodesic calculations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-geod-class">Creating Geod class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geodesic-line-length">Geodesic line length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geodesic-area">Geodesic area</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<span id="examples"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>There are examples of usage within the API documentation and tests. This
+section is to demonstrate recommended usage.</p>
+<p>Also see: <a class="reference internal" href="gotchas.html#gotchas"><span class="std std-ref">Gotchas/FAQ</span></a></p>
+<div class="section" id="using-crs">
+<h2>Using CRS<a class="headerlink" href="#using-crs" title="Permalink to this headline">¶</a></h2>
+<p>For more usage examples and documentation see <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
+<div class="section" id="initializing-crs">
+<h3>Initializing CRS<a class="headerlink" href="#initializing-crs" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class can be initialized in many different ways.
+Here are some examples of initialization.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_proj4</span><span class="p">(</span><span class="s2">&quot;+proj=latlon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="converting-crs-to-a-different-format">
+<h3>Converting CRS to a different format<a class="headerlink" href="#converting-crs-to-a-different-format" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You will likely lose important projection
+information when converting to a PROJ string from
+another format. See: <a class="reference external" href="https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">()</span>
+<span class="go">4326</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
+<span class="go">(&#39;EPSG&#39;, &#39;4326&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_proj4</span><span class="p">(</span><span class="s2">&quot;+proj=omerc +lat_0=-36 +lonc=147 +alpha=-54 +k=1 +x_0=0 +y_0=0 +gamma=0 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
+<span class="go">&lt;Bound CRS: +proj=omerc +lat_0=-36 +lonc=147 +alpha=-54 +k=1 + ...&gt;</span>
+<span class="go">Name: unknown</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- E[east]: Easting (metre)</span>
+<span class="go">- N[north]: Northing (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- undefined</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: Transformation from unknown to WGS84</span>
+<span class="go">- method: Position Vector transformation (geog2D domain)</span>
+<span class="go">Datum: Unknown based on WGS84 ellipsoid</span>
+<span class="go">- Ellipsoid: WGS 84</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+<span class="go">Source CRS: unknown</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="go">BOUNDCRS[</span>
+<span class="go">    SOURCECRS[</span>
+<span class="go">        PROJCRS[&quot;unknown&quot;,</span>
+<span class="go">            BASEGEOGCRS[&quot;unknown&quot;,</span>
+<span class="go">                DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,</span>
+<span class="go">                    ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,</span>
+<span class="go">                        LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">                        ID[&quot;EPSG&quot;,7030]]],</span>
+<span class="gp">...</span>
+<span class="go">        PARAMETER[&quot;Z-axis rotation&quot;,0,</span>
+<span class="go">            ID[&quot;EPSG&quot;,8610]],</span>
+<span class="go">        PARAMETER[&quot;Scale difference&quot;,1,</span>
+<span class="go">            ID[&quot;EPSG&quot;,8611]]]]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">WktVersion</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT1_GDAL</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="go">PROJCS[&quot;unknown&quot;,</span>
+<span class="go">    GEOGCS[&quot;unknown&quot;,</span>
+<span class="go">        DATUM[&quot;Unknown_based_on_WGS84_ellipsoid&quot;,</span>
+<span class="go">            SPHEROID[&quot;WGS 84&quot;,6378137,298.257223563,</span>
+<span class="go">                AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]],</span>
+<span class="go">            TOWGS84[0,0,0,0,0,0,0]],</span>
+<span class="go">        PRIMEM[&quot;Greenwich&quot;,0,</span>
+<span class="go">            AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],</span>
+<span class="go">        UNIT[&quot;degree&quot;,0.0174532925199433,</span>
+<span class="go">            AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]]],</span>
+<span class="go">    PROJECTION[&quot;Hotine_Oblique_Mercator_Azimuth_Center&quot;],</span>
+<span class="go">    PARAMETER[&quot;latitude_of_center&quot;,-36],</span>
+<span class="go">    PARAMETER[&quot;longitude_of_center&quot;,147],</span>
+<span class="go">    PARAMETER[&quot;azimuth&quot;,-54],</span>
+<span class="go">    PARAMETER[&quot;rectified_grid_angle&quot;,0],</span>
+<span class="go">    PARAMETER[&quot;scale_factor&quot;,1],</span>
+<span class="go">    PARAMETER[&quot;false_easting&quot;,0],</span>
+<span class="go">    PARAMETER[&quot;false_northing&quot;,0],</span>
+<span class="go">    UNIT[&quot;metre&quot;,1,</span>
+<span class="go">        AUTHORITY[&quot;EPSG&quot;,&quot;9001&quot;]],</span>
+<span class="go">    AXIS[&quot;Easting&quot;,EAST],</span>
+<span class="go">    AXIS[&quot;Northing&quot;,NORTH]]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">())</span>
+<span class="go">{&#39;azimuth_of_central_line&#39;: -54,</span>
+<span class="go">&#39;crs_wkt&#39;: &#39;BOUNDCRS[SOURCECRS[PROJCRS[&quot;unknown&quot;,BASEGEOGCRS[&quot;unknown&quot;,DATUM[&quot;Unknown &#39;</span>
+<span class="gp">...</span>
+<span class="go">            &#39;difference&quot;,1,ID[&quot;EPSG&quot;,8611]]]]&#39;,</span>
+<span class="go">&#39;false_easting&#39;: 0.0,</span>
+<span class="go">&#39;false_northing&#39;: 0.0,</span>
+<span class="go">&#39;grid_mapping_name&#39;: &#39;oblique_mercator&#39;,</span>
+<span class="go">&#39;horizontal_datum_name&#39;: &#39;Unknown based on WGS84 ellipsoid&#39;,</span>
+<span class="go">&#39;inverse_flattening&#39;: 298.257223563,</span>
+<span class="go">&#39;latitude_of_projection_origin&#39;: -36.0,</span>
+<span class="go">&#39;longitude_of_prime_meridian&#39;: 0.0,</span>
+<span class="go">&#39;longitude_of_projection_origin&#39;: 147.0,</span>
+<span class="go">&#39;prime_meridian_name&#39;: &#39;Greenwich&#39;,</span>
+<span class="go">&#39;reference_ellipsoid_name&#39;: &#39;WGS 84&#39;,</span>
+<span class="go">&#39;scale_factor_at_projection_origin&#39;: 1.0,</span>
+<span class="go">&#39;semi_major_axis&#39;: 6378137.0,</span>
+<span class="go">&#39;semi_minor_axis&#39;: 6356752.314245179,</span>
+<span class="go">&#39;towgs84&#39;: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extracting-attributes-from-crs">
+<h3>Extracting attributes from CRS<a class="headerlink" href="#extracting-attributes-from-crs" title="Permalink to this headline">¶</a></h3>
+<p>There are many attributes you can pull from the <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.
+This is just a small subset of what is available.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
+<span class="go">&lt;Compound CRS: EPSG:3901&gt;</span>
+<span class="go">Name: KKJ / Finland Uniform Coordinate System + N60 height</span>
+<span class="go">Axis Info [cartesian|vertical]:</span>
+<span class="go">- X[north]: Northing (metre)</span>
+<span class="go">- Y[east]: Easting (metre)</span>
+<span class="go">- H[up]: Gravity-related height (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- undefined</span>
+<span class="go">Datum: Kartastokoordinaattijarjestelma (1966)</span>
+<span class="go">- Ellipsoid: International 1924</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+<span class="go">Sub CRS:</span>
+<span class="go">- KKJ / Finland Uniform Coordinate System</span>
+<span class="go">- N60 height</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">sub_crs_list</span>
+<span class="go">[&lt;Projected CRS: EPSG:2393&gt;</span>
+<span class="go">Name: KKJ / Finland Uniform Coordinate System</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- X[north]: Northing (metre)</span>
+<span class="go">- Y[east]: Easting (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: Finland - 25.5°E to 28.5°E onshore. Also all country.</span>
+<span class="go">- bounds: (19.24, 59.75, 31.59, 70.09)</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: Finland Uniform Coordinate System</span>
+<span class="go">- method: Transverse Mercator</span>
+<span class="go">Datum: Kartastokoordinaattijarjestelma (1966)</span>
+<span class="go">- Ellipsoid: International 1924</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+<span class="go">, &lt;Vertical CRS: EPSG:5717&gt;</span>
+<span class="go">Name: N60 height</span>
+<span class="go">Axis Info [vertical]:</span>
+<span class="go">- H[up]: Gravity-related height (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: Finland - onshore</span>
+<span class="go">- bounds: (19.24, 59.75, 31.59, 70.09)</span>
+<span class="go">Datum: Helsinki 1960</span>
+<span class="go">- Ellipsoid: undefined</span>
+<span class="go">- Prime Meridian: undefined</span>
+<span class="go">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="go">CONVERSION[&quot;Finland Uniform Coordinate System&quot;,</span>
+<span class="go">    METHOD[&quot;Transverse Mercator&quot;,</span>
+<span class="go">        ID[&quot;EPSG&quot;,9807]],</span>
+<span class="go">    PARAMETER[&quot;Latitude of natural origin&quot;,0,</span>
+<span class="go">        ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8801]],</span>
+<span class="go">    PARAMETER[&quot;Longitude of natural origin&quot;,27,</span>
+<span class="go">        ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8802]],</span>
+<span class="go">    PARAMETER[&quot;Scale factor at natural origin&quot;,1,</span>
+<span class="go">        SCALEUNIT[&quot;unity&quot;,1],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8805]],</span>
+<span class="go">    PARAMETER[&quot;False easting&quot;,3500000,</span>
+<span class="go">        LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8806]],</span>
+<span class="go">    PARAMETER[&quot;False northing&quot;,0,</span>
+<span class="go">        LENGTHUNIT[&quot;metre&quot;,1],</span>
+<span class="go">        ID[&quot;EPSG&quot;,8807]]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cop</span><span class="o">.</span><span class="n">method_code</span>
+<span class="go">&#39;9807&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cop</span><span class="o">.</span><span class="n">method_name</span>
+<span class="go">&#39;Transverse Mercator&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cop</span><span class="o">.</span><span class="n">params</span>
+<span class="go">[Param(name=Latitude of natural origin, auth_name=EPSG, code=8801, value=0.0, unit_name=degree, unit_auth_name=, unit_code=, unit_category=angular),</span>
+<span class="go"> ...</span>
+<span class="go"> Param(name=False northing, auth_name=EPSG, code=8807, value=0.0, unit_name=metre, unit_auth_name=, unit_code=, unit_category=linear)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="transformations-from-crs-to-crs">
+<h2>Transformations from CRS to CRS<a class="headerlink" href="#transformations-from-crs-to-crs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order">
+<h3>Step 1: Inspect CRS definition to ensure proper area of use and axis order<a class="headerlink" href="#step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order" title="Permalink to this headline">¶</a></h3>
+<p>For more options available for inspection, usage examples,
+and documentation see <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span>
+<span class="go">&lt;Geographic 2D CRS: EPSG:4326&gt;</span>
+<span class="go">Name: WGS 84</span>
+<span class="go">Axis Info [ellipsoidal]:</span>
+<span class="go">- Lat[north]: Geodetic latitude (degree)</span>
+<span class="go">- Lon[east]: Geodetic longitude (degree)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: World</span>
+<span class="go">- bounds: (-180.0, -90.0, 180.0, 90.0)</span>
+<span class="go">Datum: World Geodetic System 1984</span>
+<span class="go">- Ellipsoid: WGS 84</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_26917</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">26917</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_26917</span>
+<span class="go">&lt;Projected CRS: EPSG:26917&gt;</span>
+<span class="go">Name: NAD83 / UTM zone 17N</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- E[east]: Easting (metre)</span>
+<span class="go">- N[north]: Northing (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: North America - 84°W to 78°W and NAD83 by country</span>
+<span class="go">- bounds: (-84.0, 23.81, -78.0, 84.0)</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: UTM zone 17N</span>
+<span class="go">- method: Transverse Mercator</span>
+<span class="go">Datum: North American Datum 1983</span>
+<span class="go">- Ellipsoid: GRS 1980</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+</pre></div>
+</div>
+<p>Note that <cite>crs_4326</cite> has the latitude (north) axis first and the <cite>crs_26917</cite>
+has the easting axis first. This means that in the transformation, we will need
+to input the data with latitude first and longitude second. Also, note that the
+second projection is a UTM projection with bounds (-84.0, 23.81, -78.0, 84.0) which
+are in the form (min_x, min_y, max_x, max_y), so the transformation input/output should
+be within those bounds for best results.</p>
+</div>
+<div class="section" id="step-2-create-transformer-to-convert-from-crs-to-crs">
+<h3>Step 2: Create Transformer to convert from CRS to CRS<a class="headerlink" href="#step-2-create-transformer-to-convert-from-crs-to-crs" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> can be initialized with anything supported
+by <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_user_input()</span></code></a>. There are a couple of examples added
+here for demonstration. For more usage examples and documentation,
+see <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs_4326</span><span class="p">,</span> <span class="n">crs_26917</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">26917</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:26917&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
+<span class="go">&lt;Unknown Transformer: unknown&gt;</span>
+<span class="go">Inverse of NAD83 to WGS 84 (1) + UTM zone 17N</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">80</span><span class="p">)</span>
+<span class="go">(571666.4475041276, 5539109.815175673)</span>
+</pre></div>
+</div>
+<p>If you prefer to always have the axis order in the x,y or lon,lat order,
+you can use the <cite>always_xy</cite> option when creating the transformer.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:26917&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="go">(571666.4475041276, 5539109.815175673)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="converting-between-geographic-and-projection-coordinates-within-one-datum">
+<h2>Converting between geographic and projection coordinates within one datum<a class="headerlink" href="#converting-between-geographic-and-projection-coordinates-within-one-datum" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="step-1-retrieve-the-geodetic-crs-based-on-original-crs">
+<h3>Step 1: Retrieve the geodetic CRS based on original CRS<a class="headerlink" href="#step-1-retrieve-the-geodetic-crs-based-on-original-crs" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3857</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
+<span class="go">&lt;Projected CRS: EPSG:3857&gt;</span>
+<span class="go">Name: WGS 84 / Pseudo-Mercator</span>
+<span class="go">Axis Info [cartesian]:</span>
+<span class="go">- X[east]: Easting (metre)</span>
+<span class="go">- Y[north]: Northing (metre)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: World - 85°S to 85°N</span>
+<span class="go">- bounds: (-180.0, -85.06, 180.0, 85.06)</span>
+<span class="go">Coordinate Operation:</span>
+<span class="go">- name: Popular Visualisation Pseudo-Mercator</span>
+<span class="go">- method: Popular Visualisation Pseudo Mercator</span>
+<span class="go">Datum: World Geodetic System 1984</span>
+<span class="go">- Ellipsoid: WGS 84</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span>
+<span class="go">&lt;Geographic 2D CRS: EPSG:4326&gt;</span>
+<span class="go">Name: WGS 84</span>
+<span class="go">Axis Info [ellipsoidal]:</span>
+<span class="go">- Lat[north]: Geodetic latitude (degree)</span>
+<span class="go">- Lon[east]: Geodetic longitude (degree)</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: World</span>
+<span class="go">- bounds: (-180.0, -90.0, 180.0, 90.0)</span>
+<span class="go">Datum: World Geodetic System 1984</span>
+<span class="go">- Ellipsoid: WGS 84</span>
+<span class="go">- Prime Meridian: Greenwich</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-2-create-transformer-to-convert-from-geodetic-crs-to-crs">
+<h3>Step 2: Create Transformer to convert from geodetic CRS to CRS<a class="headerlink" href="#step-2-create-transformer-to-convert-from-geodetic-crs-to-crs" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">,</span> <span class="n">crs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span>
+<span class="go">&lt;Conversion Transformer: pipeline&gt;</span>
+<span class="go">Popular Visualisation Pseudo-Mercator</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: World</span>
+<span class="go">- bounds: (-180.0, -90.0, 180.0, 90.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="go">(1669792.3618991035, 1345708.4084091093)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="d-transformations-with-time">
+<h2>4D Transformations with Time<a class="headerlink" href="#d-transformations-with-time" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are doing a transformation with a CRS that is time based,
+it is recommended to include the time in the transformaton operation.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">7789</span><span class="p">,</span> <span class="mi">8401</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
+<span class="go">&lt;Transformation Transformer: helmert&gt;</span>
+<span class="go">ITRF2014 to ETRF2014 (1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="mf">3496737.2679</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="mf">743254.4507</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="mf">5264462.9620</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="mf">2019.0</span><span class="p">)</span>
+<span class="go">(3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geodesic-calculations">
+<h2>Geodesic calculations<a class="headerlink" href="#geodesic-calculations" title="Permalink to this headline">¶</a></h2>
+<p>This is useful if you need to calculate the distance between two
+points or the area of a geometry on Earth’s surface.</p>
+<p>For more examples of usage and documentation, see <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Geod</span></code></a>.</p>
+<div class="section" id="creating-geod-class">
+<h3>Creating Geod class<a class="headerlink" href="#creating-geod-class" title="Permalink to this headline">¶</a></h3>
+<p>This example demonstrates creating a <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Geod</span></code></a> using an
+ellipsoid name as well as deriving one using a <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod_clrk</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod_clrk</span>
+<span class="go">Geod(ellps=&#39;clrk66&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod_wgs84</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_geod</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod_wgs84</span>
+<span class="go">Geod(&#39;+a=6378137 +f=0.0033528106647475126&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geodesic-line-length">
+<h3>Geodesic line length<a class="headerlink" href="#geodesic-line-length" title="Permalink to this headline">¶</a></h3>
+<p>Calculate the geodesic length of a line (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.line_length" title="pyproj.Geod.line_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.line_length()</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_length</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">line_length</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_length</span><span class="p">)</span>
+<span class="go">&#39;14259605.611&#39;</span>
+</pre></div>
+</div>
+<p>Calculate the geodesic length of a shapely geometry (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_length" title="pyproj.Geod.geometry_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.geometry_length()</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">line_string</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_length</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">line_string</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_length</span><span class="p">)</span>
+<span class="go">&#39;313588.397&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geodesic-area">
+<h3>Geodesic area<a class="headerlink" href="#geodesic-area" title="Permalink to this headline">¶</a></h3>
+<p>Calculate the geodesic area and perimeter of a polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.polygon_area_perimeter" title="pyproj.Geod.polygon_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.polygon_area_perimeter()</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">polygon_area_perimeter</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2"> </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span><span class="p">)</span>
+<span class="go">&#39;13376856682207.406 14710425.407&#39;</span>
+</pre></div>
+</div>
+<p>Calculate the geodesic area and perimeter of a shapely polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_area_perimeter" title="pyproj.Geod.geometry_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.geometry_area_perimeter()</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Polygon</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">geometry_area_perimeter</span><span class="p">(</span>
+<span class="go">        Polygon(</span>
+<span class="go">            LineString([Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)]),</span>
+<span class="go">            holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],</span>
+<span class="go">        )</span>
+<span class="go">    )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2"> </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span><span class="p">)</span>
+<span class="go">&#39;-944373881400.339 3979008.036&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gotchas.html" class="btn btn-neutral float-right" title="Gotchas/FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
