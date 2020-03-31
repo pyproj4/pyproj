@@ -627,7 +627,7 @@ class CRS(_CRS):
                 cf_dict["prime_meridian_name"] = self.prime_meridian.name
 
         # handle geographic CRS
-        if self.geodetic_crs and self.geodetic_crs.name not in unknown_names:
+        if self.geodetic_crs:
             cf_dict["geographic_crs_name"] = self.geodetic_crs.name
 
         if self.is_geographic:
@@ -700,6 +700,7 @@ class CRS(_CRS):
         -------
         CRS
         """
+        unknown_names = ("unknown", "undefined")
         if "crs_wkt" in in_cf:
             return CRS(in_cf["crs_wkt"])
         elif "spatial_ref" in in_cf:  # for previous supported WKT key
@@ -725,7 +726,7 @@ class CRS(_CRS):
             geographic_crs = GeographicCRS(
                 name=geographic_crs_name or "undefined", datum=datum,
             )  # type: CRS
-        elif geographic_crs_name:
+        elif geographic_crs_name and geographic_crs_name not in unknown_names:
             geographic_crs = CRS(geographic_crs_name)
         else:
             geographic_crs = GeographicCRS()
