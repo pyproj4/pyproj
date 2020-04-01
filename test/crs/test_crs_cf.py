@@ -1047,3 +1047,63 @@ def test_vertical_perspective():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+
+
+def test_build_custom_datum():
+    cf_dict = {
+        "semi_major_axis": 6370997.0,
+        "semi_minor_axis": 6370997.0,
+        "inverse_flattening": 0.0,
+        "reference_ellipsoid_name": "Normal Sphere (r=6370997)",
+        "longitude_of_prime_meridian": 1.0,
+        "grid_mapping_name": "oblique_mercator",
+        "latitude_of_projection_origin": 0.0,
+        "longitude_of_projection_origin": 13.809602948622212,
+        "azimuth_of_central_line": 8.998112717187938,
+        "scale_factor_at_projection_origin": 1.0,
+        "false_easting": 0.0,
+        "false_northing": 0.0,
+    }
+    crs = CRS.from_cf(cf_dict)
+    assert crs.datum.name == "undefined"
+    assert crs.ellipsoid.name == "Normal Sphere (r=6370997)"
+    assert crs.prime_meridian.name == "undefined"
+    assert crs.prime_meridian.longitude == 1
+
+
+def test_build_custom_datum__default_prime_meridian():
+    cf_dict = {
+        "semi_major_axis": 6370997.0,
+        "semi_minor_axis": 6370997.0,
+        "inverse_flattening": 0.0,
+        "grid_mapping_name": "oblique_mercator",
+        "latitude_of_projection_origin": 0.0,
+        "longitude_of_projection_origin": 13.809602948622212,
+        "azimuth_of_central_line": 8.998112717187938,
+        "scale_factor_at_projection_origin": 1.0,
+        "false_easting": 0.0,
+        "false_northing": 0.0,
+    }
+    crs = CRS.from_cf(cf_dict)
+    assert crs.datum.name == "undefined"
+    assert crs.ellipsoid.name == "undefined"
+    assert crs.prime_meridian.name == "Greenwich"
+    assert crs.prime_meridian.longitude == 0
+
+
+def test_build_custom_datum__default_ellipsoid():
+    cf_dict = {
+        "prime_meridian_name": "Paris",
+        "grid_mapping_name": "oblique_mercator",
+        "latitude_of_projection_origin": 0.0,
+        "longitude_of_projection_origin": 13.809602948622212,
+        "azimuth_of_central_line": 8.998112717187938,
+        "scale_factor_at_projection_origin": 1.0,
+        "false_easting": 0.0,
+        "false_northing": 0.0,
+    }
+    crs = CRS.from_cf(cf_dict)
+    assert crs.datum.name == "undefined"
+    assert crs.ellipsoid.name == "WGS 84"
+    assert crs.prime_meridian.name == "Paris"
+    assert str(crs.prime_meridian.longitude).startswith("2.")
