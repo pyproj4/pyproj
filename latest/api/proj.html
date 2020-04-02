@@ -190,27 +190,9 @@ projection coordinates within one datum.
 <dt id="pyproj.proj.Proj">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Proj</code><span class="sig-paren">(</span><em class="sig-param">projparams: Any = None</em>, <em class="sig-param">preserve_units: bool = True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj._Proj</span></code></p>
-<p>Performs cartographic transformations (converts from
-longitude,latitude to native map projection x,y coordinates and
-vice versa) using PROJ (<a class="reference external" href="https://proj.org">https://proj.org</a>).</p>
-<p>A Proj class instance is initialized with proj map projection
-control parameter key/value pairs. The key/value pairs can
-either be passed in a dictionary, or as keyword arguments,
-or as a PROJ string (compatible with the proj command). See
-<a class="reference external" href="https://proj.org/operations/projections/index.html">https://proj.org/operations/projections/index.html</a> for examples of
-key/value pairs defining different map projections.</p>
-<p>Calling a Proj class instance with the arguments lon, lat will
-convert lon/lat (in degrees) to x/y native map projection
-coordinates (in meters).  If optional keyword ‘inverse’ is True
-(default is False), the inverse transformation from x/y to
-lon/lat is performed. If optional keyword ‘errcheck’ is True (default is
-False) an exception is raised if the transformation is invalid.
-If errcheck=False and the transformation is invalid, no
-exception is raised and ‘inf’ is returned. If the optional keyword
-‘preserve_units’ is True, the units in map projection coordinates
-are not forced to be meters.</p>
-<p>Works with numpy and regular python array objects, python
-sequences and scalars.</p>
+<p>Performs cartographic transformations. Converts from
+longitude, latitude to native map projection x,y coordinates and
+vice versa using PROJ (<a class="reference external" href="https://proj.org">https://proj.org</a>).</p>
 <dl class="attribute">
 <dt id="pyproj.proj.Proj.srs">
 <code class="sig-name descname">srs</code><a class="headerlink" href="#pyproj.proj.Proj.srs" title="Permalink to this definition">¶</a></dt>
@@ -235,27 +217,43 @@ sequences and scalars.</p>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.__call__">
-<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span> &#x2192; Tuple[Any, Any]<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param">longitude: Any</em>, <em class="sig-param">latitude: Any</em>, <em class="sig-param">inverse: bool = False</em>, <em class="sig-param">errcheck: bool = False</em><span class="sig-paren">)</span> &#x2192; Tuple[Any, Any]<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calling a Proj class instance with the arguments lon, lat will
 convert lon/lat (in degrees) to x/y native map projection
-coordinates (in meters).  If optional keyword ‘inverse’ is True
-(default is False), the inverse transformation from x/y to
-lon/lat is performed. If optional keyword ‘errcheck’ is True (default is
-False) an exception is raised if the transformation is invalid.
-If errcheck=False and the transformation is invalid, no
-exception is raised and ‘inf’ is returned.</p>
+coordinates (in meters).</p>
 <p>Inputs should be doubles (they will be cast to doubles if they
 are not, causing a slight performance hit).</p>
 <p>Works with numpy and regular python array objects, python
 sequences and scalars, but is fastest for array objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>longitude</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input longitude coordinate(s).</p></li>
+<li><p><strong>latitude</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input latitude coordinate(s).</p></li>
+<li><p><strong>inverse</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If inverse is True the inverse transformation from x/y to
+lon/lat is performed. Default is False.</p></li>
+<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the errors are found in the process.
+By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transformed coordinates.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, Any]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyproj.proj.Proj.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">projparams: Any = None</em>, <em class="sig-param">preserve_units: bool = True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>initialize a Proj class instance.</p>
-<p>See the PROJ documentation (<a class="reference external" href="https://proj.org">https://proj.org</a>)
-for more information about projection parameters.</p>
+<dd><p>A Proj class instance is initialized with proj map projection
+control parameter key/value pairs. The key/value pairs can
+either be passed in a dictionary, or as keyword arguments,
+or as a PROJ string (compatible with the proj command). See
+<a class="reference external" href="https://proj.org/operations/projections/index.html">https://proj.org/operations/projections/index.html</a> for examples of
+key/value pairs defining different map projections.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -336,7 +334,7 @@ coordinate.</p>
 <li><p><strong>latitude</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input latitude coordinate(s).</p></li>
 <li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians.
 Default is False (degrees).</p></li>
-<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If True an exception is raised if the errors are found in the process.
+<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the errors are found in the process.
 By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned.</p></li>
 </ul>
 </dd>
