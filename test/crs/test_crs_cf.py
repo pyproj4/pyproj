@@ -73,6 +73,8 @@ def test_to_cf_transverse_mercator():
         "false_easting": 2520000.0,
         "false_northing": 0.0,
         "scale_factor_at_central_meridian": 0.9996,
+        "geographic_crs_name": "unknown",
+        "projected_crs_name": "unknown",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("BOUNDCRS[")
@@ -129,6 +131,9 @@ def test_from_cf_transverse_mercator(towgs84_test):
         "false_easting": 2520000.0,
         "false_northing": 0.0,
         "scale_factor_at_central_meridian": 1.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
+        "horizontal_datum_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("BOUNDCRS[")
@@ -154,6 +159,8 @@ def test_cf_from_latlon():
         "longitude_of_prime_meridian": 0.0,
         "prime_meridian_name": "Greenwich",
         "grid_mapping_name": "latitude_longitude",
+        "geographic_crs_name": "undefined",
+        "reference_ellipsoid_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
@@ -253,6 +260,7 @@ def test_cf_rotated_latlon():
         "grid_north_pole_latitude": 32.5,
         "grid_north_pole_longitude": 170.0,
         "north_pole_grid_longitude": 0.0,
+        "geographic_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
@@ -324,6 +332,8 @@ def test_cf_lambert_conformal_conic_1sp():
         "false_easting": 0.0,
         "false_northing": 0.0,
         "standard_parallel": 25.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -372,6 +382,8 @@ def test_cf_lambert_conformal_conic_2sp(standard_parallel):
         "longitude_of_central_meridian": 265.0,
         "false_easting": 0.0,
         "false_northing": 0.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -422,6 +434,9 @@ def test_oblique_mercator():
         "scale_factor_at_projection_origin": 1.0,
         "false_easting": 0.0,
         "false_northing": 0.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
+        "horizontal_datum_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -494,6 +509,8 @@ def test_geos_crs_sweep():
         "longitude_of_projection_origin": 0.0,
         "false_easting": 0.0,
         "false_northing": 0.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -525,6 +542,8 @@ def test_geos_crs_fixed_angle_axis():
         "longitude_of_projection_origin": 0.0,
         "false_easting": 0.0,
         "false_northing": 0.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -548,6 +567,10 @@ def test_geos_proj_string():
         "longitude_of_projection_origin": 0.0,
         "false_easting": 0.0,
         "false_northing": 0.0,
+        "geographic_crs_name": "unknown",
+        "horizontal_datum_name": "unknown",
+        "projected_crs_name": "unknown",
+        "reference_ellipsoid_name": "unknown",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -587,6 +610,8 @@ def test_mercator_b():
         "longitude_of_projection_origin": 10.0,
         "false_easting": 0.0,
         "false_northing": 0.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     with pytest.warns(UserWarning):
         assert crs.to_dict() == {
@@ -811,6 +836,8 @@ def test_lambert_azimuthal_equal_area():
         "longitude_of_projection_origin": 2.0,
         "false_easting": 3.0,
         "false_northing": 4.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -834,6 +861,8 @@ def test_lambert_cylindrical_equal_area():
         "longitude_of_central_meridian": 2.0,
         "false_easting": 3.0,
         "false_northing": 4.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -858,6 +887,8 @@ def test_mercator_a():
         "false_easting": 3.0,
         "false_northing": 4.0,
         "scale_factor_at_projection_origin": 1.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -881,6 +912,8 @@ def test_orthographic():
         "longitude_of_projection_origin": 2.0,
         "false_easting": 3.0,
         "false_northing": 4.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -905,6 +938,8 @@ def test_polar_stereographic_a():
         "false_easting": 2.0,
         "false_northing": 3.0,
         "scale_factor_at_projection_origin": 1.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -928,6 +963,8 @@ def test_polar_stereographic_b():
         "straight_vertical_longitude_from_pole": 1.0,
         "false_easting": 2.0,
         "false_northing": 3.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -952,6 +989,8 @@ def test_stereographic():
         "false_easting": 2.0,
         "false_northing": 3.0,
         "scale_factor_at_projection_origin": 1.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -974,6 +1013,8 @@ def test_sinusoidal():
         "longitude_of_projection_origin": 0.0,
         "false_easting": 1.0,
         "false_northing": 2.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
@@ -998,6 +1039,8 @@ def test_vertical_perspective():
         "longitude_of_projection_origin": 1.0,
         "false_easting": 2.0,
         "false_northing": 3.0,
+        "geographic_crs_name": "undefined",
+        "projected_crs_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")

@@ -580,7 +580,6 @@ class CRS(_CRS):
             CF-1.8 version of the projection.
 
         """
-        unknown_names = ("unknown", "undefined")
         cf_dict = {"crs_wkt": self.to_wkt(wkt_version)}  # type: Dict[str, Any]
 
         # handle bound CRS
@@ -608,7 +607,7 @@ class CRS(_CRS):
             vert_json = self.to_json_dict()
             if "geoid_model" in vert_json:
                 cf_dict["geoid_name"] = vert_json["geoid_model"]["name"]
-            if self.datum and self.datum.name not in unknown_names:
+            if self.datum:
                 cf_dict["geopotential_datum_name"] = self.datum.name
             return cf_dict
 
@@ -619,15 +618,13 @@ class CRS(_CRS):
                 semi_minor_axis=self.ellipsoid.semi_minor_metre,
                 inverse_flattening=self.ellipsoid.inverse_flattening,
             )
-            if self.ellipsoid.name not in unknown_names:
-                cf_dict["reference_ellipsoid_name"] = self.ellipsoid.name
+            cf_dict["reference_ellipsoid_name"] = self.ellipsoid.name
         if self.prime_meridian:
             cf_dict["longitude_of_prime_meridian"] = self.prime_meridian.longitude
-            if self.prime_meridian.name not in unknown_names:
-                cf_dict["prime_meridian_name"] = self.prime_meridian.name
+            cf_dict["prime_meridian_name"] = self.prime_meridian.name
 
         # handle geographic CRS
-        if self.geodetic_crs and self.geodetic_crs.name not in unknown_names:
+        if self.geodetic_crs:
             cf_dict["geographic_crs_name"] = self.geodetic_crs.name
 
         if self.is_geographic:
@@ -637,20 +634,19 @@ class CRS(_CRS):
                         self.coordinate_operation.method_name.lower()
                     ](self.coordinate_operation)
                 )
-                if self.datum and self.datum.name not in unknown_names:
+                if self.datum:
                     cf_dict["horizontal_datum_name"] = self.datum.name
             else:
                 cf_dict["grid_mapping_name"] = "latitude_longitude"
             return cf_dict
 
         # handle projected CRS
-        if self.is_projected and self.datum and self.datum.name not in unknown_names:
+        if self.is_projected and self.datum:
             cf_dict["horizontal_datum_name"] = self.datum.name
         coordinate_operation = None
         if not self.is_bound and self.is_projected:
             coordinate_operation = self.coordinate_operation
-            if self.name not in unknown_names:
-                cf_dict["projected_crs_name"] = self.name
+            cf_dict["projected_crs_name"] = self.name
         coordinate_operation_name = (
             None
             if not coordinate_operation
@@ -700,6 +696,7 @@ class CRS(_CRS):
         -------
         CRS
         """
+        unknown_names = ("unknown", "undefined")
         if "crs_wkt" in in_cf:
             return CRS(in_cf["crs_wkt"])
         elif "spatial_ref" in in_cf:  # for previous supported WKT key
@@ -725,7 +722,7 @@ class CRS(_CRS):
             geographic_crs = GeographicCRS(
                 name=geographic_crs_name or "undefined", datum=datum,
             )  # type: CRS
-        elif geographic_crs_name:
+        elif geographic_crs_name and geographic_crs_name not in unknown_names:
             geographic_crs = CRS(geographic_crs_name)
         else:
             geographic_crs = GeographicCRS()
