@@ -3,7 +3,8 @@ Change Log
 
 2.6.1
 ~~~~~
-* BUG: Allow geographic_crs_name to be added to cf (issue #585)
+* BUG: Allow `*_name` to be added in CRS.to_cf (issue #585)
+* BUG: Fix building prime meridian in :meth:`pyproj.crs.CRS.from_cf` (pull #588)
 
 2.6.0
 ~~~~~
