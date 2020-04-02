@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2.6.1
+~~~~~
+* BUG: Allow geographic_crs_name to be added to cf (issue #585)
+
 2.6.0
 ~~~~~
 * ENH: Added :meth:`pyproj.proj.Proj.get_factors` (issue #503)
