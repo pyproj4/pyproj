@@ -158,7 +158,7 @@ class Proj(_Proj):
         inverse: boolean, optional
             If inverse is True the inverse transformation from x/y to
             lon/lat is performed. Default is False.
-        errcheck: boolean, optional (default False)
+        errcheck: boolean, optional
             If True an exception is raised if the errors are found in the process.
             By default errcheck=False and ``inf`` is returned.
 
@@ -206,7 +206,7 @@ class Proj(_Proj):
         radians: boolean, optional
             If True, will expect input data to be in radians.
             Default is False (degrees).
-        errcheck: boolean, optional (default False)
+        errcheck: boolean, optional
             If True an exception is raised if the errors are found in the process.
             By default errcheck=False and ``inf`` is returned.
 

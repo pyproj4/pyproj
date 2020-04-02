@@ -373,7 +373,7 @@ class Transformer:
             If True, will expect input data to be in radians and will return radians
             if the projection is geographic. Default is False (degrees). Ignored for
             pipeline transformations.
-        errcheck: boolean, optional (default False)
+        errcheck: boolean, optional
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation
             returns ``inf`` and no exception is raised.
@@ -487,7 +487,7 @@ class Transformer:
             If True, will expect input data to be in radians and will return radians
             if the projection is geographic. Default is False (degrees). Ignored for
             pipeline transformations.
-        errcheck: boolean, optional (default False)
+        errcheck: boolean, optional
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation
             returns ``inf`` and no exception is raised.
