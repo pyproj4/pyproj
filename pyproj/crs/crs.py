@@ -44,9 +44,9 @@ def _prepare_from_dict(projparams: dict, allow_json: bool = True) -> str:
         if isinstance(value, (list, tuple)):
             value = ",".join([str(val) for val in value])
         # issue 183 (+ no_rot)
-        if value is None or value is True:
+        if value is None or str(value) == "True":
             pjargs.append("+{key}".format(key=key))
-        elif str(value) == str(False):
+        elif str(value) == "False":
             pass
         else:
             pjargs.append("+{key}={value}".format(key=key, value=value))
