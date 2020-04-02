@@ -29,30 +29,9 @@ pj_list = get_proj_operations_map()
 
 class Proj(_Proj):
     """
-    Performs cartographic transformations (converts from
-    longitude,latitude to native map projection x,y coordinates and
-    vice versa) using PROJ (https://proj.org).
-
-    A Proj class instance is initialized with proj map projection
-    control parameter key/value pairs. The key/value pairs can
-    either be passed in a dictionary, or as keyword arguments,
-    or as a PROJ string (compatible with the proj command). See
-    https://proj.org/operations/projections/index.html for examples of
-    key/value pairs defining different map projections.
-
-    Calling a Proj class instance with the arguments lon, lat will
-    convert lon/lat (in degrees) to x/y native map projection
-    coordinates (in meters).  If optional keyword 'inverse' is True
-    (default is False), the inverse transformation from x/y to
-    lon/lat is performed. If optional keyword 'errcheck' is True (default is
-    False) an exception is raised if the transformation is invalid.
-    If errcheck=False and the transformation is invalid, no
-    exception is raised and 'inf' is returned. If the optional keyword
-    'preserve_units' is True, the units in map projection coordinates
-    are not forced to be meters.
-
-    Works with numpy and regular python array objects, python
-    sequences and scalars.
+    Performs cartographic transformations. Converts from
+    longitude, latitude to native map projection x,y coordinates and
+    vice versa using PROJ (https://proj.org).
 
     Attributes
     ----------
@@ -67,10 +46,12 @@ class Proj(_Proj):
         self, projparams: Any = None, preserve_units: bool = True, **kwargs
     ) -> None:
         """
-        initialize a Proj class instance.
-
-        See the PROJ documentation (https://proj.org)
-        for more information about projection parameters.
+        A Proj class instance is initialized with proj map projection
+        control parameter key/value pairs. The key/value pairs can
+        either be passed in a dictionary, or as keyword arguments,
+        or as a PROJ string (compatible with the proj command). See
+        https://proj.org/operations/projections/index.html for examples of
+        key/value pairs defining different map projections.
 
         Parameters
         ----------
@@ -150,30 +131,45 @@ class Proj(_Proj):
         projstring = re.sub(r"\s\+?type=crs", "", projstring)
         super().__init__(cstrencode(projstring.strip()))
 
-    def __call__(self, *args, **kw) -> Tuple[Any, Any]:
-        # ,lon,lat,inverse=False,errcheck=False):
+    def __call__(
+        self,
+        longitude: Any,
+        latitude: Any,
+        inverse: bool = False,
+        errcheck: bool = False,
+    ) -> Tuple[Any, Any]:
         """
         Calling a Proj class instance with the arguments lon, lat will
         convert lon/lat (in degrees) to x/y native map projection
-        coordinates (in meters).  If optional keyword 'inverse' is True
-        (default is False), the inverse transformation from x/y to
-        lon/lat is performed. If optional keyword 'errcheck' is True (default is
-        False) an exception is raised if the transformation is invalid.
-        If errcheck=False and the transformation is invalid, no
-        exception is raised and 'inf' is returned.
+        coordinates (in meters).
 
         Inputs should be doubles (they will be cast to doubles if they
         are not, causing a slight performance hit).
 
         Works with numpy and regular python array objects, python
         sequences and scalars, but is fastest for array objects.
+
+        Parameters
+        ----------
+        longitude: scalar or array (numpy or python)
+            Input longitude coordinate(s).
+        latitude: scalar or array (numpy or python)
+            Input latitude coordinate(s).
+        inverse: boolean, optional
+            If inverse is True the inverse transformation from x/y to
+            lon/lat is performed. Default is False.
+        errcheck: boolean, optional
+            If True an exception is raised if the errors are found in the process.
+            By default errcheck=False and ``inf`` is returned.
+
+        Returns
+        -------
+        Tuple[Any, Any]:
+            The transformed coordinates.
         """
-        inverse = kw.get("inverse", False)
-        errcheck = kw.get("errcheck", False)
-        lon, lat = args
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lon)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lat)
+        inx, xisfloat, xislist, xistuple = _copytobuffer(longitude)
+        iny, yisfloat, yislist, yistuple = _copytobuffer(latitude)
         # call PROJ functions. inx and iny modified in place.
         if inverse:
             self._inv(inx, iny, errcheck=errcheck)
@@ -210,7 +206,7 @@ class Proj(_Proj):
         radians: boolean, optional
             If True, will expect input data to be in radians.
             Default is False (degrees).
-        errcheck: boolean, optional (default False)
+        errcheck: boolean, optional
             If True an exception is raised if the errors are found in the process.
             By default errcheck=False and ``inf`` is returned.
 
