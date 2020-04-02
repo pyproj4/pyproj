@@ -486,10 +486,19 @@ def test_get_factors__errcheck():
         transformer.get_factors(longitude=40, latitude=70, errcheck=True, radians=True)
 
 
-def test_numpy_bool_kwarg():
-    # Issue 546
+def test_numpy_bool_kwarg_false():
+    # Issue 564
     south = np.array(50) < 0
     proj = Proj(
         proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
     )
     assert "south" not in proj.srs
+
+
+def test_numpy_bool_kwarg_true():
+    # Issue 564
+    south = np.array(50) > 0
+    proj = Proj(
+        proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
+    )
+    assert "+south " in proj.srs

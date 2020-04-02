@@ -1,6 +1,7 @@
 import json
 from distutils.version import LooseVersion
 
+import numpy
 import pytest
 
 from pyproj import CRS, Transformer, proj_version_str
@@ -1280,3 +1281,21 @@ def test_utm_zone(crs_input):
 @pytest.mark.parametrize("crs_input", ["+proj=tmerc", "epsg:4326"])
 def test_utm_zone__none(crs_input):
     assert CRS(crs_input).utm_zone is None
+
+
+def test_numpy_bool_kwarg_false():
+    # Issue 564
+    south = numpy.array(50) < 0
+    crs = CRS(
+        proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
+    )
+    assert "south" not in crs.srs
+
+
+def test_numpy_bool_kwarg_true():
+    # Issue 564
+    south = numpy.array(50) > 0
+    crs = CRS(
+        proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
+    )
+    assert "+south " in crs.srs
