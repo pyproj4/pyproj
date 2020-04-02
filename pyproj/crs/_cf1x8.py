@@ -53,9 +53,9 @@ def _horizontal_datum_from_params(cf_params):
     prime_meridian = None
     prime_meridian_name = cf_params.get("prime_meridian_name")
     try:
-        ellipsoid = CustomPrimeMeridian(
+        prime_meridian = CustomPrimeMeridian(
             name=prime_meridian_name or "undefined",
-            longitude=cf_params["prime_meridian_longitude"],
+            longitude=cf_params["longitude_of_prime_meridian"],
         )
     except KeyError:
         if prime_meridian_name:
