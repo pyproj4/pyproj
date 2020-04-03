@@ -291,7 +291,8 @@
       "contributions": [
         "platform",
         "question",
-        "bug"
+        "bug",
+        "test"
       ]
     },
     {
