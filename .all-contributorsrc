@@ -24,7 +24,8 @@
         "review",
         "question",
         "maintenance",
-        "infra"
+        "infra",
+        "bug"
       ]
     },
     {
