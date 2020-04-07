@@ -30,6 +30,9 @@ matrix:
     - python: 3.6
     - python: 3.6
       env:
+        - PROJ_NETWORK=ON
+    - python: 3.6
+      env:
         - PROJSOURCE=6.2.0
     - python: 3.6
       env:

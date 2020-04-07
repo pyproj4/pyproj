@@ -1,28 +1,16 @@
 import os
-import shutil
-import tempfile
+from pathlib import Path
 
-import pytest
-
-import pyproj
+from pyproj.datadir import get_data_dir
 
 
-@pytest.fixture(scope="session")
-def aoi_data_directory():
+def grids_available(*grid_names):
     """
-    This is to ensure that the ntv2_0.gsb file is actually
-    missing for the AOI tests.
+    Check if the grids are available
     """
-    data_dir = pyproj.datadir.get_data_dir()
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmp_data_dir = os.path.join(tmpdir, "proj")
-        shutil.copytree(data_dir, tmp_data_dir)
-        try:
-            os.remove(os.path.join(str(tmp_data_dir), "ntv2_0.gsb"))
-        except OSError:
-            pass
-        try:
-            pyproj.datadir.set_data_dir(str(tmp_data_dir))
-            yield
-        finally:
-            pyproj.datadir.set_data_dir(data_dir)
+    if os.environ.get("PROJ_NETWORK") == "ON":
+        return True
+    for grid_name in grid_names:
+        if Path(get_data_dir(), grid_name).exists():
+            return True
+    return False

@@ -68,16 +68,6 @@ class TransformerGroup(_TransformerGroup):
             The area of interest to help order the transformations based on the
             best operation for the area.
 
-
-        Example:
-
-        >>> from pyproj.transformer import TransformerGroup
-        >>> trans_group = TransformerGroup(4326, 2964)
-        >>> trans_group
-        <TransformerGroup: best_available=True>
-        - transformers: 8
-        - unavailable_operations: 1
-
         """
         super().__init__(
             CRS.from_user_input(crs_from),
