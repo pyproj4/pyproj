@@ -1136,7 +1136,7 @@ class StereographicConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        longitude_natural_origin: float, optional
+        latitude_natural_origin: float, optional
             Latitude of natural origin (lat_0). Defaults to 0.0.
         longitude_natural_origin: float, optional
             Longitude of natural origin (lon_0). Defaults to 0.0.
