@@ -197,9 +197,9 @@
 <span id="id1"></span><h1>CRS<a class="headerlink" href="#crs" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
 <h2>CRS<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="pyproj.crs.CRS">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CRS</code><span class="sig-paren">(</span><em class="sig-param">projparams: Any = None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CRS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS" title="Permalink to this definition">¶</a></dt>
 <dd><p>A pythonic Coordinate Reference System manager.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.0.0.</span></p>
@@ -209,7 +209,7 @@
 <li><p><a class="reference external" href="https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx">rasterio</a>  # noqa: E501</p></li>
 <li><p><a class="reference external" href="https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py">opendatacube</a>  # noqa: E501</p></li>
 </ul>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.srs">
 <code class="sig-name descname">srs</code><a class="headerlink" href="#pyproj.crs.CRS.srs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The string form of the user input used to create the CRS.</p>
@@ -220,7 +220,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.CRS.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the CRS (from <a class="reference external" href="https://proj.org/development/reference/functions.html#_CPPv313proj_get_namePK2PJ">proj_get_name</a>).</p>
@@ -231,7 +231,7 @@
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.type_name">
 <code class="sig-name descname">type_name</code><a class="headerlink" href="#pyproj.crs.CRS.type_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the type of the CRS object.</p>
@@ -242,9 +242,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">projparams: Any = None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
 <li><p>PROJ string</p></li>
@@ -386,14 +386,14 @@
 </div>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.area_of_use">
 <code class="sig-name descname">area_of_use</code><a class="headerlink" href="#pyproj.crs.CRS.area_of_use" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: The area of use object with associated attributes.
 :rtype: AreaOfUse</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.axis_info">
 <code class="sig-name descname">axis_info</code><a class="headerlink" href="#pyproj.crs.CRS.axis_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves all relevant axis information in the CRS.
@@ -409,7 +409,7 @@ If it is a Compound CRS, it gets the axis list from the Sub CRS list.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.coordinate_operation">
 <code class="sig-name descname">coordinate_operation</code><a class="headerlink" href="#pyproj.crs.CRS.coordinate_operation" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -425,7 +425,7 @@ If it is a Compound CRS, it gets the axis list from the Sub CRS list.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.coordinate_system">
 <code class="sig-name descname">coordinate_system</code><a class="headerlink" href="#pyproj.crs.CRS.coordinate_system" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -441,7 +441,7 @@ If it is a Compound CRS, it gets the axis list from the Sub CRS list.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.datum">
 <code class="sig-name descname">datum</code><a class="headerlink" href="#pyproj.crs.CRS.datum" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -457,7 +457,7 @@ If it is a Compound CRS, it gets the axis list from the Sub CRS list.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.ellipsoid">
 <code class="sig-name descname">ellipsoid</code><a class="headerlink" href="#pyproj.crs.CRS.ellipsoid" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -473,9 +473,9 @@ If it is a Compound CRS, it gets the axis list from the Sub CRS list.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.equals">
-<code class="sig-name descname">equals</code><span class="sig-paren">(</span><em class="sig-param">other: Any</em>, <em class="sig-param">ignore_axis_order: bool = False</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.equals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.equals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">equals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">ignore_axis_order</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.equals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.equals" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -499,9 +499,9 @@ Default is False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_authority">
-<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">auth_name: str, code: Union[str, int]</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">code</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -522,9 +522,9 @@ Default is False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_cf">
-<em class="property">static </em><code class="sig-name descname">from_cf</code><span class="sig-paren">(</span><em class="sig-param">in_cf: dict</em>, <em class="sig-param">errcheck=False</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_cf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_cf</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -553,9 +553,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_dict">
-<em class="property">static </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">proj_dict: dict</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_dict</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -573,9 +573,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_epsg">
-<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code: Union[str, int]</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_epsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_epsg" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_epsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from an EPSG code</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -590,9 +590,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_json">
-<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param">crs_json: str</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_json" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_json</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_json" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -610,9 +610,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_json_dict">
-<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param">crs_dict: dict</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_json_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_dict</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_json_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -630,9 +630,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_proj4">
-<em class="property">static </em><code class="sig-name descname">from_proj4</code><span class="sig-paren">(</span><em class="sig-param">in_proj_string: str</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_proj4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_proj4" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_proj4</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_proj_string</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_proj4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_proj4" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -650,9 +650,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_string">
-<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">in_crs_string: str</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_crs_string</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a CRS from:</p>
 <dl class="simple">
 <dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
@@ -676,9 +676,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_user_input">
-<em class="property">static </em><code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">value: Any</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_user_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_user_input" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_user_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_user_input" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Initialize a CRS class instance with:</dt><dd><ul class="simple">
 <li><p>PROJ string</p></li>
@@ -707,9 +707,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.from_wkt">
-<em class="property">static </em><code class="sig-name descname">from_wkt</code><span class="sig-paren">(</span><em class="sig-param">in_wkt_string: str</em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_wkt" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_wkt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_wkt_string</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -727,7 +727,7 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.geodetic_crs">
 <em class="property">property </em><code class="sig-name descname">geodetic_crs</code><a class="headerlink" href="#pyproj.crs.CRS.geodetic_crs" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -743,9 +743,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.get_geod">
-<code class="sig-name descname">get_geod</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Optional[pyproj.geod.Geod]<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.get_geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.get_geod" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_geod</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>pyproj.geod.Geod<span class="p">]</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.get_geod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.get_geod" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Geod object based on the ellipsoid.</p>
@@ -756,14 +756,14 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.is_bound">
 <code class="sig-name descname">is_bound</code><a class="headerlink" href="#pyproj.crs.CRS.is_bound" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: True if CRS is bound.
 :rtype: bool</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.is_engineering">
 <code class="sig-name descname">is_engineering</code><a class="headerlink" href="#pyproj.crs.CRS.is_engineering" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -779,9 +779,9 @@ It currently does nothing when True or False.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.is_exact_same">
-<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param">other: Any</em>, <em class="sig-param">ignore_axis_order: bool = False</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.is_exact_same"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">ignore_axis_order</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.is_exact_same"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.is_exact_same" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the CRS objects are the exact same.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -798,7 +798,7 @@ On Failure, it will return False.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.is_geocentric">
 <code class="sig-name descname">is_geocentric</code><a class="headerlink" href="#pyproj.crs.CRS.is_geocentric" title="Permalink to this definition">¶</a></dt>
 <dd><p>This checks if the CRS is geocentric and
@@ -813,7 +813,7 @@ takes into account if the CRS is bound.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.is_geographic">
 <code class="sig-name descname">is_geographic</code><a class="headerlink" href="#pyproj.crs.CRS.is_geographic" title="Permalink to this definition">¶</a></dt>
 <dd><p>This checks if the CRS is geographic.
@@ -830,7 +830,7 @@ the source CRS is geographic if it is a bound CRS.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.is_projected">
 <code class="sig-name descname">is_projected</code><a class="headerlink" href="#pyproj.crs.CRS.is_projected" title="Permalink to this definition">¶</a></dt>
 <dd><p>This checks if the CRS is projected.
@@ -847,7 +847,7 @@ the source CRS is projected if it is a bound CRS.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.is_vertical">
 <code class="sig-name descname">is_vertical</code><a class="headerlink" href="#pyproj.crs.CRS.is_vertical" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -867,7 +867,7 @@ the source CRS is vertical if it is a bound CRS.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.prime_meridian">
 <code class="sig-name descname">prime_meridian</code><a class="headerlink" href="#pyproj.crs.CRS.prime_meridian" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -883,7 +883,7 @@ the source CRS is vertical if it is a bound CRS.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.remarks">
 <code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.CRS.remarks" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -899,7 +899,7 @@ the source CRS is vertical if it is a bound CRS.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj.crs.CRS.scope">
 <code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.CRS.scope" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -915,7 +915,7 @@ the source CRS is vertical if it is a bound CRS.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.source_crs">
 <em class="property">property </em><code class="sig-name descname">source_crs</code><a class="headerlink" href="#pyproj.crs.CRS.source_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
@@ -930,7 +930,7 @@ or the source CRS of a CoordinateOperation.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.sub_crs_list">
 <em class="property">property </em><code class="sig-name descname">sub_crs_list</code><a class="headerlink" href="#pyproj.crs.CRS.sub_crs_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the CRS is a compound CRS, it will return a list of sub CRS objects.</p>
@@ -944,7 +944,7 @@ or the source CRS of a CoordinateOperation.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.target_crs">
 <em class="property">property </em><code class="sig-name descname">target_crs</code><a class="headerlink" href="#pyproj.crs.CRS.target_crs" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -960,9 +960,9 @@ or the source CRS of a CoordinateOperation.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_authority">
-<code class="sig-name descname">to_authority</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">auth_name=None</em>, <em class="sig-param">min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_authority" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_confidence</span><span class="o">=</span><span class="default_value">70</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_authority" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -1003,7 +1003,7 @@ the source CRS:</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_cf">
 <code class="sig-name descname">to_cf</code><span class="sig-paren">(</span><em class="sig-param">wkt_version: Union[pyproj.enums.WktVersion</em>, <em class="sig-param">str] = &lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">errcheck: bool = False</em><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_cf" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -1034,7 +1034,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_dict">
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -1057,9 +1057,9 @@ another format. See: <a class="reference external" href="https://proj.org/faq.ht
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_epsg">
-<code class="sig-name descname">to_epsg</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">min_confidence=70</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_epsg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">min_confidence</span><span class="o">=</span><span class="default_value">70</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the EPSG code best matching the CRS
 or None if it a match is not found.</p>
 <p>Example:</p>
@@ -1094,9 +1094,9 @@ the source CRS:</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_json">
-<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pretty=False</em>, <em class="sig-param">indentation=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">pretty</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indentation</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1117,9 +1117,9 @@ the source CRS:</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_json_dict">
-<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1134,9 +1134,9 @@ the source CRS:</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_proj4">
-<code class="sig-name descname">to_proj4</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=ProjVersion.PROJ_4</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_proj4" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_proj4</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">version</span><span class="o">=</span><span class="default_value">ProjVersion.PROJ_4</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_proj4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a PROJ string.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1159,7 +1159,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.ProjVe
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_string">
 <code class="sig-name descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -1179,9 +1179,9 @@ input to create the CRS.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.to_wkt">
-<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">version=WktVersion.WKT2_2019</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">version</span><span class="o">=</span><span class="default_value">WktVersion.WKT2_2019</span></em>, <em class="sig-param"><span class="n">pretty</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
@@ -1211,7 +1211,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CRS.utm_zone">
 <em class="property">property </em><code class="sig-name descname">utm_zone</code><a class="headerlink" href="#pyproj.crs.CRS.utm_zone" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -1233,17 +1233,17 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 </div>
 <div class="section" id="geographiccrs">
 <h2>GeographicCRS<a class="headerlink" href="#geographiccrs" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="pyproj.crs.GeographicCRS">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">GeographicCRS</code><span class="sig-paren">(</span><em class="sig-param">name: str = 'undefined'</em>, <em class="sig-param">datum: Any = 'urn:ogc:def:datum:EPSG::6326'</em>, <em class="sig-param">ellipsoidal_cs: Any = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#GeographicCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.GeographicCRS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">GeographicCRS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'undefined'</span></em>, <em class="sig-param"><span class="n">datum</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">'urn:ogc:def:datum:EPSG::6326'</span></em>, <em class="sig-param"><span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#GeographicCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.GeographicCRS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.crs.CRS</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
 <p>This class is for building a Geographic CRS</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.GeographicCRS.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name: str = 'undefined'</em>, <em class="sig-param">datum: Any = 'urn:ogc:def:datum:EPSG::6326'</em>, <em class="sig-param">ellipsoidal_cs: Any = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#GeographicCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.GeographicCRS.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'undefined'</span></em>, <em class="sig-param"><span class="n">datum</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">'urn:ogc:def:datum:EPSG::6326'</span></em>, <em class="sig-param"><span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#GeographicCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.GeographicCRS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1263,17 +1263,17 @@ or an Ellipsoidal Coordinate System created from <a class="reference internal" h
 </div>
 <div class="section" id="derivedgeographiccrs">
 <h2>DerivedGeographicCRS<a class="headerlink" href="#derivedgeographiccrs" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="pyproj.crs.DerivedGeographicCRS">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">DerivedGeographicCRS</code><span class="sig-paren">(</span><em class="sig-param">base_crs: Any</em>, <em class="sig-param">conversion: Any</em>, <em class="sig-param">ellipsoidal_cs: Any = None</em>, <em class="sig-param">name: str = 'undefined'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#DerivedGeographicCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.DerivedGeographicCRS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">DerivedGeographicCRS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_crs</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'undefined'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#DerivedGeographicCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.DerivedGeographicCRS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.crs.CRS</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
 <p>This class is for building a Derived Geographic CRS</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.DerivedGeographicCRS.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">base_crs: Any</em>, <em class="sig-param">conversion: Any</em>, <em class="sig-param">ellipsoidal_cs: Any = None</em>, <em class="sig-param">name: str = 'undefined'</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#DerivedGeographicCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.DerivedGeographicCRS.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_crs</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'undefined'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#DerivedGeographicCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.DerivedGeographicCRS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1295,17 +1295,17 @@ or an Ellipsoidal Coordinate System created from <a class="reference internal" h
 </div>
 <div class="section" id="projectedcrs">
 <h2>ProjectedCRS<a class="headerlink" href="#projectedcrs" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="pyproj.crs.ProjectedCRS">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">ProjectedCRS</code><span class="sig-paren">(</span><em class="sig-param">conversion: Any</em>, <em class="sig-param">name: str = 'undefined'</em>, <em class="sig-param">cartesian_cs: Any = None</em>, <em class="sig-param">geodetic_crs: Any = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#ProjectedCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.ProjectedCRS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">ProjectedCRS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'undefined'</span></em>, <em class="sig-param"><span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">geodetic_crs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#ProjectedCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.ProjectedCRS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.crs.CRS</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
 <p>This class is for building a Projected CRS.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.ProjectedCRS.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">conversion: Any</em>, <em class="sig-param">name: str = 'undefined'</em>, <em class="sig-param">cartesian_cs: Any = None</em>, <em class="sig-param">geodetic_crs: Any = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#ProjectedCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.ProjectedCRS.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'undefined'</span></em>, <em class="sig-param"><span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">geodetic_crs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#ProjectedCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.ProjectedCRS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1327,9 +1327,9 @@ anything accepted by <a class="reference internal" href="#pyproj.crs.CRS.from_us
 </div>
 <div class="section" id="verticalcrs">
 <h2>VerticalCRS<a class="headerlink" href="#verticalcrs" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="pyproj.crs.VerticalCRS">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">VerticalCRS</code><span class="sig-paren">(</span><em class="sig-param">name: str</em>, <em class="sig-param">datum: Any</em>, <em class="sig-param">vertical_cs: Any = None</em>, <em class="sig-param">geoid_model: Optional[str] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#VerticalCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.VerticalCRS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">VerticalCRS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">datum</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">geoid_model</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#VerticalCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.VerticalCRS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.crs.CRS</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1339,9 +1339,9 @@ anything accepted by <a class="reference internal" href="#pyproj.crs.CRS.from_us
 <p class="admonition-title">Warning</p>
 <p>geoid_model support only exists in PROJ &gt;= 6.3.0</p>
 </div>
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.VerticalCRS.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name: str</em>, <em class="sig-param">datum: Any</em>, <em class="sig-param">vertical_cs: Any = None</em>, <em class="sig-param">geoid_model: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#VerticalCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.VerticalCRS.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">datum</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">geoid_model</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#VerticalCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.VerticalCRS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1361,17 +1361,17 @@ or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordin
 </div>
 <div class="section" id="boundcrs">
 <h2>BoundCRS<a class="headerlink" href="#boundcrs" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="pyproj.crs.BoundCRS">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">BoundCRS</code><span class="sig-paren">(</span><em class="sig-param">source_crs: Any</em>, <em class="sig-param">target_crs: Any</em>, <em class="sig-param">transformation: Any</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#BoundCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.BoundCRS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">BoundCRS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source_crs</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">target_crs</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">transformation</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#BoundCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.BoundCRS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.crs.CRS</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
 <p>This class is for building a Bound CRS.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.BoundCRS.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">source_crs: Any</em>, <em class="sig-param">target_crs: Any</em>, <em class="sig-param">transformation: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#BoundCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.BoundCRS.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source_crs</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">target_crs</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">transformation</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#BoundCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.BoundCRS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1388,17 +1388,17 @@ or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordin
 </div>
 <div class="section" id="compoundcrs">
 <h2>CompoundCRS<a class="headerlink" href="#compoundcrs" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="pyproj.crs.CompoundCRS">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CompoundCRS</code><span class="sig-paren">(</span><em class="sig-param">name: str, components: List[Any]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CompoundCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CompoundCRS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CompoundCRS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">components</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CompoundCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CompoundCRS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.crs.CRS</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
 <p>This class is for building a Compound CRS.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pyproj.crs.CompoundCRS.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name: str, components: List[Any]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CompoundCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CompoundCRS.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">components</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CompoundCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CompoundCRS.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1415,9 +1415,9 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </div>
 <div class="section" id="is-wkt">
 <h2>is_wkt<a class="headerlink" href="#is-wkt" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="pyproj.crs.is_wkt">
-<code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">is_wkt</code><span class="sig-paren">(</span><em class="sig-param">proj_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">is_wkt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.0.0.</span></p>
 </div>
@@ -1438,9 +1438,9 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </div>
 <div class="section" id="is-proj">
 <h2>is_proj<a class="headerlink" href="#is-proj" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="pyproj.crs.is_proj">
-<code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">is_proj</code><span class="sig-paren">(</span><em class="sig-param">proj_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_proj" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">is_proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.is_proj" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.2.</span></p>
 </div>
@@ -1461,14 +1461,14 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </div>
 <div class="section" id="areaofuse">
 <h2>AreaOfUse<a class="headerlink" href="#areaofuse" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="pyproj._crs.AreaOfUse">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">AreaOfUse</code><a class="headerlink" href="#pyproj._crs.AreaOfUse" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.0.0.</span></p>
 </div>
 <p>Area of Use for CRS</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj._crs.AreaOfUse.west">
 <code class="sig-name descname">west</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.west" title="Permalink to this definition">¶</a></dt>
 <dd><p>West bound of area of use.</p>
@@ -1479,7 +1479,7 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj._crs.AreaOfUse.south">
 <code class="sig-name descname">south</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.south" title="Permalink to this definition">¶</a></dt>
 <dd><p>South bound of area of use.</p>
@@ -1490,7 +1490,7 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj._crs.AreaOfUse.east">
 <code class="sig-name descname">east</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.east" title="Permalink to this definition">¶</a></dt>
 <dd><p>East bound of area of use.</p>
@@ -1501,7 +1501,7 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj._crs.AreaOfUse.north">
 <code class="sig-name descname">north</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.north" title="Permalink to this definition">¶</a></dt>
 <dd><p>North bound of area of use.</p>
@@ -1512,7 +1512,7 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="pyproj._crs.AreaOfUse.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#pyproj._crs.AreaOfUse.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of area of use.</p>
