@@ -2,9 +2,9 @@ from distutils.version import LooseVersion
 
 import pytest
 from numpy.testing import assert_almost_equal
-from test.conftest import grids_available
 
 from pyproj import CRS, Proj, proj_version_str, transform
+from test.conftest import grids_available
 
 
 @pytest.mark.parametrize("proj_class", [Proj, CRS])

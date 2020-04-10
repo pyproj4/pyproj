@@ -3,13 +3,13 @@ from distutils.version import LooseVersion
 import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
-from test.conftest import grids_available
 
 import pyproj
 from pyproj import Proj, Transformer, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
+from test.conftest import grids_available
 
 
 def test_tranform_wgs84_to_custom():
@@ -424,28 +424,44 @@ def test_str():
     assert str(Transformer.from_crs(4326, 3857)).startswith("proj=pipeline")
 
 
-def test_repr():
-    assert repr(Transformer.from_crs(7789, 8401)) == (
-        "<Transformation Transformer: helmert>\n"
-        "Description: ITRF2014 to ETRF2014 (1)\n"
-        "Area of Use:\n"
-        "- name: Europe - ETRS89\n"
-        "- bounds: (-16.1, 32.88, 40.18, 84.17)"
-    )
-
-    assert repr(Transformer.from_crs(4326, 3857)) == (
-        "<Conversion Transformer: pipeline>\n"
-        "Description: Popular Visualisation Pseudo-Mercator\n"
-        "Area of Use:\n"
-        "- name: World\n"
-        "- bounds: (-180.0, -90.0, 180.0, 90.0)"
-    )
-
-    assert repr(Transformer.from_crs(4326, 26917)) == (
-        "<Unknown Transformer: unknown>\n"
-        "Description: unavailable until proj_trans is called\n"
-        "Area of Use:\n- undefined"
-    )
+@pytest.mark.parametrize(
+    "from_crs, to_crs, expected_repr",
+    [
+        (
+            7789,
+            8401,
+            (
+                "<Transformation Transformer: helmert>\n"
+                "Description: ITRF2014 to ETRF2014 (1)\n"
+                "Area of Use:\n"
+                "- name: Europe - ETRS89\n"
+                "- bounds: (-16.1, 32.88, 40.18, 84.17)"
+            ),
+        ),
+        (
+            4326,
+            3857,
+            (
+                "<Conversion Transformer: pipeline>\n"
+                "Description: Popular Visualisation Pseudo-Mercator\n"
+                "Area of Use:\n"
+                "- name: World\n"
+                "- bounds: (-180.0, -90.0, 180.0, 90.0)"
+            ),
+        ),
+        (
+            4326,
+            26917,
+            (
+                "<Unknown Transformer: unknown>\n"
+                "Description: unavailable until proj_trans is called\n"
+                "Area of Use:\n- undefined"
+            ),
+        ),
+    ],
+)
+def test_repr(from_crs, to_crs, expected_repr):
+    assert repr(Transformer.from_crs(from_crs, to_crs)) == expected_repr
 
 
 def test_to_json_dict():
