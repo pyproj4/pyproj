@@ -11,7 +11,7 @@ import warnings
 import pyproj
 
 
-def test_doctests(aoi_data_directory):
+def test_doctests():
     """run the examples in the docstrings using the doctest module"""
 
     with warnings.catch_warnings():

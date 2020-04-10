@@ -4,7 +4,7 @@ from distutils.version import LooseVersion
 import numpy
 import pytest
 
-from pyproj import CRS, Transformer, proj_version_str
+from pyproj import CRS, proj_version_str
 from pyproj.crs import (
     CoordinateOperation,
     CoordinateSystem,
@@ -15,6 +15,7 @@ from pyproj.crs import (
 from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
+from pyproj.transformer import TransformerGroup
 
 
 class CustomCRS(object):
@@ -538,11 +539,18 @@ def test_coordinate_operation():
 
 def test_coordinate_operation_grids():
     cc = CoordinateOperation.from_epsg(1312)
-    assert (
-        repr(cc.grids)
-        == "[Grid(short_name=NTv1_0.gsb, full_name=, package_name=, url=, "
-        "direct_download=False, open_license=False, available=False)]"
-    )
+    if not cc.grids[0].full_name:
+        assert (
+            repr(cc.grids)
+            == "[Grid(short_name=NTv1_0.gsb, full_name=, package_name=, url=, "
+            "direct_download=False, open_license=False, available=False)]"
+        )
+    else:
+        assert (
+            repr(cc.grids)
+            == "[Grid(short_name=NTv1_0.gsb, full_name=NTv1_0.gsb, package_name=, "
+            "url=, direct_download=False, open_license=False, available=False)]"
+        )
 
 
 def test_coordinate_operation_grids__alternative_grid_name():
@@ -554,7 +562,9 @@ def test_coordinate_operation_grids__alternative_grid_name():
     assert grid.available is True
     if LooseVersion(proj_version_str) >= LooseVersion("7.0.0"):
         assert grid.short_name == "ca_nrc_ntv1_can.tif"
-        assert grid.full_name.endswith("ntv1_can.dat")
+        assert grid.full_name.endswith("ntv1_can.dat") or grid.full_name.endswith(
+            grid.short_name
+        )
         assert grid.package_name == ""
         assert grid.url == "https://cdn.proj.org/ca_nrc_ntv1_can.tif"
     else:
@@ -1238,13 +1248,14 @@ def test_operations_missing():
 
 
 def test_operations():
-    transformer = Transformer.from_crs(28356, 7856)
+    transformer = TransformerGroup(28356, 7856).transformers[0]
     coord_op = CoordinateOperation.from_string(transformer.to_wkt())
     assert coord_op.operations == transformer.operations
 
 
 def test_operations__scope_remarks():
-    transformer = Transformer.from_crs(28356, 7856)
+
+    transformer = TransformerGroup(28356, 7856).transformers[0]
     coord_op = CoordinateOperation.from_string(transformer.to_wkt())
     assert coord_op.operations == transformer.operations
     # scope does not transfer for some reason
