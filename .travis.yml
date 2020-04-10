@@ -33,6 +33,9 @@ matrix:
         - PROJ_NETWORK=ON
     - python: 3.6
       env:
+        - PROJSYNC=ALL
+    - python: 3.6
+      env:
         - PROJSOURCE=6.2.0
     - python: 3.6
       env:
@@ -111,6 +114,10 @@ before_install:
       ci/travis/proj-dl-and-compile "$PROJSOURCE"
     fi
   - export PROJ_LIB=$PROJ_DIR/share/proj
+  - |
+    if [ "$PROJSYNC" = "ALL" ]; then
+        projsync --all --quiet --system-directory
+    fi
 
 install:
   # coverage report requires a local install
