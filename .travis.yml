@@ -116,7 +116,7 @@ before_install:
   - export PROJ_LIB=$PROJ_DIR/share/proj
   - |
     if [ "$PROJSYNC" = "ALL" ]; then
-        projsync --all --quiet --system-directory
+        $PROJ_DIR/bin/projsync --all --quiet --system-directory
     fi
 
 install:
