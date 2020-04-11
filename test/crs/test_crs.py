@@ -4,7 +4,7 @@ from distutils.version import LooseVersion
 import numpy
 import pytest
 
-from pyproj import CRS, proj_version_str
+from pyproj import CRS, __proj_version__
 from pyproj.crs import (
     CoordinateOperation,
     CoordinateSystem,
@@ -560,7 +560,7 @@ def test_coordinate_operation_grids__alternative_grid_name():
     assert grid.direct_download is True
     assert grid.open_license is True
     assert grid.available is True
-    if LooseVersion(proj_version_str) >= LooseVersion("7.0.0"):
+    if LooseVersion(__proj_version__) >= LooseVersion("7.0.0"):
         assert grid.short_name == "ca_nrc_ntv1_can.tif"
         assert grid.full_name.endswith("ntv1_can.dat") or grid.full_name.endswith(
             grid.short_name
@@ -1197,7 +1197,7 @@ def test_to_dict_no_proj4():
             "proj": "ob_tran",
         }
     )
-    if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
+    if LooseVersion(__proj_version__) >= LooseVersion("6.3.0"):
         with pytest.warns(UserWarning):
             assert crs.to_dict() == {
                 "R": 6371229,

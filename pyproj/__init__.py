@@ -45,7 +45,6 @@ __all__ = [
     "get_units_map",
     "show_versions",
 ]
-
 import warnings
 
 from pyproj import _datadir
@@ -64,6 +63,9 @@ from pyproj.exceptions import DataDirError, ProjError  # noqa: F401
 from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa: F401
 from pyproj.proj import Proj, pj_list, proj_version_str  # noqa: F401
 from pyproj.transformer import Transformer, itransform, transform  # noqa: F401
+
+__proj_version__ = proj_version_str
+
 
 try:
     _datadir.pyproj_global_context_initialize()

@@ -1,7 +1,7 @@
 import pytest
 from numpy.testing import assert_almost_equal
 
-from pyproj import Proj, proj_version_str, transform
+from pyproj import Proj, transform
 
 # illustrates the use of the transform function to
 # perform coordinate transformations with datum shifts.
@@ -33,7 +33,6 @@ with pytest.warns(FutureWarning):
     GAUSSSB_PROJ = Proj(
         init="epsg:3004", towgs84="-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
     )
-print("proj4 library version = ", proj_version_str)
 
 
 def test_shift_wgs84_to_utm33():

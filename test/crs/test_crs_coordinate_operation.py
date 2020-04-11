@@ -3,7 +3,7 @@ from distutils.version import LooseVersion
 import pytest
 from numpy.testing import assert_almost_equal
 
-from pyproj import proj_version_str
+from pyproj import __proj_version__
 from pyproj.crs import GeographicCRS
 from pyproj.crs.coordinate_operation import (
     AlbersEqualAreaConversion,
@@ -617,7 +617,7 @@ def test_rotated_latitude_longitude_operation():
 
 def test_lambert_cylindrical_equal_area_scale_operation__defaults():
     lceaop = LambertCylindricalEqualAreaScaleConversion()
-    if LooseVersion(proj_version_str) >= LooseVersion("6.3.1"):
+    if LooseVersion(__proj_version__) >= LooseVersion("6.3.1"):
         assert lceaop.name == "unknown"
         assert lceaop.method_name == "Lambert Cylindrical Equal Area"
         assert _to_dict(lceaop) == {
@@ -642,7 +642,7 @@ def test_lambert_cylindrical_equal_area_scale_operation():
         false_northing=4,
         scale_factor_natural_origin=0.999,
     )
-    if LooseVersion(proj_version_str) >= LooseVersion("6.3.1"):
+    if LooseVersion(__proj_version__) >= LooseVersion("6.3.1"):
         assert lceaop.name == "unknown"
         assert lceaop.method_name == "Lambert Cylindrical Equal Area"
         op_dict = _to_dict(lceaop)
