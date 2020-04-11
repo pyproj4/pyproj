@@ -7,6 +7,7 @@ Change Log
 * BUG: Fix building prime meridian in :meth:`pyproj.crs.CRS.from_cf` (pull #588)
 * BUG: Fix check for numpy bool True kwarg (pull #590)
 * DOC: Update pyproj.Proj docstrings for clarity (issue #584)
+* Added `pyproj.__proj_version__`
 
 2.6.0
 ~~~~~
