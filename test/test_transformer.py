@@ -262,7 +262,7 @@ def test_transform_no_exception():
 def test_transform__out_of_bounds():
     with pytest.warns(FutureWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
-    if LooseVersion(pyproj.proj_version_str) >= LooseVersion("7.0.0"):
+    if LooseVersion(pyproj.__proj_version__) >= LooseVersion("7.0.0"):
         with pytest.raises(pyproj.exceptions.ProjError):
             transformer.transform(100000, 100000, errcheck=True)
     else:
@@ -606,7 +606,7 @@ def test_transform_group__area_of_interest():
 
 def test_transformer_group__get_transform_crs():
     tg = TransformerGroup("epsg:4258", "epsg:7415")
-    if LooseVersion(pyproj.proj_version_str) >= LooseVersion("6.3.1"):
+    if LooseVersion(pyproj.__proj_version__) >= LooseVersion("6.3.1"):
         if not grids_available("nl_nsgi_rdtrans2018.tif"):
             assert len(tg.transformers) == 1
         else:

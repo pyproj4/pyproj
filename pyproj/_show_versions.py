@@ -43,7 +43,7 @@ def _get_proj_info():
 
     blob = [
         ("pyproj", pyproj.__version__),
-        ("PROJ", pyproj.proj_version_str),
+        ("PROJ", pyproj.__proj_version__),
         ("data dir", data_dir),
     ]
 

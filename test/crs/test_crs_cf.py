@@ -3,7 +3,7 @@ from distutils.version import LooseVersion
 import pytest
 from numpy.testing import assert_almost_equal
 
-from pyproj import CRS, proj_version_str
+from pyproj import CRS, __proj_version__
 from pyproj.crs import ProjectedCRS
 from pyproj.crs._cf1x8 import _try_list_if_string
 from pyproj.crs.coordinate_operation import (
@@ -269,7 +269,7 @@ def test_cf_rotated_latlon():
     _test_roundtrip(expected_cf, "GEOGCRS[")
     with pytest.warns(UserWarning):
         proj_dict = crs.to_dict()
-    if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
+    if LooseVersion(__proj_version__) >= LooseVersion("6.3.0"):
         assert proj_dict == {
             "proj": "ob_tran",
             "o_proj": "longlat",
@@ -295,7 +295,7 @@ def test_cf_rotated_latlon__grid():
     )
     with pytest.warns(UserWarning):
         proj_dict = crs.to_dict()
-    if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
+    if LooseVersion(__proj_version__) >= LooseVersion("6.3.0"):
         assert proj_dict == {
             "proj": "ob_tran",
             "o_proj": "longlat",
@@ -689,7 +689,7 @@ def test_export_compound_crs():
 
 
 @pytest.mark.skipif(
-    LooseVersion(proj_version_str) < LooseVersion("6.3.0"),
+    LooseVersion(__proj_version__) < LooseVersion("6.3.0"),
     reason="geoid model does not work in PROJ < 6.3.0",
 )
 def test_geoid_model_name():

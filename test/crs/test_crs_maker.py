@@ -2,7 +2,7 @@ from distutils.version import LooseVersion
 
 import pytest
 
-from pyproj import proj_version_str
+from pyproj import __proj_version__
 from pyproj.crs import (
     BoundCRS,
     CompoundCRS,
@@ -62,7 +62,7 @@ def test_vertical_crs():
     assert vc.name == "NAVD88 height"
     assert vc.type_name == "Vertical CRS"
     assert vc.coordinate_system == VerticalCS()
-    if LooseVersion(proj_version_str) >= LooseVersion("6.3.0"):
+    if LooseVersion(__proj_version__) >= LooseVersion("6.3.0"):
         assert vc.to_json_dict()["geoid_model"]["name"] == "GEOID12B"
 
 

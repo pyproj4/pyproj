@@ -3,7 +3,7 @@ from distutils.version import LooseVersion
 import pytest
 from numpy.testing import assert_almost_equal
 
-from pyproj import CRS, Proj, proj_version_str, transform
+from pyproj import CRS, Proj, __proj_version__, transform
 from test.conftest import grids_available
 
 
@@ -14,7 +14,7 @@ def test_datum(proj_class):
     s_2 = 45.25919444444
     p2 = proj_class(proj="utm", zone=10, datum="NAD27")
     x2, y2 = transform(p1, p2, s_1, s_2)
-    if LooseVersion(proj_version_str) < LooseVersion("6.3.0"):
+    if LooseVersion(__proj_version__) < LooseVersion("6.3.0"):
         assert_almost_equal(
             (x2, y2), (1402291.0833290431, 5076289.591846835), decimal=2
         )
