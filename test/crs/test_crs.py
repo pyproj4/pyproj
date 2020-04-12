@@ -1114,6 +1114,13 @@ def test_srs__no_plus():
 
 def test_equals_different_type():
     assert CRS("epsg:4326") != ""
+    assert not CRS("epsg:4326") == ""
+
+    assert CRS("epsg:4326") != 27700
+    assert not CRS("epsg:4326") == 27700
+
+    assert not CRS("epsg:4326") != 4326
+    assert CRS("epsg:4326") == 4326
 
 
 def test_is_exact_same_different_type():
