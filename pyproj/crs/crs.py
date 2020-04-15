@@ -905,6 +905,9 @@ class CRS(_CRS):
     def __eq__(self, other: Any) -> bool:
         return self.equals(other)
 
+    def __ne__(self, other: Any) -> bool:
+        return not self == other
+
     def __reduce__(self) -> Tuple[Type["CRS"], Tuple[str]]:
         """special method that allows CRS instance to be pickled"""
         return self.__class__, (self.srs,)
