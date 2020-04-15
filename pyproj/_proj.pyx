@@ -258,7 +258,7 @@ cdef class _Proj:
         Equivalent to `proj -S` command line.
         """
         cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(longitude)
-        cdef PyBuffWriteManager latbuff = PyBuffWriteManager(longitude)
+        cdef PyBuffWriteManager latbuff = PyBuffWriteManager(latitude)
 
         if not lonbuff.len or not (lonbuff.len == latbuff.len):
             raise ProjError('longitude and latitude must be same size')
