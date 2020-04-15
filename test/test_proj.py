@@ -464,18 +464,18 @@ def test_get_factors__2d_input(radians):
 def test_get_factors():
     transformer = Proj(3717)
     factors = transformer.get_factors(-120, 34)
-    assert_almost_equal(factors.meridional_scale, 1.00054660)
-    assert_almost_equal(factors.parallel_scale, 1.00054660)
+    assert_almost_equal(factors.meridional_scale, 1.0005466)
+    assert_almost_equal(factors.parallel_scale, 1.0005466)
     assert_almost_equal(factors.areal_scale, 1.00109349)
     assert_almost_equal(factors.angular_distortion, 0)
     assert_almost_equal(factors.meridian_parallel_angle, 90)
     assert_almost_equal(factors.meridian_convergence, 1.67864770)
     assert_almost_equal(factors.tissot_semimajor, 1.00055, decimal=5)
     assert_almost_equal(factors.tissot_semiminor, 1.00055, decimal=5)
-    assert_almost_equal(factors.dx_dlam, 0.8300039261457947)
-    assert_almost_equal(factors.dx_dphi, -0.029205194753377513)
-    assert_almost_equal(factors.dy_dlam, 0.024324356584504155)
-    assert_almost_equal(factors.dy_dphi, 0.9965495375657828)
+    assert_almost_equal(factors.dx_dlam, 0.8300039)
+    assert_almost_equal(factors.dx_dphi, -0.0292052)
+    assert_almost_equal(factors.dy_dlam, 0.0243244)
+    assert_almost_equal(factors.dy_dphi, 0.9965495)
 
 
 def test_get_factors__nan_inf():
