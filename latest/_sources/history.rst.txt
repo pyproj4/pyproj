@@ -8,6 +8,7 @@ Change Log
 * BUG: Fix check for numpy bool True kwarg (pull #590)
 * DOC: Update pyproj.Proj docstrings for clarity (issue #584)
 * Added `pyproj.__proj_version__`
+* BUG: Fix :meth:`pyproj.proj.Proj.get_factors` (issue #600)
 
 2.6.0
 ~~~~~
