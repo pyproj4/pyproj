@@ -9,6 +9,7 @@ Change Log
 * DOC: Update pyproj.Proj docstrings for clarity (issue #584)
 * Added `pyproj.__proj_version__`
 * BUG: Fix :meth:`pyproj.proj.Proj.get_factors` (issue #600)
+* BUG: fix unequal (!=) with non-CRS type (pull #596)
 
 2.6.0
 ~~~~~
