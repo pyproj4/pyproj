@@ -432,24 +432,24 @@ def test_get_factors__2d_input(radians):
         longitude=longitude, latitude=latitude, radians=radians
     )
     assert_almost_equal(
-        factors.meridional_scale, [[1.0, 1.00015233], [1.00060954, 1.00137235]],
+        factors.meridional_scale, [[1.0001523, 1.0006095], [1.0013723, 1.0024419]],
     )
     assert_almost_equal(
-        factors.parallel_scale, [[1.0, 1.00015233], [1.00060954, 1.00137235]],
+        factors.parallel_scale, [[1.0001523, 1.0006095], [1.0013723, 1.0024419]],
     )
     assert_almost_equal(
-        factors.areal_scale, [[1.0, 1.00030468], [1.00121946, 1.00274658]],
+        factors.areal_scale, [[1.00030468, 1.00121946], [1.00274658, 1.00488976]],
     )
     assert_almost_equal(factors.angular_distortion, [[0, 0], [0, 0]], decimal=5)
     assert_almost_equal(
-        factors.meridian_parallel_angle, [[90, 90], [90, 90]],
+        factors.meridian_parallel_angle, [[89.99999879, 90], [90, 90]],
     )
     assert_almost_equal(factors.meridian_convergence, [[0, 0], [0, 0]])
     assert_almost_equal(
-        factors.tissot_semimajor, [[1.0, 1.00015233], [1.00060955, 1.00137235]],
+        factors.tissot_semimajor, [[1.00015234, 1.00060955], [1.00137235, 1.0024419]],
     )
     assert_almost_equal(
-        factors.tissot_semiminor, [[1.0, 1.00015233], [1.00060953, 1.00137235]],
+        factors.tissot_semiminor, [[1.00015232, 1.00060953], [1.00137235, 1.0024419]],
     )
     assert_almost_equal(
         factors.dx_dlam, [[1, 1], [1, 1]],
@@ -457,8 +457,25 @@ def test_get_factors__2d_input(radians):
     assert_almost_equal(factors.dx_dphi, [[0, 0], [0, 0]])
     assert_almost_equal(factors.dy_dlam, [[0, 0], [0, 0]])
     assert_almost_equal(
-        factors.dy_dphi, [[1.0, 1.00015233], [1.00060954, 1.00137235]],
+        factors.dy_dphi, [[1.00015233, 1.00060954], [1.00137235, 1.0024419]],
     )
+
+
+def test_get_factors():
+    transformer = Proj(3717)
+    factors = transformer.get_factors(-120, 34)
+    assert_almost_equal(factors.meridional_scale, 1.0005466)
+    assert_almost_equal(factors.parallel_scale, 1.0005466)
+    assert_almost_equal(factors.areal_scale, 1.00109349)
+    assert_almost_equal(factors.angular_distortion, 0)
+    assert_almost_equal(factors.meridian_parallel_angle, 90)
+    assert_almost_equal(factors.meridian_convergence, 1.67864770)
+    assert_almost_equal(factors.tissot_semimajor, 1.00055, decimal=5)
+    assert_almost_equal(factors.tissot_semiminor, 1.00055, decimal=5)
+    assert_almost_equal(factors.dx_dlam, 0.8300039)
+    assert_almost_equal(factors.dx_dphi, -0.0292052)
+    assert_almost_equal(factors.dy_dlam, 0.0243244)
+    assert_almost_equal(factors.dy_dphi, 0.9965495)
 
 
 def test_get_factors__nan_inf():
@@ -466,18 +483,20 @@ def test_get_factors__nan_inf():
     factors = transformer.get_factors(
         longitude=[0, np.nan, np.inf, 0], latitude=[np.nan, 2, 2, np.inf]
     )
-    assert_almost_equal(factors.meridional_scale, [1, np.inf, np.inf, 1])
-    assert_almost_equal(factors.parallel_scale, [1, np.inf, np.inf, 1])
-    assert_almost_equal(factors.areal_scale, [1, np.inf, np.inf, 1])
-    assert_almost_equal(factors.angular_distortion, [0, np.inf, np.inf, 0])
-    assert_almost_equal(factors.meridian_parallel_angle, [90, np.inf, np.inf, 90])
-    assert_almost_equal(factors.meridian_convergence, [0.0, np.inf, np.inf, 0.0])
-    assert_almost_equal(factors.tissot_semimajor, [1, np.inf, np.inf, 1])
-    assert_almost_equal(factors.tissot_semiminor, [1, np.inf, np.inf, 1])
-    assert_almost_equal(factors.dx_dlam, [1, np.inf, np.inf, 1])
-    assert_almost_equal(factors.dx_dphi, [0.0, np.inf, np.inf, 0.0])
-    assert_almost_equal(factors.dy_dlam, [0.0, np.inf, np.inf, 0.0])
-    assert_almost_equal(factors.dy_dphi, [1, np.inf, np.inf, 1])
+    assert_almost_equal(factors.meridional_scale, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.parallel_scale, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.areal_scale, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.angular_distortion, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(
+        factors.meridian_parallel_angle, [np.inf, np.inf, np.inf, np.inf]
+    )
+    assert_almost_equal(factors.meridian_convergence, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.tissot_semimajor, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.tissot_semiminor, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.dx_dlam, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.dx_dphi, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.dy_dlam, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(factors.dy_dphi, [np.inf, np.inf, np.inf, np.inf])
 
 
 def test_get_factors__errcheck():
