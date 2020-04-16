@@ -168,6 +168,7 @@
     <span class="s2">&quot;TransformerGroup&quot;</span><span class="p">,</span>
     <span class="s2">&quot;AreaOfInterest&quot;</span><span class="p">,</span>
 <span class="p">]</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">array</span> <span class="kn">import</span> <span class="n">array</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
@@ -834,6 +835,8 @@
 <span class="sd">    .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
 
+<span class="sd">    .. warning:: This function is deprecated. See: :ref:`upgrade_transformer`</span>
+
 <span class="sd">    x2, y2, z2 = transform(p1, p2, x1, y1, z1)</span>
 
 <span class="sd">    Transform points between two coordinate systems defined by the</span>
@@ -903,6 +906,15 @@
 <span class="sd">    &gt;&gt;&gt; &#39;%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f&#39; % xy</span>
 <span class="sd">    &#39; -92.220  -94.720  -90.370 38.830 39.320 38.750&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;This function is deprecated. &quot;</span>
+            <span class="s2">&quot;See: https://pyproj4.github.io/pyproj/stable/&quot;</span>
+            <span class="s2">&quot;gotchas.html#upgrading-to-pyproj-2-from-pyproj-1&quot;</span>
+        <span class="p">),</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span>
         <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span>
     <span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span></div>
@@ -922,6 +934,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
+
+<span class="sd">    .. warning:: This function is deprecated. See: :ref:`upgrade_transformer`</span>
 
 <span class="sd">    points2 = itransform(p1, p2, points1)</span>
 <span class="sd">    Iterator/generator version of the function pyproj.transform.</span>
@@ -976,6 +990,15 @@
 <span class="sd">    &#39;30 60&#39;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;This function is deprecated. &quot;</span>
+            <span class="s2">&quot;See: https://pyproj4.github.io/pyproj/stable/&quot;</span>
+            <span class="s2">&quot;gotchas.html#upgrading-to-pyproj-2-from-pyproj-1&quot;</span>
+        <span class="p">),</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span>
         <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span>
     <span class="p">)</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
