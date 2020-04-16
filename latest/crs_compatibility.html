@@ -294,7 +294,7 @@ directly:</p>
 </div>
 <div class="section" id="fiona">
 <h2>fiona<a class="headerlink" href="#fiona" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://github.com/mapbox/rasterio">https://github.com/mapbox/rasterio</a></p>
+<p><a class="reference external" href="https://github.com/Toblerity/Fiona">https://github.com/Toblerity/Fiona</a></p>
 <div class="section" id="converting-from-fiona-crs-to-pyproj-crs-crs">
 <h3>Converting from <cite>fiona</cite> CRS to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-fiona-crs-to-pyproj-crs-crs" title="Permalink to this headline">¶</a></h3>
 <p>Fiona currently stores the CRS as a PROJ string dictionary in the <cite>crs</cite>
@@ -383,11 +383,11 @@ versions. The only gotcha would be if it is <cite>None</cite>.</p>
 <a class="reference external" href="https://github.com/SciTools/cartopy/issues/1477">Port to use pyproj v2</a></p>
 <div class="section" id="preparing-pyproj-crs-crs-for-cartopy-crs-crs">
 <h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>cartopy.crs.CRS</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-cartopy-crs-crs" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cartopy.crs</span> <span class="kn">import</span> <span class="n">CRS</span> <span class="k">as</span> <span class="n">cCRS</span><span class="p">,</span> <span class="n">Globe</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
-<span class="n">globe</span> <span class="o">=</span> <span class="n">Globe</span><span class="p">(</span>
+<span class="n">globe</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Globe</span><span class="p">(</span>
     <span class="n">ellipse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">semimajor_axis</span><span class="o">=</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_major_metre</span><span class="p">,</span>
     <span class="n">semiminor_axis</span><span class="o">=</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_minor_metre</span><span class="p">,</span>
@@ -395,7 +395,7 @@ versions. The only gotcha would be if it is <cite>None</cite>.</p>
 <span class="p">)</span>
 <span class="n">proj_dict</span> <span class="o">=</span> <span class="n">proj_crs</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 <span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;pm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">proj_crs</span><span class="o">.</span><span class="n">prime_meridian</span><span class="o">.</span><span class="n">longitude</span>
-<span class="n">cart_crs</span> <span class="o">=</span> <span class="n">cCRS</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">,</span> <span class="n">globe</span><span class="o">=</span><span class="n">globe</span><span class="p">)</span>
+<span class="n">cart_crs</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">CRS</span><span class="p">(</span><span class="n">proj_dict</span><span class="p">,</span> <span class="n">globe</span><span class="o">=</span><span class="n">globe</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -104,7 +104,7 @@ If you want to be compatible across GDAL/rasterio versions, you can do::
 fiona
 ------
 
-https://github.com/mapbox/rasterio
+https://github.com/Toblerity/Fiona
 
 Converting from `fiona` CRS to `pyproj.crs.CRS`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -209,11 +209,11 @@ Preparing `pyproj.crs.CRS` for `cartopy.crs.CRS`
 
 .. code-block:: python
 
-    from cartopy.crs import CRS as cCRS, Globe
+    import cartopy.crs as ccrs
     from pyproj.crs import CRS
 
     proj_crs = CRS.from_epsg(4326)
-    globe = Globe(
+    globe = ccrs.Globe(
         ellipse=None,
         semimajor_axis=proj_crs.ellipsoid.semi_major_metre,
         semiminor_axis=proj_crs.ellipsoid.semi_minor_metre,
@@ -221,7 +221,7 @@ Preparing `pyproj.crs.CRS` for `cartopy.crs.CRS`
     )
     proj_dict = proj_crs.to_dict()
     proj_dict["pm"] = proj_crs.prime_meridian.longitude
-    cart_crs = cCRS(proj_dict, globe=globe)
+    cart_crs = ccrs.CRS(proj_dict, globe=globe)
 
 
 Preparing `cartopy.crs.CRS` for `pyproj.crs.CRS`
