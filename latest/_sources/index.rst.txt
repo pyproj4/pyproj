@@ -21,6 +21,7 @@ GitHub Repository: https://github.com/pyproj4/pyproj
    build_crs
    api/index
    optimize_transformations
+   crs_compatibility
    history
    past_versions
 
