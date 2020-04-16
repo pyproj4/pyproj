@@ -29,6 +29,7 @@ latest/_sources/api/proj.rst.txt
 latest/_sources/api/show_versions.rst.txt
 latest/_sources/api/transformer.rst.txt
 latest/_sources/build_crs.rst.txt
+latest/_sources/crs_compatibility.rst.txt
 latest/_sources/examples.rst.txt
 latest/_sources/gotchas.rst.txt
 latest/_sources/history.rst.txt
@@ -106,6 +107,7 @@ latest/api/proj.html
 latest/api/show_versions.html
 latest/api/transformer.html
 latest/build_crs.html
+latest/crs_compatibility.html
 latest/examples.html
 latest/genindex.html
 latest/gotchas.html
