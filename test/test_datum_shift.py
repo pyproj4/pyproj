@@ -36,24 +36,30 @@ with pytest.warns(FutureWarning):
 
 
 def test_shift_wgs84_to_utm33():
-    xutm33, yutm33, zutm33 = transform(
-        WGS84_PROJ, UTM_33_PROJ, WGS84_lon, WGS84_lat, WGS84_z
-    )
+    with pytest.warns(DeprecationWarning):
+        xutm33, yutm33, zutm33 = transform(
+            WGS84_PROJ, UTM_33_PROJ, WGS84_lon, WGS84_lat, WGS84_z
+        )
     assert_almost_equal((xutm33, yutm33, zutm33), (UTM_x, UTM_y, UTM_z))
 
 
 def test_shift_utm33_to_wgs84():
-    back_lon, back_lat, back_z = transform(UTM_33_PROJ, WGS84_PROJ, UTM_x, UTM_y, UTM_z)
+    with pytest.warns(DeprecationWarning):
+        back_lon, back_lat, back_z = transform(
+            UTM_33_PROJ, WGS84_PROJ, UTM_x, UTM_y, UTM_z
+        )
     assert_almost_equal((back_lon, back_lat, back_z), (WGS84_lon, WGS84_lat, WGS84_z))
 
 
 def test_shift_wgs84_to_gaussb_no_ellisoidal_height():
-    xgb, ygb, zgb = transform(WGS84_PROJ, GAUSSSB_PROJ, WGS84_lon, WGS84_lat, 0)
+    with pytest.warns(DeprecationWarning):
+        xgb, ygb, zgb = transform(WGS84_PROJ, GAUSSSB_PROJ, WGS84_lon, WGS84_lat, 0)
     assert_almost_equal((xgb, ygb, zgb), (GB_x, 5055619.899, 0), decimal=2)
 
 
 def test_shift_gaussb_to_wgs84_no_ellisoidal_height():
-    back_lon, back_lat, back_z = transform(GAUSSSB_PROJ, WGS84_PROJ, GB_x, GB_y, 0)
+    with pytest.warns(DeprecationWarning):
+        back_lon, back_lat, back_z = transform(GAUSSSB_PROJ, WGS84_PROJ, GB_x, GB_y, 0)
     assert_almost_equal(
         (back_lon, back_lat, back_z), (WGS84_lon, WGS84_lat, 0), decimal=3
     )

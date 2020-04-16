@@ -13,7 +13,8 @@ def test_datum(proj_class):
     s_1 = -111.5
     s_2 = 45.25919444444
     p2 = proj_class(proj="utm", zone=10, datum="NAD27")
-    x2, y2 = transform(p1, p2, s_1, s_2)
+    with pytest.warns(DeprecationWarning):
+        x2, y2 = transform(p1, p2, s_1, s_2)
     if LooseVersion(__proj_version__) < LooseVersion("6.3.0"):
         assert_almost_equal(
             (x2, y2), (1402291.0833290431, 5076289.591846835), decimal=2

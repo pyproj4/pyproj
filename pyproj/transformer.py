@@ -9,6 +9,7 @@ __all__ = [
     "TransformerGroup",
     "AreaOfInterest",
 ]
+import warnings
 from array import array
 from itertools import chain, islice
 from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union
@@ -675,6 +676,8 @@ def transform(
     .. versionadded:: 2.1.2 skip_equivalent
     .. versionadded:: 2.2.0 always_xy
 
+    .. warning:: This function is deprecated. See: :ref:`upgrade_transformer`
+
     x2, y2, z2 = transform(p1, p2, x1, y1, z1)
 
     Transform points between two coordinate systems defined by the
@@ -744,6 +747,15 @@ def transform(
     >>> '%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f' % xy
     ' -92.220  -94.720  -90.370 38.830 39.320 38.750'
     """
+    warnings.warn(
+        (
+            "This function is deprecated. "
+            "See: https://pyproj4.github.io/pyproj/stable/"
+            "gotchas.html#upgrading-to-pyproj-2-from-pyproj-1"
+        ),
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return Transformer.from_proj(
         p1, p2, skip_equivalent=skip_equivalent, always_xy=always_xy
     ).transform(xx=x, yy=y, zz=z, tt=tt, radians=radians, errcheck=errcheck)
@@ -763,6 +775,8 @@ def itransform(
     """
     .. versionadded:: 2.1.2 skip_equivalent
     .. versionadded:: 2.2.0 always_xy
+
+    .. warning:: This function is deprecated. See: :ref:`upgrade_transformer`
 
     points2 = itransform(p1, p2, points1)
     Iterator/generator version of the function pyproj.transform.
@@ -817,6 +831,15 @@ def itransform(
     '30 60'
 
     """
+    warnings.warn(
+        (
+            "This function is deprecated. "
+            "See: https://pyproj4.github.io/pyproj/stable/"
+            "gotchas.html#upgrading-to-pyproj-2-from-pyproj-1"
+        ),
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return Transformer.from_proj(
         p1, p2, skip_equivalent=skip_equivalent, always_xy=always_xy
     ).itransform(

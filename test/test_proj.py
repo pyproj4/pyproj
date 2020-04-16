@@ -125,13 +125,13 @@ class TypeError_Transform_Issue8_Test(unittest.TestCase):
     def test_tranform_none_1st_parmeter(self):
         # test should raise Type error if projections are not of Proj classes
         # version 1.9.4 produced AttributeError, now should raise TypeError
-        with self.assertRaises(CRSError):
+        with pytest.warns(DeprecationWarning), pytest.raises(CRSError):
             transform(None, self.p, -74, 39)
 
     def test_tranform_none_2nd_parmeter(self):
         # test should raise Type error if projections are not of Proj classes
         # version 1.9.4 has a Segmentation Fault, now should raise TypeError
-        with self.assertRaises(CRSError):
+        with pytest.warns(DeprecationWarning), pytest.raises(CRSError):
             transform(self.p, None, -74, 39)
 
 
@@ -150,7 +150,8 @@ class ProjLatLongTypeErrorTest(unittest.TestCase):
         p = Proj("+proj=stere +lon_0=-39 +lat_0=90 +lat_ts=71.0 +ellps=WGS84")
         self.assertTrue(isinstance(p, Proj))
         # if not patched this line raises a "TypeError: p2 must be a Proj class"
-        lon, lat = transform(p, p.to_latlong(), 200000, 400000)
+        with pytest.warns(DeprecationWarning):
+            lon, lat = transform(p, p.to_latlong(), 200000, 400000)
 
 
 @unittest.skipIf(

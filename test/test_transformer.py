@@ -19,7 +19,8 @@ def test_tranform_wgs84_to_custom():
     )
     wgs84 = pyproj.Proj("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
     lat, lon = 51.04715, 3.23406
-    xx, yy = pyproj.transform(wgs84, custom_proj, lon, lat)
+    with pytest.warns(DeprecationWarning):
+        xx, yy = pyproj.transform(wgs84, custom_proj, lon, lat)
     assert "{:.3f} {:.3f}".format(xx, yy) == "212.623 4604.975"
 
 
@@ -28,7 +29,8 @@ def test_transform_wgs84_to_alaska():
         lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
         alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
     test = (-179.72638, 49.752533)
-    xx, yy = pyproj.transform(lat_lon_proj, alaska_aea_proj, *test)
+    with pytest.warns(DeprecationWarning):
+        xx, yy = pyproj.transform(lat_lon_proj, alaska_aea_proj, *test)
     assert "{:.3f} {:.3f}".format(xx, yy) == "-1824924.495 330822.800"
 
 
@@ -37,12 +39,13 @@ def test_illegal_transformation():
     with pytest.warns(FutureWarning):
         p1 = pyproj.Proj(init="epsg:4326")
         p2 = pyproj.Proj(init="epsg:3857")
-    xx, yy = pyproj.transform(
-        p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90)
-    )
+    with pytest.warns(DeprecationWarning):
+        xx, yy = pyproj.transform(
+            p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90)
+        )
     assert np.all(np.isinf(xx))
     assert np.all(np.isinf(yy))
-    with pytest.raises(ProjError):
+    with pytest.warns(DeprecationWarning), pytest.raises(ProjError):
         pyproj.transform(
             p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90), errcheck=True
         )
@@ -57,8 +60,8 @@ def test_lambert_conformal_transform():
     E = 567623.931
     N = 256422.787
     h = 1341.467
-
-    Long1, Lat1, H1 = pyproj.transform(Midelt, WGS84, E, N, h, radians=False)
+    with pytest.warns(DeprecationWarning):
+        Long1, Lat1, H1 = pyproj.transform(Midelt, WGS84, E, N, h, radians=False)
     assert_almost_equal((Long1, Lat1, H1), (-4.6753456, 32.902199, 1341.467), decimal=5)
 
 
@@ -149,10 +152,13 @@ def test_4d_transform_crs_obs1():
 
 
 def test_4d_transform_orginal_crs_obs1():
-    assert_almost_equal(
-        transform(7789, 8401, x=3496737.2679, y=743254.4507, z=5264462.9620, tt=2019.0),
-        (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0),
-    )
+    with pytest.warns(DeprecationWarning):
+        assert_almost_equal(
+            transform(
+                7789, 8401, x=3496737.2679, y=743254.4507, z=5264462.9620, tt=2019.0
+            ),
+            (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0),
+        )
 
 
 def test_4d_transform_crs_obs2():
@@ -174,10 +180,11 @@ def test_2d_with_time_transform_crs_obs2():
 
 
 def test_2d_with_time_transform_original_crs_obs2():
-    assert_almost_equal(
-        transform(4896, 7930, x=3496737.2679, y=743254.4507, tt=2019.0),
-        (3496737.4105305015, 743254.1014318303, 2019.0),
-    )
+    with pytest.warns(DeprecationWarning):
+        assert_almost_equal(
+            transform(4896, 7930, x=3496737.2679, y=743254.4507, tt=2019.0),
+            (3496737.4105305015, 743254.1014318303, 2019.0),
+        )
 
 
 def test_4d_itransform():
@@ -205,26 +212,34 @@ def test_3d_time_itransform():
 
 
 def test_4d_itransform_orginal_crs_obs1():
-    assert_almost_equal(
-        list(
-            itransform(7789, 8401, [(3496737.2679, 743254.4507, 5264462.9620, 2019.0)])
-        ),
-        [(3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)],
-    )
+    with pytest.warns(DeprecationWarning):
+        assert_almost_equal(
+            list(
+                itransform(
+                    7789, 8401, [(3496737.2679, 743254.4507, 5264462.9620, 2019.0)]
+                )
+            ),
+            [(3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0)],
+        )
 
 
 def test_2d_with_time_itransform_original_crs_obs2():
-    assert_almost_equal(
-        list(
-            itransform(4896, 7930, [(3496737.2679, 743254.4507, 2019.0)], time_3rd=True)
-        ),
-        [(3496737.4105305015, 743254.1014318303, 2019.0)],
-    )
+    with pytest.warns(DeprecationWarning):
+        assert_almost_equal(
+            list(
+                itransform(
+                    4896, 7930, [(3496737.2679, 743254.4507, 2019.0)], time_3rd=True
+                )
+            ),
+            [(3496737.4105305015, 743254.1014318303, 2019.0)],
+        )
 
 
 def test_itransform_time_3rd_invalid():
 
-    with pytest.raises(ValueError, match="'time_3rd' is only valid for 3 coordinates."):
+    with pytest.warns(DeprecationWarning), pytest.raises(
+        ValueError, match="'time_3rd' is only valid for 3 coordinates."
+    ):
         list(
             itransform(
                 7789,
@@ -233,7 +248,9 @@ def test_itransform_time_3rd_invalid():
                 time_3rd=True,
             )
         )
-    with pytest.raises(ValueError, match="'time_3rd' is only valid for 3 coordinates."):
+    with pytest.warns(DeprecationWarning), pytest.raises(
+        ValueError, match="'time_3rd' is only valid for 3 coordinates."
+    ):
         list(itransform(7789, 8401, [(3496737.2679, 743254.4507)], time_3rd=True))
 
 
@@ -241,14 +258,16 @@ def test_transform_no_error():
     with pytest.warns(FutureWarning):
         pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
-    transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
+    with pytest.warns(DeprecationWarning):
+        transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
 
 
 def test_itransform_no_error():
     with pytest.warns(FutureWarning):
         pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
-    list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
+    with pytest.warns(DeprecationWarning):
+        list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
 
 
 def test_transform_no_exception():
@@ -273,50 +292,55 @@ def test_transform_radians():
     with pytest.warns(FutureWarning):
         WGS84 = pyproj.Proj("+init=EPSG:4326")
     ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
-    assert_almost_equal(
-        pyproj.transform(
-            ECEF, WGS84, -2704026.010, -4253051.810, 3895878.820, radians=True
-        ),
-        (-2.137113493845668, 0.6613203738996222, -20.531156923621893),
-    )
+    with pytest.warns(DeprecationWarning):
+        assert_almost_equal(
+            pyproj.transform(
+                ECEF, WGS84, -2704026.010, -4253051.810, 3895878.820, radians=True
+            ),
+            (-2.137113493845668, 0.6613203738996222, -20.531156923621893),
+        )
 
-    assert_almost_equal(
-        pyproj.transform(
-            WGS84,
-            ECEF,
-            -2.137113493845668,
-            0.6613203738996222,
-            -20.531156923621893,
-            radians=True,
-        ),
-        (-2704026.010, -4253051.810, 3895878.820),
-    )
+        assert_almost_equal(
+            pyproj.transform(
+                WGS84,
+                ECEF,
+                -2.137113493845668,
+                0.6613203738996222,
+                -20.531156923621893,
+                radians=True,
+            ),
+            (-2704026.010, -4253051.810, 3895878.820),
+        )
 
 
 def test_itransform_radians():
     with pytest.warns(FutureWarning):
         WGS84 = pyproj.Proj("+init=EPSG:4326")
     ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
-    assert_almost_equal(
-        list(
-            pyproj.itransform(
-                ECEF, WGS84, [(-2704026.010, -4253051.810, 3895878.820)], radians=True
-            )
-        ),
-        [(-2.137113493845668, 0.6613203738996222, -20.531156923621893)],
-    )
+    with pytest.warns(DeprecationWarning):
+        assert_almost_equal(
+            list(
+                pyproj.itransform(
+                    ECEF,
+                    WGS84,
+                    [(-2704026.010, -4253051.810, 3895878.820)],
+                    radians=True,
+                )
+            ),
+            [(-2.137113493845668, 0.6613203738996222, -20.531156923621893)],
+        )
 
-    assert_almost_equal(
-        list(
-            pyproj.itransform(
-                WGS84,
-                ECEF,
-                [(-2.137113493845668, 0.6613203738996222, -20.531156923621893)],
-                radians=True,
-            )
-        ),
-        [(-2704026.010, -4253051.810, 3895878.820)],
-    )
+        assert_almost_equal(
+            list(
+                pyproj.itransform(
+                    WGS84,
+                    ECEF,
+                    [(-2.137113493845668, 0.6613203738996222, -20.531156923621893)],
+                    radians=True,
+                )
+            ),
+            [(-2704026.010, -4253051.810, 3895878.820)],
+        )
 
 
 def test_4d_transform__inverse():
@@ -355,17 +379,19 @@ def test_always_xy__transformer():
 
 
 def test_always_xy__transform():
-    assert_almost_equal(
-        transform(2193, 4326, 1625350, 5504853, always_xy=True),
-        (173.29964730317386, -40.60674802693758),
-    )
+    with pytest.warns(DeprecationWarning):
+        assert_almost_equal(
+            transform(2193, 4326, 1625350, 5504853, always_xy=True),
+            (173.29964730317386, -40.60674802693758),
+        )
 
 
 def test_always_xy__itransform():
-    assert_almost_equal(
-        list(itransform(2193, 4326, [(1625350, 5504853)], always_xy=True)),
-        [(173.29964730317386, -40.60674802693758)],
-    )
+    with pytest.warns(DeprecationWarning):
+        assert_almost_equal(
+            list(itransform(2193, 4326, [(1625350, 5504853)], always_xy=True)),
+            [(173.29964730317386, -40.60674802693758)],
+        )
 
 
 def test_transform_direction__string():

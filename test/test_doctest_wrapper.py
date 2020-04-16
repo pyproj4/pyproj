@@ -1,12 +1,13 @@
 """
-This is a wrapper for the doctests in lib/pyproj/__init__.py so that
-pytest can conveniently run all the tests in a single command line.
+This is a wrapper for the doctests in pyproj
 """
 import doctest
 import os
 import platform
 import sys
 import warnings
+
+import pytest
 
 import pyproj
 
@@ -24,9 +25,10 @@ def test_doctests():
         failure_count_proj, test_count = doctest.testmod(pyproj.proj, verbose=True)
         failure_count_crs, test_count_crs = doctest.testmod(pyproj.crs, verbose=True)
         failure_count_geod, test_count_geod = doctest.testmod(pyproj.geod, verbose=True)
-        failure_count_transform, test_count_transform = doctest.testmod(
-            pyproj.transformer, verbose=True
-        )
+        with pytest.warns(DeprecationWarning):
+            failure_count_transform, test_count_transform = doctest.testmod(
+                pyproj.transformer, verbose=True
+            )
 
     failure_count = (
         failure_count_proj
