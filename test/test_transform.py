@@ -1,4 +1,5 @@
 import numpy
+import pytest
 from numpy.testing import assert_allclose
 
 from pyproj import Proj, __proj_version__, transform
@@ -35,11 +36,13 @@ def test_transform():
     print("max/min x and y for awips218 grid")
     print(numpy.minimum.reduce(numpy.ravel(x1)), numpy.maximum.reduce(numpy.ravel(x1)))
     print(numpy.minimum.reduce(numpy.ravel(y1)), numpy.maximum.reduce(numpy.ravel(y1)))
-    x2, y2 = transform(awips218, awips221, x1, y1)
+    with pytest.warns(DeprecationWarning):
+        x2, y2 = transform(awips218, awips221, x1, y1)
     print("max/min x and y for awips218 grid in awips221 coordinates")
     print(numpy.minimum.reduce(numpy.ravel(x2)), numpy.maximum.reduce(numpy.ravel(x2)))
     print(numpy.minimum.reduce(numpy.ravel(y2)), numpy.maximum.reduce(numpy.ravel(y2)))
-    x3, y3 = transform(awips221, awips218, x2, y2)
+    with pytest.warns(DeprecationWarning):
+        x3, y3 = transform(awips221, awips218, x2, y2)
     print("error for reverse transformation back to awips218 coords")
     print("(should be close to zero)")
     assert_allclose(numpy.minimum.reduce(numpy.ravel(x3 - x1)), 0, atol=1e-4)
@@ -49,5 +52,6 @@ def test_transform():
 
 
 def test_skip_equivalent():
-    xeq, yeq = transform(4326, 4326, 30, 60, skip_equivalent=True)
+    with pytest.warns(DeprecationWarning):
+        xeq, yeq = transform(4326, 4326, 30, 60, skip_equivalent=True)
     assert (xeq, yeq) == (30, 60)

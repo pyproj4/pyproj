@@ -232,6 +232,7 @@ Here is an example of that:
     >>> crs_epsg == crs_deprecated
     False
 
+.. _upgrade_transformer:
 
 Upgrading to pyproj 2 from pyproj 1
 -----------------------------------
@@ -244,6 +245,8 @@ Also see:
   - :ref:`examples`
   - :ref:`optimize_transformations`
 
+.. warning:: :meth:`pyproj.transformer.transform` and :meth:`pyproj.transformer.itransform`
+             are deprecated.
 
 pyproj 1 style:
 
