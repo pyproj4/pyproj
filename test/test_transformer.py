@@ -5,11 +5,13 @@ import pytest
 from numpy.testing import assert_almost_equal
 
 import pyproj
-from pyproj import Proj, Transformer, itransform, transform
+from pyproj import Proj, Transformer, __proj_version__, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import grids_available
+
+_PROJ_gte_701 = LooseVersion(__proj_version__) >= LooseVersion("7.0.1")
 
 
 def test_tranform_wgs84_to_custom():
@@ -460,7 +462,7 @@ def test_str():
                 "<Transformation Transformer: helmert>\n"
                 "Description: ITRF2014 to ETRF2014 (1)\n"
                 "Area of Use:\n"
-                "- name: Europe - ETRS89\n"
+                f"- name: Europe - {'ETRF by country' if _PROJ_gte_701 else 'ETRS89'}\n"
                 "- bounds: (-16.1, 32.88, 40.18, 84.17)"
             ),
         ),
@@ -563,7 +565,10 @@ def test_transformer_group__unavailable():
             trans_group.unavailable_operations[0].name
             == "Inverse of NAD27 to WGS 84 (33) + Alaska Albers"
         )
-        assert len(trans_group.transformers) == 8
+        if _PROJ_gte_701:
+            assert len(trans_group.transformers) == 9
+        else:
+            assert len(trans_group.transformers) == 8
         assert trans_group.best_available
     else:
         assert len(trans_group.unavailable_operations) == 0
