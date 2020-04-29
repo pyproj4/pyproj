@@ -46,6 +46,12 @@ matrix:
     - python: 3.6
       env:
         - PROJSOURCE=6.3.1
+    - python: 3.6
+      env:
+        - PROJSOURCE=6.3.2RC0
+    - python: 3.6
+      env:
+        - PROJSOURCE=7.0.1RC0
     - python: 3.7
       env:
         - DOC=true
