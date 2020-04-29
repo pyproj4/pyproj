@@ -572,7 +572,10 @@ def test_transformer_group__unavailable():
         assert trans_group.best_available
     else:
         assert len(trans_group.unavailable_operations) == 0
-        assert len(trans_group.transformers) == 9
+        if _PROJ_gte_701:
+            assert len(trans_group.transformers) == 10
+        else:
+            assert len(trans_group.transformers) == 9
         assert trans_group.best_available
 
 
