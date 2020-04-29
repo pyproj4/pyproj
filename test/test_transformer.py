@@ -462,9 +462,9 @@ def test_str():
                 "<Transformation Transformer: helmert>\n"
                 "Description: ITRF2014 to ETRF2014 (1)\n"
                 "Area of Use:\n"
-                f"- name: Europe - {'ETRF by country' if _PROJ_gte_701 else 'ETRS89'}\n"
+                "- name: Europe - {}\n"
                 "- bounds: (-16.1, 32.88, 40.18, 84.17)"
-            ),
+            ).format("ETRF by country" if _PROJ_gte_701 else "ETRS89"),
         ),
         (
             4326,
