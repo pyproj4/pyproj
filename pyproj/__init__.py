@@ -38,7 +38,6 @@ __all__ = [
     "itransform",
     "pj_ellps",
     "pj_list",
-    "get_angular_units_map",
     "get_ellps_map",
     "get_prime_meridians_map",
     "get_proj_operations_map",
@@ -49,7 +48,6 @@ import warnings
 
 from pyproj import _datadir
 from pyproj._list import (  # noqa: F401
-    get_angular_units_map,
     get_authorities,
     get_codes,
     get_ellps_map,
