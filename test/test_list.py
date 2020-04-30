@@ -15,14 +15,16 @@ from pyproj.enums import PJType
 
 
 def test_units_map():
-    units_map = get_units_map()
+    with pytest.warns(DeprecationWarning):
+        units_map = get_units_map()
     assert isinstance(units_map["m"], Unit)
     assert units_map["m"].id == "m"
     assert units_map["m"].name == "Meter"
 
 
 def test_angular_units_map():
-    ang_map = get_angular_units_map()
+    with pytest.warns(DeprecationWarning):
+        ang_map = get_angular_units_map()
     assert isinstance(ang_map["deg"], Unit)
     assert ang_map["deg"].id == "deg"
     assert ang_map["deg"].name == "Degree"

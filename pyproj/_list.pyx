@@ -2,6 +2,7 @@ include "proj.pxi"
 
 from collections import namedtuple
 from enum import IntEnum
+import warnings
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import PJType
@@ -74,6 +75,12 @@ def get_units_map():
     dict:
         Units supported by PROJ
     """
+    warnings.warn(
+        "The behavior of 'pyproj.get_units_map' is deprecated "
+        "and will change in version 3.0.0.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     cdef PJ_UNITS *proj_units = proj_list_units()
     cdef int iii = 0
     units_map = {}
@@ -95,6 +102,13 @@ def get_angular_units_map():
     dict:
         Angular units supported by PROJ
     """
+    warnings.warn(
+        "'pyproj.get_angular_units_map' is deprecated. "
+        "Angular units will be available "
+        "in 'pyproj.get_units_map' in version 3.0.0.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     cdef PJ_UNITS *proj_units = proj_list_angular_units()
     cdef int iii = 0
     units_map = {}
