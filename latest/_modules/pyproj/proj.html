@@ -296,6 +296,7 @@
         <span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">inverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calling a Proj class instance with the arguments lon, lat will</span>
@@ -317,6 +318,11 @@
 <span class="sd">        inverse: boolean, optional</span>
 <span class="sd">            If inverse is True the inverse transformation from x/y to</span>
 <span class="sd">            lon/lat is performed. Default is False.</span>
+<span class="sd">        radians: boolean, optional</span>
+<span class="sd">            If True, will expect input data to be in radians and will return radians</span>
+<span class="sd">            if the projection is geographic. Default is False (degrees).</span>
+<span class="sd">            This does not work with pyproj 2 and is ignored. It will be enabled again</span>
+<span class="sd">            in pyproj 3.</span>
 <span class="sd">        errcheck: boolean, optional</span>
 <span class="sd">            If True an exception is raised if the errors are found in the process.</span>
 <span class="sd">            By default errcheck=False and ``inf`` is returned.</span>
@@ -326,6 +332,11 @@
 <span class="sd">        Tuple[Any, Any]:</span>
 <span class="sd">            The transformed coordinates.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">radians</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;radian input is currently not supported in pyproj 2. &quot;</span>
+                <span class="s2">&quot;Support for radian input will be added in pyproj 3.&quot;</span>
+            <span class="p">)</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span>
         <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span>
