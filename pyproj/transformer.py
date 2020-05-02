@@ -363,7 +363,7 @@ class Transformer:
         radians: boolean, optional
             If True, will expect input data to be in radians and will return radians
             if the projection is geographic. Default is False (degrees). Ignored for
-            pipeline transformations.
+            pipeline transformations with pyproj 2, but will work in pyproj 3.
         errcheck: boolean, optional
             If True an exception is raised if the transformation is invalid.
             By default errcheck=False and an invalid transformation

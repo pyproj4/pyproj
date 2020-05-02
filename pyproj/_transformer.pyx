@@ -424,8 +424,8 @@ cdef class _Transformer(Base):
             return
         if radians and self.is_pipeline:
             warnings.warn(
-                "radian input with pipelines is not supported and may result "
-                "in unexpected transformations."
+                "radian input with pipelines is not supported in pyproj 2. "
+                "support for raidans will be added in pyproj 3."
             )
 
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]

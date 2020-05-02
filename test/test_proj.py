@@ -522,3 +522,9 @@ def test_numpy_bool_kwarg_true():
         proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
     )
     assert "+south " in proj.srs
+
+
+def test_proj_radians_warning():
+    proj = Proj("epsg:4326")
+    with pytest.warns(UserWarning, match="radian"):
+        proj(1, 2, radians=True)
