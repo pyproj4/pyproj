@@ -1,0 +1,1365 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>importlib._bootstrap &mdash; pyproj 2.6.1rc0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.6.1rc0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>importlib._bootstrap</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for importlib._bootstrap</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Core implementation of import.</span>
+
+<span class="sd">This module is NOT meant to be directly imported! It has been designed such</span>
+<span class="sd">that it can be bootstrapped into Python as the implementation of import. As</span>
+<span class="sd">such it requires the injection of specific modules and attributes in order to</span>
+<span class="sd">work. One should use importlib as the public-facing version of this module.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1"># IMPORTANT: Whenever making changes to this module, be sure to run</span>
+<span class="c1"># a top-level make in order to get the frozen version of the module</span>
+<span class="c1"># updated. Not doing so will result in the Makefile to fail for</span>
+<span class="c1"># all others who don&#39;t have a ./python around to freeze the module</span>
+<span class="c1"># in the early stages of compilation.</span>
+<span class="c1">#</span>
+
+<span class="c1"># See importlib._setup() for what is injected into the global namespace.</span>
+
+<span class="c1"># When editing this code be aware that code executed at import time CANNOT</span>
+<span class="c1"># reference any injected objects! This includes not only global code but also</span>
+<span class="c1"># anything specified at the class level.</span>
+
+<span class="c1"># Bootstrap-related code ######################################################</span>
+
+<span class="n">_bootstrap_external</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="nf">_wrap</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">old</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Simple substitute for functools.update_wrapper.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">replace</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;__module__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__qualname__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">replace</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">replace</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">replace</span><span class="p">))</span>
+    <span class="n">new</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">old</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_new_module</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">sys</span><span class="p">)(</span><span class="n">name</span><span class="p">)</span>
+
+
+<span class="c1"># Module-level locking ########################################################</span>
+
+<span class="c1"># A dict mapping module names to weakrefs of _ModuleLock instances</span>
+<span class="c1"># Dictionary protected by the global import lock</span>
+<span class="n">_module_locks</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1"># A dict mapping thread ids to _ModuleLock instances</span>
+<span class="n">_blocking_on</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">class</span> <span class="nc">_DeadlockError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">_ModuleLock</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A recursive lock implementation which is able to detect deadlocks</span>
+<span class="sd">    (e.g. thread 1 trying to take locks A then B, and thread 2 trying to</span>
+<span class="sd">    take locks B then A).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">_thread</span><span class="o">.</span><span class="n">allocate_lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wakeup</span> <span class="o">=</span> <span class="n">_thread</span><span class="o">.</span><span class="n">allocate_lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waiters</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">has_deadlock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Deadlock avoidance for concurrent circular imports.</span>
+        <span class="n">me</span> <span class="o">=</span> <span class="n">_thread</span><span class="o">.</span><span class="n">get_ident</span><span class="p">()</span>
+        <span class="n">tid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">lock</span> <span class="o">=</span> <span class="n">_blocking_on</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tid</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lock</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="n">tid</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="n">owner</span>
+            <span class="k">if</span> <span class="n">tid</span> <span class="o">==</span> <span class="n">me</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Acquire the module lock.  If a potential deadlock is detected,</span>
+<span class="sd">        a _DeadlockError is raised.</span>
+<span class="sd">        Otherwise, the lock is always acquired and True is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tid</span> <span class="o">=</span> <span class="n">_thread</span><span class="o">.</span><span class="n">get_ident</span><span class="p">()</span>
+        <span class="n">_blocking_on</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">==</span> <span class="n">tid</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">tid</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">return</span> <span class="kc">True</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_deadlock</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="n">_DeadlockError</span><span class="p">(</span><span class="s1">&#39;deadlock detected by </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wakeup</span><span class="o">.</span><span class="n">acquire</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">waiters</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="c1"># Wait for a release() call</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">wakeup</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">wakeup</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">_blocking_on</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">tid</span> <span class="o">=</span> <span class="n">_thread</span><span class="o">.</span><span class="n">get_ident</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">!=</span> <span class="n">tid</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;cannot release un-acquired lock&#39;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiters</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">waiters</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">wakeup</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;_ModuleLock(</span><span class="si">{!r}</span><span class="s1">) at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_DummyModuleLock</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A simple _ModuleLock equivalent for Python builds without</span>
+<span class="sd">    multi-threading support.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;cannot release un-acquired lock&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;_DummyModuleLock(</span><span class="si">{!r}</span><span class="s1">) at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_ModuleLockManager</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">_get_module_lock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+
+<span class="c1"># The following two functions are for consumption by Python/import.c.</span>
+
+<span class="k">def</span> <span class="nf">_get_module_lock</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get or create the module lock for a given module name.</span>
+
+<span class="sd">    Acquire/release internally the global import lock to protect</span>
+<span class="sd">    _module_locks.&quot;&quot;&quot;</span>
+
+    <span class="n">_imp</span><span class="o">.</span><span class="n">acquire_lock</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">lock</span> <span class="o">=</span> <span class="n">_module_locks</span><span class="p">[</span><span class="n">name</span><span class="p">]()</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">lock</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">lock</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_thread</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lock</span> <span class="o">=</span> <span class="n">_DummyModuleLock</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lock</span> <span class="o">=</span> <span class="n">_ModuleLock</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">):</span>
+                <span class="n">_imp</span><span class="o">.</span><span class="n">acquire_lock</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># bpo-31070: Check if another thread created a new lock</span>
+                    <span class="c1"># after the previous lock was destroyed</span>
+                    <span class="c1"># but before the weakref callback was called.</span>
+                    <span class="k">if</span> <span class="n">_module_locks</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="n">ref</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">_module_locks</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="n">_imp</span><span class="o">.</span><span class="n">release_lock</span><span class="p">()</span>
+
+            <span class="n">_module_locks</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">lock</span><span class="p">,</span> <span class="n">cb</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">_imp</span><span class="o">.</span><span class="n">release_lock</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">lock</span>
+
+
+<span class="k">def</span> <span class="nf">_lock_unlock_module</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Acquires then releases the module lock for a given module name.</span>
+
+<span class="sd">    This is used to ensure a module is completely initialized, in the</span>
+<span class="sd">    event it is being imported by another thread.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lock</span> <span class="o">=</span> <span class="n">_get_module_lock</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">_DeadlockError</span><span class="p">:</span>
+        <span class="c1"># Concurrent circular import, we&#39;ll accept a partially initialized</span>
+        <span class="c1"># module object.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+<span class="c1"># Frame stripping magic ###############################################</span>
+<span class="k">def</span> <span class="nf">_call_with_frames_removed</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;remove_importlib_frames in import.c will always remove sequences</span>
+<span class="sd">    of importlib frames that end with a call to this function</span>
+
+<span class="sd">    Use it instead of a normal call in places where including the importlib</span>
+<span class="sd">    frames introduces unwanted noise into the traceback (e.g. when executing</span>
+<span class="sd">    module code)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_verbose_message</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Print the message to stderr if -v/PYTHONVERBOSE is turned on.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;=</span> <span class="n">verbosity</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">message</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;import &#39;</span><span class="p">)):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;# &#39;</span> <span class="o">+</span> <span class="n">message</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_requires_builtin</span><span class="p">(</span><span class="n">fxn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decorator to verify the named module is built-in.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_requires_builtin_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fullname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">builtin_module_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{!r}</span><span class="s1"> is not a built-in module&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullname</span><span class="p">),</span>
+                              <span class="n">name</span><span class="o">=</span><span class="n">fullname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fxn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">)</span>
+    <span class="n">_wrap</span><span class="p">(</span><span class="n">_requires_builtin_wrapper</span><span class="p">,</span> <span class="n">fxn</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_requires_builtin_wrapper</span>
+
+
+<span class="k">def</span> <span class="nf">_requires_frozen</span><span class="p">(</span><span class="n">fxn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decorator to verify the named module is frozen.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_requires_frozen_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_imp</span><span class="o">.</span><span class="n">is_frozen</span><span class="p">(</span><span class="n">fullname</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{!r}</span><span class="s1"> is not a frozen module&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullname</span><span class="p">),</span>
+                              <span class="n">name</span><span class="o">=</span><span class="n">fullname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fxn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">)</span>
+    <span class="n">_wrap</span><span class="p">(</span><span class="n">_requires_frozen_wrapper</span><span class="p">,</span> <span class="n">fxn</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_requires_frozen_wrapper</span>
+
+
+<span class="c1"># Typically used by loader classes as a method replacement.</span>
+<span class="k">def</span> <span class="nf">_load_module_shim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load the specified module into sys.modules and return it.</span>
+
+<span class="sd">    This method is deprecated.  Use loader.exec_module instead.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">spec_from_loader</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fullname</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">fullname</span><span class="p">]</span>
+        <span class="n">_exec</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">fullname</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_load</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+<span class="c1"># Module specifications #######################################################</span>
+
+<span class="k">def</span> <span class="nf">_module_repr</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+    <span class="c1"># The implementation of ModuleType.__repr__().</span>
+    <span class="n">loader</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__loader__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="s1">&#39;module_repr&#39;</span><span class="p">):</span>
+        <span class="c1"># As soon as BuiltinImporter, FrozenImporter, and NamespaceLoader</span>
+        <span class="c1"># drop their implementations for module_repr. we can add a</span>
+        <span class="c1"># deprecation warning here.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">loader</span><span class="o">.</span><span class="n">module_repr</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_module_repr_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="c1"># We could use module.__class__.__name__ instead of &#39;module&#39; in the</span>
+    <span class="c1"># various repr permutations.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__file__</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1"> (</span><span class="si">{!r}</span><span class="s1">)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1"> from </span><span class="si">{!r}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_installed_safely</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="o">=</span> <span class="n">module</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># This must be done before putting the module in sys.modules</span>
+        <span class="c1"># (otherwise an optimization shortcut in import.c becomes</span>
+        <span class="c1"># wrong)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">_initializing</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_verbose_message</span><span class="p">(</span><span class="s1">&#39;import </span><span class="si">{!r}</span><span class="s1"> # </span><span class="si">{!r}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">_initializing</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<span class="k">class</span> <span class="nc">ModuleSpec</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;The specification for a module, used for loading.</span>
+
+<span class="sd">    A module&#39;s spec is the source for information about the module.  For</span>
+<span class="sd">    data associated with the module, including source, use the spec&#39;s</span>
+<span class="sd">    loader.</span>
+
+<span class="sd">    `name` is the absolute name of the module.  `loader` is the loader</span>
+<span class="sd">    to use when loading the module.  `parent` is the name of the</span>
+<span class="sd">    package the module is in.  The parent is derived from the name.</span>
+
+<span class="sd">    `is_package` determines if the module is considered a package or</span>
+<span class="sd">    not.  On modules this is reflected by the `__path__` attribute.</span>
+
+<span class="sd">    `origin` is the specific location used by the loader from which to</span>
+<span class="sd">    load the module, if that information is available.  When filename is</span>
+<span class="sd">    set, origin will match.</span>
+
+<span class="sd">    `has_location` indicates that a spec&#39;s &quot;origin&quot; reflects a location.</span>
+<span class="sd">    When this is True, `__file__` attribute of the module is set.</span>
+
+<span class="sd">    `cached` is the location of the cached bytecode file, if any.  It</span>
+<span class="sd">    corresponds to the `__cached__` attribute.</span>
+
+<span class="sd">    `submodule_search_locations` is the sequence of path entries to</span>
+<span class="sd">    search when importing submodules.  If set, is_package should be</span>
+<span class="sd">    True--and False otherwise.</span>
+
+<span class="sd">    Packages are simply modules that (may) have submodules.  If a spec</span>
+<span class="sd">    has a non-None value in `submodule_search_locations`, the import</span>
+<span class="sd">    system will consider modules loaded from the spec as packages.</span>
+
+<span class="sd">    Only finders (see importlib.abc.MetaPathFinder and</span>
+<span class="sd">    importlib.abc.PathEntryFinder) should modify ModuleSpec instances.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loader_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">is_package</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">=</span> <span class="n">loader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loader_state</span> <span class="o">=</span> <span class="n">loader_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">is_package</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="c1"># file-location attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_fileattr</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name=</span><span class="si">{!r}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+                <span class="s1">&#39;loader=</span><span class="si">{!r}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;origin=</span><span class="si">{!r}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;submodule_search_locations=</span><span class="si">{}</span><span class="s1">&#39;</span>
+                        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">submodule_search_locations</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">smsl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">submodule_search_locations</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">loader</span> <span class="ow">and</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">origin</span> <span class="ow">and</span>
+                    <span class="n">smsl</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="ow">and</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cached</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cached</span> <span class="ow">and</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">has_location</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">has_location</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_fileattr</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_bootstrap_external</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cached</span> <span class="o">=</span> <span class="n">_bootstrap_external</span><span class="o">.</span><span class="n">_get_cached</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached</span>
+
+    <span class="nd">@cached</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cached</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached</span> <span class="o">=</span> <span class="n">cached</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The name of the module&#39;s parent.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_location</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_fileattr</span>
+
+    <span class="nd">@has_location</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">has_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_fileattr</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">spec_from_loader</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_package</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a module spec based on various loader methods.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="s1">&#39;get_filename&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">_bootstrap_external</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="n">spec_from_file_location</span> <span class="o">=</span> <span class="n">_bootstrap_external</span><span class="o">.</span><span class="n">spec_from_file_location</span>
+
+        <span class="k">if</span> <span class="n">is_package</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">spec_from_file_location</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="n">loader</span><span class="p">)</span>
+        <span class="n">search</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">is_package</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">spec_from_file_location</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="n">loader</span><span class="p">,</span>
+                                       <span class="n">submodule_search_locations</span><span class="o">=</span><span class="n">search</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_package</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="s1">&#39;is_package&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">is_package</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">is_package</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="n">is_package</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># aka, undefined</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># the default</span>
+            <span class="n">is_package</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">ModuleSpec</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="n">is_package</span><span class="o">=</span><span class="n">is_package</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_spec_from_module</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># This function is meant for use in _setup().</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">spec</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="k">if</span> <span class="n">loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">__loader__</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="c1"># loader will stay None.</span>
+            <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__file__</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">origin</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">_ORIGIN</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">origin</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">origin</span> <span class="o">=</span> <span class="n">location</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cached</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">__cached__</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">cached</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">submodule_search_locations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">__path__</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">submodule_search_locations</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">ModuleSpec</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">)</span>
+    <span class="n">spec</span><span class="o">.</span><span class="n">_set_fileattr</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">True</span>
+    <span class="n">spec</span><span class="o">.</span><span class="n">cached</span> <span class="o">=</span> <span class="n">cached</span>
+    <span class="n">spec</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="o">=</span> <span class="n">submodule_search_locations</span>
+    <span class="k">return</span> <span class="n">spec</span>
+
+
+<span class="k">def</span> <span class="nf">_init_module_attrs</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">override</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># The passed-in module may be not support attribute assignment,</span>
+    <span class="c1"># in which case we simply don&#39;t set the attributes.</span>
+    <span class="c1"># __name__</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">override</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="c1"># __loader__</span>
+    <span class="k">if</span> <span class="n">override</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__loader__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span>
+        <span class="k">if</span> <span class="n">loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># A backward compatibility hack.</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_bootstrap_external</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+                <span class="n">_NamespaceLoader</span> <span class="o">=</span> <span class="n">_bootstrap_external</span><span class="o">.</span><span class="n">_NamespaceLoader</span>
+
+                <span class="n">loader</span> <span class="o">=</span> <span class="n">_NamespaceLoader</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">_NamespaceLoader</span><span class="p">)</span>
+                <span class="n">loader</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">submodule_search_locations</span>
+                <span class="n">spec</span><span class="o">.</span><span class="n">loader</span> <span class="o">=</span> <span class="n">loader</span>
+                <span class="c1"># While the docs say that module.__file__ is not set for</span>
+                <span class="c1"># built-in modules, and the code below will avoid setting it if</span>
+                <span class="c1"># spec.has_location is false, this is incorrect for namespace</span>
+                <span class="c1"># packages.  Namespace packages have no location, but their</span>
+                <span class="c1"># __spec__.origin is None, and thus their module.__file__</span>
+                <span class="c1"># should also be None for consistency.  While a bit of a hack,</span>
+                <span class="c1"># this is the best place to ensure this consistency.</span>
+                <span class="c1">#</span>
+                <span class="c1"># See # https://docs.python.org/3/library/importlib.html#importlib.abc.Loader.load_module</span>
+                <span class="c1"># and bpo-32305</span>
+                <span class="n">module</span><span class="o">.</span><span class="vm">__file__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span><span class="o">.</span><span class="n">__loader__</span> <span class="o">=</span> <span class="n">loader</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="c1"># __package__</span>
+    <span class="k">if</span> <span class="n">override</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span><span class="o">.</span><span class="n">__package__</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">parent</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="c1"># __spec__</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span> <span class="o">=</span> <span class="n">spec</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="c1"># __path__</span>
+    <span class="k">if</span> <span class="n">override</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__path__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">module</span><span class="o">.</span><span class="n">__path__</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">submodule_search_locations</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="c1"># __file__/__cached__</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">has_location</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">override</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">module</span><span class="o">.</span><span class="vm">__file__</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">origin</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">override</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__cached__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">cached</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">module</span><span class="o">.</span><span class="n">__cached__</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">cached</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">module</span>
+
+
+<span class="k">def</span> <span class="nf">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a module based on the provided spec.&quot;&quot;&quot;</span>
+    <span class="c1"># Typically loaders will not implement create_module().</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="p">,</span> <span class="s1">&#39;create_module&#39;</span><span class="p">):</span>
+        <span class="c1"># If create_module() returns `None` then it means default</span>
+        <span class="c1"># module creation should be used.</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">create_module</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="p">,</span> <span class="s1">&#39;exec_module&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;loaders that define exec_module() &#39;</span>
+                          <span class="s1">&#39;must also define create_module()&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">_new_module</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">_init_module_attrs</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">module</span>
+
+
+<span class="k">def</span> <span class="nf">_module_repr_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the repr to use for the module.&quot;&quot;&quot;</span>
+    <span class="c1"># We mostly replicate _module_repr() using the spec attributes.</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1"> (</span><span class="si">{!r}</span><span class="s1">)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">has_location</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1"> from </span><span class="si">{!r}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span>
+
+
+<span class="c1"># Used by importlib.reload() and _load_module_shim().</span>
+<span class="k">def</span> <span class="nf">_exec</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Execute the spec&#39;s specified module in an existing module&#39;s namespace.&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">with</span> <span class="n">_ModuleLockManager</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">module</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;module </span><span class="si">{!r}</span><span class="s1"> not in sys.modules&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;missing loader&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="c1"># namespace package</span>
+            <span class="n">_init_module_attrs</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">override</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">module</span>
+        <span class="n">_init_module_attrs</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">override</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="p">,</span> <span class="s1">&#39;exec_module&#39;</span><span class="p">):</span>
+            <span class="c1"># (issue19713) Once BuiltinImporter and ExtensionFileLoader</span>
+            <span class="c1"># have exec_module() implemented, we can add a deprecation</span>
+            <span class="c1"># warning here.</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_load_backward_compatible</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+    <span class="c1"># (issue19713) Once BuiltinImporter and ExtensionFileLoader</span>
+    <span class="c1"># have exec_module() implemented, we can add a deprecation</span>
+    <span class="c1"># warning here.</span>
+    <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="c1"># The module must be in sys.modules at this point!</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__loader__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span><span class="o">.</span><span class="n">__loader__</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Since module.__path__ may not line up with</span>
+            <span class="c1"># spec.submodule_search_paths, we can&#39;t necessarily rely</span>
+            <span class="c1"># on spec.parent here.</span>
+            <span class="n">module</span><span class="o">.</span><span class="n">__package__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__path__&#39;</span><span class="p">):</span>
+                <span class="n">module</span><span class="o">.</span><span class="n">__package__</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__spec__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span> <span class="o">=</span> <span class="n">spec</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">module</span>
+
+<span class="k">def</span> <span class="nf">_load_unlocked</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+    <span class="c1"># A helper for direct use by the import system.</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># not a namespace package</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="p">,</span> <span class="s1">&#39;exec_module&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">_load_backward_compatible</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="n">module</span> <span class="o">=</span> <span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">_installed_safely</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">submodule_search_locations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;missing loader&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="c1"># A namespace package so do nothing.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+
+    <span class="c1"># We don&#39;t ensure that the import-related module attributes get</span>
+    <span class="c1"># set in the sys.modules replacement case.  Such modules are on</span>
+    <span class="c1"># their own.</span>
+    <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+<span class="c1"># A method used during testing of _load_unlocked() and by</span>
+<span class="c1"># _load_module_shim().</span>
+<span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a new module object, loaded by the spec&#39;s loader.</span>
+
+<span class="sd">    The module is not added to its parent.</span>
+
+<span class="sd">    If a module is already in sys.modules, that existing module gets</span>
+<span class="sd">    clobbered.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">_ModuleLockManager</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_load_unlocked</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+
+<span class="c1"># Loaders #####################################################################</span>
+
+<span class="k">class</span> <span class="nc">BuiltinImporter</span><span class="p">:</span>
+
+    <span class="sd">&quot;&quot;&quot;Meta path import for built-in modules.</span>
+
+<span class="sd">    All methods are either class or static methods to avoid the need to</span>
+<span class="sd">    instantiate the class.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">module_repr</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return repr for the module.</span>
+
+<span class="sd">        The method is deprecated.  The import machinery does the job itself.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1"> (built-in)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">find_spec</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">_imp</span><span class="o">.</span><span class="n">is_builtin</span><span class="p">(</span><span class="n">fullname</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">spec_from_loader</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;built-in&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">find_module</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find the built-in module.</span>
+
+<span class="sd">        If &#39;path&#39; is ever specified then the search is considered a failure.</span>
+
+<span class="sd">        This method is deprecated.  Use find_spec() instead.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span> <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a built-in module&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">builtin_module_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{!r}</span><span class="s1"> is not a built-in module&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+                              <span class="n">name</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_call_with_frames_removed</span><span class="p">(</span><span class="n">_imp</span><span class="o">.</span><span class="n">create_builtin</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">exec_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Exec a built-in module&quot;&quot;&quot;</span>
+        <span class="n">_call_with_frames_removed</span><span class="p">(</span><span class="n">_imp</span><span class="o">.</span><span class="n">exec_builtin</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@_requires_builtin</span>
+    <span class="k">def</span> <span class="nf">get_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return None as built-in modules do not have code objects.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@_requires_builtin</span>
+    <span class="k">def</span> <span class="nf">get_source</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return None as built-in modules do not have source code.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@_requires_builtin</span>
+    <span class="k">def</span> <span class="nf">is_package</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return False as built-in modules are never packages.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">load_module</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_load_module_shim</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">FrozenImporter</span><span class="p">:</span>
+
+    <span class="sd">&quot;&quot;&quot;Meta path import for frozen modules.</span>
+
+<span class="sd">    All methods are either class or static methods to avoid the need to</span>
+<span class="sd">    instantiate the class.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">module_repr</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return repr for the module.</span>
+
+<span class="sd">        The method is deprecated.  The import machinery does the job itself.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1"> (frozen)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">find_spec</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">_imp</span><span class="o">.</span><span class="n">is_frozen</span><span class="p">(</span><span class="n">fullname</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">spec_from_loader</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;frozen&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">find_module</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find a frozen module.</span>
+
+<span class="sd">        This method is deprecated.  Use find_spec() instead.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span> <span class="k">if</span> <span class="n">_imp</span><span class="o">.</span><span class="n">is_frozen</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_module</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Use default semantics for module creation.&quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">exec_module</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_imp</span><span class="o">.</span><span class="n">is_frozen</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{!r}</span><span class="s1"> is not a frozen module&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+                              <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">_call_with_frames_removed</span><span class="p">(</span><span class="n">_imp</span><span class="o">.</span><span class="n">get_frozen_object</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">exec</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_module</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a frozen module.</span>
+
+<span class="sd">        This method is deprecated.  Use exec_module() instead.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_load_module_shim</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@_requires_frozen</span>
+    <span class="k">def</span> <span class="nf">get_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the code object for the frozen module.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_imp</span><span class="o">.</span><span class="n">get_frozen_object</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@_requires_frozen</span>
+    <span class="k">def</span> <span class="nf">get_source</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return None as frozen modules do not have source code.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@_requires_frozen</span>
+    <span class="k">def</span> <span class="nf">is_package</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return True if the frozen module is a package.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_imp</span><span class="o">.</span><span class="n">is_frozen_package</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+
+
+<span class="c1"># Import itself ###############################################################</span>
+
+<span class="k">class</span> <span class="nc">_ImportLockContext</span><span class="p">:</span>
+
+    <span class="sd">&quot;&quot;&quot;Context manager for the import lock.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Acquire the import lock.&quot;&quot;&quot;</span>
+        <span class="n">_imp</span><span class="o">.</span><span class="n">acquire_lock</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Release the import lock regardless of any raised exceptions.&quot;&quot;&quot;</span>
+        <span class="n">_imp</span><span class="o">.</span><span class="n">release_lock</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_resolve_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Resolve a relative module name to an absolute one.&quot;&quot;&quot;</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">level</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;attempted relative import beyond top-level package&#39;</span><span class="p">)</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">bits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="n">base</span>
+
+
+<span class="k">def</span> <span class="nf">_find_spec_legacy</span><span class="p">(</span><span class="n">finder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="c1"># This would be a good place for a DeprecationWarning if</span>
+    <span class="c1"># we ended up going that route.</span>
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">finder</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">spec_from_loader</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_find_spec</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find a module&#39;s spec.&quot;&quot;&quot;</span>
+    <span class="n">meta_path</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">meta_path</span>
+    <span class="k">if</span> <span class="n">meta_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># PyImport_Cleanup() is running or has been called.</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;sys.meta_path is None, Python is likely &quot;</span>
+                          <span class="s2">&quot;shutting down&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">meta_path</span><span class="p">:</span>
+        <span class="n">_warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;sys.meta_path is empty&#39;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+
+    <span class="c1"># We check sys.modules here for the reload case.  While a passed-in</span>
+    <span class="c1"># target will usually indicate a reload there is no guarantee, whereas</span>
+    <span class="c1"># sys.modules provides one.</span>
+    <span class="n">is_reload</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span>
+    <span class="k">for</span> <span class="n">finder</span> <span class="ow">in</span> <span class="n">meta_path</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">_ImportLockContext</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">find_spec</span> <span class="o">=</span> <span class="n">finder</span><span class="o">.</span><span class="n">find_spec</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="n">_find_spec_legacy</span><span class="p">(</span><span class="n">finder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="n">find_spec</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># The parent import may have already imported this module.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_reload</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+                <span class="n">module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">__spec__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="c1"># We use the found spec since that is the one that</span>
+                    <span class="c1"># we would have used if the parent module hadn&#39;t</span>
+                    <span class="c1"># beaten us to the punch.</span>
+                    <span class="k">return</span> <span class="n">spec</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">__spec__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">spec</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">__spec__</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">spec</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">_sanity_check</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify arguments are &quot;sane&quot;.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;module name must be str, not </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;level must be &gt;= 0&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;__package__ not set to a string&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">package</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;attempted relative import with no known parent &#39;</span>
+                              <span class="s1">&#39;package&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Empty module name&#39;</span><span class="p">)</span>
+
+
+<span class="n">_ERR_MSG_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;No module named &#39;</span>
+<span class="n">_ERR_MSG</span> <span class="o">=</span> <span class="n">_ERR_MSG_PREFIX</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{!r}</span><span class="s1">&#39;</span>
+
+<span class="k">def</span> <span class="nf">_find_and_load_unlocked</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">import_</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">parent</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+            <span class="n">_call_with_frames_removed</span><span class="p">(</span><span class="n">import_</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+        <span class="c1"># Crazy side-effects!</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">parent_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">parent_module</span><span class="o">.</span><span class="n">__path__</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="n">_ERR_MSG</span> <span class="o">+</span> <span class="s1">&#39;; </span><span class="si">{!r}</span><span class="s1"> is not a package&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">_find_spec</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="n">_ERR_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">_load_unlocked</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">parent</span><span class="p">:</span>
+        <span class="c1"># Set the module as an attribute on its parent.</span>
+        <span class="n">parent_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">parent_module</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">module</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">module</span>
+
+
+<span class="n">_NEEDS_LOADING</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_find_and_load</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">import_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find and load the module.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">_ModuleLockManager</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_NEEDS_LOADING</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="n">_NEEDS_LOADING</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_find_and_load_unlocked</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">import_</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;import of </span><span class="si">{}</span><span class="s1"> halted; &#39;</span>
+                   <span class="s1">&#39;None in sys.modules&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">_lock_unlock_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">module</span>
+
+
+<span class="k">def</span> <span class="nf">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Import and return the module based on its name, the package the call is</span>
+<span class="sd">    being made from, and the level adjustment.</span>
+
+<span class="sd">    This function represents the greatest common denominator of functionality</span>
+<span class="sd">    between import_module and __import__. This includes setting __package__ if</span>
+<span class="sd">    the loader did not.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_sanity_check</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_resolve_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_find_and_load</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_gcd_import</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_handle_fromlist</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">fromlist</span><span class="p">,</span> <span class="n">import_</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Figure out what __import__ should return.</span>
+
+<span class="sd">    The import_ parameter is a callable which takes the name of module to</span>
+<span class="sd">    import. It is required to decouple the function from assuming importlib&#39;s</span>
+<span class="sd">    import implementation is desired.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The hell that is fromlist ...</span>
+    <span class="c1"># If a package was imported, try to import stuff from fromlist.</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__path__&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fromlist</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
+                    <span class="n">where</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;.__all__&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;``from list&#39;&#39;&quot;</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Item in </span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2"> must be str, &quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">recursive</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__all__&#39;</span><span class="p">):</span>
+                    <span class="n">_handle_fromlist</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">module</span><span class="o">.</span><span class="n">__all__</span><span class="p">,</span> <span class="n">import_</span><span class="p">,</span>
+                                     <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+                <span class="n">from_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">_call_with_frames_removed</span><span class="p">(</span><span class="n">import_</span><span class="p">,</span> <span class="n">from_name</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ModuleNotFoundError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="c1"># Backwards-compatibility dictates we ignore failed</span>
+                    <span class="c1"># imports triggered by fromlist for modules that don&#39;t</span>
+                    <span class="c1"># exist.</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">from_name</span> <span class="ow">and</span>
+                        <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">from_name</span><span class="p">,</span> <span class="n">_NEEDS_LOADING</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="k">raise</span>
+    <span class="k">return</span> <span class="n">module</span>
+
+
+<span class="k">def</span> <span class="nf">_calc___package__</span><span class="p">(</span><span class="nb">globals</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate what __package__ should be.</span>
+
+<span class="sd">    __package__ is not guaranteed to be defined or could be set to None</span>
+<span class="sd">    to represent that its proper value is unknown.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">package</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__package__&#39;</span><span class="p">)</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__spec__&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">package</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">package</span> <span class="o">!=</span> <span class="n">spec</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+            <span class="n">_warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;__package__ != __spec__.parent &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">package</span><span class="si">!r}</span><span class="s2"> != </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">parent</span><span class="si">!r}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                           <span class="ne">ImportWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">package</span>
+    <span class="k">elif</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">parent</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;can&#39;t resolve package from __spec__ or __package__, &quot;</span>
+                       <span class="s2">&quot;falling back on __name__ and __path__&quot;</span><span class="p">,</span>
+                       <span class="ne">ImportWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">[</span><span class="s1">&#39;__name__&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;__path__&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">:</span>
+            <span class="n">package</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">package</span>
+
+
+<span class="k">def</span> <span class="nf">__import__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">locals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fromlist</span><span class="o">=</span><span class="p">(),</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Import a module.</span>
+
+<span class="sd">    The &#39;globals&#39; argument is used to infer where the import is occurring from</span>
+<span class="sd">    to handle relative imports. The &#39;locals&#39; argument is ignored. The</span>
+<span class="sd">    &#39;fromlist&#39; argument specifies what should exist as attributes on the module</span>
+<span class="sd">    being imported (e.g. ``from module import &lt;fromlist&gt;``).  The &#39;level&#39;</span>
+<span class="sd">    argument represents the package location to import from in a relative</span>
+<span class="sd">    import (e.g. ``from ..pkg import mod`` would have a &#39;level&#39; of 2).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">globals_</span> <span class="o">=</span> <span class="nb">globals</span> <span class="k">if</span> <span class="nb">globals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">_calc___package__</span><span class="p">(</span><span class="n">globals_</span><span class="p">)</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fromlist</span><span class="p">:</span>
+        <span class="c1"># Return up to the first dot in &#39;name&#39;. This is complicated by the fact</span>
+        <span class="c1"># that &#39;name&#39; may be relative.</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">module</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Figure out where to slice the module&#39;s name up to the first dot</span>
+            <span class="c1"># in &#39;name&#39;.</span>
+            <span class="n">cut_off</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c1"># Slice end needs to be positive to alleviate need to special-case</span>
+            <span class="c1"># when ``&#39;.&#39; not in name``.</span>
+            <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="o">-</span><span class="n">cut_off</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_handle_fromlist</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">fromlist</span><span class="p">,</span> <span class="n">_gcd_import</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_builtin_from_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">BuiltinImporter</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;no built-in module named &#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_load_unlocked</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_setup</span><span class="p">(</span><span class="n">sys_module</span><span class="p">,</span> <span class="n">_imp_module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Setup importlib by importing needed built-in modules and injecting them</span>
+<span class="sd">    into the global namespace.</span>
+
+<span class="sd">    As sys is needed for sys.modules access and _imp is needed to load built-in</span>
+<span class="sd">    modules, those two modules must be explicitly passed in.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_imp</span><span class="p">,</span> <span class="n">sys</span>
+    <span class="n">_imp</span> <span class="o">=</span> <span class="n">_imp_module</span>
+    <span class="n">sys</span> <span class="o">=</span> <span class="n">sys_module</span>
+
+    <span class="c1"># Set up the spec for existing builtin/frozen modules.</span>
+    <span class="n">module_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">module_type</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">builtin_module_names</span><span class="p">:</span>
+                <span class="n">loader</span> <span class="o">=</span> <span class="n">BuiltinImporter</span>
+            <span class="k">elif</span> <span class="n">_imp</span><span class="o">.</span><span class="n">is_frozen</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                <span class="n">loader</span> <span class="o">=</span> <span class="n">FrozenImporter</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">_spec_from_module</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">loader</span><span class="p">)</span>
+            <span class="n">_init_module_attrs</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
+
+    <span class="c1"># Directly load built-in modules needed during bootstrap.</span>
+    <span class="n">self_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">builtin_name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;_thread&#39;</span><span class="p">,</span> <span class="s1">&#39;_warnings&#39;</span><span class="p">,</span> <span class="s1">&#39;_weakref&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">builtin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+            <span class="n">builtin_module</span> <span class="o">=</span> <span class="n">_builtin_from_name</span><span class="p">(</span><span class="n">builtin_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">builtin_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">builtin_name</span><span class="p">]</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">self_module</span><span class="p">,</span> <span class="n">builtin_name</span><span class="p">,</span> <span class="n">builtin_module</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_install</span><span class="p">(</span><span class="n">sys_module</span><span class="p">,</span> <span class="n">_imp_module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Install importers for builtin and frozen modules&quot;&quot;&quot;</span>
+    <span class="n">_setup</span><span class="p">(</span><span class="n">sys_module</span><span class="p">,</span> <span class="n">_imp_module</span><span class="p">)</span>
+
+    <span class="n">sys</span><span class="o">.</span><span class="n">meta_path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BuiltinImporter</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">meta_path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FrozenImporter</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_install_external_importers</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Install importers that require external filesystem access&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_bootstrap_external</span>
+    <span class="kn">import</span> <span class="nn">_frozen_importlib_external</span>
+    <span class="n">_bootstrap_external</span> <span class="o">=</span> <span class="n">_frozen_importlib_external</span>
+    <span class="n">_frozen_importlib_external</span><span class="o">.</span><span class="n">_install</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">])</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
