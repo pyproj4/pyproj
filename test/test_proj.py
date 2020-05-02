@@ -443,7 +443,7 @@ def test_get_factors__2d_input(radians):
     )
     assert_almost_equal(factors.angular_distortion, [[0, 0], [0, 0]], decimal=5)
     assert_almost_equal(
-        factors.meridian_parallel_angle, [[89.99999879, 90], [90, 90]],
+        factors.meridian_parallel_angle, [[89.99, 90], [90, 90]], decimal=2
     )
     assert_almost_equal(factors.meridian_convergence, [[0, 0], [0, 0]])
     assert_almost_equal(
