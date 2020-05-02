@@ -94,7 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#init-auth-auth-code-should-be-replaced-with-auth-auth-code"><cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> should be replaced with <cite>&lt;auth&gt;:&lt;auth_code&gt;</cite></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#proj-not-a-generic-latitude-longitude-to-projection-converter">Proj (Not a generic latitude/longitude to projection converter)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx">Why does the EPSG code return when using <cite>EPSG:xxxx</cite> and not with <cite>+init=EPSG:xxxx</cite>?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sqlite-error-on-select">SQLite error on SELECT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#internal-proj-error-sqlite-error-on-select">Internal PROJ Error … SQLite error on SELECT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#upgrading-to-pyproj-2-from-pyproj-1">Upgrading to pyproj 2 from pyproj 1</a></li>
 </ul>
 </li>
@@ -375,14 +375,21 @@ threshold you are comfortable with.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="sqlite-error-on-select">
-<h2>SQLite error on SELECT<a class="headerlink" href="#sqlite-error-on-select" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="internal-proj-error-sqlite-error-on-select">
+<h2>Internal PROJ Error … SQLite error on SELECT<a class="headerlink" href="#internal-proj-error-sqlite-error-on-select" title="Permalink to this headline">¶</a></h2>
 <p>The PROJ database is based on the EPSG database. With each release,
 there is a good chance that there are database updates. If you have multiple
 versions of PROJ installed on your systems and the search path for
 the data directory becomes mixed up, you may see an error message like:
 <cite>SQLite error on SELECT</cite>. This is likely due to a version of PROJ
 attempting to use an incompatible database.</p>
+<p>Debugging tips:</p>
+<ul class="simple">
+<li><p>To get data directory being used: <a class="reference internal" href="api/datadir.html#pyproj.datadir.get_data_dir" title="pyproj.datadir.get_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_data_dir()</span></code></a></p></li>
+<li><p>The order for searching for the data directory can be found in
+the docstrings of <a class="reference internal" href="api/datadir.html#pyproj.datadir.get_data_dir" title="pyproj.datadir.get_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_data_dir()</span></code></a></p></li>
+<li><p>To change the data directory: <a class="reference internal" href="api/datadir.html#pyproj.datadir.get_data_dir" title="pyproj.datadir.get_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_data_dir()</span></code></a></p></li>
+</ul>
 </div>
 <div class="section" id="upgrading-to-pyproj-2-from-pyproj-1">
 <span id="upgrade-transformer"></span><h2>Upgrading to pyproj 2 from pyproj 1<a class="headerlink" href="#upgrading-to-pyproj-2-from-pyproj-1" title="Permalink to this headline">¶</a></h2>

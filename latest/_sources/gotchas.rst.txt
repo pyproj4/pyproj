@@ -233,8 +233,8 @@ Here is an example of that:
     False
 
 
-SQLite error on SELECT
-----------------------
+Internal PROJ Error ... SQLite error on SELECT
+----------------------------------------------
 
 The PROJ database is based on the EPSG database. With each release,
 there is a good chance that there are database updates. If you have multiple
@@ -242,6 +242,14 @@ versions of PROJ installed on your systems and the search path for
 the data directory becomes mixed up, you may see an error message like:
 `SQLite error on SELECT`. This is likely due to a version of PROJ
 attempting to use an incompatible database.
+
+
+Debugging tips:
+
+- To get data directory being used: :func:`pyproj.datadir.get_data_dir`
+- The order for searching for the data directory can be found in
+  the docstrings of :func:`pyproj.datadir.get_data_dir`
+- To change the data directory: :func:`pyproj.datadir.get_data_dir`
 
 
 .. _upgrade_transformer:
