@@ -3,6 +3,7 @@ Change Log
 
 2.6.1
 ~~~~~
+* WHL: Wheels contain PROJ version is 7.0.1
 * BUG: Allow `*_name` to be added in CRS.to_cf (issue #585)
 * BUG: Fix building prime meridian in :meth:`pyproj.crs.CRS.from_cf` (pull #588)
 * BUG: Fix check for numpy bool True kwarg (pull #590)
