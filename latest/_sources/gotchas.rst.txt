@@ -232,6 +232,18 @@ Here is an example of that:
     >>> crs_epsg == crs_deprecated
     False
 
+
+SQLite error on SELECT
+----------------------
+
+The PROJ database is based on the EPSG database. With each release,
+there is a good chance that there are database updates. If you have multiple
+versions of PROJ installed on your systems and the search path for
+the data directory becomes mixed up, you may see an error message like:
+`SQLite error on SELECT`. This is likely due to a version of PROJ
+attempting to use an incompatible database.
+
+
 .. _upgrade_transformer:
 
 Upgrading to pyproj 2 from pyproj 1
