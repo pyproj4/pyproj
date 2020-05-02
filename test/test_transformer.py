@@ -738,5 +738,5 @@ def test_pipeline_itransform(pipeline_str):
 
 def test_pipeline_radian_transform_warning():
     trans = Transformer.from_pipeline("+proj=pipeline +ellps=GRS80 +step +proj=cart")
-    with pytest.warns(UserWarning):
+    with pytest.warns(UserWarning, match="radian"):
         trans.transform(0.1, 0.1, 0, radians=True)

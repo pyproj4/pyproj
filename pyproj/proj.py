@@ -137,6 +137,7 @@ class Proj(_Proj):
         latitude: Any,
         inverse: bool = False,
         errcheck: bool = False,
+        radians: bool = False,
     ) -> Tuple[Any, Any]:
         """
         Calling a Proj class instance with the arguments lon, lat will
@@ -158,6 +159,11 @@ class Proj(_Proj):
         inverse: boolean, optional
             If inverse is True the inverse transformation from x/y to
             lon/lat is performed. Default is False.
+        radians: boolean, optional
+            If True, will expect input data to be in radians and will return radians
+            if the projection is geographic. Default is False (degrees).
+            This does not work with pyproj 2 and is ignored. It will be enabled again
+            in pyproj 3.
         errcheck: boolean, optional
             If True an exception is raised if the errors are found in the process.
             By default errcheck=False and ``inf`` is returned.
@@ -167,6 +173,11 @@ class Proj(_Proj):
         Tuple[Any, Any]:
             The transformed coordinates.
         """
+        if radians:
+            warnings.warn(
+                "radian input is currently not supported in pyproj 2. "
+                "Support for radian input will be added in pyproj 3."
+            )
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(longitude)
         iny, yisfloat, yislist, yistuple = _copytobuffer(latitude)
