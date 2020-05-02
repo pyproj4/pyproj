@@ -589,7 +589,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <li><p><strong>tt</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em><em>, </em><em>optional</em>) – Input time coordinate(s).</p></li>
 <li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
 if the projection is geographic. Default is False (degrees). Ignored for
-pipeline transformations.</p></li>
+pipeline transformations with pyproj 2, but will work in pyproj 3.</p></li>
 <li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the transformation is invalid.
 By default errcheck=False and an invalid transformation
 returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>

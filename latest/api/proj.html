@@ -218,7 +218,7 @@ vice versa using PROJ (<a class="reference external" href="https://proj.org">htt
 
 <dl class="py method">
 <dt id="pyproj.proj.Proj.__call__">
-<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">longitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">inverse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">longitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">inverse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">radians</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calling a Proj class instance with the arguments lon, lat will
 convert lon/lat (in degrees) to x/y native map projection
 coordinates (in meters).</p>
@@ -233,6 +233,10 @@ sequences and scalars, but is fastest for array objects.</p>
 <li><p><strong>latitude</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input latitude coordinate(s).</p></li>
 <li><p><strong>inverse</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If inverse is True the inverse transformation from x/y to
 lon/lat is performed. Default is False.</p></li>
+<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Default is False (degrees).
+This does not work with pyproj 2 and is ignored. It will be enabled again
+in pyproj 3.</p></li>
 <li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the errors are found in the process.
 By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned.</p></li>
 </ul>
