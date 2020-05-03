@@ -594,16 +594,15 @@ def test_transform_group__missing_best():
             )
 
         assert not trans_group.best_available
-        assert len(trans_group.transformers) == 37
-        assert len(trans_group.unavailable_operations) == 41
+        assert "ntv2_0" not in trans_group.transformers[0].definition
+        assert "ntv2_0" in trans_group.unavailable_operations[0].to_proj4()
     else:
         # assuming all grids avaiable or PROJ_NETWORK=ON
         trans_group = pyproj.transformer.TransformerGroup(
             lat_lon_proj.crs, alaska_aea_proj.crs
         )
         assert trans_group.best_available
-        assert len(trans_group.transformers) == 78
-        assert len(trans_group.unavailable_operations) == 0
+        assert "ntv2_0" in trans_group.transformers[0].definition
 
 
 def test_transform_group__area_of_interest():
