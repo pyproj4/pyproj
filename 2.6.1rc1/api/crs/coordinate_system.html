@@ -1,0 +1,655 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Coordinate Systems &mdash; pyproj 2.6.1rc1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Coordinate Operations" href="coordinate_operation.html" />
+    <link rel="prev" title="CRS" href="crs.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.6.1rc1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">CRS module API Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="crs.html">CRS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Coordinate Systems</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#coordinatesystem">CoordinateSystem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#axis">Axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ellipsoidal2dcs">Ellipsoidal2DCS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ellipsoidal3dcs">Ellipsoidal3DCS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cartesian2dcs">Cartesian2DCS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verticalcs">VerticalCS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="coordinate_operation.html">Coordinate Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html">Datum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enums.html">Enumerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../transformer.html">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geod.html">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../show_versions.html">Show Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="index.html">CRS module API Documentation</a> &raquo;</li>
+        
+      <li>Coordinate Systems</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api/crs/coordinate_system.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="coordinate-systems">
+<span id="coordinate-system"></span><h1>Coordinate Systems<a class="headerlink" href="#coordinate-systems" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="coordinatesystem">
+<h2>CoordinateSystem<a class="headerlink" href="#coordinatesystem" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.CoordinateSystem">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">CoordinateSystem</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p>Coordinate System for CRS</p>
+<dl class="py attribute">
+<dt id="pyproj.crs.CoordinateSystem.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the coordinate system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.CoordinateSystem.axis_list">
+<code class="sig-name descname">axis_list</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem.axis_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: The Axis list for the coordinate system.
+:rtype: list[Axis]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.crs.CoordinateSystem.from_json">
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinate_system_json_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create Coordinate System from a JSON string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinate_system_json_str</strong> (<em>str</em>) – Coordinate System JSON string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateSystem" title="pyproj.crs.CoordinateSystem">CoordinateSystem</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.crs.CoordinateSystem.from_json_dict">
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinate_system_dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Create Coordinate System from a JSON dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinate_system_dict</strong> (<em>str</em>) – Coordinate System dictionary.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateSystem" title="pyproj.crs.CoordinateSystem">CoordinateSystem</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.crs.CoordinateSystem.from_string">
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinate_system_string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only works with PROJ JSON.</p>
+</div>
+<p>Create a Coordinate System from a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coordinate_system_string</strong> (<em>str</em>) – Coordinate System string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.crs.CoordinateSystem" title="pyproj.crs.CoordinateSystem">CoordinateSystem</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.crs.CoordinateSystem.from_user_input">
+<code class="sig-name descname">from_user_input</code><span class="sig-paren">(</span><em class="sig-param">type cls</em>, <em class="sig-param">user_input</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.from_user_input" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<dl class="simple">
+<dt>Create cls from user input:</dt><dd><ul class="simple">
+<li><p>PROJ JSON string</p></li>
+<li><p>PROJ JSON dict</p></li>
+<li><p>WKT string</p></li>
+<li><p>An authority string</p></li>
+<li><p>An EPSG integer code</p></li>
+<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An object with a <cite>to_json</cite> method.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.crs.CoordinateSystem.is_exact_same">
+<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.is_exact_same" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares projection objects to see if they are exactly the same.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.CoordinateSystem.remarks">
+<code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Remarks about object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.CoordinateSystem.scope">
+<code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.crs.CoordinateSystem.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Scope of object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.crs.CoordinateSystem.to_json">
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">pretty</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indentation</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.to_json" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Convert the object to a JSON string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.crs.CoordinateSystem.to_json_dict">
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p>Convert the object to a JSON dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.crs.CoordinateSystem.to_wkt">
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">version</span><span class="o">=</span><span class="default_value">WktVersion.WKT2_2019</span></em>, <em class="sig-param"><span class="n">pretty</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateSystem.to_wkt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a WKT string.</p>
+<dl class="simple">
+<dt>Version options:</dt><dd><ul class="simple">
+<li><p>WKT2_2015</p></li>
+<li><p>WKT2_2015_SIMPLIFIED</p></li>
+<li><p>WKT2_2019</p></li>
+<li><p>WKT2_2019_SIMPLIFIED</p></li>
+<li><p>WKT1_GDAL</p></li>
+<li><p>WKT1_ESRI</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
+Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="axis">
+<h2>Axis<a class="headerlink" href="#axis" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj._crs.Axis">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj._crs.</code><code class="sig-name descname">Axis</code><a class="headerlink" href="#pyproj._crs.Axis" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p>Coordinate System Axis</p>
+<dl class="py attribute">
+<dt id="pyproj._crs.Axis.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj._crs.Axis.name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj._crs.Axis.abbrev">
+<code class="sig-name descname">abbrev</code><a class="headerlink" href="#pyproj._crs.Axis.abbrev" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj._crs.Axis.direction">
+<code class="sig-name descname">direction</code><a class="headerlink" href="#pyproj._crs.Axis.direction" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj._crs.Axis.unit_conversion_factor">
+<code class="sig-name descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj._crs.Axis.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj._crs.Axis.unit_name">
+<code class="sig-name descname">unit_name</code><a class="headerlink" href="#pyproj._crs.Axis.unit_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj._crs.Axis.unit_auth_code">
+<code class="sig-name descname">unit_auth_code</code><a class="headerlink" href="#pyproj._crs.Axis.unit_auth_code" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj._crs.Axis.unit_code">
+<code class="sig-name descname">unit_code</code><a class="headerlink" href="#pyproj._crs.Axis.unit_code" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ellipsoidal2dcs">
+<h2>Ellipsoidal2DCS<a class="headerlink" href="#ellipsoidal2dcs" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.coordinate_system.Ellipsoidal2DCS">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_system.</code><code class="sig-name descname">Ellipsoidal2DCS</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_system.html#Ellipsoidal2DCS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_system.Ellipsoidal2DCS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateSystem</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>This generates an Ellipsoidal 2D Coordinate System</p>
+<dl class="py method">
+<dt id="pyproj.crs.coordinate_system.Ellipsoidal2DCS.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">axis: Union[pyproj.crs.enums.Ellipsoidal2DCSAxis</em>, <em class="sig-param">str] = &lt;Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE: 'LONGITUDE_LATITUDE'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_system.html#Ellipsoidal2DCS.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_system.Ellipsoidal2DCS.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.Ellipsoidal2DCSAxis" title="pyproj.crs.enums.Ellipsoidal2DCSAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.enums.Ellipsoidal2DCSAxis</span></code></a> or str, optional) – This is the axis order of the coordinate system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ellipsoidal3dcs">
+<h2>Ellipsoidal3DCS<a class="headerlink" href="#ellipsoidal3dcs" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.coordinate_system.Ellipsoidal3DCS">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_system.</code><code class="sig-name descname">Ellipsoidal3DCS</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_system.html#Ellipsoidal3DCS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_system.Ellipsoidal3DCS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateSystem</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>This generates an Ellipsoidal 3D Coordinate System</p>
+<dl class="py method">
+<dt id="pyproj.crs.coordinate_system.Ellipsoidal3DCS.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">axis: Union[pyproj.crs.enums.Ellipsoidal3DCSAxis</em>, <em class="sig-param">str] = &lt;Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT: 'LONGITUDE_LATITUDE_HEIGHT'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_system.html#Ellipsoidal3DCS.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_system.Ellipsoidal3DCS.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.Ellipsoidal3DCSAxis" title="pyproj.crs.enums.Ellipsoidal3DCSAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.enums.Ellipsoidal3DCSAxis</span></code></a> or str, optional) – This is the axis order of the coordinate system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="cartesian2dcs">
+<h2>Cartesian2DCS<a class="headerlink" href="#cartesian2dcs" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.coordinate_system.Cartesian2DCS">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_system.</code><code class="sig-name descname">Cartesian2DCS</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_system.html#Cartesian2DCS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_system.Cartesian2DCS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateSystem</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>This generates an Cartesian 2D Coordinate System</p>
+<dl class="py method">
+<dt id="pyproj.crs.coordinate_system.Cartesian2DCS.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">axis: Union[pyproj.crs.enums.Cartesian2DCSAxis</em>, <em class="sig-param">str] = &lt;Cartesian2DCSAxis.EASTING_NORTHING: 'EASTING_NORTHING'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_system.html#Cartesian2DCS.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_system.Cartesian2DCS.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.Cartesian2DCSAxis" title="pyproj.crs.enums.Cartesian2DCSAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.enums.Cartesian2DCSAxis</span></code></a> or str, optional) – This is the axis order of the coordinate system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="verticalcs">
+<h2>VerticalCS<a class="headerlink" href="#verticalcs" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.coordinate_system.VerticalCS">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_system.</code><code class="sig-name descname">VerticalCS</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_system.html#VerticalCS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_system.VerticalCS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateSystem</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>This generates an Vertical Coordinate System</p>
+<dl class="py method">
+<dt id="pyproj.crs.coordinate_system.VerticalCS.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param">cls</em>, <em class="sig-param">axis: Union[pyproj.crs.enums.VerticalCSAxis</em>, <em class="sig-param">str] = &lt;VerticalCSAxis.GRAVITY_HEIGHT: 'GRAVITY_HEIGHT'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_system.html#VerticalCS.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_system.VerticalCS.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.VerticalCSAxis" title="pyproj.crs.enums.VerticalCSAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.enums.VerticalCSAxis</span></code></a> or str, optional) – This is the axis direction of the coordinate system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="coordinate_operation.html" class="btn btn-neutral float-right" title="Coordinate Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="crs.html" class="btn btn-neutral float-left" title="CRS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
