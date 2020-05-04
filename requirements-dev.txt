@@ -7,5 +7,5 @@ numpy
 pylint
 pytest>3.6
 pytest-cov
-shapely; sys_platform != 'win32'  # shapely wheels not on Windows
+shapely
 pre-commit
