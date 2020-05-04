@@ -360,6 +360,15 @@
         "test",
         "ideas"
       ]
+    },
+    {
+      "login": "mwtoews",
+      "name": "Mike Taves",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/895458?v=4",
+      "profile": "https://sites.google.com/site/mwtoews/",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
