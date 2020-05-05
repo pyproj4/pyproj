@@ -402,7 +402,7 @@ Calculate the geodesic length of a line (See: :meth:`pyproj.Geod.line_length`):
     ...         88, 59, 25, -4, -14, -33, -46, -61]
     >>> geod = Geod(ellps="WGS84")
     >>> total_length = geod.line_length(lons, lats)
-    >>> "{:.3f}".format(total_length)
+    >>> f"{total_length:.3f}"
     '14259605.611'
 
 Calculate the geodesic length of a shapely geometry (See: :meth:`pyproj.Geod.geometry_length`):
@@ -414,7 +414,7 @@ Calculate the geodesic length of a shapely geometry (See: :meth:`pyproj.Geod.geo
     >>> line_string = LineString([Point(1, 2), Point(3, 4)]))
     >>> geod = Geod(ellps="WGS84")
     >>> total_length = geod.geometry_length(line_string)
-    >>> "{:.3f}".format(total_length)
+    >>> f"{total_length:.3f}"
     '313588.397'
 
 
@@ -432,7 +432,7 @@ Calculate the geodesic area and perimeter of a polygon (See: :meth:`pyproj.Geod.
     >>> lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,
     ...         88, 59, 25, -4, -14, -33, -46, -61]
     >>> poly_area, poly_perimeter = geod.polygon_area_perimeter(lons, lats)
-    >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
+    >>> f"{poly_area:.3f} {poly_perimeter:.3f}"
     '13376856682207.406 14710425.407'
 
 
@@ -450,5 +450,5 @@ Calculate the geodesic area and perimeter of a shapely polygon (See: :meth:`pypr
                 holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
             )
         )
-    >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
+    >>> f"{poly_area:.3f} {poly_perimeter:.3f}"
     '-944373881400.339 3979008.036'

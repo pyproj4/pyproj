@@ -285,13 +285,13 @@ information about specifying ellipsoid parameters.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute forward and back azimuths, plus distance</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># between Boston and Portland.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%7.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%12.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span><span class="p">)</span>
-<span class="go">&#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">az12</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">az21</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dist</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;-66.531 75.654 4164192.708&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute latitude, longitude and back azimuth of Portland,</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># given Boston lat/lon, forward azimuth and distance to Portland.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">endlon</span><span class="p">,</span> <span class="n">endlat</span><span class="p">,</span> <span class="n">backaz</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">fwd</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span> <span class="n">boston_lat</span><span class="p">,</span> <span class="n">az12</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%6.3f</span><span class="s2">  </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%13.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">endlat</span><span class="p">,</span><span class="n">endlon</span><span class="p">,</span><span class="n">backaz</span><span class="p">)</span>
-<span class="go">&#39;45.517  -123.683        75.654&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">endlat</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endlon</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">backaz</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;45.517 -123.683 75.654&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute the azimuths, distances from New York to several</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># cities (pass a list)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lons1</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">[</span><span class="n">newyork_lon</span><span class="p">];</span> <span class="n">lats1</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">[</span><span class="n">newyork_lat</span><span class="p">]</span>
@@ -299,14 +299,14 @@ information about specifying ellipsoid parameters.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lats2</span> <span class="o">=</span> <span class="p">[</span><span class="n">boston_lat</span><span class="p">,</span> <span class="n">portland_lat</span><span class="p">,</span> <span class="n">london_lat</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">lons1</span><span class="p">,</span><span class="n">lats1</span><span class="p">,</span><span class="n">lons2</span><span class="p">,</span><span class="n">lats2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">faz</span><span class="p">,</span> <span class="n">baz</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span><span class="p">)):</span>
-<span class="gp">... </span>    <span class="s2">&quot;</span><span class="si">%7.3f</span><span class="s2"> </span><span class="si">%7.3f</span><span class="s2"> </span><span class="si">%9.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">faz</span><span class="p">,</span> <span class="n">baz</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-<span class="go">&#39; 54.663 -123.448 288303.720&#39;</span>
-<span class="go">&#39;-65.463  79.342 4013037.318&#39;</span>
-<span class="go">&#39; 51.254 -71.576 5579916.651&#39;</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">faz</span><span class="si">:</span><span class="s2">7.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">baz</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">12.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39; 54.663 -123.448   288303.720&#39;</span>
+<span class="go">&#39;-65.463   79.342  4013037.318&#39;</span>
+<span class="go">&#39; 51.254  -71.576  5579916.651&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">g2</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+ellps=clrk66&#39;</span><span class="p">)</span> <span class="c1"># use proj4 style initialization string</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g2</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">%7.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%12.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span><span class="p">)</span>
-<span class="go">&#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">az12</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">az21</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dist</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;-66.531 75.654 4164192.708&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -375,7 +375,7 @@ the sum of the areas and perimeters of all geometries.</p>
 <span class="gp">... </span>        <span class="n">holes</span><span class="o">=</span><span class="p">[</span><span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])],</span>
 <span class="gp">... </span>    <span class="p">)</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2"> </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">poly_area</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">poly_perimeter</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;-944373881400.339 3979008.036&#39;</span>
 </pre></div>
 </div>
@@ -411,7 +411,7 @@ the sum of the lengths.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">line_string</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">geod</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">line_string</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">geod</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">line_string</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;313588.397&#39;</span>
 </pre></div>
 </div>
@@ -473,7 +473,7 @@ in meters</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
 <span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">total_length</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">line_length</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_length</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">total_length</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;14259605.611&#39;</span>
 </pre></div>
 </div>
@@ -506,7 +506,7 @@ in meters</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line_length</span> <span class="ow">in</span> <span class="n">geod</span><span class="o">.</span><span class="n">line_lengths</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line_length</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">line_length</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;943065.744&#39;</span>
 <span class="go">&#39;334805.010&#39;</span>
 </pre></div>
@@ -543,17 +543,17 @@ initial and terminus points.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">portland_lat</span> <span class="o">=</span> <span class="mf">45.</span><span class="o">+</span><span class="p">(</span><span class="mf">31.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">portland_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">123.</span><span class="o">-</span><span class="p">(</span><span class="mf">41.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># find ten equally spaced points between Boston and Portland.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lonlats</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">npts</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="n">lonlats</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%6.3f</span><span class="s1">  </span><span class="si">%7.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span>
-<span class="go">&#39;43.528  -75.414&#39;</span>
-<span class="go">&#39;44.637  -79.883&#39;</span>
-<span class="go">&#39;45.565  -84.512&#39;</span>
-<span class="go">&#39;46.299  -89.279&#39;</span>
-<span class="go">&#39;46.830  -94.156&#39;</span>
-<span class="go">&#39;47.149  -99.112&#39;</span>
-<span class="go">&#39;47.251  -104.106&#39;</span>
-<span class="go">&#39;47.136  -109.100&#39;</span>
-<span class="go">&#39;46.805  -114.051&#39;</span>
-<span class="go">&#39;46.262  -118.924&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="n">lonlats</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">lat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">lon</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;43.528 -75.414&#39;</span>
+<span class="go">&#39;44.637 -79.883&#39;</span>
+<span class="go">&#39;45.565 -84.512&#39;</span>
+<span class="go">&#39;46.299 -89.279&#39;</span>
+<span class="go">&#39;46.830 -94.156&#39;</span>
+<span class="go">&#39;47.149 -99.112&#39;</span>
+<span class="go">&#39;47.251 -104.106&#39;</span>
+<span class="go">&#39;47.136 -109.100&#39;</span>
+<span class="go">&#39;46.805 -114.051&#39;</span>
+<span class="go">&#39;46.262 -118.924&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># test with radians=True (inputs/outputs in radians, not degrees)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dg2rad</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
@@ -566,17 +566,17 @@ initial and terminus points.</p>
 <span class="gp">... </span>   <span class="mi">10</span><span class="p">,</span>
 <span class="gp">... </span>   <span class="n">radians</span><span class="o">=</span><span class="kc">True</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="n">lonlats</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%6.3f</span><span class="s1">  </span><span class="si">%7.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lat</span><span class="p">,</span> <span class="n">rad2dg</span><span class="o">*</span><span class="n">lon</span><span class="p">)</span>
-<span class="go">&#39;43.528  -75.414&#39;</span>
-<span class="go">&#39;44.637  -79.883&#39;</span>
-<span class="go">&#39;45.565  -84.512&#39;</span>
-<span class="go">&#39;46.299  -89.279&#39;</span>
-<span class="go">&#39;46.830  -94.156&#39;</span>
-<span class="go">&#39;47.149  -99.112&#39;</span>
-<span class="go">&#39;47.251  -104.106&#39;</span>
-<span class="go">&#39;47.136  -109.100&#39;</span>
-<span class="go">&#39;46.805  -114.051&#39;</span>
-<span class="go">&#39;46.262  -118.924&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="n">lonlats</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lon</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;43.528 -75.414&#39;</span>
+<span class="go">&#39;44.637 -79.883&#39;</span>
+<span class="go">&#39;45.565 -84.512&#39;</span>
+<span class="go">&#39;46.299 -89.279&#39;</span>
+<span class="go">&#39;46.830 -94.156&#39;</span>
+<span class="go">&#39;47.149 -99.112&#39;</span>
+<span class="go">&#39;47.251 -104.106&#39;</span>
+<span class="go">&#39;47.136 -109.100&#39;</span>
+<span class="go">&#39;46.805 -114.051&#39;</span>
+<span class="go">&#39;46.262 -118.924&#39;</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -627,7 +627,7 @@ positive.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
 <span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">polygon_area_perimeter</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="si">{:.1f}</span><span class="s2"> </span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">poly_area</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">poly_perimeter</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;13376856682207.4 14710425.4&#39;</span>
 </pre></div>
 </div>

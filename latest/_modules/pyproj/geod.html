@@ -241,13 +241,13 @@
 <span class="sd">        &gt;&gt;&gt; # compute forward and back azimuths, plus distance</span>
 <span class="sd">        &gt;&gt;&gt; # between Boston and Portland.</span>
 <span class="sd">        &gt;&gt;&gt; az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;%7.3f %6.3f %12.3f&quot; % (az12,az21,dist)</span>
-<span class="sd">        &#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{az12:.3f} {az21:.3f} {dist:.3f}&quot;</span>
+<span class="sd">        &#39;-66.531 75.654 4164192.708&#39;</span>
 <span class="sd">        &gt;&gt;&gt; # compute latitude, longitude and back azimuth of Portland,</span>
 <span class="sd">        &gt;&gt;&gt; # given Boston lat/lon, forward azimuth and distance to Portland.</span>
 <span class="sd">        &gt;&gt;&gt; endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;%6.3f  %6.3f %13.3f&quot; % (endlat,endlon,backaz)</span>
-<span class="sd">        &#39;45.517  -123.683        75.654&#39;</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{endlat:.3f} {endlon:.3f} {backaz:.3f}&quot;</span>
+<span class="sd">        &#39;45.517 -123.683 75.654&#39;</span>
 <span class="sd">        &gt;&gt;&gt; # compute the azimuths, distances from New York to several</span>
 <span class="sd">        &gt;&gt;&gt; # cities (pass a list)</span>
 <span class="sd">        &gt;&gt;&gt; lons1 = 3*[newyork_lon]; lats1 = 3*[newyork_lat]</span>
@@ -255,14 +255,14 @@
 <span class="sd">        &gt;&gt;&gt; lats2 = [boston_lat, portland_lat, london_lat]</span>
 <span class="sd">        &gt;&gt;&gt; az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)</span>
 <span class="sd">        &gt;&gt;&gt; for faz, baz, d in list(zip(az12,az21,dist)):</span>
-<span class="sd">        ...     &quot;%7.3f %7.3f %9.3f&quot; % (faz, baz, d)</span>
-<span class="sd">        &#39; 54.663 -123.448 288303.720&#39;</span>
-<span class="sd">        &#39;-65.463  79.342 4013037.318&#39;</span>
-<span class="sd">        &#39; 51.254 -71.576 5579916.651&#39;</span>
+<span class="sd">        ...     f&quot;{faz:7.3f} {baz:8.3f} {d:12.3f}&quot;</span>
+<span class="sd">        &#39; 54.663 -123.448   288303.720&#39;</span>
+<span class="sd">        &#39;-65.463   79.342  4013037.318&#39;</span>
+<span class="sd">        &#39; 51.254  -71.576  5579916.651&#39;</span>
 <span class="sd">        &gt;&gt;&gt; g2 = Geod(&#39;+ellps=clrk66&#39;) # use proj4 style initialization string</span>
 <span class="sd">        &gt;&gt;&gt; az12,az21,dist = g2.inv(boston_lon,boston_lat,portland_lon,portland_lat)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;%7.3f %6.3f %12.3f&quot; % (az12,az21,dist)</span>
-<span class="sd">        &#39;-66.531 75.654  4164192.708&#39;</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{az12:.3f} {az21:.3f} {dist:.3f}&quot;</span>
+<span class="sd">        &#39;-66.531 75.654 4164192.708&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># if initparams is a proj-type init string,</span>
         <span class="c1"># convert to dict.</span>
@@ -448,17 +448,17 @@
 <span class="sd">        &gt;&gt;&gt; portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)</span>
 <span class="sd">        &gt;&gt;&gt; # find ten equally spaced points between Boston and Portland.</span>
 <span class="sd">        &gt;&gt;&gt; lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10)</span>
-<span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: &#39;%6.3f  %7.3f&#39; % (lat, lon)</span>
-<span class="sd">        &#39;43.528  -75.414&#39;</span>
-<span class="sd">        &#39;44.637  -79.883&#39;</span>
-<span class="sd">        &#39;45.565  -84.512&#39;</span>
-<span class="sd">        &#39;46.299  -89.279&#39;</span>
-<span class="sd">        &#39;46.830  -94.156&#39;</span>
-<span class="sd">        &#39;47.149  -99.112&#39;</span>
-<span class="sd">        &#39;47.251  -104.106&#39;</span>
-<span class="sd">        &#39;47.136  -109.100&#39;</span>
-<span class="sd">        &#39;46.805  -114.051&#39;</span>
-<span class="sd">        &#39;46.262  -118.924&#39;</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: f&#39;{lat:.3f} {lon:.3f}&#39;</span>
+<span class="sd">        &#39;43.528 -75.414&#39;</span>
+<span class="sd">        &#39;44.637 -79.883&#39;</span>
+<span class="sd">        &#39;45.565 -84.512&#39;</span>
+<span class="sd">        &#39;46.299 -89.279&#39;</span>
+<span class="sd">        &#39;46.830 -94.156&#39;</span>
+<span class="sd">        &#39;47.149 -99.112&#39;</span>
+<span class="sd">        &#39;47.251 -104.106&#39;</span>
+<span class="sd">        &#39;47.136 -109.100&#39;</span>
+<span class="sd">        &#39;46.805 -114.051&#39;</span>
+<span class="sd">        &#39;46.262 -118.924&#39;</span>
 <span class="sd">        &gt;&gt;&gt; # test with radians=True (inputs/outputs in radians, not degrees)</span>
 <span class="sd">        &gt;&gt;&gt; import math</span>
 <span class="sd">        &gt;&gt;&gt; dg2rad = math.radians(1.)</span>
@@ -471,17 +471,17 @@
 <span class="sd">        ...    10,</span>
 <span class="sd">        ...    radians=True</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: &#39;%6.3f  %7.3f&#39; % (rad2dg*lat, rad2dg*lon)</span>
-<span class="sd">        &#39;43.528  -75.414&#39;</span>
-<span class="sd">        &#39;44.637  -79.883&#39;</span>
-<span class="sd">        &#39;45.565  -84.512&#39;</span>
-<span class="sd">        &#39;46.299  -89.279&#39;</span>
-<span class="sd">        &#39;46.830  -94.156&#39;</span>
-<span class="sd">        &#39;47.149  -99.112&#39;</span>
-<span class="sd">        &#39;47.251  -104.106&#39;</span>
-<span class="sd">        &#39;47.136  -109.100&#39;</span>
-<span class="sd">        &#39;46.805  -114.051&#39;</span>
-<span class="sd">        &#39;46.262  -118.924&#39;</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in lonlats: f&#39;{rad2dg*lat:.3f} {rad2dg*lon:.3f}&#39;</span>
+<span class="sd">        &#39;43.528 -75.414&#39;</span>
+<span class="sd">        &#39;44.637 -79.883&#39;</span>
+<span class="sd">        &#39;45.565 -84.512&#39;</span>
+<span class="sd">        &#39;46.299 -89.279&#39;</span>
+<span class="sd">        &#39;46.830 -94.156&#39;</span>
+<span class="sd">        &#39;47.149 -99.112&#39;</span>
+<span class="sd">        &#39;47.251 -104.106&#39;</span>
+<span class="sd">        &#39;47.136 -109.100&#39;</span>
+<span class="sd">        &#39;46.805 -114.051&#39;</span>
+<span class="sd">        &#39;46.262 -118.924&#39;</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -520,7 +520,7 @@
 <span class="sd">        &gt;&gt;&gt; lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,</span>
 <span class="sd">        ...         88, 59, 25, -4, -14, -33, -46, -61]</span>
 <span class="sd">        &gt;&gt;&gt; total_length = geod.line_length(lons, lats)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;{:.3f}&quot;.format(total_length)</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{total_length:.3f}&quot;</span>
 <span class="sd">        &#39;14259605.611&#39;</span>
 
 
@@ -554,7 +554,7 @@
 <span class="sd">        &gt;&gt;&gt; lats = [-72.9, -71.9, -74.9]</span>
 <span class="sd">        &gt;&gt;&gt; lons = [-74, -102, -102]</span>
 <span class="sd">        &gt;&gt;&gt; for line_length in geod.line_lengths(lons, lats):</span>
-<span class="sd">        ...     &quot;{:.3f}&quot;.format(line_length)</span>
+<span class="sd">        ...     f&quot;{line_length:.3f}&quot;</span>
 <span class="sd">        &#39;943065.744&#39;</span>
 <span class="sd">        &#39;334805.010&#39;</span>
 
@@ -605,7 +605,7 @@
 <span class="sd">        &gt;&gt;&gt; lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,</span>
 <span class="sd">        ...         88, 59, 25, -4, -14, -33, -46, -61]</span>
 <span class="sd">        &gt;&gt;&gt; poly_area, poly_perimeter = geod.polygon_area_perimeter(lons, lats)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;{:.1f} {:.1f}&quot;.format(poly_area, poly_perimeter)</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{poly_area:.1f} {poly_perimeter:.1f}&quot;</span>
 <span class="sd">        &#39;13376856682207.4 14710425.4&#39;</span>
 
 
@@ -644,7 +644,7 @@
 <span class="sd">        &gt;&gt;&gt; from shapely.geometry import Point, LineString</span>
 <span class="sd">        &gt;&gt;&gt; line_string = LineString([Point(1, 2), Point(3, 4)])</span>
 <span class="sd">        &gt;&gt;&gt; geod = Geod(ellps=&quot;WGS84&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;{:.3f}&quot;.format(geod.geometry_length(line_string))</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{geod.geometry_length(line_string):.3f}&quot;</span>
 <span class="sd">        &#39;313588.397&#39;</span>
 
 <span class="sd">        Parameters</span>
@@ -708,7 +708,7 @@
 <span class="sd">        ...         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; &quot;{:.3f} {:.3f}&quot;.format(poly_area, poly_perimeter)</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{poly_area:.3f} {poly_perimeter:.3f}&quot;</span>
 <span class="sd">        &#39;-944373881400.339 3979008.036&#39;</span>
 
 
@@ -760,9 +760,7 @@
                 <span class="c1"># self.sphere is True when self.f is zero or very close to</span>
                 <span class="c1"># zero (0), so prevent divide by zero.</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span> <span class="ow">and</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">rf</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{classname}</span><span class="s2">(ellps=</span><span class="si">{ellps!r}</span><span class="s2">)&quot;</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">classname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">ellps</span><span class="o">=</span><span class="n">ellps</span>
-                    <span class="p">)</span>
+                    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(ellps=</span><span class="si">{</span><span class="n">ellps</span><span class="si">!r}</span><span class="s2">)&quot;</span>
 
         <span class="c1"># no ellipse name found, call super class</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>

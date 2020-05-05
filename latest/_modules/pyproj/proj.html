@@ -257,10 +257,10 @@
 <span class="sd">        &gt;&gt;&gt; # test data with radian inputs</span>
 <span class="sd">        &gt;&gt;&gt; p1 = Proj(&quot;epsg:4214&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; x1, y1 = p1(116.366, 39.867)</span>
-<span class="sd">        &gt;&gt;&gt; &#39;{:.3f} {:.3f}&#39;.format(x1, y1)</span>
+<span class="sd">        &gt;&gt;&gt; f&#39;{x1:.3f} {y1:.3f}&#39;</span>
 <span class="sd">        &#39;116.366 39.867&#39;</span>
 <span class="sd">        &gt;&gt;&gt; x2, y2 = p1(x1, y1, inverse=True)</span>
-<span class="sd">        &gt;&gt;&gt; &#39;{:.3f} {:.3f}&#39;.format(x2, y2)</span>
+<span class="sd">        &gt;&gt;&gt; f&#39;{x2:.3f} {y2:.3f}&#39;</span>
 <span class="sd">        &#39;116.366 39.867&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -444,7 +444,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;Proj(&#39;</span><span class="si">{srs}</span><span class="s2">&#39;, preserve_units=True)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Proj(&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="si">}</span><span class="s2">&#39;, preserve_units=True)&quot;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>

@@ -377,7 +377,7 @@
 <span class="go">            LENGTHUNIT[&quot;metre&quot;,1,</span>
 <span class="go">                ID[&quot;EPSG&quot;,9001]]]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">get_geod</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;+a=</span><span class="si">{:.0f}</span><span class="s2"> +f=</span><span class="si">{:.8f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">geod</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">geod</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;+a=</span><span class="si">{</span><span class="n">geod</span><span class="o">.</span><span class="n">a</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> +f=</span><span class="si">{</span><span class="n">geod</span><span class="o">.</span><span class="n">f</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;+a=6378137 +f=0.00335281&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">is_projected</span>
 <span class="go">True</span>

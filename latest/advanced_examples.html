@@ -248,7 +248,7 @@ And if not, how to get the missing grid.</p></li>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">TransformerGroup</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)</span>
-<span class="go">&quot;{!r}&quot;.format(operation.grids[0])</span>
+<span class="go">f&quot;{operation.grids[0]!r}&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span>
 <span class="go">&lt;TransformerGroup: best_available=False&gt;</span>
 <span class="go">- transformers: 37</span>
