@@ -4,7 +4,7 @@ cartographic projections and coordinate transformations library.
 
 Download: http://python.org/pypi/pyproj
 
-Requirements: Python 3.5+.
+Requirements: Python 3.6+.
 
 Contact:  Jeffrey Whitaker <jeffrey.s.whitaker@noaa.gov>
 

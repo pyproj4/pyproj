@@ -68,14 +68,14 @@ check-type:
 	mypy pyproj
 
 check: lint check-type ## flake8 black isort check
-	black --check setup.py pyproj/ test/ docs/
+	black --check --target-version py36 setup.py pyproj/ test/ docs/
 	isort --check --recursive setup.py pyproj/ test/ docs/
 
 isort: ## order imports
 	isort --recursive setup.py pyproj/ test/ docs/
 
 black: ## black format files
-	black setup.py pyproj/ test/ docs/
+	black --target-version py36 setup.py pyproj/ test/ docs/
 
 test: ## run tests
 	py.test

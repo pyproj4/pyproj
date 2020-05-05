@@ -210,7 +210,7 @@ class GeostationarySatelliteConversion(CoordinateOperation):
         sweep_angle_axis = sweep_angle_axis.strip().upper()
         valid_sweep_axis = ("X", "Y")
         if sweep_angle_axis not in valid_sweep_axis:
-            raise CRSError("sweep_angle_axis only supports {}".format(valid_sweep_axis))
+            raise CRSError(f"sweep_angle_axis only supports {valid_sweep_axis}")
 
         if latitude_natural_origin != 0:
             warnings.warn(
@@ -223,9 +223,7 @@ class GeostationarySatelliteConversion(CoordinateOperation):
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "Conversion",
             "name": "unknown",
-            "method": {
-                "name": "Geostationary Satellite (Sweep {})".format(sweep_angle_axis)
-            },
+            "method": {"name": f"Geostationary Satellite (Sweep {sweep_angle_axis})"},
             "parameters": [
                 {
                     "name": "Satellite height",
@@ -597,15 +595,10 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
         # https://proj.org/operations/projections/cea.html
         proj_string = (
             "+proj=cea "
-            "+lon_0={longitude_natural_origin} "
-            "+x_0={false_easting} "
-            "+y_0={false_northing} "
-            "+k_0={scale_factor_natural_origin}".format(
-                longitude_natural_origin=longitude_natural_origin,
-                false_easting=false_easting,
-                false_northing=false_northing,
-                scale_factor_natural_origin=scale_factor_natural_origin,
-            )
+            f"+lon_0={longitude_natural_origin} "
+            f"+x_0={false_easting} "
+            f"+y_0={false_northing} "
+            f"+k_0={scale_factor_natural_origin}"
         )
         if LooseVersion(proj_version_str) >= LooseVersion("6.3.1"):
             return cls.from_json(
@@ -1208,9 +1201,7 @@ class UTMConversion(CoordinateOperation):
         hemisphere: str, optional
             Either N for North or S for South. Default is N.
         """
-        return cls.from_name(
-            "UTM zone {zone}{hemisphere}".format(zone=zone, hemisphere=hemisphere)
-        )
+        return cls.from_name(f"UTM zone {zone}{hemisphere}")
 
 
 class TransverseMercatorConversion(CoordinateOperation):

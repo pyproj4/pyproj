@@ -232,7 +232,7 @@ class ReprTests(unittest.TestCase):
             if ellps_name in ("NWL9D", "WGS66"):
                 continue
             p = Geod(ellps=ellps_name)
-            expected = "Geod(ellps='{0}')".format(ellps_name)
+            expected = f"Geod(ellps='{ellps_name}')"
             self.assertEqual(repr(p), expected)
 
 

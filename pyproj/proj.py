@@ -98,10 +98,10 @@ class Proj(_Proj):
         >>> # test data with radian inputs
         >>> p1 = Proj("epsg:4214")
         >>> x1, y1 = p1(116.366, 39.867)
-        >>> '{:.3f} {:.3f}'.format(x1, y1)
+        >>> f'{x1:.3f} {y1:.3f}'
         '116.366 39.867'
         >>> x2, y2 = p1(x1, y1, inverse=True)
-        >>> '{:.3f} {:.3f}'.format(x2, y2)
+        >>> f'{x2:.3f} {y2:.3f}'
         '116.366 39.867'
         """
         self.crs = CRS.from_user_input(projparams, **kwargs)
@@ -285,7 +285,7 @@ class Proj(_Proj):
         return self.__class__, (self.crs.srs,)
 
     def __repr__(self) -> str:
-        return "Proj('{srs}', preserve_units=True)".format(srs=self.srs)
+        return f"Proj('{self.srs}', preserve_units=True)"
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Proj):

@@ -43,4 +43,4 @@ def test_doctests():
     # if the below line fails, doctests have failed
     assert (
         failure_count == expected_failure_count
-    ), "{0} of the doctests in " "lib/pyproj/__init__.py failed".format(failure_count)
+    ), f"{failure_count} of the doctests failed"

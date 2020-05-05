@@ -9,6 +9,7 @@ repos:
         rev: 19.10b0
         hooks:
         -   id: black
+            args: [--target-version, py36]
     -   repo: https://github.com/timothycrosley/isort
         rev: 4.3.21
         hooks:

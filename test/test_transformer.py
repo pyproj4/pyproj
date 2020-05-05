@@ -23,7 +23,7 @@ def test_tranform_wgs84_to_custom():
     lat, lon = 51.04715, 3.23406
     with pytest.warns(DeprecationWarning):
         xx, yy = pyproj.transform(wgs84, custom_proj, lon, lat)
-    assert "{:.3f} {:.3f}".format(xx, yy) == "212.623 4604.975"
+    assert f"{xx:.3f} {yy:.3f}" == "212.623 4604.975"
 
 
 def test_transform_wgs84_to_alaska():
@@ -33,7 +33,7 @@ def test_transform_wgs84_to_alaska():
     test = (-179.72638, 49.752533)
     with pytest.warns(DeprecationWarning):
         xx, yy = pyproj.transform(lat_lon_proj, alaska_aea_proj, *test)
-    assert "{:.3f} {:.3f}".format(xx, yy) == "-1824924.495 330822.800"
+    assert f"{xx:.3f} {yy:.3f}" == "-1824924.495 330822.800"
 
 
 def test_illegal_transformation():

@@ -82,13 +82,13 @@ class Geod(_Geod):
         >>> # compute forward and back azimuths, plus distance
         >>> # between Boston and Portland.
         >>> az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)
-        >>> "%7.3f %6.3f %12.3f" % (az12,az21,dist)
-        '-66.531 75.654  4164192.708'
+        >>> f"{az12:.3f} {az21:.3f} {dist:.3f}"
+        '-66.531 75.654 4164192.708'
         >>> # compute latitude, longitude and back azimuth of Portland,
         >>> # given Boston lat/lon, forward azimuth and distance to Portland.
         >>> endlon, endlat, backaz = g.fwd(boston_lon, boston_lat, az12, dist)
-        >>> "%6.3f  %6.3f %13.3f" % (endlat,endlon,backaz)
-        '45.517  -123.683        75.654'
+        >>> f"{endlat:.3f} {endlon:.3f} {backaz:.3f}"
+        '45.517 -123.683 75.654'
         >>> # compute the azimuths, distances from New York to several
         >>> # cities (pass a list)
         >>> lons1 = 3*[newyork_lon]; lats1 = 3*[newyork_lat]
@@ -96,14 +96,14 @@ class Geod(_Geod):
         >>> lats2 = [boston_lat, portland_lat, london_lat]
         >>> az12,az21,dist = g.inv(lons1,lats1,lons2,lats2)
         >>> for faz, baz, d in list(zip(az12,az21,dist)):
-        ...     "%7.3f %7.3f %9.3f" % (faz, baz, d)
-        ' 54.663 -123.448 288303.720'
-        '-65.463  79.342 4013037.318'
-        ' 51.254 -71.576 5579916.651'
+        ...     f"{faz:7.3f} {baz:8.3f} {d:12.3f}"
+        ' 54.663 -123.448   288303.720'
+        '-65.463   79.342  4013037.318'
+        ' 51.254  -71.576  5579916.651'
         >>> g2 = Geod('+ellps=clrk66') # use proj4 style initialization string
         >>> az12,az21,dist = g2.inv(boston_lon,boston_lat,portland_lon,portland_lat)
-        >>> "%7.3f %6.3f %12.3f" % (az12,az21,dist)
-        '-66.531 75.654  4164192.708'
+        >>> f"{az12:.3f} {az21:.3f} {dist:.3f}"
+        '-66.531 75.654 4164192.708'
         """
         # if initparams is a proj-type init string,
         # convert to dict.
@@ -289,17 +289,17 @@ class Geod(_Geod):
         >>> portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)
         >>> # find ten equally spaced points between Boston and Portland.
         >>> lonlats = g.npts(boston_lon,boston_lat,portland_lon,portland_lat,10)
-        >>> for lon,lat in lonlats: '%6.3f  %7.3f' % (lat, lon)
-        '43.528  -75.414'
-        '44.637  -79.883'
-        '45.565  -84.512'
-        '46.299  -89.279'
-        '46.830  -94.156'
-        '47.149  -99.112'
-        '47.251  -104.106'
-        '47.136  -109.100'
-        '46.805  -114.051'
-        '46.262  -118.924'
+        >>> for lon,lat in lonlats: f'{lat:.3f} {lon:.3f}'
+        '43.528 -75.414'
+        '44.637 -79.883'
+        '45.565 -84.512'
+        '46.299 -89.279'
+        '46.830 -94.156'
+        '47.149 -99.112'
+        '47.251 -104.106'
+        '47.136 -109.100'
+        '46.805 -114.051'
+        '46.262 -118.924'
         >>> # test with radians=True (inputs/outputs in radians, not degrees)
         >>> import math
         >>> dg2rad = math.radians(1.)
@@ -312,17 +312,17 @@ class Geod(_Geod):
         ...    10,
         ...    radians=True
         ... )
-        >>> for lon,lat in lonlats: '%6.3f  %7.3f' % (rad2dg*lat, rad2dg*lon)
-        '43.528  -75.414'
-        '44.637  -79.883'
-        '45.565  -84.512'
-        '46.299  -89.279'
-        '46.830  -94.156'
-        '47.149  -99.112'
-        '47.251  -104.106'
-        '47.136  -109.100'
-        '46.805  -114.051'
-        '46.262  -118.924'
+        >>> for lon,lat in lonlats: f'{rad2dg*lat:.3f} {rad2dg*lon:.3f}'
+        '43.528 -75.414'
+        '44.637 -79.883'
+        '45.565 -84.512'
+        '46.299 -89.279'
+        '46.830 -94.156'
+        '47.149 -99.112'
+        '47.251 -104.106'
+        '47.136 -109.100'
+        '46.805 -114.051'
+        '46.262 -118.924'
 
         Parameters
         ----------
@@ -361,7 +361,7 @@ class Geod(_Geod):
         >>> lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,
         ...         88, 59, 25, -4, -14, -33, -46, -61]
         >>> total_length = geod.line_length(lons, lats)
-        >>> "{:.3f}".format(total_length)
+        >>> f"{total_length:.3f}"
         '14259605.611'
 
 
@@ -395,7 +395,7 @@ class Geod(_Geod):
         >>> lats = [-72.9, -71.9, -74.9]
         >>> lons = [-74, -102, -102]
         >>> for line_length in geod.line_lengths(lons, lats):
-        ...     "{:.3f}".format(line_length)
+        ...     f"{line_length:.3f}"
         '943065.744'
         '334805.010'
 
@@ -446,7 +446,7 @@ class Geod(_Geod):
         >>> lons = [-74, -102, -102, -131, -163, 163, 172, 140, 113,
         ...         88, 59, 25, -4, -14, -33, -46, -61]
         >>> poly_area, poly_perimeter = geod.polygon_area_perimeter(lons, lats)
-        >>> "{:.1f} {:.1f}".format(poly_area, poly_perimeter)
+        >>> f"{poly_area:.1f} {poly_perimeter:.1f}"
         '13376856682207.4 14710425.4'
 
 
@@ -485,7 +485,7 @@ class Geod(_Geod):
         >>> from shapely.geometry import Point, LineString
         >>> line_string = LineString([Point(1, 2), Point(3, 4)])
         >>> geod = Geod(ellps="WGS84")
-        >>> "{:.3f}".format(geod.geometry_length(line_string))
+        >>> f"{geod.geometry_length(line_string):.3f}"
         '313588.397'
 
         Parameters
@@ -549,7 +549,7 @@ class Geod(_Geod):
         ...         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
         ...     )
         ... )
-        >>> "{:.3f} {:.3f}".format(poly_area, poly_perimeter)
+        >>> f"{poly_area:.3f} {poly_perimeter:.3f}"
         '-944373881400.339 3979008.036'
 
 
@@ -601,9 +601,7 @@ class Geod(_Geod):
                 # self.sphere is True when self.f is zero or very close to
                 # zero (0), so prevent divide by zero.
                 if self.b == b or (not self.sphere and (1.0 / self.f) == rf):
-                    return "{classname}(ellps={ellps!r})" "".format(
-                        classname=self.__class__.__name__, ellps=ellps
-                    )
+                    return f"{self.__class__.__name__}(ellps={ellps!r})"
 
         # no ellipse name found, call super class
         return super().__repr__()

@@ -434,9 +434,9 @@ def test_compound_crs():
 
 def test_ellipsoid():
     crs1 = CRS.from_epsg(4326)
-    assert "{:.3f}".format(crs1.ellipsoid.inverse_flattening) == "298.257"
-    assert "{:.3f}".format(crs1.ellipsoid.semi_major_metre) == "6378137.000"
-    assert "{:.3f}".format(crs1.ellipsoid.semi_minor_metre) == "6356752.314"
+    assert f"{crs1.ellipsoid.inverse_flattening:.3f}" == "298.257"
+    assert f"{crs1.ellipsoid.semi_major_metre:.3f}" == "6378137.000"
+    assert f"{crs1.ellipsoid.semi_minor_metre:.3f}" == "6356752.314"
 
 
 def test_ellipsoid__semi_minor_not_computed():

@@ -20,5 +20,5 @@ args = parser.parse_args()
 if args.verbose:
     _show_versions.show_versions()
 else:
-    print("pyproj version: {} [PROJ version: {}]".format(__version__, __proj_version__))
+    print(f"pyproj version: {__version__} [PROJ version: {__proj_version__}]")
     parser.print_help()
