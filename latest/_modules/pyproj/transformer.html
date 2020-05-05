@@ -266,13 +266,9 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="s2">&quot;&lt;TransformerGroup: best_available=</span><span class="si">{best_available}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;- transformers: </span><span class="si">{transformers}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;- unavailable_operations: </span><span class="si">{unavailable_operations}</span><span class="s2">&quot;</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">best_available</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_available</span><span class="p">,</span>
-            <span class="n">transformers</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">),</span>
-            <span class="n">unavailable_operations</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">),</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;TransformerGroup: best_available=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">best_available</span><span class="si">}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;- transformers: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;- unavailable_operations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span></div>
 
 
@@ -537,7 +533,7 @@
 <span class="sd">        &gt;&gt;&gt; from pyproj import Transformer</span>
 <span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(&quot;epsg:4326&quot;, &quot;epsg:3857&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; x3, y3 = transformer.transform(33, 98)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;%.3f  %.3f&quot; % (x3, y3)</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{x3:.3f}  {y3:.3f}&quot;</span>
 <span class="sd">        &#39;10909310.098  3895303.963&#39;</span>
 <span class="sd">        &gt;&gt;&gt; pipeline_str = (</span>
 <span class="sd">        ...     &quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
@@ -545,7 +541,7 @@
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; pipe_trans = Transformer.from_pipeline(pipeline_str)</span>
 <span class="sd">        &gt;&gt;&gt; xt, yt = pipe_trans.transform(2.1, 0.001)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;%.3f  %.3f&quot; % (xt, yt)</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{xt:.3f}  {yt:.3f}&quot;</span>
 <span class="sd">        &#39;2.100  0.001&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_crs(</span>
 <span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
@@ -558,7 +554,7 @@
 <span class="sd">        ...     3895878.820,</span>
 <span class="sd">        ...     radians=True,</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; &quot;%.3f %.3f %.3f&quot; % (xpj, ypj, zpj)</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{xpj:.3f} {ypj:.3f} {zpj:.3f}&quot;</span>
 <span class="sd">        &#39;-2.137 0.661 -20.531&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transprojr = Transformer.from_crs(</span>
 <span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
@@ -566,11 +562,11 @@
 <span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;%.3f %.3f %.3f&quot; % (xpjr, ypjr, zpjr)</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{xpjr:.3f} {ypjr:.3f} {zpjr:.3f}&quot;</span>
 <span class="sd">        &#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_proj(&quot;epsg:4326&quot;, 4326, skip_equivalent=True)</span>
 <span class="sd">        &gt;&gt;&gt; xeq, yeq = transformer.transform(33, 98)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;%.0f  %.0f&quot; % (xeq, yeq)</span>
+<span class="sd">        &gt;&gt;&gt; f&quot;{xeq:.0f}  {yeq:.0f}&quot;</span>
 <span class="sd">        &#39;33  98&#39;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -804,13 +800,9 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="s2">&quot;&lt;</span><span class="si">{type_name}</span><span class="s2">: </span><span class="si">{name}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">Description: </span><span class="si">{description}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;Area of Use:</span><span class="se">\n</span><span class="si">{area_of_use}</span><span class="s2">&quot;</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">type_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">type_name</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
-            <span class="n">area_of_use</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">area_of_use</span> <span class="ow">or</span> <span class="s2">&quot;- undefined&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">type_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Description: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Area of Use:</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">area_of_use</span> <span class="ow">or</span> <span class="s1">&#39;- undefined&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

@@ -369,7 +369,7 @@
         <span class="n">sweep_angle_axis</span> <span class="o">=</span> <span class="n">sweep_angle_axis</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="n">valid_sweep_axis</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sweep_angle_axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_sweep_axis</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;sweep_angle_axis only supports </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valid_sweep_axis</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sweep_angle_axis only supports </span><span class="si">{</span><span class="n">valid_sweep_axis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">latitude_natural_origin</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -382,9 +382,7 @@
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Conversion&quot;</span><span class="p">,</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Geostationary Satellite (Sweep </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sweep_angle_axis</span><span class="p">)</span>
-            <span class="p">},</span>
+            <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Geostationary Satellite (Sweep </span><span class="si">{</span><span class="n">sweep_angle_axis</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">},</span>
             <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
                 <span class="p">{</span>
                     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Satellite height&quot;</span><span class="p">,</span>
@@ -756,15 +754,10 @@
         <span class="c1"># https://proj.org/operations/projections/cea.html</span>
         <span class="n">proj_string</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">&quot;+proj=cea &quot;</span>
-            <span class="s2">&quot;+lon_0=</span><span class="si">{longitude_natural_origin}</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;+x_0=</span><span class="si">{false_easting}</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;+y_0=</span><span class="si">{false_northing}</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;+k_0=</span><span class="si">{scale_factor_natural_origin}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="n">longitude_natural_origin</span><span class="p">,</span>
-                <span class="n">false_easting</span><span class="o">=</span><span class="n">false_easting</span><span class="p">,</span>
-                <span class="n">false_northing</span><span class="o">=</span><span class="n">false_northing</span><span class="p">,</span>
-                <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="n">scale_factor_natural_origin</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="sa">f</span><span class="s2">&quot;+lon_0=</span><span class="si">{</span><span class="n">longitude_natural_origin</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;+x_0=</span><span class="si">{</span><span class="n">false_easting</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;+y_0=</span><span class="si">{</span><span class="n">false_northing</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;+k_0=</span><span class="si">{</span><span class="n">scale_factor_natural_origin</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">proj_version_str</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s2">&quot;6.3.1&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span>
@@ -1367,9 +1360,7 @@
 <span class="sd">        hemisphere: str, optional</span>
 <span class="sd">            Either N for North or S for South. Default is N.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span>
-            <span class="s2">&quot;UTM zone </span><span class="si">{zone}{hemisphere}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="n">hemisphere</span><span class="p">)</span>
-        <span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UTM zone </span><span class="si">{</span><span class="n">zone</span><span class="si">}{</span><span class="n">hemisphere</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="TransverseMercatorConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.TransverseMercatorConversion">[docs]</a><span class="k">class</span> <span class="nc">TransverseMercatorConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
