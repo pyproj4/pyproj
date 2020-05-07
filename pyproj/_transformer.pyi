@@ -90,3 +90,6 @@ class _Transformer(Base):
         radians: bool,
         errcheck: bool,
     ) -> None: ...
+    def _get_factors(
+        self, longitude: Any, latitude: Any, radians: bool, errcheck: bool
+    ) -> Factors: ...
