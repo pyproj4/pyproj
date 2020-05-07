@@ -7,18 +7,6 @@ cdef extern from "proj.h":
     void proj_context_set_search_paths(
         PJ_CONTEXT *ctx, int count_paths, const char* const* paths)
 
-    cdef struct PJ_INFO:
-        int         major
-        int         minor
-        int         patch
-        const char  *release
-        const char  *version
-        const char  *searchpath
-        const char * const *paths
-        size_t path_count
-
-    PJ_INFO proj_info()
-
     # projCtx has been replaced by PJ_CONTEXT *.
     # projPJ  has been replaced by PJ *
     ctypedef struct PJ
@@ -103,7 +91,6 @@ cdef extern from "proj.h":
 
     int proj_angular_input (PJ *P, PJ_DIRECTION dir) nogil
     int proj_angular_output (PJ *P, PJ_DIRECTION dir) nogil
-    PJ_COORD proj_trans (PJ *P, PJ_DIRECTION direction, PJ_COORD coord) nogil
     size_t proj_trans_generic (
         PJ *P,
         PJ_DIRECTION direction,

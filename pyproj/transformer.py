@@ -14,9 +14,14 @@ from array import array
 from itertools import chain, islice
 from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union
 
-from pyproj import CRS, Proj
+from pyproj import CRS
 from pyproj._crs import AreaOfUse, CoordinateOperation
-from pyproj._transformer import AreaOfInterest, _Transformer, _TransformerGroup  # noqa
+from pyproj._transformer import (  # noqa
+    AreaOfInterest,
+    _Transformer,
+    _TransformerGroup,
+    proj_version_str,
+)
 from pyproj.compat import cstrencode
 from pyproj.enums import TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
@@ -253,6 +258,8 @@ class Transformer:
         Transformer
 
         """
+        from pyproj import Proj
+
         if not isinstance(proj_from, Proj):
             proj_from = Proj(proj_from)
         if not isinstance(proj_to, Proj):
@@ -650,6 +657,11 @@ class Transformer:
         if not isinstance(other, Transformer):
             return False
         return self._transformer.__eq__(other._transformer)
+
+    def is_exact_same(self, other: Any) -> bool:
+        if not isinstance(other, Transformer):
+            return False
+        return self._transformer.is_exact_same(other._transformer)
 
 
 def transform(

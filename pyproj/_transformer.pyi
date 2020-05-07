@@ -3,11 +3,27 @@ from typing import Any, Iterable, List, NamedTuple, Optional, Tuple, Union
 from pyproj._crs import _CRS, AreaOfUse, Base, CoordinateOperation
 from pyproj.enums import TransformDirection
 
+proj_version_str: str
+
 class AreaOfInterest(NamedTuple):
     west_lon_degree: float
     south_lat_degree: float
     east_lon_degree: float
     north_lat_degree: float
+
+class Factors(NamedTuple):
+    meridional_scale: float
+    parallel_scale: float
+    areal_scale: float
+    angular_distortion: float
+    meridian_parallel_angle: float
+    meridian_convergence: float
+    tissot_semimajor: float
+    tissot_semiminor: float
+    dx_dlam: float
+    dx_dphi: float
+    dy_dlam: float
+    dy_dphi: float
 
 class _TransformerGroup:
     _transformers: Any
