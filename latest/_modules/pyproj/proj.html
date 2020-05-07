@@ -178,15 +178,17 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._list</span> <span class="kn">import</span> <span class="n">get_proj_operations_map</span>
-<span class="kn">from</span> <span class="nn">pyproj._proj</span> <span class="kn">import</span> <span class="n">Factors</span><span class="p">,</span> <span class="n">_Proj</span><span class="p">,</span> <span class="n">proj_version_str</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="kn">import</span> <span class="n">Factors</span><span class="p">,</span> <span class="n">_Transformer</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="kn">import</span> <span class="n">cstrencode</span><span class="p">,</span> <span class="n">pystrdecode</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">TransformDirection</span>
+<span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">Transformer</span>
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
 <span class="n">pj_list</span> <span class="o">=</span> <span class="n">get_proj_operations_map</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="Proj"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj">[docs]</a><span class="k">class</span> <span class="nc">Proj</span><span class="p">(</span><span class="n">_Proj</span><span class="p">):</span>
+<div class="viewcode-block" id="Proj"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj">[docs]</a><span class="k">class</span> <span class="nc">Proj</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs cartographic transformations. Converts from</span>
 <span class="sd">    longitude, latitude to native map projection x,y coordinates and</span>
@@ -287,8 +289,8 @@
             <span class="p">)</span>
             <span class="n">projstring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span>
 
-        <span class="n">projstring</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+?type=crs&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">projstring</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">projstring</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">srs</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\+?type=crs&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">projstring</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="Proj.__call__"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -332,23 +334,17 @@
 <span class="sd">        Tuple[Any, Any]:</span>
 <span class="sd">            The transformed coordinates.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">radians</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;radian input is currently not supported in pyproj 2. &quot;</span>
-                <span class="s2">&quot;Support for radian input will be added in pyproj 3.&quot;</span>
-            <span class="p">)</span>
-        <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span>
-        <span class="c1"># call PROJ functions. inx and iny modified in place.</span>
         <span class="k">if</span> <span class="n">inverse</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+            <span class="n">direction</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">INVERSE</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
-        <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
-        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
-        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span></div>
+            <span class="n">direction</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">xx</span><span class="o">=</span><span class="n">longitude</span><span class="p">,</span>
+            <span class="n">yy</span><span class="o">=</span><span class="n">latitude</span><span class="p">,</span>
+            <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span>
+            <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">,</span>
+            <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Proj.get_factors"><a class="viewcode-back" href="../../api/proj.html#pyproj.proj.Proj.get_factors">[docs]</a>    <span class="k">def</span> <span class="nf">get_factors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -389,7 +385,9 @@
         <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span>
 
         <span class="c1"># calculate the factors</span>
-        <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_factors</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+        <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_get_factors</span><span class="p">(</span>
+            <span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span>
+        <span class="p">)</span>
 
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
         <span class="k">return</span> <span class="n">Factors</span><span class="p">(</span>
@@ -441,15 +439,7 @@
 
     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Proj&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;special method that allows pyproj.Proj instance to be pickled&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span>
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Proj(&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">srs</span><span class="si">}</span><span class="s2">&#39;, preserve_units=True)&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_equivalent</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span></div>
 </pre></div>
 
            </div>

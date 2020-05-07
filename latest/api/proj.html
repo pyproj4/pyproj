@@ -190,7 +190,7 @@ projection coordinates within one datum.
 <dl class="py class">
 <dt id="pyproj.proj.Proj">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">preserve_units</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._proj._Proj</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a></p>
 <p>Performs cartographic transformations. Converts from
 longitude, latitude to native map projection x,y coordinates and
 vice versa using PROJ (<a class="reference external" href="https://proj.org">https://proj.org</a>).</p>
@@ -312,6 +312,44 @@ key/value pairs defining different map projections.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pyproj.proj.Proj.accuracy">
+<em class="property">property </em><code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyproj.proj.Proj.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expected accuracy of the transformation. -1 if unknown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.area_of_use">
+<em class="property">property </em><code class="sig-name descname">area_of_use</code><a class="headerlink" href="#pyproj.proj.Proj.area_of_use" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The area of use object with associated attributes.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="crs/crs.html#pyproj._crs.AreaOfUse" title="pyproj._crs.AreaOfUse">AreaOfUse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.definition">
+<em class="property">property </em><code class="sig-name descname">definition</code><a class="headerlink" href="#pyproj.proj.Proj.definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Definition of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pyproj.proj.Proj.definition_string">
 <code class="sig-name descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns formal definition string for projection</p>
@@ -319,6 +357,107 @@ key/value pairs defining different map projections.</p>
 <span class="go">&#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.description">
+<em class="property">property </em><code class="sig-name descname">description</code><a class="headerlink" href="#pyproj.proj.Proj.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.from_crs">
+<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>importlib._bootstrap.AreaOfInterest<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.proj.Proj.from_crs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a Transformer from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0: </span>area_of_interest</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
+<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
+projections are equivalent. Default is false.</p></li>
+<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.
+Default is false.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="transformer.html#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.from_pipeline">
+<em class="property">static </em><code class="sig-name descname">from_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_pipeline</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.proj.Proj.from_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a Transformer from a PROJ pipeline string.</p>
+<p><a class="reference external" href="https://proj.org/operations/pipeline.html">https://proj.org/operations/pipeline.html</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>proj_pipeline</strong> (<em>str</em>) – Projection pipeline string.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.from_proj">
+<em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>importlib._bootstrap.AreaOfInterest<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.proj.Proj.from_proj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a Transformer from a <a class="reference internal" href="#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0: </span>area_of_interest</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>proj_from</strong> (<a class="reference internal" href="#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one) – Projection of input data.</p></li>
+<li><p><strong>proj_to</strong> (<a class="reference internal" href="#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
+projections are equivalent. Default is false.</p></li>
+<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.
+Default is false.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="transformer.html#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -352,16 +491,193 @@ By default errcheck=False and <code class="docutils literal notranslate"><span c
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt id="pyproj.proj.Proj.has_inverse">
-<code class="sig-name descname">has_inverse</code><a class="headerlink" href="#pyproj.proj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns true if this projection has an inverse</p>
+<em class="property">property </em><code class="sig-name descname">has_inverse</code><a class="headerlink" href="#pyproj.proj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if an inverse mapping exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.is_exact_same">
-<code class="sig-name descname">is_exact_same</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.proj.Proj.is_exact_same" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compares Proj objects to see if they are exactly the same.</p>
+<dt id="pyproj.proj.Proj.itransform">
+<code class="sig-name descname">itransform</code><span class="sig-paren">(</span><em class="sig-param">points: Any</em>, <em class="sig-param">switch: bool = False</em>, <em class="sig-param">time_3rd: bool = False</em>, <em class="sig-param">radians: bool = False</em>, <em class="sig-param">errcheck: bool = False</em>, <em class="sig-param">direction: Union[pyproj.enums.TransformDirection</em>, <em class="sig-param">str] = &lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Iterable<span class="p">]</span><a class="headerlink" href="#pyproj.proj.Proj.itransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator/generator version of the function pyproj.Transformer.transform.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>direction</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>list</em>) – List of point tuples.</p></li>
+<li><p><strong>switch</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True x, y or lon,lat coordinates of points are switched to y, x
+or lat, lon. Default is False.</p></li>
+<li><p><strong>time_3rd</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If the input coordinates are 3 dimensional and the 3rd dimension is time.</p></li>
+<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Default is False (degrees). Ignored for
+pipeline transformations.</p></li>
+<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the transformation is invalid.
+By default errcheck=False and an invalid transformation
+returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>
+<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">2100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">22.95</span><span class="p">,</span> <span class="mf">40.63</span><span class="p">),</span> <span class="p">(</span><span class="mf">22.81</span><span class="p">,</span> <span class="mf">40.53</span><span class="p">),</span> <span class="p">(</span><span class="mf">23.51</span><span class="p">,</span> <span class="mf">40.86</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transformer</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span><span class="n">points</span><span class="p">):</span> <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;2221638.801 2637034.372&#39;</span>
+<span class="go">&#39;2212924.125 2619851.898&#39;</span>
+<span class="go">&#39;2238294.779 2703763.736&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_str</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe_trans</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">pipeline_str</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">pipe_trans</span><span class="o">.</span><span class="n">itransform</span><span class="p">([(</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)]):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;2.100 0.001&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transproj</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="o">-</span><span class="mf">2704026.010</span><span class="p">,</span> <span class="o">-</span><span class="mf">4253051.810</span><span class="p">,</span> <span class="mf">3895878.820</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;-2.137 0.661 -20.531&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transprojr</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="o">-</span><span class="mf">2.137</span><span class="p">,</span> <span class="mf">0.661</span><span class="p">,</span> <span class="o">-</span><span class="mf">20.531</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span><span class="p">):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;-2704214.394 -4254414.478 3894270.731&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj_eq</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transproj_eq</span><span class="o">.</span><span class="n">itransform</span><span class="p">([(</span><span class="o">-</span><span class="mf">2.137</span><span class="p">,</span> <span class="mf">0.661</span><span class="p">)]):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;-2.137 0.661&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.proj.Proj.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.operations">
+<em class="property">property </em><code class="sig-name descname">operations</code><a class="headerlink" href="#pyproj.proj.Proj.operations" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The operations in a concatenated operation.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Tuple[<a class="reference internal" href="crs/coordinate_operation.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation">CoordinateOperation</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.remarks">
+<em class="property">property </em><code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.proj.Proj.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Remarks about object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.scope">
+<em class="property">property </em><code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.proj.Proj.scope" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Scope of object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.to_json">
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pretty</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indentation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pyproj.proj.Proj.to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a JSON string.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The JSON string.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.to_json_dict">
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#pyproj.proj.Proj.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a JSON dictionary.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The JSON dictionary.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -376,6 +692,109 @@ coordinate version of the current projection</p>
 <code class="sig-name descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the definition string of the geographic (lat/lon)
 coordinate version of the current projection</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.to_wkt">
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">version: Union[pyproj.enums.WktVersion</em>, <em class="sig-param">str] = &lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">pretty: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.proj.Proj.to_wkt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a WKT string.</p>
+<dl class="simple">
+<dt>Version options:</dt><dd><ul class="simple">
+<li><p>WKT2_2015</p></li>
+<li><p>WKT2_2015_SIMPLIFIED</p></li>
+<li><p>WKT2_2019</p></li>
+<li><p>WKT2_2019_SIMPLIFIED</p></li>
+<li><p>WKT1_GDAL</p></li>
+<li><p>WKT1_ESRI</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The WKT string.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.proj.Proj.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">xx: Any</em>, <em class="sig-param">yy: Any</em>, <em class="sig-param">zz: Any = None</em>, <em class="sig-param">tt: Any = None</em>, <em class="sig-param">radians: bool = False</em>, <em class="sig-param">errcheck: bool = False</em>, <em class="sig-param">direction: Union[pyproj.enums.TransformDirection</em>, <em class="sig-param">str] = &lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span> &#x2192; Any<a class="headerlink" href="#pyproj.proj.Proj.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform points between two coordinate systems.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>direction</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xx</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input x coordinate(s).</p></li>
+<li><p><strong>yy</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input y coordinate(s).</p></li>
+<li><p><strong>zz</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em><em>, </em><em>optional</em>) – Input z coordinate(s).</p></li>
+<li><p><strong>tt</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em><em>, </em><em>optional</em>) – Input time coordinate(s).</p></li>
+<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Default is False (degrees). Ignored for
+pipeline transformations with pyproj 2, but will work in pyproj 3.</p></li>
+<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the transformation is invalid.
+By default errcheck=False and an invalid transformation
+returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>
+<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">y3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;10909310.098  3895303.963&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_str</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe_trans</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">pipeline_str</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xt</span><span class="p">,</span> <span class="n">yt</span> <span class="o">=</span> <span class="n">pipe_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;2.100  0.001&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span> <span class="o">=</span> <span class="n">transproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="o">-</span><span class="mf">2704026.010</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="o">-</span><span class="mf">4253051.810</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="mf">3895878.820</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;-2.137 0.661 -20.531&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transprojr</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xpjr</span><span class="p">,</span> <span class="n">ypjr</span><span class="p">,</span> <span class="n">zpjr</span> <span class="o">=</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xeq</span><span class="p">,</span> <span class="n">yeq</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;33  98&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
