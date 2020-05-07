@@ -19,15 +19,17 @@ import warnings
 from typing import Any, Optional, Tuple, Type
 
 from pyproj._list import get_proj_operations_map
-from pyproj._proj import Factors, _Proj, proj_version_str  # noqa: F401
+from pyproj._transformer import Factors, _Transformer
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.crs import CRS
+from pyproj.enums import TransformDirection
+from pyproj.transformer import Transformer
 from pyproj.utils import _convertback, _copytobuffer
 
 pj_list = get_proj_operations_map()
 
 
-class Proj(_Proj):
+class Proj(Transformer):
     """
     Performs cartographic transformations. Converts from
     longitude, latitude to native map projection x,y coordinates and
@@ -128,8 +130,8 @@ class Proj(_Proj):
             )
             projstring = self.crs.to_proj4() or self.crs.srs
 
-        projstring = re.sub(r"\s\+?type=crs", "", projstring)
-        super().__init__(cstrencode(projstring.strip()))
+        self.srs = re.sub(r"\s\+?type=crs", "", projstring).strip()
+        super().__init__(_Transformer.from_pipeline(cstrencode(self.srs)))
 
     def __call__(
         self,
@@ -173,23 +175,17 @@ class Proj(_Proj):
         Tuple[Any, Any]:
             The transformed coordinates.
         """
-        if radians:
-            warnings.warn(
-                "radian input is currently not supported in pyproj 2. "
-                "Support for radian input will be added in pyproj 3."
-            )
-        # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(longitude)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(latitude)
-        # call PROJ functions. inx and iny modified in place.
         if inverse:
-            self._inv(inx, iny, errcheck=errcheck)
+            direction = TransformDirection.INVERSE
         else:
-            self._fwd(inx, iny, errcheck=errcheck)
-        # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, xistuple, iny)
-        return outx, outy
+            direction = TransformDirection.FORWARD
+        return self.transform(
+            xx=longitude,
+            yy=latitude,
+            direction=direction,
+            errcheck=errcheck,
+            radians=radians,
+        )
 
     def get_factors(
         self,
@@ -230,7 +226,9 @@ class Proj(_Proj):
         iny, yisfloat, yislist, yistuple = _copytobuffer(latitude)
 
         # calculate the factors
-        factors = self._get_factors(inx, iny, radians=radians, errcheck=errcheck)
+        factors = self._transformer._get_factors(
+            inx, iny, radians=radians, errcheck=errcheck
+        )
 
         # if inputs were lists, tuples or floats, convert back.
         return Factors(
@@ -283,11 +281,3 @@ class Proj(_Proj):
     def __reduce__(self) -> Tuple[Type["Proj"], Tuple[str]]:
         """special method that allows pyproj.Proj instance to be pickled"""
         return self.__class__, (self.crs.srs,)
-
-    def __repr__(self) -> str:
-        return f"Proj('{self.srs}', preserve_units=True)"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, Proj):
-            return False
-        return self._is_equivalent(other)

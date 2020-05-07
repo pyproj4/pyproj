@@ -215,7 +215,12 @@ class ReprTests(unittest.TestCase):
     # test __repr__ for Proj object
     def test_repr(self):
         p = Proj(proj="latlong", preserve_units=True)
-        expected = "Proj('+proj=longlat +datum=WGS84 +no_defs', preserve_units=True)"
+        expected = (
+            "<Other Coordinate Operation Transformer: longlat>\n"
+            "Description: PROJ-based coordinate operation\n"
+            "Area of Use:\n"
+            "- undefined"
+        )
         self.assertEqual(repr(p), expected)
 
     # test __repr__ for Geod object

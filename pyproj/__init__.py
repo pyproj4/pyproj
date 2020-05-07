@@ -61,8 +61,13 @@ from pyproj._show_versions import show_versions  # noqa: F401
 from pyproj.crs import CRS  # noqa: F401
 from pyproj.exceptions import DataDirError, ProjError  # noqa: F401
 from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa: F401
-from pyproj.proj import Proj, pj_list, proj_version_str  # noqa: F401
-from pyproj.transformer import Transformer, itransform, transform  # noqa: F401
+from pyproj.proj import Proj, pj_list  # noqa: F401
+from pyproj.transformer import (  # noqa: F401
+    Transformer,
+    itransform,
+    proj_version_str,
+    transform,
+)
 
 __proj_version__ = proj_version_str
 
