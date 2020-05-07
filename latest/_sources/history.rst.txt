@@ -4,6 +4,7 @@ Change Log
 3.0.0
 -----
 * Minimum supported Python version 3.6 (issue #499)
+* Refactor Proj to inherit from Transformer (issue #624)
 
 2.6.1
 ~~~~~

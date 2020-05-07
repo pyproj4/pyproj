@@ -173,16 +173,21 @@
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Proj</span>
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">AreaOfUse</span><span class="p">,</span> <span class="n">CoordinateOperation</span>
-<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="kn">import</span> <span class="n">AreaOfInterest</span><span class="p">,</span> <span class="n">_Transformer</span><span class="p">,</span> <span class="n">_TransformerGroup</span>  <span class="c1"># noqa</span>
+<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
+    <span class="n">AreaOfInterest</span><span class="p">,</span>
+    <span class="n">_Transformer</span><span class="p">,</span>
+    <span class="n">_TransformerGroup</span><span class="p">,</span>
+    <span class="n">proj_version_str</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="kn">import</span> <span class="n">cstrencode</span>
 <span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">ProjError</span>
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
 
-<div class="viewcode-block" id="TransformerGroup"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup">[docs]</a><span class="k">class</span> <span class="nc">TransformerGroup</span><span class="p">(</span><span class="n">_TransformerGroup</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformerGroup"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.TransformerGroup">[docs]</a><span class="k">class</span> <span class="nc">TransformerGroup</span><span class="p">(</span><span class="n">_TransformerGroup</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The TransformerGroup is a set of possible transformers from one CRS to another.</span>
 
@@ -198,7 +203,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TransformerGroup.__init__"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="TransformerGroup.__init__"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.TransformerGroup.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -272,7 +277,7 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">:</span>
+<div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The Transformer class is for facilitating re-using</span>
 <span class="sd">    transforms without needing to re-create them. The goal</span>
@@ -376,7 +381,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">operations</span>
 
-<div class="viewcode-block" id="Transformer.from_proj"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_proj">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Transformer.from_proj"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer.from_proj">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_proj</span><span class="p">(</span>
         <span class="n">proj_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -412,6 +417,8 @@
 <span class="sd">        Transformer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">proj_from</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
             <span class="n">proj_from</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">proj_from</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">proj_to</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
@@ -425,7 +432,7 @@
             <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Transformer.from_crs"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_crs">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Transformer.from_crs"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer.from_crs">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_crs</span><span class="p">(</span>
         <span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -471,7 +478,7 @@
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Transformer.from_pipeline"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_pipeline">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Transformer.from_pipeline"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer.from_pipeline">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_pipeline</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a PROJ pipeline string.</span>
 
@@ -489,7 +496,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="Transformer.transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+<div class="viewcode-block" id="Transformer.transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">yy</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -605,7 +612,7 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">return_data</span></div>
 
-<div class="viewcode-block" id="Transformer.itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.itransform">[docs]</a>    <span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>
+<div class="viewcode-block" id="Transformer.itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer.itransform">[docs]</a>    <span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">points</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">switch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -730,7 +737,7 @@
             <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="nb">iter</span><span class="p">(</span><span class="n">buff</span><span class="p">)]</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)):</span>
                 <span class="k">yield</span> <span class="n">pt</span></div>
 
-<div class="viewcode-block" id="Transformer.to_wkt"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_wkt">[docs]</a>    <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span>
+<div class="viewcode-block" id="Transformer.to_wkt"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer.to_wkt">[docs]</a>    <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WktVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -762,7 +769,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Transformer.to_json"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">indentation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="Transformer.to_json"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">indentation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a JSON string.</span>
 
@@ -782,7 +789,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">,</span> <span class="n">indentation</span><span class="o">=</span><span class="n">indentation</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Transformer.to_json_dict"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_json_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_json_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="Transformer.to_json_dict"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.Transformer.to_json_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_json_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a JSON dictionary.</span>
 
@@ -808,10 +815,15 @@
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Transformer</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_transformer</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_transformer</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Transformer</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">is_exact_same</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_transformer</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
     <span class="n">p1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">p2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -912,7 +924,7 @@
     <span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.itransform">[docs]</a><span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>
+<div class="viewcode-block" id="itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.proj.itransform">[docs]</a><span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>
     <span class="n">p1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">p2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">points</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Iterable</span><span class="p">],</span>
