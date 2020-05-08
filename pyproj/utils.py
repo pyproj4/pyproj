@@ -30,7 +30,11 @@ def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:
     isfloat = False
     islist = False
     istuple = False
-    # first, if it's a numpy array scalar convert to float
+    # check for pandas.Series, xarray.DataArray or dask.array.Array
+    if hasattr(xx, "__array__") and callable(xx.__array__):
+        xx = xx.__array__()
+
+    # if it's a numpy array scalar convert to float
     # (array scalars don't support buffer API)
     if hasattr(xx, "shape"):
         if xx.shape == ():
@@ -56,7 +60,10 @@ def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:
                     # inx,isfloat,islist,istuple
                     return inx, False, False, False
                 except Exception:
-                    raise TypeError("input must be an array, list, tuple or scalar")
+                    raise TypeError(
+                        "input must be an array, list, tuple, scalar, "
+                        "or have the __array__ method."
+                    )
     else:
         # perhaps they are regular python arrays?
         if hasattr(xx, "typecode"):

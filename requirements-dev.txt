@@ -1,5 +1,5 @@
 cython>=0.28.4
-black; python_version >= '3.6'
+black
 flake8
 mock
 mypy
@@ -9,3 +9,4 @@ pytest>3.6
 pytest-cov
 shapely
 pre-commit
+xarray
