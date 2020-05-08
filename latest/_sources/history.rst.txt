@@ -5,6 +5,7 @@ Change Log
 -----
 * Minimum supported Python version 3.6 (issue #499)
 * Refactor Proj to inherit from Transformer (issue #624)
+* ENH: Support obects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
 
 2.6.1
 ~~~~~
