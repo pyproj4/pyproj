@@ -369,6 +369,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "habi",
+      "name": "David Haberthür",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1651235?v=4",
+      "profile": "http://davidhaberthür.ch",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
