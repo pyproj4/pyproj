@@ -32,10 +32,7 @@ def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:
     istuple = False
     # check for pandas.Series, xarray.DataArray or dask.array.Array
     if hasattr(xx, "__array__") and callable(xx.__array__):
-        try:
-            xx = xx.__array__(dtype="d")
-        except TypeError:
-            pass
+        xx = xx.__array__()
 
     # if it's a numpy array scalar convert to float
     # (array scalars don't support buffer API)
