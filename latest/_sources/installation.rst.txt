@@ -30,22 +30,10 @@ The easiest methods for installing pyproj are:
 If these installation methods do not meet your needs, the section below provides further instructions
 for getting setup.
 
+Transformation Grids
+=====================
 
-Datum Grids
-===========
-
-You can add datum grids to your PROJ data directory for better accuracy for some transformations.
-
-Available methods for download include:
-
-1. Download stable from https://download.osgeo.org/proj or latest from https://github.com/OSGeo/proj-datumgrid
-
-2. Use `conda <https://conda.io/en/latest/>`__ with the `conda-forge <https://conda-forge.org/>`__ channel:
-
-  .. code-block:: bash
-
-     conda install -c conda-forge proj-datumgrid-europe proj-datumgrid-north-america proj-datumgrid-oceania proj-datumgrid-world
-
+See: :ref:`transformation_grids`
 
 
 Installing from source
