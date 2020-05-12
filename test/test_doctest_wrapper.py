@@ -5,10 +5,12 @@ import doctest
 import warnings
 
 import pytest
+from mock import patch
 
 import pyproj
 
 
+@patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_doctests():
     """run the examples in the docstrings using the doctest module"""
 

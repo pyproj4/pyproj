@@ -1,10 +1,9 @@
 import json
-from distutils.version import LooseVersion
 
 import numpy
 import pytest
 
-from pyproj import CRS, __proj_version__
+from pyproj import CRS
 from pyproj.crs import (
     CoordinateOperation,
     CoordinateSystem,
@@ -16,6 +15,7 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
+from test.conftest import grids_available
 
 
 class CustomCRS(object):
@@ -559,19 +559,15 @@ def test_coordinate_operation_grids__alternative_grid_name():
     grid = cc.grids[0]
     assert grid.direct_download is True
     assert grid.open_license is True
-    assert grid.available is True
-    if LooseVersion(__proj_version__) >= LooseVersion("7.0.0"):
-        assert grid.short_name == "ca_nrc_ntv1_can.tif"
-        assert grid.full_name.endswith("ntv1_can.dat") or grid.full_name.endswith(
-            grid.short_name
-        )
-        assert grid.package_name == ""
-        assert grid.url == "https://cdn.proj.org/ca_nrc_ntv1_can.tif"
+    assert grid.short_name == "ca_nrc_ntv1_can.tif"
+    if grids_available(grid.short_name):
+        assert grid.available is True
+        assert grid.full_name == grid.short_name
     else:
-        assert grid.short_name == "ntv1_can.dat"
-        assert grid.full_name.endswith(grid.short_name)
-        assert grid.package_name == "proj-datumgrid"
-        assert grid.url.startswith("https://download.osgeo.org/proj/proj-datumgrid")
+        assert grid.available is False
+        assert grid.full_name == ""
+    assert grid.package_name == ""
+    assert grid.url == "https://cdn.proj.org/ca_nrc_ntv1_can.tif"
 
 
 def test_coordinate_operation__missing():
@@ -1204,22 +1200,17 @@ def test_to_dict_no_proj4():
             "proj": "ob_tran",
         }
     )
-    if LooseVersion(__proj_version__) >= LooseVersion("6.3.0"):
-        with pytest.warns(UserWarning):
-            assert crs.to_dict() == {
-                "R": 6371229,
-                "lon_0": -10,
-                "no_defs": None,
-                "o_lat_p": 30,
-                "o_lon_p": 0,
-                "o_proj": "longlat",
-                "proj": "ob_tran",
-                "type": "crs",
-            }
-    else:
-        with pytest.warns(UserWarning):
-            assert crs.to_proj4() is None
-            assert crs.to_dict() == {}
+    with pytest.warns(UserWarning):
+        assert crs.to_dict() == {
+            "R": 6371229,
+            "lon_0": -10,
+            "no_defs": None,
+            "o_lat_p": 30,
+            "o_lon_p": 0,
+            "o_proj": "longlat",
+            "proj": "ob_tran",
+            "type": "crs",
+        }
 
 
 def test_to_dict_from_dict():

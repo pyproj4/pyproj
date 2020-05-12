@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Building PROJ.4 $1 version from source..."
+echo "Building PROJ $1 version from source..."
 if [[ $1 == "git" ]]; then
   git clone https://github.com/OSGeo/proj.git proj-git
 else
@@ -7,13 +7,6 @@ else
   tar zxf "proj-${1:0:5}.tar.gz"
 fi
 cd "proj-${1:0:5}"
-
-# Download and extract grids
-curl http://download.osgeo.org/proj/proj-datumgrid-1.8.zip > proj-datumgrid-1.8.zip
-cd data
-unzip -o ../proj-datumgrid-1.8.zip
-rm ../proj-datumgrid-1.8.zip
-cd ..
 
 # could be installed to a cached location (probably not git version)
 # seems to take only about 13 seconds of build time
