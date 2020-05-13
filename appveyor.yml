@@ -23,18 +23,21 @@ environment:
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PROJSOURCE: git
+      BUILD_SHARED_LIBS: ON
   # - PYTHON: "C:\\Python37-x64"
     #   PYTHON_VERSION: "3.7"
     #   PYTHON_ARCH: "64"
     #   VS_VERSION: Visual Studio 14
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     #   PROJSOURCE: 7.1.0
+    #   BUILD_SHARED_LIBS: ON
     # - PYTHON: "C:\\Python36-x64"
     #   PYTHON_VERSION: "3.6"
     #   PYTHON_ARCH: "64"
     #   VS_VERSION: Visual Studio 14
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     #   PROJSOURCE: git
+    #   BUILD_SHARED_LIBS: ON
 # matrix:
 #   allow_failures:
 #     - PYTHON: "C:\\Python36-x64"
@@ -43,39 +46,51 @@ environment:
 #       VS_VERSION: Visual Studio 14
 #       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 #       PROJSOURCE: git
+#       BUILD_SHARED_LIBS: ON
 
 shallow_clone: true
 
 cache:
-    - C:\Users\appveyor\AppData\Local\pip\Cache\wheels
-    - "%PROJ_BASE_DIR%"
+  - C:\Tools\vcpkg\installed\ -> appveyor.yml
+  - C:\Users\appveyor\AppData\Local\pip\Cache\wheels -> appveyor.yml
+  - "%PROJ_BASE_DIR%"
 
 build_script:
-  # setup sqlite3
-  - vcpkg install sqlite3[core,tool]:"%platform%"-windows
-  - vcpkg install tiff:"%platform%"-windows
-  - vcpkg install curl:"%platform%"-windows
-  - dir C:\Tools\vcpkg\installed\%platform%-windows\bin
-  - set PATH=C:\Tools\vcpkg\installed\%platform%-windows\bin;%PATH%
-  # setup PROJ.4
+  - set VCPKG_INSTALLED=C:\Tools\vcpkg\installed\%platform%-windows
+  # If cached directory does not exist, update vcpkg and install dependencies
+  - if not exist %VCPKG_INSTALLED%\bin (
+      cd "C:\Tools\vcpkg" &
+      git pull > nul &
+      .\bootstrap-vcpkg.bat -disableMetrics &
+      vcpkg install sqlite3[core,tool]:"%platform%"-windows &
+      vcpkg install tiff:"%platform%"-windows &
+      vcpkg install curl:"%platform%"-windows &
+      cd %APPVEYOR_BUILD_FOLDER%
+    )
+  - dir %VCPKG_INSTALLED%\bin
+  - set PATH=%VCPKG_INSTALLED%\bin;%PATH%
+  # See https://www.appveyor.com/docs/lang/cpp/
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
+      call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 &
+      call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+    )
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017"
+      (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform% )
+  # setup PROJ
   - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
   - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/proj.4.git proj-git
   - if not "%PROJSOURCE%" == "git" if not exist %PROJ_DIR% set BUILD_PROJ_STABLE=1
   - if defined BUILD_PROJ_STABLE curl -o "proj-%PROJSOURCE:~0,5%.zip" "https://download.osgeo.org/proj/proj-%PROJSOURCE%.zip"
   - if defined BUILD_PROJ_STABLE 7z x -aoa -y "proj-%PROJSOURCE:~0,5%.zip"
   - if not exist %PROJ_DIR% cd "%APPVEYOR_BUILD_FOLDER%\proj-%PROJSOURCE:~0,5%"
-  - if "%platform%" == "x64" SET VS_FULL=%VS_VERSION% Win64
-  - if "%platform%" == "x64" SET BUILD_SHARED_LIBS=ON
-  - if "%platform%" == "x86" SET VS_FULL=%VS_VERSION%
-  - if "%platform%" == "x86" SET BUILD_SHARED_LIBS=OFF
-  - echo "%VS_FULL%"
 #
   - if "%PROJSOURCE%" == "git" set BUILD_PROJ=1
   - if defined BUILD_PROJ_STABLE set BUILD_PROJ=1
   - if defined BUILD_PROJ mkdir build
   - if defined BUILD_PROJ cd build
-  - if defined BUILD_PROJ cmake -G "%VS_FULL%" .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS="%BUILD_SHARED_LIBS%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
-  - if defined BUILD_PROJ cmake --build . --config Release --target install
+  - if defined BUILD_PROJ cmake -GNinja .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS="%BUILD_SHARED_LIBS%" -DCMAKE_C_FLAGS="/WX" -DCMAKE_CXX_FLAGS="/WX" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX="%PROJ_DIR%"
+  - if defined BUILD_PROJ ninja -v
+  - if defined BUILD_PROJ ninja install
   - set PATH=%PROJ_DIR%\bin;%PATH%
   - set PROJ_LIB=%PROJ_DIR%\share\proj
   - cd %APPVEYOR_BUILD_FOLDER%
