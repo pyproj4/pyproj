@@ -3,7 +3,7 @@
 Transformation Grids
 =====================
 
-Transformation grids are necessary when you are performing datum transformations.
+Transformation grids improve accuracy when you are performing datum transformations.
 
 More information about the data available is located under the PROJ
 `resource files <https://proj.org/resource_files.html#transformation-grids>`__
