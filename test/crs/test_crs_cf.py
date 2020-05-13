@@ -1,9 +1,7 @@
-from distutils.version import LooseVersion
-
 import pytest
 from numpy.testing import assert_almost_equal
 
-from pyproj import CRS, __proj_version__
+from pyproj import CRS
 from pyproj.crs import ProjectedCRS
 from pyproj.crs._cf1x8 import _try_list_if_string
 from pyproj.crs.coordinate_operation import (
@@ -269,19 +267,16 @@ def test_cf_rotated_latlon():
     _test_roundtrip(expected_cf, "GEOGCRS[")
     with pytest.warns(UserWarning):
         proj_dict = crs.to_dict()
-    if LooseVersion(__proj_version__) >= LooseVersion("6.3.0"):
-        assert proj_dict == {
-            "proj": "ob_tran",
-            "o_proj": "longlat",
-            "o_lat_p": 32.5,
-            "o_lon_p": 170.0,
-            "lon_0": 0,
-            "datum": "WGS84",
-            "no_defs": None,
-            "type": "crs",
-        }
-    else:
-        assert proj_dict == {}
+    assert proj_dict == {
+        "proj": "ob_tran",
+        "o_proj": "longlat",
+        "o_lat_p": 32.5,
+        "o_lon_p": 170.0,
+        "lon_0": 0,
+        "datum": "WGS84",
+        "no_defs": None,
+        "type": "crs",
+    }
 
 
 def test_cf_rotated_latlon__grid():
@@ -295,19 +290,16 @@ def test_cf_rotated_latlon__grid():
     )
     with pytest.warns(UserWarning):
         proj_dict = crs.to_dict()
-    if LooseVersion(__proj_version__) >= LooseVersion("6.3.0"):
-        assert proj_dict == {
-            "proj": "ob_tran",
-            "o_proj": "longlat",
-            "o_lat_p": 32.5,
-            "o_lon_p": 170.0,
-            "lon_0": 1.0,
-            "datum": "WGS84",
-            "no_defs": None,
-            "type": "crs",
-        }
-    else:
-        assert proj_dict == {}
+    assert proj_dict == {
+        "proj": "ob_tran",
+        "o_proj": "longlat",
+        "o_lat_p": 32.5,
+        "o_lon_p": 170.0,
+        "lon_0": 1.0,
+        "datum": "WGS84",
+        "no_defs": None,
+        "type": "crs",
+    }
 
 
 def test_cf_lambert_conformal_conic_1sp():
@@ -688,10 +680,6 @@ def test_export_compound_crs():
     _test_roundtrip(expected_cf, "COMPOUNDCRS[")
 
 
-@pytest.mark.skipif(
-    LooseVersion(__proj_version__) < LooseVersion("6.3.0"),
-    reason="geoid model does not work in PROJ < 6.3.0",
-)
 def test_geoid_model_name():
     wkt = (
         'COMPOUNDCRS["NAD83 / Pennsylvania South + NAVD88 height",\n'

@@ -1,17 +1,13 @@
-from distutils.version import LooseVersion
-
 import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
 
 import pyproj
-from pyproj import Proj, Transformer, __proj_version__, itransform, transform
+from pyproj import Proj, Transformer, itransform, transform
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import grids_available
-
-_PROJ_gte_701 = LooseVersion(__proj_version__) >= LooseVersion("7.0.1")
 
 
 def test_tranform_wgs84_to_custom():
@@ -33,7 +29,10 @@ def test_transform_wgs84_to_alaska():
     test = (-179.72638, 49.752533)
     with pytest.warns(DeprecationWarning):
         xx, yy = pyproj.transform(lat_lon_proj, alaska_aea_proj, *test)
-    assert f"{xx:.3f} {yy:.3f}" == "-1824924.495 330822.800"
+    if grids_available("us_noaa_alaska.tif"):
+        assert f"{xx:.3f} {yy:.3f}" == "-1824924.495 330822.800"
+    else:
+        assert f"{xx:.3f} {yy:.3f}" == "-1825155.697 330730.391"
 
 
 def test_illegal_transformation():
@@ -283,11 +282,8 @@ def test_transform_no_exception():
 def test_transform__out_of_bounds():
     with pytest.warns(FutureWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
-    if LooseVersion(pyproj.__proj_version__) >= LooseVersion("7.0.0"):
-        with pytest.raises(pyproj.exceptions.ProjError):
-            transformer.transform(100000, 100000, errcheck=True)
-    else:
-        assert np.all(np.isinf(transformer.transform(100000, 100000, errcheck=True)))
+    with pytest.raises(pyproj.exceptions.ProjError):
+        transformer.transform(100000, 100000, errcheck=True)
 
 
 def test_transform_radians():
@@ -462,9 +458,9 @@ def test_str():
                 "<Transformation Transformer: helmert>\n"
                 "Description: ITRF2014 to ETRF2014 (1)\n"
                 "Area of Use:\n"
-                "- name: Europe - {}\n"
+                "- name: Europe - ETRF by country\n"
                 "- bounds: (-16.1, 32.88, 40.18, 84.17)"
-            ).format("ETRF by country" if _PROJ_gte_701 else "ETRS89"),
+            ),
         ),
         (
             4326,
@@ -477,19 +473,43 @@ def test_str():
                 "- bounds: (-180.0, -90.0, 180.0, 90.0)"
             ),
         ),
-        (
-            4326,
-            26917,
-            (
-                "<Unknown Transformer: unknown>\n"
-                "Description: unavailable until proj_trans is called\n"
-                "Area of Use:\n- undefined"
-            ),
-        ),
     ],
 )
 def test_repr(from_crs, to_crs, expected_repr):
     assert repr(Transformer.from_crs(from_crs, to_crs)) == expected_repr
+
+
+def test_repr__conditional():
+    trans_repr = repr(Transformer.from_crs(4326, 26917))
+    if grids_available(
+        "ca_nrc_NA83SCRS.tif",
+        "us_noaa_FL.tif",
+        "us_noaa_MD.tif",
+        "us_noaa_TN.tif",
+        "us_noaa_gahpgn.tif",
+        "us_noaa_kyhpgn.tif",
+        "us_noaa_mihpgn.tif",
+        "us_noaa_nchpgn.tif",
+        "us_noaa_nyhpgn.tif",
+        "us_noaa_ohhpgn.tif",
+        "us_noaa_pahpgn.tif",
+        "us_noaa_schpgn.tif",
+        "us_noaa_vahpgn.tif",
+        "us_noaa_wvhpgn.tif",
+    ):
+        assert trans_repr == (
+            "<Unknown Transformer: unknown>\n"
+            "Description: unavailable until proj_trans is called\n"
+            "Area of Use:\n- undefined"
+        )
+    else:
+        assert trans_repr == (
+            "<Concatenated Operation Transformer: pipeline>\n"
+            "Description: Inverse of NAD83 to WGS 84 (1) + UTM zone 17N\n"
+            "Area of Use:\n"
+            "- name: North America - Canada and USA (CONUS, Alaska mainland)\n"
+            "- bounds: (-172.54, 23.81, -47.74, 86.46)"
+        )
 
 
 def test_to_json_dict():
@@ -559,23 +579,17 @@ def test_transformer_group():
 
 def test_transformer_group__unavailable():
     trans_group = TransformerGroup(4326, 2964)
-    if not grids_available("ntv2_0.gsb", "ca_nrc_ntv2_0.tif"):
-        assert len(trans_group.unavailable_operations) == 1
+    if not grids_available("us_noaa_alaska.tif"):
+        assert len(trans_group.unavailable_operations) == 2
         assert (
             trans_group.unavailable_operations[0].name
-            == "Inverse of NAD27 to WGS 84 (33) + Alaska Albers"
+            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
         )
-        if _PROJ_gte_701:
-            assert len(trans_group.transformers) == 9
-        else:
-            assert len(trans_group.transformers) == 8
-        assert trans_group.best_available
+        assert len(trans_group.transformers) == 8
+        assert not trans_group.best_available
     else:
         assert len(trans_group.unavailable_operations) == 0
-        if _PROJ_gte_701:
-            assert len(trans_group.transformers) == 10
-        else:
-            assert len(trans_group.transformers) == 9
+        assert len(trans_group.transformers) == 10
         assert trans_group.best_available
 
 
@@ -584,7 +598,7 @@ def test_transform_group__missing_best():
         lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
         alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
 
-    if not grids_available("ntv2_0.gsb", "ca_nrc_ntv2_0.tif"):
+    if not grids_available("ca_nrc_ntv2_0.tif"):
         with pytest.warns(
             UserWarning,
             match="Best transformation is not available due to missing Grid",
@@ -606,7 +620,7 @@ def test_transform_group__missing_best():
 
 
 def test_transform_group__area_of_interest():
-    if not grids_available("ntv2_0.gsb", "ca_nrc_ntv2_0.tif"):
+    if not grids_available("ca_nrc_ntv2_0.tif"):
         with pytest.warns(
             UserWarning,
             match="Best transformation is not available due to missing Grid",
@@ -639,20 +653,17 @@ def test_transform_group__area_of_interest():
 
 def test_transformer_group__get_transform_crs():
     tg = TransformerGroup("epsg:4258", "epsg:7415")
-    if LooseVersion(pyproj.__proj_version__) >= LooseVersion("6.3.1"):
-        if not grids_available("nl_nsgi_rdtrans2018.tif"):
-            assert len(tg.transformers) == 1
-        else:
-            assert len(tg.transformers) == 2
+    if not grids_available("nl_nsgi_rdtrans2018.tif"):
+        assert len(tg.transformers) == 1
     else:
-        assert len(tg.transformers) == 4
+        assert len(tg.transformers) == 2
 
 
 def test_transformer__area_of_interest():
     transformer = Transformer.from_crs(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
     )
-    if not grids_available("ntv2_0.gsb", "ca_nrc_ntv2_0.tif"):
+    if not grids_available("ca_nrc_ntv2_0.tif"):
         assert (
             transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
         )
@@ -666,7 +677,7 @@ def test_transformer_proj__area_of_interest():
     transformer = Transformer.from_proj(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
     )
-    if not grids_available("ntv2_0.gsb", "ca_nrc_ntv2_0.tif"):
+    if not grids_available("ca_nrc_ntv2_0.tif"):
         assert (
             transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
         )

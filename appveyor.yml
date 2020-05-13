@@ -10,6 +10,7 @@ environment:
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci\\appveyor\\run_with_env.cmd"
     PROJ_BASE_DIR: "%APPVEYOR_BUILD_FOLDER%\\proj_install"
+    PROJ_NETWORK: "ON"
 
   matrix:
     # Pre-installed Python versions
@@ -21,13 +22,13 @@ environment:
       PYTHON_ARCH: "64"
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 7.0.0
+      PROJSOURCE: git
   # - PYTHON: "C:\\Python37-x64"
     #   PYTHON_VERSION: "3.7"
     #   PYTHON_ARCH: "64"
     #   VS_VERSION: Visual Studio 14
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    #   PROJSOURCE: 6.3.1
+    #   PROJSOURCE: 7.1.0
     # - PYTHON: "C:\\Python36-x64"
     #   PYTHON_VERSION: "3.6"
     #   PYTHON_ARCH: "64"
@@ -77,10 +78,6 @@ build_script:
   - if defined BUILD_PROJ cmake --build . --config Release --target install
   - set PATH=%PROJ_DIR%\bin;%PATH%
   - set PROJ_LIB=%PROJ_DIR%\share\proj
-  - if defined BUILD_PROJ cd %PROJ_LIB%
-  - if defined BUILD_PROJ curl -O http://download.osgeo.org/proj/proj-datumgrid-1.8.zip
-  - if defined BUILD_PROJ 7z e -aoa -y proj-datumgrid-1.8.zip
-  - if defined BUILD_PROJ del proj-datumgrid-1.8.zip
   - cd %APPVEYOR_BUILD_FOLDER%
   - proj
   # Build and install pyproj

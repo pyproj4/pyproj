@@ -19,12 +19,6 @@ but hopefully it is enough to get you started.
 If you notice something is missing that you need, feel free to open an issue on GitHub.
 
 
-.. note:: PROJ >= 7.0.0 will have better support for aliases for datum names.
-          If you have a previous version of PROJ, you will need to use the
-          full name of the datum. There is support currently for the old PROJ
-          names for datums such as WGS84 and NAD83.
-
-
 Here are links to the API docs for the pieces you need to get started:
 
 - :ref:`crs`
@@ -153,8 +147,6 @@ Compound CRS
 -------------
 
 The PROJ string is quite lossy in this example, so it is not provided.
-
-.. warning:: geoid_model support only exists in PROJ >= 6.3.0
 
 .. code-block:: python
 

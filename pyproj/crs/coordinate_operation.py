@@ -5,11 +5,9 @@ building a CRS.
 https://proj.org/operations/
 """
 import warnings
-from distutils.version import LooseVersion
 from typing import Any
 
 from pyproj._crs import CoordinateOperation
-from pyproj._transformer import proj_version_str
 from pyproj.exceptions import CRSError
 
 
@@ -600,11 +598,9 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
             f"+y_0={false_northing} "
             f"+k_0={scale_factor_natural_origin}"
         )
-        if LooseVersion(proj_version_str) >= LooseVersion("6.3.1"):
-            return cls.from_json(
-                CRS(proj_string).coordinate_operation.to_json()  # type: ignore
-            )
-        return cls.from_string(proj_string)
+        return cls.from_json(
+            CRS(proj_string).coordinate_operation.to_json()  # type: ignore
+        )
 
 
 class MercatorAConversion(CoordinateOperation):

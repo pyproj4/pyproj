@@ -1,9 +1,6 @@
-from distutils.version import LooseVersion
-
 import pytest
 from numpy.testing import assert_almost_equal
 
-from pyproj import __proj_version__
 from pyproj.crs import GeographicCRS
 from pyproj.crs.coordinate_operation import (
     AlbersEqualAreaConversion,
@@ -617,22 +614,14 @@ def test_rotated_latitude_longitude_operation():
 
 def test_lambert_cylindrical_equal_area_scale_operation__defaults():
     lceaop = LambertCylindricalEqualAreaScaleConversion()
-    if LooseVersion(__proj_version__) >= LooseVersion("6.3.1"):
-        assert lceaop.name == "unknown"
-        assert lceaop.method_name == "Lambert Cylindrical Equal Area"
-        assert _to_dict(lceaop) == {
-            "Latitude of 1st standard parallel": 0.0,
-            "Longitude of natural origin": 0.0,
-            "False easting": 0.0,
-            "False northing": 0.0,
-        }
-    else:
-        assert lceaop.name == "PROJ-based coordinate operation"
-        assert lceaop.method_name == (
-            "PROJ-based operation method: +proj=cea +lon_0=0.0 "
-            "+x_0=0.0 +y_0=0.0 +k_0=1.0"
-        )
-        assert _to_dict(lceaop) == {}
+    assert lceaop.name == "unknown"
+    assert lceaop.method_name == "Lambert Cylindrical Equal Area"
+    assert _to_dict(lceaop) == {
+        "Latitude of 1st standard parallel": 0.0,
+        "Longitude of natural origin": 0.0,
+        "False easting": 0.0,
+        "False northing": 0.0,
+    }
 
 
 def test_lambert_cylindrical_equal_area_scale_operation():
@@ -642,24 +631,17 @@ def test_lambert_cylindrical_equal_area_scale_operation():
         false_northing=4,
         scale_factor_natural_origin=0.999,
     )
-    if LooseVersion(__proj_version__) >= LooseVersion("6.3.1"):
-        assert lceaop.name == "unknown"
-        assert lceaop.method_name == "Lambert Cylindrical Equal Area"
-        op_dict = _to_dict(lceaop)
-        assert_almost_equal(
-            op_dict.pop("Latitude of 1st standard parallel"), 2.57, decimal=2
-        )
-        assert op_dict == {
-            "Longitude of natural origin": 2.0,
-            "False easting": 3.0,
-            "False northing": 4.0,
-        }
-    else:
-        assert lceaop.name == "PROJ-based coordinate operation"
-        assert lceaop.method_name == (
-            "PROJ-based operation method: +proj=cea +lon_0=2 +x_0=3 +y_0=4 +k_0=0.999"
-        )
-        assert _to_dict(lceaop) == {}
+    assert lceaop.name == "unknown"
+    assert lceaop.method_name == "Lambert Cylindrical Equal Area"
+    op_dict = _to_dict(lceaop)
+    assert_almost_equal(
+        op_dict.pop("Latitude of 1st standard parallel"), 2.57, decimal=2
+    )
+    assert op_dict == {
+        "Longitude of natural origin": 2.0,
+        "False easting": 3.0,
+        "False northing": 4.0,
+    }
 
 
 @pytest.mark.parametrize(
