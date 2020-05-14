@@ -51,6 +51,7 @@ class TransformerGroup(_TransformerGroup):
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
+        network: Optional[bool] = None,
     ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
@@ -73,6 +74,11 @@ class TransformerGroup(_TransformerGroup):
         area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help order the transformations based on the
             best operation for the area.
+        network: bool, optional
+            Default is None, which uses the system defaults for networking.
+            If True, it will force the use of network for grids regardless of
+            any other network setting. If False, it will force disable use of
+            network for grids regardless of any other network setting.
 
         """
         super().__init__(
@@ -81,6 +87,7 @@ class TransformerGroup(_TransformerGroup):
             skip_equivalent=skip_equivalent,
             always_xy=always_xy,
             area_of_interest=area_of_interest,
+            network=network,
         )
         for iii, transformer in enumerate(self._transformers):
             self._transformers[iii] = Transformer(transformer)
@@ -222,6 +229,16 @@ class Transformer:
         """
         return self._transformer.operations
 
+    @property
+    def is_network_enabled(self) -> bool:
+        """
+        .. versionadded:: 3.0.0
+
+        bool:
+            If the network is enabled.
+        """
+        return self._transformer.is_network_enabled
+
     @staticmethod
     def from_proj(
         proj_from: Any,
@@ -229,12 +246,14 @@ class Transformer:
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
+        network: Optional[bool] = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.proj.Proj` or input used to create one.
 
         .. versionadded:: 2.1.2 skip_equivalent
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest
+        .. versionadded:: 3.0.0 network
 
         Parameters
         ----------
@@ -252,6 +271,11 @@ class Transformer:
             Default is false.
         area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help select the transformation.
+        network: bool, optional
+            Default is None, which uses the system defaults for networking.
+            If True, it will force the use of network for grids regardless of
+            any other network setting. If False, it will force disable use of
+            network for grids regardless of any other network setting.
 
         Returns
         -------
@@ -271,6 +295,7 @@ class Transformer:
             skip_equivalent=skip_equivalent,
             always_xy=always_xy,
             area_of_interest=area_of_interest,
+            network=network,
         )
 
     @staticmethod
@@ -280,12 +305,14 @@ class Transformer:
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
+        network: Optional[bool] = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
         .. versionadded:: 2.1.2 skip_equivalent
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest
+        .. versionadded:: 3.0.0 network
 
         Parameters
         ----------
@@ -303,6 +330,11 @@ class Transformer:
             Default is false.
         area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help select the transformation.
+        network: bool, optional
+            Default is None, which uses the system defaults for networking.
+            If True, it will force the use of network for grids regardless of
+            any other network setting. If False, it will force disable use of
+            network for grids regardless of any other network setting.
 
         Returns
         -------
@@ -316,26 +348,38 @@ class Transformer:
                 skip_equivalent=skip_equivalent,
                 always_xy=always_xy,
                 area_of_interest=area_of_interest,
+                network=network,
             )
         )
 
     @staticmethod
-    def from_pipeline(proj_pipeline: str) -> "Transformer":
+    def from_pipeline(
+        proj_pipeline: str, network: Optional[bool] = None
+    ) -> "Transformer":
         """Make a Transformer from a PROJ pipeline string.
 
         https://proj.org/operations/pipeline.html
+
+        .. versionadded:: 3.0.0 network
 
         Parameters
         ----------
         proj_pipeline: str
             Projection pipeline string.
+        network: bool, optional
+            Default is None, which uses the system defaults for networking.
+            If True, it will force the use of network for grids regardless of
+            any other network setting. If False, it will force disable use of
+            network for grids regardless of any other network setting.
 
         Returns
         -------
         Transformer
 
         """
-        return Transformer(_Transformer.from_pipeline(cstrencode(proj_pipeline)))
+        return Transformer(
+            _Transformer.from_pipeline(cstrencode(proj_pipeline), network=network)
+        )
 
     def transform(
         self,

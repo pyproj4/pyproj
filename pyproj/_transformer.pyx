@@ -132,6 +132,7 @@ cdef class _TransformerGroup:
         skip_equivalent=False,
         always_xy=False,
         area_of_interest=None,
+        network=None,
     ):
         """
         From PROJ docs:
@@ -143,7 +144,7 @@ cdef class _TransformerGroup:
         with unknown accuracy are sorted last, whatever their area.
         """
         self.context = proj_context_create()
-        pyproj_context_initialize(self.context, False)
+        pyproj_context_initialize(self.context, False, network=network)
         cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
         cdef PJ_OBJ_LIST * pj_operations = NULL
         cdef PJ* pj_transform = NULL
@@ -194,7 +195,7 @@ cdef class _TransformerGroup:
             num_operations = proj_list_get_count(pj_operations)
             for iii in range(num_operations):
                 context = proj_context_create()
-                pyproj_context_initialize(context, True)
+                pyproj_context_initialize(context, True, network=network)
                 pj_transform = proj_list_get(
                     context,
                     pj_operations,
@@ -326,6 +327,16 @@ cdef class _Transformer(Base):
         self._operations = _get_concatenated_operations(self.context, self.projobj)
         return self._operations
 
+    @property
+    def is_network_enabled(self):
+        """
+        .. versionadded:: 3.0.0
+
+        bool:
+            If the network is enabled.
+        """
+        return proj_context_is_network_enabled(self.context) == 1
+
     @staticmethod
     def from_crs(
         _CRS crs_from,
@@ -333,6 +344,7 @@ cdef class _Transformer(Base):
         skip_equivalent=False,
         always_xy=False,
         area_of_interest=None,
+        network=None,
     ):
         """
         Create a transformer from CRS objects
@@ -363,7 +375,7 @@ cdef class _Transformer(Base):
                     north_lat_degree,
                 )
             transformer.context = proj_context_create()
-            pyproj_context_initialize(transformer.context, False)
+            pyproj_context_initialize(transformer.context, False, network=network)
             transformer.projobj = proj_create_crs_to_crs(
                 transformer.context,
                 cstrencode(crs_from.srs),
@@ -413,13 +425,13 @@ cdef class _Transformer(Base):
         return transformer
 
     @staticmethod
-    def from_pipeline(const char *proj_pipeline):
+    def from_pipeline(const char *proj_pipeline, network=None):
         """
         Create Transformer from a PROJ pipeline string.
         """
         cdef _Transformer transformer = _Transformer()
         transformer.context = proj_context_create()
-        pyproj_context_initialize(transformer.context, False)
+        pyproj_context_initialize(transformer.context, False, network=network)
         # initialize projection
         transformer.projobj = proj_create(
             transformer.context,

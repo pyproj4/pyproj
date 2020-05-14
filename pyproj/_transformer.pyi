@@ -36,6 +36,7 @@ class _TransformerGroup:
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
+        network: Optional[bool] = None,
     ) -> None: ...
 
 class _Transformer(Base):
@@ -60,6 +61,8 @@ class _Transformer(Base):
     def area_of_use(self) -> AreaOfUse: ...
     @property
     def operations(self) -> Union[Tuple[CoordinateOperation], None]: ...
+    @property
+    def is_network_enabled(self) -> bool: ...
     @staticmethod
     def from_crs(
         crs_from: _CRS,
@@ -67,9 +70,12 @@ class _Transformer(Base):
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
+        network: Optional[bool] = None,
     ) -> "_Transformer": ...
     @staticmethod
-    def from_pipeline(proj_pipeline: str) -> "_Transformer": ...
+    def from_pipeline(
+        proj_pipeline: str, network: Optional[bool] = None
+    ) -> "_Transformer": ...
     def _transform(
         self,
         inx: Any,

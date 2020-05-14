@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import math
+import os
 import sys
 import unittest
 
 import numpy as np
 import pytest
+from mock import patch
 from numpy.testing import assert_almost_equal
 
 from pyproj import Geod, Proj, pj_ellps, pj_list, transform
@@ -533,3 +535,20 @@ def test_proj_radians_warning():
     proj = Proj("epsg:4326")
     with pytest.warns(UserWarning, match="radian"):
         proj(1, 2, radians=True)
+
+
+@patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
+def test_network__disable():
+    transformer = Proj(3857, network=False)
+    assert transformer.is_network_enabled is False
+
+
+@patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
+def test_network__enable():
+    transformer = Proj(3857, network=True)
+    assert transformer.is_network_enabled is True
+
+
+def test_network__default():
+    transformer = Proj(3857)
+    assert transformer.is_network_enabled == (os.environ.get("PROJ_NETWORK") == "ON")
