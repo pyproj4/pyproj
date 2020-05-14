@@ -115,6 +115,8 @@ def get_data_dir() -> str:
 
 def get_user_data_dir(create: bool = True) -> str:
     """
+    .. versionadded:: 7.1.0
+
     Get the PROJ user writable directory for datumgrid files.
 
     This is where grids will be downloaded when
