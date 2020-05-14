@@ -562,7 +562,7 @@ def test_coordinate_operation_grids__alternative_grid_name():
     assert grid.short_name == "ca_nrc_ntv1_can.tif"
     if grids_available(grid.short_name):
         assert grid.available is True
-        assert grid.full_name == grid.short_name
+        assert grid.full_name.endswith(grid.short_name)
     else:
         assert grid.available is False
         assert grid.full_name == ""

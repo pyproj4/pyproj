@@ -1,6 +1,5 @@
 import os
 from functools import partial
-from pathlib import Path
 
 import numpy as np
 import pytest
@@ -589,7 +588,31 @@ def test_transformer_group__unavailable():
             os.environ.get("PROJ_NETWORK") == "ON"
         )
 
-    if not grids_available("us_noaa_alaska.tif"):
+    if grids_available("us_noaa_alaska.tif", "ca_nrc_ntv2_0.tif", check_all=True):
+        assert len(trans_group.unavailable_operations) == 0
+        assert len(trans_group.transformers) == 10
+        assert (
+            trans_group.transformers[0].description
+            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+        )
+        assert trans_group.best_available
+    elif grids_available("us_noaa_alaska.tif"):
+        assert len(trans_group.unavailable_operations) == 1
+        assert (
+            trans_group.transformers[0].description
+            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+        )
+        assert len(trans_group.transformers) == 9
+        assert trans_group.best_available
+    elif grids_available("ca_nrc_ntv2_0.tif"):
+        assert len(trans_group.unavailable_operations) == 1
+        assert (
+            trans_group.transformers[0].description
+            == "Inverse of NAD27 to WGS 84 (7) + Alaska Albers"
+        )
+        assert len(trans_group.transformers) == 9
+        assert not trans_group.best_available
+    else:
         assert len(trans_group.unavailable_operations) == 2
         assert (
             trans_group.unavailable_operations[0].name
@@ -597,10 +620,6 @@ def test_transformer_group__unavailable():
         )
         assert len(trans_group.transformers) == 8
         assert not trans_group.best_available
-    else:
-        assert len(trans_group.unavailable_operations) == 0
-        assert len(trans_group.transformers) == 10
-        assert trans_group.best_available
 
 
 def test_transform_group__missing_best():
@@ -825,7 +844,33 @@ def test_transformer_group__network_disabled():
     for transformer in trans_group.transformers:
         assert transformer.is_network_enabled is False
 
-    if not Path(pyproj.datadir.get_data_dir(), "us_noaa_alaska.tif").exists():
+    if grids_available(
+        "us_noaa_alaska.tif", "ca_nrc_ntv2_0.tif", check_network=False, check_all=True
+    ):
+        assert len(trans_group.unavailable_operations) == 0
+        assert len(trans_group.transformers) == 10
+        assert (
+            trans_group.transformers[0].description
+            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+        )
+        assert trans_group.best_available
+    elif grids_available("us_noaa_alaska.tif", check_network=False):
+        assert len(trans_group.unavailable_operations) == 1
+        assert (
+            trans_group.transformers[0].description
+            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+        )
+        assert len(trans_group.transformers) == 9
+        assert trans_group.best_available
+    elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
+        assert len(trans_group.unavailable_operations) == 1
+        assert (
+            trans_group.transformers[0].description
+            == "Inverse of NAD27 to WGS 84 (7) + Alaska Albers"
+        )
+        assert len(trans_group.transformers) == 9
+        assert not trans_group.best_available
+    else:
         assert len(trans_group.unavailable_operations) == 2
         assert (
             trans_group.unavailable_operations[0].name
@@ -833,7 +878,3 @@ def test_transformer_group__network_disabled():
         )
         assert len(trans_group.transformers) == 8
         assert not trans_group.best_available
-    else:
-        assert len(trans_group.unavailable_operations) == 0
-        assert len(trans_group.transformers) == 10
-        assert trans_group.best_available
