@@ -1,5 +1,6 @@
 import os
 from functools import partial
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -583,6 +584,11 @@ def test_transformer_group():
 
 def test_transformer_group__unavailable():
     trans_group = TransformerGroup(4326, 2964)
+    for transformer in trans_group.transformers:
+        assert transformer.is_network_enabled == (
+            os.environ.get("PROJ_NETWORK") == "ON"
+        )
+
     if not grids_available("us_noaa_alaska.tif"):
         assert len(trans_group.unavailable_operations) == 2
         assert (
@@ -801,3 +807,33 @@ def test_network__enable(transformer):
 def test_network__default(transformer):
     trans = transformer()
     assert trans.is_network_enabled == (os.environ.get("PROJ_NETWORK") == "ON")
+
+
+@patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
+def test_transformer_group__network_enabled():
+    trans_group = TransformerGroup(4326, 2964, network=True)
+    assert len(trans_group.unavailable_operations) == 0
+    assert len(trans_group.transformers) == 10
+    assert trans_group.best_available
+    for transformer in trans_group.transformers:
+        assert transformer.is_network_enabled is True
+
+
+@patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
+def test_transformer_group__network_disabled():
+    trans_group = TransformerGroup(4326, 2964, network=False)
+    for transformer in trans_group.transformers:
+        assert transformer.is_network_enabled is False
+
+    if not Path(pyproj.datadir.get_data_dir(), "us_noaa_alaska.tif").exists():
+        assert len(trans_group.unavailable_operations) == 2
+        assert (
+            trans_group.unavailable_operations[0].name
+            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+        )
+        assert len(trans_group.transformers) == 8
+        assert not trans_group.best_available
+    else:
+        assert len(trans_group.unavailable_operations) == 0
+        assert len(trans_group.transformers) == 10
+        assert trans_group.best_available
