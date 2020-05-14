@@ -19,3 +19,9 @@ pyproj.datadir.append_data_dir
 ------------------------------
 
 .. autofunction:: pyproj.datadir.append_data_dir
+
+
+pyproj.datadir.get_user_data_dir
+---------------------------------
+
+.. autofunction:: pyproj.datadir.get_user_data_dir

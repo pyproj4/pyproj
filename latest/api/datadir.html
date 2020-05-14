@@ -102,6 +102,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-datadir-get-data-dir">pyproj.datadir.get_data_dir</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-datadir-set-data-dir">pyproj.datadir.set_data_dir</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-datadir-append-data-dir">pyproj.datadir.append_data_dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-datadir-get-user-data-dir">pyproj.datadir.get_user_data_dir</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
@@ -228,6 +229,34 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>proj_data_dir</strong> (<em>str</em>) – The path to the PROJ data directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-datadir-get-user-data-dir">
+<h2>pyproj.datadir.get_user_data_dir<a class="headerlink" href="#pyproj-datadir-get-user-data-dir" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyproj.datadir.get_user_data_dir">
+<code class="sig-prename descclassname">pyproj.datadir.</code><code class="sig-name descname">get_user_data_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">create</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/pyproj/datadir.html#get_user_data_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.datadir.get_user_data_dir" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 7.1.0.</span></p>
+</div>
+<p>Get the PROJ user writable directory for datumgrid files.</p>
+<p>This is where grids will be downloaded when
+<a class="reference external" href="https://proj.org/usage/network.html">PROJ network</a> capabilities
+are enabled. It is also the default download location for the
+<a class="reference external" href="https://proj.org/apps/projsync.html">projsync</a> command line program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>create</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, it will create the directory if it does not already exist.
+Default is True.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The user writable data directory.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

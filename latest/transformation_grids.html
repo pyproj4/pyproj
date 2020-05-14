@@ -190,10 +190,22 @@ the capability to work with grid files that are not installed on the local machi
 <p>Available methods for download include:</p>
 <ul>
 <li><p><a class="reference external" href="https://proj.org/usage/network.html#mirroring">Mirroing the data</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws s3 sync s3://cdn.proj.org <span class="k">$(</span>python -c <span class="s2">&quot;import pyproj; print(pyproj.datadir.get_data_dir())&quot;</span><span class="k">)</span>
+<p>To download to PROJ user writable data directory:</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 7.1.0.</span></p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PROJ_DOWNLOAD_DIR</span><span class="o">=</span><span class="k">$(</span>python -c <span class="s2">&quot;import pyproj; print(pyproj.datadir.get_user_data_dir())</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget --mirror https://cdn.proj.org/ -P <span class="k">$(</span>python -c <span class="s2">&quot;import pyproj; print(pyproj.datadir.get_data_dir())&quot;</span><span class="k">)</span>
+<p>To download to the main PROJ data data directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PROJ_DOWNLOAD_DIR</span><span class="o">=</span><span class="k">$(</span>python -c <span class="s2">&quot;import pyproj; print(pyproj.datadir.get_data_dir())</span>
+</pre></div>
+</div>
+<p>Download the files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws s3 sync s3://cdn.proj.org <span class="si">${</span><span class="nv">PROJ_DOWNLOAD_DIR</span><span class="si">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget --mirror https://cdn.proj.org/ -P <span class="si">${</span><span class="nv">PROJ_DOWNLOAD_DIR</span><span class="si">}</span>
 </pre></div>
 </div>
 </li>

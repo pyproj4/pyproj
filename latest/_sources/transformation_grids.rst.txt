@@ -28,13 +28,29 @@ Available methods for download include:
 
 - `Mirroing the data <https://proj.org/usage/network.html#mirroring>`__:
 
+  To download to PROJ user writable data directory:
+
+  .. versionadded:: 7.1.0
+
   .. code-block:: bash
 
-    aws s3 sync s3://cdn.proj.org $(python -c "import pyproj; print(pyproj.datadir.get_data_dir())")
+    export PROJ_DOWNLOAD_DIR=$(python -c "import pyproj; print(pyproj.datadir.get_user_data_dir())
+
+  To download to the main PROJ data data directory:
 
   .. code-block:: bash
 
-    wget --mirror https://cdn.proj.org/ -P $(python -c "import pyproj; print(pyproj.datadir.get_data_dir())")
+    export PROJ_DOWNLOAD_DIR=$(python -c "import pyproj; print(pyproj.datadir.get_data_dir())
+
+  Download the files:
+
+  .. code-block:: bash
+
+    aws s3 sync s3://cdn.proj.org ${PROJ_DOWNLOAD_DIR}
+
+  .. code-block:: bash
+
+    wget --mirror https://cdn.proj.org/ -P ${PROJ_DOWNLOAD_DIR}
 
 - The `projsync <https://proj.org/apps/projsync.html>`__ command line program.
 
