@@ -1,5 +1,10 @@
+import os
+from functools import partial
+from pathlib import Path
+
 import numpy as np
 import pytest
+from mock import patch
 from numpy.testing import assert_almost_equal
 
 import pyproj
@@ -579,6 +584,11 @@ def test_transformer_group():
 
 def test_transformer_group__unavailable():
     trans_group = TransformerGroup(4326, 2964)
+    for transformer in trans_group.transformers:
+        assert transformer.is_network_enabled == (
+            os.environ.get("PROJ_NETWORK") == "ON"
+        )
+
     if not grids_available("us_noaa_alaska.tif"):
         assert len(trans_group.unavailable_operations) == 2
         assert (
@@ -750,3 +760,80 @@ def test_pipeline_radian_transform_warning():
     trans = Transformer.from_pipeline("+proj=pipeline +ellps=GRS80 +step +proj=cart")
     with pytest.warns(UserWarning, match="radian"):
         trans.transform(0.1, 0.1, 0, radians=True)
+
+
+@pytest.mark.parametrize(
+    "transformer",
+    [
+        partial(
+            Transformer.from_pipeline, "+proj=pipeline +ellps=GRS80 +step +proj=cart"
+        ),
+        partial(Transformer.from_crs, 4326, 3857),
+        partial(Transformer.from_proj, 4326, 3857),
+    ],
+)
+@patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
+def test_network__disable(transformer):
+    trans = transformer(network=False)
+    assert trans.is_network_enabled is False
+
+
+@pytest.mark.parametrize(
+    "transformer",
+    [
+        partial(
+            Transformer.from_pipeline, "+proj=pipeline +ellps=GRS80 +step +proj=cart"
+        ),
+        partial(Transformer.from_crs, 4326, 3857),
+        partial(Transformer.from_proj, 4326, 3857),
+    ],
+)
+@patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
+def test_network__enable(transformer):
+    trans = transformer(network=True)
+    assert trans.is_network_enabled is True
+
+
+@pytest.mark.parametrize(
+    "transformer",
+    [
+        partial(
+            Transformer.from_pipeline, "+proj=pipeline +ellps=GRS80 +step +proj=cart"
+        ),
+        partial(Transformer.from_crs, 4326, 3857),
+        partial(Transformer.from_proj, 4326, 3857),
+    ],
+)
+def test_network__default(transformer):
+    trans = transformer()
+    assert trans.is_network_enabled == (os.environ.get("PROJ_NETWORK") == "ON")
+
+
+@patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
+def test_transformer_group__network_enabled():
+    trans_group = TransformerGroup(4326, 2964, network=True)
+    assert len(trans_group.unavailable_operations) == 0
+    assert len(trans_group.transformers) == 10
+    assert trans_group.best_available
+    for transformer in trans_group.transformers:
+        assert transformer.is_network_enabled is True
+
+
+@patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
+def test_transformer_group__network_disabled():
+    trans_group = TransformerGroup(4326, 2964, network=False)
+    for transformer in trans_group.transformers:
+        assert transformer.is_network_enabled is False
+
+    if not Path(pyproj.datadir.get_data_dir(), "us_noaa_alaska.tif").exists():
+        assert len(trans_group.unavailable_operations) == 2
+        assert (
+            trans_group.unavailable_operations[0].name
+            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+        )
+        assert len(trans_group.transformers) == 8
+        assert not trans_group.best_available
+    else:
+        assert len(trans_group.unavailable_operations) == 0
+        assert len(trans_group.transformers) == 10
+        assert trans_group.best_available

@@ -1,5 +1,5 @@
 import os
-
+import warnings
 from libc.stdlib cimport malloc, free
 
 from pyproj.compat import cstrencode, pystrdecode
@@ -33,6 +33,7 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
 cdef void pyproj_context_initialize(
     PJ_CONTEXT* context,
     bint free_context_on_error,
+    network=None,
 ) except *:
     """
     Setup the context for pyproj
@@ -40,6 +41,10 @@ cdef void pyproj_context_initialize(
     proj_log_func(context, NULL, pyproj_log_function)
     proj_context_use_proj4_init_rules(context, 1)
     proj_context_set_autoclose_database(context, 1)
+    if network is not None:
+        enabled = proj_context_set_enable_network(context, bool(network))
+        if network and not enabled:
+            warnings.warn("PROJ network cannot be enabled.")
     try:
         set_context_data_dir(context)
     except DataDirError:
