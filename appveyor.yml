@@ -79,7 +79,7 @@ build_script:
   # setup PROJ
   - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
   - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/proj.4.git proj-git
-  - if %PROJSOURCE% == git del /F /Q %PROJ_DIR%
+  - if "%PROJSOURCE%" == "git" rmdir /s /q %PROJ_DIR%
   - if not "%PROJSOURCE%" == "git" if not exist %PROJ_DIR% set BUILD_PROJ_STABLE=1
   - if defined BUILD_PROJ_STABLE curl -o "proj-%PROJSOURCE:~0,5%.zip" "https://download.osgeo.org/proj/proj-%PROJSOURCE%.zip"
   - if defined BUILD_PROJ_STABLE 7z x -aoa -y "proj-%PROJSOURCE:~0,5%.zip"
