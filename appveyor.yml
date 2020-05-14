@@ -125,12 +125,6 @@ install:
 
   # install wheel, caching
   - "python -m pip install wheel"
-  # update vcpkg
-  - cmd: |
-      cd "C:\Tools\vcpkg"
-      git pull
-      .\bootstrap-vcpkg.bat
-      cd %APPVEYOR_BUILD_FOLDER%
 
 test_script:
   # Run the project tests
