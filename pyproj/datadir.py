@@ -115,6 +115,13 @@ def get_data_dir() -> str:
 
 def get_user_data_dir(create: bool = True) -> str:
     """
+    Get the PROJ user writable directory for datumgrid files.
+
+    This is where grids will be downloaded when
+    `PROJ network <https://proj.org/usage/network.html>`__ capabilities
+    are enabled. It is also the default download location for the
+    `projsync <https://proj.org/apps/projsync.html>`__ command line program.
+
     Parameters
     ----------
     create: bool, optional
