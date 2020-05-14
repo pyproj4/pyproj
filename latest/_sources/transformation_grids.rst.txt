@@ -56,6 +56,9 @@ Available methods for download include:
 
 - Enabling `PROJ network <https://proj.org/usage/network.html>`__ capabilities.
 
+  .. note:: You can use the `network` kwarg when initializing
+            :class:`pyproj.Proj <pyproj.proj.Proj>` or :class:`pyproj.Transformer <pyproj.transformer.Transformer>`
+
 - Use `conda <https://conda.io/en/latest/>`__ with the `conda-forge <https://conda-forge.org/>`__ channel:
 
   .. code-block:: bash
