@@ -91,6 +91,9 @@ cdef extern from "proj.h":
 
     int proj_angular_input (PJ *P, PJ_DIRECTION dir) nogil
     int proj_angular_output (PJ *P, PJ_DIRECTION dir) nogil
+    int proj_degree_input (PJ *P, PJ_DIRECTION dir) nogil
+    int proj_degree_output (PJ *P, PJ_DIRECTION dir) nogil
+
     size_t proj_trans_generic (
         PJ *P,
         PJ_DIRECTION direction,

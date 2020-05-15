@@ -10,12 +10,7 @@ cdef class _TransformerGroup:
 
 cdef class _Transformer(Base):
     cdef PJ_PROJ_INFO proj_info
-    cdef readonly input_geographic
-    cdef readonly output_geographic
-    cdef readonly _input_radians
-    cdef readonly _output_radians
     cdef readonly _area_of_use
-    cdef readonly is_pipeline
     cdef readonly skip_equivalent
     cdef readonly projections_equivalent
     cdef readonly projections_exact_same

@@ -775,12 +775,6 @@ def test_pipeline_itransform(pipeline_str):
     )
 
 
-def test_pipeline_radian_transform_warning():
-    trans = Transformer.from_pipeline("+proj=pipeline +ellps=GRS80 +step +proj=cart")
-    with pytest.warns(UserWarning, match="radian"):
-        trans.transform(0.1, 0.1, 0, radians=True)
-
-
 @pytest.mark.parametrize(
     "transformer",
     [
@@ -878,3 +872,49 @@ def test_transformer_group__network_disabled():
         )
         assert len(trans_group.transformers) == 8
         assert not trans_group.best_available
+
+
+def test_transform_pipeline_radians():
+    trans = Transformer.from_pipeline(
+        "+proj=pipeline +step +inv +proj=cart +ellps=WGS84 "
+        "+step +proj=unitconvert +xy_in=rad +xy_out=deg"
+    )
+    assert_almost_equal(
+        trans.transform(-2704026.010, -4253051.810, 3895878.820, radians=True),
+        (-2.137113493845668, 0.6613203738996222, -20.531156923621893),
+    )
+
+    assert_almost_equal(
+        trans.transform(
+            -2.137113493845668,
+            0.6613203738996222,
+            -20.531156923621893,
+            radians=True,
+            direction=TransformDirection.INVERSE,
+        ),
+        (-2704026.010, -4253051.810, 3895878.820),
+    )
+
+
+def test_itransform_pipeline_radians():
+    trans = Transformer.from_pipeline(
+        "+proj=pipeline +step +inv +proj=cart +ellps=WGS84 "
+        "+step +proj=unitconvert +xy_in=rad +xy_out=deg"
+    )
+    assert_almost_equal(
+        list(
+            trans.itransform([(-2704026.010, -4253051.810, 3895878.820)], radians=True)
+        ),
+        [(-2.137113493845668, 0.6613203738996222, -20.531156923621893)],
+    )
+
+    assert_almost_equal(
+        list(
+            trans.itransform(
+                [(-2.137113493845668, 0.6613203738996222, -20.531156923621893)],
+                radians=True,
+                direction=TransformDirection.INVERSE,
+            )
+        ),
+        [(-2704026.010, -4253051.810, 3895878.820)],
+    )

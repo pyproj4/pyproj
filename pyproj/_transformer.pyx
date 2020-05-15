@@ -248,29 +248,12 @@ cdef _CRS get_transform_crs(_CRS in_crs):
 
 cdef class _Transformer(Base):
     def __cinit__(self):
-        self.input_geographic = False
-        self.output_geographic = False
-        self._input_radians = {}
-        self._output_radians = {}
         self._area_of_use = None
-        self.is_pipeline = False
         self.skip_equivalent = False
         self.projections_equivalent = False
         self.projections_exact_same = False
         self.type_name = "Unknown Transformer"
         self._operations = None
-
-    def _set_radians_io(self):
-        self._input_radians.update({
-            PJ_FWD: proj_angular_input(self.projobj, PJ_FWD),
-            PJ_INV: proj_angular_input(self.projobj, PJ_INV),
-            PJ_IDENT: proj_angular_input(self.projobj, PJ_IDENT),
-        })
-        self._output_radians.update({
-            PJ_FWD: proj_angular_output(self.projobj, PJ_FWD),
-            PJ_INV: proj_angular_output(self.projobj, PJ_INV),
-            PJ_IDENT: proj_angular_output(self.projobj, PJ_IDENT),
-        })
 
     def _initialize_from_projobj(self):
         self.proj_info = proj_pj_info(self.projobj)
@@ -440,8 +423,6 @@ cdef class _Transformer(Base):
         if transformer.projobj is NULL:
             raise ProjError(f"Invalid projection {proj_pipeline}.")
         transformer._initialize_from_projobj()
-        transformer._set_radians_io()
-        transformer.is_pipeline = True
         return transformer
 
     def _set_always_xy(self):
@@ -468,13 +449,9 @@ cdef class _Transformer(Base):
         if always_xy:
             self._set_always_xy()
         self._initialize_from_projobj()
-        self._set_radians_io()
         self.projections_exact_same = crs_from.is_exact_same(crs_to)
         self.projections_equivalent = crs_from == crs_to
-        self.input_geographic = crs_from.is_geographic
-        self.output_geographic = crs_to.is_geographic
         self.skip_equivalent = skip_equivalent
-        self.is_pipeline = False
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -493,11 +470,6 @@ cdef class _Transformer(Base):
             or (self.projections_equivalent and self.skip_equivalent)
         ):
             return
-        if radians and self.is_pipeline:
-            warnings.warn(
-                "radian input with pipelines is not supported in pyproj 2. "
-                "support for raidans will be added in pyproj 3."
-            )
 
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
@@ -530,20 +502,19 @@ cdef class _Transformer(Base):
             raise ProjError('x, y, z, and time must be same size')
 
         cdef Py_ssize_t iii
-        # degrees to radians
-        if not radians and self._input_radians[pj_direction]:
-            with nogil:
+        cdef int errno = 0
+        with nogil:
+            # degrees to radians
+            if not radians and proj_angular_input(self.projobj, pj_direction):
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
                     ybuff.data[iii] = ybuff.data[iii]*_DG2RAD
-        # radians to degrees
-        elif self.input_geographic and radians\
-                and not self._input_radians[pj_direction]:
-            with nogil:
+            # radians to degrees
+            elif radians and proj_degree_input(self.projobj, pj_direction):
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_RAD2DG
                     ybuff.data[iii] = ybuff.data[iii]*_RAD2DG
-        with nogil:
+
             proj_errno_reset(self.projobj)
             proj_trans_generic(
                 self.projobj,
@@ -553,24 +524,24 @@ cdef class _Transformer(Base):
                 zz, _DOUBLESIZE, xbuff.len,
                 tt, _DOUBLESIZE, xbuff.len,
             )
-        cdef int errno = proj_errno(self.projobj)
-        if errcheck and errno:
-            raise ProjError(
-                f"transform error: {pystrdecode(proj_errno_string(errno))}"
-            )
-        elif errcheck and ProjError.internal_proj_error is not None:
-            raise ProjError("transform error")
+            errno = proj_errno(self.projobj)
+            if errcheck and errno:
+                with gil:
+                    raise ProjError(
+                        f"transform error: {pystrdecode(proj_errno_string(errno))}"
+                    )
+            elif errcheck:
+                with gil:
+                    if ProjError.internal_proj_error is not None:
+                        raise ProjError("transform error")
 
-        # radians to degrees
-        if not radians and self._output_radians[pj_direction]:
-            with nogil:
+            # radians to degrees
+            if not radians and proj_angular_output(self.projobj, pj_direction):
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_RAD2DG
                     ybuff.data[iii] = ybuff.data[iii]*_RAD2DG
-        # degrees to radians
-        elif self.output_geographic and radians\
-                and not self._output_radians[pj_direction]:
-            with nogil:
+            # degrees to radians
+            elif radians and proj_degree_output(self.projobj, pj_direction):
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
                     ybuff.data[iii] = ybuff.data[iii]*_DG2RAD
@@ -606,44 +577,42 @@ cdef class _Transformer(Base):
 
         cdef PyBuffWriteManager coordbuff = PyBuffWriteManager(inseq)
         cdef Py_ssize_t npts, iii, jjj
+        cdef int errno = 0
         npts = coordbuff.len // stride
-        # degrees to radians
-        if not radians and self._input_radians[pj_direction]:
-            with nogil:
+        with nogil:
+            # degrees to radians
+            if not radians and proj_angular_input(self.projobj, pj_direction):
                 for iii in range(npts):
                     jjj = stride * iii
                     coordbuff.data[jjj] *= _DG2RAD
                     coordbuff.data[jjj + 1] *= _DG2RAD
-        # radians to degrees
-        elif self.input_geographic and radians\
-                and not self._input_radians[pj_direction]:
-            with nogil:
+            # radians to degrees
+            elif radians and proj_degree_input(self.projobj, pj_direction):
                 for iii in range(npts):
                     jjj = stride * iii
                     coordbuff.data[jjj] *= _RAD2DG
                     coordbuff.data[jjj + 1] *= _RAD2DG
 
-        if not switch:
-            x = coordbuff.data
-            y = coordbuff.data + 1
-        else:
-            x = coordbuff.data + 1
-            y = coordbuff.data
+            if not switch:
+                x = coordbuff.data
+                y = coordbuff.data + 1
+            else:
+                x = coordbuff.data + 1
+                y = coordbuff.data
 
-        # z coordinate
-        if stride == 4 or (stride == 3 and not time_3rd):
-            z = coordbuff.data + 2
-        else:
-            z = NULL
-        # time
-        if stride == 3 and time_3rd:
-            tt = coordbuff.data + 2
-        elif stride == 4:
-            tt = coordbuff.data + 3
-        else:
-            tt = NULL
+            # z coordinate
+            if stride == 4 or (stride == 3 and not time_3rd):
+                z = coordbuff.data + 2
+            else:
+                z = NULL
+            # time
+            if stride == 3 and time_3rd:
+                tt = coordbuff.data + 2
+            elif stride == 4:
+                tt = coordbuff.data + 3
+            else:
+                tt = NULL
 
-        with nogil:
             proj_errno_reset(self.projobj)
             proj_trans_generic(
                 self.projobj,
@@ -653,25 +622,25 @@ cdef class _Transformer(Base):
                 z, stride*_DOUBLESIZE, npts,
                 tt, stride*_DOUBLESIZE, npts,
             )
-        cdef int errno = proj_errno(self.projobj)
-        if errcheck and errno:
-            raise ProjError(
-                f"itransform error: {pystrdecode(proj_errno_string(errno))}"
-            )
-        elif errcheck and ProjError.internal_proj_error is not None:
-            raise ProjError("itransform error")
+            errno = proj_errno(self.projobj)
+            if errcheck and errno:
+                with gil:
+                    raise ProjError(
+                        f"itransform error: {pystrdecode(proj_errno_string(errno))}"
+                    )
+            elif errcheck:
+                with gil:
+                    if ProjError.internal_proj_error is not None:
+                        raise ProjError("itransform error")
 
-        # radians to degrees
-        if not radians and self._output_radians[pj_direction]:
-            with nogil:
+            # radians to degrees
+            if not radians and proj_angular_output(self.projobj, pj_direction):
                 for iii in range(npts):
                     jjj = stride * iii
                     coordbuff.data[jjj] *= _RAD2DG
                     coordbuff.data[jjj + 1] *= _RAD2DG
-        # degrees to radians
-        elif self.output_geographic and radians\
-                and not self._output_radians[pj_direction]:
-            with nogil:
+            # degrees to radians
+            elif radians and proj_degree_output(self.projobj, pj_direction):
                 for iii in range(npts):
                     jjj = stride * iii
                     coordbuff.data[jjj] *= _DG2RAD
