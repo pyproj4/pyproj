@@ -102,7 +102,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-get-ellps-map">pyproj.get_ellps_map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-get-prime-meridians-map">pyproj.get_prime_meridians_map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-get-units-map">pyproj.get_units_map</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pyproj-get-angular-units-map">pyproj.get_angular_units_map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-get-authorities">pyproj.get_authorities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-get-codes">pyproj.get_codes</a></li>
 </ul>
@@ -237,29 +236,46 @@
 <h2>pyproj.get_units_map<a class="headerlink" href="#pyproj-get-units-map" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="pyproj.get_units_map">
-<code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">get_units_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.get_units_map" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Units supported by PROJ</p>
+<code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">get_units_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">category</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allow_deprecated</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.get_units_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the units available in the PROJ database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to filter by (e.g. EPSG, PROJ). Default is all.</p></li>
+<li><p><strong>category</strong> (<em>str</em><em>, </em><em>optional</em>) – Category of the unit: one of “linear”, “linear_per_time”, “angular”,
+“angular_per_time”, “scale”, “scale_per_time” or “time”. Default is all.</p></li>
+<li><p><strong>allow_deprecated</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether or not to allow deprecated units. Default is False.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[str, <a class="reference internal" href="#pyproj._list.Unit" title="pyproj._list.Unit">Unit</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py class">
+<dt id="pyproj._list.Unit">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj._list.</code><code class="sig-name descname">Unit</code><a class="headerlink" href="#pyproj._list.Unit" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>
-<div class="section" id="pyproj-get-angular-units-map">
-<h2>pyproj.get_angular_units_map<a class="headerlink" href="#pyproj-get-angular-units-map" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="pyproj.get_angular_units_map">
-<code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">get_angular_units_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.get_angular_units_map" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Angular units supported by PROJ</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_name</strong> (<em>str</em>) – Authority name.</p></li>
+<li><p><strong>code</strong> (<em>str</em>) – Object code.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Object name. For example “metre”, “US survey foot”, etc.</p></li>
+<li><p><strong>category</strong> (<em>str</em>) – Category of the unit: one of “linear”, “linear_per_time”, “angular”,
+“angular_per_time”, “scale”, “scale_per_time” or “time”.</p></li>
+<li><p><strong>conv_factor</strong> (<em>float</em>) – Conversion factor to apply to transform from that unit to the
+corresponding SI unit (metre for “linear”, radian for “angular”, etc.).
+It might be 0 in some cases to indicate no known conversion factor.</p></li>
+<li><p><strong>proj_short_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – PROJ short name, like “m”, “ft”, “us-ft”, etc… Might be None.</p></li>
+<li><p><strong>deprecated</strong> (<em>bool</em>) – Whether the object is deprecated.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
