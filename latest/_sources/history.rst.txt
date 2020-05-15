@@ -9,6 +9,7 @@ Change Log
 * ENH: Support obects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
 * ENH: Added :func:`pyproj.datadir.get_user_data_dir` (pull #636)
 * ENH: Add network methods to Transformer (issue #629)
+* ENH: Use 'proj_get_units_from_database' in :func:`pyproj.get_units_map` & cleanup :func:`pyproj.get_codes` (issue #619)
 
 2.6.1
 ~~~~~

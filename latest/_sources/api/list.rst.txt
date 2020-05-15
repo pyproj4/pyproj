@@ -25,11 +25,7 @@ pyproj.get_units_map
 
 .. autofunction:: pyproj.get_units_map
 
-
-pyproj.get_angular_units_map
-----------------------------
-
-.. autofunction:: pyproj.get_angular_units_map
+.. autoclass:: pyproj._list.Unit
 
 
 pyproj.get_authorities
