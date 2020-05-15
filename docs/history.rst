@@ -10,6 +10,7 @@ Change Log
 * ENH: Added :func:`pyproj.datadir.get_user_data_dir` (pull #636)
 * ENH: Add network methods to Transformer (issue #629)
 * ENH: Use 'proj_get_units_from_database' in :func:`pyproj.get_units_map` & cleanup :func:`pyproj.get_codes` (issue #619)
+* ENH: Add support for radians for Proj & Transformer.from_pipeline (issue #612)
 
 2.6.1
 ~~~~~

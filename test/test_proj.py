@@ -531,12 +531,6 @@ def test_numpy_bool_kwarg_true():
     assert "+south " in proj.srs
 
 
-def test_proj_radians_warning():
-    proj = Proj("epsg:4326")
-    with pytest.warns(UserWarning, match="radian"):
-        proj(1, 2, radians=True)
-
-
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_network__disable():
     transformer = Proj(3857, network=False)
@@ -552,3 +546,14 @@ def test_network__enable():
 def test_network__default():
     transformer = Proj(3857)
     assert transformer.is_network_enabled == (os.environ.get("PROJ_NETWORK") == "ON")
+
+
+def test_radians():
+    proj = Proj(
+        {"proj": "lcc", "R": 6371200, "lat_1": 50, "lat_2": 50, "lon_0": -107},
+        preserve_units=False,
+    )
+    assert_almost_equal(
+        proj(math.radians(-145.5), math.radians(1.0), radians=True),
+        (-5632642.22547495, 1636571.4883145525),
+    )

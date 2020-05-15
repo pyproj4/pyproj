@@ -248,29 +248,12 @@ cdef _CRS get_transform_crs(_CRS in_crs):
 
 cdef class _Transformer(Base):
     def __cinit__(self):
-        self.input_geographic = False
-        self.output_geographic = False
-        self._input_radians = {}
-        self._output_radians = {}
         self._area_of_use = None
-        self.is_pipeline = False
         self.skip_equivalent = False
         self.projections_equivalent = False
         self.projections_exact_same = False
         self.type_name = "Unknown Transformer"
         self._operations = None
-
-    def _set_radians_io(self):
-        self._input_radians.update({
-            PJ_FWD: proj_angular_input(self.projobj, PJ_FWD),
-            PJ_INV: proj_angular_input(self.projobj, PJ_INV),
-            PJ_IDENT: proj_angular_input(self.projobj, PJ_IDENT),
-        })
-        self._output_radians.update({
-            PJ_FWD: proj_angular_output(self.projobj, PJ_FWD),
-            PJ_INV: proj_angular_output(self.projobj, PJ_INV),
-            PJ_IDENT: proj_angular_output(self.projobj, PJ_IDENT),
-        })
 
     def _initialize_from_projobj(self):
         self.proj_info = proj_pj_info(self.projobj)
@@ -440,8 +423,6 @@ cdef class _Transformer(Base):
         if transformer.projobj is NULL:
             raise ProjError(f"Invalid projection {proj_pipeline}.")
         transformer._initialize_from_projobj()
-        transformer._set_radians_io()
-        transformer.is_pipeline = True
         return transformer
 
     def _set_always_xy(self):
@@ -468,13 +449,9 @@ cdef class _Transformer(Base):
         if always_xy:
             self._set_always_xy()
         self._initialize_from_projobj()
-        self._set_radians_io()
         self.projections_exact_same = crs_from.is_exact_same(crs_to)
         self.projections_equivalent = crs_from == crs_to
-        self.input_geographic = crs_from.is_geographic
-        self.output_geographic = crs_to.is_geographic
         self.skip_equivalent = skip_equivalent
-        self.is_pipeline = False
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -493,11 +470,6 @@ cdef class _Transformer(Base):
             or (self.projections_equivalent and self.skip_equivalent)
         ):
             return
-        if radians and self.is_pipeline:
-            warnings.warn(
-                "radian input with pipelines is not supported in pyproj 2. "
-                "support for raidans will be added in pyproj 3."
-            )
 
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
@@ -531,14 +503,13 @@ cdef class _Transformer(Base):
 
         cdef Py_ssize_t iii
         # degrees to radians
-        if not radians and self._input_radians[pj_direction]:
+        if not radians and proj_angular_input(self.projobj, pj_direction):
             with nogil:
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
                     ybuff.data[iii] = ybuff.data[iii]*_DG2RAD
         # radians to degrees
-        elif self.input_geographic and radians\
-                and not self._input_radians[pj_direction]:
+        elif radians and proj_degree_input(self.projobj, pj_direction):
             with nogil:
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_RAD2DG
@@ -562,14 +533,13 @@ cdef class _Transformer(Base):
             raise ProjError("transform error")
 
         # radians to degrees
-        if not radians and self._output_radians[pj_direction]:
+        if not radians and proj_angular_output(self.projobj, pj_direction):
             with nogil:
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_RAD2DG
                     ybuff.data[iii] = ybuff.data[iii]*_RAD2DG
         # degrees to radians
-        elif self.output_geographic and radians\
-                and not self._output_radians[pj_direction]:
+        elif radians and proj_degree_output(self.projobj, pj_direction):
             with nogil:
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
@@ -608,15 +578,14 @@ cdef class _Transformer(Base):
         cdef Py_ssize_t npts, iii, jjj
         npts = coordbuff.len // stride
         # degrees to radians
-        if not radians and self._input_radians[pj_direction]:
+        if not radians and proj_angular_input(self.projobj, pj_direction):
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
                     coordbuff.data[jjj] *= _DG2RAD
                     coordbuff.data[jjj + 1] *= _DG2RAD
         # radians to degrees
-        elif self.input_geographic and radians\
-                and not self._input_radians[pj_direction]:
+        elif radians and proj_degree_input(self.projobj, pj_direction):
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
@@ -662,15 +631,14 @@ cdef class _Transformer(Base):
             raise ProjError("itransform error")
 
         # radians to degrees
-        if not radians and self._output_radians[pj_direction]:
+        if not radians and proj_angular_output(self.projobj, pj_direction):
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
                     coordbuff.data[jjj] *= _RAD2DG
                     coordbuff.data[jjj + 1] *= _RAD2DG
         # degrees to radians
-        elif self.output_geographic and radians\
-                and not self._output_radians[pj_direction]:
+        elif radians and proj_degree_output(self.projobj, pj_direction):
             with nogil:
                 for iii in range(npts):
                     jjj = stride * iii
