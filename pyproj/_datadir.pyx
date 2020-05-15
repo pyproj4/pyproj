@@ -20,6 +20,7 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
     Setup the data directory for the context for pyproj
     """
     data_dir_list = get_data_dir().split(os.pathsep)
+    data_dir_list.append(get_user_data_dir(False))
     cdef char **c_data_dir = <char **>malloc(len(data_dir_list) * sizeof(char*))
     try:
         for iii in range(len(data_dir_list)):
