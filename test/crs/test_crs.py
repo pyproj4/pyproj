@@ -858,6 +858,13 @@ def test_to_proj4_enum():
         assert crs.to_proj4(5) == crs.to_proj4(ProjVersion.PROJ_5)
 
 
+def test_datum_equals():
+    datum = Datum.from_epsg(6326)
+    assert datum == 6326
+    assert not datum != 6326
+    assert datum != "invalid"
+
+
 @pytest.mark.parametrize(
     "input_str", ["urn:ogc:def:datum:EPSG::6326", "World Geodetic System 1984"]
 )
@@ -912,6 +919,13 @@ def test_datum__from_string__invalid(invalid_str):
         Datum.from_string(invalid_str)
 
 
+def test_ellipsoid_equals():
+    ellipsoid = Ellipsoid.from_epsg(7001)
+    assert ellipsoid == 7001
+    assert not ellipsoid != 7001
+    assert ellipsoid != "invalid"
+
+
 @pytest.mark.parametrize("input_str", ["urn:ogc:def:ellipsoid:EPSG::7001", "Airy 1830"])
 def test_ellipsoid__from_string(input_str):
     ee = Ellipsoid.from_string(input_str)
@@ -948,6 +962,13 @@ def test_ellipsoid__from_string__invalid(invalid_str):
         Ellipsoid.from_string(invalid_str)
 
 
+def test_prime_meridian_equals():
+    pm = PrimeMeridian.from_epsg(8901)
+    assert pm == 8901
+    assert not pm != 8901
+    assert pm != "invalid"
+
+
 @pytest.mark.parametrize("input_str", ["urn:ogc:def:meridian:EPSG::8901", "Greenwich"])
 def test_prime_meridian__from_string(input_str):
     pm = PrimeMeridian.from_string(input_str)
@@ -969,6 +990,13 @@ def test_prime_meridian__from_name():
 def test_prime_meridian__from_name__invalid(invalid_str):
     with pytest.raises(CRSError, match="Invalid prime meridian name"):
         PrimeMeridian.from_name(invalid_str)
+
+
+def test_coordinate_operation_equals():
+    co = CoordinateOperation.from_epsg(1671)
+    assert co == 1671
+    assert not co != 1671
+    assert co != "invalid"
 
 
 @pytest.mark.parametrize(
@@ -1005,16 +1033,26 @@ def test_coordinate_operation__from_string__invalid(invalid_str):
         CoordinateOperation.from_string(invalid_str)
 
 
+_COORDINATE_SYSTEM_STR = (
+    '{"$schema":"https://proj.org/schemas/v0.2/projjson.schema.json",'
+    '"type":"CoordinateSystem","subtype":"ellipsoidal",'
+    '"axis":[{"name":"Geodetic latitude","abbreviation":"Lat",'
+    '"direction":"north","unit":"degree"},'
+    '{"name":"Geodetic longitude","abbreviation":"Lon",'
+    '"direction":"east","unit":"degree"}],'
+    '"id":{"authority":"EPSG","code":6422}}'
+)
+
+
+def test_coordinate_system__equals():
+    cs = CoordinateSystem.from_string(_COORDINATE_SYSTEM_STR)
+    assert cs == _COORDINATE_SYSTEM_STR
+    assert not cs != _COORDINATE_SYSTEM_STR
+    assert cs != "invalid"
+
+
 def test_coordinate_system__from_string():
-    cs = CoordinateSystem.from_string(
-        '{"$schema":"https://proj.org/schemas/v0.2/projjson.schema.json",'
-        '"type":"CoordinateSystem","subtype":"ellipsoidal",'
-        '"axis":[{"name":"Geodetic latitude","abbreviation":"Lat",'
-        '"direction":"north","unit":"degree"},'
-        '{"name":"Geodetic longitude","abbreviation":"Lon",'
-        '"direction":"east","unit":"degree"}],'
-        '"id":{"authority":"EPSG","code":6422}}'
-    )
+    cs = CoordinateSystem.from_string(_COORDINATE_SYSTEM_STR)
     assert cs.name == "ellipsoidal"
 
 
