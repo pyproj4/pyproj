@@ -12,6 +12,7 @@ Change Log
 * ENH: Use 'proj_get_units_from_database' in :func:`pyproj.get_units_map` & cleanup :func:`pyproj.get_codes` (issue #619)
 * ENH: Add support for radians for Proj & Transformer.from_pipeline & use less gil (issue #612)
 * ENH: Datum.from_name default to check all datum types (issue #606)
+* ENH: Use from_user_input in __eq__ when comparing CRS sub-classes (i.e. PrimeMeridian, Datum, Ellipsoid, etc.) (issue #606)
 
 2.6.1
 ~~~~~
