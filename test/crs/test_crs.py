@@ -882,6 +882,13 @@ def test_datum_from_name__auth_type(auth_name):
         datum_type=DatumType.VERTICAL_REFERENCE_FRAME,
     )
     assert dd.name == "WGS_1984_Geoid"
+    assert dd.type_name == "Vertical Reference Frame"
+
+
+def test_datum_from_name__any_type():
+    dd = Datum.from_name("WGS_1984_Geoid")
+    assert dd.name == "WGS_1984_Geoid"
+    assert dd.type_name == "Vertical Reference Frame"
 
 
 @pytest.mark.parametrize(
