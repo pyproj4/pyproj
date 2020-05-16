@@ -6,7 +6,6 @@ from contextlib import contextmanager
 import pytest
 from mock import patch
 
-import pyproj
 from pyproj import CRS
 from pyproj._datadir import pyproj_global_context_initialize
 from pyproj.datadir import (
@@ -16,29 +15,12 @@ from pyproj.datadir import (
     get_user_data_dir,
     set_data_dir,
 )
-
-
-def unset_data_dir():
-    pyproj.datadir._USER_PROJ_DATA = None
-    pyproj.datadir._VALIDATED_PROJ_DATA = None
+from test.conftest import proj_env
 
 
 def create_projdb(tmpdir):
     with open(os.path.join(tmpdir, "proj.db"), "w") as pjdb:
         pjdb.write("DUMMY proj.db")
-
-
-@contextmanager
-def proj_env():
-    """
-    Ensure environment variable the same at the end of the test.
-    """
-    unset_data_dir()
-    try:
-        yield
-    finally:
-        # make sure the data dir is cleared
-        unset_data_dir()
 
 
 @contextmanager

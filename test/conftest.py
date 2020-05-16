@@ -1,7 +1,27 @@
 import os
+from contextlib import contextmanager
 from pathlib import Path
 
+import pyproj
 from pyproj.datadir import get_data_dir, get_user_data_dir
+
+
+def unset_data_dir():
+    pyproj.datadir._USER_PROJ_DATA = None
+    pyproj.datadir._VALIDATED_PROJ_DATA = None
+
+
+@contextmanager
+def proj_env():
+    """
+    Ensure environment variable the same at the end of the test.
+    """
+    unset_data_dir()
+    try:
+        yield
+    finally:
+        # make sure the data dir is cleared
+        unset_data_dir()
 
 
 def grids_available(*grid_names, check_network=True, check_all=False):
