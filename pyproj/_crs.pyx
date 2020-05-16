@@ -557,6 +557,13 @@ cdef class _CRSParts(Base):
             raise CRSError(f"Invalid {cls.__name__} input: {user_input!r}")
         return prepared
 
+    def __eq__(self, other):
+        try:
+            other = self.from_user_input(other)
+        except CRSError:
+            return False
+        return self._is_equivalent(other)
+
 
 _COORD_SYSTEM_TYPE_MAP = {
     PJ_CS_TYPE_UNKNOWN: "unknown",
