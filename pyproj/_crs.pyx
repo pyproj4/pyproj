@@ -1254,19 +1254,6 @@ _PJ_DATUM_TYPE_MAP = {
     DatumType.DATUM_ENSEMBLE: PJ_TYPE_DATUM_ENSEMBLE,
 }
 
-_DATUM_NAME_MAP = {
-    "WGS84": "World Geodetic System 1984",
-    "GGRS87": "Greek Geodetic Reference System 1987",
-    "NAD83": "North American Datum 1983",
-    "NAD27": "North American Datum 1927",
-    "POTSDAM": "Deutsches Hauptdreiecksnetz",
-    "CARTHAGE": "Carthage",
-    "HERMANNSKOGEL": "Militar-Geographische Institut",
-    "IRE65": "TM65",
-    "NZGD49": "New Zealand Geodetic Datum 1949",
-    "OSGB36": "OSGB 1936",
-}
-
 
 cdef class Datum(_CRSParts):
     """
@@ -1465,7 +1452,7 @@ cdef class Datum(_CRSParts):
     def from_name(
         datum_name,
         auth_name=None,
-        datum_type=DatumType.GEODETIC_REFERENCE_FRAME,
+        datum_type=None,
     ):
         """
         .. versionadded:: 2.5.0
@@ -1484,33 +1471,29 @@ cdef class Datum(_CRSParts):
             The authority name to refine search (e.g. 'EPSG').
             If None, will search all authorities. Default is None.
         datum_type: DatumType, optional
-            The datum type to create. Default is DatumType.GEODETIC_REFERENCE_FRAME.
+            The datum type to create. Default is from any datum type.
 
         Returns
         -------
         Datum
         """
+        if datum_type is None:
+            # try creating name from all datum types
+            first_error = None
+            for datum_type in _PJ_DATUM_TYPE_MAP:
+                try:
+                    return Datum.from_name(
+                        datum_name=datum_name,
+                        auth_name=auth_name,
+                        datum_type=datum_type,
+                    )
+                except CRSError as err:
+                    if first_error is None:
+                        first_error = err
+            raise first_error
+
         datum_type = DatumType.create(datum_type)
-        try:
-            return Datum._from_name(
-                datum_name=datum_name,
-                auth_name=auth_name,
-                datum_type=datum_type,
-            )
-        except CRSError:
-            if (
-                auth_name not in ("PROJ", None)
-                or datum_type!=DatumType.GEODETIC_REFERENCE_FRAME
-            ):
-                raise
-            pass
-        # add support for PROJ datum aliases
-        # https://github.com/OSGeo/PROJ/issues/1823
-        try:
-            datum_name=_DATUM_NAME_MAP[datum_name.upper().replace(" ", "")]
-        except KeyError:
-            raise CRSError(f"Invalid datum name: {datum_name}")
-        return Datum.from_name(
+        return Datum._from_name(
             datum_name=datum_name,
             auth_name=auth_name,
             datum_type=datum_type,
