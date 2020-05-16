@@ -20,7 +20,7 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
     Setup the data directory for the context for pyproj
     """
     data_dir_list = get_data_dir().split(os.pathsep)
-    data_dir_list.append(get_user_data_dir(False))
+    data_dir_list.append(get_user_data_dir())
     cdef char **c_data_dir = <char **>malloc(len(data_dir_list) * sizeof(char*))
     try:
         for iii in range(len(data_dir_list)):
@@ -59,13 +59,13 @@ def pyproj_global_context_initialize():
     set_context_data_dir(NULL)
 
 
-def get_user_data_dir(bint create: bool = True) -> str:
+def get_user_data_dir(bint create: bool = False) -> str:
     """
     Parameters
     ----------
     create: bool, optional
         If True, it will create the directory if it does not already exist.
-        Default is True.
+        Default is False.
 
     Returns
     -------
