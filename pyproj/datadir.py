@@ -113,7 +113,7 @@ def get_data_dir() -> str:
     return _VALIDATED_PROJ_DATA
 
 
-def get_user_data_dir(create: bool = True) -> str:
+def get_user_data_dir(create: bool = False) -> str:
     """
     .. versionadded:: 7.1.0
 
@@ -128,7 +128,7 @@ def get_user_data_dir(create: bool = True) -> str:
     ----------
     create: bool, optional
         If True, it will create the directory if it does not already exist.
-        Default is True.
+        Default is False.
 
     Returns
     -------
