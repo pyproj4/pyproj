@@ -1,5 +1,6 @@
 import os
 from functools import partial
+from itertools import permutations
 
 import numpy as np
 import pytest
@@ -918,3 +919,10 @@ def test_itransform_pipeline_radians():
         ),
         [(-2704026.010, -4253051.810, 3895878.820)],
     )
+
+
+@pytest.mark.parametrize("x,y,z", permutations([10, [10], (10,)]))  # 6 test cases
+def test_transform_honours_input_types(x, y, z):
+    # 622
+    transformer = Transformer.from_proj(4896, 4896)
+    assert transformer.transform(xx=x, yy=y, zz=z) == (x, y, z)

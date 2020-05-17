@@ -1,6 +1,6 @@
 repos:
     -   repo: https://github.com/pre-commit/pre-commit-hooks
-        rev: v2.5.0
+        rev: v3.0.1
         hooks:
         -   id: check-yaml
         -   id: end-of-file-fixer
@@ -16,12 +16,12 @@ repos:
         -   id: isort
             args: [setup.py, pyproj/, test/, docs/]
     -   repo: https://github.com/asottile/blacken-docs
-        rev: v1.6.0
+        rev: v1.7.0
         hooks:
         -   id: blacken-docs
             args: [--skip-errors]
     -   repo: https://gitlab.com/pycqa/flake8
-        rev: 3.7.7
+        rev: 3.8.1
         hooks:
         -   id: flake8
             additional_dependencies: [flake8-comprehensions>=3.1.0]
