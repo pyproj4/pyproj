@@ -217,7 +217,7 @@ class Geod(_Geod):
         self._fwd(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, xistuple, iny)
+        outy = _convertback(yisfloat, yislist, yistuple, iny)
         outz = _convertback(zisfloat, zislist, zistuple, inz)
         return outx, outy, outz
 
@@ -261,7 +261,7 @@ class Geod(_Geod):
         self._inv(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, xistuple, iny)
+        outy = _convertback(yisfloat, yislist, yistuple, iny)
         outz = _convertback(zisfloat, zislist, zistuple, inz)
         return outx, outy, outz
 

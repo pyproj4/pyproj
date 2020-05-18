@@ -485,7 +485,7 @@ class Transformer:
         )
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, xistuple, iny)
+        outy = _convertback(yisfloat, yislist, yistuple, iny)
         return_data = (outx, outy)
         if inz is not None:
             return_data += (  # type: ignore

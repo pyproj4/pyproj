@@ -4,6 +4,7 @@ import pickle
 import shutil
 import tempfile
 from contextlib import contextmanager
+from itertools import permutations
 
 import pytest
 from numpy.testing import assert_almost_equal
@@ -438,3 +439,27 @@ def test_geometry_area_perimeter__multipoint():
     assert geod.geometry_area_perimeter(
         MultiPoint([Point(1, 2), Point(3, 4), Point(5, 2)])
     ) == (0, 0)
+
+
+@pytest.mark.parametrize(
+    "lon,lat,az", permutations([10.0, [10.0], (10.0,)])
+)  # 6 test cases
+def test_geod_fwd_honours_input_types(lon, lat, az):
+    # 622
+    gg = Geod(ellps="clrk66")
+    outx, outy, outz = gg.fwd(lons=lon, lats=lat, az=az, dist=0)
+    assert isinstance(outx, type(lon))
+    assert isinstance(outy, type(lat))
+    assert isinstance(outz, type(az))
+
+
+@pytest.mark.parametrize(
+    "lons1,lats1,lons2", permutations([10.0, [10.0], (10.0,)])
+)  # 6 test cases
+def test_geod_inv_honours_input_types(lons1, lats1, lons2):
+    # 622
+    gg = Geod(ellps="clrk66")
+    outx, outy, outz = gg.inv(lons1=lons1, lats1=lats1, lons2=lons2, lats2=0)
+    assert isinstance(outx, type(lons1))
+    assert isinstance(outy, type(lats1))
+    assert isinstance(outz, type(lons2))
