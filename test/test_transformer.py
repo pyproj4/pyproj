@@ -831,6 +831,9 @@ def test_transformer_group__network_enabled():
     assert trans_group.best_available
     for transformer in trans_group.transformers:
         assert transformer.is_network_enabled is True
+        for operation in transformer.operations:
+            for grid in operation.grids:
+                assert grid.available
 
 
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)

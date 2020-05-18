@@ -155,7 +155,7 @@ cdef _to_proj4(PJ_CONTEXT* context, PJ* projobj, version):
     return cstrdecode(proj_string)
 
 
-cdef _get_concatenated_operations(PJ_CONTEXT*context, PJ*concatenated_operation):
+cdef _get_concatenated_operations(PJ_CONTEXT* context, PJ* concatenated_operation):
     """
     For a PJ* of type concatenated operation, get the operations
     """
@@ -165,11 +165,12 @@ cdef _get_concatenated_operations(PJ_CONTEXT*context, PJ*concatenated_operation)
     )
     cdef PJ* operation = NULL
     cdef PJ_CONTEXT* sub_context = NULL
+    cdef int network_enabled = proj_context_is_network_enabled(context)
     cdef int iii = 0
     operations = []
     for iii in range(step_count):
         sub_context = proj_context_create()
-        pyproj_context_initialize(sub_context, True)
+        pyproj_context_initialize(sub_context, True, network=network_enabled)
         operation = proj_concatoperation_get_step(
             sub_context,
             concatenated_operation,
