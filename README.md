@@ -81,6 +81,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://sites.google.com/site/mwtoews/"><img src="https://avatars1.githubusercontent.com/u/895458?v=4" width="100px;" alt="Mike Taves"/><br /><sub><b>Mike Taves</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=mwtoews" title="Tests">⚠️</a></td>
     <td align="center"><a href="http://davidhaberthür.ch"><img src="https://avatars2.githubusercontent.com/u/1651235?v=4" width="100px;" alt="David Haberthür"/><br /><sub><b>David Haberthür</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=habi" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/mmodenesi"><img src="https://avatars2.githubusercontent.com/u/5569789?v=4" width="100px;" alt="mmodenesi"/><br /><sub><b>mmodenesi</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/issues?q=author%3Ammodenesi" title="Bug reports">🐛</a> <a href="https://github.com/pyproj4/pyproj/commits?author=mmodenesi" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=mmodenesi" title="Tests">⚠️</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->

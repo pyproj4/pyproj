@@ -378,6 +378,17 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "mmodenesi",
+      "name": "mmodenesi",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5569789?v=4",
+      "profile": "https://github.com/mmodenesi",
+      "contributions": [
+        "bug",
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
