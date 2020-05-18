@@ -20,6 +20,11 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
     Setup the data directory for the context for pyproj
     """
     data_dir_list = get_data_dir().split(os.pathsep)
+    # the first path will always have the database
+    b_database_path = cstrencode(os.path.join(data_dir_list[0], "proj.db"))
+    cdef const char* c_database_path = b_database_path
+    if not proj_context_set_database_path(context, c_database_path, NULL, NULL):
+        warnings.warn("pyproj unable to set database path.")
     data_dir_list.append(get_user_data_dir())
     cdef char **c_data_dir = <char **>malloc(len(data_dir_list) * sizeof(char*))
     try:

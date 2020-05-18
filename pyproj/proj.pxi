@@ -6,6 +6,10 @@ cdef extern from "proj.h":
         PROJ_VERSION_PATCH
     void proj_context_set_search_paths(
         PJ_CONTEXT *ctx, int count_paths, const char* const* paths)
+    int proj_context_set_database_path(PJ_CONTEXT *ctx,
+                                       const char *dbPath,
+                                       const char *const *auxDbPaths,
+                                       const char* const *options)
 
     # projCtx has been replaced by PJ_CONTEXT *.
     # projPJ  has been replaced by PJ *
