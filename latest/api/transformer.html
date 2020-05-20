@@ -736,6 +736,27 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pyproj.transformer.TransformerGroup.download_grids">
+<code class="sig-name descname">download_grids</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directory</span><span class="p">:</span> <span class="n">Union[str, pathlib.Path, None]</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">open_license</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup.download_grids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup.download_grids" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<p>Download missing grids that can be downloaded automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>optional</em>) – The directory to download the grids to.
+Defaults to <a class="reference internal" href="datadir.html#pyproj.datadir.get_user_data_dir" title="pyproj.datadir.get_user_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_user_data_dir()</span></code></a></p></li>
+<li><p><strong>open_license</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will only download grids with an open license.
+Defaults to False.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will print information about grids downloaded.
+Default is False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pyproj.transformer.TransformerGroup.transformers">
 <em class="property">property </em><code class="sig-name descname">transformers</code><a class="headerlink" href="#pyproj.transformer.TransformerGroup.transformers" title="Permalink to this definition">¶</a></dt>
 <dd><p>list[<a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer</span></code></a>]:
