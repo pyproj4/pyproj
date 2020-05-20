@@ -246,19 +246,21 @@ the capability to work with grid files that are not installed on the local machi
 <li><p>Have a machine with limited space and want to pre-download files?</p>
 <p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup" title="pyproj.transformer.TransformerGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup</span></code></a> can assist finding the grids you need to download.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">TransformerGroup</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)</span>
-<span class="go">f&quot;{operation.grids[0]!r}&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">trans_group</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">2964</span><span class="p">)</span>
+<span class="go">UserWarning: Best transformation is not available due to missing Grid(short_name=us_noaa_alaska.tif, full_name=, package_name=, url=https://cdn.proj.org/us_noaa_alaska.tif, direct_download=True, open_license=True, available=False)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span>
 <span class="go">&lt;TransformerGroup: best_available=False&gt;</span>
-<span class="go">- transformers: 37</span>
-<span class="go">- unavailable_operations: 41</span>
+<span class="go">- transformers: 8</span>
+<span class="go">- unavailable_operations: 2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">description</span>
-<span class="go">&#39;axis order change (2D) + Inverse of NAD27 to WGS 84 (3) + axis order change (2D) + unknown&#39;</span>
+<span class="go">&#39;Inverse of NAD27 to WGS 84 (7) + Alaska Albers&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-<span class="go">&#39;Inverse of NAD27 to WGS 84 (33) + axis order change (2D) + unknown&#39;</span>
+<span class="go">&#39;Inverse of NAD27 to WGS 84 (85) + Alaska Albers&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">url</span>
-<span class="go">&#39;https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip&#39;</span>
+<span class="go">&#39;https://cdn.proj.org/us_noaa_alaska.tif&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">download_grids</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">Downloading: https://cdn.proj.org/us_noaa_alaska.tif</span>
+<span class="go">Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif</span>
 </pre></div>
 </div>
 </li>
