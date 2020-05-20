@@ -96,16 +96,18 @@ What grids to download?
   .. code-block:: python
 
     >>> from pyproj.transformer import TransformerGroup
-    >>> tg = TransformerGroup("epsg:4326", "+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m", always_xy=True)
-    UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)
-    f"{operation.grids[0]!r}"
+    >>> tg = trans_group = TransformerGroup(4326, 2964)
+    UserWarning: Best transformation is not available due to missing Grid(short_name=us_noaa_alaska.tif, full_name=, package_name=, url=https://cdn.proj.org/us_noaa_alaska.tif, direct_download=True, open_license=True, available=False)
     >>> tg
     <TransformerGroup: best_available=False>
-    - transformers: 37
-    - unavailable_operations: 41
+    - transformers: 8
+    - unavailable_operations: 2
     >>> tg.transformers[0].description
-    'axis order change (2D) + Inverse of NAD27 to WGS 84 (3) + axis order change (2D) + unknown'
+    'Inverse of NAD27 to WGS 84 (7) + Alaska Albers'
     >>> tg.unavailable_operations[0].name
-    'Inverse of NAD27 to WGS 84 (33) + axis order change (2D) + unknown'
+    'Inverse of NAD27 to WGS 84 (85) + Alaska Albers'
     >>> tg.unavailable_operations[0].grids[0].url
-    'https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip'
+    'https://cdn.proj.org/us_noaa_alaska.tif'
+    >>> tg.download_grids(verbose=True)
+    Downloading: https://cdn.proj.org/us_noaa_alaska.tif
+    Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif

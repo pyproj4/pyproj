@@ -9,10 +9,13 @@ __all__ = [
     "TransformerGroup",
     "AreaOfInterest",
 ]
+import os
 import warnings
 from array import array
 from itertools import chain, islice
+from pathlib import Path
 from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union
+from urllib.request import urlretrieve
 
 from pyproj import CRS
 from pyproj._crs import AreaOfUse, CoordinateOperation
@@ -23,6 +26,7 @@ from pyproj._transformer import (  # noqa
     proj_version_str,
 )
 from pyproj.compat import cstrencode
+from pyproj.datadir import get_user_data_dir
 from pyproj.enums import TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
 from pyproj.utils import _convertback, _copytobuffer
@@ -116,6 +120,51 @@ class TransformerGroup(_TransformerGroup):
         bool: If True, the best possible transformer is available.
         """
         return self._best_available
+
+    def download_grids(
+        self,
+        directory: Optional[Union[str, Path]] = None,
+        open_license: bool = True,
+        verbose: bool = False,
+    ) -> None:
+        """
+        .. versionadded:: 3.0.0
+
+        Download missing grids that can be downloaded automatically.
+
+        Parameters
+        ----------
+        directory: str or Path, optional
+            The directory to download the grids to.
+            Defaults to :func:`pyproj.datadir.get_user_data_dir`
+        open_license: bool, optional
+            If True, will only download grids with an open license.
+            Defaults to False.
+        verbose: bool, optional
+            If True, will print information about grids downloaded.
+            Default is False.
+        """
+        if directory is None:
+            directory = get_user_data_dir(True)
+        for unavailable_operation in self.unavailable_operations:
+            for grid in unavailable_operation.grids:
+                if (
+                    not grid.available
+                    and grid.url.endswith(grid.short_name)
+                    and grid.direct_download
+                    and (grid.open_license or not open_license)
+                ):
+                    if verbose:
+                        print(f"Downloading: {grid.url}")
+                    tmp_path = Path(directory, f"{grid.short_name}.part")
+                    try:
+                        urlretrieve(grid.url, tmp_path)
+                        tmp_path.rename(Path(directory, grid.short_name))
+                    finally:
+                        if tmp_path.exists():
+                            os.remove(tmp_path)
+                elif not grid.available and verbose:
+                    warnings.warn(f"Skipped: {grid}")
 
     def __repr__(self) -> str:
         return (

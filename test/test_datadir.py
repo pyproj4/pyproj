@@ -1,12 +1,8 @@
 import os
-import shutil
-import tempfile
-from contextlib import contextmanager
 
 import pytest
 from mock import patch
 
-import pyproj
 from pyproj import CRS
 from pyproj._datadir import pyproj_global_context_initialize
 from pyproj.datadir import (
@@ -16,41 +12,12 @@ from pyproj.datadir import (
     get_user_data_dir,
     set_data_dir,
 )
-
-
-def unset_data_dir():
-    pyproj.datadir._USER_PROJ_DATA = None
-    pyproj.datadir._VALIDATED_PROJ_DATA = None
+from test.conftest import proj_env
 
 
 def create_projdb(tmpdir):
     with open(os.path.join(tmpdir, "proj.db"), "w") as pjdb:
         pjdb.write("DUMMY proj.db")
-
-
-@contextmanager
-def proj_env():
-    """
-    Ensure environment variable the same at the end of the test.
-    """
-    unset_data_dir()
-    try:
-        yield
-    finally:
-        # make sure the data dir is cleared
-        unset_data_dir()
-
-
-@contextmanager
-def temporary_directory():
-    """
-    Get a temporary directory
-    """
-    temp_dir = tempfile.mkdtemp()
-    try:
-        yield temp_dir
-    finally:
-        shutil.rmtree(temp_dir)
 
 
 _INVALID_PATH = "/invalid/path/to/nowhere"
@@ -84,12 +51,16 @@ def test_pyproj_global_context_initialize__datadir_missing():
         pyproj_global_context_initialize()
 
 
-def test_get_data_dir__from_user():
-    with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os"
-    ) as os_mock, patch(
+def test_get_data_dir__from_user(tmp_path):
+    tmpdir = tmp_path / "proj"
+    tmpdir.mkdir()
+    tmpdir = str(tmpdir)
+    tmpdir_env = tmp_path / "proj_env"
+    tmpdir_env.mkdir()
+    tmpdir_env = str(tmpdir_env)
+    with proj_env(), patch("pyproj.datadir.os") as os_mock, patch(
         "pyproj.datadir.sys"
-    ) as sys_mock, temporary_directory() as tmpdir_env:  # noqa: E501
+    ) as sys_mock:  # noqa: E501
         setup_os_mock(
             os_mock,
             abspath_return=os.path.join(tmpdir, "randomfilename.py"),
@@ -105,10 +76,14 @@ def test_get_data_dir__from_user():
         assert get_data_dir() == tmpdir
 
 
-def test_get_data_dir__internal():
-    with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os"
-    ) as os_mock, temporary_directory() as tmpdir_fake, patch(
+def test_get_data_dir__internal(tmp_path):
+    tmpdir = tmp_path / "proj"
+    tmpdir.mkdir()
+    tmpdir = str(tmpdir)
+    tmpdir_fake = tmp_path / "proj_fake"
+    tmpdir_fake.mkdir()
+    tmpdir_fake = str(tmpdir_fake)
+    with proj_env(), patch("pyproj.datadir.os") as os_mock, patch(
         "pyproj.datadir.sys"
     ) as sys_mock:
         setup_os_mock(
@@ -125,30 +100,33 @@ def test_get_data_dir__internal():
         assert get_data_dir() == internal_proj_dir
 
 
-def test_get_data_dir__from_env_var():
-    with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os"
-    ) as os_mock, patch("pyproj.datadir.sys") as sys_mock:
+def test_get_data_dir__from_env_var(tmp_path):
+    tmpdir = str(tmp_path)
+    with proj_env(), patch("pyproj.datadir.os") as os_mock, patch(
+        "pyproj.datadir.sys"
+    ) as sys_mock:
         setup_os_mock(os_mock, proj_dir=tmpdir)
         sys_mock.prefix = _INVALID_PATH
         create_projdb(tmpdir)
         assert get_data_dir() == tmpdir
 
 
-def test_get_data_dir__from_env_var__multiple():
-    with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os"
-    ) as os_mock, patch("pyproj.datadir.sys") as sys_mock:
+def test_get_data_dir__from_env_var__multiple(tmp_path):
+    tmpdir = str(tmp_path)
+    with proj_env(), patch("pyproj.datadir.os") as os_mock, patch(
+        "pyproj.datadir.sys"
+    ) as sys_mock:
         setup_os_mock(os_mock, proj_dir=os.pathsep.join([tmpdir, tmpdir, tmpdir]))
         sys_mock.prefix = _INVALID_PATH
         create_projdb(tmpdir)
         assert get_data_dir() == os.pathsep.join([tmpdir, tmpdir, tmpdir])
 
 
-def test_get_data_dir__from_prefix():
-    with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os"
-    ) as os_mock, patch("pyproj.datadir.sys") as sys_mock:
+def test_get_data_dir__from_prefix(tmp_path):
+    tmpdir = str(tmp_path)
+    with proj_env(), patch("pyproj.datadir.os") as os_mock, patch(
+        "pyproj.datadir.sys"
+    ) as sys_mock:
         setup_os_mock(os_mock)
         sys_mock.prefix = tmpdir
         proj_dir = os.path.join(tmpdir, "share", "proj")
@@ -157,12 +135,11 @@ def test_get_data_dir__from_prefix():
         assert get_data_dir() == proj_dir
 
 
-def test_get_data_dir__from_path():
-    with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os"
-    ) as os_mock, patch("pyproj.datadir.sys") as sys_mock, patch(
-        "pyproj.datadir.find_executable"
-    ) as find_exe:
+def test_get_data_dir__from_path(tmp_path):
+    tmpdir = str(tmp_path)
+    with proj_env(), patch("pyproj.datadir.os") as os_mock, patch(
+        "pyproj.datadir.sys"
+    ) as sys_mock, patch("pyproj.datadir.find_executable") as find_exe:
         setup_os_mock(os_mock)
         sys_mock.prefix = _INVALID_PATH
         find_exe.return_value = os.path.join(tmpdir, "bin", "proj")
@@ -172,10 +149,9 @@ def test_get_data_dir__from_path():
         assert get_data_dir() == proj_dir
 
 
-def test_append_data_dir__internal():
-    with proj_env(), temporary_directory() as tmpdir, patch(
-        "pyproj.datadir.os"
-    ) as os_mock:
+def test_append_data_dir__internal(tmp_path):
+    tmpdir = str(tmp_path)
+    with proj_env(), patch("pyproj.datadir.os") as os_mock:
         setup_os_mock(os_mock, os.path.join(tmpdir, "randomfilename.py"))
         create_projdb(tmpdir)
         internal_proj_dir = os.path.join(tmpdir, "proj_dir", "share", "proj")

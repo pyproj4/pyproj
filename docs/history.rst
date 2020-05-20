@@ -13,6 +13,7 @@ Change Log
 * ENH: Add support for radians for Proj & Transformer.from_pipeline & use less gil (issue #612)
 * ENH: Datum.from_name default to check all datum types (issue #606)
 * ENH: Use from_user_input in __eq__ when comparing CRS sub-classes (i.e. PrimeMeridian, Datum, Ellipsoid, etc.) (issue #606)
+* ENH: Added :meth:`pyproj.transformer.TransformerGroup.download_grids` (pull #643)
 
 2.6.1
 ~~~~~
