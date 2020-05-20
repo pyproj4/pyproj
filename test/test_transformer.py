@@ -3,7 +3,6 @@ from functools import partial
 from glob import glob
 from itertools import permutations
 from pathlib import Path
-from urllib.error import URLError
 
 import numpy as np
 import pytest
@@ -963,19 +962,20 @@ def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, cap
             "Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif\n"
         )
     # make sure not downloaded again
-    with proj_env(), patch("pyproj.transformer.urlretrieve") as urlretrieve_mock:
+    with proj_env(), patch(
+        "pyproj.transformer._download_resource_file"
+    ) as download_mock:
         append_data_dir(str(tmp_path))
         trans_group = TransformerGroup(4326, 2964, network=False)
         trans_group.download_grids()
         get_user_data_dir_mock.assert_called_with(True)
-        urlretrieve_mock.assert_not_called()
+        download_mock.assert_not_called()
 
 
-@patch("pyproj.transformer.Path.rename")
-@patch("pyproj.transformer.urlretrieve")
+@patch("pyproj.transformer._download_resource_file")
 @patch("pyproj.transformer.get_user_data_dir")
 def test_transformer_group__download_grids__directory(
-    get_user_data_dir_mock, urlretrieve_mock, rename_mock, tmp_path, capsys,
+    get_user_data_dir_mock, download_mock, tmp_path, capsys,
 ):
     trans_group = TransformerGroup(4326, 2964, network=False)
     trans_group.download_grids(directory=tmp_path)
@@ -985,86 +985,36 @@ def test_transformer_group__download_grids__directory(
     if grids_available(
         "us_noaa_alaska.tif", "ca_nrc_ntv2_0.tif", check_network=False, check_all=True
     ):
-        urlretrieve_mock.assert_not_called()
-        rename_mock.assert_not_called()
+        download_mock.assert_not_called()
     elif grids_available("us_noaa_alaska.tif", check_network=False):
-        urlretrieve_mock.assert_called_with(
-            "https://cdn.proj.org/ca_nrc_ntv2_0.tif",
-            tmp_path.joinpath("ca_nrc_ntv2_0.tif.part"),
+        download_mock.assert_called_with(
+            file_url="https://cdn.proj.org/ca_nrc_ntv2_0.tif",
+            short_name="ca_nrc_ntv2_0.tif",
+            directory=tmp_path,
+            verbose=False,
         )
-        rename_mock.assert_called_with(tmp_path.joinpath("ca_nrc_ntv2_0.tif"))
     elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
-        urlretrieve_mock.assert_called_with(
-            "https://cdn.proj.org/us_noaa_alaska.tif",
-            tmp_path.joinpath("us_noaa_alaska.tif.part"),
+        download_mock.assert_called_with(
+            file_url="https://cdn.proj.org/us_noaa_alaska.tif",
+            short_name="us_noaa_alaska.tif",
+            directory=tmp_path,
+            verbose=False,
         )
-        rename_mock.assert_called_with(tmp_path.joinpath("us_noaa_alaska.tif"))
     else:
-        urlretrieve_mock.assert_has_calls(
+        download_mock.assert_has_calls(
             [
                 call(
-                    "https://cdn.proj.org/us_noaa_alaska.tif",
-                    tmp_path.joinpath("us_noaa_alaska.tif.part"),
+                    file_url="https://cdn.proj.org/us_noaa_alaska.tif",
+                    short_name="us_noaa_alaska.tif",
+                    directory=tmp_path,
+                    verbose=False,
                 ),
                 call(
-                    "https://cdn.proj.org/ca_nrc_ntv2_0.tif",
-                    tmp_path.joinpath("ca_nrc_ntv2_0.tif.part"),
+                    file_url="https://cdn.proj.org/ca_nrc_ntv2_0.tif",
+                    short_name="ca_nrc_ntv2_0.tif",
+                    directory=tmp_path,
+                    verbose=False,
                 ),
             ],
             any_order=True,
         )
-        rename_mock.assert_has_calls(
-            [
-                call(tmp_path.joinpath("us_noaa_alaska.tif")),
-                call(tmp_path.joinpath("ca_nrc_ntv2_0.tif")),
-            ],
-            any_order=True,
-        )
-
-
-@patch("pyproj.transformer.os.remove")
-@patch("pyproj.transformer.Path.rename")
-@patch("pyproj.transformer.urlretrieve")
-@patch("pyproj.transformer.get_user_data_dir")
-def test_transformer_group__download_grids__exception(
-    get_user_data_dir_mock,
-    urlretrieve_mock,
-    rename_mock,
-    remove_mock,
-    tmp_path,
-    capsys,
-):
-    def dummy_urlretrieve(url, local_path):
-        local_path.touch()
-        raise URLError("Test")
-
-    urlretrieve_mock.side_effect = dummy_urlretrieve
-    trans_group = TransformerGroup(4326, 2964, network=False)
-
-    if grids_available(
-        "us_noaa_alaska.tif", "ca_nrc_ntv2_0.tif", check_network=False, check_all=True
-    ):
-        trans_group.download_grids(directory=tmp_path)
-    else:
-        with pytest.raises(URLError):
-            trans_group.download_grids(directory=tmp_path)
-
-    get_user_data_dir_mock.assert_not_called()
-    rename_mock.assert_not_called()
-    captured = capsys.readouterr()
-    assert captured.out == ""
-    if grids_available(
-        "us_noaa_alaska.tif", "ca_nrc_ntv2_0.tif", check_network=False, check_all=True
-    ):
-        urlretrieve_mock.assert_not_called()
-        rename_mock.assert_not_called()
-        remove_mock.assert_not_called()
-    elif grids_available("us_noaa_alaska.tif", check_network=False):
-        rename_mock.assert_not_called()
-        remove_mock.assert_called_with(tmp_path.joinpath("ca_nrc_ntv2_0.tif.part"))
-    elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
-        rename_mock.assert_not_called()
-        remove_mock.assert_called_with(tmp_path.joinpath("us_noaa_alaska.tif.part"))
-    else:
-        rename_mock.assert_not_called()
-        remove_mock.assert_called_with(tmp_path.joinpath("us_noaa_alaska.tif.part"))

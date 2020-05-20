@@ -87,7 +87,7 @@ test-coverage:  ## run tests and generate coverage report
 	py.test --cov-report term-missing --cov=pyproj -v -s
 
 install-docs: ## Install requirements for building documentation
-	pip install sphinx sphinx_rtd_theme
+	pip install sphinx sphinx_rtd_theme sphinx-argparse
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs clean
