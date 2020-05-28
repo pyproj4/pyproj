@@ -564,15 +564,15 @@ def test_transformer__operations__scope_remarks():
     transformer = TransformerGroup(28356, 7856).transformers[0]
     assert transformer.scope is None
     assert [op.scope for op in transformer.operations] == [
-        None,
+        "Large and medium scale topographic mapping and engineering survey.",
         "Conformal transformation of GDA94 coordinates that have been derived through "
         "GNSS CORS.",
-        None,
+        "Large and medium scale topographic mapping and engineering survey.",
     ]
-    assert [str(op.remarks)[:5] for op in transformer.operations] == [
-        "None",
+    assert [str(op.remarks)[:5].strip() for op in transformer.operations] == [
+        "Grid",
         "Scale",
-        "None",
+        "Grid",
     ]
 
 
