@@ -70,8 +70,8 @@ def test_sync(input_command, option, tmpdir):
 
 
 def _check_list_files_header(lines):
-    assert lines[0] == "filename | source_id | area_of_use"
-    assert lines[1] == "----------------------------------"
+    assert lines[0].rstrip("\r") == "filename | source_id | area_of_use"
+    assert lines[1].rstrip("\r") == "----------------------------------"
 
 
 @PYPROJ_CLI_ENDPONTS
