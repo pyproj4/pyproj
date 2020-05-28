@@ -24,7 +24,7 @@ def test_get_transform_grid_list__bbox__antimeridian():
     source_ids = set()
     for grid in grids:
         source_ids.add(grid["properties"]["source_id"])
-    assert sorted(source_ids) == ["au_ga", "nz_linz", "us_nga", "us_noaa"]
+    assert sorted(source_ids) == ["au_ga", "nc_dittt", "nz_linz", "us_nga", "us_noaa"]
 
 
 def test_get_transform_grid_list__bbox__out_of_bounds():
@@ -35,7 +35,7 @@ def test_get_transform_grid_list__bbox__out_of_bounds():
     source_ids = set()
     for grid in grids:
         source_ids.add(grid["properties"]["source_id"])
-    assert sorted(source_ids) == ["au_ga", "nz_linz", "us_nga", "us_noaa"]
+    assert sorted(source_ids) == ["au_ga", "nc_dittt", "nz_linz", "us_nga", "us_noaa"]
 
 
 def test_get_transform_grid_list__source_id():
