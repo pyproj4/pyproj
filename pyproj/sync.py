@@ -8,7 +8,7 @@ import json
 import os
 from functools import partial
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.request import urlretrieve
 
 from pyproj._sync import get_proj_endpoint
@@ -74,7 +74,7 @@ class BBox:
         )
 
 
-def _bbox_from_coords(coords: List) -> BBox:
+def _bbox_from_coords(coords: List) -> Optional[BBox]:
     """
     Get the bounding box from coordinates
     """
@@ -96,7 +96,7 @@ def _bbox_from_coords(coords: List) -> BBox:
     return coord_bbox
 
 
-def _bbox_from_geom(geom: Dict[str, Any]) -> BBox:
+def _bbox_from_geom(geom: Dict[str, Any]) -> Optional[BBox]:
     """
     Get the bounding box from geojson geometry
     """
@@ -110,6 +110,8 @@ def _bbox_from_geom(geom: Dict[str, Any]) -> BBox:
     bboxes = []
     for coordinate_set in coordinates:
         bbox = _bbox_from_coords(coordinate_set)
+        if bbox is None:
+            continue
         if bbox.west == -180:
             found_minus_180 = True
         elif bbox.east == 180:
@@ -142,6 +144,8 @@ def _filter_bbox(
     geom = feature.get("geometry")
     if geom is not None:
         geom_bbox = _bbox_from_geom(geom)
+        if geom_bbox is None:
+            return False
         if (
             geom_bbox.east - geom_bbox.west > 359
             and geom_bbox.north - geom_bbox.south > 179
@@ -234,7 +238,7 @@ def get_transform_grid_list(
     include_world_coverage: bool = True,
     include_already_downloaded: bool = False,
     target_directory: str = None,
-) -> List[Dict[str, Any]]:
+) -> Tuple:
     """
     Get a list of transform grids that can be downloaded.
 
