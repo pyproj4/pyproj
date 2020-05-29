@@ -163,6 +163,7 @@ def get_extension_modules():
             ),
             Extension("pyproj._datadir", ["pyproj/_datadir.pyx"], **ext_options),
             Extension("pyproj._list", ["pyproj/_list.pyx"], **ext_options),
+            Extension("pyproj._sync", ["pyproj/_sync.pyx"], **ext_options),
         ],
         quiet=True,
         **get_cythonize_options(),
@@ -221,6 +222,7 @@ setup(
     author_email="jeffrey.s.whitaker@noaa.gov",
     platforms=["any"],
     license="MIT",
+    entry_points={"console_scripts": ["pyproj=pyproj.__main__:main"]},
     keywords=["python", "map projections", "GIS", "mapping", "maps"],
     classifiers=[
         "Development Status :: 4 - Beta",

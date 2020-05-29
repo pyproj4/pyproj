@@ -24,6 +24,21 @@ def proj_env():
         unset_data_dir()
 
 
+@contextmanager
+def tmp_chdir(new_dir):
+    """
+    This temporarily changes directories when running the tests.
+    Useful for when testing wheels in the pyproj directory
+    when pyproj has not been build and prevents conflicts.
+    """
+    curdir = os.getcwd()
+    try:
+        os.chdir(new_dir)
+        yield
+    finally:
+        os.chdir(curdir)
+
+
 def grids_available(*grid_names, check_network=True, check_all=False):
     """
     Check if the grids are available

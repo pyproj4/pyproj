@@ -9,13 +9,11 @@ __all__ = [
     "TransformerGroup",
     "AreaOfInterest",
 ]
-import os
 import warnings
 from array import array
 from itertools import chain, islice
 from pathlib import Path
 from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union
-from urllib.request import urlretrieve
 
 from pyproj import CRS
 from pyproj._crs import AreaOfUse, CoordinateOperation
@@ -29,6 +27,7 @@ from pyproj.compat import cstrencode
 from pyproj.datadir import get_user_data_dir
 from pyproj.enums import TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
+from pyproj.sync import _download_resource_file
 from pyproj.utils import _convertback, _copytobuffer
 
 
@@ -154,15 +153,12 @@ class TransformerGroup(_TransformerGroup):
                     and grid.direct_download
                     and (grid.open_license or not open_license)
                 ):
-                    if verbose:
-                        print(f"Downloading: {grid.url}")
-                    tmp_path = Path(directory, f"{grid.short_name}.part")
-                    try:
-                        urlretrieve(grid.url, tmp_path)
-                        tmp_path.rename(Path(directory, grid.short_name))
-                    finally:
-                        if tmp_path.exists():
-                            os.remove(tmp_path)
+                    _download_resource_file(
+                        file_url=grid.url,
+                        short_name=grid.short_name,
+                        directory=directory,
+                        verbose=verbose,
+                    )
                 elif not grid.available and verbose:
                     warnings.warn(f"Skipped: {grid}")
 

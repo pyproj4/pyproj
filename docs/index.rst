@@ -21,6 +21,7 @@ GitHub Repository: https://github.com/pyproj4/pyproj
    advanced_examples
    build_crs
    api/index
+   cli
    optimize_transformations
    crs_compatibility
    history

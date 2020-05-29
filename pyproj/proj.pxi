@@ -468,3 +468,4 @@ cdef extern from "proj.h":
         int *out_result_count,
     )
     void proj_unit_list_destroy(PROJ_UNIT_INFO** list)
+    const char *proj_context_get_url_endpoint(PJ_CONTEXT* ctx)
