@@ -51,6 +51,19 @@ def test_get_transform_grid_list__source_id():
     assert sorted(source_ids) == ["us_noaa"]
 
 
+def test_get_transform_grid_list__contains():
+    grids = get_transform_grid_list(
+        bbox=BBox(170, -90, -170, 90),
+        spatial_test="contains",
+        include_already_downloaded=True,
+    )
+    assert len(grids) > 5
+    source_ids = set()
+    for grid in grids:
+        source_ids.add(grid["properties"]["source_id"])
+    assert sorted(source_ids) == ["nz_linz"]
+
+
 def test_get_transform_grid_list__file():
     grids = get_transform_grid_list(
         filename="us_noaa_alaska", include_already_downloaded=True
