@@ -54,6 +54,8 @@ Available methods for download include:
 
 - The `projsync <https://proj.org/apps/projsync.html>`__ command line program.
 
+- `pyproj sync <cli.html#sync>`__ command line program (pyproj 3+; useful if you use pyproj wheels).
+
 - Enabling `PROJ network <https://proj.org/usage/network.html>`__ capabilities.
 
   .. note:: You can use the `network` kwarg when initializing

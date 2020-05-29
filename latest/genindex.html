@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
@@ -334,10 +335,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/geod.html#pyproj.Geod.b">b (pyproj.Geod attribute)</a>
 </li>
-      <li><a href="api/transformer.html#pyproj.transformer.TransformerGroup.best_available">best_available() (pyproj.transformer.TransformerGroup property)</a>
+      <li><a href="api/sync.html#pyproj.sync.BBox">BBox (class in pyproj.sync)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/transformer.html#pyproj.transformer.TransformerGroup.best_available">best_available() (pyproj.transformer.TransformerGroup property)</a>
+</li>
       <li><a href="api/enums.html#pyproj.enums.PJType.BOUND_CRS">BOUND_CRS (pyproj.enums.PJType attribute)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.BoundCRS">BoundCRS (class in pyproj.crs)</a>
@@ -366,16 +369,18 @@
         <li><a href="api/enums.html#pyproj.enums.PJType.CONCATENATED_OPERATION">(pyproj.enums.PJType attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/sync.html#pyproj.sync.BBox.contains">contains() (pyproj.sync.BBox method)</a>
+</li>
       <li><a href="api/crs/enums.html#pyproj.crs.enums.CoordinateOperationType.CONVERSION">CONVERSION (pyproj.crs.enums.CoordinateOperationType attribute)</a>
 
       <ul>
         <li><a href="api/enums.html#pyproj.enums.PJType.CONVERSION">(pyproj.enums.PJType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/crs/crs.html#pyproj.crs.CRS.coordinate_operation">coordinate_operation (pyproj.crs.CRS attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/crs/crs.html#pyproj.crs.CRS.coordinate_operation">coordinate_operation (pyproj.crs.CRS attribute)</a>
+</li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.coordinate_system">coordinate_system (pyproj.crs.CRS attribute)</a>
 </li>
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation">CoordinateOperation (class in pyproj.crs)</a>
@@ -684,10 +689,10 @@
 </li>
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion">GeostationarySatelliteConversion (class in pyproj.crs.coordinate_operation)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/list.html#pyproj.get_authorities">get_authorities() (in module pyproj)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/list.html#pyproj.get_codes">get_codes() (in module pyproj)</a>
 </li>
       <li><a href="api/datadir.html#pyproj.datadir.get_data_dir">get_data_dir() (in module pyproj.datadir)</a>
@@ -700,7 +705,11 @@
 </li>
       <li><a href="api/list.html#pyproj.get_prime_meridians_map">get_prime_meridians_map() (in module pyproj)</a>
 </li>
+      <li><a href="api/sync.html#pyproj.sync.get_proj_endpoint">get_proj_endpoint() (in module pyproj.sync)</a>
+</li>
       <li><a href="api/list.html#pyproj.get_proj_operations_map">get_proj_operations_map() (in module pyproj)</a>
+</li>
+      <li><a href="api/sync.html#pyproj.sync.get_transform_grid_list">get_transform_grid_list() (in module pyproj.sync)</a>
 </li>
       <li><a href="api/list.html#pyproj.get_units_map">get_units_map() (in module pyproj)</a>
 </li>
@@ -743,6 +752,8 @@
       <li><a href="api/enums.html#pyproj.enums.TransformDirection.IDENT">IDENT (pyproj.enums.TransformDirection attribute)</a>
 </li>
       <li><a href="api/geod.html#pyproj.Geod.initstring">initstring (pyproj.Geod attribute)</a>
+</li>
+      <li><a href="api/sync.html#pyproj.sync.BBox.intersects">intersects() (pyproj.sync.BBox method)</a>
 </li>
       <li><a href="api/geod.html#pyproj.Geod.inv">inv() (pyproj.Geod method)</a>
 </li>

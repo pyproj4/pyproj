@@ -11,6 +11,7 @@ latest/_modules/pyproj/enums.html
 latest/_modules/pyproj/exceptions.html
 latest/_modules/pyproj/geod.html
 latest/_modules/pyproj/proj.html
+latest/_modules/pyproj/sync.html
 latest/_modules/pyproj/transformer.html
 latest/_sources/advanced_examples.rst.txt
 latest/_sources/api/crs/coordinate_operation.rst.txt
@@ -27,8 +28,10 @@ latest/_sources/api/index.rst.txt
 latest/_sources/api/list.rst.txt
 latest/_sources/api/proj.rst.txt
 latest/_sources/api/show_versions.rst.txt
+latest/_sources/api/sync.rst.txt
 latest/_sources/api/transformer.rst.txt
 latest/_sources/build_crs.rst.txt
+latest/_sources/cli.rst.txt
 latest/_sources/crs_compatibility.rst.txt
 latest/_sources/examples.rst.txt
 latest/_sources/gotchas.rst.txt
@@ -80,7 +83,7 @@ latest/_static/fonts/fontawesome-webfont.svg
 latest/_static/fonts/fontawesome-webfont.ttf
 latest/_static/fonts/fontawesome-webfont.woff
 latest/_static/fonts/fontawesome-webfont.woff2
-latest/_static/jquery-3.4.1.js
+latest/_static/jquery-3.5.1.js
 latest/_static/jquery.js
 latest/_static/js/modernizr.min.js
 latest/_static/js/theme.js
@@ -106,8 +109,10 @@ latest/api/index.html
 latest/api/list.html
 latest/api/proj.html
 latest/api/show_versions.html
+latest/api/sync.html
 latest/api/transformer.html
 latest/build_crs.html
+latest/cli.html
 latest/crs_compatibility.html
 latest/examples.html
 latest/genindex.html

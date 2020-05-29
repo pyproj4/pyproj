@@ -11,6 +11,7 @@ API Documentation
    proj
    list
    datadir
+   sync
    enums
    exceptions
    show_versions

@@ -8,12 +8,13 @@ Change Log
 * Refactor Proj to inherit from Transformer (issue #624)
 * ENH: Support obects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
 * ENH: Added :func:`pyproj.datadir.get_user_data_dir` (pull #636)
-* ENH: Add network methods to Transformer (issue #629)
+* ENH: Added network methods to Transformer (issue #629)
 * ENH: Use 'proj_get_units_from_database' in :func:`pyproj.get_units_map` & cleanup :func:`pyproj.get_codes` (issue #619)
-* ENH: Add support for radians for Proj & Transformer.from_pipeline & use less gil (issue #612)
+* ENH: Added support for radians for Proj & Transformer.from_pipeline & use less gil (issue #612)
 * ENH: Datum.from_name default to check all datum types (issue #606)
 * ENH: Use from_user_input in __eq__ when comparing CRS sub-classes (i.e. PrimeMeridian, Datum, Ellipsoid, etc.) (issue #606)
 * ENH: Added :meth:`pyproj.transformer.TransformerGroup.download_grids` (pull #643)
+* ENH: Added transformation grid sync API/CLI (issue #572)
 
 2.6.1
 ~~~~~
