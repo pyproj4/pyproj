@@ -1297,17 +1297,11 @@ def test_operations():
 
 
 def test_operations__scope_remarks():
-
-    transformer = TransformerGroup(28356, 7856).transformers[0]
-    coord_op = CoordinateOperation.from_string(transformer.to_wkt())
-    assert coord_op.operations == transformer.operations
-    # scope does not transfer for some reason
-    # assert [op.scope for op in transformer.operations] == [
-    #     op.scope for op in coord_op.operations
-    # ]
-    assert [op.remarks for op in transformer.operations] == [
-        op.remarks for op in coord_op.operations
-    ]
+    operation = TransformerGroup(28356, 7856).transformers[0].operations[1]
+    coord_op = CoordinateOperation.from_string(operation.to_wkt())
+    assert coord_op == operation
+    assert coord_op.remarks == operation.remarks
+    assert coord_op.scope == operation.scope
 
 
 def test_crs_equals():
