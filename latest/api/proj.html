@@ -191,15 +191,15 @@ projection coordinates within one datum.
 <div class="section" id="pyproj-proj">
 <h2>pyproj.Proj<a class="headerlink" href="#pyproj-proj" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="pyproj.proj.Proj">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">preserve_units</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">network</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">Proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">preserve_units</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">network</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a></p>
 <p>Performs cartographic transformations. Converts from
 longitude, latitude to native map projection x,y coordinates and
 vice versa using PROJ (<a class="reference external" href="https://proj.org">https://proj.org</a>).</p>
 <dl class="py attribute">
-<dt id="pyproj.proj.Proj.srs">
-<code class="sig-name descname">srs</code><a class="headerlink" href="#pyproj.proj.Proj.srs" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.srs">
+<code class="sig-name descname">srs</code><a class="headerlink" href="#pyproj.Proj.srs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The string form of the user input used to create the Proj.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -209,8 +209,8 @@ vice versa using PROJ (<a class="reference external" href="https://proj.org">htt
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="pyproj.proj.Proj.crs">
-<code class="sig-name descname">crs</code><a class="headerlink" href="#pyproj.proj.Proj.crs" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.crs">
+<code class="sig-name descname">crs</code><a class="headerlink" href="#pyproj.Proj.crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The CRS object associated with the Proj.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -220,8 +220,8 @@ vice versa using PROJ (<a class="reference external" href="https://proj.org">htt
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.__call__">
-<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">longitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">inverse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">radians</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">longitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">inverse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">radians</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calling a Proj class instance with the arguments lon, lat will
 convert lon/lat (in degrees) to x/y native map projection
 coordinates (in meters).</p>
@@ -254,8 +254,8 @@ By default errcheck=False and <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">preserve_units</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">network</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">preserve_units</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">network</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>A Proj class instance is initialized with proj map projection
 control parameter key/value pairs. The key/value pairs can
 either be passed in a dictionary, or as keyword arguments,
@@ -322,8 +322,8 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.accuracy">
-<em class="property">property </em><code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyproj.proj.Proj.accuracy" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.accuracy">
+<em class="property">property </em><code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyproj.Proj.accuracy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Expected accuracy of the transformation. -1 if unknown.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -333,8 +333,8 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.area_of_use">
-<em class="property">property </em><code class="sig-name descname">area_of_use</code><a class="headerlink" href="#pyproj.proj.Proj.area_of_use" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.area_of_use">
+<em class="property">property </em><code class="sig-name descname">area_of_use</code><a class="headerlink" href="#pyproj.Proj.area_of_use" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>
@@ -349,8 +349,8 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.definition">
-<em class="property">property </em><code class="sig-name descname">definition</code><a class="headerlink" href="#pyproj.proj.Proj.definition" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.definition">
+<em class="property">property </em><code class="sig-name descname">definition</code><a class="headerlink" href="#pyproj.Proj.definition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Definition of the projection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -360,8 +360,8 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.definition_string">
-<code class="sig-name descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.definition_string">
+<code class="sig-name descname">definition_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.definition_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.definition_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns formal definition string for projection</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">definition_string</span><span class="p">()</span>
 <span class="go">&#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
@@ -370,8 +370,8 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.description">
-<em class="property">property </em><code class="sig-name descname">description</code><a class="headerlink" href="#pyproj.proj.Proj.description" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.description">
+<em class="property">property </em><code class="sig-name descname">description</code><a class="headerlink" href="#pyproj.Proj.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description of the projection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -381,8 +381,8 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.from_crs">
-<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>importlib._bootstrap.AreaOfInterest<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.proj.Proj.from_crs" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.from_crs">
+<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>importlib._bootstrap.AreaOfInterest<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
@@ -424,8 +424,8 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.from_pipeline">
-<em class="property">static </em><code class="sig-name descname">from_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_pipeline</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.proj.Proj.from_pipeline" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.from_pipeline">
+<em class="property">static </em><code class="sig-name descname">from_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_pipeline</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a PROJ pipeline string.</p>
 <p><a class="reference external" href="https://proj.org/operations/pipeline.html">https://proj.org/operations/pipeline.html</a></p>
 <div class="versionadded">
@@ -451,9 +451,9 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.from_proj">
-<em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>importlib._bootstrap.AreaOfInterest<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.proj.Proj.from_proj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a Transformer from a <a class="reference internal" href="#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one.</p>
+<dt id="pyproj.Proj.from_proj">
+<em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>importlib._bootstrap.AreaOfInterest<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_proj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a Transformer from a <a class="reference internal" href="#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
 </div>
@@ -469,8 +469,8 @@ network for grids regardless of any other network setting.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>proj_from</strong> (<a class="reference internal" href="#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one) – Projection of input data.</p></li>
-<li><p><strong>proj_to</strong> (<a class="reference internal" href="#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
+<li><p><strong>proj_from</strong> (<a class="reference internal" href="#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one) – Projection of input data.</p></li>
+<li><p><strong>proj_to</strong> (<a class="reference internal" href="#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
 <li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
 projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
@@ -494,8 +494,8 @@ network for grids regardless of any other network setting.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.get_factors">
-<code class="sig-name descname">get_factors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">longitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">radians</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; importlib._bootstrap.Factors<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.get_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.get_factors" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.get_factors">
+<code class="sig-name descname">get_factors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">longitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">latitude</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">radians</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; importlib._bootstrap.Factors<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.get_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.get_factors" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.0.</span></p>
 </div>
@@ -525,8 +525,8 @@ By default errcheck=False and <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.has_inverse">
-<em class="property">property </em><code class="sig-name descname">has_inverse</code><a class="headerlink" href="#pyproj.proj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.has_inverse">
+<em class="property">property </em><code class="sig-name descname">has_inverse</code><a class="headerlink" href="#pyproj.Proj.has_inverse" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if an inverse mapping exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -536,8 +536,8 @@ By default errcheck=False and <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.is_network_enabled">
-<em class="property">property </em><code class="sig-name descname">is_network_enabled</code><a class="headerlink" href="#pyproj.proj.Proj.is_network_enabled" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.is_network_enabled">
+<em class="property">property </em><code class="sig-name descname">is_network_enabled</code><a class="headerlink" href="#pyproj.Proj.is_network_enabled" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>
@@ -548,8 +548,8 @@ By default errcheck=False and <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.itransform">
-<code class="sig-name descname">itransform</code><span class="sig-paren">(</span><em class="sig-param">points: Any</em>, <em class="sig-param">switch: bool = False</em>, <em class="sig-param">time_3rd: bool = False</em>, <em class="sig-param">radians: bool = False</em>, <em class="sig-param">errcheck: bool = False</em>, <em class="sig-param">direction: Union[pyproj.enums.TransformDirection</em>, <em class="sig-param">str] = &lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Iterable<span class="p">]</span><a class="headerlink" href="#pyproj.proj.Proj.itransform" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.itransform">
+<code class="sig-name descname">itransform</code><span class="sig-paren">(</span><em class="sig-param">points: Any</em>, <em class="sig-param">switch: bool = False</em>, <em class="sig-param">time_3rd: bool = False</em>, <em class="sig-param">radians: bool = False</em>, <em class="sig-param">errcheck: bool = False</em>, <em class="sig-param">direction: Union[pyproj.enums.TransformDirection</em>, <em class="sig-param">str] = &lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Iterable<span class="p">]</span><a class="headerlink" href="#pyproj.Proj.itransform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterator/generator version of the function pyproj.Transformer.transform.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>
@@ -627,8 +627,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.name">
-<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.proj.Proj.name" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.Proj.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of the projection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -638,8 +638,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.operations">
-<em class="property">property </em><code class="sig-name descname">operations</code><a class="headerlink" href="#pyproj.proj.Proj.operations" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.operations">
+<em class="property">property </em><code class="sig-name descname">operations</code><a class="headerlink" href="#pyproj.Proj.operations" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -654,8 +654,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.remarks">
-<em class="property">property </em><code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.proj.Proj.remarks" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.remarks">
+<em class="property">property </em><code class="sig-name descname">remarks</code><a class="headerlink" href="#pyproj.Proj.remarks" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -670,8 +670,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.scope">
-<em class="property">property </em><code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.proj.Proj.scope" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.scope">
+<em class="property">property </em><code class="sig-name descname">scope</code><a class="headerlink" href="#pyproj.Proj.scope" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -686,8 +686,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.to_json">
-<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pretty</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indentation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pyproj.proj.Proj.to_json" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.to_json">
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pretty</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indentation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pyproj.Proj.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a JSON string.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
@@ -709,8 +709,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.to_json_dict">
-<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#pyproj.proj.Proj.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.to_json_dict">
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#pyproj.Proj.to_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a JSON dictionary.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
@@ -726,22 +726,22 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.to_latlong">
-<code class="sig-name descname">to_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyproj.proj.Proj" title="pyproj.proj.Proj">pyproj.proj.Proj</a><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.to_latlong">
+<code class="sig-name descname">to_latlong</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pyproj.proj.Proj<a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.to_latlong" title="Permalink to this definition">¶</a></dt>
 <dd><p>return a new Proj instance which is the geographic (lat/lon)
 coordinate version of the current projection</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.to_latlong_def">
-<code class="sig-name descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.proj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.to_latlong_def">
+<code class="sig-name descname">to_latlong_def</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../_modules/pyproj/proj.html#Proj.to_latlong_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.Proj.to_latlong_def" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the definition string of the geographic (lat/lon)
 coordinate version of the current projection</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.to_wkt">
-<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">version: Union[pyproj.enums.WktVersion</em>, <em class="sig-param">str] = &lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">pretty: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.proj.Proj.to_wkt" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.to_wkt">
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">version: Union[pyproj.enums.WktVersion</em>, <em class="sig-param">str] = &lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">pretty: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.Proj.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
@@ -772,8 +772,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyproj.proj.Proj.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">xx: Any</em>, <em class="sig-param">yy: Any</em>, <em class="sig-param">zz: Any = None</em>, <em class="sig-param">tt: Any = None</em>, <em class="sig-param">radians: bool = False</em>, <em class="sig-param">errcheck: bool = False</em>, <em class="sig-param">direction: Union[pyproj.enums.TransformDirection</em>, <em class="sig-param">str] = &lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span> &#x2192; Any<a class="headerlink" href="#pyproj.proj.Proj.transform" title="Permalink to this definition">¶</a></dt>
+<dt id="pyproj.Proj.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">xx: Any</em>, <em class="sig-param">yy: Any</em>, <em class="sig-param">zz: Any = None</em>, <em class="sig-param">tt: Any = None</em>, <em class="sig-param">radians: bool = False</em>, <em class="sig-param">errcheck: bool = False</em>, <em class="sig-param">direction: Union[pyproj.enums.TransformDirection</em>, <em class="sig-param">str] = &lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span> &#x2192; Any<a class="headerlink" href="#pyproj.Proj.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform points between two coordinate systems.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>

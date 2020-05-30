@@ -24,12 +24,12 @@ Change Log
 * BUG: Fix check for numpy bool True kwarg (pull #590)
 * DOC: Update pyproj.Proj docstrings for clarity (issue #584)
 * Added `pyproj.__proj_version__`
-* BUG: Fix :meth:`pyproj.proj.Proj.get_factors` (issue #600)
+* BUG: Fix :meth:`pyproj.Proj.get_factors` (issue #600)
 * BUG: fix unequal (!=) with non-CRS type (pull #596)
 
 2.6.0
 ~~~~~
-* ENH: Added :meth:`pyproj.proj.Proj.get_factors` (issue #503)
+* ENH: Added :meth:`pyproj.Proj.get_factors` (issue #503)
 * ENH: Added type hints (issue #369)
 * BUG: Don't use CRS classes for defaults in CRS child class init signatures (issue #554)
 * ENH: Updated :attr:`pyproj.crs.CRS.axis_info` to pull all relevant axis information from CRS (issue #557)
@@ -162,7 +162,7 @@ Change Log
     * Added :meth:`pyproj.transformer.Transformer.to_wkt` as well as attributes related to `PJ_PROJ_INFO` (pull #322)
     * Undo deprecation of :meth:`pyproj.transformer.Transformer.from_crs` (issue #275)
     * Fix false positive errors raised in transformer (issue #249)
-* Fix :class:`pyproj.proj.Proj` initialization from DerivedGeographicCRS (issue #270)
+* Fix :class:`pyproj.Proj` initialization from DerivedGeographicCRS (issue #270)
 * Add interface to get the projection/ellps/prime_meridian/units lists (issue #251)
 * Docs/Build/Test fixes (pull #278, pull #245, pull #248, pull #247, issue #253, pull #252)
 

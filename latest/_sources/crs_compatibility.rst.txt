@@ -118,8 +118,8 @@ Related GitHub issue `here <https://github.com/Toblerity/Fiona/issues/714>`__.
 
 Example::
 
-    from pyproj.crs import CRS
     import fiona
+    from pyproj.crs import CRS
 
     with fiona.open(...) as fds:
         proj_crs = CRS.from_wkt(fds.crs_wkt)
@@ -135,6 +135,7 @@ If you want to be compatible across GDAL versions, you can do::
     from distutils.version import LooseVersion
 
     import fiona
+    from pyproj.crs import CRS
 
     proj_crs = CRS.from_epsg(4326)
 
