@@ -228,7 +228,7 @@ you may have problems initializing projections when the other syntax works.</p>
 </div>
 <div class="section" id="proj-not-a-generic-latitude-longitude-to-projection-converter">
 <h2>Proj (Not a generic latitude/longitude to projection converter)<a class="headerlink" href="#proj-not-a-generic-latitude-longitude-to-projection-converter" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> is limited to converting between geographic and
+<p><a class="reference internal" href="api/proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> is limited to converting between geographic and
 projection coordinates within one datum. If you have coordinates in latitude
 and longitude, and you want to convert it to your projection, it is recommended
 to use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> as it takes into account datum
@@ -278,7 +278,7 @@ datum.</p>
 <span class="go">(133175.3690698233, 453300.86739169655)</span>
 </pre></div>
 </div>
-<p>If you use <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a>, it will use the geodetic CRS with
+<p>If you use <a class="reference internal" href="api/proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a>, it will use the geodetic CRS with
 from the projected CRS with the same datum to do the transformation,
 which may not be what you want.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span>
@@ -396,7 +396,7 @@ the docstrings of <a class="reference internal" href="api/datadir.html#pyproj.da
 <div class="section" id="upgrading-to-pyproj-2-from-pyproj-1">
 <span id="upgrade-transformer"></span><h2>Upgrading to pyproj 2 from pyproj 1<a class="headerlink" href="#upgrading-to-pyproj-2-from-pyproj-1" title="Permalink to this headline">¶</a></h2>
 <p>We recommended using the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> and
-<a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.proj.Proj" title="pyproj.proj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.proj.Proj</span></code></a> and
+<a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> and
 <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.transform()</span></code></a>.</p>
 <dl class="simple">
 <dt>Also see:</dt><dd><ul class="simple">

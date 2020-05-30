@@ -62,7 +62,7 @@ you may have problems initializing projections when the other syntax works.
 Proj (Not a generic latitude/longitude to projection converter)
 ---------------------------------------------------------------
 
-:class:`pyproj.proj.Proj` is limited to converting between geographic and
+:class:`pyproj.Proj` is limited to converting between geographic and
 projection coordinates within one datum. If you have coordinates in latitude
 and longitude, and you want to convert it to your projection, it is recommended
 to use the :class:`pyproj.transformer.Transformer` as it takes into account datum
@@ -117,7 +117,7 @@ datum.
     >>> transformer.transform(52.067567, 5.068913)
     (133175.3690698233, 453300.86739169655)
 
-If you use :class:`pyproj.proj.Proj`, it will use the geodetic CRS with
+If you use :class:`pyproj.Proj`, it will use the geodetic CRS with
 from the projected CRS with the same datum to do the transformation,
 which may not be what you want.
 
@@ -258,7 +258,7 @@ Upgrading to pyproj 2 from pyproj 1
 -----------------------------------
 
 We recommended using the :class:`pyproj.transformer.Transformer` and
-:class:`pyproj.crs.CRS` in place of the :class:`pyproj.proj.Proj` and
+:class:`pyproj.crs.CRS` in place of the :class:`pyproj.Proj` and
 :meth:`pyproj.transformer.transform`.
 
 Also see:
