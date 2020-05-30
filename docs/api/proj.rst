@@ -13,7 +13,7 @@ The PROJ docs say::
 pyproj.Proj
 -----------
 
-.. autoclass:: pyproj.proj.Proj
+.. autoclass:: pyproj.Proj
     :members:
     :inherited-members:
     :special-members: __init__, __call__

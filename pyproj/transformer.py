@@ -293,7 +293,7 @@ class Transformer:
         area_of_interest: Optional[AreaOfInterest] = None,
         network: Optional[bool] = None,
     ) -> "Transformer":
-        """Make a Transformer from a :obj:`pyproj.proj.Proj` or input used to create one.
+        """Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.
 
         .. versionadded:: 2.1.2 skip_equivalent
         .. versionadded:: 2.2.0 always_xy
@@ -302,9 +302,9 @@ class Transformer:
 
         Parameters
         ----------
-        proj_from: :obj:`pyproj.proj.Proj` or input used to create one
+        proj_from: :obj:`pyproj.Proj` or input used to create one
             Projection of input data.
-        proj_to: :obj:`pyproj.proj.Proj` or input used to create one
+        proj_to: :obj:`pyproj.Proj` or input used to create one
             Projection of output data.
         skip_equivalent: bool, optional
             If true, will skip the transformation operation if input and output
