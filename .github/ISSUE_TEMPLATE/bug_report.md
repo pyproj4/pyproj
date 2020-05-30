@@ -23,6 +23,8 @@ http://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports
 
 
 #### Environment Information
+<!-- If you have pyproj 3+ -->
+ - Output from: `pyproj -v`
 <!-- If you have pyproj>=2.4.0 -->
  - Output from: `python -m pyproj -v`
 <!-- If you have pyproj>=2.2.1 -->
@@ -45,7 +47,7 @@ Environment (<code>conda list</code>):
 <details>
 
 ```
-$ conda list | grep -E "proj|aenum"
+$ conda list proj
 
 ```
 </details>
