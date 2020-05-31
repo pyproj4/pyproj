@@ -33,7 +33,7 @@ matrix:
     - python: 3.6
       env:
         - PROJSYNC=ALL
-    - python: 3.7
+    - python: 3.7.2
       env:
         - DOC=true
     - python: 3.8
