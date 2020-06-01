@@ -6,6 +6,7 @@ https://github.com/OSGeo/PROJ/blob/9ff543c4ffd86152bc58d0a0164b2ce9ebbb8bec/src/
 import hashlib
 import json
 import os
+from datetime import datetime
 from functools import partial
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -212,6 +213,40 @@ def _filter_download_needed(feature: Dict[str, Any]) -> bool:
     return _is_download_needed(filename)
 
 
+def _sha256sum(input_file):
+    """
+    Return sha256 checksum of file given by path.
+    """
+
+    hasher = hashlib.sha256()
+    with open(input_file, "rb") as file:
+        for chunk in iter(lambda: file.read(65536), b""):
+            hasher.update(chunk)
+
+    return hasher.hexdigest()
+
+
+def _download_resource_file(
+    file_url, short_name, directory, verbose=False, sha256=None
+):
+    """
+    Download resource file from PROJ url
+    """
+    if verbose:
+        print(f"Downloading: {file_url}")
+    tmp_path = Path(directory, f"{short_name}.part")
+    try:
+        urlretrieve(file_url, tmp_path)
+        if sha256 is not None and sha256 != _sha256sum(tmp_path):
+            raise RuntimeError(f"SHA256 mismatch: {short_name}")
+        tmp_path.replace(Path(directory, short_name))
+    finally:
+        try:
+            os.remove(tmp_path)
+        except FileNotFoundError:
+            pass
+
+
 def _load_grid_geojson(target_directory=None) -> Dict[str, Any]:
     """
     Returns
@@ -222,9 +257,15 @@ def _load_grid_geojson(target_directory=None) -> Dict[str, Any]:
     if target_directory is None:
         target_directory = get_user_data_dir(True)
     local_path = Path(target_directory, "files.geojson")
-    if not local_path.exists():
-        remote_path = f"{get_proj_endpoint()}/files.geojson"
-        urlretrieve(remote_path, local_path)
+    if not local_path.exists() or (
+        (datetime.utcnow() - datetime.fromtimestamp(local_path.stat().st_mtime)).days
+        > 0
+    ):
+        _download_resource_file(
+            file_url=f"{get_proj_endpoint()}/files.geojson",
+            short_name="files.geojson",
+            directory=target_directory,
+        )
     with open(local_path) as gridf:
         return json.load(gridf)
 
@@ -297,35 +338,3 @@ def get_transform_grid_list(
     if include_already_downloaded:
         return tuple(features)
     return tuple(filter(_filter_download_needed, features))
-
-
-def _sha256sum(input_file):
-    """
-    Return sha256 checksum of file given by path.
-    """
-
-    hasher = hashlib.sha256()
-    with open(input_file, "rb") as file:
-        for chunk in iter(lambda: file.read(65536), b""):
-            hasher.update(chunk)
-
-    return hasher.hexdigest()
-
-
-def _download_resource_file(
-    file_url, short_name, directory, verbose=False, sha256=None
-):
-    """
-    Download resource file from PROJ url
-    """
-    if verbose:
-        print(f"Downloading: {file_url}")
-    tmp_path = Path(directory, f"{short_name}.part")
-    try:
-        urlretrieve(file_url, tmp_path)
-        if sha256 is not None and sha256 != _sha256sum(tmp_path):
-            raise RuntimeError(f"SHA256 mismatch: {short_name}")
-        tmp_path.rename(Path(directory, short_name))
-    finally:
-        if tmp_path.exists():
-            os.remove(tmp_path)

@@ -1,11 +1,13 @@
+from datetime import datetime, timedelta
 from urllib.error import URLError
 
 import pytest
-from mock import patch
+from mock import MagicMock, patch
 
 from pyproj.sync import (
     BBox,
     _download_resource_file,
+    _load_grid_geojson,
     _sha256sum,
     get_transform_grid_list,
 )
@@ -193,3 +195,13 @@ def test_intersects():
 
 def test_not_intersects():
     assert not BBox(1, 1, 4, 4).intersects(BBox(10, 10, 20, 20))
+
+
+@patch("pyproj.sync.Path.stat")
+def test__load_grid_geojson_old_file(stat_mock, tmp_path):
+    return_timestamp = MagicMock()
+    return_timestamp.st_mtime = (datetime.utcnow() - timedelta(days=2)).timestamp()
+    stat_mock.return_value = return_timestamp
+    tmp_path.joinpath("files.geojson").touch()
+    grids = _load_grid_geojson(target_directory=tmp_path)
+    assert sorted(grids) == ["features", "name", "type"]
