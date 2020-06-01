@@ -239,7 +239,7 @@ def _download_resource_file(
         urlretrieve(file_url, tmp_path)
         if sha256 is not None and sha256 != _sha256sum(tmp_path):
             raise RuntimeError(f"SHA256 mismatch: {short_name}")
-        tmp_path.rename(Path(directory, short_name))
+        tmp_path.replace(Path(directory, short_name))
     finally:
         try:
             os.remove(tmp_path)
