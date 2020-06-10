@@ -16,7 +16,7 @@ def get_proj_operations_map():
     dict:
         Operations supported by PROJ.
     """
-    cdef PJ_OPERATIONS *proj_operations = proj_list_operations()
+    cdef const PJ_OPERATIONS *proj_operations = proj_list_operations()
     cdef int iii = 0
     operations_map = {}
     while proj_operations[iii].id != NULL:
@@ -33,7 +33,7 @@ def get_ellps_map():
     dict:
         Ellipsoids supported by PROJ.
     """
-    cdef PJ_ELLPS *proj_ellps = proj_list_ellps()
+    cdef const PJ_ELLPS *proj_ellps = proj_list_ellps()
     cdef int iii = 0
     ellps_map = {}
     while proj_ellps[iii].id != NULL:
@@ -55,7 +55,7 @@ def get_prime_meridians_map():
     dict:
         Prime Meridians supported by PROJ.
     """
-    cdef PJ_PRIME_MERIDIANS *prime_meridians = proj_list_prime_meridians()
+    cdef const PJ_PRIME_MERIDIANS *prime_meridians = proj_list_prime_meridians()
     cdef int iii = 0
     prime_meridians_map = {}
     while prime_meridians[iii].id != NULL:

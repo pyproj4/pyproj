@@ -26,7 +26,9 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
     if not proj_context_set_database_path(context, c_database_path, NULL, NULL):
         warnings.warn("pyproj unable to set database path.")
     data_dir_list.append(get_user_data_dir())
-    cdef char **c_data_dir = <char **>malloc(len(data_dir_list) * sizeof(char*))
+    cdef const char **c_data_dir = <const char **>malloc(
+        len(data_dir_list) * sizeof(const char*)
+    )
     try:
         for iii in range(len(data_dir_list)):
             b_data_dir = cstrencode(data_dir_list[iii])
