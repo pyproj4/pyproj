@@ -1638,15 +1638,15 @@ cdef class Param:
     @staticmethod
     cdef Param create(PJ_CONTEXT* context, PJ* projobj, int param_idx):
         cdef Param param = Param()
-        cdef char *out_name
-        cdef char *out_auth_name
-        cdef char *out_code
-        cdef char *out_value
-        cdef char *out_value_string
-        cdef char *out_unit_name
-        cdef char *out_unit_auth_name
-        cdef char *out_unit_code
-        cdef char *out_unit_category
+        cdef const char *out_name
+        cdef const char *out_auth_name
+        cdef const char *out_code
+        cdef const char *out_value
+        cdef const char *out_value_string
+        cdef const char *out_unit_name
+        cdef const char *out_unit_auth_name
+        cdef const char *out_unit_code
+        cdef const char *out_unit_category
         cdef double value_double
         proj_coordoperation_get_param(
             context,
@@ -1722,10 +1722,10 @@ cdef class Grid:
     @staticmethod
     cdef Grid create(PJ_CONTEXT* context, PJ* projobj, int grid_idx):
         cdef Grid grid = Grid()
-        cdef char *out_short_name
-        cdef char *out_full_name
-        cdef char *out_package_name
-        cdef char *out_url
+        cdef const char *out_short_name
+        cdef const char *out_full_name
+        cdef const char *out_package_name
+        cdef const char *out_url
         cdef int direct_download = 0
         cdef int open_license = 0
         cdef int available = 0
@@ -1831,9 +1831,9 @@ cdef class CoordinateOperation(_CRSParts):
         )
         coord_operation.context = context
         coord_operation.projobj = coord_operation_pj
-        cdef char *out_method_name = NULL
-        cdef char *out_method_auth_name = NULL
-        cdef char *out_method_code = NULL
+        cdef const char *out_method_name = NULL
+        cdef const char *out_method_auth_name = NULL
+        cdef const char *out_method_code = NULL
         proj_coordoperation_get_method_info(
             coord_operation.context,
             coord_operation.projobj,

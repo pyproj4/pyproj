@@ -1,4 +1,5 @@
-from typing import Any, Iterable, List, NamedTuple, Optional, Tuple, Union
+from array import array
+from typing import Any, List, NamedTuple, Optional, Tuple, Union
 
 from pyproj._crs import _CRS, AreaOfUse, Base, CoordinateOperation
 from pyproj.enums import TransformDirection
@@ -89,7 +90,7 @@ class _Transformer(Base):
     def _transform_sequence(
         self,
         stride: int,
-        inseq: Iterable[Iterable[float]],
+        inseq: array[float],
         switch: bool,
         direction: Union[TransformDirection, str],
         time_3rd: bool,

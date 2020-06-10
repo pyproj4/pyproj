@@ -1,15 +1,19 @@
+from cpython.ref cimport PyObject
+
 from math import radians, degrees
+
 
 cdef double _DG2RAD = radians(1.)
 cdef double _RAD2DG = degrees(1.)
 cdef int _DOUBLESIZE = sizeof(double)
 
+
 cdef extern from "math.h":
     cdef enum:
         HUGE_VAL
 
+
 cdef extern from "Python.h":
-    cdef struct PyObject
     cdef int PyBUF_WRITABLE
     int PyObject_GetBuffer(PyObject *exporter, Py_buffer *view, int flags)
     void PyBuffer_Release(Py_buffer *view)

@@ -1,6 +1,7 @@
 include "base.pxi"
 
 cimport cython
+from cpython cimport array
 
 import copy
 import warnings
@@ -552,7 +553,7 @@ cdef class _Transformer(Base):
     def _transform_sequence(
         self,
         Py_ssize_t stride,
-        object inseq,
+        array.array inseq,
         bint switch,
         object direction,
         bint time_3rd,
