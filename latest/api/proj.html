@@ -199,24 +199,14 @@ longitude, latitude to native map projection x,y coordinates and
 vice versa using PROJ (<a class="reference external" href="https://proj.org">https://proj.org</a>).</p>
 <dl class="py attribute">
 <dt id="pyproj.Proj.srs">
-<code class="sig-name descname">srs</code><a class="headerlink" href="#pyproj.Proj.srs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">srs</code><em class="property">: str</em><a class="headerlink" href="#pyproj.Proj.srs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The string form of the user input used to create the Proj.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj.Proj.crs">
-<code class="sig-name descname">crs</code><a class="headerlink" href="#pyproj.Proj.crs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">crs</code><em class="property">: <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS">pyproj.crs.CRS</a></em><a class="headerlink" href="#pyproj.Proj.crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The CRS object associated with the Proj.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS">pyproj.crs.CRS</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -849,7 +839,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <h2>pyproj.proj.Factors<a class="headerlink" href="#pyproj-proj-factors" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.proj.Factors">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Factors</code><a class="headerlink" href="#pyproj.proj.Factors" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.proj.</code><code class="sig-name descname">Factors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">meridional_scale</span></em>, <em class="sig-param"><span class="n">parallel_scale</span></em>, <em class="sig-param"><span class="n">areal_scale</span></em>, <em class="sig-param"><span class="n">angular_distortion</span></em>, <em class="sig-param"><span class="n">meridian_parallel_angle</span></em>, <em class="sig-param"><span class="n">meridian_convergence</span></em>, <em class="sig-param"><span class="n">tissot_semimajor</span></em>, <em class="sig-param"><span class="n">tissot_semiminor</span></em>, <em class="sig-param"><span class="n">dx_dlam</span></em>, <em class="sig-param"><span class="n">dx_dphi</span></em>, <em class="sig-param"><span class="n">dy_dlam</span></em>, <em class="sig-param"><span class="n">dy_dphi</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.proj.Factors" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.0.</span></p>
 </div>
