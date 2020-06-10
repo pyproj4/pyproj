@@ -225,81 +225,46 @@
 <p>Coordinate operation for CRS.</p>
 <dl class="py attribute">
 <dt id="pyproj.crs.CoordinateOperation.name">
-<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><em class="property">: str</em><a class="headerlink" href="#pyproj.crs.CoordinateOperation.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the method(projection) with authority information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj.crs.CoordinateOperation.method_name">
-<code class="sig-name descname">method_name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">method_name</code><em class="property">: str</em><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The method (projection) name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj.crs.CoordinateOperation.method_auth_name">
-<code class="sig-name descname">method_auth_name</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_auth_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">method_auth_name</code><em class="property">: str</em><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_auth_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The method authority name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj.crs.CoordinateOperation.method_code">
-<code class="sig-name descname">method_code</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">method_code</code><em class="property">: str</em><a class="headerlink" href="#pyproj.crs.CoordinateOperation.method_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The method code.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj.crs.CoordinateOperation.is_instantiable">
-<code class="sig-name descname">is_instantiable</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.is_instantiable" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_instantiable</code><em class="property">: int</em><a class="headerlink" href="#pyproj.crs.CoordinateOperation.is_instantiable" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, a coordinate operation can be instantiated as a PROJ pipeline.
 This also checks that referenced grids are available.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj.crs.CoordinateOperation.has_ballpark_transformation">
-<code class="sig-name descname">has_ballpark_transformation</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.has_ballpark_transformation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">has_ballpark_transformation</code><em class="property">: int</em><a class="headerlink" href="#pyproj.crs.CoordinateOperation.has_ballpark_transformation" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, the coordinate operation has a “ballpark” transformation,
 that is a very approximate one, due to lack of more accurate transformations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj.crs.CoordinateOperation.accuracy">
-<code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyproj.crs.CoordinateOperation.accuracy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">accuracy</code><em class="property">: float</em><a class="headerlink" href="#pyproj.crs.CoordinateOperation.accuracy" title="Permalink to this definition">¶</a></dt>
 <dd><p>The accuracy (in metre) of a coordinate operation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -653,102 +618,57 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <p>Coordinate operation parameter.</p>
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.name">
-<code class="sig-name descname">name</code><a class="headerlink" href="#pyproj._crs.Param.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Param.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the parameter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.auth_name">
-<code class="sig-name descname">auth_name</code><a class="headerlink" href="#pyproj._crs.Param.auth_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">auth_name</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Param.auth_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The authority name of the parameter (i.e. EPSG).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.code">
-<code class="sig-name descname">code</code><a class="headerlink" href="#pyproj._crs.Param.code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">code</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Param.code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The code of the parameter (i.e. 9807).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.value">
-<code class="sig-name descname">value</code><a class="headerlink" href="#pyproj._crs.Param.value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">value</code><em class="property">: str or double</em><a class="headerlink" href="#pyproj._crs.Param.value" title="Permalink to this definition">¶</a></dt>
 <dd><p>The value of the parameter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str or double</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.unit_conversion_factor">
-<code class="sig-name descname">unit_conversion_factor</code><a class="headerlink" href="#pyproj._crs.Param.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_conversion_factor</code><em class="property">: double</em><a class="headerlink" href="#pyproj._crs.Param.unit_conversion_factor" title="Permalink to this definition">¶</a></dt>
 <dd><p>The factor to convert to meters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.unit_name">
-<code class="sig-name descname">unit_name</code><a class="headerlink" href="#pyproj._crs.Param.unit_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_name</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Param.unit_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the unit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.unit_auth_name">
-<code class="sig-name descname">unit_auth_name</code><a class="headerlink" href="#pyproj._crs.Param.unit_auth_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_auth_name</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Param.unit_auth_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The authority name of the unit (i.e. EPSG).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.unit_code">
-<code class="sig-name descname">unit_code</code><a class="headerlink" href="#pyproj._crs.Param.unit_code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_code</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Param.unit_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The code of the unit (i.e. 9807).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Param.unit_category">
-<code class="sig-name descname">unit_category</code><a class="headerlink" href="#pyproj._crs.Param.unit_category" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unit_category</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Param.unit_category" title="Permalink to this definition">¶</a></dt>
 <dd><p>The category of the unit (“unknown”, “none”, “linear”,
 “angular”, “scale”, “time” or “parametric”).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
@@ -765,79 +685,44 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <p>Coordinate operation grid.</p>
 <dl class="py attribute">
 <dt id="pyproj._crs.Grid.short_name">
-<code class="sig-name descname">short_name</code><a class="headerlink" href="#pyproj._crs.Grid.short_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">short_name</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Grid.short_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The short name of the grid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Grid.full_name">
-<code class="sig-name descname">full_name</code><a class="headerlink" href="#pyproj._crs.Grid.full_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">full_name</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Grid.full_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The full name of the grid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Grid.package_name">
-<code class="sig-name descname">package_name</code><a class="headerlink" href="#pyproj._crs.Grid.package_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">package_name</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Grid.package_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The the package name where the grid might be found.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Grid.url">
-<code class="sig-name descname">url</code><a class="headerlink" href="#pyproj._crs.Grid.url" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">url</code><em class="property">: str</em><a class="headerlink" href="#pyproj._crs.Grid.url" title="Permalink to this definition">¶</a></dt>
 <dd><p>The grid URL or the package URL where the grid might be found.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Grid.direct_download">
-<code class="sig-name descname">direct_download</code><a class="headerlink" href="#pyproj._crs.Grid.direct_download" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">direct_download</code><em class="property">: int</em><a class="headerlink" href="#pyproj._crs.Grid.direct_download" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, <em>url</em> can be downloaded directly.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Grid.open_license">
-<code class="sig-name descname">open_license</code><a class="headerlink" href="#pyproj._crs.Grid.open_license" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">open_license</code><em class="property">: int</em><a class="headerlink" href="#pyproj._crs.Grid.open_license" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, the grid is released with an open license.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="pyproj._crs.Grid.available">
-<code class="sig-name descname">available</code><a class="headerlink" href="#pyproj._crs.Grid.available" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">available</code><em class="property">: int</em><a class="headerlink" href="#pyproj._crs.Grid.available" title="Permalink to this definition">¶</a></dt>
 <dd><p>If 1, the grid is available at runtime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
@@ -847,7 +732,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <h2>AlbersEqualAreaConversion<a class="headerlink" href="#albersequalareaconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.AlbersEqualAreaConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">AlbersEqualAreaConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#AlbersEqualAreaConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.AlbersEqualAreaConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">AlbersEqualAreaConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">latitude_second_parallel</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">latitude_false_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_false_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">easting_false_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">northing_false_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#AlbersEqualAreaConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.AlbersEqualAreaConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -878,7 +763,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <h2>AzumuthalEquidistantConversion<a class="headerlink" href="#azumuthalequidistantconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.AzumuthalEquidistantConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">AzumuthalEquidistantConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#AzumuthalEquidistantConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.AzumuthalEquidistantConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">AzumuthalEquidistantConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#AzumuthalEquidistantConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.AzumuthalEquidistantConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -907,7 +792,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <h2>EquidistantCylindricalConversion<a class="headerlink" href="#equidistantcylindricalconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.EquidistantCylindricalConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">EquidistantCylindricalConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#EquidistantCylindricalConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">EquidistantCylindricalConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#EquidistantCylindricalConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -937,7 +822,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <h2>GeostationarySatelliteConversion<a class="headerlink" href="#geostationarysatelliteconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.GeostationarySatelliteConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">GeostationarySatelliteConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#GeostationarySatelliteConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">GeostationarySatelliteConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sweep_angle_axis</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">satellite_height</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#GeostationarySatelliteConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -968,7 +853,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <h2>LambertAzumuthalEqualAreaConversion<a class="headerlink" href="#lambertazumuthalequalareaconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertAzumuthalEqualAreaConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertAzumuthalEqualAreaConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertAzumuthalEqualAreaConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertAzumuthalEqualAreaConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertAzumuthalEqualAreaConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertAzumuthalEqualAreaConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertAzumuthalEqualAreaConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -997,7 +882,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <h2>LambertConformalConic1SPConversion<a class="headerlink" href="#lambertconformalconic1spconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertConformalConic1SPConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertConformalConic1SPConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertConformalConic1SPConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertConformalConic1SPConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertConformalConic1SPConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertConformalConic1SPConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertConformalConic1SPConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1027,7 +912,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <h2>LambertConformalConic2SPConversion<a class="headerlink" href="#lambertconformalconic2spconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertConformalConic2SPConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertConformalConic2SPConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertConformalConic2SPConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertConformalConic2SPConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertConformalConic2SPConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">latitude_second_parallel</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">latitude_false_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_false_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">easting_false_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">northing_false_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertConformalConic2SPConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertConformalConic2SPConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1058,7 +943,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <h2>LambertCylindricalEqualAreaConversion<a class="headerlink" href="#lambertcylindricalequalareaconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertCylindricalEqualAreaConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertCylindricalEqualAreaConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertCylindricalEqualAreaConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertCylindricalEqualAreaConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1084,7 +969,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaScaleConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertCylindricalEqualAreaScaleConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertCylindricalEqualAreaScaleConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaScaleConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">LambertCylindricalEqualAreaScaleConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#LambertCylindricalEqualAreaScaleConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaScaleConversion" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -1110,7 +995,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>MercatorAConversion<a class="headerlink" href="#mercatoraconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.MercatorAConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">MercatorAConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#MercatorAConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.MercatorAConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">MercatorAConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#MercatorAConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.MercatorAConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1140,7 +1025,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>MercatorBConversion<a class="headerlink" href="#mercatorbconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.MercatorBConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">MercatorBConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#MercatorBConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.MercatorBConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">MercatorBConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_first_parallel</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#MercatorBConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.MercatorBConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1169,7 +1054,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>HotineObliqueMercatorBConversion<a class="headerlink" href="#hotineobliquemercatorbconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.HotineObliqueMercatorBConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">HotineObliqueMercatorBConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#HotineObliqueMercatorBConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.HotineObliqueMercatorBConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">HotineObliqueMercatorBConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_projection_centre</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">longitude_projection_centre</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">azimuth_initial_line</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">angle_from_rectified_to_skew_grid</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">scale_factor_on_initial_line</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">easting_projection_centre</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">northing_projection_centre</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#HotineObliqueMercatorBConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.HotineObliqueMercatorBConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1201,7 +1086,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>OrthographicConversion<a class="headerlink" href="#orthographicconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.OrthographicConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">OrthographicConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#OrthographicConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.OrthographicConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">OrthographicConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#OrthographicConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.OrthographicConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1239,7 +1124,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>PolarStereographicAConversion<a class="headerlink" href="#polarstereographicaconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.PolarStereographicAConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">PolarStereographicAConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#PolarStereographicAConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.PolarStereographicAConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">PolarStereographicAConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#PolarStereographicAConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.PolarStereographicAConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1269,7 +1154,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>PolarStereographicBConversion<a class="headerlink" href="#polarstereographicbconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.PolarStereographicBConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">PolarStereographicBConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#PolarStereographicBConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.PolarStereographicBConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">PolarStereographicBConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_standard_parallel</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#PolarStereographicBConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.PolarStereographicBConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1298,7 +1183,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>SinusoidalConversion<a class="headerlink" href="#sinusoidalconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.SinusoidalConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">SinusoidalConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#SinusoidalConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.SinusoidalConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">SinusoidalConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#SinusoidalConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.SinusoidalConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1326,7 +1211,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>StereographicConversion<a class="headerlink" href="#stereographicconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.StereographicConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">StereographicConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#StereographicConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.StereographicConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">StereographicConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#StereographicConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.StereographicConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1356,7 +1241,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>UTMConversion<a class="headerlink" href="#utmconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.UTMConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">UTMConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#UTMConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.UTMConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">UTMConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">zone</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">hemisphere</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'N'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#UTMConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.UTMConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1383,7 +1268,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>TransverseMercatorConversion<a class="headerlink" href="#transversemercatorconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.TransverseMercatorConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">TransverseMercatorConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#TransverseMercatorConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.TransverseMercatorConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">TransverseMercatorConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">scale_factor_natural_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#TransverseMercatorConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.TransverseMercatorConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1413,7 +1298,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>VerticalPerspectiveConversion<a class="headerlink" href="#verticalperspectiveconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.VerticalPerspectiveConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">VerticalPerspectiveConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#VerticalPerspectiveConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.VerticalPerspectiveConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">VerticalPerspectiveConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">viewpoint_height</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">latitude_topocentric_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">longitude_topocentric_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">ellipsoidal_height_topocentric_origin</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_easting</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">false_northing</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#VerticalPerspectiveConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.VerticalPerspectiveConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1444,7 +1329,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <h2>RotatedLatitudeLongitudeConversion<a class="headerlink" href="#rotatedlatitudelongitudeconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">RotatedLatitudeLongitudeConversion</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#RotatedLatitudeLongitudeConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">RotatedLatitudeLongitudeConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o_lat_p</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">o_lon_p</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">lon_0</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#RotatedLatitudeLongitudeConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -1474,7 +1359,7 @@ expressed in the rotated geographic CRS.</p></li>
 <h2>ToWGS84Transformation<a class="headerlink" href="#towgs84transformation" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.ToWGS84Transformation">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">ToWGS84Transformation</code><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#ToWGS84Transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.ToWGS84Transformation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">ToWGS84Transformation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source_crs</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">x_axis_translation</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">y_axis_translation</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">z_axis_translation</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">x_axis_rotation</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">y_axis_rotation</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">z_axis_rotation</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">scale_difference</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#ToWGS84Transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.ToWGS84Transformation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
