@@ -562,9 +562,7 @@ class CRS(_CRS):
         This converts a :obj:`pyproj.crs.CRS` object
         to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.
 
-        .. warning:: The full projection will be stored in the
-            crs_wkt attribute. However, other parameters may be lost
-            if a mapping to the CF parameter is not found.
+        :ref:`build_crs_cf`
 
         Parameters
         ----------
@@ -672,21 +670,39 @@ class CRS(_CRS):
         return cf_dict
 
     @staticmethod
-    def from_cf(in_cf: dict, errcheck=False) -> "CRS":
+    def from_cf(
+        in_cf: dict,
+        ellipsoidal_cs: Any = None,
+        cartesian_cs: Any = None,
+        vertical_cs: Any = None,
+        errcheck=False,
+    ) -> "CRS":
         """
         .. versionadded:: 2.2.0
+
+        .. versionadded:: 3.0.0 ellipsoidal_cs, cartesian_cs, vertical_cs
 
         This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
         dict to a :obj:`pyproj.crs.CRS` object.
 
-        .. warning:: Parameters may be lost if a mapping
-            from the CF parameter is not found. For best results
-            store the WKT of the projection in the crs_wkt attribute.
+        :ref:`build_crs_cf`
 
         Parameters
         ----------
         in_cf: dict
             CF version of the projection.
+        ellipsoidal_cs: Any, optional
+            Input to create an Ellipsoidal Coordinate System.
+            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
+        cartesian_cs: Any, optional
+            Input to create a Cartesian Coordinate System.
+            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or :class:`pyproj.crs.coordinate_system.Cartesian2DCS`.
+        vertical_cs: Any, optional
+            Input to create a Vertical Coordinate System accepted by
+            :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+            or :class:`pyproj.crs.coordinate_system.VerticalCS`
         errcheck: bool, optional
             This parameter is for backwards compatibility with the old version.
             It currently does nothing when True or False.
@@ -719,17 +735,27 @@ class CRS(_CRS):
         geographic_crs_name = in_cf.get("geographic_crs_name")
         if datum:
             geographic_crs = GeographicCRS(
-                name=geographic_crs_name or "undefined", datum=datum,
+                name=geographic_crs_name or "undefined",
+                datum=datum,
+                ellipsoidal_cs=ellipsoidal_cs,
             )  # type: CRS
         elif geographic_crs_name and geographic_crs_name not in unknown_names:
             geographic_crs = CRS(geographic_crs_name)
+            if ellipsoidal_cs is not None:
+                geographic_crs_json = geographic_crs.to_json_dict()
+                geographic_crs_json[
+                    "coordinate_system"
+                ] = CoordinateSystem.from_user_input(ellipsoidal_cs).to_json_dict()
+                geographic_crs = CRS(geographic_crs_json)
         else:
-            geographic_crs = GeographicCRS()
+            geographic_crs = GeographicCRS(ellipsoidal_cs=ellipsoidal_cs)
         if grid_mapping_name == "latitude_longitude":
             return geographic_crs
         if geographic_conversion_method is not None:
             return DerivedGeographicCRS(
-                base_crs=geographic_crs, conversion=geographic_conversion_method(in_cf),
+                base_crs=geographic_crs,
+                conversion=geographic_conversion_method(in_cf),
+                ellipsoidal_cs=ellipsoidal_cs,
             )
 
         # build projected CRS
@@ -741,6 +767,7 @@ class CRS(_CRS):
             name=in_cf.get("projected_crs_name", "undefined"),
             conversion=conversion_method(in_cf),
             geodetic_crs=geographic_crs,
+            cartesian_cs=cartesian_cs,
         )
 
         # build bound CRS if exists
@@ -761,12 +788,58 @@ class CRS(_CRS):
             name="undefined",
             datum=in_cf["geopotential_datum_name"],
             geoid_model=in_cf.get("geoid_name"),
+            vertical_cs=vertical_cs,
         )
 
         # build compound CRS
         return CompoundCRS(
             name="undefined", components=[bound_crs or projected_crs, vertical_crs]
         )
+
+    def cs_to_cf(self) -> List[dict]:
+        """
+        .. versionadded:: 3.0.0
+
+        This converts all coordinate systems (cs) in the CRS
+        to a list of Climate and Forecast (CF) Version 1.8 dicts.
+
+        :ref:`build_crs_cf`
+
+        Returns
+        -------
+        List[dict]:
+            CF-1.8 version of the coordinate systems.
+        """
+        cf_axis_list = []
+
+        def rotated_pole(crs):
+            try:
+                return (
+                    crs.coordinate_operation
+                    and crs.coordinate_operation.method_name.lower()
+                    in _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP
+                )
+            except KeyError:
+                return False
+
+        if self.coordinate_system:
+            cf_axis_list.extend(
+                self.coordinate_system.to_cf(rotated_pole=rotated_pole(self))
+            )
+        elif self.is_bound and self.source_crs and self.source_crs.coordinate_system:
+            cf_axis_list.extend(
+                self.source_crs.coordinate_system.to_cf(
+                    rotated_pole=rotated_pole(self.source_crs)
+                )
+            )
+        else:
+            for sub_crs in self.sub_crs_list:
+                if not sub_crs.coordinate_system:
+                    continue
+                cf_axis_list.extend(
+                    sub_crs.coordinate_system.to_cf(rotated_pole=rotated_pole(sub_crs))
+                )
+        return cf_axis_list
 
     def is_exact_same(self, other: Any, ignore_axis_order: bool = False) -> bool:
         """
