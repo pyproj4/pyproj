@@ -355,17 +355,20 @@ in meters</p></li>
 </div>
 <p>A simple interface for computing the area (meters^2) and perimeter (meters)
 of a geodesic polygon as a shapely geometry.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Only simple polygons (which are not self-intersecting) are allowed.</p>
-</div>
+<p>Arbitrarily complex polygons are allowed.  In the case self-intersecting
+of polygons the area is accumulated “algebraically”, e.g., the areas of
+the 2 loops in a figure-8 polygon will partially cancel.  There’s no need
+to “close” the polygon by repeating the first vertex.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>lats should be in the range [-90 deg, 90 deg].</p>
 </div>
-<p>There’s no need to “close” the polygon by repeating the first vertex.
-The area returned is signed with counter-clockwise traversal being treated as
-positive.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The area returned is signed with counter-clockwise traversal being
+treated as positive. You can use <cite>shapely.ops.orient</cite> to modify the
+orientation.</p>
+</div>
 <p>If it is a Polygon, it will return the area and exterior perimeter.
 It will subtract the area of the interior holes.
 If it is a MultiPolygon or MultiLine, it will return
@@ -390,7 +393,7 @@ the sum of the areas and perimeters of all geometries.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.BaseGeometry</span></code>) – The geometry to calculate the area and perimeter from.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians. Default is degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -615,17 +618,15 @@ between the initial and terminus points.</p>
 </div>
 <p>A simple interface for computing the area (meters^2) and perimeter (meters)
 of a geodesic polygon.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Only simple polygons (which are not self-intersecting) are allowed.</p>
-</div>
+<p>Arbitrarily complex polygons are allowed. In the case self-intersecting
+of polygons the area is accumulated “algebraically”, e.g., the areas of
+the 2 loops in a figure-8 polygon will partially cancel. There’s no need
+to “close” the polygon by repeating the first vertex. The area returned
+is signed with counter-clockwise traversal being treated as positive.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>lats should be in the range [-90 deg, 90 deg].</p>
 </div>
-<p>There’s no need to “close” the polygon by repeating the first vertex.
-The area returned is signed with counter-clockwise traversal being treated as
-positive.</p>
 <p>Example usage:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>

@@ -594,13 +594,14 @@
 <span class="sd">        A simple interface for computing the area (meters^2) and perimeter (meters)</span>
 <span class="sd">        of a geodesic polygon.</span>
 
-<span class="sd">        .. warning:: Only simple polygons (which are not self-intersecting) are allowed.</span>
+<span class="sd">        Arbitrarily complex polygons are allowed. In the case self-intersecting</span>
+<span class="sd">        of polygons the area is accumulated &quot;algebraically&quot;, e.g., the areas of</span>
+<span class="sd">        the 2 loops in a figure-8 polygon will partially cancel. There&#39;s no need</span>
+<span class="sd">        to &quot;close&quot; the polygon by repeating the first vertex. The area returned</span>
+<span class="sd">        is signed with counter-clockwise traversal being treated as positive.</span>
 
 <span class="sd">        .. note:: lats should be in the range [-90 deg, 90 deg].</span>
 
-<span class="sd">        There&#39;s no need to &quot;close&quot; the polygon by repeating the first vertex.</span>
-<span class="sd">        The area returned is signed with counter-clockwise traversal being treated as</span>
-<span class="sd">        positive.</span>
 
 <span class="sd">        Example usage:</span>
 
@@ -687,13 +688,16 @@
 <span class="sd">        A simple interface for computing the area (meters^2) and perimeter (meters)</span>
 <span class="sd">        of a geodesic polygon as a shapely geometry.</span>
 
-<span class="sd">        .. warning:: Only simple polygons (which are not self-intersecting) are allowed.</span>
+<span class="sd">        Arbitrarily complex polygons are allowed.  In the case self-intersecting</span>
+<span class="sd">        of polygons the area is accumulated &quot;algebraically&quot;, e.g., the areas of</span>
+<span class="sd">        the 2 loops in a figure-8 polygon will partially cancel.  There&#39;s no need</span>
+<span class="sd">        to &quot;close&quot; the polygon by repeating the first vertex.</span>
 
 <span class="sd">        .. note:: lats should be in the range [-90 deg, 90 deg].</span>
 
-<span class="sd">        There&#39;s no need to &quot;close&quot; the polygon by repeating the first vertex.</span>
-<span class="sd">        The area returned is signed with counter-clockwise traversal being treated as</span>
-<span class="sd">        positive.</span>
+<span class="sd">        .. warning:: The area returned is signed with counter-clockwise traversal being</span>
+<span class="sd">                     treated as positive. You can use `shapely.ops.orient` to modify the</span>
+<span class="sd">                     orientation.</span>
 
 <span class="sd">        If it is a Polygon, it will return the area and exterior perimeter.</span>
 <span class="sd">        It will subtract the area of the interior holes.</span>
@@ -723,7 +727,7 @@
 <span class="sd">        geometry: :class:`shapely.geometry.BaseGeometry`</span>
 <span class="sd">            The geometry to calculate the area and perimeter from.</span>
 <span class="sd">        radians: bool, optional</span>
-<span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">            If True, the input data is assumed to be in radians. Default is degrees.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
