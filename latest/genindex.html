@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> pyproj
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pyproj
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -88,12 +90,13 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_grids.html">Transformation Grids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs_cf.html">Managing CRS to and from CF</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
 </ul>
@@ -101,6 +104,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -139,7 +143,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Index</li>
     
@@ -376,10 +380,10 @@
         <li><a href="api/enums.html#pyproj.enums.PJType.CONVERSION">(pyproj.enums.PJType attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.coordinate_operation">coordinate_operation (pyproj.crs.CRS attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.coordinate_system">coordinate_system (pyproj.crs.CRS attribute)</a>
 </li>
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation">CoordinateOperation (class in pyproj.crs)</a>
@@ -397,6 +401,8 @@
       <li><a href="api/proj.html#pyproj.Proj.crs">crs (pyproj.Proj attribute)</a>
 </li>
       <li><a href="api/exceptions.html#pyproj.exceptions.CRSError">CRSError</a>
+</li>
+      <li><a href="api/crs/crs.html#pyproj.crs.CRS.cs_to_cf">cs_to_cf() (pyproj.crs.CRS method)</a>
 </li>
       <li><a href="api/crs/datum.html#pyproj.crs.datum.CustomDatum">CustomDatum (class in pyproj.crs.datum)</a>
 </li>
@@ -1110,8 +1116,12 @@
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.to_authority">to_authority() (pyproj.crs.CRS method)</a>
 </li>
-      <li><a href="api/crs/crs.html#pyproj.crs.CRS.to_cf">to_cf() (pyproj.crs.CRS method)</a>
+      <li><a href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.to_cf">to_cf() (pyproj.crs.CoordinateSystem method)</a>
+
+      <ul>
+        <li><a href="api/crs/crs.html#pyproj.crs.CRS.to_cf">(pyproj.crs.CRS method)</a>
 </li>
+      </ul></li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.to_dict">to_dict() (pyproj.crs.CRS method)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.to_epsg">to_epsg() (pyproj.crs.CRS method)</a>
@@ -1152,10 +1162,10 @@
         <li><a href="api/transformer.html#pyproj.transformer.Transformer.to_json_dict">(pyproj.transformer.Transformer method)</a>
 </li>
       </ul></li>
-      <li><a href="api/proj.html#pyproj.Proj.to_latlong">to_latlong() (pyproj.Proj method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/proj.html#pyproj.Proj.to_latlong">to_latlong() (pyproj.Proj method)</a>
+</li>
       <li><a href="api/proj.html#pyproj.Proj.to_latlong_def">to_latlong_def() (pyproj.Proj method)</a>
 </li>
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation.to_proj4">to_proj4() (pyproj.crs.CoordinateOperation method)</a>
@@ -1339,11 +1349,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1354,7 +1372,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
