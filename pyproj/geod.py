@@ -429,13 +429,14 @@ class Geod(_Geod):
         A simple interface for computing the area (meters^2) and perimeter (meters)
         of a geodesic polygon.
 
-        .. warning:: Only simple polygons (which are not self-intersecting) are allowed.
+        Arbitrarily complex polygons are allowed. In the case self-intersecting
+        of polygons the area is accumulated "algebraically", e.g., the areas of
+        the 2 loops in a figure-8 polygon will partially cancel. There's no need
+        to "close" the polygon by repeating the first vertex. The area returned
+        is signed with counter-clockwise traversal being treated as positive.
 
         .. note:: lats should be in the range [-90 deg, 90 deg].
 
-        There's no need to "close" the polygon by repeating the first vertex.
-        The area returned is signed with counter-clockwise traversal being treated as
-        positive.
 
         Example usage:
 
@@ -522,13 +523,16 @@ class Geod(_Geod):
         A simple interface for computing the area (meters^2) and perimeter (meters)
         of a geodesic polygon as a shapely geometry.
 
-        .. warning:: Only simple polygons (which are not self-intersecting) are allowed.
+        Arbitrarily complex polygons are allowed.  In the case self-intersecting
+        of polygons the area is accumulated "algebraically", e.g., the areas of
+        the 2 loops in a figure-8 polygon will partially cancel.  There's no need
+        to "close" the polygon by repeating the first vertex.
 
         .. note:: lats should be in the range [-90 deg, 90 deg].
 
-        There's no need to "close" the polygon by repeating the first vertex.
-        The area returned is signed with counter-clockwise traversal being treated as
-        positive.
+        .. warning:: The area returned is signed with counter-clockwise traversal being
+                     treated as positive. You can use `shapely.ops.orient` to modify the
+                     orientation.
 
         If it is a Polygon, it will return the area and exterior perimeter.
         It will subtract the area of the interior holes.
@@ -558,7 +562,7 @@ class Geod(_Geod):
         geometry: :class:`shapely.geometry.BaseGeometry`
             The geometry to calculate the area and perimeter from.
         radians: bool, optional
-            If True, the input data is assumed to be in radians.
+            If True, the input data is assumed to be in radians. Default is degrees.
 
         Returns
         -------
