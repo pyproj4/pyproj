@@ -18,12 +18,13 @@ GitHub Repository: https://github.com/pyproj4/pyproj
    examples
    transformation_grids
    gotchas
-   advanced_examples
-   build_crs
    api/index
    cli
-   optimize_transformations
+   advanced_examples
+   build_crs
+   build_crs_cf
    crs_compatibility
+   optimize_transformations
    history
    past_versions
 

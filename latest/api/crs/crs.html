@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Coordinate Systems" href="coordinate_system.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> pyproj
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> pyproj
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -90,8 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_grids.html">Transformation Grids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">CRS module API Documentation</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">CRS</a><ul>
@@ -125,8 +125,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs_cf.html">Managing CRS to and from CF</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
 </ul>
@@ -134,6 +137,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -172,7 +176,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">API Documentation</a> &raquo;</li>
         
@@ -445,6 +449,25 @@ If it is a Compound CRS, it gets the axis list from the Sub CRS list.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt id="pyproj.crs.CRS.cs_to_cf">
+<code class="sig-name descname">cs_to_cf</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>dict<span class="p">]</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.cs_to_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.cs_to_cf" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<p>This converts all coordinate systems (cs) in the CRS
+to a list of Climate and Forecast (CF) Version 1.8 dicts.</p>
+<p><a class="reference internal" href="../../build_crs_cf.html#build-crs-cf"><span class="std std-ref">Managing CRS to and from CF</span></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>CF-1.8 version of the coordinate systems.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt id="pyproj.crs.CRS.datum">
 <code class="sig-name descname">datum</code><a class="headerlink" href="#pyproj.crs.CRS.datum" title="Permalink to this definition">¶</a></dt>
@@ -528,22 +551,29 @@ Default is False.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.CRS.from_cf">
-<em class="property">static </em><code class="sig-name descname">from_cf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_cf</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_cf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_cf</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errcheck</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; pyproj.crs.crs.CRS<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.from_cf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.from_cf" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0: </span>ellipsoidal_cs, cartesian_cs, vertical_cs</p>
+</div>
 <p>This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
 dict to a <a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> object.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Parameters may be lost if a mapping
-from the CF parameter is not found. For best results
-store the WKT of the projection in the crs_wkt attribute.</p>
-</div>
+<p><a class="reference internal" href="../../build_crs_cf.html#build-crs-cf"><span class="std std-ref">Managing CRS to and from CF</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>in_cf</strong> (<em>dict</em>) – CF version of the projection.</p></li>
+<li><p><strong>ellipsoidal_cs</strong> (<em>Any</em><em>, </em><em>optional</em>) – Input to create an Ellipsoidal Coordinate System.
+Anything accepted by <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
+or an Ellipsoidal Coordinate System created from <a class="reference internal" href="coordinate_system.html#coordinate-system"><span class="std std-ref">Coordinate Systems</span></a>.</p></li>
+<li><p><strong>cartesian_cs</strong> (<em>Any</em><em>, </em><em>optional</em>) – Input to create a Cartesian Coordinate System.
+Anything accepted by <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
+or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordinate_system.Cartesian2DCS" title="pyproj.crs.coordinate_system.Cartesian2DCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_system.Cartesian2DCS</span></code></a>.</p></li>
+<li><p><strong>vertical_cs</strong> (<em>Any</em><em>, </em><em>optional</em>) – Input to create a Vertical Coordinate System accepted by
+<a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
+or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordinate_system.VerticalCS" title="pyproj.crs.coordinate_system.VerticalCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_system.VerticalCS</span></code></a></p></li>
 <li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>optional</em>) – This parameter is for backwards compatibility with the old version.
 It currently does nothing when True or False.</p></li>
 </ul>
@@ -1015,12 +1045,7 @@ the source CRS:</p>
 </div>
 <p>This converts a <a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> object
 to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The full projection will be stored in the
-crs_wkt attribute. However, other parameters may be lost
-if a mapping to the CF parameter is not found.</p>
-</div>
+<p><a class="reference internal" href="../../build_crs_cf.html#build-crs-cf"><span class="std std-ref">Managing CRS to and from CF</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1552,11 +1577,19 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1567,7 +1600,6 @@ List of anything accepted by <a class="reference internal" href="#pyproj.crs.CRS
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

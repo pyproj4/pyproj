@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> pyproj
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> pyproj
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -88,12 +90,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transformation_grids.html">Transformation Grids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../gotchas.html">Gotchas/FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../advanced_examples.html">Advanced Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../build_crs.html">Building a Coordinate Reference System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_crs_cf.html">Managing CRS to and from CF</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../optimize_transformations.html">Optimize Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../past_versions.html">Documentation Archive</a></li>
 </ul>
@@ -101,6 +104,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -139,7 +143,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -723,9 +727,7 @@
 <span class="sd">        This converts a :obj:`pyproj.crs.CRS` object</span>
 <span class="sd">        to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.</span>
 
-<span class="sd">        .. warning:: The full projection will be stored in the</span>
-<span class="sd">            crs_wkt attribute. However, other parameters may be lost</span>
-<span class="sd">            if a mapping to the CF parameter is not found.</span>
+<span class="sd">        :ref:`build_crs_cf`</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -833,21 +835,39 @@
         <span class="k">return</span> <span class="n">cf_dict</span></div>
 
 <div class="viewcode-block" id="CRS.from_cf"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_cf">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_cf</span><span class="p">(</span><span class="n">in_cf</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_cf</span><span class="p">(</span>
+        <span class="n">in_cf</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
+
+<span class="sd">        .. versionadded:: 3.0.0 ellipsoidal_cs, cartesian_cs, vertical_cs</span>
 
 <span class="sd">        This converts a Climate and Forecast (CF) Grid Mapping Version 1.8</span>
 <span class="sd">        dict to a :obj:`pyproj.crs.CRS` object.</span>
 
-<span class="sd">        .. warning:: Parameters may be lost if a mapping</span>
-<span class="sd">            from the CF parameter is not found. For best results</span>
-<span class="sd">            store the WKT of the projection in the crs_wkt attribute.</span>
+<span class="sd">        :ref:`build_crs_cf`</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        in_cf: dict</span>
 <span class="sd">            CF version of the projection.</span>
+<span class="sd">        ellipsoidal_cs: Any, optional</span>
+<span class="sd">            Input to create an Ellipsoidal Coordinate System.</span>
+<span class="sd">            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`</span>
+<span class="sd">            or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.</span>
+<span class="sd">        cartesian_cs: Any, optional</span>
+<span class="sd">            Input to create a Cartesian Coordinate System.</span>
+<span class="sd">            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`</span>
+<span class="sd">            or :class:`pyproj.crs.coordinate_system.Cartesian2DCS`.</span>
+<span class="sd">        vertical_cs: Any, optional</span>
+<span class="sd">            Input to create a Vertical Coordinate System accepted by</span>
+<span class="sd">            :meth:`pyproj.crs.CoordinateSystem.from_user_input`</span>
+<span class="sd">            or :class:`pyproj.crs.coordinate_system.VerticalCS`</span>
 <span class="sd">        errcheck: bool, optional</span>
 <span class="sd">            This parameter is for backwards compatibility with the old version.</span>
 <span class="sd">            It currently does nothing when True or False.</span>
@@ -880,17 +900,27 @@
         <span class="n">geographic_crs_name</span> <span class="o">=</span> <span class="n">in_cf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geographic_crs_name&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">datum</span><span class="p">:</span>
             <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">geographic_crs_name</span> <span class="ow">or</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span> <span class="n">datum</span><span class="o">=</span><span class="n">datum</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">geographic_crs_name</span> <span class="ow">or</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
+                <span class="n">datum</span><span class="o">=</span><span class="n">datum</span><span class="p">,</span>
+                <span class="n">ellipsoidal_cs</span><span class="o">=</span><span class="n">ellipsoidal_cs</span><span class="p">,</span>
             <span class="p">)</span>  <span class="c1"># type: CRS</span>
         <span class="k">elif</span> <span class="n">geographic_crs_name</span> <span class="ow">and</span> <span class="n">geographic_crs_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
             <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">geographic_crs_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ellipsoidal_cs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">geographic_crs_json</span> <span class="o">=</span> <span class="n">geographic_crs</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span>
+                <span class="n">geographic_crs_json</span><span class="p">[</span>
+                    <span class="s2">&quot;coordinate_system&quot;</span>
+                <span class="p">]</span> <span class="o">=</span> <span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">ellipsoidal_cs</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span>
+                <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">geographic_crs_json</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">()</span>
+            <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(</span><span class="n">ellipsoidal_cs</span><span class="o">=</span><span class="n">ellipsoidal_cs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">grid_mapping_name</span> <span class="o">==</span> <span class="s2">&quot;latitude_longitude&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">geographic_crs</span>
         <span class="k">if</span> <span class="n">geographic_conversion_method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">DerivedGeographicCRS</span><span class="p">(</span>
-                <span class="n">base_crs</span><span class="o">=</span><span class="n">geographic_crs</span><span class="p">,</span> <span class="n">conversion</span><span class="o">=</span><span class="n">geographic_conversion_method</span><span class="p">(</span><span class="n">in_cf</span><span class="p">),</span>
+                <span class="n">base_crs</span><span class="o">=</span><span class="n">geographic_crs</span><span class="p">,</span>
+                <span class="n">conversion</span><span class="o">=</span><span class="n">geographic_conversion_method</span><span class="p">(</span><span class="n">in_cf</span><span class="p">),</span>
+                <span class="n">ellipsoidal_cs</span><span class="o">=</span><span class="n">ellipsoidal_cs</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># build projected CRS</span>
@@ -902,6 +932,7 @@
             <span class="n">name</span><span class="o">=</span><span class="n">in_cf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;projected_crs_name&quot;</span><span class="p">,</span> <span class="s2">&quot;undefined&quot;</span><span class="p">),</span>
             <span class="n">conversion</span><span class="o">=</span><span class="n">conversion_method</span><span class="p">(</span><span class="n">in_cf</span><span class="p">),</span>
             <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">geographic_crs</span><span class="p">,</span>
+            <span class="n">cartesian_cs</span><span class="o">=</span><span class="n">cartesian_cs</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># build bound CRS if exists</span>
@@ -922,12 +953,58 @@
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
             <span class="n">datum</span><span class="o">=</span><span class="n">in_cf</span><span class="p">[</span><span class="s2">&quot;geopotential_datum_name&quot;</span><span class="p">],</span>
             <span class="n">geoid_model</span><span class="o">=</span><span class="n">in_cf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geoid_name&quot;</span><span class="p">),</span>
+            <span class="n">vertical_cs</span><span class="o">=</span><span class="n">vertical_cs</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># build compound CRS</span>
         <span class="k">return</span> <span class="n">CompoundCRS</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;undefined&quot;</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">bound_crs</span> <span class="ow">or</span> <span class="n">projected_crs</span><span class="p">,</span> <span class="n">vertical_crs</span><span class="p">]</span>
         <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CRS.cs_to_cf"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.cs_to_cf">[docs]</a>    <span class="k">def</span> <span class="nf">cs_to_cf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 3.0.0</span>
+
+<span class="sd">        This converts all coordinate systems (cs) in the CRS</span>
+<span class="sd">        to a list of Climate and Forecast (CF) Version 1.8 dicts.</span>
+
+<span class="sd">        :ref:`build_crs_cf`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[dict]:</span>
+<span class="sd">            CF-1.8 version of the coordinate systems.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cf_axis_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span> <span class="nf">rotated_pole</span><span class="p">(</span><span class="n">crs</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="n">crs</span><span class="o">.</span><span class="n">coordinate_operation</span>
+                    <span class="ow">and</span> <span class="n">crs</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="ow">in</span> <span class="n">_INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">:</span>
+            <span class="n">cf_axis_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_system</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">rotated_pole</span><span class="o">=</span><span class="n">rotated_pole</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">:</span>
+            <span class="n">cf_axis_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span>
+                    <span class="n">rotated_pole</span><span class="o">=</span><span class="n">rotated_pole</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sub_crs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">sub_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">cf_axis_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                    <span class="n">sub_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">rotated_pole</span><span class="o">=</span><span class="n">rotated_pole</span><span class="p">(</span><span class="n">sub_crs</span><span class="p">))</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">cf_axis_list</span></div>
 
 <div class="viewcode-block" id="CRS.is_exact_same"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.is_exact_same">[docs]</a>    <span class="k">def</span> <span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1381,11 +1458,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1396,7 +1481,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
