@@ -79,6 +79,21 @@ def test_to_cf_transverse_mercator():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "BOUNDCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
     with pytest.warns(UserWarning):
         assert crs.to_dict() == {
@@ -140,6 +155,21 @@ def test_from_cf_transverse_mercator(towgs84_test):
     # test roundtrip
     expected_cf["towgs84"] = _try_list_if_string(towgs84_test)
     _test_roundtrip(expected_cf, "BOUNDCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_cf_from_latlon():
@@ -165,6 +195,19 @@ def test_cf_from_latlon():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "GEOGCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "longitude",
+            "long_name": "longitude coordinate",
+            "unit": "degrees_east",
+        },
+        {
+            "standard_name": "latitude",
+            "long_name": "latitude coordinate",
+            "unit": "degrees_north",
+        },
+    ]
 
 
 def test_cf_from_latlon__named():
@@ -210,6 +253,21 @@ def test_cf_from_utm():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_cf_from_utm__nad83():
@@ -236,6 +294,21 @@ def test_cf_from_utm__nad83():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_cf_rotated_latlon():
@@ -265,6 +338,19 @@ def test_cf_rotated_latlon():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "GEOGCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "grid_longitude",
+            "long_name": "longitude in rotated pole grid",
+            "unit": "degrees",
+        },
+        {
+            "standard_name": "grid_latitude",
+            "long_name": "latitude in rotated pole grid",
+            "unit": "degrees",
+        },
+    ]
     with pytest.warns(UserWarning):
         proj_dict = crs.to_dict()
     assert proj_dict == {
@@ -332,6 +418,21 @@ def test_cf_lambert_conformal_conic_1sp():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
     with pytest.warns(UserWarning):
         proj_dict = crs.to_dict()
@@ -382,7 +483,21 @@ def test_cf_lambert_conformal_conic_2sp(standard_parallel):
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
-
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
     with pytest.warns(UserWarning):
         proj_dict = crs.to_dict()
     assert proj_dict == {
@@ -435,6 +550,21 @@ def test_oblique_mercator():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
     with pytest.warns(UserWarning):
         assert crs.to_dict() == {
             "proj": "omerc",
@@ -509,6 +639,21 @@ def test_geos_crs_sweep():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_geos_crs_fixed_angle_axis():
@@ -542,6 +687,21 @@ def test_geos_crs_fixed_angle_axis():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_geos_proj_string():
@@ -569,6 +729,21 @@ def test_geos_proj_string():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_ob_tran_not_rotated_latlon():
@@ -622,6 +797,21 @@ def test_mercator_b():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_osgb_1936():
@@ -651,6 +841,21 @@ def test_osgb_1936():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_export_compound_crs():
@@ -678,6 +883,28 @@ def test_export_compound_crs():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "COMPOUNDCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "standard_name": "height",
+            "long_name": "Gravity-related height",
+            "unit": "metre",
+            "positive": "up",
+            "axis": "Z",
+        },
+    ]
 
 
 def test_geoid_model_name():
@@ -756,6 +983,27 @@ def test_geoid_model_name():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "COMPOUNDCRS[")
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+        {
+            "standard_name": "height",
+            "long_name": "Gravity-related height",
+            "unit": "metre",
+            "positive": "up",
+            "axis": "Z",
+        },
+    ]
 
 
 def test_albers_conical_equal_area():
@@ -782,6 +1030,21 @@ def test_albers_conical_equal_area():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_azimuthal_equidistant():
@@ -807,6 +1070,21 @@ def test_azimuthal_equidistant():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_lambert_azimuthal_equal_area():
@@ -832,6 +1110,21 @@ def test_lambert_azimuthal_equal_area():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_lambert_cylindrical_equal_area():
@@ -857,6 +1150,21 @@ def test_lambert_cylindrical_equal_area():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_mercator_a():
@@ -883,6 +1191,21 @@ def test_mercator_a():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_orthographic():
@@ -908,6 +1231,21 @@ def test_orthographic():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_polar_stereographic_a():
@@ -934,6 +1272,21 @@ def test_polar_stereographic_a():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_polar_stereographic_b():
@@ -959,6 +1312,21 @@ def test_polar_stereographic_b():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_stereographic():
@@ -985,6 +1353,21 @@ def test_stereographic():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_sinusoidal():
@@ -1009,6 +1392,21 @@ def test_sinusoidal():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_vertical_perspective():
@@ -1035,6 +1433,21 @@ def test_vertical_perspective():
     assert cf_dict == expected_cf
     # test roundtrip
     _test_roundtrip(expected_cf, "PROJCRS[")
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "metre",
+        },
+    ]
 
 
 def test_build_custom_datum():
@@ -1095,3 +1508,213 @@ def test_build_custom_datum__default_ellipsoid():
     assert crs.ellipsoid.name == "WGS 84"
     assert crs.prime_meridian.name == "Paris"
     assert str(crs.prime_meridian.longitude).startswith("2.")
+
+
+def test_cartesian_cs():
+    unit = {"type": "LinearUnit", "name": "US Survey Foot", "conversion_factor": 0.3048}
+    cartesian_cs = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "CoordinateSystem",
+        "subtype": "Cartesian",
+        "axis": [
+            {"name": "Easting", "abbreviation": "E", "direction": "east", "unit": unit},
+            {
+                "name": "Northing",
+                "abbreviation": "N",
+                "direction": "north",
+                "unit": unit,
+            },
+        ],
+    }
+    crs = CRS.from_cf(
+        {
+            "grid_mapping_name": "transverse_mercator",
+            "semi_major_axis": 6377563.396,
+            "inverse_flattening": 299.3249646,
+            "longitude_of_prime_meridian": 0.0,
+            "latitude_of_projection_origin": 49.0,
+            "longitude_of_central_meridian": -2.0,
+            "scale_factor_at_central_meridian": 0.9996012717,
+            "false_easting": 400000.0,
+            "false_northing": -100000.0,
+        },
+        cartesian_cs=cartesian_cs,
+    )
+    assert crs.coordinate_system.to_json_dict() == cartesian_cs
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "0.3048 metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "0.3048 metre",
+        },
+    ]
+
+
+def test_ellipsoidal_cs():
+    ellipsoidal_cs = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "CoordinateSystem",
+        "subtype": "ellipsoidal",
+        "axis": [
+            {
+                "name": "Latitude",
+                "abbreviation": "lat",
+                "direction": "north",
+                "unit": "degree",
+            },
+            {
+                "name": "Longitude",
+                "abbreviation": "lon",
+                "direction": "east",
+                "unit": "degree",
+            },
+        ],
+    }
+    crs = CRS.from_cf(
+        dict(
+            grid_mapping_name="latitude_longitude",
+            semi_major_axis=6378137.0,
+            inverse_flattening=298.257223,
+        ),
+        ellipsoidal_cs=ellipsoidal_cs,
+    )
+    assert crs.coordinate_system.to_json_dict() == ellipsoidal_cs
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "latitude",
+            "long_name": "latitude coordinate",
+            "unit": "degrees_north",
+        },
+        {
+            "standard_name": "longitude",
+            "long_name": "longitude coordinate",
+            "unit": "degrees_east",
+        },
+    ]
+
+
+def test_ellipsoidal_cs__from_name():
+    ellipsoidal_cs = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "CoordinateSystem",
+        "subtype": "ellipsoidal",
+        "axis": [
+            {
+                "name": "Longitude",
+                "abbreviation": "lon",
+                "direction": "east",
+                "unit": "degree",
+            },
+            {
+                "name": "Latitude",
+                "abbreviation": "lat",
+                "direction": "north",
+                "unit": "degree",
+            },
+        ],
+    }
+    crs = CRS.from_cf(
+        dict(grid_mapping_name="latitude_longitude", geographic_crs_name="WGS 84",),
+        ellipsoidal_cs=ellipsoidal_cs,
+    )
+    assert crs.coordinate_system.to_json_dict() == ellipsoidal_cs
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "longitude",
+            "long_name": "longitude coordinate",
+            "unit": "degrees_east",
+        },
+        {
+            "standard_name": "latitude",
+            "long_name": "latitude coordinate",
+            "unit": "degrees_north",
+        },
+    ]
+
+
+def test_export_compound_crs_cs():
+    unit = {"type": "LinearUnit", "name": "US Survey Foot", "conversion_factor": 0.3048}
+    cartesian_cs = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "CoordinateSystem",
+        "subtype": "Cartesian",
+        "axis": [
+            {
+                "name": "Northing",
+                "abbreviation": "N",
+                "direction": "north",
+                "unit": unit,
+            },
+            {"name": "Easting", "abbreviation": "E", "direction": "east", "unit": unit},
+        ],
+    }
+    vertical_cs = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "CoordinateSystem",
+        "subtype": "vertical",
+        "axis": [
+            {
+                "name": "Gravity-related height",
+                "abbreviation": "H",
+                "direction": "up",
+                "unit": unit,
+            }
+        ],
+    }
+
+    crs = CRS.from_cf(
+        {
+            "semi_major_axis": 6378388.0,
+            "semi_minor_axis": 6356911.9461279465,
+            "inverse_flattening": 297.0,
+            "reference_ellipsoid_name": "International 1924",
+            "longitude_of_prime_meridian": 0.0,
+            "prime_meridian_name": "Greenwich",
+            "geographic_crs_name": "KKJ",
+            "horizontal_datum_name": "Kartastokoordinaattijarjestelma (1966)",
+            "projected_crs_name": "KKJ / Finland Uniform Coordinate System",
+            "grid_mapping_name": "transverse_mercator",
+            "latitude_of_projection_origin": 0.0,
+            "longitude_of_central_meridian": 27.0,
+            "false_easting": 3500000.0,
+            "false_northing": 0.0,
+            "scale_factor_at_central_meridian": 1.0,
+            "geopotential_datum_name": "Helsinki 1960",
+        },
+        cartesian_cs=cartesian_cs,
+        vertical_cs=vertical_cs,
+    )
+    assert crs.sub_crs_list[0].coordinate_system.to_json_dict() == cartesian_cs
+    assert crs.sub_crs_list[1].coordinate_system.to_json_dict() == vertical_cs
+    # test coordinate system
+    assert crs.cs_to_cf() == [
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "unit": "0.3048 metre",
+        },
+        {
+            "axis": "X",
+            "long_name": "Easting",
+            "standard_name": "projection_x_coordinate",
+            "unit": "0.3048 metre",
+        },
+        {
+            "standard_name": "height",
+            "long_name": "Gravity-related height",
+            "unit": "0.3048 metre",
+            "positive": "up",
+            "axis": "Z",
+        },
+    ]

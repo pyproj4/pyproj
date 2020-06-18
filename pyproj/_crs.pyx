@@ -710,6 +710,85 @@ cdef class CoordinateSystem(_CRSParts):
             _load_proj_json(coordinate_system_json_str)
         )
 
+    def to_cf(self, rotated_pole=False):
+        """
+        .. versionadded:: 3.0.0
+
+        This converts a :obj:`pyproj.crs.CoordinateSystem` axis
+        to a list of Climate and Forecast (CF) Version 1.8 dicts.
+
+        Parameters
+        ----------
+        rotated_pole: bool, optional
+            If True, the geographic coordinates are on a rotated pole grid.
+            This corresponds to the rotated_latitude_longitude grid_mapping_name.
+            Default is False.
+
+        Returns
+        -------
+        List[dict]:
+            CF-1.8 version of the CoordinateSystem.
+        """
+        axis_list = self.to_json_dict()["axis"]
+        cf_params = []
+        def get_linear_unit(axis):
+            try:
+                return f'{axis["unit"]["conversion_factor"]} metre'
+            except TypeError:
+                return axis["unit"]
+
+        if self.name == "cartesian":
+            for axis in axis_list:
+                if axis["name"].lower() == "easting":
+                    cf_axis = "X"
+                else:
+                    cf_axis = "Y"
+                cf_params.append(dict(
+                    axis=cf_axis,
+                    long_name=axis["name"],
+                    standard_name=f"projection_{cf_axis.lower()}_coordinate",
+                    unit=get_linear_unit(axis),
+                ))
+        elif self.name == "ellipsoidal":
+            for axis in axis_list:
+                if axis["abbreviation"].upper() == "H":
+                    cf_params.append(dict(
+                        standard_name="height_above_reference_ellipsoid",
+                        long_name=axis["name"],
+                        unit=axis["unit"],
+                        positive=axis["direction"],
+                        axis="Z",
+                    ))
+                else:
+                    name = axis["name"].lower()
+                    if rotated_pole:
+                        cf_params.append(dict(
+                            standard_name=f"grid_{name}",
+                            long_name=f"{name} in rotated pole grid",
+                            unit="degrees",
+                        ))
+                    else:
+                        cf_params.append(dict(
+                            standard_name=name,
+                            long_name=f"{name} coordinate",
+                            unit=f'degrees_{axis["direction"]}',
+                        ))
+        elif self.name == "vertical":
+            for axis in axis_list:
+                if axis["abbreviation"].upper() == "H":
+                    standard_name = "height"
+                else:
+                    standard_name = "depth"
+                cf_params.append(dict(
+                    standard_name=standard_name,
+                    long_name=axis["name"],
+                    unit=get_linear_unit(axis),
+                    positive=axis["direction"],
+                    axis="Z",
+                ))
+
+        return cf_params
+
 
 cdef class Ellipsoid(_CRSParts):
     """

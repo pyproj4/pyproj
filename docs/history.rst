@@ -15,6 +15,7 @@ Change Log
 * ENH: Use from_user_input in __eq__ when comparing CRS sub-classes (i.e. PrimeMeridian, Datum, Ellipsoid, etc.) (issue #606)
 * ENH: Added :meth:`pyproj.transformer.TransformerGroup.download_grids` (pull #643)
 * ENH: Added transformation grid sync API/CLI (issue #572)
+* ENH: Add support for coordinate systems with CRS using CF conventions (issue #536)
 
 2.6.1
 ~~~~~
