@@ -93,10 +93,10 @@ cdef _to_wkt(
     supported_wkt_types = {
         WktVersion.WKT2_2015: PJ_WKT2_2015,
         WktVersion.WKT2_2015_SIMPLIFIED: PJ_WKT2_2015_SIMPLIFIED,
-        WktVersion.WKT2_2018: PJ_WKT2_2018,
-        WktVersion.WKT2_2018_SIMPLIFIED: PJ_WKT2_2018_SIMPLIFIED,
-        WktVersion.WKT2_2019: PJ_WKT2_2018,
-        WktVersion.WKT2_2019_SIMPLIFIED: PJ_WKT2_2018_SIMPLIFIED,
+        WktVersion.WKT2_2018: PJ_WKT2_2019,
+        WktVersion.WKT2_2018_SIMPLIFIED: PJ_WKT2_2019_SIMPLIFIED,
+        WktVersion.WKT2_2019: PJ_WKT2_2019,
+        WktVersion.WKT2_2019_SIMPLIFIED: PJ_WKT2_2019_SIMPLIFIED,
         WktVersion.WKT1_GDAL: PJ_WKT1_GDAL,
         WktVersion.WKT1_ESRI: PJ_WKT1_ESRI
     }
