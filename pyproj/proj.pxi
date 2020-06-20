@@ -1,9 +1,8 @@
 # PROJ.4 API Defnition
 cdef extern from "proj.h":
-    cdef enum:
-        PROJ_VERSION_MAJOR
-        PROJ_VERSION_MINOR
-        PROJ_VERSION_PATCH
+    cdef int PROJ_VERSION_MAJOR
+    cdef int PROJ_VERSION_MINOR
+    cdef int PROJ_VERSION_PATCH
     void proj_context_set_search_paths(
         PJ_CONTEXT *ctx, int count_paths, const char* const* paths)
     int proj_context_set_database_path(PJ_CONTEXT *ctx,
@@ -34,7 +33,7 @@ cdef extern from "proj.h":
     PJ *proj_create (PJ_CONTEXT *ctx, const char *definition)
     PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj)
 
-    cdef struct PJ_PROJ_INFO:
+    ctypedef struct PJ_PROJ_INFO:
         const char  *id
         const char  *description
         const char  *definition
@@ -71,7 +70,7 @@ cdef extern from "proj.h":
         double lam, phi,  z
 
 
-    cdef union PJ_COORD:
+    ctypedef union PJ_COORD:
         double v[4];
         PJ_XYZT xyzt;
         PJ_UVWT uvwt;
@@ -88,7 +87,7 @@ cdef extern from "proj.h":
 
     PJ_COORD proj_coord (double x, double y, double z, double t)
 
-    cdef enum PJ_DIRECTION:
+    ctypedef enum PJ_DIRECTION:
         PJ_FWD   =  1 # Forward
         PJ_IDENT =  0 # Do nothing
         PJ_INV   = -1 # Inverse
@@ -109,7 +108,7 @@ cdef extern from "proj.h":
     ctypedef struct PJ_AREA
     PJ *proj_create_crs_to_crs(PJ_CONTEXT *ctx, const char *source_crs, const char *target_crs, PJ_AREA *area)
 
-    cdef enum PJ_COMPARISON_CRITERION:
+    ctypedef enum PJ_COMPARISON_CRITERION:
         PJ_COMP_STRICT
         PJ_COMP_EQUIVALENT
         PJ_COMP_EQUIVALENT_EXCEPT_AXIS_ORDER_GEOGCRS
@@ -138,8 +137,8 @@ cdef extern from "proj.h":
     ctypedef enum PJ_WKT_TYPE:
         PJ_WKT2_2015
         PJ_WKT2_2015_SIMPLIFIED
-        PJ_WKT2_2018
-        PJ_WKT2_2018_SIMPLIFIED
+        PJ_WKT2_2019
+        PJ_WKT2_2019_SIMPLIFIED
         PJ_WKT1_GDAL
         PJ_WKT1_ESRI
 
@@ -357,10 +356,10 @@ cdef extern from "proj.h":
                                       int i_step)
 
     ctypedef enum PJ_CATEGORY:
-        PJ_CATEGORY_ELLIPSOID,
-        PJ_CATEGORY_PRIME_MERIDIAN,
-        PJ_CATEGORY_DATUM,
-        PJ_CATEGORY_CRS,
+        PJ_CATEGORY_ELLIPSOID
+        PJ_CATEGORY_PRIME_MERIDIAN
+        PJ_CATEGORY_DATUM
+        PJ_CATEGORY_CRS
         PJ_CATEGORY_COORDINATE_OPERATION
     PJ *proj_create_from_database(PJ_CONTEXT *ctx,
                                   const char *auth_name,

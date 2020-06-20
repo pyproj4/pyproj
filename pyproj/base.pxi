@@ -9,12 +9,13 @@ cdef int _DOUBLESIZE = sizeof(double)
 
 
 cdef extern from "math.h":
-    cdef enum:
+    ctypedef enum:
         HUGE_VAL
 
 
 cdef extern from "Python.h":
-    cdef int PyBUF_WRITABLE
+    ctypedef enum:
+        PyBUF_WRITABLE
     int PyObject_GetBuffer(PyObject *exporter, Py_buffer *view, int flags)
     void PyBuffer_Release(Py_buffer *view)
 
