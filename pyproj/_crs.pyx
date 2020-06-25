@@ -497,12 +497,12 @@ cdef class Base:
         return self.to_wkt(pretty=True)
 
     def _is_exact_same(self, Base other):
-        return proj_is_equivalent_to(
-            self.projobj, other.projobj, PJ_COMP_STRICT) == 1
+        return proj_is_equivalent_to_with_ctx(
+            self.context, self.projobj, other.projobj, PJ_COMP_STRICT) == 1
 
     def _is_equivalent(self, Base other):
-        return proj_is_equivalent_to(
-            self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
+        return proj_is_equivalent_to_with_ctx(
+            self.context, self.projobj, other.projobj, PJ_COMP_EQUIVALENT) == 1
 
     def __eq__(self, other):
         if not isinstance(other, Base):
@@ -2938,7 +2938,8 @@ cdef class _CRS(Base):
     def _equals(self, _CRS other, bint ignore_axis_order):
         if ignore_axis_order:
             # Only to be used with DerivedCRS/ProjectedCRS/GeographicCRS
-            return proj_is_equivalent_to(
+            return proj_is_equivalent_to_with_ctx(
+                self.context,
                 self.projobj,
                 other.projobj,
                 PJ_COMP_EQUIVALENT_EXCEPT_AXIS_ORDER_GEOGCRS,
