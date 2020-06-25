@@ -114,8 +114,9 @@ cdef extern from "proj.h":
         PJ_COMP_EQUIVALENT_EXCEPT_AXIS_ORDER_GEOGCRS
 
     void proj_destroy(PJ *obj)
-    int proj_is_equivalent_to(const PJ *obj, const PJ* other,
-                              PJ_COMPARISON_CRITERION criterion)
+    int proj_is_equivalent_to_with_ctx(PJ_CONTEXT *ctx,
+                                       const PJ *obj, const PJ *other,
+                                       PJ_COMPARISON_CRITERION criterion)
 
     const char* proj_get_id_auth_name(const PJ *obj, int index)
     const char* proj_get_id_code(const PJ *obj, int index)
