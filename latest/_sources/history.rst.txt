@@ -16,6 +16,7 @@ Change Log
 * ENH: Added :meth:`pyproj.transformer.TransformerGroup.download_grids` (pull #643)
 * ENH: Added transformation grid sync API/CLI (issue #572)
 * ENH: Add support for coordinate systems with CRS using CF conventions (issue #536)
+* ENH: Use `proj_is_equivalent_to_with_ctx` in the place of `proj_is_equivalent_to` internally (issue #666)
 
 2.6.1
 ~~~~~
