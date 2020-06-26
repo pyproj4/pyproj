@@ -747,42 +747,45 @@ cdef class CoordinateSystem(_CRSParts):
                     axis=cf_axis,
                     long_name=axis["name"],
                     standard_name=f"projection_{cf_axis.lower()}_coordinate",
-                    unit=get_linear_unit(axis),
+                    units=get_linear_unit(axis),
                 ))
         elif self.name == "ellipsoidal":
             for axis in axis_list:
-                if axis["abbreviation"].upper() == "H":
+                if axis["abbreviation"].upper() in ("D", "H"):
                     cf_params.append(dict(
                         standard_name="height_above_reference_ellipsoid",
                         long_name=axis["name"],
-                        unit=axis["unit"],
+                        units=axis["unit"],
                         positive=axis["direction"],
                         axis="Z",
                     ))
                 else:
-                    name = axis["name"].lower()
+                    if "longitude" in axis["name"].lower():
+                        cf_axis = "X"
+                        name = "longitude"
+                    else:
+                        cf_axis = "Y"
+                        name = "latitude"
                     if rotated_pole:
                         cf_params.append(dict(
                             standard_name=f"grid_{name}",
                             long_name=f"{name} in rotated pole grid",
-                            unit="degrees",
+                            units="degrees",
+                            axis=cf_axis,
                         ))
                     else:
                         cf_params.append(dict(
                             standard_name=name,
                             long_name=f"{name} coordinate",
-                            unit=f'degrees_{axis["direction"]}',
+                            units=f'degrees_{axis["direction"]}',
+                            axis=cf_axis,
                         ))
         elif self.name == "vertical":
             for axis in axis_list:
-                if axis["abbreviation"].upper() == "H":
-                    standard_name = "height"
-                else:
-                    standard_name = "depth"
                 cf_params.append(dict(
-                    standard_name=standard_name,
+                    standard_name="height_above_reference_ellipsoid",
                     long_name=axis["name"],
-                    unit=get_linear_unit(axis),
+                    units=get_linear_unit(axis),
                     positive=axis["direction"],
                     axis="Z",
                 ))

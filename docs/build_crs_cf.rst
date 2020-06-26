@@ -58,11 +58,13 @@ To get the coordinate system, you use :meth:`pyproj.crs.CRS.cs_to_cf`:
 Contents of `cf_coordinate_system`::
 
     [{'long_name': 'geodetic latitude coordinate',
-    'standard_name': 'geodetic latitude',
-    'unit': 'degrees_north'},
+    'standard_name': 'latitude',
+    'units': 'degrees_north',
+    'axis': 'Y'},
     {'long_name': 'geodetic longitude coordinate',
-    'standard_name': 'geodetic longitude',
-    'unit': 'degrees_east'}]
+    'standard_name': 'longitude',
+    'units': 'degrees_east',
+    'axis': 'X'}]
 
 
 Importing CRS from CF

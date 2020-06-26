@@ -85,13 +85,13 @@ def test_to_cf_transverse_mercator():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -128,7 +128,6 @@ def test_from_cf_transverse_mercator(towgs84_test):
             "false_northing": 0,
             "reference_ellipsoid_name": "intl",
             "towgs84": towgs84_test,
-            "unit": "m",
         }
     )
     expected_cf = {
@@ -161,13 +160,13 @@ def test_from_cf_transverse_mercator(towgs84_test):
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -200,12 +199,14 @@ def test_cf_from_latlon():
         {
             "standard_name": "longitude",
             "long_name": "longitude coordinate",
-            "unit": "degrees_east",
+            "units": "degrees_east",
+            "axis": "X",
         },
         {
             "standard_name": "latitude",
             "long_name": "latitude coordinate",
-            "unit": "degrees_north",
+            "units": "degrees_north",
+            "axis": "Y",
         },
     ]
 
@@ -259,13 +260,13 @@ def test_cf_from_utm():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -300,13 +301,13 @@ def test_cf_from_utm__nad83():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -343,12 +344,14 @@ def test_cf_rotated_latlon():
         {
             "standard_name": "grid_longitude",
             "long_name": "longitude in rotated pole grid",
-            "unit": "degrees",
+            "units": "degrees",
+            "axis": "X",
         },
         {
             "standard_name": "grid_latitude",
             "long_name": "latitude in rotated pole grid",
-            "unit": "degrees",
+            "units": "degrees",
+            "axis": "Y",
         },
     ]
     with pytest.warns(UserWarning):
@@ -424,13 +427,13 @@ def test_cf_lambert_conformal_conic_1sp():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -489,13 +492,13 @@ def test_cf_lambert_conformal_conic_2sp(standard_parallel):
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
     with pytest.warns(UserWarning):
@@ -556,13 +559,13 @@ def test_oblique_mercator():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
     with pytest.warns(UserWarning):
@@ -645,13 +648,13 @@ def test_geos_crs_sweep():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -693,13 +696,13 @@ def test_geos_crs_fixed_angle_axis():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -735,13 +738,13 @@ def test_geos_proj_string():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -803,13 +806,13 @@ def test_mercator_b():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -847,13 +850,13 @@ def test_osgb_1936():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -889,18 +892,18 @@ def test_export_compound_crs():
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
-            "standard_name": "height",
+            "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Gravity-related height",
-            "unit": "metre",
+            "units": "metre",
             "positive": "up",
             "axis": "Z",
         },
@@ -988,18 +991,18 @@ def test_geoid_model_name():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
-            "standard_name": "height",
+            "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Gravity-related height",
-            "unit": "metre",
+            "units": "metre",
             "positive": "up",
             "axis": "Z",
         },
@@ -1036,13 +1039,13 @@ def test_albers_conical_equal_area():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1076,13 +1079,13 @@ def test_azimuthal_equidistant():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1116,13 +1119,13 @@ def test_lambert_azimuthal_equal_area():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1156,13 +1159,13 @@ def test_lambert_cylindrical_equal_area():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1197,13 +1200,13 @@ def test_mercator_a():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1237,13 +1240,13 @@ def test_orthographic():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1278,13 +1281,13 @@ def test_polar_stereographic_a():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1318,13 +1321,13 @@ def test_polar_stereographic_b():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1359,13 +1362,13 @@ def test_stereographic():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1398,13 +1401,13 @@ def test_sinusoidal():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1439,13 +1442,13 @@ def test_vertical_perspective():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -1547,13 +1550,13 @@ def test_cartesian_cs():
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "0.3048 metre",
+            "units": "0.3048 metre",
         },
         {
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "0.3048 metre",
+            "units": "0.3048 metre",
         },
     ]
 
@@ -1592,12 +1595,14 @@ def test_ellipsoidal_cs():
         {
             "standard_name": "latitude",
             "long_name": "latitude coordinate",
-            "unit": "degrees_north",
+            "units": "degrees_north",
+            "axis": "Y",
         },
         {
             "standard_name": "longitude",
             "long_name": "longitude coordinate",
-            "unit": "degrees_east",
+            "units": "degrees_east",
+            "axis": "X",
         },
     ]
 
@@ -1632,12 +1637,14 @@ def test_ellipsoidal_cs__from_name():
         {
             "standard_name": "longitude",
             "long_name": "longitude coordinate",
-            "unit": "degrees_east",
+            "units": "degrees_east",
+            "axis": "X",
         },
         {
             "standard_name": "latitude",
             "long_name": "latitude coordinate",
-            "unit": "degrees_north",
+            "units": "degrees_north",
+            "axis": "Y",
         },
     ]
 
@@ -1702,19 +1709,115 @@ def test_export_compound_crs_cs():
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "0.3048 metre",
+            "units": "0.3048 metre",
         },
         {
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "0.3048 metre",
+            "units": "0.3048 metre",
         },
         {
-            "standard_name": "height",
+            "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Gravity-related height",
-            "unit": "0.3048 metre",
+            "units": "0.3048 metre",
             "positive": "up",
+            "axis": "Z",
+        },
+    ]
+
+
+def test_ellipsoidal_cs__geodetic():
+    crs = CRS.from_epsg(4326)
+    crs.cs_to_cf() == [
+        {
+            "standard_name": "latitude",
+            "long_name": "geodetic latitude coordinate",
+            "units": "degrees_north",
+            "axis": "Y",
+        },
+        {
+            "standard_name": "longitude",
+            "long_name": "geodetic longitude coordinate",
+            "units": "degrees_east",
+            "axis": "X",
+        },
+    ]
+
+
+def test_3d_ellipsoidal_cs_depth():
+    crs = CRS(
+        {
+            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+            "type": "GeographicCRS",
+            "name": "WGS 84 (geographic 3D)",
+            "datum": {
+                "type": "GeodeticReferenceFrame",
+                "name": "World Geodetic System 1984",
+                "ellipsoid": {
+                    "name": "WGS 84",
+                    "semi_major_axis": 6378137,
+                    "inverse_flattening": 298.257223563,
+                },
+            },
+            "coordinate_system": {
+                "subtype": "ellipsoidal",
+                "axis": [
+                    {
+                        "name": "Geodetic latitude",
+                        "abbreviation": "Lat",
+                        "direction": "north",
+                        "unit": {
+                            "type": "AngularUnit",
+                            "name": "degree minute second hemisphere",
+                            "conversion_factor": 0.0174532925199433,
+                        },
+                    },
+                    {
+                        "name": "Geodetic longitude",
+                        "abbreviation": "Long",
+                        "direction": "east",
+                        "unit": {
+                            "type": "AngularUnit",
+                            "name": "degree minute second hemisphere",
+                            "conversion_factor": 0.0174532925199433,
+                        },
+                    },
+                    {
+                        "name": "Ellipsoidal depth",
+                        "abbreviation": "d",
+                        "direction": "down",
+                        "unit": "metre",
+                    },
+                ],
+            },
+            "area": "World",
+            "bbox": {
+                "south_latitude": -90,
+                "west_longitude": -180,
+                "north_latitude": 90,
+                "east_longitude": 180,
+            },
+        }
+    )
+    crs.cs_to_cf() == [
+        {
+            "standard_name": "latitude",
+            "long_name": "geodetic latitude coordinate",
+            "units": "degrees_north",
+            "axis": "Y",
+        },
+        {
+            "standard_name": "longitude",
+            "long_name": "geodetic longitude coordinate",
+            "units": "degrees_east",
+            "axis": "X",
+        },
+        {
+            "standard_name": "height_above_reference_ellipsoid",
+            "long_name": "Ellipsoidal depth",
+            "units": "metre",
+            "positive": "down",
             "axis": "Z",
         },
     ]
