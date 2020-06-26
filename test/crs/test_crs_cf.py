@@ -901,7 +901,7 @@ def test_export_compound_crs():
             "units": "metre",
         },
         {
-            "standard_name": "height",
+            "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Gravity-related height",
             "units": "metre",
             "positive": "up",
@@ -1000,7 +1000,7 @@ def test_geoid_model_name():
             "units": "metre",
         },
         {
-            "standard_name": "height",
+            "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Gravity-related height",
             "units": "metre",
             "positive": "up",
@@ -1718,7 +1718,7 @@ def test_export_compound_crs_cs():
             "units": "0.3048 metre",
         },
         {
-            "standard_name": "height",
+            "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Gravity-related height",
             "units": "0.3048 metre",
             "positive": "up",
