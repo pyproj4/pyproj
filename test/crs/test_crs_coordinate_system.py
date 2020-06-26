@@ -171,12 +171,14 @@ def test_ellipsoidal2dcs_to_cf():
         {
             "standard_name": "latitude",
             "long_name": "latitude coordinate",
-            "unit": "degrees_north",
+            "units": "degrees_north",
+            "axis": "Y",
         },
         {
             "standard_name": "longitude",
             "long_name": "longitude coordinate",
-            "unit": "degrees_east",
+            "units": "degrees_east",
+            "axis": "X",
         },
     ]
 
@@ -187,17 +189,19 @@ def test_ellipsoidal3dcs_to_cf():
         {
             "standard_name": "longitude",
             "long_name": "longitude coordinate",
-            "unit": "degrees_east",
+            "units": "degrees_east",
+            "axis": "X",
         },
         {
             "standard_name": "latitude",
             "long_name": "latitude coordinate",
-            "unit": "degrees_north",
+            "units": "degrees_north",
+            "axis": "Y",
         },
         {
             "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Ellipsoidal height",
-            "unit": "metre",
+            "units": "metre",
             "positive": "up",
             "axis": "Z",
         },
@@ -211,13 +215,13 @@ def test_cartesian2dcs_ft_to_cf():
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "0.3048 metre",
+            "units": "0.3048 metre",
         },
         {
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "0.3048 metre",
+            "units": "0.3048 metre",
         },
     ]
 
@@ -229,13 +233,13 @@ def test_cartesian2dcs_to_cf():
             "axis": "Y",
             "long_name": "Northing",
             "standard_name": "projection_y_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
         {
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "unit": "metre",
+            "units": "metre",
         },
     ]
 
@@ -244,9 +248,9 @@ def test_verticalcs_depth_to_cf():
     vcs = VerticalCS(axis=VerticalCSAxis.DEPTH)
     vcs.to_cf() == [
         {
-            "standard_name": "depth",
+            "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Depth",
-            "unit": "metre",
+            "units": "metre",
             "positive": "down",
             "axis": "Z",
         }
@@ -257,9 +261,9 @@ def test_verticalcs_height_to_cf():
     vcs = VerticalCS(axis=VerticalCSAxis.GRAVITY_HEIGHT_US_FT)
     vcs.to_cf() == [
         {
-            "standard_name": "height",
+            "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Gravity-related height",
-            "unit": "0.304800609601219 metre",
+            "units": "0.304800609601219 metre",
             "positive": "up",
             "axis": "Z",
         }
