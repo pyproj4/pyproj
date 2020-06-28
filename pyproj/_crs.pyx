@@ -470,8 +470,7 @@ cdef class Base:
         options[1] = indentation_width
         options[2] = NULL
 
-        cdef const char* proj_json_string
-        proj_json_string = proj_as_projjson(
+        cdef const char* proj_json_string = proj_as_projjson(
             self.context,
             self.projobj,
             options,
@@ -1327,11 +1326,14 @@ cdef class PrimeMeridian(_CRSParts):
 
 
 _DATUM_TYPE_MAP = {
-    PJ_TYPE_GEODETIC_REFERENCE_FRAME: "Geodetic Reference Frame",
-    PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME: "Dynamic Geodetic Reference Frame",
-    PJ_TYPE_VERTICAL_REFERENCE_FRAME: "Vertical Reference Frame",
-    PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME: "Dynamic Vertical Reference Frame",
-    PJ_TYPE_DATUM_ENSEMBLE: "Datum Ensemble",
+    "GeodeticReferenceFrame": "Geodetic Reference Frame",
+    "DynamicGeodeticReferenceFrame": "Dynamic Geodetic Reference Frame",
+    "VerticalReferenceFrame": "Vertical Reference Frame",
+    "DynamicVerticalReferenceFrame": "Dynamic Vertical Reference Frame",
+    "DatumEnsemble": "Datum Ensemble",
+    "TemporalDatum": "Temporal Datum",
+    "EngineeringDatum": "Engineering Datum",
+    "ParametricDatum": "Parametric Datum",
 }
 
 _PJ_DATUM_TYPE_MAP = {
@@ -1343,6 +1345,18 @@ _PJ_DATUM_TYPE_MAP = {
     PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
     DatumType.DATUM_ENSEMBLE: PJ_TYPE_DATUM_ENSEMBLE,
 }
+
+
+cdef _get_datum_type_name(PJ_CONTEXT* context, PJ* datum):
+    cdef const char* proj_json_string = proj_as_projjson(
+        context,
+        datum,
+        NULL,
+    )
+    if proj_json_string == NULL:
+        return None
+    json_dict = json.loads(cstrdecode(proj_json_string))
+    return _DATUM_TYPE_MAP.get(json_dict["type"])
 
 
 cdef class Datum(_CRSParts):
@@ -1372,7 +1386,7 @@ cdef class Datum(_CRSParts):
         datum.context = context
         datum.projobj = datum_pj
         datum._set_base_info()
-        datum.type_name = _DATUM_TYPE_MAP[proj_get_type(datum.projobj)]
+        datum.type_name = _get_datum_type_name(datum.context, datum.projobj)
         return datum
 
     @staticmethod
@@ -1454,13 +1468,7 @@ cdef class Datum(_CRSParts):
         )
         if (
             datum_pj == NULL or
-            proj_get_type(datum_pj) not in (
-                PJ_TYPE_GEODETIC_REFERENCE_FRAME,
-                PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME,
-                PJ_TYPE_VERTICAL_REFERENCE_FRAME,
-                PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
-                PJ_TYPE_DATUM_ENSEMBLE,
-            )
+            _get_datum_type_name(context, datum_pj) is None
         ):
             proj_destroy(datum_pj)
             proj_context_destroy(context)
