@@ -1821,3 +1821,92 @@ def test_3d_ellipsoidal_cs_depth():
             "axis": "Z",
         },
     ]
+
+
+def test_decimal_year_temporal_crs__coordinate_system():
+    crs = CRS(
+        'TIMECRS["Decimal Years CE",\n'
+        '    TDATUM["Common Era",\n'
+        '        CALENDAR["proleptic Gregorian"],\n'
+        "        TIMEORIGIN[0000]],\n"
+        "    CS[TemporalMeasure,1],\n"
+        '        AXIS["decimal years (a)",future,\n'
+        '            TIMEUNIT["year"]]]'
+    )
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "time",
+            "long_name": "time",
+            "calendar": "proleptic_gregorian",
+            "units": "year since 0000-01-01",
+            "axis": "T",
+        }
+    ]
+
+
+def test_datetime_temporal_crs__coordinate_system():
+    crs = CRS(
+        "TIMECRS[“DateTime”,"
+        "TDATUM[“Gregorian Calendar”],"
+        'CS[TemporalDateTime,1],AXIS["Time (T)",future]]'
+    )
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "time",
+            "long_name": "time",
+            "calendar": "proleptic_gregorian",
+            "axis": "T",
+        }
+    ]
+
+
+def test_count_temporal_crs__coordinate_system():
+    crs = CRS(
+        "TIMECRS[“Calendar hours from 1979-12-29”,"
+        "TDATUM[“29 December 1979”,TIMEORIGIN[1979-12-29T00Z]],"
+        "CS[TemporalCount,1],AXIS[“Time”,future,TIMEUNIT[“hour”]]]"
+    )
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "time",
+            "long_name": "time",
+            "calendar": "proleptic_gregorian",
+            "units": "hour since 1979-12-29T00",
+            "axis": "T",
+        }
+    ]
+
+
+def test_unix_temporal_crs__coordinate_system():
+    crs = CRS(
+        "TIMECRS[“Unix time”,"
+        "TDATUM[“Unix epoch”,TIMEORIGIN[1970-01-01T00:00:00Z]],"
+        "CS[TemporalCount,1],AXIS[“Time”,future,TIMEUNIT[“second”]]]"
+    )
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "time",
+            "long_name": "time",
+            "calendar": "proleptic_gregorian",
+            "units": "second since 1970-01-01T00:00:00",
+            "axis": "T",
+        }
+    ]
+
+
+def test_milisecond_temporal_crs__coordinate_system():
+    crs = CRS(
+        'TIMECRS["GPS milliseconds",'
+        'TDATUM["GPS time origin",TIMEORIGIN[1980-01-01T00:00:00.0Z]],'
+        "CS[TemporalCount,1],"
+        'AXIS["(T)",future,TIMEUNIT["millisecond",0.001]]]'
+    )
+    assert crs.cs_to_cf() == [
+        {
+            "standard_name": "time",
+            "long_name": "time",
+            "calendar": "proleptic_gregorian",
+            "units": "millisecond since 1980-01-01T00:00:00.0",
+            "axis": "T",
+        }
+    ]

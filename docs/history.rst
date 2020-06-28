@@ -19,6 +19,7 @@ Change Log
 * ENH: Use `proj_is_equivalent_to_with_ctx` in the place of `proj_is_equivalent_to` internally (issue #666)
 * BUG: Add support for identifying engineering/parametric/temporal datums (issue #670)
 * ENH: Added ability to use global context (issue #661)
+* ENH: Add support for temporal CRS CF coordinate system (issue #672)
 
 2.6.1
 ~~~~~
