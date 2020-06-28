@@ -871,6 +871,24 @@ def test_datum_equals():
 def test_datum__from_string(input_str):
     dd = Datum.from_string(input_str)
     assert dd.name == "World Geodetic System 1984"
+    assert dd.type_name == "Geodetic Reference Frame"
+
+
+@pytest.mark.parametrize(
+    "input_str, type_name",
+    [
+        ('ENGINEERINGDATUM["Engineering datum"]', "Engineering Datum"),
+        ('PDATUM["Mean Sea Level",ANCHOR["1013.25 hPa at 15°C"]]', "Parametric Datum"),
+        (
+            'TDATUM["Gregorian calendar",CALENDAR["proleptic Gregorian"],'
+            "TIMEORIGIN[0000-01-01]]",
+            "Temporal Datum",
+        ),
+    ],
+)
+def test_datum__from_string__type_name(input_str, type_name):
+    dd = Datum.from_string(input_str)
+    assert dd.type_name == type_name
 
 
 @pytest.mark.parametrize(
