@@ -6,7 +6,7 @@ import warnings
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import PJType
-from pyproj._datadir cimport pyproj_context_initialize
+from pyproj._datadir cimport pyproj_context_create
 
 
 def get_proj_operations_map():
@@ -74,8 +74,7 @@ def get_authorities():
     List[str]:
         Authorities in PROJ database.
     """
-    cdef PJ_CONTEXT* context = proj_context_create()
-    pyproj_context_initialize(context, True)
+    cdef PJ_CONTEXT* context = pyproj_context_create()
     cdef PROJ_STRING_LIST proj_auth_list = proj_get_authorities_from_database(context)
     if proj_auth_list == NULL:
         proj_context_destroy(context)
@@ -143,8 +142,7 @@ def get_codes(auth_name, pj_type, allow_deprecated=False):
     cdef PJ_TYPE cpj_type = PJ_TYPE_MAP[PJType.create(pj_type)]
     cdef PROJ_STRING_LIST proj_code_list = NULL
     try:
-        context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        context = pyproj_context_create()
         proj_code_list = proj_get_codes_from_database(
             context,
             cstrencode(auth_name),
@@ -231,8 +229,7 @@ def get_units_map(auth_name=None, category=None, allow_deprecated=False):
         c_category = category
 
     cdef int num_units = 0
-    cdef PJ_CONTEXT* context = proj_context_create()
-    pyproj_context_initialize(context, True)
+    cdef PJ_CONTEXT* context = pyproj_context_create()
     cdef PROJ_UNIT_INFO** db_unit_list = proj_get_units_from_database(
         context,
         c_auth_name,

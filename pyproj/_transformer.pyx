@@ -14,7 +14,7 @@ from pyproj._crs cimport (
     CoordinateOperation,
     _get_concatenated_operations,
 )
-from pyproj._datadir cimport pyproj_context_initialize
+from pyproj._datadir cimport pyproj_context_create
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError
@@ -144,8 +144,7 @@ cdef class _TransformerGroup:
         area of use of the CRS), and by increasing accuracy. Operations
         with unknown accuracy are sorted last, whatever their area.
         """
-        self.context = proj_context_create()
-        pyproj_context_initialize(self.context, False, network=network)
+        self.context = pyproj_context_create(network=network)
         cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
         cdef PJ_OBJ_LIST * pj_operations = NULL
         cdef PJ* pj_transform = NULL
@@ -195,8 +194,7 @@ cdef class _TransformerGroup:
             )
             num_operations = proj_list_get_count(pj_operations)
             for iii in range(num_operations):
-                context = proj_context_create()
-                pyproj_context_initialize(context, True, network=network)
+                context = pyproj_context_create(network=network)
                 pj_transform = proj_list_get(
                     context,
                     pj_operations,
@@ -358,8 +356,7 @@ cdef class _Transformer(Base):
                     east_lon_degree,
                     north_lat_degree,
                 )
-            transformer.context = proj_context_create()
-            pyproj_context_initialize(transformer.context, False, network=network)
+            transformer.context = pyproj_context_create(network=network)
             transformer.projobj = proj_create_crs_to_crs(
                 transformer.context,
                 cstrencode(crs_from.srs),
@@ -414,8 +411,7 @@ cdef class _Transformer(Base):
         Create Transformer from a PROJ pipeline string.
         """
         cdef _Transformer transformer = _Transformer()
-        transformer.context = proj_context_create()
-        pyproj_context_initialize(transformer.context, False, network=network)
+        transformer.context = pyproj_context_create(network=network)
         # initialize projection
         transformer.projobj = proj_create(
             transformer.context,

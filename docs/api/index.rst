@@ -12,6 +12,7 @@ API Documentation
    list
    datadir
    sync
+   global_context
    enums
    exceptions
    show_versions

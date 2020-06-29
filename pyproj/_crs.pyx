@@ -3,7 +3,7 @@ import re
 import warnings
 from collections import OrderedDict
 
-from pyproj._datadir cimport pyproj_context_initialize
+from pyproj._datadir cimport pyproj_context_create
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.crs.datum import CustomEllipsoid
 from pyproj.crs.enums import CoordinateOperationType, DatumType
@@ -169,8 +169,7 @@ cdef _get_concatenated_operations(PJ_CONTEXT* context, PJ* concatenated_operatio
     cdef int iii = 0
     operations = []
     for iii in range(step_count):
-        sub_context = proj_context_create()
-        pyproj_context_initialize(sub_context, True, network=network_enabled)
+        sub_context = pyproj_context_create(network=network_enabled)
         operation = proj_concatoperation_get_step(
             sub_context,
             concatenated_operation,
@@ -652,8 +651,7 @@ cdef class CoordinateSystem(_CRSParts):
         -------
         CoordinateSystem
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* coordinate_system_pj = proj_create(
             context,
             cstrencode(coordinate_system_string)
@@ -861,8 +859,7 @@ cdef class Ellipsoid(_CRSParts):
         -------
         Ellipsoid
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* ellipsoid_pj = proj_create_from_database(
             context,
             cstrencode(auth_name),
@@ -916,8 +913,7 @@ cdef class Ellipsoid(_CRSParts):
         -------
         Ellipsoid
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* ellipsoid_pj = proj_create(
             context,
             cstrencode(ellipsoid_string)
@@ -1020,8 +1016,7 @@ cdef class Ellipsoid(_CRSParts):
         -------
         Ellipsoid
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* ellipsoid_pj = _from_name(
             context,
             ellipsoid_name,
@@ -1142,9 +1137,7 @@ cdef class PrimeMeridian(_CRSParts):
         -------
         PrimeMeridian
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
-
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* prime_meridian_pj = proj_create_from_database(
             context,
             cstrencode(auth_name),
@@ -1198,8 +1191,7 @@ cdef class PrimeMeridian(_CRSParts):
         -------
         PrimeMeridian
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* prime_meridian_pj = proj_create(
             context,
             cstrencode(prime_meridian_string)
@@ -1308,8 +1300,7 @@ cdef class PrimeMeridian(_CRSParts):
         -------
         PrimeMeridian
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* prime_meridian_pj = _from_name(
             context,
             prime_meridian_name,
@@ -1405,8 +1396,7 @@ cdef class Datum(_CRSParts):
         -------
         Datum
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
 
         cdef PJ* datum_pj = proj_create_from_database(
             context,
@@ -1460,8 +1450,7 @@ cdef class Datum(_CRSParts):
         -------
         Datum
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* datum_pj = proj_create(
             context,
             cstrencode(datum_string)
@@ -1532,8 +1521,7 @@ cdef class Datum(_CRSParts):
         Datum
         """
         pj_datum_type = _PJ_DATUM_TYPE_MAP[datum_type]
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* datum_pj = _from_name(
             context,
             datum_name,
@@ -1643,8 +1631,7 @@ cdef class Datum(_CRSParts):
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
             context,
             self.projobj,
@@ -1667,8 +1654,7 @@ cdef class Datum(_CRSParts):
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is False else self._prime_meridian
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
             context,
             self.projobj,
@@ -1971,9 +1957,7 @@ cdef class CoordinateOperation(_CRSParts):
         -------
         CoordinateOperation
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
-
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* coord_operation_pj = proj_create_from_database(
             context,
             cstrencode(auth_name),
@@ -2026,8 +2010,7 @@ cdef class CoordinateOperation(_CRSParts):
         -------
         CoordinateOperation
         """
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* coord_operation_pj = proj_create(
             context,
             cstrencode(coordinate_operation_string)
@@ -2147,8 +2130,7 @@ cdef class CoordinateOperation(_CRSParts):
         pj_coordinate_operation_type = _PJ_COORDINATE_OPERATION_TYPE_MAP[
             CoordinateOperationType.create(coordinate_operation_type)
         ]
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* coordinate_operation_pj = _from_name(
             context,
             coordinate_operation_name,
@@ -2341,8 +2323,7 @@ cdef class _CRS(Base):
         self.type_name = "undefined"
 
     def __init__(self, proj_string):
-        self.context = proj_context_create()
-        pyproj_context_initialize(self.context, False)
+        self.context = pyproj_context_create()
         # initialize projection
         self.projobj = proj_create(
             self.context,
@@ -2407,8 +2388,7 @@ cdef class _CRS(Base):
         """
         if self._ellipsoid is not None:
             return None if self._ellipsoid is False else self._ellipsoid
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* ellipsoid_pj = proj_get_ellipsoid(
             context,
             self.projobj
@@ -2433,8 +2413,7 @@ cdef class _CRS(Base):
         """
         if self._prime_meridian is not None:
             return None if self._prime_meridian is True else self._prime_meridian
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* prime_meridian_pj = proj_get_prime_meridian(
             context,
             self.projobj,
@@ -2458,8 +2437,7 @@ cdef class _CRS(Base):
         """
         if self._datum is not None:
             return None if self._datum is False else self._datum
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* datum_pj = proj_crs_get_datum(
             context,
             self.projobj,
@@ -2488,8 +2466,7 @@ cdef class _CRS(Base):
         """
         if self._coordinate_system is not None:
             return None if self._coordinate_system is False else self._coordinate_system
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* coord_system_pj = proj_crs_get_coordinate_system(
             context,
             self.projobj
@@ -2521,8 +2498,7 @@ cdef class _CRS(Base):
                 if self._coordinate_operation is False
                 else self._coordinate_operation
             )
-        cdef PJ_CONTEXT* context = proj_context_create()
-        pyproj_context_initialize(context, True)
+        cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* coord_pj = proj_crs_get_coordoperation(
             context,
             self.projobj

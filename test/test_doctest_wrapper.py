@@ -8,13 +8,16 @@ import pytest
 from mock import patch
 
 import pyproj
+from test.conftest import proj_network_env
 
 
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_doctests():
     """run the examples in the docstrings using the doctest module"""
 
-    with warnings.catch_warnings():
+    with warnings.catch_warnings(), proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=True)
         warnings.filterwarnings(
             "ignore",
             "You will likely lose important projection information when",

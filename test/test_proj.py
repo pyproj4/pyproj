@@ -9,8 +9,10 @@ import pytest
 from mock import patch
 from numpy.testing import assert_almost_equal
 
+import pyproj
 from pyproj import Geod, Proj, pj_ellps, pj_list, transform
 from pyproj.exceptions import CRSError, ProjError
+from test.conftest import proj_network_env
 
 
 class BasicTest(unittest.TestCase):
@@ -533,19 +535,30 @@ def test_numpy_bool_kwarg_true():
 
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_network__disable():
-    transformer = Proj(3857, network=False)
-    assert transformer.is_network_enabled is False
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=False)
+        transformer = Proj(3857, network=False)
+        assert transformer.is_network_enabled is False
 
 
 @patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
 def test_network__enable():
-    transformer = Proj(3857, network=True)
-    assert transformer.is_network_enabled is True
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=True)
+        transformer = Proj(3857, network=True)
+        assert transformer.is_network_enabled is True
 
 
 def test_network__default():
-    transformer = Proj(3857)
-    assert transformer.is_network_enabled == (os.environ.get("PROJ_NETWORK") == "ON")
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network()
+        transformer = Proj(3857)
+        assert transformer.is_network_enabled == (
+            os.environ.get("PROJ_NETWORK") == "ON"
+        )
 
 
 def test_radians():

@@ -141,7 +141,7 @@ Multithreading
 --------------
 
 The :class:`pyproj.transformer.Transformer` and :class:`pyproj.crs.CRS`
-classes each have their own PROJ context. However, contexts cannot be
+classes each have their own PROJ context by default. However, contexts cannot be
 shared across threads. As such, it is recommended to create the object
 within the thread that uses it.
 
@@ -162,3 +162,21 @@ Here is a simple demonstration:
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         for result in executor.map(transform_point, range(5)):
             print(result)
+
+
+Optimizing Single-Threaded Applications
+----------------------------------------
+
+If you have a single-threaded application that generates many objects,
+enabling the use of the global context can provide performance enhancements.
+
+For information about using the global context, see: :ref:`global_context`
+
+Here is an example where enabling the global context can help:
+
+.. code-block:: python
+
+    import pyproj
+
+    codes = pyproj.get_codes("EPSG", pyproj.enums.PJType.PROJECTED_CRS, False)
+    crs_list = [pyproj.CRS.from_epsg(code) for code in codes]
