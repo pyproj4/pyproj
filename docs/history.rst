@@ -18,6 +18,7 @@ Change Log
 * ENH: Add support for coordinate systems with CRS using CF conventions (issue #536)
 * ENH: Use `proj_is_equivalent_to_with_ctx` in the place of `proj_is_equivalent_to` internally (issue #666)
 * BUG: Add support for identifying engineering/parametric/temporal datums (issue #670)
+* ENH: Added :func:`pyproj.set_use_global_context` (issue #661)
 
 2.6.1
 ~~~~~

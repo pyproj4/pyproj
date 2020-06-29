@@ -25,3 +25,9 @@ pyproj.datadir.get_user_data_dir
 ---------------------------------
 
 .. autofunction:: pyproj.datadir.get_user_data_dir
+
+
+pyproj.set_use_global_context
+-----------------------------
+
+.. autofunction:: pyproj.set_use_global_context

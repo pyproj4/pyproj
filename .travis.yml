@@ -33,6 +33,9 @@ matrix:
     - python: 3.6
       env:
         - PROJSYNC=ALL
+    - python: 3.6
+      env:
+        - PYPROJ_GLOBAL_CONTEXT=ON
     - python: 3.7.2
       env:
         - DOC=true

@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 import pyproj
-from pyproj.datadir import get_data_dir, get_user_data_dir
+from pyproj.datadir import get_data_dir, get_user_data_dir, set_data_dir
 
 
 def unset_data_dir():
@@ -22,6 +22,8 @@ def proj_env():
     finally:
         # make sure the data dir is cleared
         unset_data_dir()
+        # reset back to the original path
+        set_data_dir(get_data_dir())
 
 
 @contextmanager
