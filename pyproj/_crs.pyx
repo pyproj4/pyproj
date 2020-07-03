@@ -1339,6 +1339,7 @@ _PJ_DATUM_TYPE_MAP = {
 
 
 cdef _get_datum_type_name(PJ_CONTEXT* context, PJ* datum):
+    # workaround: https://github.com/OSGeo/PROJ/pull/2274
     cdef const char* proj_json_string = proj_as_projjson(
         context,
         datum,
