@@ -196,7 +196,9 @@ enabling the use of the global context can provide performance enhancements.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The global context does not autoclose the database.</p>
+<p>The global context maintains a connection to the database
+through the duration of each python session and is closed
+once the program terminates.</p>
 </div>
 <p>How to enable:</p>
 <ul class="simple">
@@ -220,7 +222,9 @@ in single-threaded applications.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The global context does not autoclose the database.</p>
+<p>The global context maintains a connection to the database
+through the duration of each python session and is closed
+once the program terminates.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
