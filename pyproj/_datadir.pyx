@@ -21,7 +21,9 @@ def set_use_global_context(active=None):
     in single-threaded applications.
 
     .. warning:: The global context is not thread safe.
-    .. warning:: The global context does not autoclose the database.
+    .. warning:: The global context maintains a connection to the database
+                 through the duration of each python session and is closed
+                 once the program terminates.
 
     .. note:: You can change the network settings with
               :func:`pyproj.set_global_context_network`.
