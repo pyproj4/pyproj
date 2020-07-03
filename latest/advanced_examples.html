@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#transformation-group">Transformation Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#area-of-interest">Area of Interest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multithreading">Multithreading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optimizing-single-threaded-applications">Optimizing Single-Threaded Applications</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
@@ -300,7 +301,7 @@ which transformation operation is selected in the transformation.</p>
 <div class="section" id="multithreading">
 <h2>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
-classes each have their own PROJ context. However, contexts cannot be
+classes each have their own PROJ context by default. However, contexts cannot be
 shared across threads. As such, it is recommended to create the object
 within the thread that uses it.</p>
 <p>Here is a simple demonstration:</p>
@@ -317,6 +318,19 @@ within the thread that uses it.</p>
 <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_point</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="optimizing-single-threaded-applications">
+<h2>Optimizing Single-Threaded Applications<a class="headerlink" href="#optimizing-single-threaded-applications" title="Permalink to this headline">¶</a></h2>
+<p>If you have a single-threaded application that generates many objects,
+enabling the use of the global context can provide performance enhancements.</p>
+<p>For information about using the global context, see: <a class="reference internal" href="api/global_context.html#global-context"><span class="std std-ref">Global Context</span></a></p>
+<p>Here is an example where enabling the global context can help:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyproj</span>
+
+<span class="n">codes</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">get_codes</span><span class="p">(</span><span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">PJType</span><span class="o">.</span><span class="n">PROJECTED_CRS</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">crs_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyproj</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>

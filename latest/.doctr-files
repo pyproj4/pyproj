@@ -24,6 +24,7 @@ latest/_sources/api/datadir.rst.txt
 latest/_sources/api/enums.rst.txt
 latest/_sources/api/exceptions.rst.txt
 latest/_sources/api/geod.rst.txt
+latest/_sources/api/global_context.rst.txt
 latest/_sources/api/index.rst.txt
 latest/_sources/api/list.rst.txt
 latest/_sources/api/proj.rst.txt
@@ -136,6 +137,7 @@ latest/api/datadir.html
 latest/api/enums.html
 latest/api/exceptions.html
 latest/api/geod.html
+latest/api/global_context.html
 latest/api/index.html
 latest/api/list.html
 latest/api/proj.html
