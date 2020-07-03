@@ -2,7 +2,6 @@ import os
 import warnings
 from distutils.util import strtobool
 from libc.stdlib cimport malloc, free
-from typing import Optional
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import ProjError, DataDirError
@@ -13,7 +12,7 @@ from pyproj.exceptions import ProjError, DataDirError
 _USE_GLOBAL_CONTEXT = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
 
 
-def set_use_global_context(active: Optional[bool] = None) -> None:
+def set_use_global_context(active=None):
     """
     .. versionadded:: 3.0.0
 
@@ -42,7 +41,7 @@ def set_use_global_context(active: Optional[bool] = None) -> None:
     proj_context_set_autoclose_database(NULL, not _USE_GLOBAL_CONTEXT)
 
 
-def set_global_context_network(active: Optional[bool] = None) -> None:
+def set_global_context_network(active=None):
     """
     .. versionadded:: 3.0.0
 
@@ -68,7 +67,7 @@ def set_global_context_network(active: Optional[bool] = None) -> None:
     pyproj_context_set_enable_network(NULL, bool(active))
 
 
-def is_global_context_network_enabled() -> bool:
+def is_global_context_network_enabled():
     """
     .. versionadded:: 3.0.0
 
@@ -82,7 +81,7 @@ def is_global_context_network_enabled() -> bool:
     return proj_context_is_network_enabled(NULL) == 1
 
 
-def get_user_data_dir(bint create: bool = False) -> str:
+def get_user_data_dir(create=False):
     """
     .. versionadded:: 3.0.0
 
