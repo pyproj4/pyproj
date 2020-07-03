@@ -170,6 +170,10 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">distutils.spawn</span> <span class="kn">import</span> <span class="n">find_executable</span>
 
+<span class="kn">from</span> <span class="nn">pyproj._datadir</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401</span>
+    <span class="n">_global_context_set_data_dir</span><span class="p">,</span>
+    <span class="n">get_user_data_dir</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">DataDirError</span>
 
 <span class="n">_USER_PROJ_DATA</span> <span class="o">=</span> <span class="kc">None</span>
@@ -193,9 +197,7 @@
     <span class="c1"># need to reset the global PROJ context</span>
     <span class="c1"># to prevent core dumping if the data directory</span>
     <span class="c1"># is not found.</span>
-    <span class="kn">from</span> <span class="nn">pyproj._datadir</span> <span class="kn">import</span> <span class="n">pyproj_global_context_initialize</span>
-
-    <span class="n">pyproj_global_context_initialize</span><span class="p">()</span></div>
+    <span class="n">_global_context_set_data_dir</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="append_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.append_data_dir">[docs]</a><span class="k">def</span> <span class="nf">append_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -276,33 +278,6 @@
             <span class="s2">&quot;with `pyproj.datadir.set_data_dir`.&quot;</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">_VALIDATED_PROJ_DATA</span></div>
-
-
-<div class="viewcode-block" id="get_user_data_dir"><a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.get_user_data_dir">[docs]</a><span class="k">def</span> <span class="nf">get_user_data_dir</span><span class="p">(</span><span class="n">create</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 7.1.0</span>
-
-<span class="sd">    Get the PROJ user writable directory for datumgrid files.</span>
-
-<span class="sd">    This is where grids will be downloaded when</span>
-<span class="sd">    `PROJ network &lt;https://proj.org/usage/network.html&gt;`__ capabilities</span>
-<span class="sd">    are enabled. It is also the default download location for the</span>
-<span class="sd">    `projsync &lt;https://proj.org/apps/projsync.html&gt;`__ command line program.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    create: bool, optional</span>
-<span class="sd">        If True, it will create the directory if it does not already exist.</span>
-<span class="sd">        Default is False.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    str:</span>
-<span class="sd">        The user writable data directory.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">_datadir</span>
-
-    <span class="k">return</span> <span class="n">_datadir</span><span class="o">.</span><span class="n">get_user_data_dir</span><span class="p">(</span><span class="n">create</span><span class="o">=</span><span class="n">create</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
