@@ -5,6 +5,10 @@ import os
 import sys
 from distutils.spawn import find_executable
 
+from pyproj._datadir import (  # noqa: F401
+    _global_context_set_data_dir,
+    get_user_data_dir,
+)
 from pyproj.exceptions import DataDirError
 
 _USER_PROJ_DATA = None
@@ -28,9 +32,7 @@ def set_data_dir(proj_data_dir: str) -> None:
     # need to reset the global PROJ context
     # to prevent core dumping if the data directory
     # is not found.
-    from pyproj._datadir import pyproj_global_context_initialize
-
-    pyproj_global_context_initialize()
+    _global_context_set_data_dir()
 
 
 def append_data_dir(proj_data_dir: str) -> None:
@@ -111,30 +113,3 @@ def get_data_dir() -> str:
             "with `pyproj.datadir.set_data_dir`."
         )
     return _VALIDATED_PROJ_DATA
-
-
-def get_user_data_dir(create: bool = False) -> str:
-    """
-    .. versionadded:: 7.1.0
-
-    Get the PROJ user writable directory for datumgrid files.
-
-    This is where grids will be downloaded when
-    `PROJ network <https://proj.org/usage/network.html>`__ capabilities
-    are enabled. It is also the default download location for the
-    `projsync <https://proj.org/apps/projsync.html>`__ command line program.
-
-    Parameters
-    ----------
-    create: bool, optional
-        If True, it will create the directory if it does not already exist.
-        Default is False.
-
-    Returns
-    -------
-    str:
-        The user writable data directory.
-    """
-    from pyproj import _datadir
-
-    return _datadir.get_user_data_dir(create=create)

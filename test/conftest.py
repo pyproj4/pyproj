@@ -3,12 +3,27 @@ from contextlib import contextmanager
 from pathlib import Path
 
 import pyproj
-from pyproj.datadir import get_data_dir, get_user_data_dir
+from pyproj.datadir import get_data_dir, get_user_data_dir, set_data_dir
 
 
 def unset_data_dir():
     pyproj.datadir._USER_PROJ_DATA = None
     pyproj.datadir._VALIDATED_PROJ_DATA = None
+
+
+@contextmanager
+def proj_network_env():
+    """
+    Ensure global context network settings reset
+    """
+    if not pyproj._datadir._USE_GLOBAL_CONTEXT:
+        yield
+    else:
+        network = pyproj.is_global_context_network_enabled()
+        try:
+            yield
+        finally:
+            pyproj.set_global_context_network(network)
 
 
 @contextmanager
@@ -22,6 +37,8 @@ def proj_env():
     finally:
         # make sure the data dir is cleared
         unset_data_dir()
+        # reset back to the original path
+        set_data_dir(get_data_dir())
 
 
 @contextmanager

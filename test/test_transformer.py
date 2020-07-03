@@ -15,7 +15,7 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import grids_available, proj_env
+from test.conftest import grids_available, proj_env, proj_network_env
 
 
 def test_tranform_wgs84_to_custom():
@@ -791,8 +791,11 @@ def test_pipeline_itransform(pipeline_str):
 )
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_network__disable(transformer):
-    trans = transformer(network=False)
-    assert trans.is_network_enabled is False
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=False)
+        trans = transformer(network=False)
+        assert trans.is_network_enabled is False
 
 
 @pytest.mark.parametrize(
@@ -807,8 +810,11 @@ def test_network__disable(transformer):
 )
 @patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
 def test_network__enable(transformer):
-    trans = transformer(network=True)
-    assert trans.is_network_enabled is True
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=True)
+        trans = transformer(network=True)
+        assert trans.is_network_enabled is True
 
 
 @pytest.mark.parametrize(
@@ -822,63 +828,75 @@ def test_network__enable(transformer):
     ],
 )
 def test_network__default(transformer):
-    trans = transformer()
-    assert trans.is_network_enabled == (os.environ.get("PROJ_NETWORK") == "ON")
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network()
+        trans = transformer()
+        assert trans.is_network_enabled == (os.environ.get("PROJ_NETWORK") == "ON")
 
 
 @patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
 def test_transformer_group__network_enabled():
-    trans_group = TransformerGroup(4326, 2964, network=True)
-    assert len(trans_group.unavailable_operations) == 0
-    assert len(trans_group.transformers) == 10
-    assert trans_group.best_available
-    for transformer in trans_group.transformers:
-        assert transformer.is_network_enabled is True
-        for operation in transformer.operations:
-            for grid in operation.grids:
-                assert grid.available
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=True)
+        trans_group = TransformerGroup(4326, 2964, network=True)
+        assert len(trans_group.unavailable_operations) == 0
+        assert len(trans_group.transformers) == 10
+        assert trans_group.best_available
+        for transformer in trans_group.transformers:
+            assert transformer.is_network_enabled is True
+            for operation in transformer.operations:
+                for grid in operation.grids:
+                    assert grid.available
 
 
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_transformer_group__network_disabled():
-    trans_group = TransformerGroup(4326, 2964, network=False)
-    for transformer in trans_group.transformers:
-        assert transformer.is_network_enabled is False
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=False)
+        trans_group = TransformerGroup(4326, 2964, network=False)
+        for transformer in trans_group.transformers:
+            assert transformer.is_network_enabled is False
 
-    if grids_available(
-        "us_noaa_alaska.tif", "ca_nrc_ntv2_0.tif", check_network=False, check_all=True
-    ):
-        assert len(trans_group.unavailable_operations) == 0
-        assert len(trans_group.transformers) == 10
-        assert (
-            trans_group.transformers[0].description
-            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
-        )
-        assert trans_group.best_available
-    elif grids_available("us_noaa_alaska.tif", check_network=False):
-        assert len(trans_group.unavailable_operations) == 1
-        assert (
-            trans_group.transformers[0].description
-            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
-        )
-        assert len(trans_group.transformers) == 9
-        assert trans_group.best_available
-    elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
-        assert len(trans_group.unavailable_operations) == 1
-        assert (
-            trans_group.transformers[0].description
-            == "Inverse of NAD27 to WGS 84 (7) + Alaska Albers"
-        )
-        assert len(trans_group.transformers) == 9
-        assert not trans_group.best_available
-    else:
-        assert len(trans_group.unavailable_operations) == 2
-        assert (
-            trans_group.unavailable_operations[0].name
-            == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
-        )
-        assert len(trans_group.transformers) == 8
-        assert not trans_group.best_available
+        if grids_available(
+            "us_noaa_alaska.tif",
+            "ca_nrc_ntv2_0.tif",
+            check_network=False,
+            check_all=True,
+        ):
+            assert len(trans_group.unavailable_operations) == 0
+            assert len(trans_group.transformers) == 10
+            assert (
+                trans_group.transformers[0].description
+                == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+            )
+            assert trans_group.best_available
+        elif grids_available("us_noaa_alaska.tif", check_network=False):
+            assert len(trans_group.unavailable_operations) == 1
+            assert (
+                trans_group.transformers[0].description
+                == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+            )
+            assert len(trans_group.transformers) == 9
+            assert trans_group.best_available
+        elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
+            assert len(trans_group.unavailable_operations) == 1
+            assert (
+                trans_group.transformers[0].description
+                == "Inverse of NAD27 to WGS 84 (7) + Alaska Albers"
+            )
+            assert len(trans_group.transformers) == 9
+            assert not trans_group.best_available
+        else:
+            assert len(trans_group.unavailable_operations) == 2
+            assert (
+                trans_group.unavailable_operations[0].name
+                == "Inverse of NAD27 to WGS 84 (85) + Alaska Albers"
+            )
+            assert len(trans_group.transformers) == 8
+            assert not trans_group.best_available
 
 
 def test_transform_pipeline_radians():
@@ -937,39 +955,47 @@ def test_transform_honours_input_types(x, y, z):
 @patch("pyproj.transformer.get_user_data_dir")
 def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, capsys):
     get_user_data_dir_mock.return_value = str(tmp_path)
-    trans_group = TransformerGroup(4326, 2964, network=False)
-    trans_group.download_grids(verbose=True)
-    captured = capsys.readouterr()
-    get_user_data_dir_mock.assert_called_with(True)
-    paths = sorted(Path(path).name for path in glob(str(tmp_path.joinpath("*"))))
-    if grids_available(
-        "us_noaa_alaska.tif", "ca_nrc_ntv2_0.tif", check_network=False, check_all=True
-    ):
-        assert paths == []
-        assert captured.out == ""
-    elif grids_available("us_noaa_alaska.tif", check_network=False):
-        assert paths == ["ca_nrc_ntv2_0.tif"]
-        assert captured.out == "Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif\n"
-    elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
-        assert paths == ["us_noaa_alaska.tif"]
-        assert captured.out == (
-            "Downloading: https://cdn.proj.org/us_noaa_alaska.tif\n"
-        )
-    else:
-        assert paths == ["ca_nrc_ntv2_0.tif", "us_noaa_alaska.tif"]
-        assert captured.out == (
-            "Downloading: https://cdn.proj.org/us_noaa_alaska.tif\n"
-            "Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif\n"
-        )
-    # make sure not downloaded again
-    with proj_env(), patch(
-        "pyproj.transformer._download_resource_file"
-    ) as download_mock:
-        append_data_dir(str(tmp_path))
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=False)
         trans_group = TransformerGroup(4326, 2964, network=False)
-        trans_group.download_grids()
+        trans_group.download_grids(verbose=True)
+        captured = capsys.readouterr()
         get_user_data_dir_mock.assert_called_with(True)
-        download_mock.assert_not_called()
+        paths = sorted(Path(path).name for path in glob(str(tmp_path.joinpath("*"))))
+        if grids_available(
+            "us_noaa_alaska.tif",
+            "ca_nrc_ntv2_0.tif",
+            check_network=False,
+            check_all=True,
+        ):
+            assert paths == []
+            assert captured.out == ""
+        elif grids_available("us_noaa_alaska.tif", check_network=False):
+            assert paths == ["ca_nrc_ntv2_0.tif"]
+            assert (
+                captured.out == "Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif\n"
+            )
+        elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
+            assert paths == ["us_noaa_alaska.tif"]
+            assert captured.out == (
+                "Downloading: https://cdn.proj.org/us_noaa_alaska.tif\n"
+            )
+        else:
+            assert paths == ["ca_nrc_ntv2_0.tif", "us_noaa_alaska.tif"]
+            assert captured.out == (
+                "Downloading: https://cdn.proj.org/us_noaa_alaska.tif\n"
+                "Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif\n"
+            )
+        # make sure not downloaded again
+        with proj_env(), patch(
+            "pyproj.transformer._download_resource_file"
+        ) as download_mock:
+            append_data_dir(str(tmp_path))
+            trans_group = TransformerGroup(4326, 2964, network=False)
+            trans_group.download_grids()
+            get_user_data_dir_mock.assert_called_with(True)
+            download_mock.assert_not_called()
 
 
 @patch("pyproj.transformer._download_resource_file")
@@ -977,44 +1003,50 @@ def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, cap
 def test_transformer_group__download_grids__directory(
     get_user_data_dir_mock, download_mock, tmp_path, capsys,
 ):
-    trans_group = TransformerGroup(4326, 2964, network=False)
-    trans_group.download_grids(directory=tmp_path)
-    get_user_data_dir_mock.assert_not_called()
-    captured = capsys.readouterr()
-    assert captured.out == ""
-    if grids_available(
-        "us_noaa_alaska.tif", "ca_nrc_ntv2_0.tif", check_network=False, check_all=True
-    ):
-        download_mock.assert_not_called()
-    elif grids_available("us_noaa_alaska.tif", check_network=False):
-        download_mock.assert_called_with(
-            file_url="https://cdn.proj.org/ca_nrc_ntv2_0.tif",
-            short_name="ca_nrc_ntv2_0.tif",
-            directory=tmp_path,
-            verbose=False,
-        )
-    elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
-        download_mock.assert_called_with(
-            file_url="https://cdn.proj.org/us_noaa_alaska.tif",
-            short_name="us_noaa_alaska.tif",
-            directory=tmp_path,
-            verbose=False,
-        )
-    else:
-        download_mock.assert_has_calls(
-            [
-                call(
-                    file_url="https://cdn.proj.org/us_noaa_alaska.tif",
-                    short_name="us_noaa_alaska.tif",
-                    directory=tmp_path,
-                    verbose=False,
-                ),
-                call(
-                    file_url="https://cdn.proj.org/ca_nrc_ntv2_0.tif",
-                    short_name="ca_nrc_ntv2_0.tif",
-                    directory=tmp_path,
-                    verbose=False,
-                ),
-            ],
-            any_order=True,
-        )
+    with proj_network_env():
+        if pyproj._datadir._USE_GLOBAL_CONTEXT:
+            pyproj.set_global_context_network(active=False)
+        trans_group = TransformerGroup(4326, 2964, network=False)
+        trans_group.download_grids(directory=tmp_path)
+        get_user_data_dir_mock.assert_not_called()
+        captured = capsys.readouterr()
+        assert captured.out == ""
+        if grids_available(
+            "us_noaa_alaska.tif",
+            "ca_nrc_ntv2_0.tif",
+            check_network=False,
+            check_all=True,
+        ):
+            download_mock.assert_not_called()
+        elif grids_available("us_noaa_alaska.tif", check_network=False):
+            download_mock.assert_called_with(
+                file_url="https://cdn.proj.org/ca_nrc_ntv2_0.tif",
+                short_name="ca_nrc_ntv2_0.tif",
+                directory=tmp_path,
+                verbose=False,
+            )
+        elif grids_available("ca_nrc_ntv2_0.tif", check_network=False):
+            download_mock.assert_called_with(
+                file_url="https://cdn.proj.org/us_noaa_alaska.tif",
+                short_name="us_noaa_alaska.tif",
+                directory=tmp_path,
+                verbose=False,
+            )
+        else:
+            download_mock.assert_has_calls(
+                [
+                    call(
+                        file_url="https://cdn.proj.org/us_noaa_alaska.tif",
+                        short_name="us_noaa_alaska.tif",
+                        directory=tmp_path,
+                        verbose=False,
+                    ),
+                    call(
+                        file_url="https://cdn.proj.org/ca_nrc_ntv2_0.tif",
+                        short_name="ca_nrc_ntv2_0.tif",
+                        directory=tmp_path,
+                        verbose=False,
+                    ),
+                ],
+                any_order=True,
+            )

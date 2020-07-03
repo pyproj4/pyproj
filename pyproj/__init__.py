@@ -46,7 +46,12 @@ __all__ = [
 ]
 import warnings
 
-from pyproj import _datadir
+from pyproj._datadir import (  # noqa: F401
+    _pyproj_global_context_initialize,
+    is_global_context_network_enabled,
+    set_global_context_network,
+    set_use_global_context,
+)
 from pyproj._list import (  # noqa: F401
     get_authorities,
     get_codes,
@@ -71,6 +76,6 @@ __proj_version__ = proj_version_str
 
 
 try:
-    _datadir.pyproj_global_context_initialize()
+    _pyproj_global_context_initialize()
 except DataDirError as err:
     warnings.warn(str(err))
