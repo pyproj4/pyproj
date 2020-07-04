@@ -987,6 +987,27 @@
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;Temporal CRS&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="p">:</span>
+            <span class="n">datum_json</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span>
+            <span class="n">origin</span> <span class="o">=</span> <span class="n">datum_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;time_origin&quot;</span><span class="p">,</span> <span class="s2">&quot;1875-05-20&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;zZ&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">origin</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">origin</span><span class="si">}</span><span class="s2">-01-01&quot;</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">cf_temporal_axis</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;calendar&quot;</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">datum_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;calendar&quot;</span><span class="p">,</span> <span class="s2">&quot;proleptic_gregorian&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;axis&quot;</span><span class="p">:</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">unit_name</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">unit_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;calendar&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="c1"># no units for TemporalDateTime</span>
+            <span class="k">if</span> <span class="n">unit_name</span><span class="p">:</span>
+                <span class="n">cf_temporal_axis</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">unit_name</span><span class="si">}</span><span class="s2"> since </span><span class="si">{</span><span class="n">origin</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">cf_axis_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cf_temporal_axis</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">:</span>
             <span class="n">cf_axis_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_system</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">rotated_pole</span><span class="o">=</span><span class="n">rotated_pole</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
@@ -999,11 +1020,7 @@
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">sub_crs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">sub_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">cf_axis_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-                    <span class="n">sub_crs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">rotated_pole</span><span class="o">=</span><span class="n">rotated_pole</span><span class="p">(</span><span class="n">sub_crs</span><span class="p">))</span>
-                <span class="p">)</span>
+                <span class="n">cf_axis_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sub_crs</span><span class="o">.</span><span class="n">cs_to_cf</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">cf_axis_list</span></div>
 
 <div class="viewcode-block" id="CRS.is_exact_same"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.is_exact_same">[docs]</a>    <span class="k">def</span> <span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ignore_axis_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
