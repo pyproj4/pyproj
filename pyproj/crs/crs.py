@@ -822,7 +822,7 @@ class CRS(_CRS):
             except KeyError:
                 return False
 
-        if self.type_name == "Temporal CRS":
+        if self.type_name == "Temporal CRS" and self.datum:
             datum_json = self.datum.to_json_dict()
             origin = datum_json.get("time_origin", "1875-05-20").strip().rstrip("zZ")
             if len(origin) == 4:
