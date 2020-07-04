@@ -822,6 +822,27 @@ class CRS(_CRS):
             except KeyError:
                 return False
 
+        if self.type_name == "Temporal CRS" and self.datum:
+            datum_json = self.datum.to_json_dict()
+            origin = datum_json.get("time_origin", "1875-05-20").strip().rstrip("zZ")
+            if len(origin) == 4:
+                origin = f"{origin}-01-01"
+            axis = self.axis_info[0]
+            cf_temporal_axis = {
+                "standard_name": "time",
+                "long_name": "time",
+                "calendar": (
+                    datum_json.get("calendar", "proleptic_gregorian")
+                    .lower()
+                    .replace(" ", "_")
+                ),
+                "axis": "T",
+            }
+            unit_name = axis.unit_name.lower().replace("calendar", "").strip()
+            # no units for TemporalDateTime
+            if unit_name:
+                cf_temporal_axis["units"] = f"{unit_name} since {origin}"
+            cf_axis_list.append(cf_temporal_axis)
         if self.coordinate_system:
             cf_axis_list.extend(
                 self.coordinate_system.to_cf(rotated_pole=rotated_pole(self))
@@ -834,11 +855,7 @@ class CRS(_CRS):
             )
         else:
             for sub_crs in self.sub_crs_list:
-                if not sub_crs.coordinate_system:
-                    continue
-                cf_axis_list.extend(
-                    sub_crs.coordinate_system.to_cf(rotated_pole=rotated_pole(sub_crs))
-                )
+                cf_axis_list.extend(sub_crs.cs_to_cf())
         return cf_axis_list
 
     def is_exact_same(self, other: Any, ignore_axis_order: bool = False) -> bool:
