@@ -10,6 +10,9 @@ from pyproj.exceptions import ProjError, DataDirError
 # default to False is the safest mode
 # as it supports multithreading
 _USE_GLOBAL_CONTEXT = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
+# static user data directory to prevent core dumping
+# see: https://github.com/pyproj4/pyproj/issues/678
+cdef const char* _USER_DATA_DIR = proj_context_get_user_writable_directory(NULL, False)
 
 
 def set_use_global_context(active=None):
@@ -128,15 +131,16 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
     cdef const char* c_database_path = b_database_path
     if not proj_context_set_database_path(context, c_database_path, NULL, NULL):
         warnings.warn("pyproj unable to set database path.")
-    data_dir_list.append(get_user_data_dir())
+    cdef int dir_list_len = len(data_dir_list)
     cdef const char **c_data_dir = <const char **>malloc(
-        len(data_dir_list) * sizeof(const char*)
+        (dir_list_len + 1) * sizeof(const char*)
     )
     try:
-        for iii in range(len(data_dir_list)):
+        for iii in range(dir_list_len):
             b_data_dir = cstrencode(data_dir_list[iii])
             c_data_dir[iii] = b_data_dir
-        proj_context_set_search_paths(context, len(data_dir_list), c_data_dir)
+        c_data_dir[dir_list_len] = _USER_DATA_DIR
+        proj_context_set_search_paths(context, dir_list_len + 1, c_data_dir)
     finally:
         free(c_data_dir)
 
