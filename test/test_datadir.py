@@ -5,7 +5,7 @@ import pytest
 from mock import patch
 
 import pyproj._datadir
-from pyproj import CRS, set_use_global_context
+from pyproj import CRS, get_codes, set_use_global_context
 from pyproj._datadir import _pyproj_global_context_initialize
 from pyproj.datadir import (
     DataDirError,
@@ -14,6 +14,7 @@ from pyproj.datadir import (
     get_user_data_dir,
     set_data_dir,
 )
+from pyproj.enums import PJType
 from test.conftest import proj_env
 
 
@@ -176,8 +177,17 @@ def test_append_data_dir__internal(tmp_path):
         assert get_data_dir() == os.pathsep.join([internal_proj_dir, extra_datadir])
 
 
+@pytest.mark.slow
 def test_creating_multiple_crs_without_file_limit():
-    assert [CRS.from_epsg(4326) for _ in range(1200)]
+    """
+    This test checks for two things:
+    1. Ensure database connection is closed for file limit
+       https://github.com/pyproj4/pyproj/issues/374
+    2. Ensure core-dumping does not occur when many objects are created
+       https://github.com/pyproj4/pyproj/issues/678
+    """
+    codes = get_codes("EPSG", PJType.PROJECTED_CRS, False)
+    assert [CRS.from_epsg(code) for code in codes]
 
 
 def test_get_user_data_dir():
