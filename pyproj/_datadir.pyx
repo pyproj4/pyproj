@@ -108,7 +108,7 @@ def get_user_data_dir(create=False):
     str:
         The user writable data directory.
     """
-    return pystrdecode(proj_context_get_user_writable_directory(NULL, create))
+    return pystrdecode(proj_context_get_user_writable_directory(NULL, bool(create)))
 
 
 cdef void pyproj_log_function(void *user_data, int level, const char *error_msg):
