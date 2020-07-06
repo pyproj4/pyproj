@@ -1,7 +1,6 @@
 import os
 import subprocess
 import sys
-from collections import defaultdict
 from distutils.spawn import find_executable
 from glob import glob
 
@@ -175,7 +174,7 @@ def get_package_data():
     This function retrieves the package data
     """
     # setup package data
-    package_data = defaultdict(list)
+    package_data = {"pyproj": ["*.pyi", "py.typed"]}
     if os.environ.get("PROJ_WHEEL") is not None and os.path.exists(INTERNAL_PROJ_DIR):
         package_data["pyproj"].append(
             os.path.join(BASE_INTERNAL_PROJ_DIR, "share", "proj", "*")
@@ -184,7 +183,6 @@ def get_package_data():
         os.path.join(CURRENT_FILE_PATH, "pyproj", ".lib")
     ):
         package_data["pyproj"].append(os.path.join(".lib", "*"))
-
     return package_data
 
 
@@ -240,4 +238,5 @@ setup(
     python_requires=">=3.6",
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
+    zip_safe=False,  # https://mypy.readthedocs.io/en/stable/installed_packages.html
 )
