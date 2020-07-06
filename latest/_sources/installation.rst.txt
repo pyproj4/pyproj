@@ -57,7 +57,7 @@ pyproj         PROJ
 PROJ is required when building from source.
 You can download PROJ from https://download.osgeo.org/proj
 or from https://github.com/OSGeo/PROJ.
-Installation instructions can be fount at https://proj.org/.
+Installation instructions can be found at https://proj.org/.
 
 In the setup.py, the order for searching for PROJ is:
 
