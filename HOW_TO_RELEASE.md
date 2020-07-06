@@ -34,7 +34,7 @@ Remove the `rc` postfix from the the version number `__version__` in `__init__.p
 
 ### Create a tag on the repository
 
-The next step is to create a tag with the name `v<major>.<minor>.<patch>rel`. This can be done using the git command line or from https://github.com/pyproj4/pyproj/tags.
+The next step is to create a tag with the name `<major>.<minor>.<patch>`. This can be done using the git command line or from https://github.com/pyproj4/pyproj/tags.
 
 Next, go through the history and add release notes. Make sure to acknowledge contributions made by others in the release. A useful script for automating this task for code contributions is the [pandas announce script](https://github.com/pandas-dev/pandas/blob/bb6135880e5e453d7701764b9f2e4ad3356a68d7/doc/sphinxext/announce.py).
 
