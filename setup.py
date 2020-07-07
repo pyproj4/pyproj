@@ -233,6 +233,7 @@ setup(
         "Topic :: Scientific/Engineering :: GIS",
         "Topic :: Scientific/Engineering :: Mathematics",
         "Operating System :: OS Independent",
+        "Typing :: Typed",
     ],
     packages=["pyproj", "pyproj.crs"],
     python_requires=">=3.6",
