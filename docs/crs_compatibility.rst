@@ -58,18 +58,18 @@ Converting from `rasterio.crs.CRS` to `pyproj.crs.CRS`
 If you have `rasterio >= 1.0.14`, then you can pass in the `rasterio.crs.CRS`
 directly::
 
-    from rasterio.crs import CRS as RioCRS
+    import rasterio.crs
     from pyproj.crs import CRS
 
-    rio_crs = RioCRS.from_epsg(4326)
+    rio_crs = rasterio.crs.CRS.from_epsg(4326)
     proj_crs = CRS.from_user_input(rio_crs)
 
 Otherwise, you should use the `wkt` property::
 
-    from rasterio.crs import CRS as RioCRS
+    import rasterio.crs
     from pyproj.crs import CRS
 
-    rio_crs = RioCRS.from_epsg(4326)
+    rio_crs = rasterio.crs.CRS.from_epsg(4326)
     proj_crs = CRS.from_wkt(rio_crs.wkt)
 
 Converting from `pyproj.crs.CRS` to `rasterio.crs.CRS`
@@ -80,26 +80,26 @@ Converting from `pyproj.crs.CRS` to `rasterio.crs.CRS`
 If you have rasterio >= 1.0.26 and GDAL 3+, then you can pass in the `pyproj.crs.CRS`
 directly::
 
-    from rasterio.crs import CRS as RioCRS
+    import rasterio.crs
     from pyproj.crs import CRS
 
     proj_crs = CRS.from_epsg(4326)
-    rio_crs = RioCRS.from_user_input(proj_crs)
+    rio_crs = rasterio.crs.CRS.from_user_input(proj_crs)
 
 If you want to be compatible across GDAL/rasterio versions, you can do::
 
     from distutils.version import LooseVersion
 
     import rasterio
-    from rasterio.crs import CRS as RioCRS
+    import rasterio.crs
     from pyproj.crs import CRS
     from pyproj.enums import WktVersion
 
     proj_crs = CRS.from_epsg(4326)
     if LooseVersion(rasterio.__gdal_version__) < LooseVersion("3.0.0")
-        rio_crs = RioCRS.from_wkt(proj_crs.to_wkt(WktVersion.WKT1_GDAL))
+        rio_crs = rasterio.crs.CRS.from_wkt(proj_crs.to_wkt(WktVersion.WKT1_GDAL))
     else:
-        rio_crs = RioCRS.from_wkt(proj_crs.to_wkt())
+        rio_crs = rasterio.crs.CRS.from_wkt(proj_crs.to_wkt())
 
 fiona
 ------
