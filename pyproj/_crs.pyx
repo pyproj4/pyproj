@@ -4,13 +4,13 @@ import warnings
 from collections import OrderedDict
 
 from pyproj._datadir cimport pyproj_context_create
+
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.crs.datum import CustomEllipsoid
 from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.geod import pj_ellps
-
 
 # This is for looking up the ellipsoid parameters
 # based on the long name

@@ -1,12 +1,13 @@
 include "proj.pxi"
 
+import warnings
 from collections import namedtuple
 from enum import IntEnum
-import warnings
+
+from pyproj._datadir cimport pyproj_context_create
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import PJType
-from pyproj._datadir cimport pyproj_context_create
 
 
 def get_proj_operations_map():
