@@ -1,11 +1,11 @@
 import os
 import warnings
 from distutils.util import strtobool
-from libc.stdlib cimport malloc, free
+
+from libc.stdlib cimport free, malloc
 
 from pyproj.compat import cstrencode, pystrdecode
-from pyproj.exceptions import ProjError, DataDirError
-
+from pyproj.exceptions import DataDirError, ProjError
 
 # default to False is the safest mode
 # as it supports multithreading

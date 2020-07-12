@@ -8,17 +8,17 @@ import warnings
 from collections import namedtuple
 
 from pyproj._crs cimport (
+    _CRS,
     AreaOfUse,
     Base,
-    _CRS,
     CoordinateOperation,
     _get_concatenated_operations,
 )
 from pyproj._datadir cimport pyproj_context_create
+
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError
-
 
 # version number string for PROJ
 proj_version_str = f"{PROJ_VERSION_MAJOR}.{PROJ_VERSION_MINOR}.{PROJ_VERSION_PATCH}"
