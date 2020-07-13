@@ -185,9 +185,9 @@ couple of days. We may suggest some changes or improvements or alternatives.
 Some things that will increase the chance that your pull request is accepted quickly:
 
 * Write tests.
-* Follow [PEP8][https://pep8.org] for style. (The `flake8` utility can help with this.)
+* Follow [PEP8](https://pep8.org) for style. (The `flake8` utility can help with this.)
 * Use [black](https://github.com/python/black)
-* Write a [good commit message][https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html].
+* Write a [good commit message](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
 Pull requests will automatically have tests run by Travis. This includes
 running both the unit tests as well as the `flake8` code linter.
