@@ -20,7 +20,7 @@ def check_proj_version(proj_dir):
     proj_ver_bytes = (proj_ver_bytes.decode("ascii").split()[1]).strip(",")
     proj_version = parse_version(proj_ver_bytes)
     if proj_version < PROJ_MIN_VERSION:
-        sys.exit(
+        raise SystemExit(
             f"ERROR: Minimum supported proj version is {PROJ_MIN_VERSION}, installed "
             f"version is {proj_version}. For more information see: "
             "https://pyproj4.github.io/pyproj/stable/installation.html"
@@ -42,7 +42,7 @@ def get_proj_dir():
         if proj is None:
             proj = find_executable("proj")
         if proj is None:
-            sys.exit(
+            raise SystemExit(
                 "proj executable not found. Please set the PROJ_DIR variable."
                 "For more information see: "
                 "https://pyproj4.github.io/pyproj/stable/installation.html"
@@ -51,7 +51,7 @@ def get_proj_dir():
     elif proj_dir is not None and os.path.exists(proj_dir):
         print("PROJ_DIR is set, using existing proj4 installation..\n")
     else:
-        sys.exit(f"ERROR: Invalid path for PROJ_DIR {proj_dir}")
+        raise SystemExit(f"ERROR: Invalid path for PROJ_DIR {proj_dir}")
 
     # check_proj_version
     check_proj_version(proj_dir)
@@ -73,7 +73,9 @@ def get_proj_libdirs(proj_dir):
             if os.path.exists(libdir_search_path):
                 libdirs.append(libdir_search_path)
         if not libdirs:
-            sys.exit("ERROR: PROJ_LIBDIR dir not found. Please set PROJ_LIBDIR.")
+            raise SystemExit(
+                "ERROR: PROJ_LIBDIR dir not found. Please set PROJ_LIBDIR."
+            )
     else:
         libdirs.append(proj_libdir)
     return libdirs
@@ -89,7 +91,9 @@ def get_proj_incdirs(proj_dir):
         if os.path.exists(os.path.join(proj_dir, "include")):
             incdirs.append(os.path.join(proj_dir, "include"))
         else:
-            sys.exit("ERROR: PROJ_INCDIR dir not found. Please set PROJ_INCDIR.")
+            raise SystemExit(
+                "ERROR: PROJ_INCDIR dir not found. Please set PROJ_INCDIR."
+            )
     else:
         incdirs.append(proj_incdir)
     return incdirs
@@ -135,7 +139,7 @@ def get_extension_modules():
     try:
         from Cython.Build import cythonize
     except ImportError:
-        sys.exit(
+        raise SystemExit(
             "ERROR: Cython.Build.cythonize not found. "
             "Cython is required to build from a repo."
         )
@@ -196,7 +200,7 @@ def get_version():
             if line.find("__version__") >= 0:
                 # parse __version__ and remove surrounding " or '
                 return line.split("=")[1].strip()[1:-1]
-    sys.exit("ERROR: pyproj version not fount.")
+    raise SystemExit("ERROR: pyproj version not fount.")
 
 
 def get_long_description():
