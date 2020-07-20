@@ -381,7 +381,7 @@ def test_geometry_area_perimeter__polygon__radians():
 @skip_shapely
 def test_geometry_area_perimeter__polygon__holes():
     geod = Geod(ellps="WGS84")
-    
+
     polygon = Polygon(
         LineString([Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)]),
         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],

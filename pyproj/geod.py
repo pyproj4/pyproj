@@ -530,10 +530,11 @@ class Geod(_Geod):
 
         .. note:: lats should be in the range [-90 deg, 90 deg].
 
-        .. warning:: The area returned is signed with counter-clockwise (CCW) traversal being
-                     treated as positive. For polygons, holes should use the opposite traversal
-                     to the exterior (if the exterior is CCW, the holes/interiors should be CW)
-                     You can use `shapely.ops.orient` to modify the orientation.
+        .. warning:: The area returned is signed with counter-clockwise (CCW) traversal
+                     being treated as positive. For polygons, holes should use the
+                     opposite traversal to the exterior (if the exterior is CCW, the
+                     holes/interiors should be CW). You can use `shapely.ops.orient` to
+                     modify the orientation.
 
         If it is a Polygon, it will return the area and exterior perimeter.
         It will subtract the area of the interior holes.
