@@ -550,13 +550,13 @@ class Geod(_Geod):
         >>> poly_area, poly_perimeter = geod.geometry_area_perimeter(
         ...     Polygon(
         ...         LineString([
-        ...             Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)
+        ...             Point(1, 1), Point(10, 1), Point(10, 10), Point(1, 10)
         ...         ]),
         ...         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
         ...     )
         ... )
         >>> f"{poly_area:.3f} {poly_perimeter:.3f}"
-        '-944373881400.339 3979008.036'
+        '944373881400.339 3979008.036'
 
 
         Parameters
