@@ -21,6 +21,7 @@ try:
         Point,
         Polygon,
     )
+    from shapely.geometry.polygon import orient
 
     SHAPELY_LOADED = True
 except ImportError:
@@ -380,17 +381,23 @@ def test_geometry_area_perimeter__polygon__radians():
 @skip_shapely
 def test_geometry_area_perimeter__polygon__holes():
     geod = Geod(ellps="WGS84")
+    
+    polygon = Polygon(
+        LineString([Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)]),
+        holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
+    )
+
     assert_almost_equal(
-        geod.geometry_area_perimeter(
-            Polygon(
-                LineString([Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)]),
-                holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
-            )
-        ),
-        (-944373881400.3394, 3979008.0359657984),
+        geod.geometry_area_perimeter(orient(polygon, 1)),
+        (944373881400.3394, 3979008.0359657984),
         decimal=2,
     )
 
+    assert_almost_equal(
+        geod.geometry_area_perimeter(orient(polygon, -1)),
+        (-944373881400.3394, 3979008.0359657984),
+        decimal=2,
+    )
 
 @skip_shapely
 def test_geometry_area_perimeter__multipolygon():
