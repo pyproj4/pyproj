@@ -399,6 +399,7 @@ def test_geometry_area_perimeter__polygon__holes():
         decimal=2,
     )
 
+
 @skip_shapely
 def test_geometry_area_perimeter__multipolygon():
     geod = Geod(ellps="WGS84")
