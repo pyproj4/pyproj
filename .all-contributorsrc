@@ -389,6 +389,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "jacob-indigo",
+      "name": "jacob-indigo",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/48448372?v=4",
+      "profile": "https://www.indigoag.com/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7

@@ -83,6 +83,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/mmodenesi"><img src="https://avatars2.githubusercontent.com/u/5569789?v=4" width="100px;" alt="mmodenesi"/><br /><sub><b>mmodenesi</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/issues?q=author%3Ammodenesi" title="Bug reports">🐛</a> <a href="https://github.com/pyproj4/pyproj/commits?author=mmodenesi" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=mmodenesi" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://www.indigoag.com/"><img src="https://avatars0.githubusercontent.com/u/48448372?v=4" width="100px;" alt="jacob-indigo"/><br /><sub><b>jacob-indigo</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/issues?q=author%3Ajacob-indigo" title="Bug reports">🐛</a> <a href="https://github.com/pyproj4/pyproj/commits?author=jacob-indigo" title="Code">💻</a></td>
   </tr>
 </table>
 
