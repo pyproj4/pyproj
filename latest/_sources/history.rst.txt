@@ -5,6 +5,7 @@ Change Log
 -----
 * Minimum supported Python version 3.6 (issue #499)
 * Minimum PROJ version 7.1 (issue #599)
+* WHL: Removed datumgrids from wheels because not needed with RFC 4 (pull #628)
 * Refactor Proj to inherit from Transformer (issue #624)
 * ENH: Support obects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
 * ENH: Added :func:`pyproj.datadir.get_user_data_dir` (pull #636)
@@ -20,6 +21,7 @@ Change Log
 * BUG: Add support for identifying engineering/parametric/temporal datums (issue #670)
 * ENH: Added ability to use global context (issue #661)
 * ENH: Add support for temporal CRS CF coordinate system (issue #672)
+* BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)
 
 2.6.1
 ~~~~~
