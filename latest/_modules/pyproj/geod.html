@@ -695,9 +695,11 @@
 
 <span class="sd">        .. note:: lats should be in the range [-90 deg, 90 deg].</span>
 
-<span class="sd">        .. warning:: The area returned is signed with counter-clockwise traversal being</span>
-<span class="sd">                     treated as positive. You can use `shapely.ops.orient` to modify the</span>
-<span class="sd">                     orientation.</span>
+<span class="sd">        .. warning:: The area returned is signed with counter-clockwise (CCW) traversal</span>
+<span class="sd">                     being treated as positive. For polygons, holes should use the</span>
+<span class="sd">                     opposite traversal to the exterior (if the exterior is CCW, the</span>
+<span class="sd">                     holes/interiors should be CW). You can use `shapely.ops.orient` to</span>
+<span class="sd">                     modify the orientation.</span>
 
 <span class="sd">        If it is a Polygon, it will return the area and exterior perimeter.</span>
 <span class="sd">        It will subtract the area of the interior holes.</span>
@@ -713,13 +715,13 @@
 <span class="sd">        &gt;&gt;&gt; poly_area, poly_perimeter = geod.geometry_area_perimeter(</span>
 <span class="sd">        ...     Polygon(</span>
 <span class="sd">        ...         LineString([</span>
-<span class="sd">        ...             Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)</span>
+<span class="sd">        ...             Point(1, 1), Point(10, 1), Point(10, 10), Point(1, 10)</span>
 <span class="sd">        ...         ]),</span>
 <span class="sd">        ...         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; f&quot;{poly_area:.3f} {poly_perimeter:.3f}&quot;</span>
-<span class="sd">        &#39;-944373881400.339 3979008.036&#39;</span>
+<span class="sd">        &#39;944373881400.339 3979008.036&#39;</span>
 
 
 <span class="sd">        Parameters</span>
@@ -748,7 +750,7 @@
             <span class="c1"># subtract area of holes</span>
             <span class="k">for</span> <span class="n">hole</span> <span class="ow">in</span> <span class="n">geometry</span><span class="o">.</span><span class="n">interiors</span><span class="p">:</span>
                 <span class="n">area</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_area_perimeter</span><span class="p">(</span><span class="n">hole</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
-                <span class="n">total_area</span> <span class="o">-=</span> <span class="n">area</span>
+                <span class="n">total_area</span> <span class="o">+=</span> <span class="n">area</span>
             <span class="k">return</span> <span class="n">total_area</span><span class="p">,</span> <span class="n">total_perimeter</span>
         <span class="c1"># multi geometries</span>
         <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;geoms&quot;</span><span class="p">):</span>
