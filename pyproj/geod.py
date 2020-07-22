@@ -530,9 +530,11 @@ class Geod(_Geod):
 
         .. note:: lats should be in the range [-90 deg, 90 deg].
 
-        .. warning:: The area returned is signed with counter-clockwise traversal being
-                     treated as positive. You can use `shapely.ops.orient` to modify the
-                     orientation.
+        .. warning:: The area returned is signed with counter-clockwise (CCW) traversal
+                     being treated as positive. For polygons, holes should use the
+                     opposite traversal to the exterior (if the exterior is CCW, the
+                     holes/interiors should be CW). You can use `shapely.ops.orient` to
+                     modify the orientation.
 
         If it is a Polygon, it will return the area and exterior perimeter.
         It will subtract the area of the interior holes.
@@ -548,13 +550,13 @@ class Geod(_Geod):
         >>> poly_area, poly_perimeter = geod.geometry_area_perimeter(
         ...     Polygon(
         ...         LineString([
-        ...             Point(1, 1), Point(1, 10), Point(10, 10), Point(10, 1)
+        ...             Point(1, 1), Point(10, 1), Point(10, 10), Point(1, 10)
         ...         ]),
         ...         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
         ...     )
         ... )
         >>> f"{poly_area:.3f} {poly_perimeter:.3f}"
-        '-944373881400.339 3979008.036'
+        '944373881400.339 3979008.036'
 
 
         Parameters
@@ -583,7 +585,7 @@ class Geod(_Geod):
             # subtract area of holes
             for hole in geometry.interiors:
                 area, _ = self.geometry_area_perimeter(hole, radians=radians)
-                total_area -= area
+                total_area += area
             return total_area, total_perimeter
         # multi geometries
         elif hasattr(geometry, "geoms"):
