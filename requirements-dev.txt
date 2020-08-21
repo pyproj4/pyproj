@@ -7,6 +7,6 @@ numpy
 pylint
 pytest>3.6
 pytest-cov
-shapely
+shapely==1.7.0
 pre-commit
 xarray
