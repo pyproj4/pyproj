@@ -51,7 +51,7 @@ pyproj         PROJ
 2.0-2.1        6.0+
 2.2-2.3        6.1-7
 2.4-2.6        6.2-7
-3+             7.1+
+3+             7.2+
 ============   ============
 
 PROJ is required when building from source.

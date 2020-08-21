@@ -78,6 +78,12 @@ environments. Our recommended setup for contributing is:
 * Connect your repository to the upstream (main project).
   ``git remote add upstream https://github.com/pyproj4/pyproj.git``
 * Create the development environment by running ``conda create -n devel -c conda-forge cython proj numpy shapely``.
+  * If the minimum PROJ version is not yet available, you can build PROJ from source using:
+    ```bash
+    export PROJ_DIR=$PWD/pyproj/proj_dir
+    mkdir $PROJ_DIR
+    bash ci/travis/proj-dl-and-compile git
+    ```
 * Activate our new development environment ``conda activate devel`` on Mac/Linux or
   ``activate devel`` on Windows.
 * Install development requirements ``pip install -r requirements-dev.txt``
