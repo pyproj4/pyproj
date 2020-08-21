@@ -244,4 +244,5 @@ setup(
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
     zip_safe=False,  # https://mypy.readthedocs.io/en/stable/installed_packages.html
+    install_requires=["certifi"],
 )

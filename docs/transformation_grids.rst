@@ -9,7 +9,7 @@ More information about the data available is located under the PROJ
 `resource files <https://proj.org/resource_files.html#transformation-grids>`__
 documentation.
 
-`pyproj` API for managing the :ref:`data_directory`
+`pyproj` API for managing the :ref:`data_and_ca_bundle_directory`
 
 .. warning:: pyproj 2 includes datumgrid 1.8 in the wheels. pyproj 3 will not include any datum grids.
 

@@ -22,6 +22,7 @@ Change Log
 * ENH: Added ability to use global context (issue #661)
 * ENH: Add support for temporal CRS CF coordinate system (issue #672)
 * BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)
+* ENH: Added :func:`pyproj.set_ca_bundle_path` (pull #691)
 
 2.6.1
 ~~~~~

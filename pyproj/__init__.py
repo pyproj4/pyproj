@@ -49,6 +49,7 @@ import warnings
 from pyproj._datadir import (  # noqa: F401
     _pyproj_global_context_initialize,
     is_global_context_network_enabled,
+    set_ca_bundle_path,
     set_global_context_network,
     set_use_global_context,
 )
@@ -79,3 +80,5 @@ try:
     _pyproj_global_context_initialize()
 except DataDirError as err:
     warnings.warn(str(err))
+
+set_ca_bundle_path()
