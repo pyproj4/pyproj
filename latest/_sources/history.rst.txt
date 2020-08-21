@@ -4,7 +4,7 @@ Change Log
 3.0.0
 -----
 * Minimum supported Python version 3.6 (issue #499)
-* Minimum PROJ version 7.1 (issue #599)
+* Minimum PROJ version 7.2 (issues #599 & #689)
 * WHL: Removed datumgrids from wheels because not needed with RFC 4 (pull #628)
 * Refactor Proj to inherit from Transformer (issue #624)
 * ENH: Support obects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
