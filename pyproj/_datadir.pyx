@@ -173,7 +173,7 @@ cdef void pyproj_context_initialize(
 
 cdef PJ_CONTEXT* pyproj_context_create(
     network=None,
-):
+) except *:
     """
     Create and initialize the context(s) for pyproj.
     This also manages whether the global context is used.
@@ -182,16 +182,7 @@ cdef PJ_CONTEXT* pyproj_context_create(
     if _USE_GLOBAL_CONTEXT:
         return NULL
     cdef PJ_CONTEXT* context = proj_context_create()
-    try:
-        pyproj_context_initialize(
-            context,
-            network=network,
-        )
-    except DataDirError:
-        if context != NULL:
-            proj_context_destroy(context)
-            context = NULL
-        raise
+    pyproj_context_set_enable_network(context, network=network)
     return context
 
 
