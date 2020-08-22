@@ -103,8 +103,6 @@
 <li class="toctree-l2"><a class="reference internal" href="sync.html">Sync Transformation Grids</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Global Context</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-set-use-global-context">pyproj.set_use_global_context</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pyproj-set-global-context-network">pyproj.set_global_context_network</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pyproj-is-global-context-network-enabled">pyproj.is_global_context_network_enabled</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
@@ -229,8 +227,7 @@ once the program terminates.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can change the network settings with
-<a class="reference internal" href="#pyproj.set_global_context_network" title="pyproj.set_global_context_network"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.set_global_context_network()</span></code></a>.</p>
+<p>To modify network settings see: <a class="reference internal" href="network.html#network"><span class="std std-ref">PROJ Network Settings</span></a>.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -238,53 +235,6 @@ once the program terminates.</p>
 the use of the global context is deactivated. If None, it uses
 the environment variable PYPROJ_GLOBAL_CONTEXT and defaults
 to False if it is not found. The default is None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="pyproj-set-global-context-network">
-<h2>pyproj.set_global_context_network<a class="headerlink" href="#pyproj-set-global-context-network" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="pyproj.set_global_context_network">
-<code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">set_global_context_network</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">active</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.set_global_context_network" title="Permalink to this definition">¶</a></dt>
-<dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0.</span></p>
-</div>
-<p>Manages whether PROJ network is enabled on the global context.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can activate the global context with
-<a class="reference internal" href="#pyproj.set_use_global_context" title="pyproj.set_use_global_context"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.set_use_global_context()</span></code></a> or with
-the PYPROJ_GLOBAL_CONTEXT environment variable.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>active</strong> (<em>bool</em><em>, </em><em>optional</em>) – Default is None, which uses the system defaults for networking.
-If True, it will force the use of network for grids regardless of
-any other network setting. If False, it will force disable use of
-network for grids regardless of any other network setting.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="pyproj-is-global-context-network-enabled">
-<h2>pyproj.is_global_context_network_enabled<a class="headerlink" href="#pyproj-is-global-context-network-enabled" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="pyproj.is_global_context_network_enabled">
-<code class="sig-prename descclassname">pyproj.</code><code class="sig-name descname">is_global_context_network_enabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.is_global_context_network_enabled" title="Permalink to this definition">¶</a></dt>
-<dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0.</span></p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can activate the global context with
-<a class="reference internal" href="#pyproj.set_use_global_context" title="pyproj.set_use_global_context"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.set_use_global_context()</span></code></a> or with
-the PYPROJ_GLOBAL_CONTEXT environment variable.</p>
-</div>
-<dl class="simple">
-<dt>bool:</dt><dd><p>If the network is enabled on the global context.</p>
 </dd>
 </dl>
 </dd></dl>
