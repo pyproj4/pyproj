@@ -17,7 +17,7 @@ def test_doctests():
 
     with warnings.catch_warnings(), proj_network_env():
         if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.set_global_context_network(active=True)
+            pyproj.network.set_network_enabled(active=True)
         warnings.filterwarnings(
             "ignore",
             "You will likely lose important projection information when",

@@ -21,15 +21,3 @@ pyproj.set_use_global_context
 -----------------------------
 
 .. autofunction:: pyproj.set_use_global_context
-
-
-pyproj.set_global_context_network
------------------------------------
-
-.. autofunction:: pyproj.set_global_context_network
-
-
-pyproj.is_global_context_network_enabled
-------------------------------------------
-
-.. autofunction:: pyproj.is_global_context_network_enabled

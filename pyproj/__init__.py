@@ -49,8 +49,6 @@ import warnings
 import pyproj.network
 from pyproj._datadir import (  # noqa: F401
     _pyproj_global_context_initialize,
-    is_global_context_network_enabled,
-    set_global_context_network,
     set_use_global_context,
 )
 from pyproj._list import (  # noqa: F401
