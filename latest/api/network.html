@@ -100,6 +100,8 @@
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">PROJ Network Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-network-set-network-enabled">pyproj.network.set_network_enabled</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-network-is-network-enabled">pyproj.network.is_network_enabled</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-network-set-ca-bundle-path">pyproj.network.set_ca_bundle_path</a></li>
 </ul>
 </li>
@@ -187,6 +189,42 @@
             
   <div class="section" id="proj-network-settings">
 <span id="network"></span><h1>PROJ Network Settings<a class="headerlink" href="#proj-network-settings" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyproj-network-set-network-enabled">
+<h2>pyproj.network.set_network_enabled<a class="headerlink" href="#pyproj-network-set-network-enabled" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyproj.network.set_network_enabled">
+<code class="sig-prename descclassname">pyproj.network.</code><code class="sig-name descname">set_network_enabled</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">active</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.network.set_network_enabled" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<p>Set whether PROJ network is enabled by default. This has the same
+behavior as the <cite>PROJ_NETWORK</cite> environment variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>active</strong> (<em>bool</em><em>, </em><em>optional</em>) – Default is None, which uses the system defaults for networking.
+If True, it will force the use of network for grids regardless of
+any other network setting. If False, it will force disable use of
+network for grids regardless of any other network setting.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-network-is-network-enabled">
+<h2>pyproj.network.is_network_enabled<a class="headerlink" href="#pyproj-network-is-network-enabled" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyproj.network.is_network_enabled">
+<code class="sig-prename descclassname">pyproj.network.</code><code class="sig-name descname">is_network_enabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.network.is_network_enabled" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<dl class="simple">
+<dt>bool:</dt><dd><p>If PROJ network is enabled by default.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 <div class="section" id="pyproj-network-set-ca-bundle-path">
 <h2>pyproj.network.set_ca_bundle_path<a class="headerlink" href="#pyproj-network-set-ca-bundle-path" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
@@ -196,7 +234,7 @@
 <p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>
 <p>Sets the path to the CA Bundle used by the <cite>curl</cite>
-built into PROJ.</p>
+built into PROJ when PROJ network is enabled..</p>
 <p>Environment variables that can be used with PROJ 7.2+:</p>
 <ul class="simple">
 <li><p>PROJ_CURL_CA_BUNDLE</p></li>

@@ -172,7 +172,11 @@
 
 <span class="kn">import</span> <span class="nn">certifi</span>
 
-<span class="kn">from</span> <span class="nn">pyproj._network</span> <span class="kn">import</span> <span class="n">_set_ca_bundle_path</span>
+<span class="kn">from</span> <span class="nn">pyproj._network</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401</span>
+    <span class="n">_set_ca_bundle_path</span><span class="p">,</span>
+    <span class="n">is_network_enabled</span><span class="p">,</span>
+    <span class="n">set_network_enabled</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="set_ca_bundle_path"><a class="viewcode-back" href="../../api/network.html#pyproj.network.set_ca_bundle_path">[docs]</a><span class="k">def</span> <span class="nf">set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -180,7 +184,7 @@
 <span class="sd">    .. versionadded:: 3.0.0</span>
 
 <span class="sd">    Sets the path to the CA Bundle used by the `curl`</span>
-<span class="sd">    built into PROJ.</span>
+<span class="sd">    built into PROJ when PROJ network is enabled..</span>
 
 <span class="sd">    Environment variables that can be used with PROJ 7.2+:</span>
 
