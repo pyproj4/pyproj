@@ -10,6 +10,7 @@ latest/_modules/pyproj/datadir.html
 latest/_modules/pyproj/enums.html
 latest/_modules/pyproj/exceptions.html
 latest/_modules/pyproj/geod.html
+latest/_modules/pyproj/network.html
 latest/_modules/pyproj/proj.html
 latest/_modules/pyproj/sync.html
 latest/_modules/pyproj/transformer.html
@@ -27,6 +28,7 @@ latest/_sources/api/geod.rst.txt
 latest/_sources/api/global_context.rst.txt
 latest/_sources/api/index.rst.txt
 latest/_sources/api/list.rst.txt
+latest/_sources/api/network.rst.txt
 latest/_sources/api/proj.rst.txt
 latest/_sources/api/show_versions.rst.txt
 latest/_sources/api/sync.rst.txt
@@ -140,6 +142,7 @@ latest/api/geod.html
 latest/api/global_context.html
 latest/api/index.html
 latest/api/list.html
+latest/api/network.html
 latest/api/proj.html
 latest/api/show_versions.html
 latest/api/sync.html

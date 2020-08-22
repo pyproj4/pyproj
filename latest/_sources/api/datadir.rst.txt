@@ -1,7 +1,7 @@
 .. _data_directory:
 
 Data Directory
-==============
+===============
 
 pyproj.datadir.get_data_dir
 ---------------------------
