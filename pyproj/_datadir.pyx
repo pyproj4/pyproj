@@ -28,8 +28,7 @@ def set_use_global_context(active=None):
                  through the duration of each python session and is closed
                  once the program terminates.
 
-    .. note:: You can change the network settings with
-              :func:`pyproj.set_global_context_network`.
+    .. note:: To modify network settings see: :ref:`network`.
 
     Parameters
     ----------
@@ -44,46 +43,6 @@ def set_use_global_context(active=None):
         active = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
     _USE_GLOBAL_CONTEXT = bool(active)
     proj_context_set_autoclose_database(NULL, not _USE_GLOBAL_CONTEXT)
-
-
-def set_global_context_network(active=None):
-    """
-    .. versionadded:: 3.0.0
-
-    Manages whether PROJ network is enabled on the global context.
-
-    .. note:: You can activate the global context with
-              :func:`pyproj.set_use_global_context` or with
-              the PYPROJ_GLOBAL_CONTEXT environment variable.
-
-    Parameters
-    ----------
-    active: bool, optional
-        Default is None, which uses the system defaults for networking.
-        If True, it will force the use of network for grids regardless of
-        any other network setting. If False, it will force disable use of
-        network for grids regardless of any other network setting.
-    """
-    if active is None:
-        # in the case of the global context, need to reset network
-        # setting based on the environment variable every time if None
-        # because it could have been changed by the user previously
-        active = strtobool(os.environ.get("PROJ_NETWORK", "OFF"))
-    pyproj_context_set_enable_network(NULL, bool(active))
-
-
-def is_global_context_network_enabled():
-    """
-    .. versionadded:: 3.0.0
-
-    .. note:: You can activate the global context with
-              :func:`pyproj.set_use_global_context` or with
-              the PYPROJ_GLOBAL_CONTEXT environment variable.
-
-    bool:
-        If the network is enabled on the global context.
-    """
-    return proj_context_is_network_enabled(NULL) == 1
 
 
 def get_user_data_dir(create=False):

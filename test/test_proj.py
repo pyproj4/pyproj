@@ -537,7 +537,7 @@ def test_numpy_bool_kwarg_true():
 def test_network__disable():
     with proj_network_env():
         if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.set_global_context_network(active=False)
+            pyproj.network.set_network_enabled(active=False)
         transformer = Proj(3857, network=False)
         assert transformer.is_network_enabled is False
 
@@ -546,7 +546,7 @@ def test_network__disable():
 def test_network__enable():
     with proj_network_env():
         if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.set_global_context_network(active=True)
+            pyproj.network.set_network_enabled(active=True)
         transformer = Proj(3857, network=True)
         assert transformer.is_network_enabled is True
 
@@ -554,7 +554,7 @@ def test_network__enable():
 def test_network__default():
     with proj_network_env():
         if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.set_global_context_network()
+            pyproj.network.set_network_enabled()
         transformer = Proj(3857)
         assert transformer.is_network_enabled == (
             os.environ.get("PROJ_NETWORK") == "ON"

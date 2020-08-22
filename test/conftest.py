@@ -19,11 +19,11 @@ def proj_network_env():
     if not pyproj._datadir._USE_GLOBAL_CONTEXT:
         yield
     else:
-        network = pyproj.is_global_context_network_enabled()
+        network = pyproj.network.is_network_enabled()
         try:
             yield
         finally:
-            pyproj.set_global_context_network(network)
+            pyproj.network.set_network_enabled(network)
 
 
 @contextmanager

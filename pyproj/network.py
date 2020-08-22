@@ -7,7 +7,11 @@ from typing import Union
 
 import certifi
 
-from pyproj._network import _set_ca_bundle_path
+from pyproj._network import (  # noqa: F401
+    _set_ca_bundle_path,
+    is_network_enabled,
+    set_network_enabled,
+)
 
 
 def set_ca_bundle_path(ca_bundle_path: Union[Path, str, bool, None] = None) -> None:
@@ -15,7 +19,7 @@ def set_ca_bundle_path(ca_bundle_path: Union[Path, str, bool, None] = None) -> N
     .. versionadded:: 3.0.0
 
     Sets the path to the CA Bundle used by the `curl`
-    built into PROJ.
+    built into PROJ when PROJ network is enabled..
 
     Environment variables that can be used with PROJ 7.2+:
 
