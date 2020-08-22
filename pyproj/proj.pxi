@@ -187,6 +187,9 @@ cdef extern from "proj.h":
         PJ_TYPE_TRANSFORMATION
         PJ_TYPE_CONCATENATED_OPERATION
         PJ_TYPE_OTHER_COORDINATE_OPERATION
+        PJ_TYPE_TEMPORAL_DATUM
+        PJ_TYPE_ENGINEERING_DATUM
+        PJ_TYPE_PARAMETRIC_DATUM
 
     PJ_TYPE proj_get_type(const PJ *obj)
     const char* proj_get_name(const PJ *obj)
