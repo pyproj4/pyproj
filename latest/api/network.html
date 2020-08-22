@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Exceptions &mdash; pyproj 3.0.dev1 documentation</title>
+  <title>PROJ Network Settings &mdash; pyproj 3.0.dev1 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Show Versions" href="show_versions.html" />
-    <link rel="prev" title="Enumerations" href="enums.html" /> 
+    <link rel="next" title="Sync Transformation Grids" href="sync.html" />
+    <link rel="prev" title="Data Directory" href="datadir.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -99,11 +99,14 @@
 <li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="network.html">PROJ Network Settings</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PROJ Network Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-network-set-ca-bundle-path">pyproj.network.set_ca_bundle_path</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="sync.html">Sync Transformation Grids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="global_context.html">Global Context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
 </ul>
 </li>
@@ -163,13 +166,13 @@
         
           <li><a href="index.html">API Documentation</a> &raquo;</li>
         
-      <li>Exceptions</li>
+      <li>PROJ Network Settings</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/exceptions.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/network.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -182,39 +185,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pyproj.exceptions">
-<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-pyproj.exceptions" title="Permalink to this headline">¶</a></h1>
-<p>Exceptions for pyproj</p>
-<dl class="py exception">
-<dt id="pyproj.exceptions.CRSError">
-<em class="property">exception </em><code class="sig-prename descclassname">pyproj.exceptions.</code><code class="sig-name descname">CRSError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">error_message</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/exceptions.html#CRSError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.CRSError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raised when a CRS error occurs.</p>
+  <div class="section" id="proj-network-settings">
+<span id="network"></span><h1>PROJ Network Settings<a class="headerlink" href="#proj-network-settings" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyproj-network-set-ca-bundle-path">
+<h2>pyproj.network.set_ca_bundle_path<a class="headerlink" href="#pyproj-network-set-ca-bundle-path" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyproj.network.set_ca_bundle_path">
+<code class="sig-prename descclassname">pyproj.network.</code><code class="sig-name descname">set_ca_bundle_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ca_bundle_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>pathlib.Path<span class="p">, </span>str<span class="p">, </span>bool<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/network.html#set_ca_bundle_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.network.set_ca_bundle_path" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<p>Sets the path to the CA Bundle used by the <cite>curl</cite>
+built into PROJ.</p>
+<p>Environment variables that can be used with PROJ 7.2+:</p>
+<ul class="simple">
+<li><p>PROJ_CURL_CA_BUNDLE</p></li>
+<li><p>CURL_CA_BUNDLE</p></li>
+<li><p>SSL_CERT_FILE</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ca_bundle_path</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bool</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – Default is None, which only uses the <cite>certifi</cite> package path as a fallback if
+the environment variables are not set. If a path is passed in, then
+that will be the path used. If it is set to True, then it will default
+to using the path provied by the <cite>certifi</cite> package. If it is set to False,
+then it will not set the path.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="py exception">
-<dt id="pyproj.exceptions.DataDirError">
-<em class="property">exception </em><code class="sig-prename descclassname">pyproj.exceptions.</code><code class="sig-name descname">DataDirError</code><a class="reference internal" href="../_modules/pyproj/exceptions.html#DataDirError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.DataDirError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raised when a the data directory was not found.</p>
-</dd></dl>
-
-<dl class="py exception">
-<dt id="pyproj.exceptions.GeodError">
-<em class="property">exception </em><code class="sig-prename descclassname">pyproj.exceptions.</code><code class="sig-name descname">GeodError</code><a class="reference internal" href="../_modules/pyproj/exceptions.html#GeodError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.GeodError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raised when a Geod error occurs.</p>
-</dd></dl>
-
-<dl class="py exception">
-<dt id="pyproj.exceptions.ProjError">
-<em class="property">exception </em><code class="sig-prename descclassname">pyproj.exceptions.</code><code class="sig-name descname">ProjError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">error_message</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/exceptions.html#ProjError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.ProjError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raised when a Proj error occurs.</p>
-<dl class="py method">
-<dt id="pyproj.exceptions.ProjError.clear">
-<em class="property">static </em><code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/exceptions.html#ProjError.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.exceptions.ProjError.clear" title="Permalink to this definition">¶</a></dt>
-<dd><p>This will clear the internal PROJ erro message.</p>
-</dd></dl>
-
-</dd></dl>
-
+</div>
 </div>
 
 
@@ -225,10 +225,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="show_versions.html" class="btn btn-neutral float-right" title="Show Versions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="sync.html" class="btn btn-neutral float-right" title="Sync Transformation Grids" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="enums.html" class="btn btn-neutral float-left" title="Enumerations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="datadir.html" class="btn btn-neutral float-left" title="Data Directory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
