@@ -46,6 +46,7 @@ __all__ = [
 ]
 import warnings
 
+import pyproj.network
 from pyproj._datadir import (  # noqa: F401
     _pyproj_global_context_initialize,
     is_global_context_network_enabled,
@@ -79,3 +80,5 @@ try:
     _pyproj_global_context_initialize()
 except DataDirError as err:
     warnings.warn(str(err))
+
+pyproj.network.set_ca_bundle_path()

@@ -9,6 +9,7 @@ cdef extern from "proj.h":
                                        const char *dbPath,
                                        const char *const *auxDbPaths,
                                        const char* const *options)
+    void proj_context_set_ca_bundle_path(PJ_CONTEXT *ctx, const char *path);
 
     # projCtx has been replaced by PJ_CONTEXT *.
     # projPJ  has been replaced by PJ *

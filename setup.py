@@ -166,6 +166,7 @@ def get_extension_modules():
             ),
             Extension("pyproj._datadir", ["pyproj/_datadir.pyx"], **ext_options),
             Extension("pyproj._list", ["pyproj/_list.pyx"], **ext_options),
+            Extension("pyproj._network", ["pyproj/_network.pyx"], **ext_options),
             Extension("pyproj._sync", ["pyproj/_sync.pyx"], **ext_options),
         ],
         quiet=True,
@@ -244,4 +245,5 @@ setup(
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
     zip_safe=False,  # https://mypy.readthedocs.io/en/stable/installed_packages.html
+    install_requires=["certifi"],
 )

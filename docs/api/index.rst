@@ -11,6 +11,7 @@ API Documentation
    proj
    list
    datadir
+   network
    sync
    global_context
    enums
