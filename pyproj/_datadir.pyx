@@ -1,9 +1,7 @@
 import os
 import warnings
 from distutils.util import strtobool
-from pathlib import Path
 
-import certifi
 from libc.stdlib cimport free, malloc
 
 from pyproj.compat import cstrencode, pystrdecode
@@ -111,47 +109,6 @@ def get_user_data_dir(create=False):
         The user writable data directory.
     """
     return pystrdecode(proj_context_get_user_writable_directory(NULL, bool(create)))
-
-
-def set_ca_bundle_path(ca_bundle_path=None):
-    """
-    .. versionadded:: 3.0.0
-
-    Sets the path to the CA Bundle used by the `curl`
-    built into PROJ.
-
-    Environment variables that can be used with PROJ 7.2+:
-    - PROJ_CURL_CA_BUNDLE
-    - CURL_CA_BUNDLE
-    - SSL_CERT_FILE
-
-    Parameters
-    ----------
-    ca_bundle_path: Union[Path, str, bool, None], optional
-        Default is None, which only uses the `certifi` package path as a fallback if
-        the environment variables are not set. If a path is passed in, then
-        that will be the path used. If it is set to True, then it will default
-        to using the path provied by the `certifi` package. If it is set to False,
-        then it will not set the path.
-    """
-    if ca_bundle_path is False:
-        return None
-
-    env_var_names = (
-        "PROJ_CURL_CA_BUNDLE",
-        "CURL_CA_BUNDLE",
-        "SSL_CERT_FILE",
-    )
-    if isinstance(ca_bundle_path, (str, Path)):
-        ca_bundle_path = str(ca_bundle_path)
-    elif (
-        (ca_bundle_path is True) or
-        not any(env_var_name in os.environ for env_var_name in env_var_names)
-    ):
-        ca_bundle_path = certifi.where()
-
-    if isinstance(ca_bundle_path, str):
-        proj_context_set_ca_bundle_path(NULL, cstrencode(ca_bundle_path))
 
 
 cdef void pyproj_log_function(void *user_data, int level, const char *error_msg):

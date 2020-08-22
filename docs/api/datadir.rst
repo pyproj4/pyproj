@@ -1,7 +1,7 @@
-.. _data_and_ca_bundle_directory:
+.. _data_directory:
 
-Data Directory & CA Bundle Path
-===============================
+Data Directory
+===============
 
 pyproj.datadir.get_data_dir
 ---------------------------
@@ -25,9 +25,3 @@ pyproj.datadir.get_user_data_dir
 ---------------------------------
 
 .. autofunction:: pyproj.datadir.get_user_data_dir
-
-
-pyproj.set_ca_bundle_path
---------------------------
-
-.. autofunction:: pyproj.set_ca_bundle_path
