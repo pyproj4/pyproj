@@ -11,7 +11,7 @@ documentation.
 
 `pyproj` API for managing the :ref:`data_directory` and :ref:`network`.
 
-.. warning:: pyproj 2 includes datumgrid 1.8 in the wheels. pyproj 3 will not include any datum grids.
+.. warning:: pyproj 3 wheels do not include any transformation grids.
 
 
 Downloading data
