@@ -168,6 +168,7 @@
   <div class="section" id="pyproj-documentation">
 <h1>pyproj Documentation<a class="headerlink" href="#pyproj-documentation" title="Permalink to this headline">¶</a></h1>
 <p>Python interface to  <a class="reference external" href="https://proj.org/">PROJ</a> (cartographic projections and coordinate transformations library).</p>
+<p>GitHub Repository: <a class="reference external" href="https://github.com/pyproj4/pyproj">https://github.com/pyproj4/pyproj</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Minimum supported PROJ version is 7.2.0</p>
@@ -176,7 +177,16 @@
 <p class="admonition-title">Note</p>
 <p>Minimum supported Python version is 3.6</p>
 </div>
-<p>GitHub Repository: <a class="reference external" href="https://github.com/pyproj4/pyproj">https://github.com/pyproj4/pyproj</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>pyproj 3 wheels do not include transformation grids.
+For migration assistance see: <a class="reference internal" href="transformation_grids.html#transformation-grids"><span class="std std-ref">Transformation Grids</span></a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>pyproj 3+ no longer supports manylinux1 wheels.
+pip&gt;=19.0 is required to install manylinux2010 wheels.</p>
+</div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
