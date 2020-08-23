@@ -85,7 +85,7 @@ cdef void pyproj_log_function(void *user_data, int level, const char *error_msg)
     if level == PJ_LOG_ERROR:
         with gil:
             ProjError.internal_proj_error = pystrdecode(error_msg)
-            _LOGGER.debug(f"PROJ_ERROR: {pystrdecode(error_msg)}")
+            _LOGGER.debug(f"PROJ_ERROR: {ProjError.internal_proj_error}")
     elif level == PJ_LOG_DEBUG:
         with gil:
             _LOGGER.debug(f"PROJ_DEBUG: {pystrdecode(error_msg)}")
