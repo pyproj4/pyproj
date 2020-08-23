@@ -1,3 +1,4 @@
+import logging
 import os
 import warnings
 from distutils.util import strtobool
@@ -7,6 +8,10 @@ from libc.stdlib cimport free, malloc
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import DataDirError, ProjError
 
+# for logging the internal PROJ messages
+# https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library
+_LOGGER = logging.getLogger("pyproj")
+_LOGGER.addHandler(logging.NullHandler())
 # default to False is the safest mode
 # as it supports multithreading
 _USE_GLOBAL_CONTEXT = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
@@ -74,8 +79,12 @@ cdef void pyproj_log_function(void *user_data, int level, const char *error_msg)
     """
     Log function for catching PROJ errors.
     """
+    message = pystrdecode(error_msg) if error_msg != NULL else ""
     if level == PJ_LOG_ERROR:
-        ProjError.internal_proj_error = pystrdecode(error_msg)
+        ProjError.internal_proj_error = message
+        _LOGGER.error(f"Internal PROJ: {message}")
+    elif level in (PJ_LOG_DEBUG, PJ_LOG_TRACE):
+        _LOGGER.debug(f"Internal PROJ: {message}")
 
 
 cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
