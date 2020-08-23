@@ -9,9 +9,9 @@ More information about the data available is located under the PROJ
 `resource files <https://proj.org/resource_files.html#transformation-grids>`__
 documentation.
 
-`pyproj` API for managing the :ref:`data_directory` and :ref:`network`.
+.. note:: `pyproj` API for managing the :ref:`data_directory` and :ref:`network`.
 
-.. warning:: pyproj 3 wheels do not include any transformation grids.
+.. note:: pyproj 3 wheels do not include any transformation grids.
 
 
 Downloading data

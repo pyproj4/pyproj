@@ -12,11 +12,11 @@ The easiest methods for installing pyproj are:
 
       pip install pyproj
 
-  .. warning:: pyproj 3+ no longer supports manylinux1 wheels.
-               pip>=19.0 is required to install manylinux2010 wheels.
+  .. note:: pyproj 3+ no longer supports manylinux1 wheels.
+            pip>=19.0 is required to install manylinux2010 wheels.
 
-  .. warning:: pyproj 3+ wheels do not include transformation grids.
-               For migration assistance see: :ref:`transformation_grids`
+  .. note:: pyproj 3+ wheels do not include transformation grids.
+            For migration assistance see: :ref:`transformation_grids`
 
 
   - The MacOS and Linux wheels are powered by `multibuild by Matthew Brett <https://github.com/matthew-brett/multibuild>`__

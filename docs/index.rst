@@ -9,11 +9,11 @@ GitHub Repository: https://github.com/pyproj4/pyproj
 
 .. note:: Minimum supported Python version is 3.6
 
-.. warning:: pyproj 3 wheels do not include transformation grids.
-             For migration assistance see: :ref:`transformation_grids`
+.. note:: pyproj 3 wheels do not include transformation grids.
+          For migration assistance see: :ref:`transformation_grids`
 
-.. warning:: pyproj 3+ no longer supports manylinux1 wheels.
-             pip>=19.0 is required to install manylinux2010 wheels.
+.. note:: pyproj 3+ no longer supports manylinux1 wheels.
+          pip>=19.0 is required to install manylinux2010 wheels.
 
 
 .. toctree::
