@@ -192,7 +192,7 @@ To get more debugging information from the internal PROJ code:
 1. Set the `PROJ_DEBUG <https://proj.org/usage/environmentvars.html?highlight=debug#envvar-PROJ_DEBUG>`__
    environment variable to the desired level.
 
-2. Activate logging in `pyproj`
+2. Activate logging in `pyproj` with the devel `DEBUG`:
 
     More information available here: https://docs.python.org/3/howto/logging.html
 
@@ -205,7 +205,7 @@ To get more debugging information from the internal PROJ code:
         import logging
 
         console_handler = logging.StreamHandler()
-        formatter = logging.Formatter("%(levelname)s: %(message)s")
+        formatter = logging.Formatter("%(levelname)s:%(message)s")
         console_handler.setFormatter(formatter)
         logger = logging.getLogger("pyproj")
         logger.addHandler(console_handler)
@@ -218,4 +218,4 @@ To get more debugging information from the internal PROJ code:
 
         import logging
 
-        logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
+        logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.DEBUG)

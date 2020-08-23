@@ -75,16 +75,23 @@ def get_user_data_dir(create=False):
     return pystrdecode(proj_context_get_user_writable_directory(NULL, bool(create)))
 
 
-cdef void pyproj_log_function(void *user_data, int level, const char *error_msg):
+cdef void pyproj_log_function(void *user_data, int level, const char *error_msg) nogil:
     """
     Log function for catching PROJ errors.
     """
-    message = pystrdecode(error_msg) if error_msg != NULL else ""
+    # from pyproj perspective, everything from PROJ is for debugging.
+    # The verbosity should be managed via the
+    # PROJ_DEBUG environment variable.
     if level == PJ_LOG_ERROR:
-        ProjError.internal_proj_error = message
-        _LOGGER.error(f"Internal PROJ: {message}")
-    elif level in (PJ_LOG_DEBUG, PJ_LOG_TRACE):
-        _LOGGER.debug(f"Internal PROJ: {message}")
+        with gil:
+            ProjError.internal_proj_error = pystrdecode(error_msg)
+            _LOGGER.debug(f"PROJ_ERROR: {pystrdecode(error_msg)}")
+    elif level == PJ_LOG_DEBUG:
+        with gil:
+            _LOGGER.debug(f"PROJ_DEBUG: {pystrdecode(error_msg)}")
+    elif level == PJ_LOG_TRACE:
+        with gil:
+            _LOGGER.debug(f"PROJ_TRACE: {pystrdecode(error_msg)}")
 
 
 cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
