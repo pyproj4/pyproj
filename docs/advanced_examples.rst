@@ -189,7 +189,7 @@ Debugging Internal PROJ:
 
 To get more debugging information from the internal PROJ code:
 
-1. Set the `PROJ_DEBUG <https://proj.org/usage/environmentvars.html?highlight=debug#envvar-PROJ_DEBUG>`__
+1. Set the `PROJ_DEBUG <https://proj.org/usage/environmentvars.html#envvar-PROJ_DEBUG>`__
    environment variable to the desired level.
 
 2. Activate logging in `pyproj` with the devel `DEBUG`:
