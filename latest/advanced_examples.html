@@ -104,6 +104,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#area-of-interest">Area of Interest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multithreading">Multithreading</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#optimizing-single-threaded-applications">Optimizing Single-Threaded Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-internal-proj">Debugging Internal PROJ:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
@@ -333,6 +334,40 @@ enabling the use of the global context can provide performance enhancements.</p>
 <span class="n">crs_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyproj</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">]</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="debugging-internal-proj">
+<h2>Debugging Internal PROJ:<a class="headerlink" href="#debugging-internal-proj" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<p>To get more debugging information from the internal PROJ code:</p>
+<ol class="arabic">
+<li><p>Set the <a class="reference external" href="https://proj.org/usage/environmentvars.html#envvar-PROJ_DEBUG">PROJ_DEBUG</a>
+environment variable to the desired level.</p></li>
+<li><p>Activate logging in <cite>pyproj</cite> with the devel <cite>DEBUG</cite>:</p>
+<blockquote>
+<div><p>More information available here: <a class="reference external" href="https://docs.python.org/3/howto/logging.html">https://docs.python.org/3/howto/logging.html</a></p>
+<p>Here are examples to get started.</p>
+<p>Add handler to the <cite>pyproj</cite> logger:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">console_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">console_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;pyproj&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">console_handler</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Activate default logging config:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
 </div>
 </div>
 
