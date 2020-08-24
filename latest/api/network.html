@@ -246,8 +246,9 @@ built into PROJ when PROJ network is enabled..</p>
 <dd class="field-odd"><p><strong>ca_bundle_path</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bool</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – Default is None, which only uses the <cite>certifi</cite> package path as a fallback if
 the environment variables are not set. If a path is passed in, then
 that will be the path used. If it is set to True, then it will default
-to using the path provied by the <cite>certifi</cite> package. If it is set to False,
-then it will not set the path.</p>
+to using the path provied by the <cite>certifi</cite> package. If it is set to False
+or an empty string then it will default to the system settings or environment
+variables.</p>
 </dd>
 </dl>
 </dd></dl>

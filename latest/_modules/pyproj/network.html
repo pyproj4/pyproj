@@ -198,26 +198,32 @@
 <span class="sd">        Default is None, which only uses the `certifi` package path as a fallback if</span>
 <span class="sd">        the environment variables are not set. If a path is passed in, then</span>
 <span class="sd">        that will be the path used. If it is set to True, then it will default</span>
-<span class="sd">        to using the path provied by the `certifi` package. If it is set to False,</span>
-<span class="sd">        then it will not set the path.</span>
+<span class="sd">        to using the path provied by the `certifi` package. If it is set to False</span>
+<span class="sd">        or an empty string then it will default to the system settings or environment</span>
+<span class="sd">        variables.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">ca_bundle_path</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">return</span>
-
     <span class="n">env_var_names</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;PROJ_CURL_CA_BUNDLE&quot;</span><span class="p">,</span>
         <span class="s2">&quot;CURL_CA_BUNDLE&quot;</span><span class="p">,</span>
         <span class="s2">&quot;SSL_CERT_FILE&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">ca_bundle_path</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="c1"># need to reset CA Bundle path to use system settings</span>
+        <span class="c1"># or environment variables because it</span>
+        <span class="c1"># could have been changed by the user previously</span>
+        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
         <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">)</span>
     <span class="k">elif</span> <span class="p">(</span><span class="n">ca_bundle_path</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
         <span class="n">env_var_name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span> <span class="k">for</span> <span class="n">env_var_name</span> <span class="ow">in</span> <span class="n">env_var_names</span>
     <span class="p">):</span>
         <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># reset CA Bundle path to use system settings</span>
+        <span class="c1"># or environment variables</span>
+        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">_set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">)</span></div>
+    <span class="n">_set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
