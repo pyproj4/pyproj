@@ -180,3 +180,42 @@ Here is an example where enabling the global context can help:
 
     codes = pyproj.get_codes("EPSG", pyproj.enums.PJType.PROJECTED_CRS, False)
     crs_list = [pyproj.CRS.from_epsg(code) for code in codes]
+
+
+Debugging Internal PROJ:
+------------------------
+
+.. versionadded:: 3.0.0
+
+To get more debugging information from the internal PROJ code:
+
+1. Set the `PROJ_DEBUG <https://proj.org/usage/environmentvars.html#envvar-PROJ_DEBUG>`__
+   environment variable to the desired level.
+
+2. Activate logging in `pyproj` with the devel `DEBUG`:
+
+    More information available here: https://docs.python.org/3/howto/logging.html
+
+    Here are examples to get started.
+
+    Add handler to the `pyproj` logger:
+
+    .. code-block:: python
+
+        import logging
+
+        console_handler = logging.StreamHandler()
+        formatter = logging.Formatter("%(levelname)s:%(message)s")
+        console_handler.setFormatter(formatter)
+        logger = logging.getLogger("pyproj")
+        logger.addHandler(console_handler)
+        logger.setLevel(logging.DEBUG)
+
+
+    Activate default logging config:
+
+    .. code-block:: python
+
+        import logging
+
+        logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.DEBUG)
