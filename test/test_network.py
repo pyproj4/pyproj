@@ -26,7 +26,7 @@ def test_ca_bundle_path__always_certifi(c_set_ca_bundle_path_mock, env_var):
 @patch("pyproj.network._set_ca_bundle_path")
 def test_ca_bundle_path__skip(c_set_ca_bundle_path_mock):
     set_ca_bundle_path(False)
-    c_set_ca_bundle_path_mock.assert_not_called()
+    c_set_ca_bundle_path_mock.assert_called_with("")
 
 
 @pytest.mark.parametrize(
@@ -36,7 +36,7 @@ def test_ca_bundle_path__skip(c_set_ca_bundle_path_mock):
 def test_ca_bundle_path__env_var_skip(c_set_ca_bundle_path_mock, env_var):
     with patch.dict("os.environ", {env_var: "/tmp/dummy/path/cacert.pem"}, clear=True):
         set_ca_bundle_path()
-    c_set_ca_bundle_path_mock.assert_not_called()
+    c_set_ca_bundle_path_mock.assert_called_with("")
 
 
 @pytest.mark.parametrize(
