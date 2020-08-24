@@ -30,6 +30,7 @@ matrix:
     - python: 3.6
       env:
         - PROJ_NETWORK=ON
+        - PROJ_DEBUG=3
     - python: 3.6
       env:
         - PROJSYNC=ALL

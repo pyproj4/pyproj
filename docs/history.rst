@@ -23,6 +23,7 @@ Change Log
 * ENH: Add support for temporal CRS CF coordinate system (issue #672)
 * BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)
 * ENH: Added :ref:`network` (#675, #691, #695)
+* ENH: Added support for debugging internal PROJ (pull #696)
 
 2.6.1
 ~~~~~

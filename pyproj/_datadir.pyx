@@ -1,3 +1,4 @@
+import logging
 import os
 import warnings
 from distutils.util import strtobool
@@ -7,6 +8,10 @@ from libc.stdlib cimport free, malloc
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import DataDirError, ProjError
 
+# for logging the internal PROJ messages
+# https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library
+_LOGGER = logging.getLogger("pyproj")
+_LOGGER.addHandler(logging.NullHandler())
 # default to False is the safest mode
 # as it supports multithreading
 _USE_GLOBAL_CONTEXT = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
@@ -70,12 +75,23 @@ def get_user_data_dir(create=False):
     return pystrdecode(proj_context_get_user_writable_directory(NULL, bool(create)))
 
 
-cdef void pyproj_log_function(void *user_data, int level, const char *error_msg):
+cdef void pyproj_log_function(void *user_data, int level, const char *error_msg) nogil:
     """
     Log function for catching PROJ errors.
     """
+    # from pyproj perspective, everything from PROJ is for debugging.
+    # The verbosity should be managed via the
+    # PROJ_DEBUG environment variable.
     if level == PJ_LOG_ERROR:
-        ProjError.internal_proj_error = pystrdecode(error_msg)
+        with gil:
+            ProjError.internal_proj_error = pystrdecode(error_msg)
+            _LOGGER.debug(f"PROJ_ERROR: {ProjError.internal_proj_error}")
+    elif level == PJ_LOG_DEBUG:
+        with gil:
+            _LOGGER.debug(f"PROJ_DEBUG: {pystrdecode(error_msg)}")
+    elif level == PJ_LOG_TRACE:
+        with gil:
+            _LOGGER.debug(f"PROJ_TRACE: {pystrdecode(error_msg)}")
 
 
 cdef void set_context_data_dir(PJ_CONTEXT* context) except *:

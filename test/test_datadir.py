@@ -1,3 +1,4 @@
+import logging
 import os
 from contextlib import contextmanager
 
@@ -5,7 +6,7 @@ import pytest
 from mock import patch
 
 import pyproj._datadir
-from pyproj import CRS, get_codes, set_use_global_context
+from pyproj import CRS, Transformer, get_codes, set_use_global_context
 from pyproj._datadir import _pyproj_global_context_initialize
 from pyproj.datadir import (
     DataDirError,
@@ -15,6 +16,7 @@ from pyproj.datadir import (
     set_data_dir,
 )
 from pyproj.enums import PJType
+from pyproj.exceptions import CRSError
 from test.conftest import proj_env
 
 
@@ -28,6 +30,23 @@ def proj_context_env():
         yield
     finally:
         pyproj._datadir._USE_GLOBAL_CONTEXT = context
+
+
+@contextmanager
+def proj_logging_env():
+    """
+    Ensure handler is added and then removed at end.
+    """
+    console_handler = logging.StreamHandler()
+    formatter = logging.Formatter("%(threadName)s:%(levelname)s:%(message)s")
+    console_handler.setFormatter(formatter)
+    logger = logging.getLogger("pyproj")
+    logger.addHandler(console_handler)
+    logger.setLevel(logging.DEBUG)
+    try:
+        yield
+    finally:
+        logger.removeHandler(console_handler)
 
 
 def create_projdb(tmpdir):
@@ -227,3 +246,36 @@ def test_set_use_global_context__off():
     with proj_context_env():
         set_use_global_context(False)
         assert pyproj._datadir._USE_GLOBAL_CONTEXT is False
+
+
+def test_proj_debug_logging(capsys):
+    with proj_logging_env():
+        with pytest.warns(FutureWarning):
+            transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
+        transformer.transform(100000, 100000)
+        captured = capsys.readouterr()
+        if os.environ.get("PROJ_DEBUG") == "3":
+            assert "PROJ_TRACE" in captured.err
+            assert "PROJ_DEBUG" in captured.err
+        elif os.environ.get("PROJ_DEBUG") == "2":
+            assert "PROJ_TRACE" not in captured.err
+            assert "PROJ_DEBUG" in captured.err
+        else:
+            assert captured.err == ""
+
+
+def test_proj_debug_logging__error(capsys):
+    with proj_logging_env(), pytest.raises(CRSError):
+        CRS("INVALID STRING")
+        captured = capsys.readouterr()
+        if os.environ.get("PROJ_DEBUG") == "3":
+            assert "PROJ_TRACE" in captured.err
+            assert "PROJ_DEBUG" in captured.err
+            assert "PROJ_ERROR" in captured.err
+        elif os.environ.get("PROJ_DEBUG") == "2":
+            assert "PROJ_TRACE" not in captured.err
+            assert "PROJ_DEBUG" in captured.err
+            assert "PROJ_ERROR" in captured.err
+        else:
+            assert captured.err == ""
+            assert captured.out == ""
