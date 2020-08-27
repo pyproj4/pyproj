@@ -23,7 +23,11 @@ class BBox:
     """
 
     def __init__(
-        self, west: float, south: float, east: float, north: float,
+        self,
+        west: float,
+        south: float,
+        east: float,
+        north: float,
     ):
         self.west = west
         self.south = south
