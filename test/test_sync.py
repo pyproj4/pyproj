@@ -127,9 +127,7 @@ def test_download_resource_file__nosha256(urlretrieve_mock, tmp_path):
 
     urlretrieve_mock.side_effect = dummy_urlretrieve
     _download_resource_file(
-        file_url="test_url",
-        short_name="test_file.txt",
-        directory=tmp_path,
+        file_url="test_url", short_name="test_file.txt", directory=tmp_path
     )
     urlretrieve_mock.assert_called_with("test_url", tmp_path / "test_file.txt.part")
     expected_file = tmp_path / "test_file.txt"
