@@ -89,10 +89,10 @@ sync_parser.add_argument(
     action="store_true",
 )
 sync_parser.add_argument(
-    "--list-files", help="List the files without downloading.", action="store_true",
+    "--list-files", help="List the files without downloading.", action="store_true"
 )
 sync_parser.add_argument(
-    "--all", help="Download all missing transform grids.", action="store_true",
+    "--all", help="Download all missing transform grids.", action="store_true"
 )
 sync_parser.add_argument(
     "--system-directory",
@@ -107,7 +107,7 @@ sync_parser.add_argument(
     help="The directory to sync grids to instead of the user writable directory.",
 )
 sync_parser.add_argument(
-    "-v", "--verbose", help="Print download information.", action="store_true",
+    "-v", "--verbose", help="Print download information.", action="store_true"
 )
 
 

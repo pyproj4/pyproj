@@ -1,5 +1,6 @@
 linters:
-    black:
-    flake8:
-        python: 3
-        max-line-length: 88
+  black:
+    config: ./pyproject.toml
+  flake8:
+    python: 3
+    max-line-length: 88

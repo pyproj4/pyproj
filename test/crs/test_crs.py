@@ -86,7 +86,7 @@ def test_initialize_projparams_with_kwargs():
 
 
 def test_bare_parameters():
-    """ Make sure that bare parameters (e.g., no_defs) are handled properly,
+    """Make sure that bare parameters (e.g., no_defs) are handled properly,
     even if they come in with key=True.  This covers interaction with pyproj,
     which makes presents bare parameters as key=<bool>."""
 
