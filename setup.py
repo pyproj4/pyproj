@@ -43,7 +43,7 @@ def get_proj_dir():
             proj = find_executable("proj")
         if proj is None:
             raise SystemExit(
-                "proj executable not found. Please set the PROJ_DIR variable."
+                "proj executable not found. Please set the PROJ_DIR variable. "
                 "For more information see: "
                 "https://pyproj4.github.io/pyproj/stable/installation.html"
             )
@@ -193,8 +193,7 @@ def get_package_data():
 
 def get_version():
     """
-    retreive pyproj version information (stored in _proj.pyx) in version variable
-    (taken from Fiona)
+    retreive pyproj version information (taken from Fiona)
     """
     with open(os.path.join("pyproj", "__init__.py"), "r") as f:
         for line in f:
@@ -204,46 +203,9 @@ def get_version():
     raise SystemExit("ERROR: pyproj version not fount.")
 
 
-def get_long_description():
-    """
-    Get the long description for the file.
-    """
-    with open("README.md", encoding="utf-8") as ld_file:
-        return ld_file.read()
-
-
+# static items in setup.cfg
 setup(
-    name="pyproj",
     version=get_version(),
-    description="Python interface to PROJ (cartographic projections "
-    "and coordinate transformations library)",
-    long_description=get_long_description(),
-    long_description_content_type="text/markdown",
-    url="https://github.com/pyproj4/pyproj",
-    download_url="http://python.org/pypi/pyproj",
-    author="Jeff Whitaker",
-    author_email="jeffrey.s.whitaker@noaa.gov",
-    platforms=["any"],
-    license="MIT",
-    entry_points={"console_scripts": ["pyproj=pyproj.__main__:main"]},
-    keywords=["python", "map projections", "GIS", "mapping", "maps"],
-    classifiers=[
-        "Development Status :: 4 - Beta",
-        "Intended Audience :: Science/Research",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Scientific/Engineering :: GIS",
-        "Topic :: Scientific/Engineering :: Mathematics",
-        "Operating System :: OS Independent",
-        "Typing :: Typed",
-    ],
-    packages=["pyproj", "pyproj.crs"],
-    python_requires=">=3.6",
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
-    zip_safe=False,  # https://mypy.readthedocs.io/en/stable/installed_packages.html
-    install_requires=["certifi"],
 )
