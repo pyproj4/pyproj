@@ -735,10 +735,10 @@
 <span class="sd">        -------</span>
 <span class="sd">        (float, float):</span>
 <span class="sd">            The geodesic area (meters^2) and permimeter (meters) of the polygon.</span>
-<span class="sd">       &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">polygon_area_perimeter</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
-                <span class="o">*</span><span class="n">geometry</span><span class="o">.</span><span class="n">xy</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">geometry</span><span class="o">.</span><span class="n">xy</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">NotImplementedError</span><span class="p">):</span>
             <span class="k">pass</span>
