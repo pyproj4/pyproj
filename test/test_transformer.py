@@ -1001,10 +1001,7 @@ def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, cap
 @patch("pyproj.transformer._download_resource_file")
 @patch("pyproj.transformer.get_user_data_dir")
 def test_transformer_group__download_grids__directory(
-    get_user_data_dir_mock,
-    download_mock,
-    tmp_path,
-    capsys,
+    get_user_data_dir_mock, download_mock, tmp_path, capsys
 ):
     with proj_network_env():
         if pyproj._datadir._USE_GLOBAL_CONTEXT:

@@ -1628,10 +1628,7 @@ def test_ellipsoidal_cs__from_name():
         ],
     }
     crs = CRS.from_cf(
-        dict(
-            grid_mapping_name="latitude_longitude",
-            geographic_crs_name="WGS 84",
-        ),
+        dict(grid_mapping_name="latitude_longitude", geographic_crs_name="WGS 84"),
         ellipsoidal_cs=ellipsoidal_cs,
     )
     assert crs.coordinate_system.to_json_dict() == ellipsoidal_cs

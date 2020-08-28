@@ -197,8 +197,7 @@ def test_sync__bbox__list__exclude_world_coverage(input_command, tmpdir):
 def test_sync__all__exclusive_error(input_command, extra_arg, tmpdir):
     with tmp_chdir(str(tmpdir)), pytest.raises(subprocess.CalledProcessError):
         subprocess.check_output(
-            input_command + ["sync", "--all", extra_arg],
-            stderr=subprocess.STDOUT,
+            input_command + ["sync", "--all", extra_arg], stderr=subprocess.STDOUT
         )
 
 

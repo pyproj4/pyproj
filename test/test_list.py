@@ -48,10 +48,7 @@ def test_units_map__category(category):
         assert item.category == category
 
 
-@pytest.mark.parametrize(
-    "auth_name",
-    ["EPSG", "PROJ"],
-)
+@pytest.mark.parametrize("auth_name", ["EPSG", "PROJ"])
 def test_units_map__auth_name(auth_name):
     units_map = get_units_map(auth_name=auth_name)
     assert len(units_map) > 1
@@ -59,10 +56,7 @@ def test_units_map__auth_name(auth_name):
         assert item.auth_name == auth_name
 
 
-@pytest.mark.parametrize(
-    "deprecated",
-    ["zzz", "True", True],
-)
+@pytest.mark.parametrize("deprecated", ["zzz", "True", True])
 def test_units_map__deprecated(deprecated):
     units_map = get_units_map(allow_deprecated=deprecated)
     assert len(units_map) > 1
@@ -72,10 +66,7 @@ def test_units_map__deprecated(deprecated):
     assert any_deprecated
 
 
-@pytest.mark.parametrize(
-    "auth_name, category",
-    [(None, 1), (1, None)],
-)
+@pytest.mark.parametrize("auth_name, category", [(None, 1), (1, None)])
 def test_units_map__invalid(auth_name, category):
     with pytest.raises(TypeError):
         get_units_map(auth_name=auth_name, category=category)

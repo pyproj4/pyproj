@@ -442,16 +442,13 @@ def test_get_factors__2d_input(radians):
         longitude=longitude, latitude=latitude, radians=radians
     )
     assert_almost_equal(
-        factors.meridional_scale,
-        [[1.0001523, 1.0006095], [1.0013723, 1.0024419]],
+        factors.meridional_scale, [[1.0001523, 1.0006095], [1.0013723, 1.0024419]]
     )
     assert_almost_equal(
-        factors.parallel_scale,
-        [[1.0001523, 1.0006095], [1.0013723, 1.0024419]],
+        factors.parallel_scale, [[1.0001523, 1.0006095], [1.0013723, 1.0024419]]
     )
     assert_almost_equal(
-        factors.areal_scale,
-        [[1.00030468, 1.00121946], [1.00274658, 1.00488976]],
+        factors.areal_scale, [[1.00030468, 1.00121946], [1.00274658, 1.00488976]]
     )
     assert_almost_equal(factors.angular_distortion, [[0, 0], [0, 0]], decimal=5)
     assert_almost_equal(
@@ -459,22 +456,16 @@ def test_get_factors__2d_input(radians):
     )
     assert_almost_equal(factors.meridian_convergence, [[0, 0], [0, 0]])
     assert_almost_equal(
-        factors.tissot_semimajor,
-        [[1.00015234, 1.00060955], [1.00137235, 1.0024419]],
+        factors.tissot_semimajor, [[1.00015234, 1.00060955], [1.00137235, 1.0024419]]
     )
     assert_almost_equal(
-        factors.tissot_semiminor,
-        [[1.00015232, 1.00060953], [1.00137235, 1.0024419]],
+        factors.tissot_semiminor, [[1.00015232, 1.00060953], [1.00137235, 1.0024419]]
     )
-    assert_almost_equal(
-        factors.dx_dlam,
-        [[1, 1], [1, 1]],
-    )
+    assert_almost_equal(factors.dx_dlam, [[1, 1], [1, 1]])
     assert_almost_equal(factors.dx_dphi, [[0, 0], [0, 0]])
     assert_almost_equal(factors.dy_dlam, [[0, 0], [0, 0]])
     assert_almost_equal(
-        factors.dy_dphi,
-        [[1.00015233, 1.00060954], [1.00137235, 1.0024419]],
+        factors.dy_dphi, [[1.00015233, 1.00060954], [1.00137235, 1.0024419]]
     )
 
 

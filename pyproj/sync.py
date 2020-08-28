@@ -22,13 +22,7 @@ class BBox:
     bounding boxes.
     """
 
-    def __init__(
-        self,
-        west: float,
-        south: float,
-        east: float,
-        north: float,
-    ):
+    def __init__(self, west: float, south: float, east: float, north: float):
         self.west = west
         self.south = south
         self.east = east

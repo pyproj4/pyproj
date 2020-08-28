@@ -573,8 +573,7 @@ class Geod(_Geod):
         """
         try:
             return self.polygon_area_perimeter(  # type: ignore
-                *geometry.xy,
-                radians=radians,
+                *geometry.xy, radians=radians
             )
         except (AttributeError, NotImplementedError):
             pass

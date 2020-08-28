@@ -33,8 +33,7 @@ def test__copytobuffer(in_data, is_float, is_list, is_tuple):
 
 
 @pytest.mark.parametrize(
-    "in_arr",
-    [numpy.array([1]), DataArray(numpy.array([1])), Series(numpy.array([1]))],
+    "in_arr", [numpy.array([1]), DataArray(numpy.array([1])), Series(numpy.array([1]))]
 )
 def test__copytobuffer__numpy_array(in_arr):
     assert _copytobuffer(in_arr) == (

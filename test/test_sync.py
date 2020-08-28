@@ -93,12 +93,7 @@ def test_sha256sum(tmp_path):
 
 @patch("pyproj.sync.urlretrieve", autospec=True)
 @pytest.mark.parametrize("verbose", [True, False])
-def test_download_resource_file(
-    urlretrieve_mock,
-    verbose,
-    tmp_path,
-    capsys,
-):
+def test_download_resource_file(urlretrieve_mock, verbose, tmp_path, capsys):
     def dummy_urlretrieve(url, local_path):
         with open(local_path, "w") as testf:
             testf.write("TEST")
@@ -126,10 +121,7 @@ def test_download_resource_file(
 
 
 @patch("pyproj.sync.urlretrieve", autospec=True)
-def test_download_resource_file__nosha256(
-    urlretrieve_mock,
-    tmp_path,
-):
+def test_download_resource_file__nosha256(urlretrieve_mock, tmp_path):
     def dummy_urlretrieve(url, local_path):
         local_path.touch()
 
@@ -145,10 +137,7 @@ def test_download_resource_file__nosha256(
 
 
 @patch("pyproj.sync.urlretrieve", autospec=True)
-def test_download_resource_file__exception(
-    urlretrieve_mock,
-    tmp_path,
-):
+def test_download_resource_file__exception(urlretrieve_mock, tmp_path):
     def dummy_urlretrieve(url, local_path):
         local_path.touch()
         raise URLError("Test")
@@ -168,10 +157,7 @@ def test_download_resource_file__exception(
 
 
 @patch("pyproj.sync.urlretrieve", autospec=True)
-def test_download_resource_file__bad_sha256sum(
-    urlretrieve_mock,
-    tmp_path,
-):
+def test_download_resource_file__bad_sha256sum(urlretrieve_mock, tmp_path):
     def dummy_urlretrieve(url, local_path):
         local_path.touch()
 
