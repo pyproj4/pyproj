@@ -4,6 +4,8 @@ Module for managing the PROJ data directory.
 import os
 import sys
 from distutils.spawn import find_executable
+from pathlib import Path
+from typing import Union
 
 from pyproj._datadir import (  # noqa: F401
     _global_context_set_data_dir,
@@ -15,18 +17,18 @@ _USER_PROJ_DATA = None
 _VALIDATED_PROJ_DATA = None
 
 
-def set_data_dir(proj_data_dir: str) -> None:
+def set_data_dir(proj_data_dir: Union[str, Path]) -> None:
     """
     Set the data directory for PROJ to use.
 
     Parameters
     ----------
-    proj_data_dir: str
+    proj_data_dir: Union[str, Path]
         The path to the PROJ data directory.
     """
     global _USER_PROJ_DATA
     global _VALIDATED_PROJ_DATA
-    _USER_PROJ_DATA = proj_data_dir
+    _USER_PROJ_DATA = str(proj_data_dir)
     # set to none to re-validate
     _VALIDATED_PROJ_DATA = None
     # need to reset the global PROJ context
@@ -35,16 +37,16 @@ def set_data_dir(proj_data_dir: str) -> None:
     _global_context_set_data_dir()
 
 
-def append_data_dir(proj_data_dir: str) -> None:
+def append_data_dir(proj_data_dir: Union[str, Path]) -> None:
     """
     Add an additional data directory for PROJ to use.
 
     Parameters
     ----------
-    proj_data_dir: str
+    proj_data_dir: Union[str, Path]
         The path to the PROJ data directory.
     """
-    set_data_dir(os.pathsep.join([get_data_dir(), proj_data_dir]))
+    set_data_dir(os.pathsep.join([get_data_dir(), str(proj_data_dir)]))
 
 
 def get_data_dir() -> str:
@@ -68,15 +70,14 @@ def get_data_dir() -> str:
     if _VALIDATED_PROJ_DATA is not None:
         return _VALIDATED_PROJ_DATA
     global _USER_PROJ_DATA
-    internal_datadir = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "proj_dir", "share", "proj"
-    )
+    internal_datadir = Path(__file__).absolute().parent / "proj_dir" / "share" / "proj"
     proj_lib_dirs = os.environ.get("PROJ_LIB", "")
-    prefix_datadir = os.path.join(sys.prefix, "share", "proj")
+    prefix_datadir = Path(sys.prefix, "share", "proj")
 
     def valid_data_dir(potential_data_dir):
-        if potential_data_dir is not None and os.path.exists(
-            os.path.join(potential_data_dir, "proj.db")
+        if (
+            potential_data_dir is not None
+            and Path(potential_data_dir, "proj.db").exists()
         ):
             return True
         return False
@@ -92,19 +93,17 @@ def get_data_dir() -> str:
     if valid_data_dirs(_USER_PROJ_DATA):
         _VALIDATED_PROJ_DATA = _USER_PROJ_DATA
     elif valid_data_dir(internal_datadir):
-        _VALIDATED_PROJ_DATA = internal_datadir
+        _VALIDATED_PROJ_DATA = str(internal_datadir)
     elif valid_data_dirs(proj_lib_dirs):
         _VALIDATED_PROJ_DATA = proj_lib_dirs
     elif valid_data_dir(prefix_datadir):
-        _VALIDATED_PROJ_DATA = prefix_datadir
+        _VALIDATED_PROJ_DATA = str(prefix_datadir)
     else:
         proj_exe = find_executable("proj")
         if proj_exe is not None:
-            system_proj_dir = os.path.join(
-                os.path.dirname(os.path.dirname(proj_exe)), "share", "proj"
-            )
+            system_proj_dir = Path(proj_exe).parent.parent / "share" / "proj"
             if valid_data_dir(system_proj_dir):
-                _VALIDATED_PROJ_DATA = system_proj_dir
+                _VALIDATED_PROJ_DATA = str(system_proj_dir)
 
     if _VALIDATED_PROJ_DATA is None:
         raise DataDirError(
