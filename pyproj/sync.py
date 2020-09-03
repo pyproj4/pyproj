@@ -264,8 +264,7 @@ def _load_grid_geojson(target_directory=None) -> Dict[str, Any]:
             short_name="files.geojson",
             directory=target_directory,
         )
-    with open(local_path, encoding="utf-8") as gridf:
-        return json.load(gridf)
+    return json.loads(local_path.read_text(encoding="utf-8"))
 
 
 def get_transform_grid_list(

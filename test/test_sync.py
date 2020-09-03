@@ -83,8 +83,7 @@ def test_get_transform_grid_list__area_of_use():
 
 def test_sha256sum(tmp_path):
     test_file = tmp_path / "test.file"
-    with open(test_file, "w") as testf:
-        testf.write("TEST")
+    test_file.write_text("TEST")
     assert (
         _sha256sum(test_file)
         == "94ee059335e587e501cc4bf90613e0814f00a7b08bc7c648fd865a2af6a22cc2"

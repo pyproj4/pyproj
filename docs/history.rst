@@ -24,6 +24,7 @@ Change Log
 * BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)
 * ENH: Added :ref:`network` (#675, #691, #695)
 * ENH: Added support for debugging internal PROJ (pull #696)
+* ENH: Added pathlib support for data directory methods (pull #702)
 
 2.6.1
 ~~~~~

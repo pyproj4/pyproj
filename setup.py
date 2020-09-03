@@ -2,22 +2,25 @@ import os
 import subprocess
 import sys
 from distutils.spawn import find_executable
-from glob import glob
+from pathlib import Path
+from typing import Dict, List, Optional
 
 from pkg_resources import parse_version
 from setuptools import Extension, setup
 
 PROJ_MIN_VERSION = parse_version("7.2.0")
-CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-BASE_INTERNAL_PROJ_DIR = "proj_dir"
-INTERNAL_PROJ_DIR = os.path.join(CURRENT_FILE_PATH, "pyproj", BASE_INTERNAL_PROJ_DIR)
+CURRENT_FILE_PATH = Path(__file__).absolute().parent
+BASE_INTERNAL_PROJ_DIR = Path("proj_dir")
+INTERNAL_PROJ_DIR = CURRENT_FILE_PATH / "pyproj" / BASE_INTERNAL_PROJ_DIR
 
 
-def check_proj_version(proj_dir):
+def check_proj_version(proj_dir: Path):
     """checks that the PROJ library meets the minimum version"""
-    proj = os.path.join(proj_dir, "bin", "proj")
-    proj_ver_bytes = subprocess.check_output(proj, stderr=subprocess.STDOUT)
-    proj_ver_bytes = (proj_ver_bytes.decode("ascii").split()[1]).strip(",")
+    proj = proj_dir / "bin" / "proj"
+    proj_ver_bytes = subprocess.check_output(
+        str(proj), stderr=subprocess.STDOUT
+    ).decode("ascii")
+    proj_ver_bytes = (proj_ver_bytes.split()[1]).strip(",")
     proj_version = parse_version(proj_ver_bytes)
     if proj_version < PROJ_MIN_VERSION:
         raise SystemExit(
@@ -29,15 +32,18 @@ def check_proj_version(proj_dir):
     return proj_version
 
 
-def get_proj_dir():
+def get_proj_dir() -> Path:
     """
     This function finds the base PROJ directory.
     """
-    proj_dir = os.environ.get("PROJ_DIR")
-    if proj_dir is None and os.path.exists(INTERNAL_PROJ_DIR):
+    proj_dir_environ = os.environ.get("PROJ_DIR")
+    proj_dir: Optional[Path] = None
+    if proj_dir_environ is not None:
+        proj_dir = Path(proj_dir_environ)
+    if proj_dir is None and INTERNAL_PROJ_DIR.exists():
         proj_dir = INTERNAL_PROJ_DIR
         print(f"Internally compiled directory being used {INTERNAL_PROJ_DIR}.")
-    elif proj_dir is None and not os.path.exists(INTERNAL_PROJ_DIR):
+    elif proj_dir is None and not INTERNAL_PROJ_DIR.exists():
         proj = find_executable("proj", path=sys.prefix)
         if proj is None:
             proj = find_executable("proj")
@@ -47,8 +53,8 @@ def get_proj_dir():
                 "For more information see: "
                 "https://pyproj4.github.io/pyproj/stable/installation.html"
             )
-        proj_dir = os.path.dirname(os.path.dirname(proj))
-    elif proj_dir is not None and os.path.exists(proj_dir):
+        proj_dir = Path(proj).parent.parent
+    elif proj_dir is not None and proj_dir.exists():
         print("PROJ_DIR is set, using existing proj4 installation..\n")
     else:
         raise SystemExit(f"ERROR: Invalid path for PROJ_DIR {proj_dir}")
@@ -58,7 +64,7 @@ def get_proj_dir():
     return proj_dir
 
 
-def get_proj_libdirs(proj_dir):
+def get_proj_libdirs(proj_dir: Path) -> List[str]:
     """
     This function finds the library directories
     """
@@ -66,12 +72,12 @@ def get_proj_libdirs(proj_dir):
     libdirs = []
     if proj_libdir is None:
         libdir_search_paths = (
-            os.path.join(proj_dir, "lib"),
-            os.path.join(proj_dir, "lib64"),
+            proj_dir / "lib",
+            proj_dir / "lib64",
         )
         for libdir_search_path in libdir_search_paths:
-            if os.path.exists(libdir_search_path):
-                libdirs.append(libdir_search_path)
+            if libdir_search_path.exists():
+                libdirs.append(str(libdir_search_path))
         if not libdirs:
             raise SystemExit(
                 "ERROR: PROJ_LIBDIR dir not found. Please set PROJ_LIBDIR."
@@ -81,15 +87,15 @@ def get_proj_libdirs(proj_dir):
     return libdirs
 
 
-def get_proj_incdirs(proj_dir):
+def get_proj_incdirs(proj_dir: Path) -> List[str]:
     """
     This function finds the include directories
     """
     proj_incdir = os.environ.get("PROJ_INCDIR")
     incdirs = []
     if proj_incdir is None:
-        if os.path.exists(os.path.join(proj_dir, "include")):
-            incdirs.append(os.path.join(proj_dir, "include"))
+        if (proj_dir / "include").exists():
+            incdirs.append(str(proj_dir / "include"))
         else:
             raise SystemExit(
                 "ERROR: PROJ_INCDIR dir not found. Please set PROJ_INCDIR."
@@ -114,16 +120,16 @@ def get_cythonize_options():
     return cythonize_options
 
 
-def get_libraries(libdirs):
+def get_libraries(libdirs: List[str]) -> List[str]:
     """
     This function gets the libraries to cythonize with
     """
     libraries = ["proj"]
     if os.name == "nt":
         for libdir in libdirs:
-            projlib = glob(os.path.join(libdir, "proj*.lib"))
+            projlib = list(Path(libdir).glob("proj*.lib"))
             if projlib:
-                libraries = [os.path.basename(projlib[0]).split(".lib")[0]]
+                libraries = [str(projlib[0].stem)]
                 break
     return libraries
 
@@ -174,18 +180,19 @@ def get_extension_modules():
     )
 
 
-def get_package_data():
+def get_package_data() -> Dict[str, List[str]]:
     """
     This function retrieves the package data
     """
     # setup package data
     package_data = {"pyproj": ["*.pyi", "py.typed"]}
-    if os.environ.get("PROJ_WHEEL") is not None and os.path.exists(INTERNAL_PROJ_DIR):
+    if os.environ.get("PROJ_WHEEL") is not None and INTERNAL_PROJ_DIR.exists():
         package_data["pyproj"].append(
-            os.path.join(BASE_INTERNAL_PROJ_DIR, "share", "proj", "*")
+            str(BASE_INTERNAL_PROJ_DIR / "share" / "proj" / "*")
         )
-    if os.environ.get("PROJ_WHEEL") is not None and os.path.exists(
-        os.path.join(CURRENT_FILE_PATH, "pyproj", ".lib")
+    if (
+        os.environ.get("PROJ_WHEEL") is not None
+        and (CURRENT_FILE_PATH / "pyproj" / ".lib").exists()
     ):
         package_data["pyproj"].append(os.path.join(".lib", "*"))
     return package_data
@@ -195,7 +202,7 @@ def get_version():
     """
     retreive pyproj version information (taken from Fiona)
     """
-    with open(os.path.join("pyproj", "__init__.py"), "r") as f:
+    with open(Path("pyproj", "__init__.py"), "r") as f:
         for line in f:
             if line.find("__version__") >= 0:
                 # parse __version__ and remove surrounding " or '
