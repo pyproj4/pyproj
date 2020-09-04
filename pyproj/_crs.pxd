@@ -16,16 +16,7 @@ cdef class Axis:
     @staticmethod
     cdef Axis create(PJ_CONTEXT* context, PJ* projobj, int index)
 
-cdef class AreaOfUse:
-    cdef readonly double west
-    cdef readonly double south
-    cdef readonly double east
-    cdef readonly double north
-    cdef readonly object name
-
-    @staticmethod
-    cdef AreaOfUse create(PJ_CONTEXT* context, PJ* projobj)
-
+cdef create_area_of_use(PJ_CONTEXT* context, PJ* projobj)
 
 cdef class Base:
     cdef PJ *projobj

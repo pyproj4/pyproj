@@ -4,8 +4,8 @@ from urllib.error import URLError
 import pytest
 from mock import MagicMock, patch
 
+from pyproj.aoi import BBox
 from pyproj.sync import (
-    BBox,
     _download_resource_file,
     _load_grid_geojson,
     _sha256sum,
@@ -170,22 +170,6 @@ def test_download_resource_file__bad_sha256sum(urlretrieve_mock, tmp_path):
     urlretrieve_mock.assert_called_with("test_url", tmp_path / "test_file.txt.part")
     assert not tmp_path.joinpath("test_file.txt.part").exists()
     assert not tmp_path.joinpath("test_file.txt").exists()
-
-
-def test_contains():
-    assert BBox(1, 1, 4, 4).contains(BBox(2, 2, 3, 3))
-
-
-def test_not_contains():
-    assert not BBox(1, 1, 4, 4).contains(BBox(2, 2, 5, 5))
-
-
-def test_intersects():
-    assert BBox(1, 1, 4, 4).intersects(BBox(2, 2, 5, 5))
-
-
-def test_not_intersects():
-    assert not BBox(1, 1, 4, 4).intersects(BBox(10, 10, 20, 20))
 
 
 @patch("pyproj.sync.Path.stat")

@@ -36,13 +36,6 @@ pyproj.transformer.TransformerGroup
     :special-members: __init__
 
 
-pyproj.transformer.AreaOfInterest
------------------------------------
-
-.. autoclass:: pyproj.transformer.AreaOfInterest
-    :members:
-
-
 pyproj.transform
 ----------------
 

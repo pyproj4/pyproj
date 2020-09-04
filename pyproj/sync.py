@@ -13,64 +13,8 @@ from typing import Any, Dict, List, Optional, Tuple
 from urllib.request import urlretrieve
 
 from pyproj._sync import get_proj_endpoint
+from pyproj.aoi import BBox
 from pyproj.datadir import get_data_dir, get_user_data_dir
-
-
-class BBox:
-    """
-    Bounding box to check if data intersects/contains other
-    bounding boxes.
-    """
-
-    def __init__(self, west: float, south: float, east: float, north: float):
-        self.west = west
-        self.south = south
-        self.east = east
-        self.north = north
-
-    def intersects(self, other: "BBox") -> bool:
-        """
-        Parameters
-        ----------
-        other: BBox
-            The other BBox to use to check.
-
-        Returns
-        -------
-        bool:
-            True if this BBox intersects the other bbox.
-        """
-        return (
-            self.west < other.east
-            and other.west < self.east
-            and self.south < other.north
-            and other.south < self.north
-        )
-
-    def contains(self, other: "BBox") -> bool:
-        """
-        Parameters
-        ----------
-        other: BBox
-            The other BBox to use to check.
-
-        Returns
-        -------
-        bool:
-            True if this BBox contains the other bbox.
-        """
-        return (
-            other.west >= self.west
-            and other.east <= self.east
-            and other.south >= self.south
-            and other.north <= self.north
-        )
-
-    def __repr__(self) -> str:
-        return (
-            f"BBox(west={self.west},south={self.south},"
-            f"east={self.east},north={self.north})"
-        )
 
 
 def _bbox_from_coords(coords: List) -> Optional[BBox]:

@@ -18,11 +18,11 @@ import re
 import warnings
 from typing import Any, Optional, Tuple, Type
 
-from pyproj._list import get_proj_operations_map
 from pyproj._transformer import Factors, _Transformer
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.crs import CRS
 from pyproj.enums import TransformDirection
+from pyproj.list import get_proj_operations_map
 from pyproj.transformer import Transformer
 from pyproj.utils import _convertback, _copytobuffer
 

@@ -1,10 +1,7 @@
 from typing import Dict, List, NamedTuple, Optional, Union
 
+from pyproj.aoi import AreaOfInterest, AreaOfUse
 from pyproj.enums import PJType
-
-def get_proj_operations_map() -> Dict[str, str]: ...
-def get_ellps_map() -> Dict[str, Dict[str, float]]: ...
-def get_prime_meridians_map() -> Dict[str, str]: ...
 
 class Unit(NamedTuple):
     auth_name: str
@@ -24,3 +21,20 @@ def get_authorities() -> List[str]: ...
 def get_codes(
     auth_name: str, pj_type: Union[PJType, str], allow_deprecated: bool = False
 ) -> List[str]: ...
+
+class CRSInfo(NamedTuple):
+    auth_name: str
+    code: str
+    name: str
+    type: PJType
+    deprecated: bool
+    area_of_use: Optional[AreaOfUse]
+    projection_method_name: Optional[str]
+
+def query_crs_info(
+    auth_name: Optional[str] = None,
+    pj_types: Union[PJType, List[PJType], None] = None,
+    area_of_interest: Optional[AreaOfInterest] = None,
+    contains: bool = False,
+    allow_deprecated: bool = False,
+) -> List[CRSInfo]: ...
