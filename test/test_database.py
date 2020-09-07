@@ -11,6 +11,10 @@ from pyproj.database import (
 from pyproj.enums import PJType
 
 
+def test_backwards_compatible_import_paths():
+    from pyproj import get_authorities, get_codes, get_units_map  # noqa: F401
+
+
 def test_units_map__default():
     units_map = get_units_map()
     assert isinstance(units_map["metre"], Unit)

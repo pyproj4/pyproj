@@ -1,6 +1,10 @@
 from pyproj.aoi import BBox
 
 
+def test_backwards_compatible_import_paths():
+    from pyproj.transformer import AreaOfInterest  # noqa: F401
+
+
 def test_contains():
     assert BBox(1, 1, 4, 4).contains(BBox(2, 2, 3, 3))
 

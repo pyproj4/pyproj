@@ -3,6 +3,14 @@ from numpy.testing import assert_almost_equal
 from pyproj.list import get_ellps_map, get_prime_meridians_map, get_proj_operations_map
 
 
+def test_backwards_compatible_import_paths():
+    from pyproj import (  # noqa: F401
+        get_ellps_map,
+        get_prime_meridians_map,
+        get_proj_operations_map,
+    )
+
+
 def test_get_ellps_map():
     ellps_map = get_ellps_map()
     assert ellps_map["WGS84"]["description"] == "WGS 84"
