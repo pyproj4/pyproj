@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Area of Interest &mdash; pyproj 3.0.dev2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exceptions" href="exceptions.html" />
+    <link rel="prev" title="Enumerations" href="enums.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0.dev2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crs/index.html">CRS module API Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformer.html">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">PROJ Network Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sync.html">Sync Transformation Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="global_context.html">Global Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Area of Interest</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-aoi-areaofinterest">pyproj.aoi.AreaOfInterest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-aoi-areaofuse">pyproj.aoi.AreaOfUse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-aoi-bbox">pyproj.aoi.BBox</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">API Documentation</a> &raquo;</li>
+        
+      <li>Area of Interest</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/aoi.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="area-of-interest">
+<h1>Area of Interest<a class="headerlink" href="#area-of-interest" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyproj-aoi-areaofinterest">
+<h2>pyproj.aoi.AreaOfInterest<a class="headerlink" href="#pyproj-aoi-areaofinterest" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The backwards compatible import is <cite>pyproj.transformer.AreaOfInterest</cite></p>
+</div>
+<dl class="py class">
+<dt id="pyproj.aoi.AreaOfInterest">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.aoi.</code><code class="sig-name descname">AreaOfInterest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">west_lon_degree</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">south_lat_degree</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">east_lon_degree</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">north_lat_degree</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/aoi.html#AreaOfInterest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.aoi.AreaOfInterest" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.</span></p>
+</div>
+<p>This is the area of interest for:</p>
+<ul class="simple">
+<li><p>Transformations</p></li>
+<li><p>Querying for CRS data.</p></li>
+</ul>
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfInterest.east_lon_degree">
+<em class="property">property </em><code class="sig-name descname">east_lon_degree</code><a class="headerlink" href="#pyproj.aoi.AreaOfInterest.east_lon_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>The east bound in degrees of the area of interest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfInterest.north_lat_degree">
+<em class="property">property </em><code class="sig-name descname">north_lat_degree</code><a class="headerlink" href="#pyproj.aoi.AreaOfInterest.north_lat_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>The north bound in degrees of the area of interest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfInterest.south_lat_degree">
+<em class="property">property </em><code class="sig-name descname">south_lat_degree</code><a class="headerlink" href="#pyproj.aoi.AreaOfInterest.south_lat_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>The south bound in degrees of the area of interest.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfInterest.west_lon_degree">
+<em class="property">property </em><code class="sig-name descname">west_lon_degree</code><a class="headerlink" href="#pyproj.aoi.AreaOfInterest.west_lon_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>The west bound in degrees of the area of interest.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-aoi-areaofuse">
+<h2>pyproj.aoi.AreaOfUse<a class="headerlink" href="#pyproj-aoi-areaofuse" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.aoi.AreaOfUse">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.aoi.</code><code class="sig-name descname">AreaOfUse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">west</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">south</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">east</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">north</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/aoi.html#AreaOfUse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.aoi.AreaOfUse" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.</span></p>
+</div>
+<p>Area of Use for CRS, CoordinateOperation, or a Transformer.</p>
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfUse.east">
+<em class="property">property </em><code class="sig-name descname">east</code><a class="headerlink" href="#pyproj.aoi.AreaOfUse.east" title="Permalink to this definition">¶</a></dt>
+<dd><p>East bound of area of use.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfUse.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.aoi.AreaOfUse.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of area of use.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfUse.north">
+<em class="property">property </em><code class="sig-name descname">north</code><a class="headerlink" href="#pyproj.aoi.AreaOfUse.north" title="Permalink to this definition">¶</a></dt>
+<dd><p>North bound of area of use.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfUse.south">
+<em class="property">property </em><code class="sig-name descname">south</code><a class="headerlink" href="#pyproj.aoi.AreaOfUse.south" title="Permalink to this definition">¶</a></dt>
+<dd><p>South bound of area of use.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.aoi.AreaOfUse.west">
+<em class="property">property </em><code class="sig-name descname">west</code><a class="headerlink" href="#pyproj.aoi.AreaOfUse.west" title="Permalink to this definition">¶</a></dt>
+<dd><p>West bound of area of use.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pyproj-aoi-bbox">
+<h2>pyproj.aoi.BBox<a class="headerlink" href="#pyproj-aoi-bbox" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.aoi.BBox">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.aoi.</code><code class="sig-name descname">BBox</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">west</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">south</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">east</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">north</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/aoi.html#BBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.aoi.BBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bounding box to check if data intersects/contains other
+bounding boxes.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+<dl class="py method">
+<dt id="pyproj.aoi.BBox.contains">
+<code class="sig-name descname">contains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pyproj.aoi.BBox" title="pyproj.aoi.BBox">BBox</a><span class="p">, </span><a class="reference internal" href="#pyproj.aoi.AreaOfUse" title="pyproj.aoi.AreaOfUse">pyproj.aoi.AreaOfUse</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/pyproj/aoi.html#BBox.contains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.aoi.BBox.contains" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Union</em><em>[</em><em>&quot;BBox&quot;</em><em>, </em><a class="reference internal" href="#pyproj.aoi.AreaOfUse" title="pyproj.aoi.AreaOfUse"><em>AreaOfUse</em></a><em>]</em>) – The other BBox to use to check.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if this BBox contains the other bbox.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.aoi.BBox.intersects">
+<code class="sig-name descname">intersects</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pyproj.aoi.BBox" title="pyproj.aoi.BBox">BBox</a><span class="p">, </span><a class="reference internal" href="#pyproj.aoi.AreaOfUse" title="pyproj.aoi.AreaOfUse">pyproj.aoi.AreaOfUse</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/pyproj/aoi.html#BBox.intersects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.aoi.BBox.intersects" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyproj.aoi.BBox" title="pyproj.aoi.BBox"><em>BBox</em></a>) – The other BBox to use to check.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if this BBox intersects the other bbox.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="exceptions.html" class="btn btn-neutral float-right" title="Exceptions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="enums.html" class="btn btn-neutral float-left" title="Enumerations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

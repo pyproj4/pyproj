@@ -1,6 +1,7 @@
 latest/_modules/importlib/_bootstrap.html
 latest/_modules/index.html
 latest/_modules/pyproj/_show_versions.html
+latest/_modules/pyproj/aoi.html
 latest/_modules/pyproj/crs/coordinate_operation.html
 latest/_modules/pyproj/crs/coordinate_system.html
 latest/_modules/pyproj/crs/crs.html
@@ -15,12 +16,14 @@ latest/_modules/pyproj/proj.html
 latest/_modules/pyproj/sync.html
 latest/_modules/pyproj/transformer.html
 latest/_sources/advanced_examples.rst.txt
+latest/_sources/api/aoi.rst.txt
 latest/_sources/api/crs/coordinate_operation.rst.txt
 latest/_sources/api/crs/coordinate_system.rst.txt
 latest/_sources/api/crs/crs.rst.txt
 latest/_sources/api/crs/datum.rst.txt
 latest/_sources/api/crs/enums.rst.txt
 latest/_sources/api/crs/index.rst.txt
+latest/_sources/api/database.rst.txt
 latest/_sources/api/datadir.rst.txt
 latest/_sources/api/enums.rst.txt
 latest/_sources/api/exceptions.rst.txt
@@ -129,12 +132,14 @@ latest/_static/searchtools.js
 latest/_static/underscore-1.3.1.js
 latest/_static/underscore.js
 latest/advanced_examples.html
+latest/api/aoi.html
 latest/api/crs/coordinate_operation.html
 latest/api/crs/coordinate_system.html
 latest/api/crs/crs.html
 latest/api/crs/datum.html
 latest/api/crs/enums.html
 latest/api/crs/index.html
+latest/api/database.html
 latest/api/datadir.html
 latest/api/enums.html
 latest/api/exceptions.html
