@@ -296,6 +296,43 @@ cdef extern from "proj.h":
                                                   PJ_TYPE type,
                                                   int allow_deprecated)
 
+    ctypedef struct PROJ_CRS_INFO:
+        char* auth_name
+        char* code
+        char* name
+        PJ_TYPE type
+        int deprecated
+        int bbox_valid
+        double west_lon_degree
+        double south_lat_degree
+        double east_lon_degree
+        double north_lat_degree
+        char* area_name
+        char* projection_method_name
+
+    ctypedef struct PROJ_CRS_LIST_PARAMETERS:
+        const PJ_TYPE* types
+        size_t typesCount
+        int crs_area_of_use_contains_bbox
+        int bbox_valid
+        double west_lon_degree
+        double south_lat_degree
+        double east_lon_degree
+        double north_lat_degree
+        int allow_deprecated
+
+    PROJ_CRS_LIST_PARAMETERS *proj_get_crs_list_parameters_create()
+
+    void proj_get_crs_list_parameters_destroy(PROJ_CRS_LIST_PARAMETERS* params)
+
+    PROJ_CRS_INFO **proj_get_crs_info_list_from_database(
+                                        PJ_CONTEXT *ctx,
+                                        const char *auth_name,
+                                        const PROJ_CRS_LIST_PARAMETERS* params,
+                                        int *out_result_count)
+
+    void proj_crs_info_list_destroy(PROJ_CRS_INFO** list)
+
     PJ *proj_crs_get_coordoperation(PJ_CONTEXT *ctx,
                                     const PJ *crs)
 

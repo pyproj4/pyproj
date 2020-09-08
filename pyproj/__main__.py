@@ -9,9 +9,9 @@ import argparse
 import os
 
 from pyproj import __proj_version__, __version__, _show_versions
+from pyproj.aoi import BBox
 from pyproj.datadir import get_data_dir, get_user_data_dir
 from pyproj.sync import (
-    BBox,
     _download_resource_file,
     get_proj_endpoint,
     get_transform_grid_list,

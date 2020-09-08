@@ -51,18 +51,16 @@ from pyproj._datadir import (  # noqa: F401
     _pyproj_global_context_initialize,
     set_use_global_context,
 )
-from pyproj._list import (  # noqa: F401
-    get_authorities,
-    get_codes,
+from pyproj._show_versions import show_versions  # noqa: F401
+from pyproj.crs import CRS  # noqa: F401
+from pyproj.database import get_authorities, get_codes, get_units_map  # noqa: F401
+from pyproj.exceptions import DataDirError, ProjError  # noqa: F401
+from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa: F401
+from pyproj.list import (  # noqa: F401
     get_ellps_map,
     get_prime_meridians_map,
     get_proj_operations_map,
-    get_units_map,
 )
-from pyproj._show_versions import show_versions  # noqa: F401
-from pyproj.crs import CRS  # noqa: F401
-from pyproj.exceptions import DataDirError, ProjError  # noqa: F401
-from pyproj.geod import Geod, geodesic_version_str, pj_ellps  # noqa: F401
 from pyproj.proj import Proj, pj_list  # noqa: F401
 from pyproj.transformer import (  # noqa: F401
     Transformer,

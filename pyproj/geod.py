@@ -15,8 +15,8 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pyproj._geod import Geod as _Geod
 from pyproj._geod import geodesic_version_str
-from pyproj._list import get_ellps_map
 from pyproj.exceptions import GeodError
+from pyproj.list import get_ellps_map
 from pyproj.utils import _convertback, _copytobuffer
 
 pj_ellps = get_ellps_map()

@@ -9,13 +9,14 @@ from collections import namedtuple
 
 from pyproj._crs cimport (
     _CRS,
-    AreaOfUse,
     Base,
     CoordinateOperation,
     _get_concatenated_operations,
+    create_area_of_use,
 )
 from pyproj._datadir cimport pyproj_context_create
 
+from pyproj.aoi import AreaOfInterest
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError
@@ -38,27 +39,6 @@ _TRANSFORMER_TYPE_MAP = {
     PJ_TYPE_OTHER_COORDINATE_OPERATION: "Other Coordinate Operation Transformer",
 }
 
-
-AreaOfInterest = namedtuple(
-    "AreaOfInterest",
-    ["west_lon_degree", "south_lat_degree", "east_lon_degree", "north_lat_degree"]
-)
-AreaOfInterest.__doc__ = """
-.. versionadded:: 2.3.0
-
-This is the area of interest for the transformation.
-
-Parameters
-----------
-west_lon_degree: float
-    The west bound in degrees of the area of interest.
-south_lat_degree: float
-    The south bound in degrees of the area of interest.
-east_lon_degree: float
-    The east bound in degrees of the area of interest.
-north_lat_degree: float
-    The north bound in degrees of the area of interest.
-"""
 
 Factors = namedtuple(
     "Factors",
@@ -293,7 +273,7 @@ cdef class _Transformer(Base):
         """
         if self._area_of_use is not None:
             return self._area_of_use
-        self._area_of_use = AreaOfUse.create(self.context, self.projobj)
+        self._area_of_use = create_area_of_use(self.context, self.projobj)
         return self._area_of_use
 
     @property

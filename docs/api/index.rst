@@ -9,11 +9,13 @@ API Documentation
    transformer
    geod
    proj
+   database
    list
    datadir
    network
    sync
    global_context
    enums
+   aoi
    exceptions
    show_versions

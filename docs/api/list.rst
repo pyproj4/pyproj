@@ -2,39 +2,25 @@ Lists
 =====
 
 
-pyproj.get_proj_operations_map
-------------------------------
+pyproj.list.get_proj_operations_map
+-----------------------------------
 
-.. autofunction:: pyproj.get_proj_operations_map
+.. note:: The backwards compatible import is `pyproj.get_proj_operations_map`
 
-
-pyproj.get_ellps_map
---------------------
-
-.. autofunction:: pyproj.get_ellps_map
+.. autofunction:: pyproj.list.get_proj_operations_map
 
 
-pyproj.get_prime_meridians_map
-------------------------------
+pyproj.list.get_ellps_map
+--------------------------
 
-.. autofunction:: pyproj.get_prime_meridians_map
+.. note:: The backwards compatible import is `pyproj.get_ellps_map`
 
-
-pyproj.get_units_map
---------------------
-
-.. autofunction:: pyproj.get_units_map
-
-.. autoclass:: pyproj._list.Unit
+.. autofunction:: pyproj.list.get_ellps_map
 
 
-pyproj.get_authorities
-----------------------
+pyproj.list.get_prime_meridians_map
+------------------------------------
 
-.. autofunction:: pyproj.get_authorities
+.. note:: The backwards compatible import is `pyproj.get_prime_meridians_map`
 
-
-pyproj.get_codes
-----------------
-
-.. autofunction:: pyproj.get_codes
+.. autofunction:: pyproj.list.get_prime_meridians_map

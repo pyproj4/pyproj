@@ -3,8 +3,10 @@ import re
 import warnings
 from collections import OrderedDict
 
+from pyproj._compat cimport cstrdecode
 from pyproj._datadir cimport pyproj_context_create
 
+from pyproj.aoi import AreaOfUse
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.crs.datum import CustomEllipsoid
 from pyproj.crs.enums import CoordinateOperationType, DatumType
@@ -17,12 +19,6 @@ from pyproj.geod import pj_ellps
 _PJ_ELLPS_NAME_MAP = {
     ellps["description"]: ellps_id for ellps_id, ellps in pj_ellps.items()
 }
-
-
-cdef cstrdecode(const char *instring):
-    if instring != NULL:
-        return pystrdecode(instring)
-    return None
 
 
 cdef decode_or_undefined(const char* instring):
@@ -301,64 +297,28 @@ cdef class Axis:
         return axis_info
 
 
-cdef class AreaOfUse:
-    """
-    .. versionadded:: 2.0.0
-
-    Area of Use for CRS
-
-    Attributes
-    ----------
-    west: float
-        West bound of area of use.
-    south: float
-        South bound of area of use.
-    east: float
-        East bound of area of use.
-    north: float
-        North bound of area of use.
-    name: str
-        Name of area of use.
-
-    """
-    def __cinit__(self):
-        self.west = float("NaN")
-        self.south = float("NaN")
-        self.east = float("NaN")
-        self.north = float("NaN")
-        self.name = "undefined"
-
-    def __str__(self):
-        return (
-            f"- name: {self.name}\n"
-            f"- bounds: {self.bounds}"
-        )
-
-    def __repr__(self):
-        return (
-            f"AreaOfUse(name={self.name}, west={self.west}, south={self.south},"
-            f" east={self.east}, north={self.north})"
-        )
-
-    @staticmethod
-    cdef AreaOfUse create(PJ_CONTEXT* context, PJ* projobj):
-        cdef AreaOfUse area_of_use = AreaOfUse()
-        cdef const char * area_name = NULL
-        if not proj_get_area_of_use(
-                context,
-                projobj,
-                &area_of_use.west,
-                &area_of_use.south,
-                &area_of_use.east,
-                &area_of_use.north,
-                &area_name):
-            return None
-        area_of_use.name = decode_or_undefined(area_name)
-        return area_of_use
-
-    @property
-    def bounds(self):
-        return self.west, self.south, self.east, self.north
+cdef create_area_of_use(PJ_CONTEXT* context, PJ* projobj):
+    cdef double west = float("nan")
+    cdef double south = float("nan")
+    cdef double east = float("nan")
+    cdef double north = float("nan")
+    cdef const char * area_name = NULL
+    if not proj_get_area_of_use(
+            context,
+            projobj,
+            &west,
+            &south,
+            &east,
+            &north,
+            &area_name):
+        return None
+    return AreaOfUse(
+        west=west,
+        south=south,
+        east=east,
+        north=north,
+        name=decode_or_undefined(area_name),
+    )
 
 
 cdef class Base:
@@ -2198,7 +2158,7 @@ cdef class CoordinateOperation(_CRSParts):
         """
         if self._area_of_use is not None:
             return self._area_of_use
-        self._area_of_use = AreaOfUse.create(self.context, self.projobj)
+        self._area_of_use = create_area_of_use(self.context, self.projobj)
         return self._area_of_use
 
     def to_proj4(self, version=ProjVersion.PROJ_5):
@@ -2361,7 +2321,7 @@ cdef class _CRS(Base):
         """
         if self._area_of_use is not None:
             return self._area_of_use
-        self._area_of_use = AreaOfUse.create(self.context, self.projobj)
+        self._area_of_use = create_area_of_use(self.context, self.projobj)
         return self._area_of_use
 
     @property
