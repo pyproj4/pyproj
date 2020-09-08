@@ -97,12 +97,14 @@
 <li class="toctree-l2"><a class="reference internal" href="transformer.html">Transformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">PROJ Network Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sync.html">Sync Transformation Grids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="global_context.html">Global Context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aoi.html">Area of Interest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
 </ul>
@@ -196,7 +198,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transformer.html">Transformer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-transformer">pyproj.Transformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-transformer-transformergroup">pyproj.transformer.TransformerGroup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-transformer-areaofinterest">pyproj.transformer.AreaOfInterest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-transform">pyproj.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformer.html#pyproj-itransform">pyproj.itransform</a></li>
 </ul>
@@ -210,13 +211,17 @@
 <li class="toctree-l2"><a class="reference internal" href="proj.html#pyproj-proj-factors">pyproj.proj.Factors</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="database.html#pyproj-database-get-units-map">pyproj.database.get_units_map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#pyproj-database-get-authorities">pyproj.database.get_authorities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#pyproj-database-get-codes">pyproj.database.get_codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#pyproj-database-query-crs-info">pyproj.database.query_crs_info</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="list.html">Lists</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-get-proj-operations-map">pyproj.get_proj_operations_map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-get-ellps-map">pyproj.get_ellps_map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-get-prime-meridians-map">pyproj.get_prime_meridians_map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-get-units-map">pyproj.get_units_map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-get-authorities">pyproj.get_authorities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-get-codes">pyproj.get_codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-list-get-proj-operations-map">pyproj.list.get_proj_operations_map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-list-get-ellps-map">pyproj.list.get_ellps_map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html#pyproj-list-get-prime-meridians-map">pyproj.list.get_prime_meridians_map</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="datadir.html">Data Directory</a><ul>
@@ -234,7 +239,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sync.html">Sync Transformation Grids</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sync.html#pyproj-sync-get-transform-grid-list">pyproj.sync.get_transform_grid_list</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sync.html#pyproj-sync-bbox">pyproj.sync.BBox</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sync.html#pyproj-sync-get-proj-endpoint">pyproj.sync.get_proj_endpoint</a></li>
 </ul>
 </li>
@@ -243,6 +247,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="enums.html">Enumerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aoi.html">Area of Interest</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aoi.html#pyproj-aoi-areaofinterest">pyproj.aoi.AreaOfInterest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aoi.html#pyproj-aoi-areaofuse">pyproj.aoi.AreaOfUse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aoi.html#pyproj-aoi-bbox">pyproj.aoi.BBox</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="show_versions.html">Show Versions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="show_versions.html#pyproj-show-versions">pyproj.show_versions</a></li>

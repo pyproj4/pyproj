@@ -75,11 +75,3 @@ is_proj
 ------------------
 
 .. autofunction:: pyproj.crs.is_proj
-
-
-AreaOfUse
------------
-
-.. autoclass:: pyproj._crs.AreaOfUse
-    :members:
-    :inherited-members:

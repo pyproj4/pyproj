@@ -181,6 +181,7 @@
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
@@ -314,9 +315,9 @@
       </ul></li>
       <li><a href="api/proj.html#pyproj.proj.Factors.areal_scale">areal_scale() (pyproj.proj.Factors property)</a>
 </li>
-      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest">AreaOfInterest (class in pyproj.transformer)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfInterest">AreaOfInterest (class in pyproj.aoi)</a>
 </li>
-      <li><a href="api/crs/crs.html#pyproj._crs.AreaOfUse">AreaOfUse (class in pyproj._crs)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfUse">AreaOfUse (class in pyproj.aoi)</a>
 </li>
       <li><a href="api/crs/coordinate_operation.html#pyproj._crs.Param.auth_name">auth_name (pyproj._crs.Param attribute)</a>
 </li>
@@ -338,7 +339,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/geod.html#pyproj.Geod.b">b (pyproj.Geod attribute)</a>
 </li>
-      <li><a href="api/sync.html#pyproj.sync.BBox">BBox (class in pyproj.sync)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.BBox">BBox (class in pyproj.aoi)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -372,7 +373,7 @@
         <li><a href="api/enums.html#pyproj.enums.PJType.CONCATENATED_OPERATION">(pyproj.enums.PJType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/sync.html#pyproj.sync.BBox.contains">contains() (pyproj.sync.BBox method)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.BBox.contains">contains() (pyproj.aoi.BBox method)</a>
 </li>
       <li><a href="api/crs/enums.html#pyproj.crs.enums.CoordinateOperationType.CONVERSION">CONVERSION (pyproj.crs.enums.CoordinateOperationType attribute)</a>
 
@@ -401,6 +402,8 @@
       <li><a href="api/proj.html#pyproj.Proj.crs">crs (pyproj.Proj attribute)</a>
 </li>
       <li><a href="api/exceptions.html#pyproj.exceptions.CRSError">CRSError</a>
+</li>
+      <li><a href="api/database.html#pyproj.database.CRSInfo">CRSInfo (class in pyproj.database)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.cs_to_cf">cs_to_cf() (pyproj.crs.CRS method)</a>
 </li>
@@ -486,9 +489,9 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/crs/crs.html#pyproj._crs.AreaOfUse.east">east (pyproj._crs.AreaOfUse attribute)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfUse.east">east() (pyproj.aoi.AreaOfUse property)</a>
 </li>
-      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest.east_lon_degree">east_lon_degree() (pyproj.transformer.AreaOfInterest property)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfInterest.east_lon_degree">east_lon_degree() (pyproj.aoi.AreaOfInterest property)</a>
 </li>
       <li><a href="api/crs/enums.html#pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING">EASTING_NORTHING (pyproj.crs.enums.Cartesian2DCSAxis attribute)</a>
 </li>
@@ -694,29 +697,29 @@
 </li>
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion">GeostationarySatelliteConversion (class in pyproj.crs.coordinate_operation)</a>
 </li>
-      <li><a href="api/list.html#pyproj.get_authorities">get_authorities() (in module pyproj)</a>
+      <li><a href="api/database.html#pyproj.database.get_authorities">get_authorities() (in module pyproj.database)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/list.html#pyproj.get_codes">get_codes() (in module pyproj)</a>
+      <li><a href="api/database.html#pyproj.database.get_codes">get_codes() (in module pyproj.database)</a>
 </li>
       <li><a href="api/datadir.html#pyproj.datadir.get_data_dir">get_data_dir() (in module pyproj.datadir)</a>
 </li>
-      <li><a href="api/list.html#pyproj.get_ellps_map">get_ellps_map() (in module pyproj)</a>
+      <li><a href="api/list.html#pyproj.list.get_ellps_map">get_ellps_map() (in module pyproj.list)</a>
 </li>
       <li><a href="api/proj.html#pyproj.Proj.get_factors">get_factors() (pyproj.Proj method)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.get_geod">get_geod() (pyproj.crs.CRS method)</a>
 </li>
-      <li><a href="api/list.html#pyproj.get_prime_meridians_map">get_prime_meridians_map() (in module pyproj)</a>
+      <li><a href="api/list.html#pyproj.list.get_prime_meridians_map">get_prime_meridians_map() (in module pyproj.list)</a>
 </li>
       <li><a href="api/sync.html#pyproj.sync.get_proj_endpoint">get_proj_endpoint() (in module pyproj.sync)</a>
 </li>
-      <li><a href="api/list.html#pyproj.get_proj_operations_map">get_proj_operations_map() (in module pyproj)</a>
+      <li><a href="api/list.html#pyproj.list.get_proj_operations_map">get_proj_operations_map() (in module pyproj.list)</a>
 </li>
       <li><a href="api/sync.html#pyproj.sync.get_transform_grid_list">get_transform_grid_list() (in module pyproj.sync)</a>
 </li>
-      <li><a href="api/list.html#pyproj.get_units_map">get_units_map() (in module pyproj)</a>
+      <li><a href="api/database.html#pyproj.database.get_units_map">get_units_map() (in module pyproj.database)</a>
 </li>
       <li><a href="api/datadir.html#pyproj.datadir.get_user_data_dir">get_user_data_dir() (in module pyproj.datadir)</a>
 </li>
@@ -758,7 +761,7 @@
 </li>
       <li><a href="api/geod.html#pyproj.Geod.initstring">initstring (pyproj.Geod attribute)</a>
 </li>
-      <li><a href="api/sync.html#pyproj.sync.BBox.intersects">intersects() (pyproj.sync.BBox method)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.BBox.intersects">intersects() (pyproj.aoi.BBox method)</a>
 </li>
       <li><a href="api/geod.html#pyproj.Geod.inv">inv() (pyproj.Geod method)</a>
 </li>
@@ -885,11 +888,9 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/crs/crs.html#pyproj._crs.AreaOfUse.name">name (pyproj._crs.AreaOfUse attribute)</a>
+      <li><a href="api/crs/coordinate_system.html#pyproj._crs.Axis.name">name (pyproj._crs.Axis attribute)</a>
 
       <ul>
-        <li><a href="api/crs/coordinate_system.html#pyproj._crs.Axis.name">(pyproj._crs.Axis attribute)</a>
-</li>
         <li><a href="api/crs/coordinate_operation.html#pyproj._crs.Param.name">(pyproj._crs.Param attribute)</a>
 </li>
         <li><a href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation.name">(pyproj.crs.CoordinateOperation attribute)</a>
@@ -905,17 +906,19 @@
         <li><a href="api/crs/datum.html#pyproj.crs.PrimeMeridian.name">(pyproj.crs.PrimeMeridian attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/proj.html#pyproj.Proj.name">name() (pyproj.Proj property)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfUse.name">name() (pyproj.aoi.AreaOfUse property)</a>
 
       <ul>
+        <li><a href="api/proj.html#pyproj.Proj.name">(pyproj.Proj property)</a>
+</li>
         <li><a href="api/transformer.html#pyproj.transformer.Transformer.name">(pyproj.transformer.Transformer property)</a>
 </li>
       </ul></li>
-      <li><a href="api/crs/crs.html#pyproj._crs.AreaOfUse.north">north (pyproj._crs.AreaOfUse attribute)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfUse.north">north() (pyproj.aoi.AreaOfUse property)</a>
 </li>
-      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest.north_lat_degree">north_lat_degree() (pyproj.transformer.AreaOfInterest property)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfInterest.north_lat_degree">north_lat_degree() (pyproj.aoi.AreaOfInterest property)</a>
 </li>
       <li><a href="api/crs/enums.html#pyproj.crs.enums.Cartesian2DCSAxis.NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH">NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH (pyproj.crs.enums.Cartesian2DCSAxis attribute)</a>
 </li>
@@ -1015,6 +1018,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/database.html#pyproj.database.query_crs_info">query_crs_info() (in module pyproj.database)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1090,9 +1101,9 @@
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.source_crs">source_crs() (pyproj.crs.CRS property)</a>
 </li>
-      <li><a href="api/crs/crs.html#pyproj._crs.AreaOfUse.south">south (pyproj._crs.AreaOfUse attribute)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfUse.south">south() (pyproj.aoi.AreaOfUse property)</a>
 </li>
-      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest.south_lat_degree">south_lat_degree() (pyproj.transformer.AreaOfInterest property)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfInterest.south_lat_degree">south_lat_degree() (pyproj.aoi.AreaOfInterest property)</a>
 </li>
       <li><a href="api/crs/enums.html#pyproj.crs.enums.Cartesian2DCSAxis.SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH">SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH (pyproj.crs.enums.Cartesian2DCSAxis attribute)</a>
 </li>
@@ -1240,7 +1251,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/transformer.html#pyproj.transformer.TransformerGroup.unavailable_operations">unavailable_operations() (pyproj.transformer.TransformerGroup property)</a>
 </li>
-      <li><a href="api/list.html#pyproj._list.Unit">Unit (class in pyproj._list)</a>
+      <li><a href="api/database.html#pyproj.database.Unit">Unit (class in pyproj.database)</a>
 </li>
       <li><a href="api/crs/coordinate_system.html#pyproj._crs.Axis.unit_auth_code">unit_auth_code (pyproj._crs.Axis attribute)</a>
 </li>
@@ -1316,9 +1327,9 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/crs/crs.html#pyproj._crs.AreaOfUse.west">west (pyproj._crs.AreaOfUse attribute)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfUse.west">west() (pyproj.aoi.AreaOfUse property)</a>
 </li>
-      <li><a href="api/transformer.html#pyproj.transformer.AreaOfInterest.west_lon_degree">west_lon_degree() (pyproj.transformer.AreaOfInterest property)</a>
+      <li><a href="api/aoi.html#pyproj.aoi.AreaOfInterest.west_lon_degree">west_lon_degree() (pyproj.aoi.AreaOfInterest property)</a>
 </li>
       <li><a href="api/crs/enums.html#pyproj.crs.enums.Cartesian2DCSAxis.WESTING_SOUTHING">WESTING_SOUTHING (pyproj.crs.enums.Cartesian2DCSAxis attribute)</a>
 </li>

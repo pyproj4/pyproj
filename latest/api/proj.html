@@ -36,7 +36,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Lists" href="list.html" />
+    <link rel="next" title="Database" href="database.html" />
     <link rel="prev" title="Geod" href="geod.html" /> 
 </head>
 
@@ -101,12 +101,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-proj-factors">pyproj.proj.Factors</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">PROJ Network Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sync.html">Sync Transformation Grids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="global_context.html">Global Context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aoi.html">Area of Interest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
 </ul>
@@ -349,7 +351,7 @@ network for grids regardless of any other network setting.</p></li>
 <dd class="field-odd"><p>The area of use object with associated attributes.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="crs/crs.html#pyproj._crs.AreaOfUse" title="pyproj._crs.AreaOfUse">AreaOfUse</a></p>
+<dd class="field-even"><p><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfUse" title="pyproj.aoi.AreaOfUse">AreaOfUse</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -388,7 +390,7 @@ network for grids regardless of any other network setting.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.Proj.from_crs">
-<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>importlib._bootstrap.AreaOfInterest<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_crs" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest">pyproj.aoi.AreaOfInterest</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
@@ -413,7 +415,7 @@ projections are equivalent. Default is false.</p></li>
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
-<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="transformer.html#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
+<li><p><strong>area_of_interest</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code>, optional) – The area of interest to help select the transformation.</p></li>
 <li><p><strong>network</strong> (<em>bool</em><em>, </em><em>optional</em>) – Default is None, which uses the system defaults for networking.
 If True, it will force the use of network for grids regardless of
 any other network setting. If False, it will force disable use of
@@ -458,7 +460,7 @@ network for grids regardless of any other network setting.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.Proj.from_proj">
-<em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>importlib._bootstrap.AreaOfInterest<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_proj" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_proj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest">pyproj.aoi.AreaOfInterest</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
@@ -483,7 +485,7 @@ projections are equivalent. Default is false.</p></li>
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
-<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="transformer.html#pyproj.transformer.AreaOfInterest" title="pyproj.transformer.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
+<li><p><strong>area_of_interest</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code>, optional) – The area of interest to help select the transformation.</p></li>
 <li><p><strong>network</strong> (<em>bool</em><em>, </em><em>optional</em>) – Default is None, which uses the system defaults for networking.
 If True, it will force the use of network for grids regardless of
 any other network setting. If False, it will force disable use of
@@ -964,7 +966,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="list.html" class="btn btn-neutral float-right" title="Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="database.html" class="btn btn-neutral float-right" title="Database" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="geod.html" class="btn btn-neutral float-left" title="Geod" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

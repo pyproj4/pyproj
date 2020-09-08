@@ -25,6 +25,8 @@ Change Log
 * ENH: Added :ref:`network` (#675, #691, #695)
 * ENH: Added support for debugging internal PROJ (pull #696)
 * ENH: Added pathlib support for data directory methods (pull #702)
+* ENH: Added `pyproj.database.query_crs_info` (pull #703)
+* REF: Added `pyproj.database`, `pyproj.aoi`, and `pyproj.list` modules (pull #703)
 
 2.6.1
 ~~~~~

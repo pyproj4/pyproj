@@ -97,17 +97,18 @@
 <li class="toctree-l2"><a class="reference internal" href="transformer.html">Transformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">PROJ Network Settings</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Sync Transformation Grids</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-sync-get-transform-grid-list">pyproj.sync.get_transform_grid_list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pyproj-sync-bbox">pyproj.sync.BBox</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-sync-get-proj-endpoint">pyproj.sync.get_proj_endpoint</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="global_context.html">Global Context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aoi.html">Area of Interest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
 </ul>
@@ -193,7 +194,7 @@
 <h2>pyproj.sync.get_transform_grid_list<a class="headerlink" href="#pyproj-sync-get-transform-grid-list" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="pyproj.sync.get_transform_grid_list">
-<code class="sig-prename descclassname">pyproj.sync.</code><code class="sig-name descname">get_transform_grid_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source_id</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">area_of_use</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bbox</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyproj.sync.BBox" title="pyproj.sync.BBox">pyproj.sync.BBox</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spatial_test</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'intersects'</span></em>, <em class="sig-param"><span class="n">include_world_coverage</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">include_already_downloaded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">target_directory</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Tuple<a class="reference internal" href="../_modules/pyproj/sync.html#get_transform_grid_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.sync.get_transform_grid_list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyproj.sync.</code><code class="sig-name descname">get_transform_grid_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source_id</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">area_of_use</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bbox</span><span class="p">:</span> <span class="n"><a class="reference internal" href="aoi.html#pyproj.aoi.BBox" title="pyproj.aoi.BBox">pyproj.aoi.BBox</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spatial_test</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'intersects'</span></em>, <em class="sig-param"><span class="n">include_world_coverage</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">include_already_downloaded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">target_directory</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Tuple<a class="reference internal" href="../_modules/pyproj/sync.html#get_transform_grid_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.sync.get_transform_grid_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of transform grids that can be downloaded.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -201,7 +202,7 @@
 <li><p><strong>source_id</strong> (<em>str</em><em>, </em><em>optional</em>) – </p></li>
 <li><p><strong>area_of_use</strong> (<em>str</em><em>, </em><em>optional</em>) – </p></li>
 <li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – </p></li>
-<li><p><strong>bbox</strong> (<a class="reference internal" href="#pyproj.sync.BBox" title="pyproj.sync.BBox"><em>BBox</em></a><em>, </em><em>optional</em>) – </p></li>
+<li><p><strong>bbox</strong> (<a class="reference internal" href="aoi.html#pyproj.aoi.BBox" title="pyproj.aoi.BBox"><em>BBox</em></a><em>, </em><em>optional</em>) – </p></li>
 <li><p><strong>spatial_test</strong> (<em>str</em><em>, </em><em>optional</em>) – Can be “contains” or “intersects”. Defaults to “intersects”.</p></li>
 <li><p><strong>include_world_coverage</strong> (<em>bool</em><em>, </em><em>optional</em>) – Defaults to True.</p></li>
 <li><p><strong>include_already_downloaded</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, it will list grids reguardless of if they are downloaded.
@@ -218,48 +219,6 @@ that can be downloaded.</p>
 <dd class="field-odd"><p>List[Dict[str, Any]]</p>
 </dd>
 </dl>
-</dd></dl>
-
-</div>
-<div class="section" id="pyproj-sync-bbox">
-<h2>pyproj.sync.BBox<a class="headerlink" href="#pyproj-sync-bbox" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="pyproj.sync.BBox">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.sync.</code><code class="sig-name descname">BBox</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">west</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">south</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">east</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">north</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/sync.html#BBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.sync.BBox" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bounding box to check if data intersects/contains other
-bounding boxes.</p>
-<dl class="py method">
-<dt id="pyproj.sync.BBox.contains">
-<code class="sig-name descname">contains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyproj.sync.BBox" title="pyproj.sync.BBox">pyproj.sync.BBox</a></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/pyproj/sync.html#BBox.contains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.sync.BBox.contains" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyproj.sync.BBox" title="pyproj.sync.BBox"><em>BBox</em></a>) – The other BBox to use to check.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if this BBox contains the other bbox.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyproj.sync.BBox.intersects">
-<code class="sig-name descname">intersects</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyproj.sync.BBox" title="pyproj.sync.BBox">pyproj.sync.BBox</a></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/pyproj/sync.html#BBox.intersects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.sync.BBox.intersects" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyproj.sync.BBox" title="pyproj.sync.BBox"><em>BBox</em></a>) – The other BBox to use to check.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if this BBox intersects the other bbox.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </div>
