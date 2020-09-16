@@ -182,7 +182,9 @@ Here is an example where enabling the global context can help:
     crs_list = [pyproj.CRS.from_epsg(code) for code in codes]
 
 
-Debugging Internal PROJ:
+.. _debugging-internal-proj:
+
+Debugging Internal PROJ
 ------------------------
 
 .. versionadded:: 3.0.0

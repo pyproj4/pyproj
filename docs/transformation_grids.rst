@@ -61,6 +61,8 @@ Available methods for download include:
   .. note:: You can use the `network` kwarg when initializing
             :class:`pyproj.Proj` or :class:`pyproj.Transformer <pyproj.transformer.Transformer>`
 
+- Download stable from https://download.osgeo.org/proj or latest from https://github.com/OSGeo/PROJ-data
+
 - Use `conda <https://conda.io/en/latest/>`__ with the `conda-forge <https://conda-forge.org/>`__ channel:
 
   .. code-block:: bash
@@ -93,7 +95,10 @@ What grids to download?
 
 - Have a machine with limited space and want to pre-download files?
 
-  The :class:`pyproj.transformer.TransformerGroup` can assist finding the grids you need to download.
+  You can enable enable :ref:`debugging-internal-proj` with pyproj 3+ and perform a transformation.
+  The logs will show the grids PROJ searches for.
+
+  Additionally, the :class:`pyproj.transformer.TransformerGroup` can assist finding the grids you need to download.
 
   .. code-block:: python
 
@@ -110,6 +115,6 @@ What grids to download?
     'Inverse of NAD27 to WGS 84 (85) + Alaska Albers'
     >>> tg.unavailable_operations[0].grids[0].url
     'https://cdn.proj.org/us_noaa_alaska.tif'
-    >>> tg.download_grids(verbose=True)
+    >>> tg.download_grids(verbose=True)  # pyproj 3+
     Downloading: https://cdn.proj.org/us_noaa_alaska.tif
     Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif
