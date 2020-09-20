@@ -45,10 +45,7 @@ class Proj(Transformer):
     """
 
     def __init__(
-        self,
-        projparams: Any = None,
-        preserve_units: bool = True,
-        **kwargs,
+        self, projparams: Any = None, preserve_units: bool = True, **kwargs
     ) -> None:
         """
         A Proj class instance is initialized with proj map projection

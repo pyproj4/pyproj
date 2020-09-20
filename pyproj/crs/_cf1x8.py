@@ -358,7 +358,7 @@ _GRID_MAPPING_NAME_MAP = {
 }
 
 _GEOGRAPHIC_GRID_MAPPING_NAME_MAP = {
-    "rotated_latitude_longitude": _rotated_latitude_longitude,
+    "rotated_latitude_longitude": _rotated_latitude_longitude
 }
 
 

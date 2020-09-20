@@ -71,10 +71,7 @@ def get_proj_libdirs(proj_dir: Path) -> List[str]:
     proj_libdir = os.environ.get("PROJ_LIBDIR")
     libdirs = []
     if proj_libdir is None:
-        libdir_search_paths = (
-            proj_dir / "lib",
-            proj_dir / "lib64",
-        )
+        libdir_search_paths = (proj_dir / "lib", proj_dir / "lib64")
         for libdir_search_path in libdir_search_paths:
             if libdir_search_path.exists():
                 libdirs.append(str(libdir_search_path))
