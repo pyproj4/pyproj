@@ -534,25 +534,22 @@ def test_numpy_bool_kwarg_true():
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_network__disable():
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled(active=False)
-        transformer = Proj(3857, network=False)
+        pyproj.network.set_network_enabled(active=False)
+        transformer = Proj(3857)
         assert transformer.is_network_enabled is False
 
 
 @patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
 def test_network__enable():
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled(active=True)
-        transformer = Proj(3857, network=True)
+        pyproj.network.set_network_enabled(active=True)
+        transformer = Proj(3857)
         assert transformer.is_network_enabled is True
 
 
 def test_network__default():
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled()
+        pyproj.network.set_network_enabled()
         transformer = Proj(3857)
         assert transformer.is_network_enabled == (
             os.environ.get("PROJ_NETWORK") == "ON"

@@ -48,7 +48,6 @@ class Proj(Transformer):
         self,
         projparams: Any = None,
         preserve_units: bool = True,
-        network=None,
         **kwargs,
     ) -> None:
         """
@@ -59,19 +58,12 @@ class Proj(Transformer):
         https://proj.org/operations/projections/index.html for examples of
         key/value pairs defining different map projections.
 
-        .. versionadded:: 3.0.0 network
-
         Parameters
         ----------
         projparams: int, str, dict, pyproj.CRS
             A PROJ or WKT string, PROJ dict, EPSG integer, or a pyproj.CRS instance.
         preserve_units: bool
             If false, will ensure +units=m.
-        network: bool, optional
-            Default is None, which uses the system defaults for networking.
-            If True, it will force the use of network for grids regardless of
-            any other network setting. If False, it will force disable use of
-            network for grids regardless of any other network setting.
         **kwargs:
             PROJ projection parameters.
 
@@ -142,9 +134,7 @@ class Proj(Transformer):
             projstring = self.crs.to_proj4() or self.crs.srs
 
         self.srs = re.sub(r"\s\+?type=crs", "", projstring).strip()
-        super().__init__(
-            _Transformer.from_pipeline(cstrencode(self.srs), network=network)
-        )
+        super().__init__(_Transformer.from_pipeline(cstrencode(self.srs)))
 
     def __call__(
         self,

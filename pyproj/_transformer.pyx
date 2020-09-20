@@ -113,7 +113,6 @@ cdef class _TransformerGroup:
         skip_equivalent=False,
         always_xy=False,
         area_of_interest=None,
-        network=None,
     ):
         """
         From PROJ docs:
@@ -124,7 +123,7 @@ cdef class _TransformerGroup:
         area of use of the CRS), and by increasing accuracy. Operations
         with unknown accuracy are sorted last, whatever their area.
         """
-        self.context = pyproj_context_create(network=network)
+        self.context = pyproj_context_create()
         cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
         cdef PJ_OBJ_LIST * pj_operations = NULL
         cdef PJ* pj_transform = NULL
@@ -174,7 +173,7 @@ cdef class _TransformerGroup:
             )
             num_operations = proj_list_get_count(pj_operations)
             for iii in range(num_operations):
-                context = pyproj_context_create(network=network)
+                context = pyproj_context_create()
                 pj_transform = proj_list_get(
                     context,
                     pj_operations,
@@ -306,7 +305,6 @@ cdef class _Transformer(Base):
         skip_equivalent=False,
         always_xy=False,
         area_of_interest=None,
-        network=None,
     ):
         """
         Create a transformer from CRS objects
@@ -336,7 +334,7 @@ cdef class _Transformer(Base):
                     east_lon_degree,
                     north_lat_degree,
                 )
-            transformer.context = pyproj_context_create(network=network)
+            transformer.context = pyproj_context_create()
             transformer.projobj = proj_create_crs_to_crs(
                 transformer.context,
                 cstrencode(crs_from.srs),
@@ -386,12 +384,12 @@ cdef class _Transformer(Base):
         return transformer
 
     @staticmethod
-    def from_pipeline(const char *proj_pipeline, network=None):
+    def from_pipeline(const char *proj_pipeline):
         """
         Create Transformer from a PROJ pipeline string.
         """
         cdef _Transformer transformer = _Transformer()
-        transformer.context = pyproj_context_create(network=network)
+        transformer.context = pyproj_context_create()
         # initialize projection
         transformer.projobj = proj_create(
             transformer.context,

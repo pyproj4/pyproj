@@ -161,11 +161,10 @@ cdef _get_concatenated_operations(PJ_CONTEXT* context, PJ* concatenated_operatio
     )
     cdef PJ* operation = NULL
     cdef PJ_CONTEXT* sub_context = NULL
-    cdef int network_enabled = proj_context_is_network_enabled(context)
     cdef int iii = 0
     operations = []
     for iii in range(step_count):
-        sub_context = pyproj_context_create(network=network_enabled)
+        sub_context = pyproj_context_create()
         operation = proj_concatoperation_get_step(
             sub_context,
             concatenated_operation,
