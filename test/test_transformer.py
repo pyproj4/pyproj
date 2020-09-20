@@ -464,7 +464,7 @@ def test_str():
             8401,
             (
                 "<Transformation Transformer: helmert>\n"
-                "Description: ITRF2014 to ETRF2014 (1)\n"
+                "Description: ITRF2014 to ETRF2014 (2)\n"
                 "Area of Use:\n"
                 "- name: Europe - ETRF by country\n"
                 "- bounds: (-16.1, 32.88, 40.18, 84.17)"
@@ -580,7 +580,7 @@ def test_transformer_group():
     trans_group = TransformerGroup(7789, 8401)
     assert len(trans_group.transformers) == 2
     assert trans_group.transformers[0].name == "helmert"
-    assert trans_group.transformers[1].description == ("ITRF2014 to ETRF2014 (2)")
+    assert trans_group.transformers[1].description == ("ITRF2014 to ETRF2014 (1)")
     assert not trans_group.unavailable_operations
     assert trans_group.best_available
 
