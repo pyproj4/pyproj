@@ -69,10 +69,10 @@ check-type:
 
 check: lint check-type ## flake8 black isort check
 	black --check setup.py pyproj/ test/ docs/
-	isort --check --recursive setup.py pyproj/ test/ docs/
+	isort --check setup.py pyproj/ test/ docs/
 
 isort: ## order imports
-	isort --recursive setup.py pyproj/ test/ docs/
+	isort setup.py pyproj/ test/ docs/
 
 black: ## black format files
 	black setup.py pyproj/ test/ docs/
