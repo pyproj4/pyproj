@@ -120,19 +120,8 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
         free(c_data_dir)
 
 
-cdef void pyproj_context_set_enable_network(
-    PJ_CONTEXT* context,
-    network=None,
-) except *:
-    if network is not None:
-        enabled = proj_context_set_enable_network(context, bool(network))
-        if network and not enabled:
-            warnings.warn("PROJ network cannot be enabled.")
-
-
 cdef void pyproj_context_initialize(
     PJ_CONTEXT* context,
-    network=None,
     bint autoclose_database=True,
 ) except *:
     """
@@ -142,13 +131,10 @@ cdef void pyproj_context_initialize(
     proj_context_use_proj4_init_rules(context, 1)
     if autoclose_database:
         proj_context_set_autoclose_database(context, 1)
-    pyproj_context_set_enable_network(context, network=network)
     set_context_data_dir(context)
 
 
-cdef PJ_CONTEXT* pyproj_context_create(
-    network=None,
-) except *:
+cdef PJ_CONTEXT* pyproj_context_create() except *:
     """
     Create and initialize the context(s) for pyproj.
     This also manages whether the global context is used.
@@ -156,16 +142,13 @@ cdef PJ_CONTEXT* pyproj_context_create(
     global _USE_GLOBAL_CONTEXT
     if _USE_GLOBAL_CONTEXT:
         return NULL
-    cdef PJ_CONTEXT* context = proj_context_create()
-    pyproj_context_set_enable_network(context, network=network)
-    return context
+    return proj_context_create()
 
 
 def _pyproj_global_context_initialize():
     global _USE_GLOBAL_CONTEXT
     pyproj_context_initialize(
         NULL,
-        network=None,
         autoclose_database=not _USE_GLOBAL_CONTEXT
     )
 

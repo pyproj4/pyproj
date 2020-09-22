@@ -792,9 +792,8 @@ def test_pipeline_itransform(pipeline_str):
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_network__disable(transformer):
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled(active=False)
-        trans = transformer(network=False)
+        pyproj.network.set_network_enabled(active=False)
+        trans = transformer()
         assert trans.is_network_enabled is False
 
 
@@ -811,9 +810,8 @@ def test_network__disable(transformer):
 @patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
 def test_network__enable(transformer):
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled(active=True)
-        trans = transformer(network=True)
+        pyproj.network.set_network_enabled(active=True)
+        trans = transformer()
         assert trans.is_network_enabled is True
 
 
@@ -829,8 +827,7 @@ def test_network__enable(transformer):
 )
 def test_network__default(transformer):
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled()
+        pyproj.network.set_network_enabled()
         trans = transformer()
         assert trans.is_network_enabled == (os.environ.get("PROJ_NETWORK") == "ON")
 
@@ -838,9 +835,8 @@ def test_network__default(transformer):
 @patch.dict("os.environ", {"PROJ_NETWORK": "OFF"}, clear=True)
 def test_transformer_group__network_enabled():
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled(active=True)
-        trans_group = TransformerGroup(4326, 2964, network=True)
+        pyproj.network.set_network_enabled(active=True)
+        trans_group = TransformerGroup(4326, 2964)
         assert len(trans_group.unavailable_operations) == 0
         assert len(trans_group.transformers) == 10
         assert trans_group.best_available
@@ -854,9 +850,8 @@ def test_transformer_group__network_enabled():
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_transformer_group__network_disabled():
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled(active=False)
-        trans_group = TransformerGroup(4326, 2964, network=False)
+        pyproj.network.set_network_enabled(active=False)
+        trans_group = TransformerGroup(4326, 2964)
         for transformer in trans_group.transformers:
             assert transformer.is_network_enabled is False
 
@@ -956,9 +951,8 @@ def test_transform_honours_input_types(x, y, z):
 def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, capsys):
     get_user_data_dir_mock.return_value = str(tmp_path)
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled(active=False)
-        trans_group = TransformerGroup(4326, 2964, network=False)
+        pyproj.network.set_network_enabled(active=False)
+        trans_group = TransformerGroup(4326, 2964)
         trans_group.download_grids(verbose=True)
         captured = capsys.readouterr()
         get_user_data_dir_mock.assert_called_with(True)
@@ -992,7 +986,7 @@ def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, cap
             "pyproj.transformer._download_resource_file"
         ) as download_mock:
             append_data_dir(str(tmp_path))
-            trans_group = TransformerGroup(4326, 2964, network=False)
+            trans_group = TransformerGroup(4326, 2964)
             trans_group.download_grids()
             get_user_data_dir_mock.assert_called_with(True)
             download_mock.assert_not_called()
@@ -1004,9 +998,8 @@ def test_transformer_group__download_grids__directory(
     get_user_data_dir_mock, download_mock, tmp_path, capsys
 ):
     with proj_network_env():
-        if pyproj._datadir._USE_GLOBAL_CONTEXT:
-            pyproj.network.set_network_enabled(active=False)
-        trans_group = TransformerGroup(4326, 2964, network=False)
+        pyproj.network.set_network_enabled(active=False)
+        trans_group = TransformerGroup(4326, 2964)
         trans_group.download_grids(directory=tmp_path)
         get_user_data_dir_mock.assert_not_called()
         captured = capsys.readouterr()

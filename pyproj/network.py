@@ -37,11 +37,7 @@ def set_ca_bundle_path(ca_bundle_path: Union[Path, str, bool, None] = None) -> N
         or an empty string then it will default to the system settings or environment
         variables.
     """
-    env_var_names = (
-        "PROJ_CURL_CA_BUNDLE",
-        "CURL_CA_BUNDLE",
-        "SSL_CERT_FILE",
-    )
+    env_var_names = ("PROJ_CURL_CA_BUNDLE", "CURL_CA_BUNDLE", "SSL_CERT_FILE")
     if ca_bundle_path is False:
         # need to reset CA Bundle path to use system settings
         # or environment variables because it

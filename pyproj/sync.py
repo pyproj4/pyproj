@@ -76,10 +76,7 @@ def _bbox_from_geom(geom: Dict[str, Any]) -> Optional[BBox]:
 
 
 def _filter_bbox(
-    feature: Dict[str, Any],
-    bbox: BBox,
-    spatial_test: str,
-    include_world_coverage: bool,
+    feature: Dict[str, Any], bbox: BBox, spatial_test: str, include_world_coverage: bool
 ) -> bool:
     """
     Filter by the bounding box. Designed to use with 'filter'

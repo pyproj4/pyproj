@@ -16,14 +16,11 @@ def proj_network_env():
     """
     Ensure global context network settings reset
     """
-    if not pyproj._datadir._USE_GLOBAL_CONTEXT:
+    network = pyproj.network.is_network_enabled()
+    try:
         yield
-    else:
-        network = pyproj.network.is_network_enabled()
-        try:
-            yield
-        finally:
-            pyproj.network.set_network_enabled(network)
+    finally:
+        pyproj.network.set_network_enabled(network)
 
 
 @contextmanager

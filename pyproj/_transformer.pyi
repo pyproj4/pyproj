@@ -37,7 +37,6 @@ class _TransformerGroup:
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
-        network: Optional[bool] = None,
     ) -> None: ...
 
 class _Transformer(Base):
@@ -71,12 +70,9 @@ class _Transformer(Base):
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
-        network: Optional[bool] = None,
     ) -> "_Transformer": ...
     @staticmethod
-    def from_pipeline(
-        proj_pipeline: str, network: Optional[bool] = None
-    ) -> "_Transformer": ...
+    def from_pipeline(proj_pipeline: str) -> "_Transformer": ...
     def _transform(
         self,
         inx: Any,
