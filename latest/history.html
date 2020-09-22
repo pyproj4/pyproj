@@ -216,27 +216,27 @@
 <li><p>Minimum supported Python version 3.6 (issue #499)</p></li>
 <li><p>Minimum PROJ version 7.2 (issues #599 &amp; #689)</p></li>
 <li><p>WHL: Removed datumgrids from wheels because not needed with RFC 4 (pull #628)</p></li>
-<li><p>Refactor Proj to inherit from Transformer (issue #624)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/network.html#network"><span class="std std-ref">PROJ Network Settings</span></a> (#675, #691, #695)</p></li>
+<li><p>ENH: Added ability to use global context (issue #661)</p></li>
+<li><p>ENH: Added transformation grid sync API/CLI (issue #572)</p></li>
 <li><p>ENH: Support obects with ‘__array__’ method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)</p></li>
 <li><p>ENH: Added <a class="reference internal" href="api/datadir.html#pyproj.datadir.get_user_data_dir" title="pyproj.datadir.get_user_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_user_data_dir()</span></code></a> (pull #636)</p></li>
-<li><p>ENH: Added network methods to Transformer (issue #629)</p></li>
-<li><p>ENH: Use ‘proj_get_units_from_database’ in <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.get_units_map()</span></code> &amp; cleanup <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.get_codes()</span></code> (issue #619)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.is_network_enabled" title="pyproj.transformer.Transformer.is_network_enabled"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.is_network_enabled</span></code></a> (issue #629)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup.download_grids" title="pyproj.transformer.TransformerGroup.download_grids"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup.download_grids()</span></code></a> (pull #643)</p></li>
+<li><p>ENH: Use ‘proj_get_units_from_database’ in <a class="reference internal" href="api/database.html#pyproj.database.get_units_map" title="pyproj.database.get_units_map"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.database.get_units_map()</span></code></a> &amp; cleanup <a class="reference internal" href="api/database.html#pyproj.database.get_codes" title="pyproj.database.get_codes"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.database.get_codes()</span></code></a> (issue #619)</p></li>
 <li><p>ENH: Added support for radians for Proj &amp; Transformer.from_pipeline &amp; use less gil (issue #612)</p></li>
 <li><p>ENH: Datum.from_name default to check all datum types (issue #606)</p></li>
 <li><p>ENH: Use from_user_input in __eq__ when comparing CRS sub-classes (i.e. PrimeMeridian, Datum, Ellipsoid, etc.) (issue #606)</p></li>
-<li><p>ENH: Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup.download_grids" title="pyproj.transformer.TransformerGroup.download_grids"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup.download_grids()</span></code></a> (pull #643)</p></li>
-<li><p>ENH: Added transformation grid sync API/CLI (issue #572)</p></li>
 <li><p>ENH: Add support for coordinate systems with CRS using CF conventions (issue #536)</p></li>
 <li><p>ENH: Use <cite>proj_is_equivalent_to_with_ctx</cite> in the place of <cite>proj_is_equivalent_to</cite> internally (issue #666)</p></li>
 <li><p>BUG: Add support for identifying engineering/parametric/temporal datums (issue #670)</p></li>
-<li><p>ENH: Added ability to use global context (issue #661)</p></li>
 <li><p>ENH: Add support for temporal CRS CF coordinate system (issue #672)</p></li>
-<li><p>BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)</p></li>
-<li><p>ENH: Added <a class="reference internal" href="api/network.html#network"><span class="std std-ref">PROJ Network Settings</span></a> (#675, #691, #695)</p></li>
 <li><p>ENH: Added support for debugging internal PROJ (pull #696)</p></li>
 <li><p>ENH: Added pathlib support for data directory methods (pull #702)</p></li>
-<li><p>ENH: Added <cite>pyproj.database.query_crs_info</cite> (pull #703)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/database.html#pyproj.database.query_crs_info" title="pyproj.database.query_crs_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.database.query_crs_info()</span></code></a> (pull #703)</p></li>
+<li><p>REF: Refactor Proj to inherit from Transformer (issue #624)</p></li>
 <li><p>REF: Added <cite>pyproj.database</cite>, <cite>pyproj.aoi</cite>, and <cite>pyproj.list</cite> modules (pull #703)</p></li>
+<li><p>BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)</p></li>
 </ul>
 <div class="section" id="id2">
 <h3>2.6.1<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>

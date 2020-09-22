@@ -56,10 +56,7 @@ Available methods for download include:
 
 - `pyproj sync <cli.html#sync>`__ command line program (pyproj 3+; useful if you use pyproj wheels).
 
-- Enabling `PROJ network <https://proj.org/usage/network.html>`__ capabilities.
-
-  .. note:: You can use the `network` kwarg when initializing
-            :class:`pyproj.Proj` or :class:`pyproj.Transformer <pyproj.transformer.Transformer>`
+- Enabling `PROJ network <https://proj.org/usage/network.html>`__ capabilities. See also :ref:`network`.
 
 - Download stable from https://download.osgeo.org/proj or latest from https://github.com/OSGeo/PROJ-data
 
@@ -91,7 +88,8 @@ What grids to download?
 
 - Have a machine that can hold and extra 500 MB - 1 GB of data? Then downloading all grids shouldn't be an issue.
 
-- Have a machine with limited space, a great network connection, and PROJ 7+? Look into `PROJ network <https://proj.org/usage/network.html>`__ capabilities.
+- Have a machine with limited space, a great network connection, and PROJ 7+?
+  Look into `PROJ network <https://proj.org/usage/network.html>`__ capabilities. See also :ref:`network`.
 
 - Have a machine with limited space and want to pre-download files?
 
