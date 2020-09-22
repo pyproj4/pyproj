@@ -219,7 +219,6 @@
         <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get all possible transformations from a :obj:`pyproj.crs.CRS`</span>
 <span class="sd">        or input used to create one.</span>
@@ -242,11 +241,6 @@
 <span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help order the transformations based on the</span>
 <span class="sd">            best operation for the area.</span>
-<span class="sd">        network: bool, optional</span>
-<span class="sd">            Default is None, which uses the system defaults for networking.</span>
-<span class="sd">            If True, it will force the use of network for grids regardless of</span>
-<span class="sd">            any other network setting. If False, it will force disable use of</span>
-<span class="sd">            network for grids regardless of any other network setting.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -255,7 +249,6 @@
             <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
             <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
             <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
-            <span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">iii</span><span class="p">,</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="p">[</span><span class="n">iii</span><span class="p">]</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">transformer</span><span class="p">)</span></div>
@@ -456,14 +449,12 @@
         <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.</span>
 
 <span class="sd">        .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
-<span class="sd">        .. versionadded:: 3.0.0 network</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -481,11 +472,6 @@
 <span class="sd">            Default is false.</span>
 <span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help select the transformation.</span>
-<span class="sd">        network: bool, optional</span>
-<span class="sd">            Default is None, which uses the system defaults for networking.</span>
-<span class="sd">            If True, it will force the use of network for grids regardless of</span>
-<span class="sd">            any other network setting. If False, it will force disable use of</span>
-<span class="sd">            network for grids regardless of any other network setting.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -505,7 +491,6 @@
             <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
             <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
             <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
-            <span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Transformer.from_crs"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.from_crs">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -515,14 +500,12 @@
         <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.</span>
 
 <span class="sd">        .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
-<span class="sd">        .. versionadded:: 3.0.0 network</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -540,11 +523,6 @@
 <span class="sd">            Default is false.</span>
 <span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help select the transformation.</span>
-<span class="sd">        network: bool, optional</span>
-<span class="sd">            Default is None, which uses the system defaults for networking.</span>
-<span class="sd">            If True, it will force the use of network for grids regardless of</span>
-<span class="sd">            any other network setting. If False, it will force disable use of</span>
-<span class="sd">            network for grids regardless of any other network setting.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -558,38 +536,26 @@
                 <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
                 <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
                 <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
-                <span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Transformer.from_pipeline"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.from_pipeline">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_pipeline</span><span class="p">(</span>
-        <span class="n">proj_pipeline</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_pipeline</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a PROJ pipeline string.</span>
 
 <span class="sd">        https://proj.org/operations/pipeline.html</span>
-
-<span class="sd">        .. versionadded:: 3.0.0 network</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        proj_pipeline: str</span>
 <span class="sd">            Projection pipeline string.</span>
-<span class="sd">        network: bool, optional</span>
-<span class="sd">            Default is None, which uses the system defaults for networking.</span>
-<span class="sd">            If True, it will force the use of network for grids regardless of</span>
-<span class="sd">            any other network setting. If False, it will force disable use of</span>
-<span class="sd">            network for grids regardless of any other network setting.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Transformer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
-            <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">),</span> <span class="n">network</span><span class="o">=</span><span class="n">network</span><span class="p">)</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="Transformer.transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

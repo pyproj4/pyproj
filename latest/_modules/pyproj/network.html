@@ -202,11 +202,7 @@
 <span class="sd">        or an empty string then it will default to the system settings or environment</span>
 <span class="sd">        variables.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">env_var_names</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;PROJ_CURL_CA_BUNDLE&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;CURL_CA_BUNDLE&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SSL_CERT_FILE&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">env_var_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;PROJ_CURL_CA_BUNDLE&quot;</span><span class="p">,</span> <span class="s2">&quot;CURL_CA_BUNDLE&quot;</span><span class="p">,</span> <span class="s2">&quot;SSL_CERT_FILE&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ca_bundle_path</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="c1"># need to reset CA Bundle path to use system settings</span>
         <span class="c1"># or environment variables because it</span>
