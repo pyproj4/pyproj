@@ -261,6 +261,46 @@ def query_crs_info(
     return code_list
 
 
+def query_utm_crs_info(
+    datum_name=None,
+    area_of_interest=None,
+    contains=False,
+ ):
+    """
+    .. versionadded:: 3.0
+
+    Query for EPSG UTM CRS information from the PROJ database.
+
+    Parameters
+    ----------
+    datum_name: Optional[str]
+        The name of the datum in the CRS name ('NAD27', 'NAD83', 'WGS 84', ...).
+    area_of_interest: Optional[AreaOfInterest]
+        Filter returned CRS by the area of interest. Default method is intersection.
+    contains: Optional[bool]
+        Only works if the area of interest is passed in.
+        If True, then only CRS whose area of use entirely contains the specified
+        bounding box will be returned. If False, then only CRS whose area of use
+        intersects the specified bounding box will be returned.
+
+    Returns
+    -------
+    List[CRSInfo]:
+        UTM CRS information from the PROJ database.
+    """
+    projected_crs = query_crs_info(
+        auth_name="EPSG",
+        pj_types=PJType.PROJECTED_CRS,
+        area_of_interest=area_of_interest,
+        contains=contains,
+    )
+    utm_crs = [crs for crs in projected_crs if "UTM zone" in crs.name]
+    if datum_name is None:
+        return utm_crs
+    datum_name = datum_name.replace(" ", "")
+    return [crs for crs in utm_crs if datum_name in crs.name.replace(" ", "")]
+
+
 Unit = namedtuple(
     "Unit",
     [
