@@ -24,7 +24,7 @@ Change Log
 * ENH: Added support for debugging internal PROJ (pull #696)
 * ENH: Added pathlib support for data directory methods (pull #702)
 * ENH: Added :func:`pyproj.database.query_crs_info` (pull #703)
-* ENH: Added :func:`pyproj.database.query_utm_crs_info`
+* ENH: Added :func:`pyproj.database.query_utm_crs_info` (pull #712)
 * REF: Refactor Proj to inherit from Transformer (issue #624)
 * REF: Added `pyproj.database`, `pyproj.aoi`, and `pyproj.list` modules (pull #703)
 * BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)
