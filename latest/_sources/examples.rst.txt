@@ -204,6 +204,29 @@ This is just a small subset of what is available.
      Param(name=False northing, auth_name=EPSG, code=8807, value=0.0, unit_name=metre, unit_auth_name=, unit_code=, unit_category=linear)]
 
 
+Find UTM CRS by Latitude and Longitude
+---------------------------------------
+
+.. note:: For more database methods see: :ref:`database`.
+
+.. code-block:: python
+
+    from pyproj import CRS
+    from pyproj.aoi import AreaOfInterest
+    from pyproj.database import query_utm_crs_info
+
+    utm_crs_list = query_utm_crs_info(
+        datum_name="WGS 84",
+        area_of_interest=AreaOfInterest(
+            west_lon_degree=-93.581543,
+            south_lat_degree=42.032974,
+            east_lon_degree=-93.581543,
+            north_lat_degree=42.032974,
+        ),
+    )
+    utm_crs = CRS.from_epsg(utm_crs_list[0].code)
+
+
 Transformations from CRS to CRS
 -------------------------------
 

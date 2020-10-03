@@ -1,3 +1,5 @@
+.. _database:
+
 Database
 =========
 
@@ -36,3 +38,8 @@ pyproj.database.query_crs_info
 .. autofunction:: pyproj.database.query_crs_info
 
 .. autoclass:: pyproj.database.CRSInfo
+
+pyproj.database.query_utm_crs_info
+-----------------------------------
+
+.. autofunction:: pyproj.database.query_utm_crs_info
