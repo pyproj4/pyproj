@@ -96,6 +96,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#extracting-attributes-from-crs">Extracting attributes from CRS</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#find-utm-crs-by-latitude-and-longitude">Find UTM CRS by Latitude and Longitude</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transformations-from-crs-to-crs">Transformations from CRS to CRS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order">Step 1: Inspect CRS definition to ensure proper area of use and axis order</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-2-create-transformer-to-convert-from-crs-to-crs">Step 2: Create Transformer to convert from CRS to CRS</a></li>
@@ -380,6 +381,29 @@ This is just a small subset of what is available.</p>
 <span class="go"> Param(name=False northing, auth_name=EPSG, code=8807, value=0.0, unit_name=metre, unit_auth_name=, unit_code=, unit_category=linear)]</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="section" id="find-utm-crs-by-latitude-and-longitude">
+<h2>Find UTM CRS by Latitude and Longitude<a class="headerlink" href="#find-utm-crs-by-latitude-and-longitude" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more database methods see: <a class="reference internal" href="api/database.html#database"><span class="std std-ref">Database</span></a>.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">pyproj.aoi</span> <span class="kn">import</span> <span class="n">AreaOfInterest</span>
+<span class="kn">from</span> <span class="nn">pyproj.database</span> <span class="kn">import</span> <span class="n">query_utm_crs_info</span>
+
+<span class="n">utm_crs_list</span> <span class="o">=</span> <span class="n">query_utm_crs_info</span><span class="p">(</span>
+    <span class="n">datum_name</span><span class="o">=</span><span class="s2">&quot;WGS 84&quot;</span><span class="p">,</span>
+    <span class="n">area_of_interest</span><span class="o">=</span><span class="n">AreaOfInterest</span><span class="p">(</span>
+        <span class="n">west_lon_degree</span><span class="o">=-</span><span class="mf">93.581543</span><span class="p">,</span>
+        <span class="n">south_lat_degree</span><span class="o">=</span><span class="mf">42.032974</span><span class="p">,</span>
+        <span class="n">east_lon_degree</span><span class="o">=-</span><span class="mf">93.581543</span><span class="p">,</span>
+        <span class="n">north_lat_degree</span><span class="o">=</span><span class="mf">42.032974</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">utm_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">utm_crs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="transformations-from-crs-to-crs">
