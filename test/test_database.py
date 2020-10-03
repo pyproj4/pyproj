@@ -7,6 +7,7 @@ from pyproj.database import (
     get_codes,
     get_units_map,
     query_crs_info,
+    query_utm_crs_info,
 )
 from pyproj.enums import PJType
 
@@ -199,5 +200,48 @@ def test_query_crs_info__aoi_contains():
     for crs_info in crs_info_list:
         assert BBox(*crs_info.area_of_use.bounds).contains(aoi)
         assert crs_info.auth_name == "IGNF"
+        assert crs_info.type == PJType.PROJECTED_CRS
+        assert not crs_info.deprecated
+
+
+@pytest.mark.parametrize("datum_name", ["WGS 84", "WGS84", "NAD27"])
+def test_query_utm_crs_info__aoi_datum_name(datum_name):
+    aoi = BBox(west=-93.581543, south=42.032974, east=-93.581543, north=42.032974)
+    crs_info_list = query_utm_crs_info(
+        datum_name=datum_name,
+        area_of_interest=AreaOfInterest(
+            west_lon_degree=aoi.west,
+            south_lat_degree=aoi.south,
+            east_lon_degree=aoi.east,
+            north_lat_degree=aoi.north,
+        ),
+    )
+    assert len(crs_info_list) == 1
+    crs_info = crs_info_list[0]
+    bbox = BBox(*crs_info.area_of_use.bounds)
+    assert bbox.intersects(aoi)
+    assert "UTM zone" in crs_info.name
+    assert datum_name.replace(" ", "") in crs_info.name.replace(" ", "")
+    assert crs_info.auth_name == "EPSG"
+    assert crs_info.type == PJType.PROJECTED_CRS
+    assert not crs_info.deprecated
+
+
+def test_query_utm_crs_info__aoi_contains():
+    aoi = BBox(west=41, south=50, east=42, north=51)
+    crs_info_list = query_utm_crs_info(
+        area_of_interest=AreaOfInterest(
+            west_lon_degree=aoi.west,
+            south_lat_degree=aoi.south,
+            east_lon_degree=aoi.east,
+            north_lat_degree=aoi.north,
+        ),
+        contains=True,
+    )
+    assert crs_info_list
+    for crs_info in crs_info_list:
+        assert BBox(*crs_info.area_of_use.bounds).contains(aoi)
+        assert "UTM zone" in crs_info.name
+        assert crs_info.auth_name == "EPSG"
         assert crs_info.type == PJType.PROJECTED_CRS
         assert not crs_info.deprecated
