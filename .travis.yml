@@ -22,37 +22,33 @@ env:
 
 matrix:
   include:
+    - python: 3.6.12
     - language: cpp
       os: osx
       env:
-        - PYTHON=3.6.8
-    - python: 3.6
-    - python: 3.6
+        - PYTHON=3.7.8
+    - python: 3.7.9
+    - python: 3.7.9
       env:
         - PROJ_NETWORK=ON
         - PROJ_DEBUG=3
-    - python: 3.6
+    - python: 3.7.9
       env:
         - PROJSYNC=ALL
-    - python: 3.6
+    - python: 3.7.9
       env:
         - PYPROJ_GLOBAL_CONTEXT=ON
-    - python: 3.7.2
+    - python: 3.7.9
       env:
         - DOC=true
-    - python: 3.8
-    # - python: 3.8
-    #   env:
-    #     - PROJSOURCE=git
+    - python: 3.8.5
+    - python: 3.9-dev
     # - python: "nightly"
     #   env:
     #     - PROJSOURCE=git
 
   allow_failures:
     # - python: "nightly"
-    #   env:
-    #     - PROJSOURCE=git
-    # - python: 3.8
     #   env:
     #     - PROJSOURCE=git
 
@@ -67,6 +63,7 @@ before_install:
       # virtualenv doesn't work without pyenv knowledge. venv in Python 3.3
       # doesn't provide Pip by default. So, use `pyenv-virtualenv <https://github.com/yyuu/pyenv-virtualenv/blob/master/README.md>`_.
       brew install pyenv-virtualenv
+      pyenv install --list | grep "3.7"
       pyenv install $PYTHON
       # I would expect something like ``pyenv init; pyenv local $PYTHON`` or
       # ``pyenv shell $PYTHON`` would work, but ``pyenv init`` doesn't seem to
