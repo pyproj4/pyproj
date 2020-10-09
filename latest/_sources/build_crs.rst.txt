@@ -98,7 +98,7 @@ PROJ string::
     ell = CustomEllipsoid(semi_major_axis=6378137, semi_minor_axis=6356752)
     cd = CustomDatum(ellipsoid=ell, prime_meridian="Lisbon")
     proj_crs = ProjectedCRS(
-        conversion=UTMConversion(14), geodetic_crs=GeographicCRS(datum=cd),
+        conversion=UTMConversion(14), geodetic_crs=GeographicCRS(datum=cd)
     )
     crs_wkt = proj_crs.to_wkt()
 
@@ -175,6 +175,6 @@ The PROJ string is quite lossy in this example, so it is not provided.
         cartesian_cs=Cartesian2DCS(),
     )
     compcrs = CompoundCRS(
-        name="NAD83 / Pennsylvania South + NAVD88 height", components=[projcrs, vertcrs],
+        name="NAD83 / Pennsylvania South + NAVD88 height", components=[projcrs, vertcrs]
     )
     crs_wkt = compcrs.to_wkt()
