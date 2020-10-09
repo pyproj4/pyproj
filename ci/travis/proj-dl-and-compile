@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Building PROJ $1 version from source..."
 if [[ $1 == "git" ]]; then
-  git clone https://github.com/OSGeo/proj.git proj-git
+  git clone https://github.com/rouault/proj.git -b epsg10 proj-git
 else
   curl https://download.osgeo.org/proj/proj-$1.tar.gz > "proj-${1:0:5}.tar.gz"
   tar zxf "proj-${1:0:5}.tar.gz"
