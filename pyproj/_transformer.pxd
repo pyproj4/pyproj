@@ -1,6 +1,7 @@
 include "proj.pxi"
 
-from pyproj._crs cimport Base, _CRS
+from pyproj._crs cimport _CRS, Base
+
 
 cdef class _TransformerGroup:
     cdef PJ_CONTEXT* context
