@@ -5,6 +5,8 @@ from pathlib import Path
 import pyproj
 from pyproj.datadir import get_data_dir, get_user_data_dir, set_data_dir
 
+_NETWORK_ENABLED = pyproj.network.is_network_enabled()
+
 
 def unset_data_dir():
     pyproj.datadir._USER_PROJ_DATA = None
@@ -16,11 +18,10 @@ def proj_network_env():
     """
     Ensure global context network settings reset
     """
-    network = pyproj.network.is_network_enabled()
     try:
         yield
     finally:
-        pyproj.network.set_network_enabled(network)
+        pyproj.network.set_network_enabled(_NETWORK_ENABLED)
 
 
 @contextmanager
