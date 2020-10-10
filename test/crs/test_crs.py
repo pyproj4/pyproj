@@ -1,9 +1,10 @@
 import json
+from distutils.version import LooseVersion
 
 import numpy
 import pytest
 
-from pyproj import CRS
+from pyproj import CRS, __proj_version__
 from pyproj.crs import (
     CoordinateOperation,
     CoordinateSystem,
@@ -15,7 +16,7 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import grids_available
+from test.conftest import get_wgs84_datum_name, grids_available
 
 
 class CustomCRS(object):
@@ -201,7 +202,7 @@ def test_repr():
             "Area of Use:\n"
             "- name: World.\n"
             "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
-            "Datum: World Geodetic System 1984\n"
+            f"Datum: {get_wgs84_datum_name()}\n"
             "- Ellipsoid: WGS 84\n"
             "- Prime Meridian: Greenwich\n"
         )
@@ -219,7 +220,7 @@ def test_repr__long():
             "Area of Use:\n"
             "- name: World.\n"
             "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
-            "Datum: World Geodetic System 1984\n"
+            f"Datum: {get_wgs84_datum_name()}\n"
             "- Ellipsoid: WGS 84\n"
             "- Prime Meridian: Greenwich\n"
         )
@@ -235,7 +236,7 @@ def test_repr_epsg():
         "Area of Use:\n"
         "- name: World.\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
-        "Datum: World Geodetic System 1984\n"
+        f"Datum: {get_wgs84_datum_name()}\n"
         "- Ellipsoid: WGS 84\n"
         "- Prime Meridian: Greenwich\n"
     )
@@ -309,9 +310,13 @@ def test_epsg():
 
 def test_datum():
     datum = CRS.from_epsg(4326).datum
-    assert repr(datum).startswith('DATUM["World Geodetic System 1984"')
     assert "\n" in repr(datum)
-    assert datum.to_wkt().startswith('DATUM["World Geodetic System 1984"')
+    if LooseVersion(__proj_version__) < LooseVersion("8.0"):
+        datum_wkt = 'DATUM["World Geodetic System 1984"'
+    else:
+        datum_wkt = 'ENSEMBLE["World Geodetic System 1984"'
+    assert repr(datum).startswith(datum_wkt)
+    assert datum.to_wkt().startswith(datum_wkt)
     assert datum == datum
     assert datum.is_exact_same(datum)
 
@@ -871,7 +876,7 @@ def test_datum_equals():
 )
 def test_datum__from_string(input_str):
     dd = Datum.from_string(input_str)
-    assert dd.name == "World Geodetic System 1984"
+    assert dd.name == get_wgs84_datum_name()
     assert dd.type_name == "Geodetic Reference Frame"
 
 

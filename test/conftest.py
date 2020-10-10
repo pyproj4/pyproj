@@ -1,5 +1,6 @@
 import os
 from contextlib import contextmanager
+from distutils.version import LooseVersion
 from pathlib import Path
 
 import pyproj
@@ -70,3 +71,9 @@ def grids_available(*grid_names, check_network=True, check_all=False):
     if check_all:
         return all(available)
     return any(available)
+
+
+def get_wgs84_datum_name():
+    if LooseVersion(pyproj.__proj_version__) < LooseVersion("8.0"):
+        return "World Geodetic System 1984"
+    return "World Geodetic System 1984 ensemble"

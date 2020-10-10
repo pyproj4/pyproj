@@ -1288,13 +1288,13 @@ _DATUM_TYPE_MAP = {
 }
 
 _PJ_DATUM_TYPE_MAP = {
+    DatumType.DATUM_ENSEMBLE: PJ_TYPE_DATUM_ENSEMBLE,
     DatumType.GEODETIC_REFERENCE_FRAME: PJ_TYPE_GEODETIC_REFERENCE_FRAME,
     DatumType.DYNAMIC_GEODETIC_REFERENCE_FRAME:
     PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME,
     DatumType.VERTICAL_REFERENCE_FRAME: PJ_TYPE_VERTICAL_REFERENCE_FRAME,
     DatumType.DYNAMIC_VERTICAL_REFERENCE_FRAME:
     PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME,
-    DatumType.DATUM_ENSEMBLE: PJ_TYPE_DATUM_ENSEMBLE,
 }
 
 
@@ -1329,7 +1329,7 @@ cdef class Datum(_CRSParts):
         return datum
 
     @staticmethod
-    def from_authority(auth_name, code):
+    def _from_authority(auth_name, code, PJ_CATEGORY category):
         """
         Create a Datum from an authority code.
 
@@ -1350,7 +1350,7 @@ cdef class Datum(_CRSParts):
             context,
             cstrencode(str(auth_name)),
             cstrencode(str(code)),
-            PJ_CATEGORY_DATUM,
+            category,
             False,
             NULL,
         )
@@ -1360,6 +1360,27 @@ cdef class Datum(_CRSParts):
             raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return Datum.create(context, datum_pj)
+
+    @staticmethod
+    def from_authority(auth_name, code):
+        """
+        Create a Datum from an authority code.
+
+        Parameters
+        ----------
+        auth_name: str
+            Name ot the authority.
+        code: str or int
+            The code used by the authority.
+
+        Returns
+        -------
+        Datum
+        """
+        try:
+            return Datum._from_authority(auth_name, code, PJ_CATEGORY_DATUM_ENSEMBLE)
+        except CRSError:
+            return Datum._from_authority(auth_name, code, PJ_CATEGORY_DATUM)
 
     @staticmethod
     def from_epsg(code):
