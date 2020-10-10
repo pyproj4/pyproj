@@ -14,22 +14,25 @@ BASE_INTERNAL_PROJ_DIR = Path("proj_dir")
 INTERNAL_PROJ_DIR = CURRENT_FILE_PATH / "pyproj" / BASE_INTERNAL_PROJ_DIR
 
 
-def check_proj_version(proj_dir: Path):
-    """checks that the PROJ library meets the minimum version"""
+def get_proj_version(proj_dir: Path) -> str:
+    proj_version = os.environ.get("PROJ_VERSION")
+    if proj_version:
+        return proj_version
     proj = proj_dir / "bin" / "proj"
-    proj_ver_bytes = subprocess.check_output(
-        str(proj), stderr=subprocess.STDOUT
-    ).decode("ascii")
-    proj_ver_bytes = (proj_ver_bytes.split()[1]).strip(",")
-    proj_version = parse_version(proj_ver_bytes)
-    if proj_version < PROJ_MIN_VERSION:
+    proj_ver = subprocess.check_output(str(proj), stderr=subprocess.STDOUT).decode(
+        "ascii"
+    )
+    return (proj_ver.split()[1]).strip(",")
+
+
+def check_proj_version(proj_version: str) -> None:
+    """checks that the PROJ library meets the minimum version"""
+    if parse_version(proj_version) < PROJ_MIN_VERSION:
         raise SystemExit(
             f"ERROR: Minimum supported proj version is {PROJ_MIN_VERSION}, installed "
             f"version is {proj_version}. For more information see: "
             "https://pyproj4.github.io/pyproj/stable/installation.html"
         )
-
-    return proj_version
 
 
 def get_proj_dir() -> Path:
@@ -58,9 +61,6 @@ def get_proj_dir() -> Path:
         print("PROJ_DIR is set, using existing proj4 installation..\n")
     else:
         raise SystemExit(f"ERROR: Invalid path for PROJ_DIR {proj_dir}")
-
-    # check_proj_version
-    check_proj_version(proj_dir)
     return proj_dir
 
 
@@ -152,6 +152,10 @@ def get_extension_modules():
     library_dirs = get_proj_libdirs(proj_dir)
     include_dirs = get_proj_incdirs(proj_dir)
 
+    proj_version = get_proj_version(proj_dir)
+    check_proj_version(proj_version)
+    proj_version_major, proj_version_minor, proj_version_patch = proj_version.split(".")
+
     # setup extension options
     ext_options = {
         "include_dirs": include_dirs,
@@ -175,6 +179,11 @@ def get_extension_modules():
             Extension("pyproj._sync", ["pyproj/_sync.pyx"], **ext_options),
         ],
         quiet=True,
+        compile_time_env={
+            "CTE_PROJ_VERSION_MAJOR": int(proj_version_major),
+            "CTE_PROJ_VERSION_MINOR": int(proj_version_minor),
+            "CTE_PROJ_VERSION_PATCH": int(proj_version_patch),
+        },
         **get_cythonize_options(),
     )
 

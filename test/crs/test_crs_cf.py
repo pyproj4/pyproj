@@ -16,6 +16,7 @@ from pyproj.crs.coordinate_operation import (
     VerticalPerspectiveConversion,
 )
 from pyproj.exceptions import CRSError
+from test.conftest import get_wgs84_datum_name
 
 
 def _to_dict(operation):
@@ -240,7 +241,7 @@ def test_cf_from_utm():
         "longitude_of_prime_meridian": 0.0,
         "prime_meridian_name": "Greenwich",
         "geographic_crs_name": "WGS 84",
-        "horizontal_datum_name": "World Geodetic System 1984",
+        "horizontal_datum_name": get_wgs84_datum_name(),
         "projected_crs_name": "WGS 84 / UTM zone 15N",
         "grid_mapping_name": "transverse_mercator",
         "latitude_of_projection_origin": 0.0,

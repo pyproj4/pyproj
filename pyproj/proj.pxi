@@ -1,4 +1,25 @@
-# PROJ.4 API Defnition
+# PROJ API Definition
+
+IF CTE_PROJ_VERSION_MAJOR >= 8:
+    cdef extern from "proj.h":
+        ctypedef enum PJ_CATEGORY:
+            PJ_CATEGORY_ELLIPSOID
+            PJ_CATEGORY_PRIME_MERIDIAN
+            PJ_CATEGORY_DATUM
+            PJ_CATEGORY_CRS
+            PJ_CATEGORY_COORDINATE_OPERATION
+            PJ_CATEGORY_DATUM_ENSEMBLE
+ELSE:
+    cdef extern from "proj.h":
+        ctypedef enum PJ_CATEGORY:
+            PJ_CATEGORY_ELLIPSOID
+            PJ_CATEGORY_PRIME_MERIDIAN
+            PJ_CATEGORY_DATUM
+            PJ_CATEGORY_CRS
+            PJ_CATEGORY_COORDINATE_OPERATION
+    cdef int PJ_CATEGORY_DATUM_ENSEMBLE = PJ_CATEGORY_DATUM
+
+
 cdef extern from "proj.h":
     cdef int PROJ_VERSION_MAJOR
     cdef int PROJ_VERSION_MINOR
@@ -397,20 +418,12 @@ cdef extern from "proj.h":
     PJ *proj_concatoperation_get_step(PJ_CONTEXT *ctx,
                                       const PJ *concatoperation,
                                       int i_step)
-
-    ctypedef enum PJ_CATEGORY:
-        PJ_CATEGORY_ELLIPSOID
-        PJ_CATEGORY_PRIME_MERIDIAN
-        PJ_CATEGORY_DATUM
-        PJ_CATEGORY_CRS
-        PJ_CATEGORY_COORDINATE_OPERATION
     PJ *proj_create_from_database(PJ_CONTEXT *ctx,
                                   const char *auth_name,
                                   const char *code,
                                   PJ_CATEGORY category,
                                   int usePROJAlternativeGridNames,
                                   const char* const *options)
-
     PJ_OBJ_LIST *proj_create_from_name(PJ_CONTEXT *ctx,
                                        const char *auth_name,
                                        const char *searchedName,

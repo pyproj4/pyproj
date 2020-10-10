@@ -1,11 +1,13 @@
 import os
 from contextlib import contextmanager
+from distutils.version import LooseVersion
 from pathlib import Path
 
 import pyproj
 from pyproj.datadir import get_data_dir, get_user_data_dir, set_data_dir
 
 _NETWORK_ENABLED = pyproj.network.is_network_enabled()
+PROJ_GTE_8 = LooseVersion(pyproj.__proj_version__) >= LooseVersion("8.0")
 
 
 def unset_data_dir():
@@ -70,3 +72,9 @@ def grids_available(*grid_names, check_network=True, check_all=False):
     if check_all:
         return all(available)
     return any(available)
+
+
+def get_wgs84_datum_name():
+    if PROJ_GTE_8:
+        return "World Geodetic System 1984 ensemble"
+    return "World Geodetic System 1984"
