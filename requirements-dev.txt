@@ -1,7 +1,6 @@
 cython>=0.28.4
 black
 flake8
-mock
 mypy
 numpy
 pylint
