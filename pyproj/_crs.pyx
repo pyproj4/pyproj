@@ -4,7 +4,7 @@ import warnings
 from collections import OrderedDict
 
 from pyproj._compat cimport cstrdecode
-from pyproj._datadir cimport pyproj_context_create
+from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj.aoi import AreaOfUse
 from pyproj.compat import cstrencode, pystrdecode
@@ -333,7 +333,7 @@ cdef class Base:
         if self.projobj != NULL:
             proj_destroy(self.projobj)
         if self.context != NULL:
-            proj_context_destroy(self.context)
+            pyproj_context_destroy(self.context)
 
     cdef _set_base_info(self):
         """
@@ -559,6 +559,7 @@ cdef class CoordinateSystem(_CRSParts):
         cdef CoordinateSystem coord_system = CoordinateSystem.__new__(CoordinateSystem)
         coord_system.context = context
         coord_system.projobj = coord_system_pj
+
         cdef PJ_COORDINATE_SYSTEM_TYPE cs_type = proj_cs_get_type(
             coord_system.context,
             coord_system.projobj,
@@ -620,7 +621,7 @@ cdef class CoordinateSystem(_CRSParts):
             coordinate_system_pj,
         ) == PJ_CS_TYPE_UNKNOWN:
             proj_destroy(coordinate_system_pj)
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(
                 "Invalid coordinate system string: "
                 f"{pystrdecode(coordinate_system_string)}"
@@ -829,7 +830,7 @@ cdef class Ellipsoid(_CRSParts):
         )
 
         if ellipsoid_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
@@ -879,7 +880,7 @@ cdef class Ellipsoid(_CRSParts):
         )
         if ellipsoid_pj == NULL or proj_get_type(ellipsoid_pj) != PJ_TYPE_ELLIPSOID:
             proj_destroy(ellipsoid_pj)
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(
                 f"Invalid ellipsoid string: {pystrdecode(ellipsoid_string)}"
             )
@@ -983,7 +984,7 @@ cdef class Ellipsoid(_CRSParts):
             PJ_TYPE_ELLIPSOID,
         )
         if ellipsoid_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(f"Invalid ellipsoid name: {pystrdecode(ellipsoid_name)}")
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
@@ -1107,7 +1108,7 @@ cdef class PrimeMeridian(_CRSParts):
         )
 
         if prime_meridian_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return PrimeMeridian.create(context, prime_meridian_pj)
@@ -1160,7 +1161,7 @@ cdef class PrimeMeridian(_CRSParts):
             proj_get_type(prime_meridian_pj) != PJ_TYPE_PRIME_MERIDIAN
         ):
             proj_destroy(prime_meridian_pj)
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(
                 f"Invalid prime meridian string: {pystrdecode(prime_meridian_string)}"
             )
@@ -1267,7 +1268,7 @@ cdef class PrimeMeridian(_CRSParts):
             PJ_TYPE_PRIME_MERIDIAN,
         )
         if prime_meridian_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(
                 f"Invalid prime meridian name: {pystrdecode(prime_meridian_name)}"
             )
@@ -1355,7 +1356,7 @@ cdef class Datum(_CRSParts):
         )
 
         if datum_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return Datum.create(context, datum_pj)
@@ -1407,7 +1408,7 @@ cdef class Datum(_CRSParts):
              proj_get_type(datum_pj) not in _DATUM_TYPE_MAP
         ):
             proj_destroy(datum_pj)
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(f"Invalid datum string: {pystrdecode(datum_string)}")
         CRSError.clear()
         return Datum.create(context, datum_pj)
@@ -1476,7 +1477,7 @@ cdef class Datum(_CRSParts):
             <PJ_TYPE>pj_datum_type,
         )
         if datum_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(f"Invalid datum name: {pystrdecode(datum_name)}")
         CRSError.clear()
         return Datum.create(context, datum_pj)
@@ -1585,7 +1586,7 @@ cdef class Datum(_CRSParts):
         )
         CRSError.clear()
         if ellipsoid_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             self._ellipsoid = False
             return None
         self._ellipsoid = Ellipsoid.create(context, ellipsoid_pj)
@@ -1608,7 +1609,7 @@ cdef class Datum(_CRSParts):
         )
         CRSError.clear()
         if prime_meridian_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             self._prime_meridian = False
             return None
         self._prime_meridian = PrimeMeridian.create(
@@ -1915,7 +1916,7 @@ cdef class CoordinateOperation(_CRSParts):
         )
 
         if coord_operation_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(f"Invalid authority or code ({auth_name}, {code})")
         CRSError.clear()
         return CoordinateOperation.create(context, coord_operation_pj)
@@ -1972,7 +1973,7 @@ cdef class CoordinateOperation(_CRSParts):
             )
         ):
             proj_destroy(coord_operation_pj)
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(
                 "Invalid coordinate operation string: "
                 f"{pystrdecode(coordinate_operation_string)}"
@@ -2085,7 +2086,7 @@ cdef class CoordinateOperation(_CRSParts):
             <PJ_TYPE>pj_coordinate_operation_type,
         )
         if coordinate_operation_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             raise CRSError(
                 "Invalid coordinate operation name: "
                 f"{pystrdecode(coordinate_operation_name)}"
@@ -2342,7 +2343,7 @@ cdef class _CRS(Base):
         )
         CRSError.clear()
         if ellipsoid_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             self._ellipsoid = False
             return None
         self._ellipsoid = Ellipsoid.create(context, ellipsoid_pj)
@@ -2367,7 +2368,7 @@ cdef class _CRS(Base):
         )
         CRSError.clear()
         if prime_meridian_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             self._prime_meridian = False
             return None
         self._prime_meridian = PrimeMeridian.create(context, prime_meridian_pj)
@@ -2396,7 +2397,7 @@ cdef class _CRS(Base):
             )
         CRSError.clear()
         if datum_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             self._datum = False
             return None
         self._datum = Datum.create(context, datum_pj)
@@ -2420,7 +2421,7 @@ cdef class _CRS(Base):
         )
         CRSError.clear()
         if coord_system_pj == NULL:
-            proj_context_destroy(context)
+            pyproj_context_destroy(context)
             self._coordinate_system = False
             return None
 
@@ -2452,7 +2453,7 @@ cdef class _CRS(Base):
         )
         CRSError.clear()
         if coord_pj == NULL:
-            proj_context_destroy
+            pyproj_context_destroy(context)
             self._coordinate_operation = False
             return None
         self._coordinate_operation = CoordinateOperation.create(

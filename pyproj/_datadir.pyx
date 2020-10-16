@@ -47,7 +47,7 @@ def set_use_global_context(active=None):
     if active is None:
         active = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
     _USE_GLOBAL_CONTEXT = bool(active)
-    proj_context_set_autoclose_database(NULL, not _USE_GLOBAL_CONTEXT)
+    proj_context_set_autoclose_database(PYPROJ_GLOBAL_CONTEXT, not _USE_GLOBAL_CONTEXT)
 
 
 def get_user_data_dir(create=False):
@@ -72,7 +72,9 @@ def get_user_data_dir(create=False):
     str:
         The user writable data directory.
     """
-    return pystrdecode(proj_context_get_user_writable_directory(NULL, bool(create)))
+    return pystrdecode(proj_context_get_user_writable_directory(
+        PYPROJ_GLOBAL_CONTEXT, bool(create)
+    ))
 
 
 cdef void pyproj_log_function(void *user_data, int level, const char *error_msg) nogil:
@@ -120,18 +122,44 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
         free(c_data_dir)
 
 
-cdef void pyproj_context_initialize(
-    PJ_CONTEXT* context,
-    bint autoclose_database=True,
-) except *:
+cdef void pyproj_context_initialize(PJ_CONTEXT* context) except *:
     """
     Setup the context for pyproj
     """
     proj_log_func(context, NULL, pyproj_log_function)
     proj_context_use_proj4_init_rules(context, 1)
-    if autoclose_database:
-        proj_context_set_autoclose_database(context, 1)
+    proj_context_set_autoclose_database(context, not _USE_GLOBAL_CONTEXT)
     set_context_data_dir(context)
+
+
+cdef class ContextManager:
+    """
+    The only purpose of this class is
+    to ensure the context is cleaned up properly.
+    """
+    cdef PJ_CONTEXT* context
+
+    def __cinit__(self):
+        self.context = NULL
+
+    def __dealloc__(self):
+        if self.context != NULL:
+            proj_context_destroy(self.context)
+
+    @staticmethod
+    cdef create(PJ_CONTEXT* context):
+        cdef ContextManager context_manager = ContextManager()
+        context_manager.context = context
+        return context_manager
+
+
+# Different libraries that modify the PROJ global context will influence
+# each other without realizing it. Due to this, pyproj is creating it's own
+# global context so that it doesn't bother other libraries and is insulated
+# against possible external changes made to the PROJ global context.
+# See: https://github.com/pyproj4/pyproj/issues/722
+cdef PJ_CONTEXT* PYPROJ_GLOBAL_CONTEXT = proj_context_create()
+cdef ContextManager CONTEXT_MANAGER = ContextManager.create(PYPROJ_GLOBAL_CONTEXT)
 
 
 cdef PJ_CONTEXT* pyproj_context_create() except *:
@@ -139,19 +167,21 @@ cdef PJ_CONTEXT* pyproj_context_create() except *:
     Create and initialize the context(s) for pyproj.
     This also manages whether the global context is used.
     """
-    global _USE_GLOBAL_CONTEXT
     if _USE_GLOBAL_CONTEXT:
-        return NULL
-    return proj_context_create()
+        return PYPROJ_GLOBAL_CONTEXT
+    return proj_context_clone(PYPROJ_GLOBAL_CONTEXT)
+
+cdef void pyproj_context_destroy(PJ_CONTEXT* context) except *:
+    """
+    Destroy context only if not the global context
+    """
+    if context != PYPROJ_GLOBAL_CONTEXT:
+        proj_context_destroy(context)
 
 
 def _pyproj_global_context_initialize():
-    global _USE_GLOBAL_CONTEXT
-    pyproj_context_initialize(
-        NULL,
-        autoclose_database=not _USE_GLOBAL_CONTEXT
-    )
+    pyproj_context_initialize(PYPROJ_GLOBAL_CONTEXT)
 
 
 def _global_context_set_data_dir():
-    set_context_data_dir(NULL)
+    set_context_data_dir(PYPROJ_GLOBAL_CONTEXT)
