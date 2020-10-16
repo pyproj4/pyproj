@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from urllib.error import URLError
 
 import pytest
-from mock import MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 from pyproj.aoi import BBox
 from pyproj.sync import (
