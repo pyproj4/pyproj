@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
-from mock import patch
+from unittest.mock import patch
 
 import pyproj._datadir
 from pyproj import CRS, Transformer, get_codes, set_use_global_context

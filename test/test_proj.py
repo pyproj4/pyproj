@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 import pytest
-from mock import patch
+from unittest.mock import patch
 from numpy.testing import assert_almost_equal
 
 import pyproj
