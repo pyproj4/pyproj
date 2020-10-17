@@ -1,6 +1,7 @@
+from unittest.mock import patch
+
 import certifi
 import pytest
-from unittest.mock import patch
 
 from pyproj.network import set_ca_bundle_path
 

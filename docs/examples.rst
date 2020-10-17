@@ -169,7 +169,7 @@ This is just a small subset of what is available.
     Axis Info [vertical]:
     - H[up]: Gravity-related height (metre)
     Area of Use:
-    - name: Finland - onshore
+    - name: Finland - onshore.
     - bounds: (19.24, 59.75, 31.59, 70.09)
     Datum: Helsinki 1960
     - Ellipsoid: undefined

@@ -2,9 +2,9 @@ import logging
 import os
 from contextlib import contextmanager
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
-from unittest.mock import patch
 
 import pyproj._datadir
 from pyproj import CRS, Transformer, get_codes, set_use_global_context

@@ -3,10 +3,10 @@ from functools import partial
 from glob import glob
 from itertools import permutations
 from pathlib import Path
+from unittest.mock import call, patch
 
 import numpy as np
 import pytest
-from unittest.mock import call, patch
 from numpy.testing import assert_almost_equal
 
 import pyproj
@@ -466,7 +466,17 @@ def test_str():
                 "<Transformation Transformer: helmert>\n"
                 "Description: ITRF2014 to ETRF2014 (2)\n"
                 "Area of Use:\n"
-                "- name: Europe - ETRF by country\n"
+                "- name: Europe - onshore and offshore: Albania; Andorra; Austria; "
+                "Belgium; Bosnia and Herzegovina; Bulgaria; Croatia; Cyprus; Czechia; "
+                "Denmark; Estonia; Faroe Islands; Finland; France; Germany; Gibraltar; "
+                "Greece; Hungary; Ireland; Italy; Kosovo; Latvia; Liechtenstein; "
+                "Lithuania; Luxembourg; Malta; Moldova; Monaco; Montenegro; "
+                "Netherlands; North Macedonia; "
+                "Norway including Svalbard and Jan Mayen; "
+                "Poland; Portugal; Romania; San Marino; Serbia; Slovakia; Slovenia; "
+                "Spain; Sweden; Switzerland; "
+                "United Kingdom (UK) including Channel Islands and Isle of Man; "
+                "Vatican City State.\n"
                 "- bounds: (-16.1, 32.88, 40.18, 84.17)"
             ),
         ),
@@ -477,7 +487,7 @@ def test_str():
                 "<Conversion Transformer: pipeline>\n"
                 "Description: Popular Visualisation Pseudo-Mercator\n"
                 "Area of Use:\n"
-                "- name: World\n"
+                "- name: World.\n"
                 "- bounds: (-180.0, -90.0, 180.0, 90.0)"
             ),
         ),
@@ -515,7 +525,20 @@ def test_repr__conditional():
             "<Concatenated Operation Transformer: pipeline>\n"
             "Description: Inverse of NAD83 to WGS 84 (1) + UTM zone 17N\n"
             "Area of Use:\n"
-            "- name: North America - Canada and USA (CONUS, Alaska mainland)\n"
+            "- name: North America - onshore and offshore: Canada - Alberta;"
+            " British Columbia; Manitoba; New Brunswick; "
+            "Newfoundland and Labrador; Northwest Territories; "
+            "Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; "
+            "Saskatchewan; Yukon. United States (USA) - Alabama; "
+            "Alaska (mainland); Arizona; Arkansas; California; Colorado; "
+            "Connecticut; Delaware; Florida; Georgia; Idaho; Illinois; "
+            "Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; "
+            "Massachusetts; Michigan; Minnesota; Mississippi; Missouri; "
+            "Montana; Nebraska; Nevada; New Hampshire; New Jersey; "
+            "New Mexico; New York; North Carolina; North Dakota; Ohio; "
+            "Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; "
+            "South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; "
+            "Washington; West Virginia; Wisconsin; Wyoming.\n"
             "- bounds: (-172.54, 23.81, -47.74, 86.46)"
         )
 
@@ -564,10 +587,10 @@ def test_transformer__operations__scope_remarks():
     transformer = TransformerGroup(28356, 7856).transformers[0]
     assert transformer.scope is None
     assert [op.scope for op in transformer.operations] == [
-        "Large and medium scale topographic mapping and engineering survey.",
-        "Conformal transformation of GDA94 coordinates that have been derived through "
-        "GNSS CORS.",
-        "Large and medium scale topographic mapping and engineering survey.",
+        "Engineering survey, topographic mapping.",
+        "Transformation of GDA94 coordinates that have been derived "
+        "through GNSS CORS.",
+        "Engineering survey, topographic mapping.",
     ]
     assert [str(op.remarks)[:5].strip() for op in transformer.operations] == [
         "Grid",
