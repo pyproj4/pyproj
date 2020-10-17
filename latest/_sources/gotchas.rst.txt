@@ -102,7 +102,7 @@ datum.
     - X[east]: Easting (metre)
     - Y[north]: Northing (metre)
     Area of Use:
-    - name: Netherlands - onshore
+    - name: Netherlands - onshore.
     - bounds: (3.2, 50.75, 7.22, 53.7)
     Coordinate Operation:
     - name: RD New
