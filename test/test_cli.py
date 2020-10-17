@@ -4,9 +4,9 @@ import subprocess
 import sys
 from glob import glob
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
-from unittest.mock import patch
 
 from pyproj.__main__ import main
 from pyproj.datadir import append_data_dir, get_data_dir, get_user_data_dir

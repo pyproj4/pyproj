@@ -199,7 +199,7 @@ def test_repr():
             "- lon[east]: Longitude (degree)\n"
             "- lat[north]: Latitude (degree)\n"
             "Area of Use:\n"
-            "- name: World\n"
+            "- name: World.\n"
             "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
             "Datum: World Geodetic System 1984\n"
             "- Ellipsoid: WGS 84\n"
@@ -217,7 +217,7 @@ def test_repr__long():
             "- lon[east]: Longitude (degree)\n"
             "- lat[north]: Latitude (degree)\n"
             "Area of Use:\n"
-            "- name: World\n"
+            "- name: World.\n"
             "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
             "Datum: World Geodetic System 1984\n"
             "- Ellipsoid: WGS 84\n"
@@ -233,7 +233,7 @@ def test_repr_epsg():
         "- Lat[north]: Geodetic latitude (degree)\n"
         "- Lon[east]: Geodetic longitude (degree)\n"
         "Area of Use:\n"
-        "- name: World\n"
+        "- name: World.\n"
         "- bounds: (-180.0, -90.0, 180.0, 90.0)\n"
         "Datum: World Geodetic System 1984\n"
         "- Ellipsoid: WGS 84\n"
@@ -274,7 +274,7 @@ def test_repr_compound():
         "- Y[east]: Easting (metre)\n"
         "- H[up]: Gravity-related height (metre)\n"
         "Area of Use:\n"
-        "- name: Finland - onshore\n"
+        "- name: Finland - onshore.\n"
         "- bounds: (19.24, 59.75, 31.59, 70.09)\n"
         "Datum: Kartastokoordinaattijarjestelma (1966)\n"
         "- Ellipsoid: International 1924\n"
@@ -449,7 +449,7 @@ def test_ellipsoid__semi_minor_not_computed():
 def test_area_of_use():
     crs1 = CRS.from_epsg(4326)
     assert crs1.area_of_use.bounds == (-180.0, -90.0, 180.0, 90.0)
-    assert crs1.area_of_use.name == "World"
+    assert crs1.area_of_use.name == "World."
 
 
 def test_from_user_input_custom_crs_class():
@@ -509,7 +509,8 @@ def test_coordinate_operation():
         "Name: UTM zone 15N\n"
         "Method: Transverse Mercator\n"
         "Area of Use:\n"
-        "- name: World - N hemisphere - 96°W to 90°W\n"
+        "- name: Between 96°W and 90°W, northern hemisphere between equator and 84°N, "
+        "onshore and offshore.\n"
         "- bounds: (-96.0, 0.0, -90.0, 84.0)"
     )
     assert crs.coordinate_operation.method_name == "Transverse Mercator"
@@ -1298,7 +1299,7 @@ def test_scope__remarks():
 
 
 def test_crs__scope__remarks__missing():
-    cc = CRS(4326)
+    cc = CRS("+proj=latlon")
     assert cc.scope is None
     assert cc.remarks is None
 

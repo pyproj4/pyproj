@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
+from unittest.mock import MagicMock, patch
 from urllib.error import URLError
 
 import pytest
-from unittest.mock import MagicMock, patch
 
 from pyproj.aoi import BBox
 from pyproj.sync import (
