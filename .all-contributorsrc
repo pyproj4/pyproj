@@ -399,6 +399,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "rahulporuri",
+      "name": "Poruri Sai Rahul",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1926457?v=4",
+      "profile": "https://rahulporuri.github.io",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
