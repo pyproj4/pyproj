@@ -14,7 +14,7 @@ from pyproj._crs cimport (
     _get_concatenated_operations,
     create_area_of_use,
 )
-from pyproj._datadir cimport pyproj_context_create
+from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj.aoi import AreaOfInterest
 from pyproj.compat import cstrencode, pystrdecode
@@ -104,7 +104,7 @@ cdef class _TransformerGroup:
     def __dealloc__(self):
         """destroy projection definition"""
         if self.context != NULL:
-            proj_context_destroy(self.context)
+            pyproj_context_destroy(self.context)
 
     def __init__(
         self,

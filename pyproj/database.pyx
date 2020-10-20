@@ -7,7 +7,7 @@ from typing import Optional
 from libc.stdlib cimport free, malloc
 
 from pyproj._compat cimport cstrdecode
-from pyproj._datadir cimport pyproj_context_create
+from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj.aoi import AreaOfUse
 from pyproj.compat import cstrencode, pystrdecode
@@ -55,7 +55,7 @@ def get_authorities():
     cdef PJ_CONTEXT* context = pyproj_context_create()
     cdef PROJ_STRING_LIST proj_auth_list = proj_get_authorities_from_database(context)
     if proj_auth_list == NULL:
-        proj_context_destroy(context)
+        pyproj_context_destroy(context)
         return []
     cdef int iii = 0
     try:
@@ -64,7 +64,7 @@ def get_authorities():
             auth_list.append(pystrdecode(proj_auth_list[iii]))
             iii += 1
     finally:
-        proj_context_destroy(context)
+        pyproj_context_destroy(context)
         proj_string_list_destroy(proj_auth_list)
     return auth_list
 
@@ -99,7 +99,7 @@ def get_codes(auth_name, pj_type, allow_deprecated=False):
             allow_deprecated,
         )
     finally:
-        proj_context_destroy(context)
+        pyproj_context_destroy(context)
     if proj_code_list == NULL:
         return []
     cdef int iii = 0
@@ -228,7 +228,7 @@ def query_crs_info(
             proj_get_crs_list_parameters_destroy(query_params)
         if pj_type_list != NULL:
             free(pj_type_list)
-        proj_context_destroy(context)
+        pyproj_context_destroy(context)
     if crs_info_list == NULL:
         return []
     try:
@@ -395,5 +395,5 @@ def get_units_map(auth_name=None, category=None, allow_deprecated=False):
             )
     finally:
         proj_unit_list_destroy(db_unit_list)
-        proj_context_destroy(context)
+        pyproj_context_destroy(context)
     return units_map
