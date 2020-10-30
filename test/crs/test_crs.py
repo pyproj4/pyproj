@@ -1,10 +1,9 @@
 import json
-from distutils.version import LooseVersion
 
 import numpy
 import pytest
 
-from pyproj import CRS, __proj_version__
+from pyproj import CRS
 from pyproj.crs import (
     CoordinateOperation,
     CoordinateSystem,
@@ -16,7 +15,7 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import get_wgs84_datum_name, grids_available
+from test.conftest import PROJ_GTE_8, get_wgs84_datum_name, grids_available
 
 
 class CustomCRS(object):
@@ -210,9 +209,12 @@ def test_repr():
 
 def test_repr__long():
     with pytest.warns(FutureWarning):
+        if PROJ_GTE_8:
+            wkt_str = 'GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1'
+        else:
+            wkt_str = 'GEOGCRS["WGS 84",DATUM["World Geodetic System 1984'
         assert repr(CRS(CRS({"init": "EPSG:4326"}).to_wkt())) == (
-            '<Geographic 2D CRS: GEOGCRS["WGS 84",'
-            'DATUM["World Geodetic System 1984 ...>\n'
+            f"<Geographic 2D CRS: {wkt_str} ...>\n"
             "Name: WGS 84\n"
             "Axis Info [ellipsoidal]:\n"
             "- lon[east]: Longitude (degree)\n"
@@ -311,10 +313,10 @@ def test_epsg():
 def test_datum():
     datum = CRS.from_epsg(4326).datum
     assert "\n" in repr(datum)
-    if LooseVersion(__proj_version__) < LooseVersion("8.0"):
-        datum_wkt = 'DATUM["World Geodetic System 1984"'
+    if PROJ_GTE_8:
+        datum_wkt = 'ENSEMBLE["World Geodetic System 1984 ensemble"'
     else:
-        datum_wkt = 'ENSEMBLE["World Geodetic System 1984"'
+        datum_wkt = 'DATUM["World Geodetic System 1984"'
     assert repr(datum).startswith(datum_wkt)
     assert datum.to_wkt().startswith(datum_wkt)
     assert datum == datum
@@ -626,16 +628,31 @@ def test_coordinate_operation__from_authority__empty():
 
 
 def test_datum__from_epsg():
-    assert Datum.from_epsg("6326").to_wkt() == (
-        'DATUM["World Geodetic System 1984",'
-        'ELLIPSOID["WGS 84",6378137,298.257223563,'
-        'LENGTHUNIT["metre",1]],ID["EPSG",6326]]'
-    )
+    if PROJ_GTE_8:
+        datum_wkt = (
+            'ENSEMBLE["World Geodetic System 1984 ensemble",'
+            'MEMBER["World Geodetic System 1984 (Transit)",'
+            'ID["EPSG",1166]],MEMBER["World Geodetic System 1984 (G730)",'
+            'ID["EPSG",1152]],MEMBER["World Geodetic System 1984 (G873)",'
+            'ID["EPSG",1153]],MEMBER["World Geodetic System 1984 (G1150)",'
+            'ID["EPSG",1154]],MEMBER["World Geodetic System 1984 (G1674)",'
+            'ID["EPSG",1155]],MEMBER["World Geodetic System 1984 (G1762)",'
+            'ID["EPSG",1156]],ELLIPSOID["WGS 84",6378137,298.257223563,'
+            'LENGTHUNIT["metre",1],ID["EPSG",7030]],'
+            'ENSEMBLEACCURACY[2.0],ID["EPSG",6326]]'
+        )
+    else:
+        datum_wkt = (
+            'DATUM["World Geodetic System 1984",'
+            'ELLIPSOID["WGS 84",6378137,298.257223563,'
+            'LENGTHUNIT["metre",1]],ID["EPSG",6326]]'
+        )
+    assert Datum.from_epsg("6326").to_wkt() == datum_wkt
 
 
 def test_datum__from_authority():
     dt = Datum.from_authority("EPSG", 6326)
-    assert dt.name == "World Geodetic System 1984"
+    assert dt.name == get_wgs84_datum_name()
 
 
 def test_datum__from_epsg__invalid():
@@ -653,7 +670,9 @@ def test_datum__from_authority__invalid():
     [
         6326,
         ("EPSG", 6326),
-        "urn:ogc:def:datum:EPSG::6326",
+        "urn:ogc:def:ensemble:EPSG::6326"
+        if PROJ_GTE_8
+        else "urn:ogc:def:datum:EPSG::6326",
         Datum.from_epsg(6326),
         Datum.from_epsg(6326).to_json_dict(),
         "World Geodetic System 1984",
@@ -872,12 +891,22 @@ def test_datum_equals():
 
 
 @pytest.mark.parametrize(
-    "input_str", ["urn:ogc:def:datum:EPSG::6326", "World Geodetic System 1984"]
+    "input_str",
+    [
+        "urn:ogc:def:ensemble:EPSG::6326"
+        if PROJ_GTE_8
+        else "urn:ogc:def:datum:EPSG::6326",
+        "World Geodetic System 1984",
+    ],
 )
 def test_datum__from_string(input_str):
     dd = Datum.from_string(input_str)
-    assert dd.name == get_wgs84_datum_name()
-    assert dd.type_name == "Geodetic Reference Frame"
+    if PROJ_GTE_8:
+        assert dd.name == "World Geodetic System 1984 ensemble"
+        assert dd.type_name == "Datum Ensemble"
+    else:
+        assert dd.name == "World Geodetic System 1984"
+        assert dd.type_name == "Geodetic Reference Frame"
 
 
 @pytest.mark.parametrize(
@@ -902,7 +931,7 @@ def test_datum__from_string__type_name(input_str, type_name):
 )
 def test_datum__from_name(input_name):
     dd = Datum.from_name(input_name)
-    assert dd.name == "World Geodetic System 1984"
+    assert dd.name == get_wgs84_datum_name()
 
 
 @pytest.mark.parametrize("auth_name", [None, "ESRI"])
