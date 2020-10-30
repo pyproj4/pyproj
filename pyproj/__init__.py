@@ -69,7 +69,8 @@ from pyproj.transformer import (  # noqa: F401
     transform,
 )
 
-__proj_version__ = proj_version_str
+# __proj_version__ = proj_version_str
+__proj_version__ = "8.0.0"
 
 
 try:

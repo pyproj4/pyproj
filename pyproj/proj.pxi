@@ -37,7 +37,7 @@ cdef extern from "proj.h":
     ctypedef struct PJ
     ctypedef struct PJ_CONTEXT
     PJ_CONTEXT *proj_context_create ()
-    PJ_CONTEXT *proj_context_clone (PJ_CONTEXT *ctx)
+    # PJ_CONTEXT *proj_context_clone (PJ_CONTEXT *ctx)
     PJ_CONTEXT *proj_context_destroy (PJ_CONTEXT *ctx)
 
     ctypedef enum PJ_LOG_LEVEL:

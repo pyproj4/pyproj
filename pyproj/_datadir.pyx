@@ -158,7 +158,8 @@ cdef class ContextManager:
 # global context so that it doesn't bother other libraries and is insulated
 # against possible external changes made to the PROJ global context.
 # See: https://github.com/pyproj4/pyproj/issues/722
-cdef PJ_CONTEXT* PYPROJ_GLOBAL_CONTEXT = proj_context_create()
+# cdef PJ_CONTEXT* PYPROJ_GLOBAL_CONTEXT = proj_context_create()
+cdef PJ_CONTEXT* PYPROJ_GLOBAL_CONTEXT = NULL
 cdef ContextManager CONTEXT_MANAGER = ContextManager.create(PYPROJ_GLOBAL_CONTEXT)
 
 
@@ -169,7 +170,8 @@ cdef PJ_CONTEXT* pyproj_context_create() except *:
     """
     if _USE_GLOBAL_CONTEXT:
         return PYPROJ_GLOBAL_CONTEXT
-    return proj_context_clone(PYPROJ_GLOBAL_CONTEXT)
+    return proj_context_create()
+    # return proj_context_clone(PYPROJ_GLOBAL_CONTEXT)
 
 cdef void pyproj_context_destroy(PJ_CONTEXT* context) except *:
     """
