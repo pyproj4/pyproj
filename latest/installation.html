@@ -92,8 +92,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#transformation-grids">Transformation Grids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#setup-proj">Setup PROJ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-build-environment-variables">pyproj Build Environment Variables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup-pyproj">Setup pyproj</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#the-data-directory">The data directory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#install-pyproj">Install pyproj</a></li>
 </ul>
 </li>
@@ -223,8 +223,6 @@ for getting setup.</p>
 </div>
 <div class="section" id="installing-from-source">
 <h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="setup-proj">
-<h3>Setup PROJ<a class="headerlink" href="#setup-proj" title="Permalink to this headline">¶</a></h3>
 <p>Version compatibility matrix:</p>
 <table class="docutils align-default">
 <colgroup>
@@ -254,22 +252,34 @@ for getting setup.</p>
 </tr>
 </tbody>
 </table>
-<p>PROJ is required when building from source.
-You can download PROJ from <a class="reference external" href="https://download.osgeo.org/proj">https://download.osgeo.org/proj</a>
-or from <a class="reference external" href="https://github.com/OSGeo/PROJ">https://github.com/OSGeo/PROJ</a>.
-Installation instructions can be found at <a class="reference external" href="https://proj.org/">https://proj.org/</a>.</p>
-<p>In the setup.py, the order for searching for PROJ is:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>The PROJ_DIR environment variable</p></li>
-<li><p>The internal PROJ directory (pyproj/proj_dir)</p></li>
-<li><p>The <cite>proj</cite> executable in sys.prefix</p></li>
-<li><p>The <cite>proj</cite> executable on the PATH.</p></li>
-</ol>
-</div></blockquote>
-<p>For best results, set the PROJ_DIR environment variable to
-point to location of PROJ installation before running setup.py.</p>
-<p>Examples of how to set the PROJ_DIR environment variable:</p>
+<div class="section" id="setup-proj">
+<h3>Setup PROJ<a class="headerlink" href="#setup-proj" title="Permalink to this headline">¶</a></h3>
+<p>PROJ is required when building from source.</p>
+<p>Installation instructions: <a class="reference external" href="https://proj.org/install.html">https://proj.org/install.html</a></p>
+<p>You can also download PROJ from:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://download.osgeo.org/proj">https://download.osgeo.org/proj</a></p></li>
+<li><p><a class="reference external" href="https://github.com/OSGeo/PROJ">https://github.com/OSGeo/PROJ</a></p></li>
+</ul>
+</div>
+<div class="section" id="pyproj-build-environment-variables">
+<h3>pyproj Build Environment Variables<a class="headerlink" href="#pyproj-build-environment-variables" title="Permalink to this headline">¶</a></h3>
+<dl class="std envvar">
+<dt id="envvar-PROJ_VERSION">
+<code class="sig-name descname">PROJ_VERSION</code><a class="headerlink" href="#envvar-PROJ_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+<p>This sets the version of PROJ when building pyproj. This
+enables installing pyproj when the PROJ executables are not
+present but the header files exist.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PROJ_DIR">
+<code class="sig-name descname">PROJ_DIR</code><a class="headerlink" href="#envvar-PROJ_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the path to the base directory for PROJ.
+Examples of how to set the PROJ_DIR environment variable:</p>
 <p>Windows:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="nv">PROJ_DIR</span><span class="o">=</span>C:<span class="se">\O</span>SGeo4W<span class="se">\</span>
 </pre></div>
@@ -278,31 +288,63 @@ point to location of PROJ installation before running setup.py.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PROJ_DIR</span><span class="o">=</span>/usr/local
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PROJ_LIBDIR">
+<code class="sig-name descname">PROJ_LIBDIR</code><a class="headerlink" href="#envvar-PROJ_LIBDIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the path to the directory contaning the PROJ libraries.
+If not set, it searches the <cite>lib</cite> and <cite>lib64</cite> directories inside
+the PROJ directory.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PROJ_INCDIR">
+<code class="sig-name descname">PROJ_INCDIR</code><a class="headerlink" href="#envvar-PROJ_INCDIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the path to the PROJ include directory. If not set, it assumes
+it is the <cite>includes</cite> directory inside the PROJ directory.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PROJ_WHEEL">
+<code class="sig-name descname">PROJ_WHEEL</code><a class="headerlink" href="#envvar-PROJ_WHEEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a boolean value used when bulding a wheel. When true
+it includes the contents of the <cite>pyproj/proj_dir/proj/share</cite>
+directory if present.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PYPROJ_FULL_COVERAGE">
+<code class="sig-name descname">PYPROJ_FULL_COVERAGE</code><a class="headerlink" href="#envvar-PYPROJ_FULL_COVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean that sets the compiler directive for cython to include
+the test coverage.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="setup-pyproj">
+<h3>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Permalink to this headline">¶</a></h3>
+<p>In the setup.py, the order for searching for PROJ is:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>The <span class="target" id="index-0"></span><a class="reference internal" href="#envvar-PROJ_DIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_DIR</span></code></a> environment variable</p></li>
+<li><p>The internal PROJ directory (pyproj/proj_dir)</p></li>
+<li><p>The <cite>proj</cite> executable in sys.prefix</p></li>
+<li><p>The <cite>proj</cite> executable on the PATH</p></li>
+</ol>
+</div></blockquote>
+<p>For best results, set the <span class="target" id="index-1"></span><a class="reference internal" href="#envvar-PROJ_DIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_DIR</span></code></a> environment variable to
+point to location of PROJ installation before running setup.py.</p>
 <p>If you have a previous version of PROJ installed alongside the current
 version of PROJ, the best way to avoid conflicts is to:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>Remove the previous PROJ from PATH &amp; unset old PROJ_LIB environment variable (temporarily)</p></li>
+<li><p>Remove the previous PROJ from <cite>PATH</cite> &amp; unset the <cite>PROJ_LIB</cite> environment variable (temporarily)</p></li>
 <li><p>Install PROJ to the internal PROJ directory (pyproj/proj_dir)</p></li>
-<li><p>Set the environment variable PROJ_DIR to point to the internal PROJ directory</p></li>
-<li><p>Set the environment variable PROJ_WHEEL=true</p></li>
+<li><p>Set the environment variable <span class="target" id="index-2"></span><a class="reference internal" href="#envvar-PROJ_DIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_DIR</span></code></a> to point to the internal PROJ directory</p></li>
+<li><p>Set the environment variable <span class="target" id="index-3"></span><a class="reference internal" href="#envvar-PROJ_WHEEL"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_WHEEL</span></code></a> to true</p></li>
 <li><p>Build pyproj</p></li>
 </ol>
 </div></blockquote>
-</div>
-<div class="section" id="setup-pyproj">
-<h3>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="the-data-directory">
-<h4>The data directory<a class="headerlink" href="#the-data-directory" title="Permalink to this headline">¶</a></h4>
-<p>The order of preference for the data directory is:</p>
-<ol class="arabic simple">
-<li><p>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</p></li>
-<li><p>The internal proj directory (if exists &amp; valid)</p></li>
-<li><p>The directory in PROJ_LIB (if exists &amp; valid)</p></li>
-<li><p>The directory on sys.prefix (if exists &amp; valid)</p></li>
-<li><p>The directory on the PATH (if exists &amp; valid)</p></li>
-</ol>
-</div>
 <div class="section" id="install-pyproj">
 <h4>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline">¶</a></h4>
 <div class="admonition note">
