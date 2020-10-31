@@ -44,9 +44,6 @@ See: :ref:`transformation_grids`
 Installing from source
 ======================
 
-Setup PROJ
-------------
-
 Version compatibility matrix:
 
 ============   ============
@@ -59,53 +56,87 @@ pyproj         PROJ
 3+             7.2+
 ============   ============
 
+Setup PROJ
+------------
+
 PROJ is required when building from source.
-You can download PROJ from https://download.osgeo.org/proj
-or from https://github.com/OSGeo/PROJ.
-Installation instructions can be found at https://proj.org/.
 
-In the setup.py, the order for searching for PROJ is:
+Installation instructions: https://proj.org/install.html
 
-    1. The PROJ_DIR environment variable
-    2. The internal PROJ directory (pyproj/proj_dir)
-    3. The `proj` executable in sys.prefix
-    4. The `proj` executable on the PATH.
+You can also download PROJ from:
 
-For best results, set the PROJ_DIR environment variable to
-point to location of PROJ installation before running setup.py.
+-  https://download.osgeo.org/proj
+-  https://github.com/OSGeo/PROJ
 
-Examples of how to set the PROJ_DIR environment variable:
 
-Windows::
+pyproj Build Environment Variables
+-----------------------------------
 
-    set PROJ_DIR=C:\OSGeo4W\
+.. envvar:: PROJ_VERSION
 
-Linux::
+    .. versionadded:: 3.0
 
-    export PROJ_DIR=/usr/local
+    This sets the version of PROJ when building pyproj. This
+    enables installing pyproj when the PROJ executables are not
+    present but the header files exist.
 
-If you have a previous version of PROJ installed alongside the current
-version of PROJ, the best way to avoid conflicts is to:
+.. envvar:: PROJ_DIR
 
-    1. Remove the previous PROJ from PATH & unset old PROJ_LIB environment variable (temporarily)
-    2. Install PROJ to the internal PROJ directory (pyproj/proj_dir)
-    3. Set the environment variable PROJ_DIR to point to the internal PROJ directory
-    4. Set the environment variable PROJ_WHEEL=true
-    5. Build pyproj
+    This is the path to the base directory for PROJ.
+    Examples of how to set the PROJ_DIR environment variable:
+
+    Windows::
+
+        set PROJ_DIR=C:\OSGeo4W\
+
+    Linux::
+
+        export PROJ_DIR=/usr/local
+
+.. envvar:: PROJ_LIBDIR
+
+    This is the path to the directory contaning the PROJ libraries.
+    If not set, it searches the `lib` and `lib64` directories inside
+    the PROJ directory.
+
+.. envvar:: PROJ_INCDIR
+
+    This is the path to the PROJ include directory. If not set, it assumes
+    it is the `includes` directory inside the PROJ directory.
+
+.. envvar:: PROJ_WHEEL
+
+    This is a boolean value used when bulding a wheel. When true
+    it includes the contents of the `pyproj/proj_dir/proj/share`
+    directory if present.
+
+.. envvar:: PYPROJ_FULL_COVERAGE
+
+    Boolean that sets the compiler directive for cython to include
+    the test coverage.
+
 
 Setup pyproj
 ------------
 
-The data directory
-~~~~~~~~~~~~~~~~~~
+In the setup.py, the order for searching for PROJ is:
 
-The order of preference for the data directory is:
+    1. The :envvar:`PROJ_DIR` environment variable
+    2. The internal PROJ directory (pyproj/proj_dir)
+    3. The `proj` executable in sys.prefix
+    4. The `proj` executable on the PATH
 
-1. The one set by pyproj.datadir.set_data_dir (if exists & valid)
-2. The internal proj directory (if exists & valid)
-3. The directory in PROJ_LIB (if exists & valid)
-4. The directory on sys.prefix (if exists & valid)
-5. The directory on the PATH (if exists & valid)
+For best results, set the :envvar:`PROJ_DIR` environment variable to
+point to location of PROJ installation before running setup.py.
+
+If you have a previous version of PROJ installed alongside the current
+version of PROJ, the best way to avoid conflicts is to:
+
+    1. Remove the previous PROJ from `PATH` & unset the `PROJ_LIB` environment variable (temporarily)
+    2. Install PROJ to the internal PROJ directory (pyproj/proj_dir)
+    3. Set the environment variable :envvar:`PROJ_DIR` to point to the internal PROJ directory
+    4. Set the environment variable :envvar:`PROJ_WHEEL` to true
+    5. Build pyproj
 
 
 Install pyproj
