@@ -22,7 +22,7 @@ environment:
       PYTHON_ARCH: "64"
       VS_VERSION: Visual Studio 14
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: git
+      PROJSOURCE: 7.2.0
       BUILD_SHARED_LIBS: ON
   # - PYTHON: "C:\\Python37-x64"
     #   PYTHON_VERSION: "3.8"
