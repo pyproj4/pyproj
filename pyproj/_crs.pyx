@@ -811,7 +811,7 @@ cdef class Ellipsoid(_CRSParts):
         Parameters
         ----------
         auth_name: str
-            Name ot the authority.
+            Name of the authority.
         code: str or int
             The code used by the authority.
 
@@ -1089,7 +1089,7 @@ cdef class PrimeMeridian(_CRSParts):
         Parameters
         ----------
         auth_name: str
-            Name ot the authority.
+            Name of the authority.
         code: str or int
             The code used by the authority.
 
@@ -1336,7 +1336,7 @@ cdef class Datum(_CRSParts):
         Parameters
         ----------
         auth_name: str
-            Name ot the authority.
+            Name of the authority.
         code: str or int
             The code used by the authority.
 
@@ -1369,7 +1369,7 @@ cdef class Datum(_CRSParts):
         Parameters
         ----------
         auth_name: str
-            Name ot the authority.
+            Name of the authority.
         code: str or int
             The code used by the authority.
 
@@ -1916,7 +1916,7 @@ cdef class CoordinateOperation(_CRSParts):
         Parameters
         ----------
         auth_name: str
-            Name ot the authority.
+            Name of the authority.
         code: str or int
             The code used by the authority.
         use_proj_alternative_grid_names: bool, optional
