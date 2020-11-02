@@ -48,7 +48,7 @@ Change Log
 * ENH: Updated :attr:`pyproj.crs.CRS.axis_info` to pull all relevant axis information from CRS (issue #557)
 * ENH: Added :meth:`pyproj.transformer.Transform.__eq__` (issue #559)
 * ENH: Added :attr:`pyproj.crs.CRS.utm_zone` (issue #561)
-* BUG: Modify CRS dict test to accomodate numpy bool types. (issue #564)
+* BUG: Modify CRS dict test to accommodate numpy bool types. (issue #564)
 * BUG: Fix pipeline transformations to match cct (issue #565)
 * BUG: Don't silently ignore kwargs when projparams are specified (Proj & CRS) (issue #565)
 
@@ -70,7 +70,7 @@ Change Log
 ~~~~~
 * Elevate +init= warning to FutureWarning (pull #486)
 * Add UserWarning to :meth:`pyproj.crs.CRS.to_proj4` (pull #486)
-* BUG: Fix for 32-bit i686 plaforms (issue #481)
+* BUG: Fix for 32-bit i686 platforms (issue #481)
 * Return 'inf' in Proj instead of 1.e30 (pull #491)
 
 2.4.1
@@ -191,7 +191,7 @@ Change Log
 2.1.2
 ~~~~~
 * Updated to use the CRS definition for Proj instances in transforms (issue #207)
-* Add option to skip tranformation operation if input and output projections are equivalent
+* Add option to skip transformation operation if input and output projections are equivalent
   and always skip if the input and output projections are exact (issue #128)
 * Update setup.py method for checking PROJ version (pull #211)
 * Add internal proj error log messages to exceptions (pull #215)

@@ -232,7 +232,7 @@ def get_transform_grid_list(
     include_world_coverage: bool, optional
         Defaults to True.
     include_already_downloaded: bool, optional
-        If True, it will list grids reguardless of if they are downloaded.
+        If True, it will list grids regardless of if they are downloaded.
         Defaults to False.
     target_directory: Union[str, Path], optional
         The directory to download the geojson file to.
