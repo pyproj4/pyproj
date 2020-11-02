@@ -44,10 +44,10 @@ Example with :class:`pyproj.transformer.Transformer`:
 Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 
 
-Tranforming with the same projections
+Transforming with the same projections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-pyproj will skip transformations if they are exacly the same by default. However, if you
+pyproj will skip transformations if they are exactly the same by default. However, if you
 sometimes throw in the projections that are about the same and the results being close enough
 is what you want, the `skip_equivalent` option can help.
 

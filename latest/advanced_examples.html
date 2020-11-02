@@ -97,7 +97,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#optimize-transformations">Optimize Transformations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#repeated-transformations">Repeated transformations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tranforming-with-the-same-projections">Tranforming with the same projections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transforming-with-the-same-projections">Transforming with the same projections</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#transformation-group">Transformation Group</a></li>
@@ -209,9 +209,9 @@ optimize your transformations.</p>
 </div>
 <p>Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)</p>
 </div>
-<div class="section" id="tranforming-with-the-same-projections">
-<h3>Tranforming with the same projections<a class="headerlink" href="#tranforming-with-the-same-projections" title="Permalink to this headline">¶</a></h3>
-<p>pyproj will skip transformations if they are exacly the same by default. However, if you
+<div class="section" id="transforming-with-the-same-projections">
+<h3>Transforming with the same projections<a class="headerlink" href="#transforming-with-the-same-projections" title="Permalink to this headline">¶</a></h3>
+<p>pyproj will skip transformations if they are exactly the same by default. However, if you
 sometimes throw in the projections that are about the same and the results being close enough
 is what you want, the <cite>skip_equivalent</cite> option can help.</p>
 <div class="admonition note">
