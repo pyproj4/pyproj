@@ -44,7 +44,7 @@ PROJ string::
     geog_wkt = geog_crs.to_wkt()
 
 
-This example is meant to show off different intialization methods.
+This example is meant to show off different initialization methods.
 It can be simplified to not use the Ellipsoid or PrimeMeridian objects.
 
 PROJ string::

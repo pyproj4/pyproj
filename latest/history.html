@@ -261,7 +261,7 @@
 <li><p>ENH: Updated <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.axis_info" title="pyproj.crs.CRS.axis_info"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.axis_info</span></code></a> to pull all relevant axis information from CRS (issue #557)</p></li>
 <li><p>ENH: Added <code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transform.__eq__()</span></code> (issue #559)</p></li>
 <li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.utm_zone" title="pyproj.crs.CRS.utm_zone"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.utm_zone</span></code></a> (issue #561)</p></li>
-<li><p>BUG: Modify CRS dict test to accomodate numpy bool types. (issue #564)</p></li>
+<li><p>BUG: Modify CRS dict test to accommodate numpy bool types. (issue #564)</p></li>
 <li><p>BUG: Fix pipeline transformations to match cct (issue #565)</p></li>
 <li><p>BUG: Don’t silently ignore kwargs when projparams are specified (Proj &amp; CRS) (issue #565)</p></li>
 </ul>
@@ -287,7 +287,7 @@
 <ul class="simple">
 <li><p>Elevate +init= warning to FutureWarning (pull #486)</p></li>
 <li><p>Add UserWarning to <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_proj4" title="pyproj.crs.CRS.to_proj4"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_proj4()</span></code></a> (pull #486)</p></li>
-<li><p>BUG: Fix for 32-bit i686 plaforms (issue #481)</p></li>
+<li><p>BUG: Fix for 32-bit i686 platforms (issue #481)</p></li>
 <li><p>Return ‘inf’ in Proj instead of 1.e30 (pull #491)</p></li>
 </ul>
 </div>
@@ -446,7 +446,7 @@ CRS and easting, northing for most projected CRS (issue #225)</p></li>
 <h3>2.1.2<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Updated to use the CRS definition for Proj instances in transforms (issue #207)</p></li>
-<li><p>Add option to skip tranformation operation if input and output projections are equivalent
+<li><p>Add option to skip transformation operation if input and output projections are equivalent
 and always skip if the input and output projections are exact (issue #128)</p></li>
 <li><p>Update setup.py method for checking PROJ version (pull #211)</p></li>
 <li><p>Add internal proj error log messages to exceptions (pull #215)</p></li>

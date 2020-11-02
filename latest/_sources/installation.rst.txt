@@ -95,7 +95,7 @@ pyproj Build Environment Variables
 
 .. envvar:: PROJ_LIBDIR
 
-    This is the path to the directory contaning the PROJ libraries.
+    This is the path to the directory containing the PROJ libraries.
     If not set, it searches the `lib` and `lib64` directories inside
     the PROJ directory.
 
@@ -106,7 +106,7 @@ pyproj Build Environment Variables
 
 .. envvar:: PROJ_WHEEL
 
-    This is a boolean value used when bulding a wheel. When true
+    This is a boolean value used when building a wheel. When true
     it includes the contents of the `pyproj/proj_dir/proj/share`
     directory if present.
 
