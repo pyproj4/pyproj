@@ -121,6 +121,7 @@ script:
   - set -e
   - |
     if [ "$DOC" ]; then
+      make install-docs
       make docs-man
       make docs
       pip install doctr
