@@ -74,6 +74,7 @@ def _check_list_files_header(lines):
     assert lines[1].rstrip("\r") == "----------------------------------"
 
 
+@pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__source_id__list(input_command, tmpdir):
     with tmp_chdir(str(tmpdir)):
@@ -95,6 +96,7 @@ def test_sync__source_id__list(input_command, tmpdir):
         assert "fr_ign" == line.split("|")[1].strip()
 
 
+@pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__area_of_use__list(input_command, tmpdir):
     with tmp_chdir(str(tmpdir)):
@@ -116,6 +118,7 @@ def test_sync__area_of_use__list(input_command, tmpdir):
         assert "France" in line.split("|")[-1]
 
 
+@pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__file__list(input_command, tmpdir):
     with tmp_chdir(str(tmpdir)):
@@ -137,6 +140,7 @@ def test_sync__file__list(input_command, tmpdir):
         assert "ntf_r93" in line.split("|")[0]
 
 
+@pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__bbox__list(input_command, tmpdir):
     with tmp_chdir(str(tmpdir)):
@@ -159,6 +163,7 @@ def test_sync__bbox__list(input_command, tmpdir):
     assert " | fr_ign | " in output
 
 
+@pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__bbox__list__exclude_world_coverage(input_command, tmpdir):
     with tmp_chdir(str(tmpdir)):
@@ -201,6 +206,7 @@ def test_sync__all__exclusive_error(input_command, extra_arg, tmpdir):
         )
 
 
+@pytest.mark.network
 @patch(
     "pyproj.__main__.parser.parse_args",
     return_value=argparse.Namespace(
@@ -230,6 +236,7 @@ def test_sync_download(download_mock, parse_args_mock):
     )
 
 
+@pytest.mark.network
 @patch(
     "pyproj.__main__.parser.parse_args",
     return_value=argparse.Namespace(
@@ -264,6 +271,7 @@ def test_sync_download__directory(
     load_grid_geojson_mock.assert_called_with(target_directory="test_directory")
 
 
+@pytest.mark.network
 @patch(
     "pyproj.__main__.parser.parse_args",
     return_value=argparse.Namespace(
@@ -299,6 +307,7 @@ def test_sync_download__system_directory(
     load_grid_geojson_mock.assert_called_with(target_directory=datadir)
 
 
+@pytest.mark.network
 @patch("pyproj.__main__.parser.parse_args")
 def test_sync__download_grids(parse_args_mock, tmp_path, capsys):
     parse_args_mock.return_value = argparse.Namespace(

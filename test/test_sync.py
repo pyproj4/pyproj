@@ -13,11 +13,13 @@ from pyproj.sync import (
 )
 
 
+@pytest.mark.network
 def test_get_transform_grid_list():
     grids = get_transform_grid_list(include_already_downloaded=True)
     assert len(grids) > 200
 
 
+@pytest.mark.network
 def test_get_transform_grid_list__bbox__antimeridian():
     grids = get_transform_grid_list(
         bbox=BBox(170, -90, -170, 90), include_already_downloaded=True
@@ -29,6 +31,7 @@ def test_get_transform_grid_list__bbox__antimeridian():
     assert sorted(source_ids) == ["au_ga", "nc_dittt", "nz_linz", "us_nga", "us_noaa"]
 
 
+@pytest.mark.network
 def test_get_transform_grid_list__bbox__out_of_bounds():
     grids = get_transform_grid_list(
         bbox=BBox(170, -90, 190, 90), include_already_downloaded=True
@@ -40,6 +43,7 @@ def test_get_transform_grid_list__bbox__out_of_bounds():
     assert sorted(source_ids) == ["au_ga", "nc_dittt", "nz_linz", "us_nga", "us_noaa"]
 
 
+@pytest.mark.network
 def test_get_transform_grid_list__source_id():
     grids = get_transform_grid_list(
         bbox=BBox(170, -90, -170, 90),
@@ -53,6 +57,7 @@ def test_get_transform_grid_list__source_id():
     assert sorted(source_ids) == ["us_noaa"]
 
 
+@pytest.mark.network
 def test_get_transform_grid_list__contains():
     grids = get_transform_grid_list(
         bbox=BBox(170, -90, -170, 90),
@@ -66,6 +71,7 @@ def test_get_transform_grid_list__contains():
     assert sorted(source_ids) == ["nz_linz"]
 
 
+@pytest.mark.network
 def test_get_transform_grid_list__file():
     grids = get_transform_grid_list(
         filename="us_noaa_alaska", include_already_downloaded=True
@@ -74,6 +80,7 @@ def test_get_transform_grid_list__file():
     assert grids[0]["properties"]["name"] == "us_noaa_alaska.tif"
 
 
+@pytest.mark.network
 def test_get_transform_grid_list__area_of_use():
     grids = get_transform_grid_list(area_of_use="USA", include_already_downloaded=True)
     assert len(grids) > 10
@@ -172,6 +179,7 @@ def test_download_resource_file__bad_sha256sum(urlretrieve_mock, tmp_path):
     assert not tmp_path.joinpath("test_file.txt").exists()
 
 
+@pytest.mark.network
 @patch("pyproj.sync.Path.stat")
 def test__load_grid_geojson_old_file(stat_mock, tmp_path):
     return_timestamp = MagicMock()

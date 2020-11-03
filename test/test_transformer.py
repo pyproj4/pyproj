@@ -970,6 +970,7 @@ def test_transform_honours_input_types(x, y, z):
     assert transformer.transform(xx=x, yy=y, zz=z) == (x, y, z)
 
 
+@pytest.mark.network
 @patch("pyproj.transformer.get_user_data_dir")
 def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, capsys):
     get_user_data_dir_mock.return_value = str(tmp_path)
