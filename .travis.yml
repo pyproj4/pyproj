@@ -117,6 +117,7 @@ script:
   - python -c "import pyproj; pyproj.Proj('epsg:4269')"
   - make test-coverage
   - make check
+  - make docs-man
   # Building and uploading docs with doctr
   - set -e
   - |

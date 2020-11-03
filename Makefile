@@ -96,6 +96,10 @@ docs: ## generate Sphinx HTML documentation, including API docs
 docs-browser: docs ## generate Sphinx HTML documentation, including API docs and open in a browser
 	$(BROWSER) docs/_build/html/index.html
 
+docs-man: ## generate Sphinx man pages for CLI
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs man
+
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
