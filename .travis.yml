@@ -122,6 +122,7 @@ script:
   - |
     if [ "$DOC" ]; then
       make install-docs
+      make docs-man
       make docs
       pip install doctr
       if [[ -z "$TRAVIS_TAG" ]]; then
