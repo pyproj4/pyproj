@@ -117,12 +117,11 @@ script:
   - python -c "import pyproj; pyproj.Proj('epsg:4269')"
   - make test-coverage
   - make check
-  - make docs-man
   # Building and uploading docs with doctr
   - set -e
   - |
     if [ "$DOC" ]; then
-      make install-docs
+      make docs-man
       make docs
       pip install doctr
       if [[ -z "$TRAVIS_TAG" ]]; then
