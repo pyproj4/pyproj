@@ -3,6 +3,7 @@ black
 flake8
 mypy
 numpy
+pandas
 pylint
 pytest>3.6
 pytest-cov
