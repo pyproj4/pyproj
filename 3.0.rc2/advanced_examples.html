@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Advanced Examples &mdash; pyproj 3.0.rc1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building a Coordinate Reference System" href="build_crs.html" />
+    <link rel="prev" title="CLI" href="cli.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0.rc1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#optimize-transformations">Optimize Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#repeated-transformations">Repeated transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transforming-with-the-same-projections">Transforming with the same projections</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#transformation-group">Transformation Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#area-of-interest">Area of Interest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multithreading">Multithreading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optimizing-single-threaded-applications">Optimizing Single-Threaded Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-internal-proj">Debugging Internal PROJ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Advanced Examples</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advanced_examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="advanced-examples">
+<span id="id1"></span><h1>Advanced Examples<a class="headerlink" href="#advanced-examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="optimize-transformations">
+<h2>Optimize Transformations<a class="headerlink" href="#optimize-transformations" title="Permalink to this headline">¶</a></h2>
+<p>Here are a few tricks to try out if you want to optimize your transformations.</p>
+<div class="section" id="repeated-transformations">
+<h3>Repeated transformations<a class="headerlink" href="#repeated-transformations" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+<p>If you use the same transform, using the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> can help
+optimize your transformations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span><span class="p">,</span> <span class="n">transform</span>
+
+<span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">2263</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>
+<span class="n">x_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">80000</span><span class="p">,</span> <span class="mi">120000</span><span class="p">)</span>
+<span class="n">y_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">200000</span><span class="p">,</span> <span class="mi">250000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example with <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.transformer.transform()</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transform</span><span class="p">(</span><span class="mi">2263</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Results: 160 ms ± 3.68 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)</p>
+<p>Example with <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)</p>
+</div>
+<div class="section" id="transforming-with-the-same-projections">
+<h3>Transforming with the same projections<a class="headerlink" href="#transforming-with-the-same-projections" title="Permalink to this headline">¶</a></h3>
+<p>pyproj will skip transformations if they are exactly the same by default. However, if you
+sometimes throw in the projections that are about the same and the results being close enough
+is what you want, the <cite>skip_equivalent</cite> option can help.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>From PROJ code: The objects are equivalent for the purpose of coordinate operations.
+They can differ by the name of their objects, identifiers, other metadata.
+Parameters may be expressed in different units, provided that the value is
+(with some tolerance) the same once expressed in a common unit.</p>
+</div>
+</div>
+</div>
+<div class="section" id="transformation-group">
+<h2>Transformation Group<a class="headerlink" href="#transformation-group" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup" title="pyproj.transformer.TransformerGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup</span></code></a> provides both available
+transformations as well as missing transformations.</p>
+<ol class="arabic simple">
+<li><p>Helpful if you want to use an alternate transformation and have a good reason for it.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">TransformerGroup</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span><span class="s2">&quot;epsg:2964&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span>
+<span class="go">&lt;TransformerGroup: best_available=True&gt;</span>
+<span class="go">- transformers: 8</span>
+<span class="go">- unavailable_operations: 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span><span class="o">.</span><span class="n">best_available</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">153</span><span class="p">)</span>
+<span class="go">(149661.2825058747, 5849322.174897663)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">153</span><span class="p">)</span>
+<span class="go">(149672.928811047, 5849311.372139239)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">153</span><span class="p">)</span>
+<span class="go">(149748.32734832275, 5849274.621409136)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Helpful if want to check that the best possible transformation exists.
+And if not, how to get the missing grid.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">TransformerGroup</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)</span>
+<span class="go">f&quot;{operation.grids[0]!r}&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span>
+<span class="go">&lt;TransformerGroup: best_available=False&gt;</span>
+<span class="go">- transformers: 37</span>
+<span class="go">- unavailable_operations: 41</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">description</span>
+<span class="go">&#39;axis order change (2D) + Inverse of NAD27 to WGS 84 (3) + axis order change (2D) + unknown&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;Inverse of NAD27 to WGS 84 (33) + axis order change (2D) + unknown&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">url</span>
+<span class="go">&#39;https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="area-of-interest">
+<h2>Area of Interest<a class="headerlink" href="#area-of-interest" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>Depending on the location of your transformation, using the area of interest may impact
+which transformation operation is selected in the transformation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">Transformer</span><span class="p">,</span> <span class="n">AreaOfInterest</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:2694&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
+<span class="go">&lt;Concatenated Operation Transformer: pipeline&gt;</span>
+<span class="go">Description: Inverse of Pulkovo 1995 to WGS 84 (2) + 3-degree Gauss-Kruger zone 60</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: Russia</span>
+<span class="go">- bounds: (18.92, 39.87, -168.97, 85.2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;epsg:2694&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">area_of_interest</span><span class="o">=</span><span class="n">AreaOfInterest</span><span class="p">(</span><span class="o">-</span><span class="mf">136.46</span><span class="p">,</span> <span class="mf">49.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">60.72</span><span class="p">,</span> <span class="mf">83.17</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
+<span class="go">&lt;Concatenated Operation Transformer: pipeline&gt;</span>
+<span class="go">Description: Inverse of NAD27 to WGS 84 (13) + Alaska Albers</span>
+<span class="go">Area of Use:</span>
+<span class="go">- name: Canada - NWT; Nunavut; Saskatchewan</span>
+<span class="go">- bounds: (-136.46, 49.0, -60.72, 83.17)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multithreading">
+<h2>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
+classes each have their own PROJ context by default. However, contexts cannot be
+shared across threads. As such, it is recommended to create the object
+within the thread that uses it.</p>
+<p>Here is a simple demonstration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">concurrent.futures</span>
+
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+
+
+<span class="k">def</span> <span class="nf">transform_point</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+    <span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">3857</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">point</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_point</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="optimizing-single-threaded-applications">
+<h2>Optimizing Single-Threaded Applications<a class="headerlink" href="#optimizing-single-threaded-applications" title="Permalink to this headline">¶</a></h2>
+<p>If you have a single-threaded application that generates many objects,
+enabling the use of the global context can provide performance enhancements.</p>
+<p>For information about using the global context, see: <a class="reference internal" href="api/global_context.html#global-context"><span class="std std-ref">Global Context</span></a></p>
+<p>Here is an example where enabling the global context can help:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyproj</span>
+
+<span class="n">codes</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">get_codes</span><span class="p">(</span><span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">PJType</span><span class="o">.</span><span class="n">PROJECTED_CRS</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">crs_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyproj</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="debugging-internal-proj">
+<span id="id2"></span><h2>Debugging Internal PROJ<a class="headerlink" href="#debugging-internal-proj" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<p>To get more debugging information from the internal PROJ code:</p>
+<ol class="arabic">
+<li><p>Set the <a class="reference external" href="https://proj.org/usage/environmentvars.html#envvar-PROJ_DEBUG">PROJ_DEBUG</a>
+environment variable to the desired level.</p></li>
+<li><p>Activate logging in <cite>pyproj</cite> with the devel <cite>DEBUG</cite>:</p>
+<blockquote>
+<div><p>More information available here: <a class="reference external" href="https://docs.python.org/3/howto/logging.html">https://docs.python.org/3/howto/logging.html</a></p>
+<p>Here are examples to get started.</p>
+<p>Add handler to the <cite>pyproj</cite> logger:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">console_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">console_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;pyproj&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">console_handler</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Activate default logging config:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="build_crs.html" class="btn btn-neutral float-right" title="Building a Coordinate Reference System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cli.html" class="btn btn-neutral float-left" title="CLI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
