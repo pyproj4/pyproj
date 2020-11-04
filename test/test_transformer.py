@@ -30,6 +30,7 @@ def test_tranform_wgs84_to_custom():
     assert f"{xx:.3f} {yy:.3f}" == "212.623 4604.975"
 
 
+@pytest.mark.grid
 def test_transform_wgs84_to_alaska():
     with pytest.warns(FutureWarning):
         lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
@@ -497,6 +498,7 @@ def test_repr(from_crs, to_crs, expected_repr):
     assert repr(Transformer.from_crs(from_crs, to_crs)) == expected_repr
 
 
+@pytest.mark.grid
 def test_repr__conditional():
     trans_repr = repr(Transformer.from_crs(4326, 26917))
     if grids_available(
@@ -608,6 +610,7 @@ def test_transformer_group():
     assert trans_group.best_available
 
 
+@pytest.mark.grid
 def test_transformer_group__unavailable():
     trans_group = TransformerGroup(4326, 2964)
     for transformer in trans_group.transformers:
@@ -649,6 +652,7 @@ def test_transformer_group__unavailable():
         assert not trans_group.best_available
 
 
+@pytest.mark.grid
 def test_transform_group__missing_best():
     with pytest.warns(FutureWarning):
         lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
@@ -675,6 +679,7 @@ def test_transform_group__missing_best():
         assert "ntv2_0" in trans_group.transformers[0].definition
 
 
+@pytest.mark.grid
 def test_transform_group__area_of_interest():
     if not grids_available("ca_nrc_ntv2_0.tif"):
         with pytest.warns(
@@ -707,6 +712,7 @@ def test_transform_group__area_of_interest():
         )
 
 
+@pytest.mark.grid
 def test_transformer_group__get_transform_crs():
     tg = TransformerGroup("epsg:4258", "epsg:7415")
     if not grids_available("nl_nsgi_rdtrans2018.tif"):
@@ -715,6 +721,7 @@ def test_transformer_group__get_transform_crs():
         assert len(tg.transformers) == 2
 
 
+@pytest.mark.grid
 def test_transformer__area_of_interest():
     transformer = Transformer.from_crs(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
@@ -729,6 +736,7 @@ def test_transformer__area_of_interest():
         )
 
 
+@pytest.mark.grid
 def test_transformer_proj__area_of_interest():
     transformer = Transformer.from_proj(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
@@ -870,6 +878,7 @@ def test_transformer_group__network_enabled():
                     assert grid.available
 
 
+@pytest.mark.grid
 @patch.dict("os.environ", {"PROJ_NETWORK": "ON"}, clear=True)
 def test_transformer_group__network_disabled():
     with proj_network_env():
@@ -970,6 +979,7 @@ def test_transform_honours_input_types(x, y, z):
     assert transformer.transform(xx=x, yy=y, zz=z) == (x, y, z)
 
 
+@pytest.mark.grid
 @pytest.mark.network
 @patch("pyproj.transformer.get_user_data_dir")
 def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, capsys):
@@ -1016,6 +1026,7 @@ def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, cap
             download_mock.assert_not_called()
 
 
+@pytest.mark.grid
 @patch("pyproj.transformer._download_resource_file")
 @patch("pyproj.transformer.get_user_data_dir")
 def test_transformer_group__download_grids__directory(
