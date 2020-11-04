@@ -18,6 +18,7 @@ PYPROJ_CLI_ENDPONTS = pytest.mark.parametrize(
 )
 
 
+@pytest.mark.cli
 @PYPROJ_CLI_ENDPONTS
 def test_main(input_command, tmpdir):
     with tmp_chdir(str(tmpdir)):
@@ -29,6 +30,7 @@ def test_main(input_command, tmpdir):
     assert "-v, --verbose  Show verbose debugging version information." in output
 
 
+@pytest.mark.cli
 @PYPROJ_CLI_ENDPONTS
 @pytest.mark.parametrize("option", ["-v", "--verbose"])
 def test_main__verbose(input_command, option, tmpdir):
@@ -46,6 +48,7 @@ def test_main__verbose(input_command, option, tmpdir):
     assert "-v, --verbose " not in output
 
 
+@pytest.mark.cli
 @PYPROJ_CLI_ENDPONTS
 @pytest.mark.parametrize("option", [["-h"], []])
 def test_sync(input_command, option, tmpdir):
@@ -74,6 +77,7 @@ def _check_list_files_header(lines):
     assert lines[1].rstrip("\r") == "----------------------------------"
 
 
+@pytest.mark.cli
 @pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__source_id__list(input_command, tmpdir):
@@ -96,6 +100,7 @@ def test_sync__source_id__list(input_command, tmpdir):
         assert "fr_ign" == line.split("|")[1].strip()
 
 
+@pytest.mark.cli
 @pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__area_of_use__list(input_command, tmpdir):
@@ -118,6 +123,7 @@ def test_sync__area_of_use__list(input_command, tmpdir):
         assert "France" in line.split("|")[-1]
 
 
+@pytest.mark.cli
 @pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__file__list(input_command, tmpdir):
@@ -140,6 +146,7 @@ def test_sync__file__list(input_command, tmpdir):
         assert "ntf_r93" in line.split("|")[0]
 
 
+@pytest.mark.cli
 @pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__bbox__list(input_command, tmpdir):
@@ -163,6 +170,7 @@ def test_sync__bbox__list(input_command, tmpdir):
     assert " | fr_ign | " in output
 
 
+@pytest.mark.cli
 @pytest.mark.network
 @PYPROJ_CLI_ENDPONTS
 def test_sync__bbox__list__exclude_world_coverage(input_command, tmpdir):
@@ -187,6 +195,7 @@ def test_sync__bbox__list__exclude_world_coverage(input_command, tmpdir):
     assert " | fr_ign | " in output
 
 
+@pytest.mark.cli
 @PYPROJ_CLI_ENDPONTS
 @pytest.mark.parametrize(
     "extra_arg",

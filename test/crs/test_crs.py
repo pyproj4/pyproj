@@ -561,6 +561,7 @@ def test_coordinate_operation_grids():
         )
 
 
+@pytest.mark.grid
 def test_coordinate_operation_grids__alternative_grid_name():
     cc = CoordinateOperation.from_epsg(1312, True)
     assert len(cc.grids) == 1

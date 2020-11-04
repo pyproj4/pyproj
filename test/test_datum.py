@@ -5,6 +5,7 @@ from pyproj import CRS, Proj, transform
 from test.conftest import grids_available
 
 
+@pytest.mark.grid
 @pytest.mark.parametrize("proj_class", [Proj, CRS])
 def test_datum(proj_class):
     p1 = proj_class(proj="latlong", datum="WGS84")
