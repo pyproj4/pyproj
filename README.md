@@ -4,7 +4,7 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 
 <p align="center">
 <a href="https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Join the chat at https://gitter.im/pyproj4-pyproj/community" src="https://badges.gitter.im/pyproj4-pyproj/community.svg"></a>
-<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-38-orange.svg?style=flat-square"></a>
+<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-39-orange.svg?style=flat-square"></a>
 <a href="https://travis-ci.com/pyproj4/pyproj"><img alt="Build Status" src="https://travis-ci.com/pyproj4/pyproj.svg?branch=master"></a>
 <a href="https://ci.appveyor.com/project/jswhit/pyproj"><img alt="Build Status" src="https://ci.appveyor.com/api/projects/status/8xkka4s97uwhkc64/branch/master?svg=true"></a>
 <a href="https://coveralls.io/github/pyproj4/pyproj?branch=master"><img alt="Coverage Status" src="https://coveralls.io/repos/github/pyproj4/pyproj/badge.svg?branch=master"></a>
@@ -85,6 +85,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/mmodenesi"><img src="https://avatars2.githubusercontent.com/u/5569789?v=4" width="100px;" alt="mmodenesi"/><br /><sub><b>mmodenesi</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/issues?q=author%3Ammodenesi" title="Bug reports">🐛</a> <a href="https://github.com/pyproj4/pyproj/commits?author=mmodenesi" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=mmodenesi" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://www.indigoag.com/"><img src="https://avatars0.githubusercontent.com/u/48448372?v=4" width="100px;" alt="jacob-indigo"/><br /><sub><b>jacob-indigo</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/issues?q=author%3Ajacob-indigo" title="Bug reports">🐛</a> <a href="https://github.com/pyproj4/pyproj/commits?author=jacob-indigo" title="Code">💻</a></td>
     <td align="center"><a href="https://rahulporuri.github.io"><img src="https://avatars0.githubusercontent.com/u/1926457?v=4" width="100px;" alt="Poruri Sai Rahul"/><br /><sub><b>Poruri Sai Rahul</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=rahulporuri" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://medium.com/@underchemist"><img src="https://avatars1.githubusercontent.com/u/5283998?v=4" width="100px;" alt="Yann-Sebastien Tremblay-Johnston"/><br /><sub><b>Yann-Sebastien Tremblay-Johnston</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=underchemist" title="Documentation">📖</a></td>
   </tr>
 </table>
 

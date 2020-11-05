@@ -408,6 +408,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "underchemist",
+      "name": "Yann-Sebastien Tremblay-Johnston",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5283998?v=4",
+      "profile": "https://medium.com/@underchemist",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
