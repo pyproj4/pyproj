@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+3.0.1
+-----
+
 3.0.0
 -----
 * Minimum supported Python version 3.6 (issue #499)
