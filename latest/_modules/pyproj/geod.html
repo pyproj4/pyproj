@@ -517,7 +517,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.3.0</span>
 
-<span class="sd">        Calculate the total distance between points along a line.</span>
+<span class="sd">        Calculate the total distance between points along a line (meters).</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
 <span class="sd">        &gt;&gt;&gt; geod = Geod(&#39;+a=6378137 +f=0.0033528106647475126&#39;)</span>
@@ -542,7 +542,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float:</span>
-<span class="sd">            The total length of the line.</span>
+<span class="sd">            The total length of the line (meters).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
@@ -553,7 +553,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.3.0</span>
 
-<span class="sd">        Calculate the distances between points along a line.</span>
+<span class="sd">        Calculate the distances between points along a line (meters).</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
 <span class="sd">        &gt;&gt;&gt; geod = Geod(ellps=&quot;WGS84&quot;)</span>
@@ -576,7 +576,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
-<span class="sd">            The total length of the line.</span>
+<span class="sd">            The total length of the line (meters).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
