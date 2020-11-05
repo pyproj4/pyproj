@@ -352,7 +352,7 @@ class Geod(_Geod):
         """
         .. versionadded:: 2.3.0
 
-        Calculate the total distance between points along a line.
+        Calculate the total distance between points along a line (meters).
 
         >>> from pyproj import Geod
         >>> geod = Geod('+a=6378137 +f=0.0033528106647475126')
@@ -377,7 +377,7 @@ class Geod(_Geod):
         Returns
         -------
         float:
-            The total length of the line.
+            The total length of the line (meters).
         """
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
@@ -388,7 +388,7 @@ class Geod(_Geod):
         """
         .. versionadded:: 2.3.0
 
-        Calculate the distances between points along a line.
+        Calculate the distances between points along a line (meters).
 
         >>> from pyproj import Geod
         >>> geod = Geod(ellps="WGS84")
@@ -411,7 +411,7 @@ class Geod(_Geod):
         Returns
         -------
         array, :class:`numpy.ndarray`, list, tuple, or scalar:
-            The total length of the line.
+            The total length of the line (meters).
         """
         # process inputs, making copies that support buffer API.
         inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
