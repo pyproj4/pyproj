@@ -3,6 +3,7 @@ include MANIFEST.in
 include pyproject.toml
 include LICENSE
 include Makefile
+include pytest.ini
 include pyproj/py.typed
 include pyproj/*.pyd
 include pyproj/*.pyx
