@@ -77,12 +77,12 @@ environments. Our recommended setup for contributing is:
   ``cd pyproj``
 * Connect your repository to the upstream (main project).
   ``git remote add upstream https://github.com/pyproj4/pyproj.git``
-* Create the development environment by running ``conda create -n devel -c conda-forge cython proj numpy shapely``.
+* Create the development environment by running ``conda create -n devel -c conda-forge cython proj numpy shapely xarray pandas``.
   * If the minimum PROJ version is not yet available, you can build PROJ from source using:
     ```bash
     export PROJ_DIR=$PWD/pyproj/proj_dir
     mkdir $PROJ_DIR
-    bash ci/travis/proj-dl-and-compile git
+    bash ci/proj-compile.sh git
     ```
 * Activate our new development environment ``conda activate devel`` on Mac/Linux or
   ``activate devel`` on Windows.
@@ -126,7 +126,7 @@ change the code and stay confident that things have not broken. Running the test
 ``pytest``, which is easily available through ``conda`` or ``pip``. It was also installed if you made our default ``devel`` environment.
 
 ### Running Tests
-Running the tests can be done by running ``py.test``
+Running the tests can be done by running ``py.test``. Make sure you install the test requirements before running the tests ``pip install -r requirements-test.txt``.
 
 Running the whole test suite isn't that slow, but can be a burden if you're working on just
 one module or a specific test. It is easy to run tests on a single directory:

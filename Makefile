@@ -60,22 +60,11 @@ clean-cython: ## clean the cython files
 	rm -f pyproj/*/*.c
 	rm -f pyproj/*.c
 
-lint: ## check style with flake8
-	flake8 setup.py pyproj/ test/ docs/
-	flake8 --append-config=flake8/cython.cfg pyproj/
-
 check-type:
 	mypy pyproj
 
-check: lint check-type ## flake8 black isort check
-	black --check setup.py pyproj/ test/ docs/
-	isort --check setup.py pyproj/ test/ docs/
-
-isort: ## order imports
-	isort setup.py pyproj/ test/ docs/
-
-black: ## black format files
-	black setup.py pyproj/ test/ docs/
+check: check-type
+	pre-commit run --show-diff-on-failure --all-files
 
 test: ## run tests
 	py.test
@@ -87,7 +76,7 @@ test-coverage:  ## run tests and generate coverage report
 	py.test --cov-report term-missing --cov=pyproj -v -s
 
 install-docs: ## Install requirements for building documentation
-	pip install sphinx sphinx_rtd_theme sphinx-argparse
+	python -m pip install -r requirements-docs.txt
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs clean
@@ -104,5 +93,7 @@ install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
 install-dev: clean ## install development version to active Python's site-packages
-	pip install -U -r requirements-dev.txt
-	PYPROJ_FULL_COVERAGE=YES pip install -e . --no-use-pep517 || PYPROJ_FULL_COVERAGE=YES pip install -e .
+	python -m pip install -r requirements-dev.txt
+	pre-commit install
+	python -m pip install -r requirements-test.txt
+	PYPROJ_FULL_COVERAGE=YES python -m pip install -e . --no-use-pep517 || PYPROJ_FULL_COVERAGE=YES python -m pip install -e .

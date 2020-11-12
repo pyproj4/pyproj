@@ -1,0 +1,60 @@
+name: Test PROJ Latest
+
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 0 * * 0'
+
+jobs:
+  test_proj_latest:
+    name: PROJ Latest
+    runs-on: ubuntu-latest
+    env:
+      PYPROJ_FULL_COVERAGE: YES
+      PROJ_DIR: ${{ github.workspace }}/proj_install
+      PROJ_LIB: ${{ github.workspace }}/proj_install/share/proj
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+            python-version: 3.7
+      - name: Install PROJ
+        shell: bash
+        run: |
+          sudo apt-get install -qq sqlite3 libsqlite3-dev libtiff-dev libcurl4-openssl-dev
+          bash ci/proj-compile.sh git
+
+      - name: Install and Log Environment
+        shell: bash
+        run: |
+          python -V
+          python -m pip install cython
+          python -m pip install -e . --no-use-pep517 || python -m pip install -e .
+          python -m pip install -r requirements-test.txt
+          pyproj -v
+
+      - name: Test
+        shell: bash
+        run: |
+          py.test --cov-report term-missing --cov=pyproj --cov-report xml
+
+      - name: Test Network
+        shell: bash
+        env:
+          PROJ_NETWORK: ON
+        run: |
+          py.test
+
+      - name: Test Global Context
+        shell: bash
+        env:
+          PYPROJ_GLOBAL_CONTEXT: ON
+        run: |
+          py.test
+
+      - name: Test Grids
+        shell: bash
+        run: |
+          projsync --quiet --bbox -175,0,-50,85
+          py.test
