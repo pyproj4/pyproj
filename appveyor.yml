@@ -103,6 +103,7 @@ build_script:
   - set PYPROJ_FULL_COVERAGE=YES
   - "python -m pip install -e ."
   - "python -m pip install -r requirements-dev.txt"
+  - "python -m pip install -r requirements-test.txt"
 
 
 install:
@@ -134,26 +135,19 @@ test_script:
   - "%CMD_IN_ENV% python -c \"import pyproj; pyproj.Proj('epsg:4269')\""
   - "%CMD_IN_ENV% py.test --cov-report term-missing --cov=pyproj -v -s"
 
-after_test:
+# TODO: build wheels
+# after_test:
   # If tests are successful, create binary packages for the project.
-  - mkdir pyproj\proj_dir\share\proj
-  - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
-  - mkdir pyproj\.lib
-  - mkdir .lib
-  - copy %PROJ_DIR%\lib\* pyproj\.lib
-  - copy %PROJ_DIR%\lib\* .lib
-  - copy c:\tools\vcpkg\installed\"%platform%"-windows\bin\sqlite3.dll pyproj\.lib
-  - set PROJ_LIBDIR=.lib
-  - set PROJ_WHEEL=true
-  - "%CMD_IN_ENV% python setup.py bdist_wheel"
+  # - set PROJ_WHEEL=true
+  # - "%CMD_IN_ENV% python setup.py bdist_wheel"
   # - "%CMD_IN_ENV% python setup.py bdist_wininst"
   # - "%CMD_IN_ENV% python setup.py bdist_msi"
   # test wheel
-  - python -m pip install pyproj --ignore-installed -f dist
-  - python -c "import pyproj; pyproj.Proj('epsg:4269')"
+  # - python -m pip install pyproj --ignore-installed -f dist
+  # - python -c "import pyproj; pyproj.Proj('epsg:4269')"
   # cleanup for test dir
-  - if %PROJSOURCE% == git del /F /Q dist\*
-  - ps: "ls dist"
+  # - if %PROJSOURCE% == git del /F /Q dist\*
+  # - ps: "ls dist"
 
 artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
