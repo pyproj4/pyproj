@@ -1,4 +1,5 @@
 #!/bin/bash
+pushd
 echo "Building PROJ $1 version from source..."
 if [[ $1 == "git" ]]; then
   git clone https://github.com/OSGeo/PROJ.git proj-git
@@ -7,9 +8,6 @@ else
   tar zxf "proj-${1:0:5}.tar.gz"
 fi
 cd "proj-${1:0:5}"
-
-# could be installed to a cached location (probably not git version)
-# seems to take only about 13 seconds of build time
 # build using autotools
 sh autogen.sh
 ./configure --prefix=$PROJ_DIR
@@ -19,6 +17,4 @@ make install
 #cmake . -DCMAKE_INSTALL_PREFIX=$PROJ_DIR
 #cmake --build .
 #make install
-find $PROJ_DIR
-# export PROJ_DIR="/tmp/proj_dl_install"
-cd ..
+popd

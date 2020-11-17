@@ -1,12 +1,3 @@
 cython>=0.28.4
-black
-flake8
 mypy
-numpy
-pandas
-pylint
-pytest>3.6
-pytest-cov
-shapely
 pre-commit
-xarray
