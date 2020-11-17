@@ -63,6 +63,7 @@ before_install:
 install:
   # coverage report requires a local install
   - python -m pip install 'pip>=10.0.1'
+  - python -m pip install -e .
 
 script:
   # Building and uploading docs with doctr
