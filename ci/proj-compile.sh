@@ -1,5 +1,5 @@
 #!/bin/bash
-pushd
+pushd .
 echo "Building PROJ $1 version from source..."
 if [[ $1 == "git" ]]; then
   git clone https://github.com/OSGeo/PROJ.git proj-git
