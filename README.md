@@ -5,9 +5,10 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 <p align="center">
 <a href="https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Join the chat at https://gitter.im/pyproj4-pyproj/community" src="https://badges.gitter.im/pyproj4-pyproj/community.svg"></a>
 <a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-39-orange.svg?style=flat-square"></a>
-<a href="https://travis-ci.com/pyproj4/pyproj"><img alt="Build Status" src="https://travis-ci.com/pyproj4/pyproj.svg?branch=master"></a>
-<a href="https://ci.appveyor.com/project/jswhit/pyproj"><img alt="Build Status" src="https://ci.appveyor.com/api/projects/status/8xkka4s97uwhkc64/branch/master?svg=true"></a>
-<a href="https://coveralls.io/github/pyproj4/pyproj?branch=master"><img alt="Coverage Status" src="https://coveralls.io/repos/github/pyproj4/pyproj/badge.svg?branch=master"></a>
+<a href="https://travis-ci.com/pyproj4/pyproj"><img alt="Travis Build Status" src="https://travis-ci.com/pyproj4/pyproj.svg?branch=master"></a>
+<a href="https://ci.appveyor.com/project/jswhit/pyproj"><img alt="Appveyor Build Status" src="https://ci.appveyor.com/api/projects/status/8xkka4s97uwhkc64/branch/master?svg=true"></a>
+<a href="https://github.com/pyproj4/pyproj/actions?query=workflow%3ATests"><img alt="GitHub Actions Build Status" src="https://github.com/pyproj4/pyproj/workflows/Tests/badge.svg"></a>
+<a href="https://codecov.io/gh/pyproj4/pyproj"><img alt="Codecov Status" src="https://codecov.io/gh/pyproj4/pyproj/branch/master/graph/badge.svg"></a>
 <a href="https://badge.fury.io/py/pyproj"><img alt="PyPI" src="https://badge.fury.io/py/pyproj.svg"></a>
 <a href="https://pepy.tech/project/pyproj"><img alt="Downloads" src="https://pepy.tech/badge/pyproj"></a>
 <a href="https://anaconda.org/conda-forge/pyproj"><img alt="Anaconda-Server Badge" src="https://anaconda.org/conda-forge/pyproj/badges/version.svg"></a>
