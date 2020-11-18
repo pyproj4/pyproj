@@ -1,0 +1,53 @@
+name: Publish Docs
+
+on:
+  push:
+    branches: [ master ]
+  release:
+    types: [ created ]
+
+jobs:
+  docs:
+    name: Publish Docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Setup Conda
+        uses: s-weigand/setup-conda@v1
+        with:
+          activate-conda: false
+          python-version: 3.8
+          conda-channels: conda-forge
+
+      - name: Install and Build
+        shell: bash
+        run: |
+          conda create -n test python=3.8 cython proj numpy shapely xarray pandas
+          source activate test
+          python -m pip install -e . --no-use-pep517 || python -m pip install -e .
+          python -m pip install -r requirements-docs.txt
+          sphinx-build -b html docs/ docs/_build/
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        if: ${{ github.event_name == 'release' }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/_build/
+          CLEAN: false
+          TARGET_FOLDER: ${{ github.ref }}
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        if: ${{ github.event_name == 'push' }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/_build/
+          CLEAN: false
+          TARGET_FOLDER: latest
