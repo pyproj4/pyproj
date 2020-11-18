@@ -26,8 +26,8 @@ jobs:
       - name: Install and Build
         shell: bash
         run: |
-          conda create -n test python=3.8 cython proj numpy shapely xarray pandas
-          source activate test
+          conda create -n docs python=3.8 cython proj
+          source activate docs
           python -m pip install -e . --no-use-pep517 || python -m pip install -e .
           python -m pip install -r requirements-docs.txt
           sphinx-build -b html docs/ docs/_build/
