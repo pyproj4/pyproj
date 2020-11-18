@@ -56,5 +56,5 @@ jobs:
       - name: Test Grids
         shell: bash
         run: |
-          projsync --quiet --bbox -175,0,-50,85
+          $PROJ_DIR/bin/projsync --quiet --bbox -175,0,-50,85
           py.test
