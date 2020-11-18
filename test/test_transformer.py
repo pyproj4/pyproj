@@ -15,7 +15,7 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import grids_available, proj_env, proj_network_env
+from test.conftest import PROJ_GTE_8, grids_available, proj_env, proj_network_env
 
 
 def test_tranform_wgs84_to_custom():
@@ -44,6 +44,7 @@ def test_transform_wgs84_to_alaska():
         assert f"{xx:.3f} {yy:.3f}" == "-1825155.697 330730.391"
 
 
+@pytest.mark.skipif(PROJ_GTE_8, reason="https://github.com/OSGeo/PROJ/issues/2425")
 def test_illegal_transformation():
     # issue 202
     with pytest.warns(FutureWarning):
