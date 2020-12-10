@@ -1,0 +1,7 @@
+contact_links:
+  - name: Ask questions
+    url: https://github.com/pyproj4/pyproj/discussions
+    about: Please ask and answer questions here.
+  - name: Ask questions from the GIS community
+    url: https://gis.stackexchange.com/questions/tagged/pyproj
+    about: To get answers from questions in the GIS commminuty, please ask and answer questions here with the pyproj tag.
