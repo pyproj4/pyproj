@@ -24,9 +24,10 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 
 ## Bugs/Questions
 
-- Report bugs/ask questions: https://github.com/pyproj4/pyproj/issues
+- Report bugs/feature requests: https://github.com/pyproj4/pyproj/issues
+- Ask questions: https://github.com/pyproj4/pyproj/discussions
 - Ask developer questions: https://gitter.im/pyproj4-pyproj/community
-- Ask the community: https://gis.stackexchange.com/questions/tagged/pyproj
+- Ask the GIS community: https://gis.stackexchange.com/questions/tagged/pyproj
 
 ## Contributors ✨
 
