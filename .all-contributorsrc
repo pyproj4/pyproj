@@ -418,6 +418,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "odidev",
+      "name": "odidev",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/40816837?v=4",
+      "profile": "https://github.com/odidev",
+      "contributions": [
+        "platform"
+      ]
     }
   ],
   "contributorsPerLine": 7
