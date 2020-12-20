@@ -98,6 +98,8 @@ What grids to download?
 
   Additionally, the :class:`pyproj.transformer.TransformerGroup` can assist finding the grids you need to download.
 
+  .. warning:: There are cases where the URL to download the grid is missing.
+
   .. code-block:: python
 
     >>> from pyproj.transformer import TransformerGroup
