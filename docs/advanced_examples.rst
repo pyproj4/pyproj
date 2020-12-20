@@ -45,7 +45,7 @@ Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops
 
 
 Transforming with the same projections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 pyproj will skip transformations if they are exactly the same by default. However, if you
 sometimes throw in the projections that are about the same and the results being close enough
