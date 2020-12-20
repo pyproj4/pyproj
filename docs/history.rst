@@ -3,6 +3,7 @@ Change Log
 
 3.0.1
 -----
+* Use `proj_context_errno_string` in PROJ 8+ due to deprecation (issue #760)
 
 3.0.0
 -----

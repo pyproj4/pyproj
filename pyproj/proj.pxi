@@ -2,6 +2,7 @@
 
 IF CTE_PROJ_VERSION_MAJOR >= 8:
     cdef extern from "proj.h":
+        const char * proj_context_errno_string(PJ_CONTEXT* ctx, int err)
         ctypedef enum PJ_CATEGORY:
             PJ_CATEGORY_ELLIPSOID
             PJ_CATEGORY_PRIME_MERIDIAN
@@ -11,6 +12,7 @@ IF CTE_PROJ_VERSION_MAJOR >= 8:
             PJ_CATEGORY_DATUM_ENSEMBLE
 ELSE:
     cdef extern from "proj.h":
+        const char * proj_errno_string(int err)
         ctypedef enum PJ_CATEGORY:
             PJ_CATEGORY_ELLIPSOID
             PJ_CATEGORY_PRIME_MERIDIAN
@@ -51,7 +53,6 @@ cdef extern from "proj.h":
 
     int proj_errno (const PJ *P) nogil
     int proj_context_errno (PJ_CONTEXT *ctx)
-    const char * proj_errno_string (int err)
     int  proj_errno_reset (const PJ *P) nogil
     PJ *proj_create (PJ_CONTEXT *ctx, const char *definition)
     PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj)
