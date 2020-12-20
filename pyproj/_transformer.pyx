@@ -25,6 +25,14 @@ from pyproj.exceptions import ProjError
 proj_version_str = f"{PROJ_VERSION_MAJOR}.{PROJ_VERSION_MINOR}.{PROJ_VERSION_PATCH}"
 
 
+cdef pyproj_errno_string(PJ_CONTEXT* ctx, int err):
+    # https://github.com/pyproj4/pyproj/issues/760
+    IF CTE_PROJ_VERSION_MAJOR >= 8:
+        return pystrdecode(proj_context_errno_string(ctx, err))
+    ELSE:
+        return pystrdecode(proj_errno_string(err))
+
+
 _PJ_DIRECTION_MAP = {
     TransformDirection.FORWARD: PJ_FWD,
     TransformDirection.INVERSE: PJ_INV,
@@ -503,7 +511,7 @@ cdef class _Transformer(Base):
             if errcheck and errno:
                 with gil:
                     raise ProjError(
-                        f"transform error: {pystrdecode(proj_errno_string(errno))}"
+                        f"transform error: {pyproj_errno_string(self.context, errno)}"
                     )
             elif errcheck:
                 with gil:
@@ -601,7 +609,7 @@ cdef class _Transformer(Base):
             if errcheck and errno:
                 with gil:
                     raise ProjError(
-                        f"itransform error: {pystrdecode(proj_errno_string(errno))}"
+                        f"itransform error: {pyproj_errno_string(self.context, errno)}"
                     )
             elif errcheck:
                 with gil:
@@ -701,7 +709,7 @@ cdef class _Transformer(Base):
                 if errcheck and errno:
                     with gil:
                         raise ProjError(
-                            f"proj error: {pystrdecode(proj_errno_string(errno))}"
+                            f"proj error: {pyproj_errno_string(self.context, errno)}"
                         )
 
                 if errno or invalid_coord:
