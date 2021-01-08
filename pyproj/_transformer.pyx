@@ -481,8 +481,8 @@ cdef class _Transformer(Base):
             buflent = xbuff.len
             tt = NULL
 
-        if not xbuff.len or not (xbuff.len == ybuff.len == buflenz == buflent):
-            raise ProjError('x, y, z, and time must be same size')
+        if not (xbuff.len == ybuff.len == buflenz == buflent):
+            raise ProjError('x, y, z, and time must be same size if included.')
 
         cdef Py_ssize_t iii
         cdef int errno = 0

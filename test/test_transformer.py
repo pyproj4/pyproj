@@ -7,7 +7,7 @@ from unittest.mock import call, patch
 
 import numpy as np
 import pytest
-from numpy.testing import assert_almost_equal
+from numpy.testing import assert_almost_equal, assert_array_equal
 
 import pyproj
 from pyproj import Proj, Transformer, itransform, transform
@@ -400,6 +400,23 @@ def test_always_xy__itransform():
             list(itransform(2193, 4326, [(1625350, 5504853)], always_xy=True)),
             [(173.29964730317386, -40.60674802693758)],
         )
+
+
+@pytest.mark.parametrize("empty_array", [(), [], np.array([])])
+def test_transform_empty_array_xy(empty_array):
+    transformer = Transformer.from_crs(2193, 4326)
+    assert_array_equal(
+        transformer.transform(empty_array, empty_array), (empty_array, empty_array)
+    )
+
+
+@pytest.mark.parametrize("empty_array", [(), [], np.array([])])
+def test_transform_empty_array_xyzt(empty_array):
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert_array_equal(
+        transformer.transform(empty_array, empty_array, empty_array, empty_array),
+        (empty_array, empty_array, empty_array, empty_array),
+    )
 
 
 def test_transform_direction__string():
