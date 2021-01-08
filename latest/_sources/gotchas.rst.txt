@@ -249,7 +249,7 @@ Debugging tips:
 - To get data directory being used: :func:`pyproj.datadir.get_data_dir`
 - The order for searching for the data directory can be found in
   the docstrings of :func:`pyproj.datadir.get_data_dir`
-- To change the data directory: :func:`pyproj.datadir.get_data_dir`
+- To change the data directory: :func:`pyproj.datadir.set_data_dir`
 
 
 .. _upgrade_transformer:
