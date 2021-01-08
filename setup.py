@@ -29,7 +29,7 @@ def check_proj_version(proj_version: str) -> None:
     """checks that the PROJ library meets the minimum version"""
     if parse_version(proj_version) < PROJ_MIN_VERSION:
         raise SystemExit(
-            f"ERROR: Minimum supported proj version is {PROJ_MIN_VERSION}, installed "
+            f"ERROR: Minimum supported PROJ version is {PROJ_MIN_VERSION}, installed "
             f"version is {proj_version}. For more information see: "
             "https://pyproj4.github.io/pyproj/stable/installation.html"
         )
@@ -58,7 +58,7 @@ def get_proj_dir() -> Path:
             )
         proj_dir = Path(proj).parent.parent
     elif proj_dir is not None and proj_dir.exists():
-        print("PROJ_DIR is set, using existing proj4 installation..\n")
+        print("PROJ_DIR is set, using existing PROJ installation..\n")
     else:
         raise SystemExit(f"ERROR: Invalid path for PROJ_DIR {proj_dir}")
     return proj_dir
@@ -144,7 +144,7 @@ def get_extension_modules():
     except ImportError:
         raise SystemExit(
             "ERROR: Cython.Build.cythonize not found. "
-            "Cython is required to build from a repo."
+            "Cython is required to build pyproj."
         )
 
     # By default we'll try to get options PROJ_DIR or the local version of proj
@@ -215,7 +215,7 @@ def get_version():
             if line.find("__version__") >= 0:
                 # parse __version__ and remove surrounding " or '
                 return line.split("=")[1].strip()[1:-1]
-    raise SystemExit("ERROR: pyproj version not fount.")
+    raise SystemExit("ERROR: pyproj version not found.")
 
 
 # static items in setup.cfg
