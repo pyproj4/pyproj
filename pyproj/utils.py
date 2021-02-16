@@ -1,8 +1,30 @@
 """
 Utility functions used within pyproj
 """
+import json
 from array import array
 from typing import Any, Tuple
+
+
+class NumpyEncoder(json.JSONEncoder):
+    """
+    Handle numpy types when dumping to JSON
+    """
+
+    def default(self, obj):
+        try:
+            return obj.tolist()
+        except AttributeError:
+            pass
+        try:
+            # numpy scalars
+            if obj.dtype.kind == "f":
+                return float(obj)
+            elif obj.dtype.kind == "i":
+                return int(obj)
+        except AttributeError:
+            pass
+        return json.JSONEncoder.default(self, obj)
 
 
 def _copytobuffer_return_scalar(xx: Any) -> Tuple[array, bool, bool, bool]:

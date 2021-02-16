@@ -13,6 +13,7 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.geod import pj_ellps
+from pyproj.utils import NumpyEncoder
 
 # This is for looking up the ellipsoid parameters
 # based on the long name
@@ -645,7 +646,9 @@ cdef class CoordinateSystem(_CRSParts):
         -------
         CoordinateSystem
         """
-        return CoordinateSystem.from_string(json.dumps(coordinate_system_dict))
+        return CoordinateSystem.from_string(
+            json.dumps(coordinate_system_dict, cls=NumpyEncoder)
+        )
 
     @staticmethod
     def from_json(coordinate_system_json_str):
@@ -934,7 +937,7 @@ cdef class Ellipsoid(_CRSParts):
         -------
         Ellipsoid
         """
-        return Ellipsoid._from_string(json.dumps(ellipsoid_dict))
+        return Ellipsoid._from_string(json.dumps(ellipsoid_dict, cls=NumpyEncoder))
 
     @staticmethod
     def from_json(ellipsoid_json_str):
@@ -1215,7 +1218,9 @@ cdef class PrimeMeridian(_CRSParts):
         -------
         PrimeMeridian
         """
-        return PrimeMeridian._from_string(json.dumps(prime_meridian_dict))
+        return PrimeMeridian._from_string(
+            json.dumps(prime_meridian_dict, cls=NumpyEncoder)
+        )
 
     @staticmethod
     def from_json(prime_meridian_json_str):
@@ -1570,7 +1575,7 @@ cdef class Datum(_CRSParts):
         -------
         Datum
         """
-        return Datum._from_string(json.dumps(datum_dict))
+        return Datum._from_string(json.dumps(datum_dict, cls=NumpyEncoder))
 
     @staticmethod
     def from_json(datum_json_str):
@@ -2045,7 +2050,9 @@ cdef class CoordinateOperation(_CRSParts):
         -------
         CoordinateOperation
         """
-        return CoordinateOperation._from_string(json.dumps(coordinate_operation_dict))
+        return CoordinateOperation._from_string(
+            json.dumps(coordinate_operation_dict, cls=NumpyEncoder)
+        )
 
     @staticmethod
     def from_json(coordinate_operation_json_str):
