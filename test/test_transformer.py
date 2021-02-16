@@ -475,6 +475,13 @@ def test_str():
     assert str(Transformer.from_crs(4326, 3857)).startswith("proj=pipeline")
 
 
+_BOUND_REPR = (
+    "(-16.096100515106, 32.884955146013, 40.178745269776, 84.722623821813)"
+    if PROJ_GTE_8
+    else "(-16.1, 32.88, 40.18, 84.17)"
+)
+
+
 @pytest.mark.parametrize(
     "from_crs, to_crs, expected_repr",
     [
@@ -496,7 +503,7 @@ def test_str():
                 "Spain; Sweden; Switzerland; "
                 "United Kingdom (UK) including Channel Islands and Isle of Man; "
                 "Vatican City State.\n"
-                "- bounds: (-16.1, 32.88, 40.18, 84.17)"
+                f"- bounds: {_BOUND_REPR}"
             ),
         ),
         (
