@@ -3,6 +3,7 @@ Change Log
 
 3.0.1
 -----
+* WHL: Wheels contain PROJ 7.2.1
 * Use `proj_context_errno_string` in PROJ 8+ due to deprecation (issue #760)
 * BUG: Allow transformations with empty arrays (issue #766)
 * BUG: support numpy objects in CRS.from_cf (issue #773)
@@ -12,6 +13,7 @@ Change Log
 * Minimum supported Python version 3.6 (issue #499)
 * Minimum PROJ version 7.2 (issues #599 & #689)
 * WHL: Removed datumgrids from wheels because not needed with RFC 4 (pull #628)
+* WHL: Wheels contain PROJ 7.2
 * ENH: Added :ref:`network` (#675, #691, #695)
 * ENH: Added ability to use global context (issue #661)
 * ENH: Added transformation grid sync API/CLI (issue #572)
