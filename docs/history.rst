@@ -5,6 +5,7 @@ Change Log
 -----
 * Use `proj_context_errno_string` in PROJ 8+ due to deprecation (issue #760)
 * BUG: Allow transformations with empty arrays (issue #766)
+* BUG: support numpy objects in CRS.from_cf (issue #773)
 
 3.0.0
 -----

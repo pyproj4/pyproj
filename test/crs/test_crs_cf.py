@@ -1,3 +1,4 @@
+import numpy
 import pytest
 from numpy.testing import assert_almost_equal
 
@@ -40,6 +41,29 @@ def _test_roundtrip(expected_cf, wkt_startswith):
         assert_almost_equal(cf_dict.pop("towgs84"), expected_cf.pop("towgs84"))
 
     assert cf_dict == expected_cf
+
+
+def test_cf_from_numpy_dtypes():
+    cf = {
+        "grid_mapping_name": "lambert_conformal_conic",
+        "standard_parallel": numpy.array([60, 30], dtype="f4"),
+        "longitude_of_central_meridian": numpy.float32(0),
+        "latitude_of_projection_origin": numpy.int(45),
+    }
+    crs = CRS.from_cf(cf)
+    assert crs.to_dict() == {
+        "datum": "WGS84",
+        "lat_0": 45,
+        "lat_1": 60,
+        "lat_2": 30,
+        "lon_0": 0,
+        "no_defs": None,
+        "proj": "lcc",
+        "type": "crs",
+        "units": "m",
+        "x_0": 0,
+        "y_0": 0,
+    }
 
 
 def test_to_cf_transverse_mercator():
