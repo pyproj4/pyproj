@@ -10,6 +10,13 @@ _NETWORK_ENABLED = pyproj.network.is_network_enabled()
 PROJ_GTE_8 = LooseVersion(pyproj.__proj_version__) >= LooseVersion("8.0")
 
 
+if PROJ_GTE_8:
+    # https://github.com/OSGeo/PROJ/pull/2536
+    HAYFORD_ELLIPSOID_NAME = "International 1924 (Hayford 1909, 1910)"
+else:
+    HAYFORD_ELLIPSOID_NAME = "International 1909 (Hayford)"
+
+
 def unset_data_dir():
     pyproj.datadir._USER_PROJ_DATA = None
     pyproj.datadir._VALIDATED_PROJ_DATA = None
