@@ -17,7 +17,7 @@ from pyproj.crs.coordinate_operation import (
     VerticalPerspectiveConversion,
 )
 from pyproj.exceptions import CRSError
-from test.conftest import get_wgs84_datum_name
+from test.conftest import HAYFORD_ELLIPSOID_NAME, get_wgs84_datum_name
 
 
 def _to_dict(operation):
@@ -83,11 +83,11 @@ def test_to_cf_transverse_mercator():
         "semi_major_axis": 6378388.0,
         "semi_minor_axis": crs.ellipsoid.semi_minor_metre,
         "inverse_flattening": 297.0,
-        "reference_ellipsoid_name": "International 1909 (Hayford)",
+        "reference_ellipsoid_name": HAYFORD_ELLIPSOID_NAME,
         "longitude_of_prime_meridian": 0.0,
         "prime_meridian_name": "Greenwich",
         "horizontal_datum_name": (
-            "Unknown based on International 1909 (Hayford) ellipsoid"
+            f"Unknown based on {HAYFORD_ELLIPSOID_NAME} ellipsoid"
         ),
         "towgs84": towgs84_test,
         "grid_mapping_name": "transverse_mercator",
@@ -159,7 +159,7 @@ def test_from_cf_transverse_mercator(towgs84_test):
         "semi_major_axis": 6378388.0,
         "semi_minor_axis": crs.ellipsoid.semi_minor_metre,
         "inverse_flattening": 297.0,
-        "reference_ellipsoid_name": "International 1909 (Hayford)",
+        "reference_ellipsoid_name": HAYFORD_ELLIPSOID_NAME,
         "longitude_of_prime_meridian": 0.0,
         "prime_meridian_name": "Greenwich",
         "grid_mapping_name": "transverse_mercator",

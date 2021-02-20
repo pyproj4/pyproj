@@ -15,7 +15,12 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import PROJ_GTE_8, get_wgs84_datum_name, grids_available
+from test.conftest import (
+    HAYFORD_ELLIPSOID_NAME,
+    PROJ_GTE_8,
+    get_wgs84_datum_name,
+    grids_available,
+)
 
 
 class CustomCRS(object):
@@ -990,8 +995,8 @@ def test_ellipsoid__from_string(input_str):
     "input_str,long_name",
     [
         ("Airy 1830", "Airy 1830"),
-        ("intl", "International 1909 (Hayford)"),
-        ("International 1909 (Hayford)", "International 1909 (Hayford)"),
+        ("intl", HAYFORD_ELLIPSOID_NAME),
+        (HAYFORD_ELLIPSOID_NAME, HAYFORD_ELLIPSOID_NAME),
     ],
 )
 def test_ellipsoid__from_name(input_str, long_name):

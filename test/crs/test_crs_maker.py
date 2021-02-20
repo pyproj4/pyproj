@@ -19,6 +19,7 @@ from pyproj.crs.coordinate_operation import (
 from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal3DCS, VerticalCS
 from pyproj.crs.datum import CustomDatum
 from pyproj.crs.enums import VerticalCSAxis
+from test.conftest import HAYFORD_ELLIPSOID_NAME
 
 
 def test_make_projected_crs():
@@ -136,9 +137,7 @@ def test_bound_crs__example():
             false_northing=0,
             scale_factor_natural_origin=0.9996,
         ),
-        geodetic_crs=GeographicCRS(
-            datum=CustomDatum(ellipsoid="International 1909 (Hayford)")
-        ),
+        geodetic_crs=GeographicCRS(datum=CustomDatum(ellipsoid=HAYFORD_ELLIPSOID_NAME)),
     )
     bound_crs = BoundCRS(
         source_crs=proj_crs,
