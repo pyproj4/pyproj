@@ -114,12 +114,21 @@ PROJ string::
 
 .. code-block:: python
 
+    from distutils.version import LooseVersion
+
     from pyproj.crs import BoundCRS, Ellipsoid, GeographicCRS, ProjectedCRS
     from pyproj.crs.coordinate_operation import (
         TransverseMercatorConversion,
         ToWGS84Transformation,
     )
     from pyproj.crs.datum import CustomDatum
+    import pyproj
+
+    if LooseVersion(pyproj.__proj_version__) >= LooseVersion("8.0")
+        # https://github.com/OSGeo/PROJ/pull/2536
+        HAYFORD_ELLIPSOID_NAME = "International 1924 (Hayford 1909, 1910)"
+    else:
+        HAYFORD_ELLIPSOID_NAME = "International 1909 (Hayford)"
 
     proj_crs = ProjectedCRS(
         conversion=TransverseMercatorConversion(
@@ -130,7 +139,7 @@ PROJ string::
             scale_factor_natural_origin=0.9996,
         ),
         geodetic_crs=GeographicCRS(
-            datum=CustomDatum(ellipsoid="International 1909 (Hayford)")
+            datum=CustomDatum(ellipsoid=HAYFORD_ELLIPSOID_NAME)
         ),
     )
     bound_crs = BoundCRS(
