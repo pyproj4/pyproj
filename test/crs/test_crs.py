@@ -1,8 +1,10 @@
+import concurrent.futures
 import json
 
 import numpy
 import pytest
 
+import pyproj
 from pyproj import CRS
 from pyproj.crs import (
     CoordinateOperation,
@@ -1406,3 +1408,18 @@ def test_numpy_bool_kwarg_true():
         proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
     )
     assert "+south " in crs.srs
+
+
+@pytest.mark.skipif(
+    pyproj._datadir._USE_GLOBAL_CONTEXT, reason="Global Context not Threadsafe."
+)
+def test_crs_multithread():
+    # https://github.com/pyproj4/pyproj/issues/782
+    crs = CRS(4326)
+
+    def to_wkt(num):
+        return crs.to_wkt()
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        for result in executor.map(to_wkt, range(10)):
+            pass

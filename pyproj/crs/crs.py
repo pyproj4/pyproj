@@ -4,6 +4,7 @@ to the coordinate reference system (CRS) information.
 """
 import json
 import re
+import threading
 import warnings
 from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
 
@@ -28,9 +29,21 @@ from pyproj.crs._cf1x8 import (
 )
 from pyproj.crs.coordinate_operation import ToWGS84Transformation
 from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal2DCS, VerticalCS
-from pyproj.enums import WktVersion
+from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
+
+
+class CRSLocal(threading.local):
+    """
+    Threading local instance for cython CRS class.
+
+    For more details, see:
+    https://github.com/pyproj4/pyproj/issues/782
+    """
+
+    def __init__(self):
+        self.crs = None  # Initialises in each thread
 
 
 def _prepare_from_dict(projparams: dict, allow_json: bool = True) -> str:
@@ -112,7 +125,7 @@ def _prepare_from_epsg(auth_code: Union[str, int]):
     return _prepare_from_authority("epsg", auth_code)
 
 
-class CRS(_CRS):
+class CRS:
     """
     A pythonic Coordinate Reference System manager.
 
@@ -127,11 +140,6 @@ class CRS(_CRS):
     ----------
     srs: str
         The string form of the user input used to create the CRS.
-    name: str
-        The name of the CRS (from `proj_get_name <https://proj.org/
-        development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
-    type_name: str
-        The name of the type of the CRS object.
 
     """
 
@@ -276,7 +284,9 @@ class CRS(_CRS):
         projstring = ""
 
         if projparams:
-            if isinstance(projparams, str):
+            if isinstance(projparams, _CRS):
+                projstring = projparams.srs
+            elif isinstance(projparams, str):
                 projstring = _prepare_from_string(projparams)
             elif isinstance(projparams, dict):
                 projstring = _prepare_from_dict(projparams)
@@ -293,7 +303,21 @@ class CRS(_CRS):
             projkwargs = _prepare_from_dict(kwargs, allow_json=False)
             projstring = _prepare_from_string(" ".join((projstring, projkwargs)))
 
-        super().__init__(projstring)
+        self.srs = projstring
+        self._local = CRSLocal()
+        if isinstance(projparams, _CRS):
+            self._local.crs = projparams
+        else:
+            self._local.crs = _CRS(self.srs)
+
+    @property
+    def _crs(self):
+        """
+        Retrieve the Cython based _CRS object for this thread.
+        """
+        if self._local.crs is None:
+            self._local.crs = _CRS(self.srs)
+        return self._local.crs
 
     @staticmethod
     def from_authority(auth_name: str, code: Union[str, int]) -> "CRS":
@@ -877,7 +901,7 @@ class CRS(_CRS):
             other = CRS.from_user_input(other)
         except CRSError:
             return False
-        return super().is_exact_same(other)
+        return self._crs.is_exact_same(other._crs)
 
     def equals(self, other: Any, ignore_axis_order: bool = False) -> bool:
         """
@@ -904,7 +928,7 @@ class CRS(_CRS):
             other = CRS.from_user_input(other)
         except CRSError:
             return False
-        return super().equals(other, ignore_axis_order=ignore_axis_order)
+        return self._crs.equals(other._crs, ignore_axis_order=ignore_axis_order)
 
     @property
     def geodetic_crs(self) -> Optional["CRS"]:
@@ -917,10 +941,7 @@ class CRS(_CRS):
             The the geodeticCRS / geographicCRS from the CRS.
 
         """
-        geodetic_crs = super().geodetic_crs
-        if geodetic_crs is None:
-            return None
-        return CRS(geodetic_crs.srs)
+        return None if self._crs.geodetic_crs is None else CRS(self._crs.geodetic_crs)
 
     @property
     def source_crs(self) -> Optional["CRS"]:
@@ -932,10 +953,7 @@ class CRS(_CRS):
         -------
         CRS
         """
-        source_crs = super().source_crs
-        if source_crs is None:
-            return None
-        return CRS(source_crs.srs)
+        return None if self._crs.source_crs is None else CRS(self._crs.source_crs)
 
     @property
     def target_crs(self) -> Optional["CRS"]:
@@ -948,10 +966,7 @@ class CRS(_CRS):
             The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
 
         """
-        target_crs = super().target_crs
-        if target_crs is None:
-            return None
-        return CRS(target_crs.srs)
+        return None if self._crs.target_crs is None else CRS(self._crs.target_crs)
 
     @property
     def sub_crs_list(self) -> List["CRS"]:
@@ -962,7 +977,7 @@ class CRS(_CRS):
         -------
         List[CRS]
         """
-        return [CRS(sub_crs.srs) for sub_crs in super().sub_crs_list]
+        return [CRS(sub_crs) for sub_crs in self._crs.sub_crs_list]
 
     @property
     def utm_zone(self) -> Optional[str]:
@@ -989,11 +1004,374 @@ class CRS(_CRS):
             return self.coordinate_operation.name.upper().split("UTM ZONE ")[-1]
         return None
 
+    @property
+    def name(self):
+        """
+        Returns
+        -------
+        str:
+            The name of the CRS (from `proj_get_name <https://proj.org/
+            development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
+        """
+        return self._crs.name
+
+    @property
+    def type_name(self):
+        """
+        Returns
+        -------
+        str:
+            The name of the type of the CRS object.
+        """
+        return self._crs.type_name
+
+    @property
+    def axis_info(self):
+        """
+        Retrieves all relevant axis information in the CRS.
+        If it is a Bound CRS, it gets the axis list from the Source CRS.
+        If it is a Compound CRS, it gets the axis list from the Sub CRS list.
+
+        Returns
+        -------
+        List[Axis]:
+            The list of axis information.
+        """
+        return self._crs.axis_info
+
+    @property
+    def area_of_use(self):
+        """
+        Returns
+        -------
+        AreaOfUse:
+            The area of use object with associated attributes.
+        """
+        return self._crs.area_of_use
+
+    @property
+    def ellipsoid(self):
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        Ellipsoid:
+            The ellipsoid object with associated attributes.
+        """
+        return self._crs.ellipsoid
+
+    @property
+    def prime_meridian(self):
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        PrimeMeridian:
+            The prime meridian object with associated attributes.
+        """
+        return self._crs.prime_meridian
+
+    @property
+    def datum(self):
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        Datum
+        """
+        return self._crs.datum
+
+    @property
+    def coordinate_system(self):
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        CoordinateSystem
+        """
+        return self._crs.coordinate_system
+
+    @property
+    def coordinate_operation(self):
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        CoordinateOperation
+        """
+        return self._crs.coordinate_operation
+
+    @property
+    def remarks(self):
+        """
+        .. versionadded:: 2.4.0
+
+        Returns
+        -------
+        str:
+            Remarks about object.
+        """
+        return self._crs.remarks
+
+    @property
+    def scope(self):
+        """
+        .. versionadded:: 2.4.0
+
+        Returns
+        -------
+        str:
+            Scope of object.
+        """
+        return self._crs.scope
+
+    def to_wkt(self, version=WktVersion.WKT2_2019, pretty=False):
+        """
+        Convert the projection to a WKT string.
+
+        Version options:
+          - WKT2_2015
+          - WKT2_2015_SIMPLIFIED
+          - WKT2_2019
+          - WKT2_2019_SIMPLIFIED
+          - WKT1_GDAL
+          - WKT1_ESRI
+
+
+        Parameters
+        ----------
+        version: pyproj.enums.WktVersion
+            The version of the WKT output.
+            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
+
+        Returns
+        -------
+        str
+        """
+        return self._crs.to_wkt(version=version, pretty=pretty)
+
+    def to_json(self, pretty=False, indentation=2):
+        """
+        .. versionadded:: 2.4.0
+
+        Convert the object to a JSON string.
+
+        Parameters
+        ----------
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
+        indentation: int
+            If pretty is True, it will set the width of the indentation. Default is 2.
+
+        Returns
+        -------
+        str
+        """
+        return self._crs.to_json(pretty=pretty, indentation=indentation)
+
+    def to_json_dict(self):
+        """
+        .. versionadded:: 2.4.0
+
+        Convert the object to a JSON dictionary.
+
+        Returns
+        -------
+        dict
+        """
+        return self._crs.to_json_dict()
+
+    def to_proj4(self, version=ProjVersion.PROJ_4):
+        """
+        Convert the projection to a PROJ string.
+
+        .. warning:: You will likely lose important projection
+          information when converting to a PROJ string from
+          another format. See:
+          https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501
+
+        Parameters
+        ----------
+        version: pyproj.enums.ProjVersion
+            The version of the PROJ string output.
+            Default is :attr:`pyproj.enums.ProjVersion.PROJ_4`.
+
+        Returns
+        -------
+        str
+        """
+        return self._crs.to_proj4(version=version)
+
+    def to_epsg(self, min_confidence=70):
+        """
+        Return the EPSG code best matching the CRS
+        or None if it a match is not found.
+
+        Example:
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("epsg:4328")
+        >>> ccs.to_epsg()
+        4328
+
+        If the CRS is bound, you can attempt to get an epsg code from
+        the source CRS:
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("+proj=geocent +datum=WGS84 +towgs84=0,0,0")
+        >>> ccs.to_epsg()
+        >>> ccs.source_crs.to_epsg()
+        4978
+        >>> ccs == CRS.from_epsg(4978)
+        False
+
+        Parameters
+        ----------
+        min_confidence: int, optional
+            A value between 0-100 where 100 is the most confident. Default is 70.
+            :ref:`min_confidence`
+
+
+        Returns
+        -------
+        Optional[int]:
+            The best matching EPSG code matching the confidence level.
+        """
+        return self._crs.to_epsg(min_confidence=min_confidence)
+
+    def to_authority(self, auth_name=None, min_confidence=70):
+        """
+        .. versionadded:: 2.2.0
+
+        Return the authority name and code best matching the CRS
+        or None if it a match is not found.
+
+        Example:
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("epsg:4328")
+        >>> ccs.to_authority()
+        ('EPSG', '4328')
+
+        If the CRS is bound, you can get an authority from
+        the source CRS:
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("+proj=geocent +datum=WGS84 +towgs84=0,0,0")
+        >>> ccs.to_authority()
+        >>> ccs.source_crs.to_authority()
+        ('EPSG', '4978')
+        >>> ccs == CRS.from_authorty('EPSG', '4978')
+        False
+
+        Parameters
+        ----------
+        auth_name: str, optional
+            The name of the authority to filter by.
+        min_confidence: int, optional
+            A value between 0-100 where 100 is the most confident. Default is 70.
+            :ref:`min_confidence`
+
+        Returns
+        -------
+        tuple(str, str) or None:
+            The best matching (<auth_name>, <code>) for the confidence level.
+        """
+        return self._crs.to_authority(
+            auth_name=auth_name, min_confidence=min_confidence
+        )
+
+    @property
+    def is_geographic(self):
+        """
+        This checks if the CRS is geographic.
+        It will check if it has a geographic CRS
+        in the sub CRS if it is a compount CRS and will check if
+        the source CRS is geographic if it is a bound CRS.
+
+        Returns
+        -------
+        bool:
+            True if the CRS is in geographic (lon/lat) coordinates.
+        """
+        return self._crs.is_geographic
+
+    @property
+    def is_projected(self):
+        """
+        This checks if the CRS is projected.
+        It will check if it has a projected CRS
+        in the sub CRS if it is a compount CRS and will check if
+        the source CRS is projected if it is a bound CRS.
+
+        Returns
+        -------
+        bool:
+            True if CRS is projected.
+        """
+        return self._crs.is_projected
+
+    @property
+    def is_vertical(self):
+        """
+        .. versionadded:: 2.2.0
+
+        This checks if the CRS is vertical.
+        It will check if it has a vertical CRS
+        in the sub CRS if it is a compount CRS and will check if
+        the source CRS is vertical if it is a bound CRS.
+
+        Returns
+        -------
+        bool:
+            True if CRS is vertical.
+        """
+        return self._crs.is_vertical
+
+    @property
+    def is_bound(self):
+        """
+        Returns
+        -------
+        bool:
+            True if CRS is bound.
+        """
+        return self._crs.is_bound
+
+    @property
+    def is_engineering(self):
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        bool:
+            True if CRS is local/engineering.
+        """
+        return self._crs.is_engineering
+
+    @property
+    def is_geocentric(self):
+        """
+        This checks if the CRS is geocentric and
+        takes into account if the CRS is bound.
+
+        Returns
+        -------
+        bool:
+            True if CRS is in geocentric (x/y) coordinates.
+        """
+        return self._crs.is_geocentric
+
     def __eq__(self, other: Any) -> bool:
         return self.equals(other)
-
-    def __ne__(self, other: Any) -> bool:
-        return not self == other
 
     def __reduce__(self) -> Tuple[Type["CRS"], Tuple[str]]:
         """special method that allows CRS instance to be pickled"""
