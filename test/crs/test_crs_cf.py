@@ -51,19 +51,20 @@ def test_cf_from_numpy_dtypes():
         "latitude_of_projection_origin": numpy.int(45),
     }
     crs = CRS.from_cf(cf)
-    assert crs.to_dict() == {
-        "datum": "WGS84",
-        "lat_0": 45,
-        "lat_1": 60,
-        "lat_2": 30,
-        "lon_0": 0,
-        "no_defs": None,
-        "proj": "lcc",
-        "type": "crs",
-        "units": "m",
-        "x_0": 0,
-        "y_0": 0,
-    }
+    with pytest.warns(UserWarning):
+        assert crs.to_dict() == {
+            "datum": "WGS84",
+            "lat_0": 45,
+            "lat_1": 60,
+            "lat_2": 30,
+            "lon_0": 0,
+            "no_defs": None,
+            "proj": "lcc",
+            "type": "crs",
+            "units": "m",
+            "x_0": 0,
+            "y_0": 0,
+        }
 
 
 def test_to_cf_transverse_mercator():
