@@ -48,7 +48,7 @@ def test_cf_from_numpy_dtypes():
         "grid_mapping_name": "lambert_conformal_conic",
         "standard_parallel": numpy.array([60, 30], dtype="f4"),
         "longitude_of_central_meridian": numpy.float32(0),
-        "latitude_of_projection_origin": numpy.int(45),
+        "latitude_of_projection_origin": numpy.int32(45),
     }
     crs = CRS.from_cf(cf)
     with pytest.warns(UserWarning):
