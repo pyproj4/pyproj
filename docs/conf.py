@@ -55,7 +55,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "pyproj"
-copyright = "2006-2018, Jeffrey Whitaker; 2019-2020, Open source contributors"
+copyright = "2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors"
 author = "Jeffrey Whitaker"
 
 # The version info for the project you're documenting, acts as replacement
