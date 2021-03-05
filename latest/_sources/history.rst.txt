@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+3.1.0
+-----
+
 3.0.1
 -----
 * WHL: Wheels contain PROJ 7.2.1
