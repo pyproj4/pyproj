@@ -3,6 +3,7 @@ Change Log
 
 3.1.0
 -----
+* DEP: Minimum supported Python version 3.7 (issue #790)
 
 3.0.1
 -----
