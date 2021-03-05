@@ -13,6 +13,7 @@ include pyproj/*.pyi
 include test/sample.out
 include test/*.py
 include test/*/*.py
+exclude pyproj/*.c
 recursive-include docs *
 prune docs/_build
 prune pyproj/proj_dir
