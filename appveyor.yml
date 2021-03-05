@@ -17,7 +17,7 @@ environment:
     # See: http://www.appveyor.com/docs/installed-software#python
     # build is limited to 60 minutes, without caching each build takes 10-30 minutes
     # with caching build takes less than 1 minute
-    - PYTHON: "C:\\Python36-x64"
+    - PYTHON: "C:\\Python37-x64"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
       VS_VERSION: Visual Studio 14
@@ -31,8 +31,8 @@ environment:
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     #   PROJSOURCE: 7.2.0
     #   BUILD_SHARED_LIBS: ON
-    # - PYTHON: "C:\\Python36-x64"
-    #   PYTHON_VERSION: "3.6"
+    # - PYTHON: "C:\\Python37-x64"
+    #   PYTHON_VERSION: "3.7"
     #   PYTHON_ARCH: "64"
     #   VS_VERSION: Visual Studio 14
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
@@ -40,8 +40,8 @@ environment:
     #   BUILD_SHARED_LIBS: ON
 # matrix:
 #   allow_failures:
-#     - PYTHON: "C:\\Python36-x64"
-#       PYTHON_VERSION: "3.6"
+#     - PYTHON: "C:\\Python37-x64"
+#       PYTHON_VERSION: "3.7"
 #       PYTHON_ARCH: "64"
 #       VS_VERSION: Visual Studio 14
 #       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
