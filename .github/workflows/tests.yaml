@@ -24,16 +24,20 @@ jobs:
 
   test:
     needs: linting
-    name: ${{ matrix.os }}, ${{ matrix.python-version }}
+    name: ${{ matrix.os }}, ${{ matrix.python-version }}, PROJ=${{ matrix.proj-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: true
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.7, 3.8, 3.9]
+        proj-version: ['*']
         env:
           - PYPROJ_FULL_COVERAGE: YES
-
+        include:
+          - os: ubuntu-latest
+            python-version: 3.7
+            proj-version: 7.2
     steps:
       - uses: actions/checkout@v2
 
@@ -47,7 +51,7 @@ jobs:
       - name: Install Env
         shell: bash
         run: |
-          conda create -n test python=${{ matrix.python-version }} cython proj numpy shapely xarray pandas
+          conda create -n test python=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy shapely xarray pandas
           source activate test
           python -m pip install -e . --no-use-pep517 || python -m pip install -e .
           python -m pip install -r requirements-test.txt
