@@ -79,8 +79,8 @@ class TransformerGroup(_TransformerGroup):
 
         """
         super().__init__(
-            CRS.from_user_input(crs_from),
-            CRS.from_user_input(crs_to),
+            CRS.from_user_input(crs_from)._crs,
+            CRS.from_user_input(crs_to)._crs,
             skip_equivalent=skip_equivalent,
             always_xy=always_xy,
             area_of_interest=area_of_interest,
@@ -371,8 +371,8 @@ class Transformer:
         """
         return Transformer(
             _Transformer.from_crs(
-                CRS.from_user_input(crs_from),
-                CRS.from_user_input(crs_to),
+                CRS.from_user_input(crs_from)._crs,
+                CRS.from_user_input(crs_to)._crs,
                 skip_equivalent=skip_equivalent,
                 always_xy=always_xy,
                 area_of_interest=area_of_interest,
