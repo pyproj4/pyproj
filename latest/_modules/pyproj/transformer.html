@@ -248,8 +248,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">),</span>
-            <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
+            <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
+            <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
             <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
             <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
             <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
@@ -540,8 +540,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
             <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">),</span>
-                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
+                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
+                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
                 <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
                 <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
                 <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
