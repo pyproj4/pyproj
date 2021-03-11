@@ -1,10 +1,14 @@
 """
 This module contains the structures related to areas of interest.
 """
+from dataclasses import dataclass
 from typing import NamedTuple, Optional, Union
 
+from pyproj.utils import is_null
 
-class AreaOfInterest(NamedTuple):
+
+@dataclass(frozen=True)
+class AreaOfInterest:
     """
     .. versionadded:: 2.3
 
@@ -22,6 +26,15 @@ class AreaOfInterest(NamedTuple):
     east_lon_degree: float
     #: The north bound in degrees of the area of interest.
     north_lat_degree: float
+
+    def __post_init__(self):
+        if (
+            is_null(self.west_lon_degree)
+            or is_null(self.south_lat_degree)
+            or is_null(self.east_lon_degree)
+            or is_null(self.north_lat_degree)
+        ):
+            raise ValueError("NaN or None values are not allowed.")
 
 
 class AreaOfUse(NamedTuple):
@@ -50,6 +63,7 @@ class AreaOfUse(NamedTuple):
         return f"- name: {self.name}\n" f"- bounds: {self.bounds}"
 
 
+@dataclass
 class BBox:
     """
     Bounding box to check if data intersects/contains other
@@ -59,11 +73,23 @@ class BBox:
 
     """
 
-    def __init__(self, west: float, south: float, east: float, north: float):
-        self.west = west
-        self.south = south
-        self.east = east
-        self.north = north
+    #: West bound of bounding box.
+    west: float
+    #: South bound of bounding box.
+    south: float
+    #: East bound of bounding box.
+    east: float
+    #: North bound of bounding box.
+    north: float
+
+    def __post_init__(self):
+        if (
+            is_null(self.west)
+            or is_null(self.south)
+            or is_null(self.east)
+            or is_null(self.north)
+        ):
+            raise ValueError("NaN or None values are not allowed.")
 
     def intersects(self, other: Union["BBox", AreaOfUse]) -> bool:
         """
@@ -101,10 +127,4 @@ class BBox:
             and other.east <= self.east
             and other.south >= self.south
             and other.north <= self.north
-        )
-
-    def __repr__(self) -> str:
-        return (
-            f"BBox(west={self.west},south={self.south},"
-            f"east={self.east},north={self.north})"
         )
