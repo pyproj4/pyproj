@@ -6,6 +6,13 @@ from array import array
 from typing import Any, Tuple
 
 
+def is_null(value: Any) -> bool:
+    """
+    Check if value is NaN or None
+    """
+    return value != value or value is None
+
+
 class NumpyEncoder(json.JSONEncoder):
     """
     Handle numpy types when dumping to JSON

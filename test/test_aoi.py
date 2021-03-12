@@ -1,4 +1,6 @@
-from pyproj.aoi import BBox
+import pytest
+
+from pyproj.aoi import AreaOfInterest, BBox
 
 
 def test_backwards_compatible_import_paths():
@@ -19,3 +21,24 @@ def test_intersects():
 
 def test_not_intersects():
     assert not BBox(1, 1, 4, 4).intersects(BBox(10, 10, 20, 20))
+
+
+@pytest.mark.parametrize("aoi_class", [AreaOfInterest, BBox])
+@pytest.mark.parametrize(
+    "input",
+    [
+        (None, None, None, None),
+        (float("nan"), float("nan"), float("nan"), float("nan")),
+        (None, 0, 0, 0),
+        (float("nan"), 0, 0, 0),
+        (0, None, 0, 0),
+        (0, float("nan"), 0, 0),
+        (0, 0, None, 0),
+        (0, 0, float("nan"), 0),
+        (0, 0, 0, None),
+        (0, 0, 0, float("nan")),
+    ],
+)
+def test_null_input(aoi_class, input):
+    with pytest.raises(ValueError, match="NaN or None values are not allowed."):
+        aoi_class(*input)
