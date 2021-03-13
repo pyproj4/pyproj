@@ -10,6 +10,8 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
 
 from pyproj._crs import (  # noqa
     _CRS,
+    AreaOfUse,
+    Axis,
     CoordinateOperation,
     CoordinateSystem,
     Datum,
@@ -1005,7 +1007,7 @@ class CRS:
         return None
 
     @property
-    def name(self):
+    def name(self) -> str:
         """
         Returns
         -------
@@ -1016,7 +1018,7 @@ class CRS:
         return self._crs.name
 
     @property
-    def type_name(self):
+    def type_name(self) -> str:
         """
         Returns
         -------
@@ -1026,7 +1028,7 @@ class CRS:
         return self._crs.type_name
 
     @property
-    def axis_info(self):
+    def axis_info(self) -> List[Axis]:
         """
         Retrieves all relevant axis information in the CRS.
         If it is a Bound CRS, it gets the axis list from the Source CRS.
@@ -1040,7 +1042,7 @@ class CRS:
         return self._crs.axis_info
 
     @property
-    def area_of_use(self):
+    def area_of_use(self) -> Optional[AreaOfUse]:
         """
         Returns
         -------
@@ -1050,7 +1052,7 @@ class CRS:
         return self._crs.area_of_use
 
     @property
-    def ellipsoid(self):
+    def ellipsoid(self) -> Optional[Ellipsoid]:
         """
         .. versionadded:: 2.2.0
 
@@ -1062,7 +1064,7 @@ class CRS:
         return self._crs.ellipsoid
 
     @property
-    def prime_meridian(self):
+    def prime_meridian(self) -> Optional[PrimeMeridian]:
         """
         .. versionadded:: 2.2.0
 
@@ -1074,7 +1076,7 @@ class CRS:
         return self._crs.prime_meridian
 
     @property
-    def datum(self):
+    def datum(self) -> Optional[Datum]:
         """
         .. versionadded:: 2.2.0
 
@@ -1085,7 +1087,7 @@ class CRS:
         return self._crs.datum
 
     @property
-    def coordinate_system(self):
+    def coordinate_system(self) -> Optional[CoordinateSystem]:
         """
         .. versionadded:: 2.2.0
 
@@ -1096,7 +1098,7 @@ class CRS:
         return self._crs.coordinate_system
 
     @property
-    def coordinate_operation(self):
+    def coordinate_operation(self) -> Optional[CoordinateOperation]:
         """
         .. versionadded:: 2.2.0
 
@@ -1107,7 +1109,7 @@ class CRS:
         return self._crs.coordinate_operation
 
     @property
-    def remarks(self):
+    def remarks(self) -> str:
         """
         .. versionadded:: 2.4.0
 
@@ -1119,7 +1121,7 @@ class CRS:
         return self._crs.remarks
 
     @property
-    def scope(self):
+    def scope(self) -> str:
         """
         .. versionadded:: 2.4.0
 
@@ -1130,7 +1132,11 @@ class CRS:
         """
         return self._crs.scope
 
-    def to_wkt(self, version=WktVersion.WKT2_2019, pretty=False):
+    def to_wkt(
+        self,
+        version: Union[WktVersion, str] = WktVersion.WKT2_2019,
+        pretty: bool = False,
+    ) -> str:
         """
         Convert the projection to a WKT string.
 
@@ -1157,7 +1163,7 @@ class CRS:
         """
         return self._crs.to_wkt(version=version, pretty=pretty)
 
-    def to_json(self, pretty=False, indentation=2):
+    def to_json(self, pretty: bool = False, indentation: int = 2) -> str:
         """
         .. versionadded:: 2.4.0
 
@@ -1176,7 +1182,7 @@ class CRS:
         """
         return self._crs.to_json(pretty=pretty, indentation=indentation)
 
-    def to_json_dict(self):
+    def to_json_dict(self) -> dict:
         """
         .. versionadded:: 2.4.0
 
@@ -1188,7 +1194,7 @@ class CRS:
         """
         return self._crs.to_json_dict()
 
-    def to_proj4(self, version=ProjVersion.PROJ_4):
+    def to_proj4(self, version: Union[ProjVersion, int] = ProjVersion.PROJ_5) -> str:
         """
         Convert the projection to a PROJ string.
 
@@ -1209,7 +1215,7 @@ class CRS:
         """
         return self._crs.to_proj4(version=version)
 
-    def to_epsg(self, min_confidence=70):
+    def to_epsg(self, min_confidence: int = 70) -> Optional[int]:
         """
         Return the EPSG code best matching the CRS
         or None if it a match is not found.
@@ -1246,7 +1252,7 @@ class CRS:
         """
         return self._crs.to_epsg(min_confidence=min_confidence)
 
-    def to_authority(self, auth_name=None, min_confidence=70):
+    def to_authority(self, auth_name: Optional[str] = None, min_confidence: int = 70):
         """
         .. versionadded:: 2.2.0
 
@@ -1289,7 +1295,7 @@ class CRS:
         )
 
     @property
-    def is_geographic(self):
+    def is_geographic(self) -> bool:
         """
         This checks if the CRS is geographic.
         It will check if it has a geographic CRS
@@ -1304,7 +1310,7 @@ class CRS:
         return self._crs.is_geographic
 
     @property
-    def is_projected(self):
+    def is_projected(self) -> bool:
         """
         This checks if the CRS is projected.
         It will check if it has a projected CRS
@@ -1319,7 +1325,7 @@ class CRS:
         return self._crs.is_projected
 
     @property
-    def is_vertical(self):
+    def is_vertical(self) -> bool:
         """
         .. versionadded:: 2.2.0
 
@@ -1336,7 +1342,7 @@ class CRS:
         return self._crs.is_vertical
 
     @property
-    def is_bound(self):
+    def is_bound(self) -> bool:
         """
         Returns
         -------
@@ -1346,7 +1352,7 @@ class CRS:
         return self._crs.is_bound
 
     @property
-    def is_engineering(self):
+    def is_engineering(self) -> bool:
         """
         .. versionadded:: 2.2.0
 
@@ -1358,7 +1364,7 @@ class CRS:
         return self._crs.is_engineering
 
     @property
-    def is_geocentric(self):
+    def is_geocentric(self) -> bool:
         """
         This checks if the CRS is geocentric and
         takes into account if the CRS is bound.
