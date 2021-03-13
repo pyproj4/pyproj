@@ -722,8 +722,32 @@ coordinate version of the current projection</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pyproj.Proj.to_proj4">
+<code class="sig-name descname">to_proj4</code><span class="sig-paren">(</span><em class="sig-param">version: Union[pyproj.enums.ProjVersion</em>, <em class="sig-param">str] = &lt;ProjVersion.PROJ_5: 5&gt;</em>, <em class="sig-param">pretty: bool = False</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pyproj.Proj.to_proj4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the projection to a PROJ string.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.ProjVersion" title="pyproj.enums.ProjVersion"><em>pyproj.enums.ProjVersion</em></a>) – The version of the PROJ string output.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.ProjVersion.PROJ_5" title="pyproj.enums.ProjVersion.PROJ_5"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.ProjVersion.PROJ_5</span></code></a>.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The PROJ string.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pyproj.Proj.to_wkt">
-<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">version: Union[pyproj.enums.WktVersion</em>, <em class="sig-param">str] = &lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">pretty: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.Proj.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">version: Union[pyproj.enums.WktVersion</em>, <em class="sig-param">str] = &lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">pretty: bool = False</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pyproj.Proj.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">

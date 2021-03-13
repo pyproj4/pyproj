@@ -194,7 +194,7 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="kn">import</span> <span class="n">cstrencode</span>
 <span class="kn">from</span> <span class="nn">pyproj.datadir</span> <span class="kn">import</span> <span class="n">get_user_data_dir</span>
-<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
+<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">ProjVersion</span><span class="p">,</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">ProjError</span>
 <span class="kn">from</span> <span class="nn">pyproj.sync</span> <span class="kn">import</span> <span class="n">_download_resource_file</span>
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
@@ -807,11 +807,37 @@
             <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="nb">iter</span><span class="p">(</span><span class="n">buff</span><span class="p">)]</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)):</span>
                 <span class="k">yield</span> <span class="n">pt</span></div>
 
+<div class="viewcode-block" id="Transformer.to_proj4"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.to_proj4">[docs]</a>    <span class="k">def</span> <span class="nf">to_proj4</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ProjVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_5</span><span class="p">,</span>
+        <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the projection to a PROJ string.</span>
+
+<span class="sd">        .. versionadded:: 3.1</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        version: pyproj.enums.ProjVersion</span>
+<span class="sd">            The version of the PROJ string output.</span>
+<span class="sd">            Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.</span>
+<span class="sd">        pretty: bool</span>
+<span class="sd">            If True, it will set the output to be a multiline string. Defaults to False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str:</span>
+<span class="sd">            The PROJ string.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Transformer.to_wkt"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.to_wkt">[docs]</a>    <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WktVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a WKT string.</span>
 
