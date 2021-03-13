@@ -1423,3 +1423,25 @@ def test_crs_multithread():
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         for result in executor.map(to_wkt, range(10)):
             pass
+
+
+def test_coordinate_operation__to_proj4():
+    operation = CoordinateOperation.from_string(
+        "+proj=pipeline +step +proj=axisswap +order=2,1 +step "
+        "+proj=unitconvert +xy_in=deg +xy_out=rad +step "
+        "+proj=webmerc +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84"
+    )
+    proj_string = operation.to_proj4()
+    assert "+proj=pipeline" in proj_string
+    assert "\n" not in proj_string
+
+
+def test_coordinate_operation__to_proj4__pretty():
+    operation = CoordinateOperation.from_string(
+        "+proj=pipeline +step +proj=axisswap +order=2,1 +step "
+        "+proj=unitconvert +xy_in=deg +xy_out=rad +step "
+        "+proj=webmerc +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84"
+    )
+    proj_string = operation.to_proj4(pretty=True)
+    assert "+proj=pipeline" in proj_string
+    assert "\n" in proj_string

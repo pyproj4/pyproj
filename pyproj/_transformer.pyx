@@ -12,6 +12,7 @@ from pyproj._crs cimport (
     Base,
     CoordinateOperation,
     _get_concatenated_operations,
+    _to_proj4,
     create_area_of_use,
 )
 from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
@@ -305,6 +306,28 @@ cdef class _Transformer(Base):
             If the network is enabled.
         """
         return proj_context_is_network_enabled(self.context) == 1
+
+    def to_proj4(self, version=ProjVersion.PROJ_5, pretty=False):
+        """
+        Convert the projection to a PROJ string.
+
+        .. versionadded:: 3.1
+
+        Parameters
+        ----------
+        version: pyproj.enums.ProjVersion
+            The version of the PROJ string output.
+            Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
+
+        Returns
+        -------
+        str:
+            The PROJ string.
+
+        """
+        return _to_proj4(self.context, self.projobj, version=version, pretty=pretty)
 
     @staticmethod
     def from_crs(

@@ -25,7 +25,7 @@ from pyproj._transformer import (  # noqa
 )
 from pyproj.compat import cstrencode
 from pyproj.datadir import get_user_data_dir
-from pyproj.enums import TransformDirection, WktVersion
+from pyproj.enums import ProjVersion, TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
 from pyproj.sync import _download_resource_file
 from pyproj.utils import _convertback, _copytobuffer
@@ -638,11 +638,37 @@ class Transformer:
             for pt in zip(*([iter(buff)] * stride)):
                 yield pt
 
+    def to_proj4(
+        self,
+        version: Union[ProjVersion, str] = ProjVersion.PROJ_5,
+        pretty: bool = False,
+    ) -> str:
+        """
+        Convert the projection to a PROJ string.
+
+        .. versionadded:: 3.1
+
+        Parameters
+        ----------
+        version: pyproj.enums.ProjVersion
+            The version of the PROJ string output.
+            Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
+
+        Returns
+        -------
+        str:
+            The PROJ string.
+
+        """
+        return self._transformer.to_proj4(version=version, pretty=pretty)
+
     def to_wkt(
         self,
         version: Union[WktVersion, str] = WktVersion.WKT2_2019,
         pretty: bool = False,
-    ):
+    ) -> str:
         """
         Convert the projection to a WKT string.
 

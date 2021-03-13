@@ -464,6 +464,20 @@ def test_pj_info_properties():
     assert transformer.accuracy == 0
 
 
+def test_to_proj4():
+    transformer = Transformer.from_crs(4326, 3857)
+    proj_string = transformer.to_proj4()
+    assert "+proj=pipeline" in proj_string
+    assert "\n" not in proj_string
+
+
+def test_to_proj4__pretty():
+    transformer = Transformer.from_crs(4326, 3857)
+    proj_string = transformer.to_proj4(pretty=True)
+    assert "+proj=pipeline" in proj_string
+    assert "\n" in proj_string
+
+
 def test_to_wkt():
     transformer = Transformer.from_crs(4326, 3857)
     assert transformer.to_wkt().startswith(
