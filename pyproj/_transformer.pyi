@@ -2,7 +2,7 @@ from array import array
 from typing import Any, List, NamedTuple, Optional, Tuple, Union
 
 from pyproj._crs import _CRS, AreaOfUse, Base, CoordinateOperation
-from pyproj.enums import TransformDirection
+from pyproj.enums import ProjVersion, TransformDirection
 
 proj_version_str: str
 
@@ -63,6 +63,11 @@ class _Transformer(Base):
     def operations(self) -> Union[Tuple[CoordinateOperation], None]: ...
     @property
     def is_network_enabled(self) -> bool: ...
+    def to_proj4(
+        self,
+        version: Union[ProjVersion, str] = ProjVersion.PROJ_5,
+        pretty: bool = False,
+    ) -> str: ...
     @staticmethod
     def from_crs(
         crs_from: _CRS,

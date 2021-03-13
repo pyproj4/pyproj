@@ -2,7 +2,12 @@ include "proj.pxi"
 
 
 cdef _get_concatenated_operations(PJ_CONTEXT*context, PJ*concatenated_operation)
-
+cdef _to_proj4(
+    PJ_CONTEXT* context,
+    PJ* projobj,
+    version,
+    pretty,
+)
 
 cdef class Axis:
     cdef readonly object name

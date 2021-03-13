@@ -117,7 +117,12 @@ cdef _to_wkt(
     return cstrdecode(proj_string)
 
 
-cdef _to_proj4(PJ_CONTEXT* context, PJ* projobj, version):
+cdef _to_proj4(
+    PJ_CONTEXT* context,
+    PJ* projobj,
+    version,
+    pretty,
+):
     """
     Convert the projection to a PROJ string.
 
@@ -127,6 +132,7 @@ cdef _to_proj4(PJ_CONTEXT* context, PJ* projobj, version):
     projobj: PJ*
     version: pyproj.enums.ProjVersion
         The version of the PROJ string output.
+    pretty: bool
 
     Returns
     -------
@@ -140,13 +146,20 @@ cdef _to_proj4(PJ_CONTEXT* context, PJ* projobj, version):
     cdef PJ_PROJ_STRING_TYPE proj_out_type
     proj_out_type = supported_prj_types[ProjVersion.create(version)]
 
+    cdef const char* options[2]
+    multiline = b"MULTILINE=NO"
+    if pretty:
+        multiline = b"MULTILINE=YES"
+    options[0] = multiline
+    options[1] = NULL
+
     # convert projection to string
     cdef const char* proj_string
     proj_string = proj_as_proj_string(
         context,
         projobj,
         proj_out_type,
-        NULL,
+        options,
     )
     CRSError.clear()
     return cstrdecode(proj_string)
@@ -2189,15 +2202,19 @@ cdef class CoordinateOperation(_CRSParts):
         self._area_of_use = create_area_of_use(self.context, self.projobj)
         return self._area_of_use
 
-    def to_proj4(self, version=ProjVersion.PROJ_5):
+    def to_proj4(self, version=ProjVersion.PROJ_5, pretty=False):
         """
         Convert the projection to a PROJ string.
+
+        .. versionadded:: 3.1 pretty
 
         Parameters
         ----------
         version: pyproj.enums.ProjVersion
             The version of the PROJ string output.
             Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.
+        pretty: bool
+            If True, it will set the output to be a multiline string. Defaults to False.
 
         Returns
         -------
@@ -2205,7 +2222,7 @@ cdef class CoordinateOperation(_CRSParts):
             The PROJ string.
 
         """
-        return _to_proj4(self.context, self.projobj, version)
+        return _to_proj4(self.context, self.projobj, version=version, pretty=pretty)
 
     @property
     def towgs84(self):
@@ -2617,7 +2634,7 @@ cdef class _CRS(Base):
             "https://proj.org/faq.html#what-is-the-best-format-for-describing-"
             "coordinate-reference-systems"
         )
-        return _to_proj4(self.context, self.projobj, version)
+        return _to_proj4(self.context, self.projobj, version=version, pretty=False)
 
     def to_epsg(self, min_confidence=70):
         """
