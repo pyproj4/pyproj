@@ -179,6 +179,8 @@
 
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
     <span class="n">_CRS</span><span class="p">,</span>
+    <span class="n">AreaOfUse</span><span class="p">,</span>
+    <span class="n">Axis</span><span class="p">,</span>
     <span class="n">CoordinateOperation</span><span class="p">,</span>
     <span class="n">CoordinateSystem</span><span class="p">,</span>
     <span class="n">Datum</span><span class="p">,</span>
@@ -1174,7 +1176,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1185,7 +1187,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">name</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">type_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">type_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1195,7 +1197,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">type_name</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">axis_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">axis_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Axis</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves all relevant axis information in the CRS.</span>
 <span class="sd">        If it is a Bound CRS, it gets the axis list from the Source CRS.</span>
@@ -1209,7 +1211,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">axis_info</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">area_of_use</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">area_of_use</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfUse</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1219,7 +1221,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">area_of_use</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Ellipsoid</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1231,7 +1233,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">ellipsoid</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">prime_meridian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">prime_meridian</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PrimeMeridian</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1243,7 +1245,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">prime_meridian</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">datum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">datum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Datum</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1254,7 +1256,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">datum</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">coordinate_system</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">coordinate_system</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CoordinateSystem</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1265,7 +1267,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">coordinate_system</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">coordinate_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">coordinate_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CoordinateOperation</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1276,7 +1278,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">coordinate_operation</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">remarks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">remarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
@@ -1288,7 +1290,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">remarks</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">scope</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">scope</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
@@ -1299,7 +1301,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">scope</span>
 
-<div class="viewcode-block" id="CRS.to_wkt"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_wkt">[docs]</a>    <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_wkt"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_wkt">[docs]</a>    <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WktVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
+        <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a WKT string.</span>
 
@@ -1326,7 +1332,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRS.to_json"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indentation</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_json"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">indentation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
@@ -1345,7 +1351,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">,</span> <span class="n">indentation</span><span class="o">=</span><span class="n">indentation</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRS.to_json_dict"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_json_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_json_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_json_dict"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_json_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_json_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
@@ -1357,7 +1363,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="CRS.to_proj4"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_proj4">[docs]</a>    <span class="k">def</span> <span class="nf">to_proj4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_4</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_proj4"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_proj4">[docs]</a>    <span class="k">def</span> <span class="nf">to_proj4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ProjVersion</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a PROJ string.</span>
 
@@ -1378,7 +1384,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRS.to_epsg"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_epsg">[docs]</a>    <span class="k">def</span> <span class="nf">to_epsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_confidence</span><span class="o">=</span><span class="mi">70</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_epsg"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_epsg">[docs]</a>    <span class="k">def</span> <span class="nf">to_epsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the EPSG code best matching the CRS</span>
 <span class="sd">        or None if it a match is not found.</span>
@@ -1415,7 +1421,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="n">min_confidence</span><span class="o">=</span><span class="n">min_confidence</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CRS.to_authority"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_authority">[docs]</a>    <span class="k">def</span> <span class="nf">to_authority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_confidence</span><span class="o">=</span><span class="mi">70</span><span class="p">):</span>
+<div class="viewcode-block" id="CRS.to_authority"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_authority">[docs]</a>    <span class="k">def</span> <span class="nf">to_authority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1458,7 +1464,7 @@
         <span class="p">)</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_geographic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_geographic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This checks if the CRS is geographic.</span>
 <span class="sd">        It will check if it has a geographic CRS</span>
@@ -1473,7 +1479,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">is_geographic</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_projected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_projected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This checks if the CRS is projected.</span>
 <span class="sd">        It will check if it has a projected CRS</span>
@@ -1488,7 +1494,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">is_projected</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_vertical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_vertical</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1505,7 +1511,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">is_vertical</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_bound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_bound</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1515,7 +1521,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">is_bound</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_engineering</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_engineering</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1527,7 +1533,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">is_engineering</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_geocentric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_geocentric</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This checks if the CRS is geocentric and</span>
 <span class="sd">        takes into account if the CRS is bound.</span>
