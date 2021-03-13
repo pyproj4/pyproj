@@ -995,7 +995,7 @@ or the source CRS of a CoordinateOperation.</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.CRS.to_authority">
-<code class="sig-name descname">to_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_confidence</span><span class="o">=</span><span class="default_value">70</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_authority" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_confidence</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">70</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_authority" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -1087,7 +1087,7 @@ another format. See: <a class="reference external" href="https://proj.org/faq.ht
 
 <dl class="py method">
 <dt id="pyproj.crs.CRS.to_epsg">
-<code class="sig-name descname">to_epsg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_confidence</span><span class="o">=</span><span class="default_value">70</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_epsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_epsg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_confidence</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">70</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>int<span class="p">]</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_epsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the EPSG code best matching the CRS
 or None if it a match is not found.</p>
 <p>Example:</p>
@@ -1124,7 +1124,7 @@ the source CRS:</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.CRS.to_json">
-<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pretty</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indentation</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pretty</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indentation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1147,7 +1147,7 @@ the source CRS:</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.CRS.to_json_dict">
-<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_json_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_json_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_json_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_json_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1164,7 +1164,7 @@ the source CRS:</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.CRS.to_proj4">
-<code class="sig-name descname">to_proj4</code><span class="sig-paren">(</span><em class="sig-param">version=&lt;ProjVersion.PROJ_4: 4&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_proj4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_proj4" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_proj4</code><span class="sig-paren">(</span><em class="sig-param">version: Union[pyproj.enums.ProjVersion</em>, <em class="sig-param">int] = &lt;ProjVersion.PROJ_5: 5&gt;</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_proj4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_proj4" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a PROJ string.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1209,7 +1209,7 @@ input to create the CRS.</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.CRS.to_wkt">
-<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">version=&lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">pretty=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_wkt</code><span class="sig-paren">(</span><em class="sig-param">version: Union[pyproj.enums.WktVersion</em>, <em class="sig-param">str] = &lt;WktVersion.WKT2_2019: 'WKT2_2019'&gt;</em>, <em class="sig-param">pretty: bool = False</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.to_wkt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.to_wkt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a WKT string.</p>
 <dl class="simple">
 <dt>Version options:</dt><dd><ul class="simple">
