@@ -366,11 +366,12 @@ cdef class _Transformer(Base):
                     north_lat_degree,
                 )
             transformer.context = pyproj_context_create()
-            transformer.projobj = proj_create_crs_to_crs(
+            transformer.projobj = proj_create_crs_to_crs_from_pj(
                 transformer.context,
-                cstrencode(crs_from.srs),
-                cstrencode(crs_to.srs),
+                crs_from.get_projobj(),
+                crs_to.get_projobj(),
                 pj_area_of_interest,
+                NULL,
             )
         finally:
             if pj_area_of_interest != NULL:

@@ -2334,6 +2334,9 @@ cdef class _CRS(Base):
         self._set_base_info()
         CRSError.clear()
 
+    cdef PJ* get_projobj(self):
+        return self.projobj
+
     @property
     def axis_info(self):
         """

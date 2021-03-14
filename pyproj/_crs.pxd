@@ -131,3 +131,4 @@ cdef class _CRS(Base):
     cdef readonly object _geodetic_crs
     cdef readonly object _coordinate_system
     cdef readonly object _coordinate_operation
+    cdef PJ* get_projobj(self)
