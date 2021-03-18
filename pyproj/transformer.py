@@ -9,8 +9,11 @@ __all__ = [
     "TransformerGroup",
     "AreaOfInterest",
 ]
+import threading
 import warnings
+from abc import ABC, abstractmethod
 from array import array
+from dataclasses import dataclass
 from itertools import chain, islice
 from pathlib import Path
 from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union
@@ -31,11 +34,101 @@ from pyproj.sync import _download_resource_file
 from pyproj.utils import _convertback, _copytobuffer
 
 
+class TransformerMaker(ABC):
+    """
+    .. versionadded:: 3.1
+
+    Base class for generating new instances
+    of the Cython _Transformer class for
+    thread safety in the Transformer class.
+    """
+
+    @abstractmethod
+    def __call__(self) -> _Transformer:
+        """
+        Returns
+        -------
+        _Transformer
+        """
+        raise NotImplementedError
+
+
+@dataclass(frozen=True)
+class TransformerUnsafe(TransformerMaker):
+    """
+    .. versionadded:: 3.1
+
+    Returns the original Cython _Transformer
+    and is not thread-safe.
+    """
+
+    transformer: _Transformer
+
+    def __call__(self) -> _Transformer:
+        """
+        Returns
+        -------
+        _Transformer
+        """
+        return self.transformer
+
+
+@dataclass(frozen=True)
+class TransformerFromCRS(TransformerMaker):
+    """
+    .. versionadded:: 3.1
+
+    Generates a Cython _Transformer class from input CRS data.
+    """
+
+    crs_from: CRS
+    crs_to: CRS
+    skip_equivalent: bool
+    always_xy: bool
+    area_of_interest: Optional[AreaOfInterest]
+
+    def __call__(self) -> _Transformer:
+        """
+        Returns
+        -------
+        _Transformer
+        """
+        return _Transformer.from_crs(
+            self.crs_from._crs,
+            self.crs_to._crs,
+            skip_equivalent=self.skip_equivalent,
+            always_xy=self.always_xy,
+            area_of_interest=self.area_of_interest,
+        )
+
+
+@dataclass(frozen=True)
+class TransformerFromPipeline(TransformerMaker):
+    """
+    .. versionadded:: 3.1
+
+    Generates a Cython _Transformer class from input pipeline data.
+    """
+
+    proj_pipeline: str
+
+    def __call__(self) -> _Transformer:
+        """
+        Returns
+        -------
+        _Transformer
+        """
+        return _Transformer.from_pipeline(cstrencode(self.proj_pipeline))
+
+
 class TransformerGroup(_TransformerGroup):
     """
     The TransformerGroup is a set of possible transformers from one CRS to another.
 
     .. versionadded:: 2.3.0
+
+    .. warning:: CoordinateOperation and Transformer objects
+                 returned are not thread-safe.
 
     From PROJ docs::
 
@@ -86,7 +179,7 @@ class TransformerGroup(_TransformerGroup):
             area_of_interest=area_of_interest,
         )
         for iii, transformer in enumerate(self._transformers):
-            self._transformers[iii] = Transformer(transformer)
+            self._transformers[iii] = Transformer(TransformerUnsafe(transformer))
 
     @property
     def transformers(self) -> List["Transformer"]:
@@ -168,6 +261,18 @@ class TransformerGroup(_TransformerGroup):
         )
 
 
+class TransformerLocal(threading.local):
+    """
+    Threading local instance for cython _Transformer class.
+
+    For more details, see:
+    https://github.com/pyproj4/pyproj/issues/782
+    """
+
+    def __init__(self):
+        self.transformer = None  # Initialises in each thread
+
+
 class Transformer:
     """
     The Transformer class is for facilitating re-using
@@ -180,14 +285,33 @@ class Transformer:
 
     """
 
-    def __init__(self, base_transformer: Optional[_Transformer] = None) -> None:
-        if not isinstance(base_transformer, _Transformer):
+    def __init__(
+        self,
+        transformer_maker: Union[TransformerMaker, None] = None,
+    ) -> None:
+        if not isinstance(transformer_maker, TransformerMaker):
             ProjError.clear()
             raise ProjError(
                 "Transformer must be initialized using: "
                 "'from_crs', 'from_pipeline', or 'from_proj'."
             )
-        self._transformer = base_transformer
+
+        self._local = TransformerLocal()
+        self._local.transformer = transformer_maker()
+        self._transformer_maker = transformer_maker
+
+    @property
+    def _transformer(self):
+        """
+        The Cython _Transformer object for this thread.
+
+        Returns
+        -------
+        _Transformer
+        """
+        if self._local.transformer is None:
+            self._local.transformer = self._transformer_maker()
+        return self._local.transformer
 
     @property
     def name(self) -> str:
@@ -370,9 +494,9 @@ class Transformer:
 
         """
         return Transformer(
-            _Transformer.from_crs(
-                CRS.from_user_input(crs_from)._crs,
-                CRS.from_user_input(crs_to)._crs,
+            TransformerFromCRS(
+                CRS.from_user_input(crs_from),
+                CRS.from_user_input(crs_to),
                 skip_equivalent=skip_equivalent,
                 always_xy=always_xy,
                 area_of_interest=area_of_interest,
@@ -395,7 +519,7 @@ class Transformer:
         Transformer
 
         """
-        return Transformer(_Transformer.from_pipeline(cstrencode(proj_pipeline)))
+        return Transformer(TransformerFromPipeline(proj_pipeline))
 
     def transform(
         self,

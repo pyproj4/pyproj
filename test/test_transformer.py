@@ -1,3 +1,4 @@
+import concurrent.futures
 import os
 from functools import partial
 from glob import glob
@@ -1117,3 +1118,36 @@ def test_transformer_group__download_grids__directory(
                 ],
                 any_order=True,
             )
+
+
+@pytest.mark.skipif(
+    pyproj._datadir._USE_GLOBAL_CONTEXT, reason="Global Context not Threadsafe."
+)
+def test_transformer_multithread__pipeline():
+    # https://github.com/pyproj4/pyproj/issues/782
+    trans = Transformer.from_pipeline(
+        "+proj=pipeline +step +inv +proj=cart +ellps=WGS84 "
+        "+step +proj=unitconvert +xy_in=rad +xy_out=deg"
+    )
+
+    def transform(num):
+        return trans.transform(-2704026.010, -4253051.810, 3895878.820)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        for result in executor.map(transform, range(10)):
+            pass
+
+
+@pytest.mark.skipif(
+    pyproj._datadir._USE_GLOBAL_CONTEXT, reason="Global Context not Threadsafe."
+)
+def test_transformer_multithread__crs():
+    # https://github.com/pyproj4/pyproj/issues/782
+    trans = Transformer.from_crs(4326, 3857)
+
+    def transform(num):
+        return trans.transform(1, 2)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        for result in executor.map(transform, range(10)):
+            pass
