@@ -140,9 +140,12 @@ which transformation operation is selected in the transformation.
 Multithreading
 --------------
 
-The :class:`pyproj.transformer.Transformer` and :class:`pyproj.crs.CRS`
-classes each have their own PROJ context by default. However, contexts cannot be
-shared across threads. As such, it is recommended to create the object
+As of version 3.1, these objects are thread-safe:
+
+- :class:`pyproj.crs.CRS`
+- :class:`pyproj.transformer.Transformer`
+
+If you have pyproj<3.1, you will need to create create the object
 within the thread that uses it.
 
 Here is a simple demonstration:
