@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import concurrent.futures
 import math
 import os
 import sys
@@ -565,3 +566,18 @@ def test_radians():
         proj(math.radians(-145.5), math.radians(1.0), radians=True),
         (-5632642.22547495, 1636571.4883145525),
     )
+
+
+@pytest.mark.skipif(
+    pyproj._datadir._USE_GLOBAL_CONTEXT, reason="Global Context not Threadsafe."
+)
+def test_proj_multithread():
+    # https://github.com/pyproj4/pyproj/issues/782
+    trans = Proj("EPSG:3857")
+
+    def transform(num):
+        return trans(1, 2)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        for result in executor.map(transform, range(10)):
+            pass
