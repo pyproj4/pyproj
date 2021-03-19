@@ -305,9 +305,12 @@ which transformation operation is selected in the transformation.</p>
 </div>
 <div class="section" id="multithreading">
 <h2>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
-classes each have their own PROJ context by default. However, contexts cannot be
-shared across threads. As such, it is recommended to create the object
+<p>As of version 3.1, these objects are thread-safe:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a></p></li>
+</ul>
+<p>If you have pyproj&lt;3.1, you will need to create create the object
 within the thread that uses it.</p>
 <p>Here is a simple demonstration:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">concurrent.futures</span>
