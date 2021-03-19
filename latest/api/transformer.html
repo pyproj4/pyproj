@@ -216,7 +216,7 @@ creating the <a class="reference internal" href="#pyproj.transformer.Transformer
 <h2>pyproj.Transformer<a class="headerlink" href="#pyproj-transformer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.transformer.Transformer">
-<em class="property">class </em><code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">Transformer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_transformer</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>pyproj._transformer._Transformer<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.transformer.</code><code class="sig-name descname">Transformer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transformer_maker</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>pyproj.transformer.TransformerMaker<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Transformer class is for facilitating re-using
 transforms without needing to re-create them. The goal
 is to make repeated transforms faster.</p>
@@ -702,6 +702,11 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <dd><p>The TransformerGroup is a set of possible transformers from one CRS to another.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>CoordinateOperation and Transformer objects
+returned are not thread-safe.</p>
 </div>
 <p>From PROJ docs:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">operations</span> <span class="n">are</span> <span class="nb">sorted</span> <span class="k">with</span> <span class="n">the</span> <span class="n">most</span> <span class="n">relevant</span> <span class="n">ones</span> <span class="n">first</span><span class="p">:</span> <span class="n">by</span>

@@ -4,7 +4,7 @@ Change Log
 3.1.0
 -----
 * DEP: Minimum supported Python version 3.7 (issue #790)
-* REF: Multithread safe CRS (issue #782)
+* REF: Multithread safe CRS, Proj, & Transformer (issue #782)
 * BUG: Disallow NaN values with AreaOfInterest & BBox (issue #788)
 * ENH: Pretty format PROJ string support (issue #764)
 * ENH: Added :meth:`pyproj.transformer.Transformer.to_proj4` (pull #798)
