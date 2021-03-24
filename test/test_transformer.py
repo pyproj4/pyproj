@@ -1151,3 +1151,41 @@ def test_transformer_multithread__crs():
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         for result in executor.map(transform, range(10)):
             pass
+
+
+@pytest.mark.skipif(not PROJ_GTE_8, reason="Requires PROJ 8+")
+def test_transformer_accuracy_filter():
+    with pytest.raises(ProjError):
+        Transformer.from_crs("EPSG:4326", "EPSG:4258", accuracy=0.05)
+
+
+@pytest.mark.skipif(PROJ_GTE_8, reason="Warning for PROJ<8")
+def test_transformer_accuracy_filter_warning():
+    with pytest.warns(UserWarning, match="accuracy requires PROJ 8+"):
+        Transformer.from_crs("EPSG:4326", "EPSG:4258", accuracy=0.05)
+
+
+@pytest.mark.skipif(not PROJ_GTE_8, reason="Requires PROJ 8+")
+def test_transformer_allow_ballpark_filter():
+    with pytest.raises(ProjError):
+        Transformer.from_crs(
+            "EPSG:4326", "EPSG:4258", authority="PROJ", allow_ballpark=False
+        )
+
+
+@pytest.mark.skipif(PROJ_GTE_8, reason="Warning for PROJ<8")
+def test_transformer_allow_ballpark_filter_warning():
+    with pytest.warns(UserWarning, match="allow_ballpark requires PROJ 8+"):
+        Transformer.from_crs("EPSG:4326", "EPSG:4258", allow_ballpark=False)
+
+
+@pytest.mark.skipif(not PROJ_GTE_8, reason="Requires PROJ 8+")
+def test_transformer_authority_filter():
+    transformer = Transformer.from_crs("EPSG:4326", "EPSG:4258", authority="PROJ")
+    assert transformer.description == "Ballpark geographic offset from WGS 84 to ETRS89"
+
+
+@pytest.mark.skipif(PROJ_GTE_8, reason="Warning for PROJ<8")
+def test_transformer_authority_filter_warning():
+    with pytest.warns(UserWarning, match="authority requires PROJ 8+"):
+        Transformer.from_crs("EPSG:4326", "EPSG:4258", authority="PROJ")

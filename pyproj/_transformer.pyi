@@ -75,6 +75,9 @@ class _Transformer(Base):
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
+        authority: Optional[str] = None,
+        accuracy: Optional[float] = None,
+        allow_ballpark: Optional[bool] = None,
     ) -> "_Transformer": ...
     @staticmethod
     def from_pipeline(proj_pipeline: str) -> "_Transformer": ...

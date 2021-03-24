@@ -86,6 +86,9 @@ class TransformerFromCRS(TransformerMaker):
     skip_equivalent: bool
     always_xy: bool
     area_of_interest: Optional[AreaOfInterest]
+    authority: Optional[str]
+    accuracy: Optional[float]
+    allow_ballpark: Optional[bool]
 
     def __call__(self) -> _Transformer:
         """
@@ -99,6 +102,9 @@ class TransformerFromCRS(TransformerMaker):
             skip_equivalent=self.skip_equivalent,
             always_xy=self.always_xy,
             area_of_interest=self.area_of_interest,
+            authority=self.authority,
+            accuracy=self.accuracy,
+            allow_ballpark=self.allow_ballpark,
         )
 
 
@@ -464,12 +470,16 @@ class Transformer:
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
+        authority: Optional[str] = None,
+        accuracy: Optional[float] = None,
+        allow_ballpark: Optional[bool] = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
         .. versionadded:: 2.1.2 skip_equivalent
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest
+        .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark
 
         Parameters
         ----------
@@ -487,6 +497,22 @@ class Transformer:
             Default is false.
         area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help select the transformation.
+        authority: str, optional
+            When not specified, coordinate operations from any authority will be
+            searched, with the restrictions set in the
+            authority_to_authority_preference database table related to the
+            authority of the source/target CRS themselves. If authority is set
+            to “any”, then coordinate operations from any authority will be
+            searched. If authority is a non-empty string different from "any",
+            then coordinate operations will be searched only in that authority
+            namespace (e.g. EPSG). Requires PROJ 8+.
+        accuracy: float, optional
+            The minimum desired accuracy (in metres) of the candidate
+            coordinate operations. Requires PROJ 8+.
+        allow_ballpark: bool, optional
+            Set to False to disallow the use of Ballpark transformation
+            in the candidate coordinate operations. Default is to allow.
+            Requires PROJ 8+.
 
         Returns
         -------
@@ -500,6 +526,9 @@ class Transformer:
                 skip_equivalent=skip_equivalent,
                 always_xy=always_xy,
                 area_of_interest=area_of_interest,
+                authority=authority,
+                accuracy=accuracy,
+                allow_ballpark=allow_ballpark,
             )
         )
 
