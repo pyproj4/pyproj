@@ -239,7 +239,9 @@ cdef PJ* proj_create_crs_to_crs(
     const char *source_crs_str,
     const char *target_crs_str,
     PJ_AREA *area,
-    const char* const *options,
+    authority,
+    accuracy,
+    allow_ballpark,
 ):
     """
     This is the same as proj_create_crs_to_crs in proj.h
@@ -261,6 +263,30 @@ cdef PJ* proj_create_crs_to_crs(
             "PROJ_DEBUG: proj_create_crs_to_crs: Cannot instantiate target_crs"
         )
         return NULL
+
+    cdef const char* options[4]
+    cdef int options_index = 0
+    options[0] = NULL
+    options[1] = NULL
+    options[2] = NULL
+    options[3] = NULL
+    if authority is not None:
+        if PROJ_VERSION_MAJOR < 8:
+            warnings.warn("authority requires PROJ 8+")
+        b_authority = cstrencode(f"AUTHORITY={authority}")
+        options[options_index] = b_authority
+        options_index += 1
+    if accuracy is not None:
+        if PROJ_VERSION_MAJOR < 8:
+            warnings.warn("accuracy requires PROJ 8+")
+        b_accuracy = cstrencode(f"ACCURACY={accuracy}")
+        options[options_index] = b_accuracy
+        options_index += 1
+    if allow_ballpark is not None:
+        if PROJ_VERSION_MAJOR < 8:
+            warnings.warn("allow_ballpark requires PROJ 8+")
+        if not allow_ballpark:
+            options[options_index] = b"ALLOW_BALLPARK=NO"
 
     cdef PJ* transform = proj_create_crs_to_crs_from_pj(
         ctx,
@@ -377,6 +403,9 @@ cdef class _Transformer(Base):
         skip_equivalent=False,
         always_xy=False,
         area_of_interest=None,
+        authority=None,
+        accuracy=None,
+        allow_ballpark=None,
     ):
         """
         Create a transformer from CRS objects
@@ -412,7 +441,9 @@ cdef class _Transformer(Base):
                 cstrencode(crs_from.srs),
                 cstrencode(crs_to.srs),
                 pj_area_of_interest,
-                NULL,
+                authority=authority,
+                accuracy=accuracy,
+                allow_ballpark=allow_ballpark,
             )
         finally:
             if pj_area_of_interest != NULL:
