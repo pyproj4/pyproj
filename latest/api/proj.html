@@ -387,7 +387,7 @@ key/value pairs defining different map projections.</p>
 
 <dl class="py method">
 <dt id="pyproj.Proj.from_crs">
-<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest">pyproj.aoi.AreaOfInterest</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_crs" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_crs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest">pyproj.aoi.AreaOfInterest</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">authority</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">accuracy</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allow_ballpark</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="headerlink" href="#pyproj.Proj.from_crs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.2: </span>skip_equivalent</p>
@@ -397,6 +397,9 @@ key/value pairs defining different map projections.</p>
 </div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0: </span>area_of_interest</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0: </span>authority, accuracy, allow_ballpark</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -410,6 +413,19 @@ coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
 Default is false.</p></li>
 <li><p><strong>area_of_interest</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code>, optional) – The area of interest to help select the transformation.</p></li>
+<li><p><strong>authority</strong> (<em>str</em><em>, </em><em>optional</em>) – When not specified, coordinate operations from any authority will be
+searched, with the restrictions set in the
+authority_to_authority_preference database table related to the
+authority of the source/target CRS themselves. If authority is set
+to “any”, then coordinate operations from any authority will be
+searched. If authority is a non-empty string different from “any”,
+then coordinate operations will be searched only in that authority
+namespace (e.g. EPSG). Requires PROJ 8+.</p></li>
+<li><p><strong>accuracy</strong> (<em>float</em><em>, </em><em>optional</em>) – The minimum desired accuracy (in metres) of the candidate
+coordinate operations. Requires PROJ 8+.</p></li>
+<li><p><strong>allow_ballpark</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to False to disallow the use of Ballpark transformation
+in the candidate coordinate operations. Default is to allow.
+Requires PROJ 8+.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
