@@ -330,6 +330,22 @@ Requires PROJ 8+.</p></li>
 <em class="property">static </em><code class="sig-name descname">from_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_pipeline</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">pyproj.transformer.Transformer</a><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a PROJ pipeline string.</p>
 <p><a class="reference external" href="https://proj.org/operations/pipeline.html">https://proj.org/operations/pipeline.html</a></p>
+<dl class="simple">
+<dt>Allowed input:</dt><dd><ul class="simple">
+<li><p>a PROJ string</p></li>
+<li><p>a WKT string</p></li>
+<li><p>a PROJJSON string</p></li>
+<li><p>an object code (e.g. “EPSG:1671”
+“urn:ogc:def:coordinateOperation:EPSG::1671”)</p></li>
+<li><p>an object name. e.g “ITRF2014 to ETRF2014 (1)”.
+In that case as uniqueness is not guaranteed,
+heuristics are applied to determine the appropriate best match.</p></li>
+<li><p>a OGC URN combining references for concatenated operations
+(e.g. “<a class="reference external" href="urn:ogc:def:coordinateOperation,coordinateOperation:EPSG::3895">urn:ogc:def:coordinateOperation,coordinateOperation:EPSG::3895</a>,
+coordinateOperation:EPSG::1618”)</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>proj_pipeline</strong> (<em>str</em>) – Projection pipeline string.</p>
