@@ -9,6 +9,8 @@ Change Log
 * ENH: Pretty format PROJ string support (issue #764)
 * ENH: Added :meth:`pyproj.transformer.Transformer.to_proj4` (pull #798)
 * ENH: Added authority, accuracy, and allow_ballpark kwargs to :meth:`pyproj.transformer.Transformer.from_crs` (issue #754)
+* ENH: Added support for "AUTH:CODE" input to :meth:`pyproj.transformer.Transformer.from_pipeline` (issue #755)
+
 
 3.0.1
 -----

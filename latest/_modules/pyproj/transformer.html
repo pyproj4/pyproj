@@ -707,6 +707,21 @@
 
 <span class="sd">        https://proj.org/operations/pipeline.html</span>
 
+<span class="sd">        .. versionadded 3.1:: AUTH:CODE string suppor (e.g. EPSG:1671)</span>
+
+<span class="sd">        Allowed input:</span>
+<span class="sd">          - a PROJ string</span>
+<span class="sd">          - a WKT string</span>
+<span class="sd">          - a PROJJSON string</span>
+<span class="sd">          - an object code (e.g. &quot;EPSG:1671&quot;</span>
+<span class="sd">            &quot;urn:ogc:def:coordinateOperation:EPSG::1671&quot;)</span>
+<span class="sd">          - an object name. e.g &quot;ITRF2014 to ETRF2014 (1)&quot;.</span>
+<span class="sd">            In that case as uniqueness is not guaranteed,</span>
+<span class="sd">            heuristics are applied to determine the appropriate best match.</span>
+<span class="sd">          - a OGC URN combining references for concatenated operations</span>
+<span class="sd">            (e.g. &quot;urn:ogc:def:coordinateOperation,coordinateOperation:EPSG::3895,</span>
+<span class="sd">            coordinateOperation:EPSG::1618&quot;)</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        proj_pipeline: str</span>
