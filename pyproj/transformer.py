@@ -538,6 +538,21 @@ class Transformer:
 
         https://proj.org/operations/pipeline.html
 
+        .. versionadded 3.1:: AUTH:CODE string suppor (e.g. EPSG:1671)
+
+        Allowed input:
+          - a PROJ string
+          - a WKT string
+          - a PROJJSON string
+          - an object code (e.g. "EPSG:1671"
+            "urn:ogc:def:coordinateOperation:EPSG::1671")
+          - an object name. e.g "ITRF2014 to ETRF2014 (1)".
+            In that case as uniqueness is not guaranteed,
+            heuristics are applied to determine the appropriate best match.
+          - a OGC URN combining references for concatenated operations
+            (e.g. "urn:ogc:def:coordinateOperation,coordinateOperation:EPSG::3895,
+            coordinateOperation:EPSG::1618")
+
         Parameters
         ----------
         proj_pipeline: str
