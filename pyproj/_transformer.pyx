@@ -4,6 +4,7 @@ cimport cython
 from cpython cimport array
 
 import copy
+import re
 import warnings
 from collections import namedtuple
 
@@ -25,6 +26,7 @@ from pyproj.exceptions import ProjError
 
 # version number string for PROJ
 proj_version_str = f"{PROJ_VERSION_MAJOR}.{PROJ_VERSION_MINOR}.{PROJ_VERSION_PATCH}"
+_AUTH_CODE_RE = re.compile(r"(?P<authority>\w+)\:(?P<code>\w+)")
 
 
 cdef pyproj_errno_string(PJ_CONTEXT* ctx, int err):
@@ -494,11 +496,25 @@ cdef class _Transformer(Base):
         """
         cdef _Transformer transformer = _Transformer()
         transformer.context = pyproj_context_create()
-        # initialize projection
-        transformer.projobj = proj_create(
-            transformer.context,
-            proj_pipeline,
-        )
+
+        auth_match = _AUTH_CODE_RE.match(pystrdecode(proj_pipeline.strip()))
+        if auth_match:
+            # attempt to create coordinate operation from AUTH:CODE
+            match_data = auth_match.groupdict()
+            transformer.projobj = proj_create_from_database(
+                transformer.context,
+                cstrencode(match_data["authority"]),
+                cstrencode(match_data["code"]),
+                PJ_CATEGORY_COORDINATE_OPERATION,
+                False,
+                NULL,
+            )
+        if transformer.projobj == NULL:
+            # initialize projection
+            transformer.projobj = proj_create(
+                transformer.context,
+                proj_pipeline,
+            )
         if transformer.projobj is NULL:
             raise ProjError(f"Invalid projection {proj_pipeline}.")
         transformer._initialize_from_projobj()

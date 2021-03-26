@@ -1189,3 +1189,34 @@ def test_transformer_authority_filter():
 def test_transformer_authority_filter_warning():
     with pytest.warns(UserWarning, match="authority requires PROJ 8+"):
         Transformer.from_crs("EPSG:4326", "EPSG:4258", authority="PROJ")
+
+
+@pytest.mark.parametrize(
+    "input_string",
+    [
+        "EPSG:1671",
+        "RGF93 to WGS 84 (1)",
+        "urn:ogc:def:coordinateOperation:EPSG::1671",
+    ],
+)
+def test_transformer_from_pipeline__input_types(input_string):
+    assert Transformer.from_pipeline(input_string).description == "RGF93 to WGS 84 (1)"
+
+
+@pytest.mark.parametrize(
+    "method_name",
+    [
+        "to_wkt",
+        "to_json",
+    ],
+)
+def test_transformer_from_pipeline__wkt_json(method_name):
+    assert (
+        Transformer.from_pipeline(
+            getattr(
+                Transformer.from_pipeline("urn:ogc:def:coordinateOperation:EPSG::1671"),
+                method_name,
+            )()
+        ).description
+        == "RGF93 to WGS 84 (1)"
+    )
