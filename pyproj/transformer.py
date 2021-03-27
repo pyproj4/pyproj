@@ -538,7 +538,7 @@ class Transformer:
 
         https://proj.org/operations/pipeline.html
 
-        .. versionadded 3.1:: AUTH:CODE string suppor (e.g. EPSG:1671)
+        .. versionadded:: 3.1 AUTH:CODE string suppor (e.g. EPSG:1671)
 
         Allowed input:
           - a PROJ string
