@@ -137,6 +137,31 @@ which transformation operation is selected in the transformation.
     - bounds: (-136.46, 49.0, -60.72, 83.17)
 
 
+Promote CRS to 3D
+-------------------
+
+.. versionadded:: 3.1
+
+
+In PROJ 6+ you neeed to explictly change your CRS to 3D if you have
+2D CRS and you want the ellipsoidal height taken into account.
+
+
+.. code-block:: python
+
+    >>> from pyproj import CRS, Transformer
+    >>> transformer = Transformer.from_crs("EPSG:4326", "EPSG:2056", always_xy=True)
+    >>> transformer.transform(8.37909, 47.01987, 1000)
+    (2671499.8913080636, 1208075.1135782297, 1000.0)
+    >>> transformer_3d = Transformer.from_crs(
+    ...     CRS("EPSG:4326").to_3d(),
+    ...     CRS("EPSG:2056").to_3d(),
+    ...     always_xy=True,
+    ...)
+    >>> transformer_3d.transform(8.37909, 47.01987, 1000)
+    (2671499.8913080636, 1208075.1135782297, 951.4265527743846)
+
+
 Multithreading
 --------------
 

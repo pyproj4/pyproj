@@ -2782,6 +2782,43 @@ cdef class _CRS(Base):
 
         return None
 
+    def to_3d(self, name=None):
+        """
+        .. versionadded:: 3.1
+
+        Convert the current CRS to the 3D version if it makes sense.
+
+        New vertical axis attributes:
+          - ellipsoidal height
+          - oriented upwards
+          - metre units
+
+        Parameters
+        ----------
+        name: str, optional
+            CRS name. Defaults to use the name of the original CRS.
+
+        Returns
+        -------
+        _CRS
+        """
+        cdef char* name_3D = NULL
+        if name is not None:
+            b_name = cstrencode(name)
+            name_3D = b_name
+
+        cdef PJ * projobj = proj_crs_promote_to_3D(
+            self.context, name_3D, self.projobj
+        )
+        CRSError.clear()
+        if projobj == NULL:
+            return self
+        try:
+            crs_3d = _CRS(_to_wkt(self.context, projobj))
+        finally:
+            proj_destroy(projobj)
+        return crs_3d
+
     def _is_crs_property(self, property_name, property_types, sub_crs_index=0):
         """
         .. versionadded:: 2.2.0
