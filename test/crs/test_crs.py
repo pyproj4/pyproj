@@ -1445,3 +1445,28 @@ def test_coordinate_operation__to_proj4__pretty():
     proj_string = operation.to_proj4(pretty=True)
     assert "+proj=pipeline" in proj_string
     assert "\n" in proj_string
+
+
+@pytest.mark.parametrize(
+    "crs_input",
+    [
+        "EPSG:4326",
+        "EPSG:2056",
+    ],
+)
+def test_to_3d(crs_input):
+    crs = CRS(crs_input)
+    assert len(crs.axis_info) == 2
+    crs_3d = crs.to_3d()
+    assert len(crs_3d.axis_info) == 3
+    vert_axis = crs_3d.axis_info[-1]
+    assert vert_axis.name == "Ellipsoidal height"
+    assert vert_axis.unit_name == "metre"
+    assert vert_axis.direction == "up"
+    assert crs_3d.to_3d() == crs_3d
+    assert crs_3d.name == crs.name
+
+
+def test_to_3d__name():
+    crs_3d = CRS("EPSG:2056").to_3d(name="TEST")
+    assert crs_3d.name == "TEST"

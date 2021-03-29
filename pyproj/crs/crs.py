@@ -1294,6 +1294,28 @@ class CRS:
             auth_name=auth_name, min_confidence=min_confidence
         )
 
+    def to_3d(self, name: Optional[str] = None) -> "CRS":
+        """
+        .. versionadded:: 3.1
+
+        Convert the current CRS to the 3D version if it makes sense.
+
+        New vertical axis attributes:
+          - ellipsoidal height
+          - oriented upwards
+          - metre units
+
+        Parameters
+        ----------
+        name: str, optional
+            CRS name. Defaults to use the name of the original CRS.
+
+        Returns
+        -------
+        CRS
+        """
+        return CRS(self._crs.to_3d(name=name))
+
     @property
     def is_geographic(self) -> bool:
         """
