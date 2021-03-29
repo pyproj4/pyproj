@@ -104,6 +104,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#transformation-group">Transformation Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#area-of-interest">Area of Interest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#promote-crs-to-3d">Promote CRS to 3D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multithreading">Multithreading</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#optimizing-single-threaded-applications">Optimizing Single-Threaded Applications</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging-internal-proj">Debugging Internal PROJ</a></li>
@@ -300,6 +301,27 @@ which transformation operation is selected in the transformation.</p>
 <span class="go">Area of Use:</span>
 <span class="go">- name: Canada - NWT; Nunavut; Saskatchewan</span>
 <span class="go">- bounds: (-136.46, 49.0, -60.72, 83.17)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="promote-crs-to-3d">
+<h2>Promote CRS to 3D<a class="headerlink" href="#promote-crs-to-3d" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>In PROJ 6+ you neeed to explictly change your CRS to 3D if you have
+2D CRS and you want the ellipsoidal height taken into account.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:2056&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">8.37909</span><span class="p">,</span> <span class="mf">47.01987</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="go">(2671499.8913080636, 1208075.1135782297, 1000.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:2056&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="go">...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">8.37909</span><span class="p">,</span> <span class="mf">47.01987</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="go">(2671499.8913080636, 1208075.1135782297, 951.4265527743846)</span>
 </pre></div>
 </div>
 </div>

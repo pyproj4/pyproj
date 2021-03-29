@@ -1463,6 +1463,28 @@
             <span class="n">auth_name</span><span class="o">=</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">min_confidence</span><span class="o">=</span><span class="n">min_confidence</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="CRS.to_3d"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_3d">[docs]</a>    <span class="k">def</span> <span class="nf">to_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 3.1</span>
+
+<span class="sd">        Convert the current CRS to the 3D version if it makes sense.</span>
+
+<span class="sd">        New vertical axis attributes:</span>
+<span class="sd">          - ellipsoidal height</span>
+<span class="sd">          - oriented upwards</span>
+<span class="sd">          - metre units</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name: str, optional</span>
+<span class="sd">            CRS name. Defaults to use the name of the original CRS.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CRS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_geographic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
