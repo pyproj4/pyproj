@@ -11,7 +11,7 @@ import pytest
 from numpy.testing import assert_almost_equal, assert_array_equal
 
 import pyproj
-from pyproj import Proj, Transformer, itransform, transform
+from pyproj import CRS, Proj, Transformer, itransform, transform
 from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
@@ -1219,4 +1219,67 @@ def test_transformer_from_pipeline__wkt_json(method_name):
             )()
         ).description
         == "RGF93 to WGS 84 (1)"
+    )
+
+
+@pytest.mark.parametrize(
+    "density,expected",
+    [
+        (0, (-1684649.41338, -350356.81377, 1684649.41338, 2234551.18559)),
+        (100, (-1684649.41338, -555777.79210, 1684649.41338, 2234551.18559)),
+    ],
+)
+def test_transform_bounds_densify(density, expected):
+    transformer = Transformer.from_crs(
+        "EPSG:4326",
+        "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 "
+        "+a=6370997 +b=6370997 +units=m +no_defs",
+        always_xy=True,
+    )
+    assert np.allclose(
+        transformer.transform_bounds(-120, 40, -80, 64, densify_pts=density),
+        expected,
+    )
+
+
+def test_transform_bounds_densify_out_of_bounds():
+    transformer = Transformer.from_crs(
+        "EPSG:4326",
+        "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 "
+        "+a=6370997 +b=6370997 +units=m +no_defs",
+        always_xy=True,
+    )
+    with pytest.raises(ProjError):
+        transformer.transform_bounds(-120, 40, -80, 64, densify_pts=-1)
+
+
+def test_transform_bounds_radians():
+    transformer = Transformer.from_crs(
+        "EPSG:4326",
+        "+proj=geocent +ellps=WGS84 +datum=WGS84",
+        always_xy=True,
+    )
+    assert_almost_equal(
+        transformer.transform_bounds(
+            -2704026.010,
+            -4253051.810,
+            -2704025.010,
+            -4253050.810,
+            radians=True,
+            direction="INVERSE",
+        ),
+        (-2.1371136, 0.0, -2.1371133, 0.0),
+    )
+
+
+def test_transform_bounds__antimeridian():
+    crs = CRS("EPSG:3851")
+    transformer = Transformer.from_crs(
+        crs.geodetic_crs,
+        crs,
+        always_xy=True,
+    )
+    assert_almost_equal(
+        transformer.transform_bounds(*crs.area_of_use.bounds),
+        (1722483.900174921, 5228058.6143420935, 4624385.494808555, 8692574.544944234),
     )
