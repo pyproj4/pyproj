@@ -745,6 +745,113 @@ cdef class _Transformer(Base):
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
+    def _transform_bounds(
+        self,
+        double left,
+        double bottom,
+        double right,
+        double top,
+        int densify_pts,
+        object direction,
+        bint radians,
+        bint errcheck,
+    ):
+        if (
+            self.projections_exact_same
+            or (self.projections_equivalent and self.skip_equivalent)
+        ):
+            return
+
+        if densify_pts < 0:
+            raise ProjError("densify_pts must be positive")
+        cdef int side_pts = densify_pts + 1  # add one because we are densifying
+        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
+        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
+        cdef Py_ssize_t boundary_len = side_pts * 4
+        cdef PySimpleArray x_boundary_array = PySimpleArray(boundary_len)
+        cdef PySimpleArray y_boundary_array = PySimpleArray(boundary_len)
+        cdef double delta_x = 0
+        cdef double delta_y = 0
+        cdef int iii = 0
+
+        with nogil:
+            # degrees to radians
+            if not radians and proj_angular_input(self.projobj, pj_direction):
+                left *= _DG2RAD
+                bottom *= _DG2RAD
+                right *= _DG2RAD
+                top *= _DG2RAD
+            # radians to degrees
+            elif radians and proj_degree_input(self.projobj, pj_direction):
+                left *= _RAD2DG
+                bottom *= _RAD2DG
+                right *= _RAD2DG
+                top *= _RAD2DG
+
+            if proj_degree_input(self.projobj, pj_direction) and right < left:
+                # handle antimeridian
+                delta_x = (right - left + 360.0) / side_pts
+            else:
+                delta_x = (right - left) / side_pts
+            delta_y = (top - bottom) / side_pts
+
+            # build densified bounding box
+            for iii in range(side_pts):
+                # left boundary
+                y_boundary_array.data[iii] = top - iii * delta_y
+                x_boundary_array.data[iii] = left
+                # bottom boundary
+                y_boundary_array.data[iii + side_pts] = bottom
+                x_boundary_array.data[iii + side_pts] = left + iii * delta_x
+                # right boundary
+                y_boundary_array.data[iii + side_pts * 2] = bottom + iii * delta_y
+                x_boundary_array.data[iii + side_pts * 2] = right
+                # top boundary
+                y_boundary_array.data[iii + side_pts * 3] = top
+                x_boundary_array.data[iii + side_pts * 3] = right - iii * delta_x
+
+            proj_errno_reset(self.projobj)
+            proj_trans_generic(
+                self.projobj,
+                pj_direction,
+                x_boundary_array.data, _DOUBLESIZE, boundary_len,
+                y_boundary_array.data, _DOUBLESIZE, boundary_len,
+                NULL, 0, 0,
+                NULL, 0, 0,
+            )
+            errno = proj_errno(self.projobj)
+            if errcheck and errno:
+                with gil:
+                    raise ProjError(
+                        f"itransform error: {pyproj_errno_string(self.context, errno)}"
+                    )
+            elif errcheck:
+                with gil:
+                    if ProjError.internal_proj_error is not None:
+                        raise ProjError("itransform error")
+
+            left = x_boundary_array.min()
+            right = x_boundary_array.max()
+            bottom = y_boundary_array.min()
+            top = y_boundary_array.max()
+            # radians to degrees
+            if not radians and proj_angular_output(self.projobj, pj_direction):
+                left *= _RAD2DG
+                bottom *= _RAD2DG
+                right *= _RAD2DG
+                top *= _RAD2DG
+            # degrees to radians
+            elif radians and proj_degree_output(self.projobj, pj_direction):
+                left *= _DG2RAD
+                bottom *= _DG2RAD
+                right *= _DG2RAD
+                top *= _DG2RAD
+
+        ProjError.clear()
+        return left, bottom, right, top
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
     def _get_factors(self, longitude, latitude, bint radians, bint errcheck):
         """
         Calculates the projection factors PJ_FACTORS

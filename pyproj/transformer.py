@@ -806,6 +806,67 @@ class Transformer:
             for pt in zip(*([iter(buff)] * stride)):
                 yield pt
 
+    def transform_bounds(
+        self,
+        left: float,
+        bottom: float,
+        right: float,
+        top: float,
+        densify_pts: int = 21,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Tuple[float, float, float, float]:
+        """
+        .. versionadded:: 3.1.0
+
+        Transform boundary densifying the edges to account for nonlinear
+        transformations along these edges and extracting the outermost bounds.
+
+        .. note:: Does not account for the antimeridian on destination bounds.
+
+        Parameters
+        ----------
+        left: float
+            Left bounding coordinate in source CRS.
+        bottom: float
+            Bottom bounding coordinate in source CRS.
+        right: float
+            Right bounding coordinate in source CRS.
+        top: float
+            Top bounding coordinate in source CRS.
+        densify_points: uint, optional
+            Number of points to add to each edge to account for nonlinear edges
+            produced by the transform process. Large numbers will produce worse
+            performance. Default: 21 (gdal default).
+        radians: boolean, optional
+            If True, will expect input data to be in radians and will return radians
+            if the projection is geographic. Default is False (degrees). Ignored for
+            pipeline transformations.
+        errcheck: boolean, optional
+            If True an exception is raised if the transformation is invalid.
+            By default errcheck=False and an invalid transformation
+            returns ``inf`` and no exception is raised.
+        direction: pyproj.enums.TransformDirection, optional
+            The direction of the transform.
+            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
+
+        Returns
+        -------
+        left, bottom, right, top: float
+            Outermost coordinates in target coordinate reference system.
+        """
+        return self._transformer._transform_bounds(
+            left=left,
+            bottom=bottom,
+            right=right,
+            top=top,
+            direction=direction,
+            radians=radians,
+            errcheck=errcheck,
+            densify_pts=densify_pts,
+        )
+
     def to_proj4(
         self,
         version: Union[ProjVersion, str] = ProjVersion.PROJ_5,
