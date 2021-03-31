@@ -2,6 +2,7 @@ include "base.pxi"
 
 cimport cython
 from cpython cimport array
+from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 import copy
 import re
@@ -300,6 +301,48 @@ cdef PJ* proj_create_crs_to_crs(
     proj_destroy(source_crs)
     proj_destroy(target_crs)
     return transform
+
+
+cdef class PySimpleArray:
+    cdef double* data
+    cdef public Py_ssize_t len
+
+    def __cinit__(self):
+        self.data = NULL
+
+    def __init__(self, Py_ssize_t arr_len):
+        self.len = arr_len
+        self.data = <double*> PyMem_Malloc(arr_len * sizeof(double))
+        if self.data == NULL:
+            raise MemoryError("error creating array for pyproj")
+
+    def __dealloc__(self):
+        PyMem_Free(self.data)
+        self.data = NULL
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef double simple_min(double* data, Py_ssize_t arr_len) nogil:
+    cdef int iii = 0
+    cdef double min_value = data[0]
+    for iii in range(1, arr_len):
+        if data[iii] < min_value:
+            min_value = data[iii]
+    return min_value
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef double simple_max(double* data, Py_ssize_t arr_len) nogil:
+    cdef int iii = 0
+    cdef double max_value = data[0]
+    for iii in range(1, arr_len):
+        if (data[iii] > max_value or
+            (max_value == HUGE_VAL and data[iii] != HUGE_VAL)
+        ):
+            max_value = data[iii]
+    return max_value
 
 
 cdef class _Transformer(Base):
@@ -837,10 +880,10 @@ cdef class _Transformer(Base):
                     if ProjError.internal_proj_error is not None:
                         raise ProjError("itransform error")
 
-            left = x_boundary_array.min()
-            right = x_boundary_array.max()
-            bottom = y_boundary_array.min()
-            top = y_boundary_array.max()
+            left = simple_min(x_boundary_array.data, boundary_len)
+            right = simple_max(x_boundary_array.data, boundary_len)
+            bottom = simple_min(y_boundary_array.data, boundary_len)
+            top = simple_max(y_boundary_array.data, boundary_len)
             # radians to degrees
             if not radians and proj_angular_output(self.projobj, pj_direction):
                 left *= _RAD2DG
