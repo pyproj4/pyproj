@@ -726,6 +726,47 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt id="pyproj.transformer.Transformer.transform_bounds">
+<code class="sig-name descname">transform_bounds</code><span class="sig-paren">(</span><em class="sig-param">left: float</em>, <em class="sig-param">bottom: float</em>, <em class="sig-param">right: float</em>, <em class="sig-param">top: float</em>, <em class="sig-param">densify_pts: int = 21</em>, <em class="sig-param">radians: bool = False</em>, <em class="sig-param">errcheck: bool = False</em>, <em class="sig-param">direction: Union[pyproj.enums.TransformDirection</em>, <em class="sig-param">str] = &lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">, </span>float<span class="p">, </span>float<span class="p">]</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.transform_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.Transformer.transform_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0.</span></p>
+</div>
+<p>Transform boundary densifying the edges to account for nonlinear
+transformations along these edges and extracting the outermost bounds.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Does not account for the antimeridian on destination bounds.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left</strong> (<em>float</em>) – Left bounding coordinate in source CRS.</p></li>
+<li><p><strong>bottom</strong> (<em>float</em>) – Bottom bounding coordinate in source CRS.</p></li>
+<li><p><strong>right</strong> (<em>float</em>) – Right bounding coordinate in source CRS.</p></li>
+<li><p><strong>top</strong> (<em>float</em>) – Top bounding coordinate in source CRS.</p></li>
+<li><p><strong>densify_points</strong> (<em>uint</em><em>, </em><em>optional</em>) – Number of points to add to each edge to account for nonlinear edges
+produced by the transform process. Large numbers will produce worse
+performance. Default: 21 (gdal default).</p></li>
+<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Default is False (degrees). Ignored for
+pipeline transformations.</p></li>
+<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the transformation is invalid.
+By default errcheck=False and an invalid transformation
+returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>
+<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>left, bottom, right, top</strong> – Outermost coordinates in target coordinate reference system.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
