@@ -861,10 +861,10 @@ class Transformer:
             bottom=bottom,
             right=right,
             top=top,
-            direction=direction,
+            densify_pts=densify_pts,
             radians=radians,
             errcheck=errcheck,
-            densify_pts=densify_pts,
+            direction=direction,
         )
 
     def to_proj4(

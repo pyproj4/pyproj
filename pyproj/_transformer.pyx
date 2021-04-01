@@ -795,9 +795,9 @@ cdef class _Transformer(Base):
         double right,
         double top,
         int densify_pts,
-        object direction,
         bint radians,
         bint errcheck,
+        object direction,
     ):
         if (
             self.projections_exact_same
