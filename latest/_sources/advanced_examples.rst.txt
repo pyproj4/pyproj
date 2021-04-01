@@ -161,6 +161,22 @@ In PROJ 6+ you neeed to explictly change your CRS to 3D if you have
     >>> transformer_3d.transform(8.37909, 47.01987, 1000)
     (2671499.8913080636, 1208075.1135782297, 951.4265527743846)
 
+Projected CRS Bounds
+----------------------
+
+.. versionadded:: 3.1
+
+The boundary of the CRS is given in geographic coordinates.
+This is the recommended method for calculating the projected bounds.
+
+.. code-block:: python
+
+    >>> from pyproj import CRS, Transformer
+    >>> crs = CRS("EPSG:3857")
+    >>> transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True)
+    >>> transformer.transform_bounds(*crs.area_of_use.bounds)
+    (-20037508.342789244, -20048966.104014594, 20037508.342789244, 20048966.104014594)
+
 
 Multithreading
 --------------

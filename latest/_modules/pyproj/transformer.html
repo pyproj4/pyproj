@@ -975,6 +975,67 @@
             <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="nb">iter</span><span class="p">(</span><span class="n">buff</span><span class="p">)]</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)):</span>
                 <span class="k">yield</span> <span class="n">pt</span></div>
 
+<div class="viewcode-block" id="Transformer.transform_bounds"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.transform_bounds">[docs]</a>    <span class="k">def</span> <span class="nf">transform_bounds</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">left</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">bottom</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">right</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">top</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">densify_pts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">21</span><span class="p">,</span>
+        <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransformDirection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 3.1.0</span>
+
+<span class="sd">        Transform boundary densifying the edges to account for nonlinear</span>
+<span class="sd">        transformations along these edges and extracting the outermost bounds.</span>
+
+<span class="sd">        .. note:: Does not account for the antimeridian on destination bounds.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        left: float</span>
+<span class="sd">            Left bounding coordinate in source CRS.</span>
+<span class="sd">        bottom: float</span>
+<span class="sd">            Bottom bounding coordinate in source CRS.</span>
+<span class="sd">        right: float</span>
+<span class="sd">            Right bounding coordinate in source CRS.</span>
+<span class="sd">        top: float</span>
+<span class="sd">            Top bounding coordinate in source CRS.</span>
+<span class="sd">        densify_points: uint, optional</span>
+<span class="sd">            Number of points to add to each edge to account for nonlinear edges</span>
+<span class="sd">            produced by the transform process. Large numbers will produce worse</span>
+<span class="sd">            performance. Default: 21 (gdal default).</span>
+<span class="sd">        radians: boolean, optional</span>
+<span class="sd">            If True, will expect input data to be in radians and will return radians</span>
+<span class="sd">            if the projection is geographic. Default is False (degrees). Ignored for</span>
+<span class="sd">            pipeline transformations.</span>
+<span class="sd">        errcheck: boolean, optional</span>
+<span class="sd">            If True an exception is raised if the transformation is invalid.</span>
+<span class="sd">            By default errcheck=False and an invalid transformation</span>
+<span class="sd">            returns ``inf`` and no exception is raised.</span>
+<span class="sd">        direction: pyproj.enums.TransformDirection, optional</span>
+<span class="sd">            The direction of the transform.</span>
+<span class="sd">            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        left, bottom, right, top: float</span>
+<span class="sd">            Outermost coordinates in target coordinate reference system.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_transform_bounds</span><span class="p">(</span>
+            <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span>
+            <span class="n">bottom</span><span class="o">=</span><span class="n">bottom</span><span class="p">,</span>
+            <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">,</span>
+            <span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">,</span>
+            <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span>
+            <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+            <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">,</span>
+            <span class="n">densify_pts</span><span class="o">=</span><span class="n">densify_pts</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="Transformer.to_proj4"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.to_proj4">[docs]</a>    <span class="k">def</span> <span class="nf">to_proj4</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ProjVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_5</span><span class="p">,</span>

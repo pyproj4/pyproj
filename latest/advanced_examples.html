@@ -105,6 +105,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#transformation-group">Transformation Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#area-of-interest">Area of Interest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#promote-crs-to-3d">Promote CRS to 3D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#projected-crs-bounds">Projected CRS Bounds</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multithreading">Multithreading</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#optimizing-single-threaded-applications">Optimizing Single-Threaded Applications</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging-internal-proj">Debugging Internal PROJ</a></li>
@@ -322,6 +323,21 @@ which transformation operation is selected in the transformation.</p>
 <span class="go">...)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">8.37909</span><span class="p">,</span> <span class="mf">47.01987</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="go">(2671499.8913080636, 1208075.1135782297, 951.4265527743846)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="projected-crs-bounds">
+<h2>Projected CRS Bounds<a class="headerlink" href="#projected-crs-bounds" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>The boundary of the CRS is given in geographic coordinates.
+This is the recommended method for calculating the projected bounds.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform_bounds</span><span class="p">(</span><span class="o">*</span><span class="n">crs</span><span class="o">.</span><span class="n">area_of_use</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+<span class="go">(-20037508.342789244, -20048966.104014594, 20037508.342789244, 20048966.104014594)</span>
 </pre></div>
 </div>
 </div>
