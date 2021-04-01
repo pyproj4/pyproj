@@ -101,6 +101,17 @@ class _Transformer(Base):
         radians: bool,
         errcheck: bool,
     ) -> None: ...
+    def _transform_bounds(
+        self,
+        left: float,
+        bottom: float,
+        right: float,
+        top: float,
+        densify_pts: int = 21,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Tuple[float, float, float, float]: ...
     def _get_factors(
         self, longitude: Any, latitude: Any, radians: bool, errcheck: bool
     ) -> Factors: ...
