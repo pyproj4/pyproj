@@ -2,6 +2,7 @@ include "base.pxi"
 
 cimport cython
 from cpython cimport array
+from cpython.mem cimport PyMem_Free, PyMem_Malloc
 
 import copy
 import re
@@ -300,6 +301,48 @@ cdef PJ* proj_create_crs_to_crs(
     proj_destroy(source_crs)
     proj_destroy(target_crs)
     return transform
+
+
+cdef class PySimpleArray:
+    cdef double* data
+    cdef public Py_ssize_t len
+
+    def __cinit__(self):
+        self.data = NULL
+
+    def __init__(self, Py_ssize_t arr_len):
+        self.len = arr_len
+        self.data = <double*> PyMem_Malloc(arr_len * sizeof(double))
+        if self.data == NULL:
+            raise MemoryError("error creating array for pyproj")
+
+    def __dealloc__(self):
+        PyMem_Free(self.data)
+        self.data = NULL
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef double simple_min(double* data, Py_ssize_t arr_len) nogil:
+    cdef int iii = 0
+    cdef double min_value = data[0]
+    for iii in range(1, arr_len):
+        if data[iii] < min_value:
+            min_value = data[iii]
+    return min_value
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef double simple_max(double* data, Py_ssize_t arr_len) nogil:
+    cdef int iii = 0
+    cdef double max_value = data[0]
+    for iii in range(1, arr_len):
+        if (data[iii] > max_value or
+            (max_value == HUGE_VAL and data[iii] != HUGE_VAL)
+        ):
+            max_value = data[iii]
+    return max_value
 
 
 cdef class _Transformer(Base):
@@ -742,6 +785,113 @@ cdef class _Transformer(Base):
                     coordbuff.data[jjj + 1] *= _DG2RAD
 
         ProjError.clear()
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    def _transform_bounds(
+        self,
+        double left,
+        double bottom,
+        double right,
+        double top,
+        int densify_pts,
+        object direction,
+        bint radians,
+        bint errcheck,
+    ):
+        if (
+            self.projections_exact_same
+            or (self.projections_equivalent and self.skip_equivalent)
+        ):
+            return
+
+        if densify_pts < 0:
+            raise ProjError("densify_pts must be positive")
+        cdef int side_pts = densify_pts + 1  # add one because we are densifying
+        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
+        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
+        cdef Py_ssize_t boundary_len = side_pts * 4
+        cdef PySimpleArray x_boundary_array = PySimpleArray(boundary_len)
+        cdef PySimpleArray y_boundary_array = PySimpleArray(boundary_len)
+        cdef double delta_x = 0
+        cdef double delta_y = 0
+        cdef int iii = 0
+
+        with nogil:
+            # degrees to radians
+            if not radians and proj_angular_input(self.projobj, pj_direction):
+                left *= _DG2RAD
+                bottom *= _DG2RAD
+                right *= _DG2RAD
+                top *= _DG2RAD
+            # radians to degrees
+            elif radians and proj_degree_input(self.projobj, pj_direction):
+                left *= _RAD2DG
+                bottom *= _RAD2DG
+                right *= _RAD2DG
+                top *= _RAD2DG
+
+            if proj_degree_input(self.projobj, pj_direction) and right < left:
+                # handle antimeridian
+                delta_x = (right - left + 360.0) / side_pts
+            else:
+                delta_x = (right - left) / side_pts
+            delta_y = (top - bottom) / side_pts
+
+            # build densified bounding box
+            for iii in range(side_pts):
+                # left boundary
+                y_boundary_array.data[iii] = top - iii * delta_y
+                x_boundary_array.data[iii] = left
+                # bottom boundary
+                y_boundary_array.data[iii + side_pts] = bottom
+                x_boundary_array.data[iii + side_pts] = left + iii * delta_x
+                # right boundary
+                y_boundary_array.data[iii + side_pts * 2] = bottom + iii * delta_y
+                x_boundary_array.data[iii + side_pts * 2] = right
+                # top boundary
+                y_boundary_array.data[iii + side_pts * 3] = top
+                x_boundary_array.data[iii + side_pts * 3] = right - iii * delta_x
+
+            proj_errno_reset(self.projobj)
+            proj_trans_generic(
+                self.projobj,
+                pj_direction,
+                x_boundary_array.data, _DOUBLESIZE, x_boundary_array.len,
+                y_boundary_array.data, _DOUBLESIZE, y_boundary_array.len,
+                NULL, 0, 0,
+                NULL, 0, 0,
+            )
+            errno = proj_errno(self.projobj)
+            if errcheck and errno:
+                with gil:
+                    raise ProjError(
+                        f"itransform error: {pyproj_errno_string(self.context, errno)}"
+                    )
+            elif errcheck:
+                with gil:
+                    if ProjError.internal_proj_error is not None:
+                        raise ProjError("itransform error")
+
+            left = simple_min(x_boundary_array.data, x_boundary_array.len)
+            right = simple_max(x_boundary_array.data, x_boundary_array.len)
+            bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
+            top = simple_max(y_boundary_array.data, y_boundary_array.len)
+            # radians to degrees
+            if not radians and proj_angular_output(self.projobj, pj_direction):
+                left *= _RAD2DG
+                bottom *= _RAD2DG
+                right *= _RAD2DG
+                top *= _RAD2DG
+            # degrees to radians
+            elif radians and proj_degree_output(self.projobj, pj_direction):
+                left *= _DG2RAD
+                bottom *= _DG2RAD
+                right *= _DG2RAD
+                top *= _DG2RAD
+
+        ProjError.clear()
+        return left, bottom, right, top
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
