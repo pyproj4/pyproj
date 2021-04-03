@@ -7,7 +7,8 @@ import pyproj
 from pyproj.datadir import get_data_dir, get_user_data_dir, set_data_dir
 
 _NETWORK_ENABLED = pyproj.network.is_network_enabled()
-PROJ_GTE_8 = LooseVersion(pyproj.__proj_version__) >= LooseVersion("8.0")
+PROJ_LOOSE_VERSION = LooseVersion(pyproj.__proj_version__)
+PROJ_GTE_8 = PROJ_LOOSE_VERSION >= LooseVersion("8.0")
 
 
 if PROJ_GTE_8:
