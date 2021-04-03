@@ -1,3 +1,5 @@
+from distutils.version import LooseVersion
+
 import numpy
 import pytest
 from numpy.testing import assert_almost_equal
@@ -17,7 +19,11 @@ from pyproj.crs.coordinate_operation import (
     VerticalPerspectiveConversion,
 )
 from pyproj.exceptions import CRSError
-from test.conftest import HAYFORD_ELLIPSOID_NAME, get_wgs84_datum_name
+from test.conftest import (
+    HAYFORD_ELLIPSOID_NAME,
+    PROJ_LOOSE_VERSION,
+    get_wgs84_datum_name,
+)
 
 
 def _to_dict(operation):
@@ -865,6 +871,12 @@ def test_osgb_1936():
             "Scale factor at natural origin"
         ],
     }
+    if PROJ_LOOSE_VERSION >= LooseVersion("8.0.1"):
+        expected_cf.update(
+            geographic_crs_name="OSGB36",
+            horizontal_datum_name="Ordnance Survey of Great Britain 1936",
+            projected_crs_name="OSGB36 / British National Grid",
+        )
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("PROJCRS[")
     assert cf_dict == expected_cf
