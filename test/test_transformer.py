@@ -1234,6 +1234,25 @@ def test_transform_bounds_densify(density, expected):
         "EPSG:4326",
         "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 "
         "+a=6370997 +b=6370997 +units=m +no_defs",
+    )
+    assert np.allclose(
+        transformer.transform_bounds(40, -120, 64, -80, densify_pts=density),
+        expected,
+    )
+
+
+@pytest.mark.parametrize(
+    "density,expected",
+    [
+        (0, (-1684649.41338, -350356.81377, 1684649.41338, 2234551.18559)),
+        (100, (-1684649.41338, -555777.79210, 1684649.41338, 2234551.18559)),
+    ],
+)
+def test_transform_bounds_densify__xy(density, expected):
+    transformer = Transformer.from_crs(
+        "EPSG:4326",
+        "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 "
+        "+a=6370997 +b=6370997 +units=m +no_defs",
         always_xy=True,
     )
     assert np.allclose(
@@ -1251,6 +1270,17 @@ def test_transform_bounds_densify_out_of_bounds():
     )
     with pytest.raises(ProjError):
         transformer.transform_bounds(-120, 40, -80, 64, densify_pts=-1)
+
+
+def test_transform_bounds_densify_out_of_bounds__geographic_output():
+    transformer = Transformer.from_crs(
+        "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 "
+        "+a=6370997 +b=6370997 +units=m +no_defs",
+        "EPSG:4326",
+        always_xy=True,
+    )
+    with pytest.raises(ProjError):
+        transformer.transform_bounds(-120, 40, -80, 64, densify_pts=1)
 
 
 def test_transform_bounds_radians():
@@ -1274,12 +1304,35 @@ def test_transform_bounds_radians():
 
 def test_transform_bounds__antimeridian():
     crs = CRS("EPSG:3851")
+    transformer = Transformer.from_crs(crs.geodetic_crs, crs)
+    minx, miny, maxx, maxy = crs.area_of_use.bounds
+    transformed_bounds = transformer.transform_bounds(miny, minx, maxy, maxx)
+    assert_almost_equal(
+        transformed_bounds,
+        (5228058.6143420935, 1722483.900174921, 8692574.544944234, 4624385.494808555),
+    )
+    assert_almost_equal(
+        transformer.transform_bounds(
+            *transformed_bounds,
+            direction="INVERSE",
+        ),
+        (-56.7471249, 153.2799922, -24.6148194, -162.1813873),
+    )
+
+
+def test_transform_bounds__antimeridian__xy():
+    crs = CRS("EPSG:3851")
     transformer = Transformer.from_crs(
         crs.geodetic_crs,
         crs,
         always_xy=True,
     )
+    transformed_bounds = transformer.transform_bounds(*crs.area_of_use.bounds)
     assert_almost_equal(
-        transformer.transform_bounds(*crs.area_of_use.bounds),
+        transformed_bounds,
         (1722483.900174921, 5228058.6143420935, 4624385.494808555, 8692574.544944234),
+    )
+    assert_almost_equal(
+        transformer.transform_bounds(*transformed_bounds, direction="INVERSE"),
+        (153.2799922, -56.7471249, -162.1813873, -24.6148194),
     )
