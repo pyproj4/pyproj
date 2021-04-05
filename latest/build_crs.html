@@ -4,7 +4,8 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Building a Coordinate Reference System &mdash; pyproj 3.1.dev0 documentation</title>
@@ -88,7 +89,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
@@ -176,7 +177,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="building-a-coordinate-reference-system">
+  <section id="building-a-coordinate-reference-system">
 <h1>Building a Coordinate Reference System<a class="headerlink" href="#building-a-coordinate-reference-system" title="Permalink to this headline">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
@@ -199,7 +200,7 @@ If you notice something is missing that you need, feel free to open an issue on 
 <li><p><a class="reference internal" href="api/crs/datum.html#datum"><span class="std std-ref">Datum</span></a></p></li>
 <li><p><a class="reference internal" href="api/crs/coordinate_system.html#coordinate-system"><span class="std std-ref">Coordinate Systems</span></a></p></li>
 </ul>
-<div class="section" id="geographic-crs">
+<section id="geographic-crs">
 <h2>Geographic CRS<a class="headerlink" href="#geographic-crs" title="Permalink to this headline">¶</a></h2>
 <p>This is a simple example of creating a lonlat projection.</p>
 <p>PROJ string:</p>
@@ -229,8 +230,8 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <span class="n">geog_wkt</span> <span class="o">=</span> <span class="n">geog_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="projected-crs">
+</section>
+<section id="projected-crs">
 <h2>Projected CRS<a class="headerlink" href="#projected-crs" title="Permalink to this headline">¶</a></h2>
 <p>Simple example using defaults.</p>
 <p>PROJ string:</p>
@@ -262,8 +263,8 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <span class="n">crs_wkt</span> <span class="o">=</span> <span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bound-crs">
+</section>
+<section id="bound-crs">
 <h2>Bound CRS<a class="headerlink" href="#bound-crs" title="Permalink to this headline">¶</a></h2>
 <p>This is an example building a CRS with <cite>towgs84</cite>.</p>
 <p>PROJ string:</p>
@@ -308,8 +309,8 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <span class="n">crs_wkt</span> <span class="o">=</span> <span class="n">bound_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="compound-crs">
+</section>
+<section id="compound-crs">
 <h2>Compound CRS<a class="headerlink" href="#compound-crs" title="Permalink to this headline">¶</a></h2>
 <p>The PROJ string is quite lossy in this example, so it is not provided.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CompoundCRS</span><span class="p">,</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span><span class="p">,</span> <span class="n">VerticalCRS</span>
@@ -342,8 +343,8 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <span class="n">crs_wkt</span> <span class="o">=</span> <span class="n">compcrs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
