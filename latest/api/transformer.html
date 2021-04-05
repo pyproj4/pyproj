@@ -4,7 +4,8 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Transformer &mdash; pyproj 3.1.dev0 documentation</title>
@@ -88,7 +89,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
@@ -194,7 +195,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="transformer">
+  <section id="transformer">
 <span id="id1"></span><h1>Transformer<a class="headerlink" href="#transformer" title="Permalink to this headline">¶</a></h1>
 <p>The <cite>pyproj.Transformer</cite> has the capabilities of performing 2D, 3D, and 4D (time)
 transformations. It can do anything that the PROJ command line programs
@@ -212,7 +213,7 @@ You can check the axis order with the <a class="reference internal" href="crs/cr
 keep your axis order as always x,y, you can use the <cite>always_xy</cite> option when
 creating the <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>.</p>
 </div>
-<div class="section" id="pyproj-transformer">
+<section id="pyproj-transformer">
 <h2>pyproj.Transformer<a class="headerlink" href="#pyproj-transformer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.transformer.Transformer">
@@ -734,10 +735,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </div>
 <p>Transform boundary densifying the edges to account for nonlinear
 transformations along these edges and extracting the outermost bounds.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Does not account for the antimeridian on destination bounds.</p>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -769,8 +766,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 
 </dd></dl>
 
-</div>
-<div class="section" id="pyproj-transformer-transformergroup">
+</section>
+<section id="pyproj-transformer-transformergroup">
 <h2>pyproj.transformer.TransformerGroup<a class="headerlink" href="#pyproj-transformer-transformergroup" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.transformer.TransformerGroup">
@@ -872,8 +869,8 @@ available due to missing grids.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="pyproj-transform">
+</section>
+<section id="pyproj-transform">
 <h2>pyproj.transform<a class="headerlink" href="#pyproj-transform" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="pyproj.transformer.transform">
@@ -953,8 +950,8 @@ z is always meters.</p>
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="pyproj-itransform">
+</section>
+<section id="pyproj-itransform">
 <h2>pyproj.itransform<a class="headerlink" href="#pyproj-itransform" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="pyproj.transformer.itransform">
@@ -1023,8 +1020,8 @@ for geographic CRS and easting, northing for most projected CRS.</p>
 </div>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

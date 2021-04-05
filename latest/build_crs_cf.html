@@ -4,7 +4,8 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Managing CRS to and from CF &mdash; pyproj 3.1.dev0 documentation</title>
@@ -88,7 +89,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
@@ -178,10 +179,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="managing-crs-to-and-from-cf">
+  <section id="managing-crs-to-and-from-cf">
 <span id="build-crs-cf"></span><h1>Managing CRS to and from CF<a class="headerlink" href="#managing-crs-to-and-from-cf" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="http://cfconventions.org/cf-conventions/cf-conventions.html">http://cfconventions.org/cf-conventions/cf-conventions.html</a></p>
-<div class="section" id="exporting-crs-to-cf">
+<section id="exporting-crs-to-cf">
 <h2>Exporting CRS to CF<a class="headerlink" href="#exporting-crs-to-cf" title="Permalink to this headline">¶</a></h2>
 <p>When exporting a CRS to the Climate and Forecast (CF) conventions,
 you need both the grid mapping as well as the coordinate system.
@@ -231,8 +232,8 @@ of your projection.</p>
 <span class="s1">&#39;axis&#39;</span><span class="p">:</span> <span class="s1">&#39;X&#39;</span><span class="p">}]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="importing-crs-from-cf">
+</section>
+<section id="importing-crs-from-cf">
 <h2>Importing CRS from CF<a class="headerlink" href="#importing-crs-from-cf" title="Permalink to this headline">¶</a></h2>
 <p>When importing a CRS from the Climate and Forecast (CF) conventions,
 you need both the grid mapping as well as the coordinate system.
@@ -247,7 +248,7 @@ inside of the WKT and can be used to create the CRS in a single step.</p>
 <p class="admonition-title">Warning</p>
 <p>If building from grid mapping, be mindful of the axis order. <a class="reference external" href="https://github.com/cf-convention/cf-conventions/pull/224">https://github.com/cf-convention/cf-conventions/pull/224</a></p>
 </div>
-<div class="section" id="build-the-crs-from-cf-grid-mapping">
+<section id="build-the-crs-from-cf-grid-mapping">
 <h3>Build the CRS from CF grid mapping:<a class="headerlink" href="#build-the-crs-from-cf-grid-mapping" title="Permalink to this headline">¶</a></h3>
 <p>In this example, this is the grid mapping and coordinate system we will use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variables</span><span class="p">:</span>
@@ -293,8 +294,8 @@ then no further changes are necessary.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="modify-the-crs-with-coordinate-system">
+</section>
+<section id="modify-the-crs-with-coordinate-system">
 <h3>Modify the CRS with coordinate system:<a class="headerlink" href="#modify-the-crs-with-coordinate-system" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.0.</span></p>
@@ -358,9 +359,9 @@ However, the units are instead <cite>US_Survey_Foot</cite>:</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
