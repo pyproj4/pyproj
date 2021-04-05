@@ -338,10 +338,159 @@ cdef double simple_max(double* data, Py_ssize_t arr_len) nogil:
     cdef int iii = 0
     cdef double max_value = data[0]
     for iii in range(1, arr_len):
-        if (data[iii] > max_value or
-            (max_value == HUGE_VAL and data[iii] != HUGE_VAL)
-        ):
+        if (data[iii] > max_value or max_value == HUGE_VAL) and data[iii] != HUGE_VAL:
             max_value = data[iii]
+    return max_value
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
+    """
+    Handles the case when longitude values cross the antimeridian
+    when calculating the minumum.
+
+    Note: The data array must be in a linear ring.
+
+    Note: This requires a densified ring with at least 2 additional
+          points per edge to correctly handle global extents.
+
+    If only 1 additional point:
+
+      |        |
+      |RL--x0--|RL--
+      |        |
+    -180    180|-180
+
+    If they are evenly spaced and it crosses the antimeridian:
+    x0 - L = 180
+    R - x0 = -180
+
+    For example:
+    Let R = -179.9, x0 = 0.1, L = -179.89
+    x0 - L = 0.1 - -179.9 = 180
+    R - x0 = -179.89 - 0.1 ~= -180
+    This is the same in the case when it didn't cross the antimeridian.
+
+    If you have 2 additional points:
+      |            |
+      |RL--x0--x1--|RL--
+      |            |
+    -180        180|-180
+
+    If they are evenly spaced and it crosses the antimeridian:
+    x0 - L = 120
+    x1 - x0 = 120
+    R - x1 = -240
+
+    For example:
+    Let R = -179.9, x0 = -59.9, x1 = 60.1 L = -179.89
+    x0 - L = 59.9 - -179.9 = 120
+    x1 - x0 = 60.1 - 59.9 = 120
+    R - x1 = -179.89 - 60.1 ~= -240
+
+    However, if they are evenly spaced and it didn't cross the antimeridian:
+    x0 - L = 120
+    x1 - x0 = 120
+    R - x1 = 120
+
+    From this, we have a delta that is guaranteed to be significantly
+    large enough to tell the difference reguarless of the direction
+    the antimeridian was crossed.
+
+    However, even though the spacing was even in the source projection, it isn't
+    guaranteed in the targed geographic projection. So, instead of 240, 200 is used
+    as it significantly larger than 120 to be sure that the antimeridian was crossed
+    but smalller than 240 to account for possible irregularities in distances
+    when re-projecting. Also, 200 ensures latitudes are ignored for axis order handling.
+    """
+    cdef int iii = 0
+    cdef int prev_iii = arr_len - 1
+    cdef double positive_min = HUGE_VAL
+    cdef double min_value = HUGE_VAL
+    cdef double delta = 0
+    cdef bint crossed_meridian = False
+    cdef bint positive_meridian = False
+
+    for iii in range(0, arr_len):
+        prev_iii = iii - 1
+        if prev_iii == -1:
+            prev_iii = arr_len - 1
+        # check if crossed meridian
+        delta = data[prev_iii] - data[iii]
+        # 180 -> -180
+        if delta >= 200:
+            if not crossed_meridian:
+                positive_min = min_value
+            crossed_meridian = True
+            positive_meridian = False
+        # -180 -> 180
+        elif delta <= -200:
+            if not crossed_meridian:
+                positive_min = data[iii]
+            crossed_meridian = True
+            positive_meridian = True
+        # positive meridian side min
+        if positive_meridian and data[iii] < positive_min:
+            positive_min = data[iii]
+        # track genral min value
+        if data[iii] < min_value:
+            min_value = data[iii]
+    if crossed_meridian:
+        return positive_min
+    return min_value
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
+    """
+    Handles the case when longitude values cross the antimeridian
+    when calculating the minumum.
+
+    Note: The data array must be in a linear ring.
+
+    Note: This requires a densified ring with at least 2 additional
+          points per edge to correctly handle global extents.
+
+    See antimeridian_min docstring for reasoning.
+    """
+    cdef int iii = 0
+    cdef int prev_iii = arr_len - 1
+    cdef double negative_max = -HUGE_VAL
+    cdef double max_value = -HUGE_VAL
+    cdef double delta = 0
+    cdef bint negative_meridian = False
+    cdef bint crossed_meridian = False
+    for iii in range(0, arr_len):
+        prev_iii = iii - 1
+        if prev_iii == -1:
+            prev_iii = arr_len - 1
+        # check if crossed meridian
+        delta = data[prev_iii] - data[iii]
+        # 180 -> -180
+        if delta >= 200:
+            if not crossed_meridian:
+                negative_max = data[iii]
+            crossed_meridian = True
+            negative_meridian = True
+        # -180 -> 180
+        elif delta <= -200:
+            if not crossed_meridian:
+                negative_max = max_value
+            negative_meridian = False
+            crossed_meridian = True
+        # negative meridian side max
+        if (negative_meridian
+            and (data[iii] > negative_max or negative_max == HUGE_VAL)
+            and data[iii] != HUGE_VAL
+        ):
+            negative_max = data[iii]
+        # track genral max value
+        if (data[iii] > max_value or max_value == HUGE_VAL) and data[iii] != HUGE_VAL:
+            max_value = data[iii]
+    if crossed_meridian:
+        return negative_max
     return max_value
 
 
@@ -807,9 +956,16 @@ cdef class _Transformer(Base):
 
         if densify_pts < 0:
             raise ProjError("densify_pts must be positive")
-        cdef int side_pts = densify_pts + 1  # add one because we are densifying
+
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
+
+        cdef bint degree_output = proj_degree_output(self.projobj, pj_direction)
+        cdef bint degree_input = proj_degree_input(self.projobj, pj_direction)
+        if degree_output and densify_pts < 2:
+            raise ProjError("densify_pts must be 2+ for degree output")
+
+        cdef int side_pts = densify_pts + 1  # add one because we are densifying
         cdef Py_ssize_t boundary_len = side_pts * 4
         cdef PySimpleArray x_boundary_array = PySimpleArray(boundary_len)
         cdef PySimpleArray y_boundary_array = PySimpleArray(boundary_len)
@@ -825,20 +981,27 @@ cdef class _Transformer(Base):
                 right *= _DG2RAD
                 top *= _DG2RAD
             # radians to degrees
-            elif radians and proj_degree_input(self.projobj, pj_direction):
+            elif radians and degree_input:
                 left *= _RAD2DG
                 bottom *= _RAD2DG
                 right *= _RAD2DG
                 top *= _RAD2DG
 
-            if proj_degree_input(self.projobj, pj_direction) and right < left:
+            if degree_input and right < left:
                 # handle antimeridian
                 delta_x = (right - left + 360.0) / side_pts
             else:
                 delta_x = (right - left) / side_pts
-            delta_y = (top - bottom) / side_pts
+            if degree_input and top < bottom:
+                # handle antimeridian
+                # depending on the axis order, longitude has the potential
+                # to be on the y axis. It shouldn't reach here if it is latitude.
+                delta_y = (top - bottom + 360.0) / side_pts
+            else:
+                delta_y = (top - bottom) / side_pts
 
             # build densified bounding box
+            # Note: must be a linear ring for antimeridian logic
             for iii in range(side_pts):
                 # left boundary
                 y_boundary_array.data[iii] = top - iii * delta_y
@@ -873,10 +1036,18 @@ cdef class _Transformer(Base):
                     if ProjError.internal_proj_error is not None:
                         raise ProjError("itransform error")
 
-            left = simple_min(x_boundary_array.data, x_boundary_array.len)
-            right = simple_max(x_boundary_array.data, x_boundary_array.len)
-            bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
-            top = simple_max(y_boundary_array.data, y_boundary_array.len)
+            if degree_output:
+                left = antimeridian_min(x_boundary_array.data, x_boundary_array.len)
+                right = antimeridian_max(x_boundary_array.data, x_boundary_array.len)
+                # depending on the axis order, longitude has the potential
+                # to be on the y axis. It shouldn't cause troubles if it is latitude.
+                bottom = antimeridian_min(y_boundary_array.data, y_boundary_array.len)
+                top = antimeridian_max(y_boundary_array.data, y_boundary_array.len)
+            else:
+                left = simple_min(x_boundary_array.data, x_boundary_array.len)
+                right = simple_max(x_boundary_array.data, x_boundary_array.len)
+                bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
+                top = simple_max(y_boundary_array.data, y_boundary_array.len)
             # radians to degrees
             if not radians and proj_angular_output(self.projobj, pj_direction):
                 left *= _RAD2DG
@@ -884,7 +1055,7 @@ cdef class _Transformer(Base):
                 right *= _RAD2DG
                 top *= _RAD2DG
             # degrees to radians
-            elif radians and proj_degree_output(self.projobj, pj_direction):
+            elif radians and degree_output:
                 left *= _DG2RAD
                 bottom *= _DG2RAD
                 right *= _DG2RAD

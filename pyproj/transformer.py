@@ -823,8 +823,6 @@ class Transformer:
         Transform boundary densifying the edges to account for nonlinear
         transformations along these edges and extracting the outermost bounds.
 
-        .. note:: Does not account for the antimeridian on destination bounds.
-
         Parameters
         ----------
         left: float
