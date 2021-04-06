@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Advanced Examples &mdash; pyproj 3.1.dev0 documentation</title>
@@ -89,7 +88,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
@@ -185,12 +184,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="advanced-examples">
+  <div class="section" id="advanced-examples">
 <span id="id1"></span><h1>Advanced Examples<a class="headerlink" href="#advanced-examples" title="Permalink to this headline">¶</a></h1>
-<section id="optimize-transformations">
+<div class="section" id="optimize-transformations">
 <h2>Optimize Transformations<a class="headerlink" href="#optimize-transformations" title="Permalink to this headline">¶</a></h2>
 <p>Here are a few tricks to try out if you want to optimize your transformations.</p>
-<section id="repeated-transformations">
+<div class="section" id="repeated-transformations">
 <h3>Repeated transformations<a class="headerlink" href="#repeated-transformations" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.0.</span></p>
@@ -215,8 +214,8 @@ optimize your transformations.</p>
 </pre></div>
 </div>
 <p>Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)</p>
-</section>
-<section id="transforming-with-the-same-projections">
+</div>
+<div class="section" id="transforming-with-the-same-projections">
 <h3>Transforming with the same projections<a class="headerlink" href="#transforming-with-the-same-projections" title="Permalink to this headline">¶</a></h3>
 <p>pyproj will skip transformations if they are exactly the same by default. However, if you
 sometimes throw in the projections that are about the same and the results being close enough
@@ -228,9 +227,9 @@ They can differ by the name of their objects, identifiers, other metadata.
 Parameters may be expressed in different units, provided that the value is
 (with some tolerance) the same once expressed in a common unit.</p>
 </div>
-</section>
-</section>
-<section id="transformation-group">
+</div>
+</div>
+<div class="section" id="transformation-group">
 <h2>Transformation Group<a class="headerlink" href="#transformation-group" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
@@ -276,8 +275,8 @@ And if not, how to get the missing grid.</p></li>
 <span class="go">&#39;https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip&#39;</span>
 </pre></div>
 </div>
-</section>
-<section id="area-of-interest">
+</div>
+<div class="section" id="area-of-interest">
 <h2>Area of Interest<a class="headerlink" href="#area-of-interest" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
@@ -305,8 +304,8 @@ which transformation operation is selected in the transformation.</p>
 <span class="go">- bounds: (-136.46, 49.0, -60.72, 83.17)</span>
 </pre></div>
 </div>
-</section>
-<section id="promote-crs-to-3d">
+</div>
+<div class="section" id="promote-crs-to-3d">
 <h2>Promote CRS to 3D<a class="headerlink" href="#promote-crs-to-3d" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
@@ -326,8 +325,8 @@ which transformation operation is selected in the transformation.</p>
 <span class="go">(2671499.8913080636, 1208075.1135782297, 951.4265527743846)</span>
 </pre></div>
 </div>
-</section>
-<section id="projected-crs-bounds">
+</div>
+<div class="section" id="projected-crs-bounds">
 <h2>Projected CRS Bounds<a class="headerlink" href="#projected-crs-bounds" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
@@ -341,8 +340,8 @@ This is the recommended method for calculating the projected bounds.</p>
 <span class="go">(-20037508.342789244, -20048966.104014594, 20037508.342789244, 20048966.104014594)</span>
 </pre></div>
 </div>
-</section>
-<section id="multithreading">
+</div>
+<div class="section" id="multithreading">
 <h2>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this headline">¶</a></h2>
 <p>As of version 3.1, these objects are thread-safe:</p>
 <ul class="simple">
@@ -367,8 +366,8 @@ within the thread that uses it.</p>
         <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="optimizing-single-threaded-applications">
+</div>
+<div class="section" id="optimizing-single-threaded-applications">
 <h2>Optimizing Single-Threaded Applications<a class="headerlink" href="#optimizing-single-threaded-applications" title="Permalink to this headline">¶</a></h2>
 <p>If you have a single-threaded application that generates many objects,
 enabling the use of the global context can provide performance enhancements.</p>
@@ -380,8 +379,8 @@ enabling the use of the global context can provide performance enhancements.</p>
 <span class="n">crs_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyproj</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">]</span>
 </pre></div>
 </div>
-</section>
-<section id="debugging-internal-proj">
+</div>
+<div class="section" id="debugging-internal-proj">
 <span id="id2"></span><h2>Debugging Internal PROJ<a class="headerlink" href="#debugging-internal-proj" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.0.</span></p>
@@ -414,8 +413,8 @@ environment variable to the desired level.</p></li>
 </div></blockquote>
 </li>
 </ol>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
