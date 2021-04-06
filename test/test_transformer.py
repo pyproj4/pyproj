@@ -1336,3 +1336,17 @@ def test_transform_bounds__antimeridian__xy():
         transformer.transform_bounds(*transformed_bounds, direction="INVERSE"),
         (153.2799922, -56.7471249, -162.1813873, -24.6148194),
     )
+
+
+def test_transform_bounds__beyond_global_bounds():
+    transformer = Transformer.from_crs(
+        "EPSG:6933",
+        "EPSG:4326",
+        always_xy=True,
+    )
+    assert_almost_equal(
+        transformer.transform_bounds(
+            -17367531.3203125, -7314541.19921875, 17367531.3203125, 7314541.19921875
+        ),
+        (-180, -85.0445994113099, 180, 85.0445994113099),
+    )

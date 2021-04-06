@@ -409,7 +409,7 @@ cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
     cdef double positive_min = HUGE_VAL
     cdef double min_value = HUGE_VAL
     cdef double delta = 0
-    cdef bint crossed_meridian = False
+    cdef int crossed_meridian_count = 0
     cdef bint positive_meridian = False
 
     for iii in range(0, arr_len):
@@ -420,15 +420,15 @@ cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
         delta = data[prev_iii] - data[iii]
         # 180 -> -180
         if delta >= 200:
-            if not crossed_meridian:
+            if crossed_meridian_count == 0:
                 positive_min = min_value
-            crossed_meridian = True
+            crossed_meridian_count += 1
             positive_meridian = False
         # -180 -> 180
         elif delta <= -200:
-            if not crossed_meridian:
+            if crossed_meridian_count == 0:
                 positive_min = data[iii]
-            crossed_meridian = True
+            crossed_meridian_count += 1
             positive_meridian = True
         # positive meridian side min
         if positive_meridian and data[iii] < positive_min:
@@ -436,8 +436,11 @@ cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
         # track genral min value
         if data[iii] < min_value:
             min_value = data[iii]
-    if crossed_meridian:
+    if crossed_meridian_count == 2:
         return positive_min
+    elif crossed_meridian_count == 4:
+        # bounds extends beyond -180/180
+        return -180
     return min_value
 
 
@@ -461,7 +464,7 @@ cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
     cdef double max_value = -HUGE_VAL
     cdef double delta = 0
     cdef bint negative_meridian = False
-    cdef bint crossed_meridian = False
+    cdef int crossed_meridian_count = 0
     for iii in range(0, arr_len):
         prev_iii = iii - 1
         if prev_iii == -1:
@@ -470,16 +473,16 @@ cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
         delta = data[prev_iii] - data[iii]
         # 180 -> -180
         if delta >= 200:
-            if not crossed_meridian:
+            if crossed_meridian_count == 0:
                 negative_max = data[iii]
-            crossed_meridian = True
+            crossed_meridian_count += 1
             negative_meridian = True
         # -180 -> 180
         elif delta <= -200:
-            if not crossed_meridian:
+            if crossed_meridian_count == 0:
                 negative_max = max_value
             negative_meridian = False
-            crossed_meridian = True
+            crossed_meridian_count += 1
         # negative meridian side max
         if (negative_meridian
             and (data[iii] > negative_max or negative_max == HUGE_VAL)
@@ -489,8 +492,11 @@ cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
         # track genral max value
         if (data[iii] > max_value or max_value == HUGE_VAL) and data[iii] != HUGE_VAL:
             max_value = data[iii]
-    if crossed_meridian:
+    if crossed_meridian_count == 2:
         return negative_max
+    elif crossed_meridian_count == 4:
+        # bounds extends beyond -180/180
+        return 180
     return max_value
 
 
