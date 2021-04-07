@@ -22,6 +22,7 @@ jobs:
       - name: Install PROJ
         shell: bash
         run: |
+          sudo apt-get update
           sudo apt-get install -qq sqlite3 libsqlite3-dev libtiff-dev libcurl4-openssl-dev
           bash ci/proj-compile.sh git
 
