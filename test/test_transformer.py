@@ -1364,8 +1364,8 @@ def test_transform_bounds__beyond_global_bounds():
 @pytest.mark.parametrize(
     "input_crs,expected_bounds",
     [
-        ("ESRI:102036", (-1e-08, -89178007.82995728, 1e-08, 4e-10)),
-        ("ESRI:54026", (-1.5e-07, -179545823.75395507, 1.5e-07, 179545823.75395507)),
+        ("ESRI:102036", (0, -89178008, 0, 0)),
+        ("ESRI:54026", (0, -179545824, 0, 179545824)),
     ],
 )
 def test_transform_bounds__ignore_inf(input_crs, expected_bounds):
@@ -1374,4 +1374,5 @@ def test_transform_bounds__ignore_inf(input_crs, expected_bounds):
     assert_almost_equal(
         transformer.transform_bounds(*crs.area_of_use.bounds),
         expected_bounds,
+        decimal=0,
     )
