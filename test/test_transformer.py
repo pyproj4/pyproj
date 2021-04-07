@@ -1248,7 +1248,14 @@ def test_transform_bounds_densify(density, expected):
         (100, (-1684649.41338, -555777.79210, 1684649.41338, 2234551.18559)),
     ],
 )
-def test_transform_bounds_densify__xy(density, expected):
+@pytest.mark.parametrize(
+    "input_bounds, radians",
+    [
+        ((-120, 40, -80, 64), False),
+        ((np.radians(-120), np.radians(40), np.radians(-80), np.radians(64)), True),
+    ],
+)
+def test_transform_bounds_densify__xy(density, expected, input_bounds, radians):
     transformer = Transformer.from_crs(
         "EPSG:4326",
         "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 "
@@ -1256,7 +1263,9 @@ def test_transform_bounds_densify__xy(density, expected):
         always_xy=True,
     )
     assert np.allclose(
-        transformer.transform_bounds(-120, 40, -80, 64, densify_pts=density),
+        transformer.transform_bounds(
+            *input_bounds, densify_pts=density, radians=radians
+        ),
         expected,
     )
 
@@ -1283,7 +1292,7 @@ def test_transform_bounds_densify_out_of_bounds__geographic_output():
         transformer.transform_bounds(-120, 40, -80, 64, densify_pts=1)
 
 
-def test_transform_bounds_radians():
+def test_transform_bounds_radians_output():
     transformer = Transformer.from_crs(
         "EPSG:4326",
         "+proj=geocent +ellps=WGS84 +datum=WGS84",
@@ -1349,4 +1358,21 @@ def test_transform_bounds__beyond_global_bounds():
             -17367531.3203125, -7314541.19921875, 17367531.3203125, 7314541.19921875
         ),
         (-180, -85.0445994113099, 180, 85.0445994113099),
+    )
+
+
+@pytest.mark.parametrize(
+    "input_crs,expected_bounds",
+    [
+        ("ESRI:102036", (0, -89178008, 0, 0)),
+        ("ESRI:54026", (0, -179545824, 0, 179545824)),
+    ],
+)
+def test_transform_bounds__ignore_inf(input_crs, expected_bounds):
+    crs = CRS(input_crs)
+    transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True)
+    assert_almost_equal(
+        transformer.transform_bounds(*crs.area_of_use.bounds),
+        expected_bounds,
+        decimal=0,
     )
