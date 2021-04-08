@@ -1376,3 +1376,12 @@ def test_transform_bounds__ignore_inf(input_crs, expected_bounds):
         expected_bounds,
         decimal=0,
     )
+
+
+def test_transform_bounds__noop_geographic():
+    crs = CRS("Pulkovo 1942")
+    transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True)
+    assert_almost_equal(
+        transformer.transform_bounds(*crs.area_of_use.bounds),
+        crs.area_of_use.bounds,
+    )

@@ -761,6 +761,7 @@ cdef class _Transformer(Base):
         if (
             self.projections_exact_same
             or (self.projections_equivalent and self.skip_equivalent)
+            or self.id == "noop"
         ):
             return
 
@@ -855,6 +856,7 @@ cdef class _Transformer(Base):
         if (
             self.projections_exact_same
             or (self.projections_equivalent and self.skip_equivalent)
+            or self.id == "noop"
         ):
             return
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
@@ -957,8 +959,9 @@ cdef class _Transformer(Base):
         if (
             self.projections_exact_same
             or (self.projections_equivalent and self.skip_equivalent)
+            or self.id == "noop"
         ):
-            return
+            return (left, bottom, right, top)
 
         if densify_pts < 0:
             raise ProjError("densify_pts must be positive")
