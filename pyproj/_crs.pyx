@@ -2932,6 +2932,8 @@ cdef class _CRS(Base):
     @property
     def is_compound(self):
         """
+        .. versionadded:: 3.1.0
+
         Returns
         -------
         bool:
