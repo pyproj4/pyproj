@@ -134,7 +134,10 @@
       "contributions": [
         "review",
         "ideas",
-        "platform"
+        "platform",
+        "doc",
+        "test",
+        "code"
       ]
     },
     {
