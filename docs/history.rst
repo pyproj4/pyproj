@@ -12,6 +12,7 @@ Change Log
 * ENH: Added support for "AUTH:CODE" input to :meth:`pyproj.transformer.Transformer.from_pipeline` (issue #755)
 * ENH: Added :meth:`pyproj.crs.CRS.to_3d` (pull #808)
 * ENH: Added :meth:`pyproj.transformer.Transformer.transform_bounds` (issue #809)
+* ENH: Added :attr:`pyproj.crs.CRS.is_compound` (pull #823)
 
 3.0.1
 -----

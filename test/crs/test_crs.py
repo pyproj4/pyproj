@@ -143,6 +143,11 @@ def test_is_projected():
     assert CRS.from_user_input(wgs84_crs).is_projected is False
 
 
+def test_is_compound():
+    assert CRS("EPSG:4326+5773").is_compound
+    assert not CRS("EPSG:4326").is_compound
+
+
 def test_is_same_crs():
     crs1 = CRS("urn:ogc:def:crs:OGC::CRS84")
     crs2 = CRS("EPSG:3857")

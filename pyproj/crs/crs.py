@@ -1374,6 +1374,18 @@ class CRS:
         return self._crs.is_bound
 
     @property
+    def is_compound(self) -> bool:
+        """
+        .. versionadded:: 3.1.0
+
+        Returns
+        -------
+        bool:
+            True if CRS is compound.
+        """
+        return self._crs.is_compound
+
+    @property
     def is_engineering(self) -> bool:
         """
         .. versionadded:: 2.2.0
