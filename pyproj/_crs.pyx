@@ -2564,6 +2564,10 @@ cdef class _CRS(Base):
         """
         if self._sub_crs_list is not None:
             return self._sub_crs_list
+        if not self.is_compound:
+            self._sub_crs_list = []
+            return self._sub_crs_list
+
         cdef int iii = 0
         cdef PJ * projobj = proj_crs_get_sub_crs(
             self.context,
@@ -2924,6 +2928,16 @@ cdef class _CRS(Base):
             True if CRS is bound.
         """
         return self._type == PJ_TYPE_BOUND_CRS
+
+    @property
+    def is_compound(self):
+        """
+        Returns
+        -------
+        bool:
+            True if CRS is compound.
+        """
+        return self._type == PJ_TYPE_COMPOUND_CRS
 
     @property
     def is_engineering(self):
