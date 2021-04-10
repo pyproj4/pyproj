@@ -78,61 +78,20 @@ def test_lambert_conformal_transform():
 
 
 def test_equivalent_crs():
-    transformer = Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
-    assert transformer._transformer.projections_equivalent
-    assert transformer._transformer.projections_exact_same
-    assert transformer._transformer.skip_equivalent
-
-
-def test_equivalent_crs__disabled():
-    transformer = Transformer.from_crs("epsg:4326", 4326)
-    assert not transformer._transformer.skip_equivalent
-    assert transformer._transformer.projections_equivalent
-    assert transformer._transformer.projections_exact_same
-
-
-def test_equivalent_crs__different():
-    transformer = Transformer.from_crs("epsg:4326", 3857, skip_equivalent=True)
-    assert transformer._transformer.skip_equivalent
-    assert not transformer._transformer.projections_equivalent
-    assert not transformer._transformer.projections_exact_same
+    with pytest.warns(DeprecationWarning):
+        Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
 
 
 def test_equivalent_proj():
-    with pytest.warns(UserWarning):
-        proj_to = pyproj.Proj(4326).crs.to_proj4()
     with pytest.warns(FutureWarning):
-        transformer = Transformer.from_proj(
-            "+init=epsg:4326", proj_to, skip_equivalent=True
-        )
-    assert transformer._transformer.skip_equivalent
-    assert transformer._transformer.projections_equivalent
-    assert not transformer._transformer.projections_exact_same
+        proj_from = pyproj.Proj("+init=epsg:4326")
+    with pytest.warns(DeprecationWarning):
+        Transformer.from_proj(proj_from, 4326, skip_equivalent=True)
 
 
-def test_equivalent_proj__disabled():
-    with pytest.warns(UserWarning):
-        transformer = Transformer.from_proj(3857, pyproj.Proj(3857).crs.to_proj4())
-    assert not transformer._transformer.skip_equivalent
-    assert transformer._transformer.projections_equivalent
-    assert not transformer._transformer.projections_exact_same
-
-
-def test_equivalent_proj__different():
-    transformer = Transformer.from_proj(3857, 4326, skip_equivalent=True)
-    assert transformer._transformer.skip_equivalent
-    assert not transformer._transformer.projections_equivalent
-    assert not transformer._transformer.projections_exact_same
-
-
-def test_equivalent_pipeline():
-    transformer = Transformer.from_pipeline(
-        "+proj=pipeline +step +proj=longlat +ellps=WGS84 +step "
-        "+proj=unitconvert +xy_in=rad +xy_out=deg"
-    )
-    assert not transformer._transformer.skip_equivalent
-    assert not transformer._transformer.projections_equivalent
-    assert not transformer._transformer.projections_exact_same
+def test_equivalent_transformer_group():
+    with pytest.warns(DeprecationWarning):
+        TransformerGroup("epsg:4326", 4326, skip_equivalent=True)
 
 
 def test_4d_transform():

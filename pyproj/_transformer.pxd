@@ -12,9 +12,6 @@ cdef class _TransformerGroup:
 cdef class _Transformer(Base):
     cdef PJ_PROJ_INFO proj_info
     cdef readonly _area_of_use
-    cdef readonly skip_equivalent
-    cdef readonly projections_equivalent
-    cdef readonly projections_exact_same
     cdef readonly type_name
     cdef readonly object _operations
 
@@ -22,8 +19,5 @@ cdef class _Transformer(Base):
     cdef _Transformer _from_pj(
         PJ_CONTEXT* context,
         PJ *transform_pj,
-        _CRS crs_from,
-        _CRS crs_to,
-        skip_equivalent,
         always_xy,
     )

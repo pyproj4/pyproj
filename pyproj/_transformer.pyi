@@ -32,9 +32,8 @@ class _TransformerGroup:
     _best_available: bool
     def __init__(
         self,
-        crs_from: _CRS,
-        crs_to: _CRS,
-        skip_equivalent: bool = False,
+        crs_from: str,
+        crs_to: str,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
     ) -> None: ...
@@ -43,9 +42,6 @@ class _Transformer(Base):
     input_geographic: bool
     output_geographic: bool
     is_pipeline: bool
-    skip_equivalent: bool
-    projections_equivalent: bool
-    projections_exact_same: bool
     type_name: str
     @property
     def id(self) -> str: ...
@@ -70,9 +66,8 @@ class _Transformer(Base):
     ) -> str: ...
     @staticmethod
     def from_crs(
-        crs_from: _CRS,
-        crs_to: _CRS,
-        skip_equivalent: bool = False,
+        crs_from: str,
+        crs_to: str,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
         authority: Optional[str] = None,
