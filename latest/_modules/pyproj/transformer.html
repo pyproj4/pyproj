@@ -250,9 +250,8 @@
 <span class="sd">    Generates a Cython _Transformer class from input CRS data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">crs_from</span><span class="p">:</span> <span class="n">CRS</span>
-    <span class="n">crs_to</span><span class="p">:</span> <span class="n">CRS</span>
-    <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">crs_from</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">crs_to</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span>
     <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
@@ -266,9 +265,8 @@
 <span class="sd">        _Transformer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">crs_from</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">crs_to</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
-            <span class="n">skip_equivalent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_equivalent</span><span class="p">,</span>
+            <span class="n">cstrencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs_from</span><span class="p">),</span>
+            <span class="n">cstrencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs_to</span><span class="p">),</span>
             <span class="n">always_xy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">always_xy</span><span class="p">,</span>
             <span class="n">area_of_interest</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">area_of_interest</span><span class="p">,</span>
             <span class="n">authority</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">authority</span><span class="p">,</span>
@@ -326,6 +324,7 @@
         <span class="sd">&quot;&quot;&quot;Get all possible transformations from a :obj:`pyproj.crs.CRS`</span>
 <span class="sd">        or input used to create one.</span>
 
+<span class="sd">        .. deprecated:: 3.1 skip_equivalent</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -334,8 +333,8 @@
 <span class="sd">        crs_to: pyproj.crs.CRS or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
 <span class="sd">        skip_equivalent: bool, optional</span>
-<span class="sd">            If true, will skip the transformation operation if input and output</span>
-<span class="sd">            projections are equivalent. Default is false.</span>
+<span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
+<span class="sd">            if input and output projections are equivalent. Default is false.</span>
 <span class="sd">        always_xy: bool, optional</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
@@ -346,10 +345,16 @@
 <span class="sd">            best operation for the area.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">skip_equivalent</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;skip_equivalent is deprecated.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
-            <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
             <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
             <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
         <span class="p">)</span>
@@ -594,6 +599,7 @@
 <span class="sd">        .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
+<span class="sd">        .. deprecated:: 3.1 skip_equivalent</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -602,8 +608,8 @@
 <span class="sd">        proj_to: :obj:`pyproj.Proj` or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
 <span class="sd">        skip_equivalent: bool, optional</span>
-<span class="sd">            If true, will skip the transformation operation if input and output</span>
-<span class="sd">            projections are equivalent. Default is false.</span>
+<span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
+<span class="sd">            if input and output projections are equivalent. Default is false.</span>
 <span class="sd">        always_xy: bool, optional</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
@@ -649,6 +655,7 @@
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
 <span class="sd">        .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark</span>
+<span class="sd">        .. deprecated:: 3.1 skip_equivalent</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -657,8 +664,8 @@
 <span class="sd">        crs_to: pyproj.crs.CRS or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
 <span class="sd">        skip_equivalent: bool, optional</span>
-<span class="sd">            If true, will skip the transformation operation if input and output</span>
-<span class="sd">            projections are equivalent. Default is false.</span>
+<span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
+<span class="sd">            if input and output projections are equivalent. Default is false.</span>
 <span class="sd">        always_xy: bool, optional</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
@@ -688,11 +695,17 @@
 <span class="sd">        Transformer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">skip_equivalent</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;skip_equivalent is deprecated.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
             <span class="n">TransformerFromCRS</span><span class="p">(</span>
-                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">),</span>
-                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">),</span>
-                <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
+                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">srs</span><span class="p">,</span>
+                <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">)</span><span class="o">.</span><span class="n">srs</span><span class="p">,</span>
                 <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
                 <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
                 <span class="n">authority</span><span class="o">=</span><span class="n">authority</span><span class="p">,</span>
@@ -809,7 +822,7 @@
 <span class="sd">        &gt;&gt;&gt; xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)</span>
 <span class="sd">        &gt;&gt;&gt; f&quot;{xpjr:.3f} {ypjr:.3f} {zpjr:.3f}&quot;</span>
 <span class="sd">        &#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
-<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_proj(&quot;epsg:4326&quot;, 4326, skip_equivalent=True)</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_proj(&quot;epsg:4326&quot;, 4326)</span>
 <span class="sd">        &gt;&gt;&gt; xeq, yeq = transformer.transform(33, 98)</span>
 <span class="sd">        &gt;&gt;&gt; f&quot;{xeq:.0f}  {yeq:.0f}&quot;</span>
 <span class="sd">        &#39;33  98&#39;</span>
@@ -930,7 +943,6 @@
 <span class="sd">        ...     &#39;EPSG:4326&#39;,</span>
 <span class="sd">        ...     &#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;,</span>
 <span class="sd">        ...     always_xy=True,</span>
-<span class="sd">        ...     skip_equivalent=True</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for pt in transproj_eq.itransform([(-2.137, 0.661)]):</span>
 <span class="sd">        ...     &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
@@ -1161,8 +1173,10 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
+<span class="sd">    .. deprecated::3.1 skip_equivalent</span>
 
-<span class="sd">    .. warning:: This function is deprecated. See: :ref:`upgrade_transformer`</span>
+<span class="sd">    .. deprecated:: 2.6.1</span>
+<span class="sd">        This function is deprecated. See: :ref:`upgrade_transformer`</span>
 
 <span class="sd">    x2, y2, z2 = transform(p1, p2, x1, y1, z1)</span>
 
@@ -1181,12 +1195,10 @@
 <span class="sd">    exception is raised if the transformation is</span>
 <span class="sd">    invalid. By default errcheck=False and ``inf`` is returned for an</span>
 <span class="sd">    invalid transformation (and no exception is raised).</span>
-<span class="sd">    If the optional kwarg skip_equivalent is true (default is False),</span>
-<span class="sd">    it will skip the transformation operation if input and output</span>
-<span class="sd">    projections are equivalent. If `always_xy` is toggled, the</span>
-<span class="sd">    transform method will accept as input and return as output</span>
-<span class="sd">    coordinates using the traditional GIS order, that is longitude, latitude</span>
-<span class="sd">    for geographic CRS and easting, northing for most projected CRS.</span>
+<span class="sd">    If `always_xy` is toggled, the transform method will accept as</span>
+<span class="sd">    input and return as output coordinates using the traditional GIS order,</span>
+<span class="sd">    that is longitude, latitude for geographic CRS and easting,</span>
+<span class="sd">    northing for most projected CRS.</span>
 
 <span class="sd">    In addition to converting between cartographic and geographic</span>
 <span class="sd">    projection coordinates, this function can take care of datum</span>
@@ -1261,8 +1273,10 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
+<span class="sd">    .. deprecated::3.1 skip_equivalent</span>
 
-<span class="sd">    .. warning:: This function is deprecated. See: :ref:`upgrade_transformer`</span>
+<span class="sd">    .. deprecated:: 2.6.1</span>
+<span class="sd">        This function is deprecated. See: :ref:`upgrade_transformer`</span>
 
 <span class="sd">    points2 = itransform(p1, p2, points1)</span>
 <span class="sd">    Iterator/generator version of the function pyproj.transform.</span>
@@ -1289,12 +1303,10 @@
 <span class="sd">    exception is raised if the transformation is</span>
 <span class="sd">    invalid. By default errcheck=False and ``inf`` is returned for an</span>
 <span class="sd">    invalid transformation (and no exception is raised).</span>
-<span class="sd">    If the optional kwarg skip_equivalent is true (default is False),</span>
-<span class="sd">    it will skip the transformation operation if input and output</span>
-<span class="sd">    projections are equivalent. If `always_xy` is toggled, the</span>
-<span class="sd">    transform method will accept as input and return as output</span>
-<span class="sd">    coordinates using the traditional GIS order, that is longitude, latitude</span>
-<span class="sd">    for geographic CRS and easting, northing for most projected CRS.</span>
+<span class="sd">    If `always_xy` is toggled, the transform method will accept as</span>
+<span class="sd">    input and return as output coordinates using the traditional GIS order,</span>
+<span class="sd">    that is longitude, latitude for geographic CRS and easting, northing</span>
+<span class="sd">    for most projected CRS.</span>
 
 
 <span class="sd">    Example usage:</span>
@@ -1312,7 +1324,7 @@
 <span class="sd">    &#39;411050.470 4497928.574&#39;</span>
 <span class="sd">    &#39;399060.236 4486978.710&#39;</span>
 <span class="sd">    &#39;458553.243 4523045.485&#39;</span>
-<span class="sd">    &gt;&gt;&gt; for pt in itransform(4326, 4326, [(30, 60)], skip_equivalent=True):</span>
+<span class="sd">    &gt;&gt;&gt; for pt in itransform(4326, 4326, [(30, 60)]):</span>
 <span class="sd">    ...     &#39;{:.0f} {:.0f}&#39;.format(*pt)</span>
 <span class="sd">    &#39;30 60&#39;</span>
 

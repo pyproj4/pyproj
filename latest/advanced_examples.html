@@ -217,16 +217,7 @@ optimize your transformations.</p>
 </div>
 <div class="section" id="transforming-with-the-same-projections">
 <h3>Transforming with the same projections<a class="headerlink" href="#transforming-with-the-same-projections" title="Permalink to this headline">¶</a></h3>
-<p>pyproj will skip transformations if they are exactly the same by default. However, if you
-sometimes throw in the projections that are about the same and the results being close enough
-is what you want, the <cite>skip_equivalent</cite> option can help.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>From PROJ code: The objects are equivalent for the purpose of coordinate operations.
-They can differ by the name of their objects, identifiers, other metadata.
-Parameters may be expressed in different units, provided that the value is
-(with some tolerance) the same once expressed in a common unit.</p>
-</div>
+<p>pyproj skips <cite>noop</cite> transformations.</p>
 </div>
 </div>
 <div class="section" id="transformation-group">
