@@ -123,7 +123,6 @@ cdef class _TransformerGroup:
         self,
         _CRS crs_from,
         _CRS crs_to,
-        skip_equivalent=False,
         always_xy=False,
         area_of_interest=None,
     ):
@@ -201,9 +200,6 @@ cdef class _TransformerGroup:
                         _Transformer._from_pj(
                             context,
                             pj_transform,
-                            crs_from,
-                            crs_to,
-                            skip_equivalent,
                             always_xy,
                         )
                     )
@@ -503,9 +499,6 @@ cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
 cdef class _Transformer(Base):
     def __cinit__(self):
         self._area_of_use = None
-        self.skip_equivalent = False
-        self.projections_equivalent = False
-        self.projections_exact_same = False
         self.type_name = "Unknown Transformer"
         self._operations = None
 
@@ -598,9 +591,8 @@ cdef class _Transformer(Base):
 
     @staticmethod
     def from_crs(
-        _CRS crs_from,
-        _CRS crs_to,
-        skip_equivalent=False,
+        const char* crs_from,
+        const char* crs_to,
         always_xy=False,
         area_of_interest=None,
         authority=None,
@@ -638,8 +630,8 @@ cdef class _Transformer(Base):
             transformer.context = pyproj_context_create()
             transformer.projobj = proj_create_crs_to_crs(
                 transformer.context,
-                cstrencode(crs_from.srs),
-                cstrencode(crs_to.srs),
+                crs_from,
+                crs_to,
                 pj_area_of_interest,
                 authority=authority,
                 accuracy=accuracy,
@@ -652,21 +644,13 @@ cdef class _Transformer(Base):
         if transformer.projobj == NULL:
             raise ProjError("Error creating Transformer from CRS.")
 
-        transformer._init_from_crs(
-            crs_from=crs_from,
-            crs_to=crs_to,
-            skip_equivalent=skip_equivalent,
-            always_xy=always_xy,
-        )
+        transformer._init_from_crs(always_xy)
         return transformer
 
     @staticmethod
     cdef _Transformer _from_pj(
         PJ_CONTEXT* context,
         PJ *transform_pj,
-        _CRS crs_from,
-        _CRS crs_to,
-        skip_equivalent,
         always_xy,
     ):
         """
@@ -679,12 +663,7 @@ cdef class _Transformer(Base):
         if transformer.projobj == NULL:
             raise ProjError("Error creating Transformer.")
 
-        transformer._init_from_crs(
-            crs_from=crs_from,
-            crs_to=crs_to,
-            skip_equivalent=skip_equivalent,
-            always_xy=always_xy,
-        )
+        transformer._init_from_crs(always_xy)
         return transformer
 
     @staticmethod
@@ -729,22 +708,13 @@ cdef class _Transformer(Base):
         proj_destroy(self.projobj)
         self.projobj = always_xy_pj
 
-    def _init_from_crs(
-        self,
-        _CRS crs_from,
-        _CRS crs_to,
-        skip_equivalent,
-        always_xy,
-    ):
+    def _init_from_crs(self, always_xy):
         """
         Finish initializing transformer properties from CRS objects
         """
         if always_xy:
             self._set_always_xy()
         self._initialize_from_projobj()
-        self.projections_exact_same = crs_from.is_exact_same(crs_to)
-        self.projections_equivalent = crs_from == crs_to
-        self.skip_equivalent = skip_equivalent
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -758,11 +728,7 @@ cdef class _Transformer(Base):
         bint radians,
         bint errcheck,
     ):
-        if (
-            self.projections_exact_same
-            or (self.projections_equivalent and self.skip_equivalent)
-            or self.id == "noop"
-        ):
+        if self.id == "noop":
             return
 
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
@@ -853,11 +819,7 @@ cdef class _Transformer(Base):
         bint radians,
         bint errcheck,
     ):
-        if (
-            self.projections_exact_same
-            or (self.projections_equivalent and self.skip_equivalent)
-            or self.id == "noop"
-        ):
+        if self.id == "noop":
             return
         tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
         cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
@@ -956,11 +918,7 @@ cdef class _Transformer(Base):
         bint errcheck,
         object direction,
     ):
-        if (
-            self.projections_exact_same
-            or (self.projections_equivalent and self.skip_equivalent)
-            or self.id == "noop"
-        ):
+        if self.id == "noop":
             return (left, bottom, right, top)
 
         if densify_pts < 0:
