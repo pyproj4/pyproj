@@ -289,13 +289,16 @@ is to make repeated transforms faster.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.0: </span>authority, accuracy, allow_ballpark</p>
 </div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.1: </span>skip_equivalent</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
 <li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
-<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
-projections are equivalent. Default is false.</p></li>
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – DEPRECATED: If true, will skip the transformation operation
+if input and output projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
@@ -375,13 +378,16 @@ coordinateOperation:EPSG::1618”)</p></li>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0: </span>area_of_interest</p>
 </div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.1: </span>skip_equivalent</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>proj_from</strong> (<a class="reference internal" href="proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one) – Projection of input data.</p></li>
 <li><p><strong>proj_to</strong> (<a class="reference internal" href="proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
-<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
-projections are equivalent. Default is false.</p></li>
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – DEPRECATED: If true, will skip the transformation operation
+if input and output projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
@@ -491,7 +497,6 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <span class="gp">... </span>    <span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">True</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transproj_eq</span><span class="o">.</span><span class="n">itransform</span><span class="p">([(</span><span class="o">-</span><span class="mf">2.137</span><span class="p">,</span> <span class="mf">0.661</span><span class="p">)]):</span>
 <span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
@@ -718,7 +723,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xpjr</span><span class="p">,</span> <span class="n">ypjr</span><span class="p">,</span> <span class="n">zpjr</span> <span class="o">=</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xeq</span><span class="p">,</span> <span class="n">yeq</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;33  98&#39;</span>
@@ -793,13 +798,16 @@ returned are not thread-safe.</p>
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">skip_equivalent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">always_xy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest">pyproj.aoi.AreaOfInterest</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all possible transformations from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
 or input used to create one.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.1: </span>skip_equivalent</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
 <li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
-<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, will skip the transformation operation if input and output
-projections are equivalent. Default is false.</p></li>
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – DEPRECATED: If true, will skip the transformation operation
+if input and output projections are equivalent. Default is false.</p></li>
 <li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
 for geographic CRS and easting, northing for most projected CRS.
@@ -880,9 +888,8 @@ available due to missing grids.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This function is deprecated. See: <a class="reference internal" href="../gotchas.html#upgrade-transformer"><span class="std std-ref">Upgrading to pyproj 2 from pyproj 1</span></a></p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.6.1: </span>This function is deprecated. See: <a class="reference internal" href="../gotchas.html#upgrade-transformer"><span class="std std-ref">Upgrading to pyproj 2 from pyproj 1</span></a></p>
 </div>
 <p>x2, y2, z2 = transform(p1, p2, x1, y1, z1)</p>
 <p>Transform points between two coordinate systems defined by the
@@ -898,12 +905,10 @@ If the optional keyword ‘errcheck’ is set to True an
 exception is raised if the transformation is
 invalid. By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for an
 invalid transformation (and no exception is raised).
-If the optional kwarg skip_equivalent is true (default is False),
-it will skip the transformation operation if input and output
-projections are equivalent. If <cite>always_xy</cite> is toggled, the
-transform method will accept as input and return as output
-coordinates using the traditional GIS order, that is longitude, latitude
-for geographic CRS and easting, northing for most projected CRS.</p>
+If <cite>always_xy</cite> is toggled, the transform method will accept as
+input and return as output coordinates using the traditional GIS order,
+that is longitude, latitude for geographic CRS and easting,
+northing for most projected CRS.</p>
 <p>In addition to converting between cartographic and geographic
 projection coordinates, this function can take care of datum
 shifts (which cannot be done using the __call__ method of the
@@ -961,9 +966,8 @@ z is always meters.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This function is deprecated. See: <a class="reference internal" href="../gotchas.html#upgrade-transformer"><span class="std std-ref">Upgrading to pyproj 2 from pyproj 1</span></a></p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.6.1: </span>This function is deprecated. See: <a class="reference internal" href="../gotchas.html#upgrade-transformer"><span class="std std-ref">Upgrading to pyproj 2 from pyproj 1</span></a></p>
 </div>
 <p>points2 = itransform(p1, p2, points1)
 Iterator/generator version of the function pyproj.transform.
@@ -992,12 +996,10 @@ If the optional keyword ‘errcheck’ is set to True an
 exception is raised if the transformation is
 invalid. By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for an
 invalid transformation (and no exception is raised).
-If the optional kwarg skip_equivalent is true (default is False),
-it will skip the transformation operation if input and output
-projections are equivalent. If <cite>always_xy</cite> is toggled, the
-transform method will accept as input and return as output
-coordinates using the traditional GIS order, that is longitude, latitude
-for geographic CRS and easting, northing for most projected CRS.</p>
+If <cite>always_xy</cite> is toggled, the transform method will accept as
+input and return as output coordinates using the traditional GIS order,
+that is longitude, latitude for geographic CRS and easting, northing
+for most projected CRS.</p>
 <p>Example usage:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">itransform</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: WGS84</span>
@@ -1012,7 +1014,7 @@ for geographic CRS and easting, northing for most projected CRS.</p>
 <span class="go">&#39;411050.470 4497928.574&#39;</span>
 <span class="go">&#39;399060.236 4486978.710&#39;</span>
 <span class="go">&#39;458553.243 4523045.485&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="p">[(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">)],</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="p">[(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">)]):</span>
 <span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> </span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
 <span class="go">&#39;30 60&#39;</span>
 </pre></div>
