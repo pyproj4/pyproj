@@ -14,6 +14,7 @@ Change Log
 * ENH: Added :meth:`pyproj.transformer.Transformer.transform_bounds` (issue #809)
 * ENH: Added :attr:`pyproj.crs.CRS.is_compound` (pull #823)
 * REF: Skip transformations if `noop` & deprecate `skip_equivalent` (pull #824)
+* REF: Update :meth:`pyproj.Geod.npts` to use `geod_inverseline` (pull #825)
 
 3.0.1
 -----

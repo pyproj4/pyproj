@@ -2,7 +2,17 @@ cdef extern from "geodesic.h":
     struct geod_geodesic:
         pass
     struct geod_geodesicline:
-        pass
+        double lat1
+        double lon1
+        double azi1
+        double a
+        double f
+        double salp1
+        double calp1
+        double a13
+        double s13
+        unsigned caps
+
     void geod_init(geod_geodesic* g, double a, double f)
     void geod_direct(
         geod_geodesic* g,
@@ -22,12 +32,13 @@ cdef extern from "geodesic.h":
         double* ps12,
         double* pazi1,
         double* pazi2) nogil
-    void geod_lineinit(
+    void geod_inverseline(
         geod_geodesicline* l,
-        geod_geodesic* g,
+        const geod_geodesic* g,
         double lat1,
         double lon1,
-        double azi1,
+        double lat2,
+        double lon2,
         unsigned caps) nogil
     void geod_position(
         geod_geodesicline* l,
