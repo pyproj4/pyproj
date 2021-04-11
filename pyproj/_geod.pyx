@@ -1,6 +1,9 @@
 include "base.pxi"
 
 cimport cython
+from cpython cimport array
+
+import array
 
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.exceptions import GeodError
@@ -164,44 +167,39 @@ cdef class Geod:
         """
         cdef Py_ssize_t iii
         cdef double del_s
-        cdef double ps12
-        cdef double pazi1
         cdef double pazi2
         cdef double s12
         cdef double plon2
         cdef double plat2
         cdef geod_geodesicline line
+        cdef array.array array_template = array.array("d", [])
+        cdef array.array lats = array.clone(array_template, npts, zero=False)
+        cdef array.array lons = array.clone(array_template, npts, zero=False)
+        cdef PyBuffWriteManager lats_buff = PyBuffWriteManager(lats)
+        cdef PyBuffWriteManager lons_buff = PyBuffWriteManager(lons)
 
-        if radians:
-            lon1 = _RAD2DG * lon1
-            lat1 = _RAD2DG * lat1
-            lon2 = _RAD2DG * lon2
-            lat2 = _RAD2DG * lat2
-        # do inverse computation to set azimuths, distance.
-        # in proj 4.9.3 and later the next two steps can be replace by a call
-        # to geod_inverseline with del_s = line.s13/(npts+1)
         with nogil:
-            geod_inverse(
-                &self._geod_geodesic,
-                lat1, lon1, lat2, lon2,
-                &ps12, &pazi1, &pazi2,
-            )
-            geod_lineinit(&line, &self._geod_geodesic, lat1, lon1, pazi1, 0u)
-        # distance increment.
-        del_s = ps12 / (npts + 1)
-        # initialize output tuples.
-        lats = ()
-        lons = ()
-        # loop over intermediate points, compute lat/lons.
-        for iii in range(1, npts + 1):
-            s12 = iii * del_s
-            geod_position(&line, s12, &plat2, &plon2, &pazi2);
             if radians:
-                lats = lats + (_DG2RAD * plat2,)
-                lons = lons + (_DG2RAD * plon2,)
-            else:
-                lats = lats + (plat2,)
-                lons = lons + (plon2,)
+                lon1 *= _RAD2DG
+                lat1 *= _RAD2DG
+                lon2 *= _RAD2DG
+                lat2 *= _RAD2DG
+            # do inverse computation to set azimuths, distance.
+            geod_inverseline(
+                &line, &self._geod_geodesic, lat1, lon1, lat2, lon2, 0u,
+            )
+            # distance increment.
+            del_s = line.s13 / (npts + 1)
+            # loop over intermediate points, compute lat/lons.
+            for iii in range(1, npts + 1):
+                s12 = iii * del_s
+                geod_position(&line, s12, &plat2, &plon2, &pazi2)
+                if radians:
+                    plat2 *= _DG2RAD
+                    plon2 *= _DG2RAD
+                lats_buff.data[iii - 1] = plat2
+                lons_buff.data[iii - 1] = plon2
+
         return lons, lats
 
     @cython.boundscheck(False)
