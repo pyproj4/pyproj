@@ -16,7 +16,13 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import PROJ_GTE_8, grids_available, proj_env, proj_network_env
+from test.conftest import (
+    PROJ_GTE_8,
+    PROJ_GTE_81,
+    grids_available,
+    proj_env,
+    proj_network_env,
+)
 
 
 def test_tranform_wgs84_to_custom():
@@ -680,30 +686,34 @@ def test_transform_group__missing_best():
 
 @pytest.mark.grid
 def test_transform_group__area_of_interest():
-    if not grids_available("ca_nrc_ntv2_0.tif"):
-        with pytest.warns(
-            UserWarning,
-            match="Best transformation is not available due to missing Grid",
-        ):
-            trans_group = pyproj.transformer.TransformerGroup(
-                4326,
-                2964,
-                area_of_interest=pyproj.transformer.AreaOfInterest(
-                    -136.46, 49.0, -60.72, 83.17
-                ),
-            )
-        assert (
-            trans_group.transformers[0].description
-            == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
-        )
-    else:
-        trans_group = pyproj.transformer.TransformerGroup(
+    def get_transformer_group():
+        return pyproj.transformer.TransformerGroup(
             4326,
             2964,
             area_of_interest=pyproj.transformer.AreaOfInterest(
                 -136.46, 49.0, -60.72, 83.17
             ),
         )
+
+    if PROJ_GTE_81:
+        trans_group = get_transformer_group()
+        assert trans_group.best_available
+        assert (
+            trans_group.transformers[0].description
+            == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
+        )
+    elif not grids_available("ca_nrc_ntv2_0.tif"):
+        with pytest.warns(
+            UserWarning,
+            match="Best transformation is not available due to missing Grid",
+        ):
+            trans_group = get_transformer_group()
+        assert (
+            trans_group.transformers[0].description
+            == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
+        )
+    else:
+        trans_group = get_transformer_group()
         assert trans_group.best_available
         assert (
             trans_group.transformers[0].description
