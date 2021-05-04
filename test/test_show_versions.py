@@ -26,6 +26,7 @@ def test_get_deps_info():
 
     assert "pip" in deps_info
     assert "setuptools" in deps_info
+    assert "certifi" in deps_info
     assert "Cython" in deps_info
 
 
