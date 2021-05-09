@@ -161,9 +161,12 @@ cdef class Geod:
         double lat2,
         int npts,
         bint radians=False,
+        int initial_idx=1,
+        int terminus_idx=1,
     ):
         """
         given initial and terminus lat/lon, find npts intermediate points.
+        returns lons, lats buffers
         """
         cdef Py_ssize_t iii
         cdef double del_s
@@ -172,11 +175,13 @@ cdef class Geod:
         cdef double plon2
         cdef double plat2
         cdef geod_geodesicline line
+
         cdef array.array array_template = array.array("d", [])
-        cdef array.array lats = array.clone(array_template, npts, zero=False)
-        cdef array.array lons = array.clone(array_template, npts, zero=False)
-        cdef PyBuffWriteManager lats_buff = PyBuffWriteManager(lats)
-        cdef PyBuffWriteManager lons_buff = PyBuffWriteManager(lons)
+        cdef array.array out_lons = array.clone(array_template, npts, zero=False)
+        cdef array.array out_lats = array.clone(array_template, npts, zero=False)
+
+        cdef PyBuffWriteManager lats_buff = PyBuffWriteManager(out_lats)
+        cdef PyBuffWriteManager lons_buff = PyBuffWriteManager(out_lons)
 
         with nogil:
             if radians:
@@ -189,18 +194,18 @@ cdef class Geod:
                 &line, &self._geod_geodesic, lat1, lon1, lat2, lon2, 0u,
             )
             # distance increment.
-            del_s = line.s13 / (npts + 1)
+            del_s = line.s13 / (npts + initial_idx + terminus_idx - 1)
             # loop over intermediate points, compute lat/lons.
-            for iii in range(1, npts + 1):
-                s12 = iii * del_s
+            for iii in range(0, npts):
+                s12 = (iii + initial_idx) * del_s
                 geod_position(&line, s12, &plat2, &plon2, &pazi2)
                 if radians:
                     plat2 *= _DG2RAD
                     plon2 *= _DG2RAD
-                lats_buff.data[iii - 1] = plat2
-                lons_buff.data[iii - 1] = plon2
+                lats_buff.data[iii] = plat2
+                lons_buff.data[iii] = plon2
 
-        return lons, lats
+        return out_lons, out_lats
 
     @cython.boundscheck(False)
     @cython.wraparound(False)

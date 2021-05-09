@@ -1,3 +1,4 @@
+import itertools
 import math
 import os
 import pickle
@@ -72,29 +73,64 @@ def test_geod_inverse_transform():
     print("from proj.4 geod:")
     endlon, endlat, backaz = gg.fwd(lon1pt, lat1pt, az12, dist)
     assert_almost_equal((endlon, endlat, backaz), (-123.683, 45.517, 75.654), decimal=3)
-    print("intermediate points:")
-    print("from geod with +lat_1,+lon_1,+lat_2,+lon_2,+n_S:")
-    npts = 4
-    lonlats = gg.npts(lon1pt, lat1pt, lon2pt, lat2pt, npts)
-    lonprev = lon1pt
-    latprev = lat1pt
-    print(dist / (npts + 1))
-    print("%6.3f  %7.3f" % (lat1pt, lon1pt))
-    result_dists = (
+    inc_exc = ["excluding", "including"]
+    res_az12_az21_dists_all = [
+        (180.0, 0.0, 0.0),
         (-66.53059478766238, 106.79071710136431, 832838.5416198927),
         (-73.20928289863558, 99.32289055927389, 832838.5416198935),
         (-80.67710944072617, 91.36325611787134, 832838.5416198947),
         (-88.63674388212858, 83.32809401477382, 832838.5416198922),
-    )
-    for (lon, lat), (res12, res21, resdist) in zip(lonlats, result_dists):
-        az12, az21, dist = gg.inv(lonprev, latprev, lon, lat)
-        assert_almost_equal((az12, az21, dist), (res12, res21, resdist))
-        latprev = lat
-        lonprev = lon
-    az12, az21, dist = gg.inv(lonprev, latprev, lon2pt, lat2pt)
-    assert_almost_equal(
-        (lat2pt, lon2pt, dist), (45.517, -123.683, 832838.542), decimal=3
-    )
+        (-96.67190598522616, 75.65363415556973, 832838.5416198926),
+    ]
+    point_count = len(res_az12_az21_dists_all)
+    for include_initial, include_terminus in itertools.product(
+        (False, True), (False, True)
+    ):
+        initial_idx = int(not include_initial)
+        terminus_idx = int(not include_terminus)
+
+        npts = point_count - initial_idx - terminus_idx
+        print("intermediate points:")
+        print("from geod with +lat_1,+lon_1,+lat_2,+lon_2,+n_S:")
+        print(f"{lat1pt:6.3f} {lon1pt:7.3f} {lat2pt:6.3f} {lon2pt:7.3f} {npts}")
+
+        lonlats = gg.npts(
+            lon1pt,
+            lat1pt,
+            lon2pt,
+            lat2pt,
+            npts,
+            initial_idx=initial_idx,
+            terminus_idx=terminus_idx,
+        )
+        assert len(lonlats) == npts
+
+        npts1 = npts + initial_idx + terminus_idx - 1
+        del_s = dist / npts1
+        print(
+            f"Total distnace is {dist}, "
+            f"Points count: {npts}, "
+            f"{inc_exc[include_initial]} initial point, "
+            f"{inc_exc[include_terminus]} terminus point. "
+            f"The distance between successive points is {dist}/{npts1} = {del_s}"
+        )
+
+        from_idx = initial_idx
+        to_idx = point_count - terminus_idx
+        res_az12_az21_dists = res_az12_az21_dists_all[from_idx:to_idx]
+
+        lonprev = lon1pt
+        latprev = lat1pt
+        for (lon, lat), (res12, res21, resdist) in zip(lonlats, res_az12_az21_dists):
+            o_az12, o_az21, o_dist = gg.inv(lonprev, latprev, lon, lat)
+            assert_almost_equal((o_az12, o_az21, o_dist), (res12, res21, resdist))
+            latprev = lat
+            lonprev = lon
+        if not include_terminus:
+            o_az12, o_az21, o_dist = gg.inv(lonprev, latprev, lon2pt, lat2pt)
+            assert_almost_equal(
+                (lat2pt, lon2pt, o_dist), (45.517, -123.683, 832838.542), decimal=3
+            )
 
 
 def test_geod_cities():

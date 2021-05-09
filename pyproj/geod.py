@@ -273,6 +273,8 @@ class Geod(_Geod):
         lat2: float,
         npts: int,
         radians: bool = False,
+        initial_idx: int = 1,
+        terminus_idx: int = 1,
     ) -> List:
         """
         Given a single initial point and terminus point, returns
@@ -336,16 +338,31 @@ class Geod(_Geod):
             Latitude of the terminus point
         npts: int
             Number of points to be returned
+            (including initial and/or terminus points, if required)
         radians: bool, optional
             If True, the input data is assumed to be in radians.
-
+        initial_idx: int, optional
+            if initial_idx==0 then the initial point would be included in the output
+            (as the first point)
+        terminus_idx: int, optional
+            if terminus_idx==0 then the terminus point would be included in the output
+            (as the last point)
         Returns
         -------
         list of tuples:
             list of (lon, lat) points along the geodesic
             between the initial and terminus points.
         """
-        lons, lats = super()._npts(lon1, lat1, lon2, lat2, npts, radians=radians)
+        lons, lats = super()._npts(
+            lon1,
+            lat1,
+            lon2,
+            lat2,
+            npts,
+            radians=radians,
+            initial_idx=initial_idx,
+            terminus_idx=terminus_idx,
+        )
         return list(zip(lons, lats))
 
     def line_length(self, lons: Any, lats: Any, radians: bool = False) -> float:

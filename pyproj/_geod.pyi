@@ -28,6 +28,8 @@ class Geod:
         lat2: float,
         npts: int,
         radians: bool = False,
+        initial_idx: int = 1,
+        terminus_idx: int = 1,
     ) -> Tuple[Tuple[float], Tuple[float]]: ...
     def _line_length(self, lons: Any, lats: Any, radians: bool = False) -> float: ...
     def _polygon_area_perimeter(
