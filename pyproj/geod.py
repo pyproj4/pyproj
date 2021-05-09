@@ -365,6 +365,38 @@ class Geod(_Geod):
         )
         return list(zip(lons, lats))
 
+    def inv_intermediate(
+        self,
+        out_lons: Any,
+        out_lats: Any,
+        out_azis: Any,
+        lon1: float,
+        lat1: float,
+        lon2: float,
+        lat2: float,
+        npts: int,
+        initial_idx: int = 1,
+        terminus_idx: int = 1,
+        radians: bool = False,
+    ) -> None:
+        """
+        Similar to npts(), but using the given buffers for the output.
+        out_lons, out_lats, and out_az are the output buffers (out_azis is optional)
+        """
+        super()._inv_intermediate(
+            out_lons=out_lons,
+            out_lats=out_lats,
+            out_azis=out_azis,
+            lon1=lon1,
+            lat1=lat1,
+            lon2=lon2,
+            lat2=lat2,
+            npts=npts,
+            radians=radians,
+            initial_idx=initial_idx,
+            terminus_idx=terminus_idx,
+        )
+
     def line_length(self, lons: Any, lats: Any, radians: bool = False) -> float:
         """
         .. versionadded:: 2.3.0

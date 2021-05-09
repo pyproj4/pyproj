@@ -168,6 +168,38 @@ cdef class Geod:
         given initial and terminus lat/lon, find npts intermediate points.
         returns lons, lats buffers
         """
+        cdef array.array array_template = array.array("d", [])
+        cdef array.array out_lons = array.clone(array_template, npts, zero=False)
+        cdef array.array out_lats = array.clone(array_template, npts, zero=False)
+
+        self._inv_intermediate(
+            out_lons=out_lons, out_lats=out_lats, out_azis=None,
+            lon1=lon1, lat1=lat1, lon2=lon2, lat2=lat2,
+            npts=npts, initial_idx=initial_idx, terminus_idx=terminus_idx,
+            radians=radians)
+
+        return out_lons, out_lats
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    def _inv_intermediate(
+        self,
+        object out_lons,
+        object out_lats,
+        object out_azis,
+        double lon1,
+        double lat1,
+        double lon2,
+        double lat2,
+        int npts,
+        bint radians=False,
+        int initial_idx=1,
+        int terminus_idx=1,
+    ) -> int:
+        """
+        given initial and terminus lat/lon, find npts intermediate points.
+        using given lons, lats buffers
+        """
         cdef Py_ssize_t iii
         cdef double del_s
         cdef double pazi2
@@ -176,12 +208,19 @@ cdef class Geod:
         cdef double plat2
         cdef geod_geodesicline line
 
-        cdef array.array array_template = array.array("d", [])
-        cdef array.array out_lons = array.clone(array_template, npts, zero=False)
-        cdef array.array out_lats = array.clone(array_template, npts, zero=False)
-
-        cdef PyBuffWriteManager lats_buff = PyBuffWriteManager(out_lats)
         cdef PyBuffWriteManager lons_buff = PyBuffWriteManager(out_lons)
+        cdef PyBuffWriteManager lats_buff = PyBuffWriteManager(out_lats)
+
+        if lons_buff.len < npts or lats_buff.len < npts:
+            raise GeodError("lons or lats arrays are not long enough.")
+
+        cdef PyBuffWriteManager azis_buff
+        cdef bint store_az = out_azis is not None
+
+        if store_az:
+            azis_buff = PyBuffWriteManager(out_azis)
+            if azis_buff.len < npts:
+                raise GeodError("az array is not long enough.")
 
         with nogil:
             if radians:
@@ -204,8 +243,10 @@ cdef class Geod:
                     plon2 *= _DG2RAD
                 lats_buff.data[iii] = plat2
                 lons_buff.data[iii] = plon2
+                if store_az:
+                    azis_buff.data[iii] = pazi2
 
-        return out_lons, out_lats
+        return npts
 
     @cython.boundscheck(False)
     @cython.wraparound(False)

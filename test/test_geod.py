@@ -7,6 +7,7 @@ import tempfile
 from contextlib import contextmanager
 from itertools import permutations
 
+import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
 
@@ -131,6 +132,48 @@ def test_geod_inverse_transform():
             assert_almost_equal(
                 (lat2pt, lon2pt, o_dist), (45.517, -123.683, 832838.542), decimal=3
             )
+
+        if include_initial and include_terminus:
+            lons, lats, azis12, azis21, dists = np.hstack(
+                (lonlats, res_az12_az21_dists)
+            ).transpose()
+
+    lons_a = np.empty(point_count)
+    lats_a = np.empty(point_count)
+    azis_a = np.empty(point_count)
+
+    gg.inv_intermediate(
+        out_lons=lons_a,
+        out_lats=lats_a,
+        out_azis=azis_a,
+        lon1=lon1pt,
+        lat1=lat1pt,
+        lon2=lon2pt,
+        lat2=lat2pt,
+        npts=point_count,
+        initial_idx=0,
+        terminus_idx=0,
+    )
+
+    assert_almost_equal(lons_a, lons)
+    assert_almost_equal(lats_a, lats)
+    assert_almost_equal(azis_a[:-1], azis12[1:])
+
+    gg.inv_intermediate(
+        out_lons=lons_a,
+        out_lats=lats_a,
+        out_azis=None,
+        lon1=lon1pt,
+        lat1=lat1pt,
+        lon2=lon2pt,
+        lat2=lat2pt,
+        npts=point_count,
+        initial_idx=0,
+        terminus_idx=0,
+    )
+
+    assert_almost_equal(lons_a, lons)
+    assert_almost_equal(lats_a, lats)
 
 
 def test_geod_cities():

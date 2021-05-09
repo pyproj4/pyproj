@@ -31,6 +31,20 @@ class Geod:
         initial_idx: int = 1,
         terminus_idx: int = 1,
     ) -> Tuple[Tuple[float], Tuple[float]]: ...
+    def _inv_intermediate(
+        self,
+        out_lons: Any,
+        out_lats: Any,
+        out_azis: Any,
+        lon1: float,
+        lat1: float,
+        lon2: float,
+        lat2: float,
+        npts: int,
+        radians: bool = False,
+        initial_idx: int = 1,
+        terminus_idx: int = 1,
+    ) -> int: ...
     def _line_length(self, lons: Any, lats: Any, radians: bool = False) -> float: ...
     def _polygon_area_perimeter(
         self, lons: Any, lats: Any, radians: bool = False
