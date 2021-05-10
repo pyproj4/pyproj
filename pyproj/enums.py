@@ -1,7 +1,7 @@
 """
 This module contains enumerations used in pyproj.
 """
-from enum import Enum
+from enum import Enum, IntFlag
 
 
 class BaseEnum(Enum):
@@ -136,3 +136,26 @@ class PJType(BaseEnum):
     TRANSFORMATION = "TRANSFORMATION"
     CONCATENATED_OPERATION = "CONCATENATED_OPERATION"
     OTHER_COORDINATE_OPERATION = "OTHER_COORDINATE_OPERATION"
+
+
+class GeodIntermediateFlag(IntFlag):
+    """
+    .. versionadded:: 3.1.0
+
+    Flags to be used in Geod.[inv|fwd]_intermediate()
+    """
+
+    DEFAULT = 0x0
+
+    NPTS_MASK = 0xF
+    NPTS_ROUND = 0x0
+    NPTS_CEIL = 0x1
+    NPTS_TRUNC = 0x2
+
+    DEL_S_MASK = 0xF0
+    DEL_S_RECALC = 0x00
+    DEL_S_NO_RECALC = 0x10
+
+    AZIS_MASK = 0xF00
+    AZIS_DISCARD = 0x000
+    AZIS_KEEP = 0x100

@@ -1,6 +1,14 @@
-from typing import Any, Tuple, Type
+from typing import Any, NamedTuple, Tuple, Type
 
 geodesic_version_str: str
+
+class GeodIntermediateReturn(NamedTuple):
+    npts: int
+    del_s: float
+    dist: float
+    lons: Any
+    lats: Any
+    azis: Any
 
 class Geod:
     initstring: str
@@ -31,20 +39,22 @@ class Geod:
         initial_idx: int = 1,
         terminus_idx: int = 1,
     ) -> Tuple[Tuple[float], Tuple[float]]: ...
-    def _inv_intermediate(
+    def _inv_or_fwd_intermediate(
         self,
+        lon1: float,
+        lat1: float,
+        lon2_or_azi1: float,
+        lat2_or_nan: float,
+        npts: int,
+        del_s: float,
+        radians: bool,
+        initial_idx: int,
+        terminus_idx: int,
+        flags: int,
         out_lons: Any,
         out_lats: Any,
         out_azis: Any,
-        lon1: float,
-        lat1: float,
-        lon2: float,
-        lat2: float,
-        npts: int,
-        radians: bool = False,
-        initial_idx: int = 1,
-        terminus_idx: int = 1,
-    ) -> int: ...
+    ) -> GeodIntermediateReturn: ...
     def _line_length(self, lons: Any, lats: Any, radians: bool = False) -> float: ...
     def _polygon_area_perimeter(
         self, lons: Any, lats: Any, radians: bool = False

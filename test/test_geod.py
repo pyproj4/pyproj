@@ -12,6 +12,7 @@ import pytest
 from numpy.testing import assert_almost_equal
 
 from pyproj import Geod
+from pyproj.geod import GeodIntermediateFlag
 
 try:
     from shapely.geometry import (
@@ -66,14 +67,21 @@ def test_geod_inverse_transform():
     b'-66.531\t75.654\t4164192.708\n'
 
     """
+    true_az12 = -66.5305947876623
+    true_az21 = 75.65363415556968
     print("from pyproj.Geod.inv:")
     az12, az21, dist = gg.inv(lon1pt, lat1pt, lon2pt, lat2pt)
-    assert_almost_equal((az12, az21, dist), (-66.531, 75.654, 4164192.708), decimal=3)
+    assert_almost_equal(
+        (az12, az21, dist), (true_az12, true_az21, 4164192.708), decimal=3
+    )
 
     print("forward transform")
     print("from proj.4 geod:")
     endlon, endlat, backaz = gg.fwd(lon1pt, lat1pt, az12, dist)
-    assert_almost_equal((endlon, endlat, backaz), (-123.683, 45.517, 75.654), decimal=3)
+    assert_almost_equal(
+        (endlon, endlat, backaz), (lon2pt, lat2pt, true_az21), decimal=3
+    )
+
     inc_exc = ["excluding", "including"]
     res_az12_az21_dists_all = [
         (180.0, 0.0, 0.0),
@@ -138,11 +146,13 @@ def test_geod_inverse_transform():
                 (lonlats, res_az12_az21_dists)
             ).transpose()
 
+    del_s = dist / (point_count - 1)
     lons_a = np.empty(point_count)
     lats_a = np.empty(point_count)
     azis_a = np.empty(point_count)
 
-    gg.inv_intermediate(
+    print("test inv_intermediate (by npts) with azi output")
+    res = gg.inv_intermediate(
         out_lons=lons_a,
         out_lats=lats_a,
         out_azis=azis_a,
@@ -154,26 +164,119 @@ def test_geod_inverse_transform():
         initial_idx=0,
         terminus_idx=0,
     )
+    assert res.npts == point_count
+    assert_almost_equal(res.del_s, del_s)
+    assert_almost_equal(res.dist, dist)
+    assert_almost_equal(res.lons, lons)
+    assert_almost_equal(res.lats, lats)
+    assert_almost_equal(res.azis[:-1], azis12[1:])
+    assert res.lons is lons_a
+    assert res.lats is lats_a
+    assert res.azis is azis_a
 
-    assert_almost_equal(lons_a, lons)
-    assert_almost_equal(lats_a, lats)
-    assert_almost_equal(azis_a[:-1], azis12[1:])
+    for flags in (GeodIntermediateFlag.AZIS_DISCARD, GeodIntermediateFlag.AZIS_KEEP):
+        print("test inv_intermediate (by npts) without azi output, no buffers")
+        res = gg.inv_intermediate(
+            lon1=lon1pt,
+            lat1=lat1pt,
+            lon2=lon2pt,
+            lat2=lat2pt,
+            npts=point_count,
+            initial_idx=0,
+            terminus_idx=0,
+            flags=flags,
+        )
+        assert res.npts == point_count
+        assert_almost_equal(res.del_s, del_s)
+        assert_almost_equal(res.dist, dist)
+        assert_almost_equal(res.lons, lons_a)
+        assert_almost_equal(res.lats, lats_a)
+        if flags == GeodIntermediateFlag.AZIS_DISCARD:
+            assert res.azis is None
+        else:
+            assert_almost_equal(res.azis, azis_a)
 
-    gg.inv_intermediate(
-        out_lons=lons_a,
-        out_lats=lats_a,
-        out_azis=None,
+        lons_b = np.empty(point_count)
+        lats_b = np.empty(point_count)
+        azis_b = np.empty(point_count)
+
+        print("test inv_intermediate (by npts) without azi output")
+        res = gg.inv_intermediate(
+            out_lons=lons_b,
+            out_lats=lats_b,
+            out_azis=None,
+            lon1=lon1pt,
+            lat1=lat1pt,
+            lon2=lon2pt,
+            lat2=lat2pt,
+            npts=point_count,
+            initial_idx=0,
+            terminus_idx=0,
+            flags=flags,
+        )
+        assert res.npts == point_count
+        assert_almost_equal(res.del_s, del_s)
+        assert_almost_equal(res.dist, dist)
+        assert_almost_equal(res.lons, lons_a)
+        assert_almost_equal(res.lats, lats_a)
+        assert res.lons is lons_b
+        assert res.lats is lats_b
+        if flags == GeodIntermediateFlag.AZIS_DISCARD:
+            assert res.azis is None
+        else:
+            assert_almost_equal(res.azis, azis_a)
+
+    print("test fwd_intermediate")
+    res = gg.fwd_intermediate(
+        out_lons=lons_b,
+        out_lats=lats_b,
+        out_azis=azis_b,
         lon1=lon1pt,
         lat1=lat1pt,
-        lon2=lon2pt,
-        lat2=lat2pt,
+        azi1=true_az12,
         npts=point_count,
+        del_s=del_s,
         initial_idx=0,
         terminus_idx=0,
     )
+    assert res.npts == point_count
+    assert_almost_equal(res.del_s, del_s)
+    assert_almost_equal(res.dist, dist)
+    assert_almost_equal(res.lons, lons_a)
+    assert_almost_equal(res.lats, lats_a)
+    assert_almost_equal(res.azis, azis_a)
+    assert res.lons is lons_b
+    assert res.lats is lats_b
+    assert res.azis is azis_b
 
-    assert_almost_equal(lons_a, lons)
-    assert_almost_equal(lats_a, lats)
+    print("test inv_intermediate (by del_s)")
+    for del_s_fact, flags in (
+        (1, GeodIntermediateFlag.NPTS_ROUND),
+        ((point_count - 0.5) / point_count, GeodIntermediateFlag.NPTS_TRUNC),
+        ((point_count + 0.5) / point_count, GeodIntermediateFlag.NPTS_CEIL),
+    ):
+        res = gg.inv_intermediate(
+            out_lons=lons_b,
+            out_lats=lats_b,
+            out_azis=azis_b,
+            lon1=lon1pt,
+            lat1=lat1pt,
+            lon2=lon2pt,
+            lat2=lat2pt,
+            del_s=del_s * del_s_fact,
+            initial_idx=0,
+            terminus_idx=0,
+            flags=flags,
+        )
+        assert res.npts == point_count
+        assert_almost_equal(res.del_s, del_s)
+        assert_almost_equal(res.dist, dist)
+        assert_almost_equal(res.lons, lons_a)
+        assert_almost_equal(res.lats, lats_a)
+        assert_almost_equal(res.azis, azis_a)
+        assert res.lons is lons_b
+        assert res.lats is lats_b
+        assert res.azis is azis_b
 
 
 def test_geod_cities():

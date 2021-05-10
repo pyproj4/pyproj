@@ -2,15 +2,61 @@ include "base.pxi"
 
 cimport cython
 from cpython cimport array
+from libc.math cimport ceil, isnan, round
 
 import array
+from collections import namedtuple
 
 from pyproj.compat import cstrencode, pystrdecode
+from pyproj.enums import GeodIntermediateFlag
 from pyproj.exceptions import GeodError
 
 geodesic_version_str = (
     f"{GEODESIC_VERSION_MAJOR}.{GEODESIC_VERSION_MINOR}.{GEODESIC_VERSION_PATCH}"
 )
+
+GeodIntermediateReturn = namedtuple(
+    "GeodIntermediateReturn", ["npts", "del_s", "dist", "lons", "lats", "azis"]
+)
+
+GeodIntermediateReturn.__doc__ = """
+.. versionadded:: 3.1.0
+
+Geod Intermediate Return value (Named Tuple)
+
+Parameters
+----------
+
+npts: int
+    number of points
+del_s: float
+    delimiter distance between two successive points
+dist: float
+    distance between the initial and terminus points
+out_lons: Any
+    array of the output lons
+out_lats: Any
+    array of the output lats
+out_azis: Any
+    array of the output azis
+"""
+
+
+cdef int GEOD_INTER_FLAG_DEFAULT = GeodIntermediateFlag.DEFAULT
+
+cdef int GEOD_INTER_FLAG_NPTS_MASK = GeodIntermediateFlag.NPTS_MASK
+cdef int GEOD_INTER_FLAG_NPTS_ROUND = GeodIntermediateFlag.NPTS_ROUND
+cdef int GEOD_INTER_FLAG_NPTS_CEIL = GeodIntermediateFlag.NPTS_CEIL
+cdef int GEOD_INTER_FLAG_NPTS_TRUNC = GeodIntermediateFlag.NPTS_TRUNC
+
+cdef int GEOD_INTER_FLAG_DEL_S_MASK = GeodIntermediateFlag.DEL_S_MASK
+cdef int GEOD_INTER_FLAG_DEL_S_RECALC = GeodIntermediateFlag.DEL_S_RECALC
+cdef int GEOD_INTER_FLAG_DEL_S_NO_RECALC = GeodIntermediateFlag.DEL_S_NO_RECALC
+
+cdef int GEOD_INTER_FLAG_AZIS_MASK = GeodIntermediateFlag.AZIS_MASK
+cdef int GEOD_INTER_FLAG_AZIS_DISCARD = GeodIntermediateFlag.AZIS_DISCARD
+cdef int GEOD_INTER_FLAG_AZIS_KEEP = GeodIntermediateFlag.AZIS_KEEP
+
 
 cdef class Geod:
     def __init__(self, double a, double f, bint sphere, double b, double es):
@@ -168,72 +214,124 @@ cdef class Geod:
         given initial and terminus lat/lon, find npts intermediate points.
         returns lons, lats buffers
         """
-        cdef array.array array_template = array.array("d", [])
-        cdef array.array out_lons = array.clone(array_template, npts, zero=False)
-        cdef array.array out_lats = array.clone(array_template, npts, zero=False)
+        res = \
+            self._inv_or_fwd_intermediate(
+                lon1=lon1,
+                lat1=lat1,
+                lon2_or_azi1=lon2,
+                lat2_or_nan=lat2,
+                npts=npts,
+                del_s=0,
+                radians=radians,
+                initial_idx=initial_idx,
+                terminus_idx=terminus_idx,
+                flags = GEOD_INTER_FLAG_AZIS_DISCARD,
+                out_lons=None,
+                out_lats=None,
+                out_azis=None,
+            )
 
-        self._inv_intermediate(
-            out_lons=out_lons, out_lats=out_lats, out_azis=None,
-            lon1=lon1, lat1=lat1, lon2=lon2, lat2=lat2,
-            npts=npts, initial_idx=initial_idx, terminus_idx=terminus_idx,
-            radians=radians)
-
-        return out_lons, out_lats
+        return res.lons, res.lats
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _inv_intermediate(
+    def _inv_or_fwd_intermediate(
         self,
+        double lon1,
+        double lat1,
+        double lon2_or_azi1,
+        double lat2_or_nan,
+        int npts,
+        double del_s,
+        bint radians,
+        int initial_idx,
+        int terminus_idx,
+        int flags,
         object out_lons,
         object out_lats,
         object out_azis,
-        double lon1,
-        double lat1,
-        double lon2,
-        double lat2,
-        int npts,
-        bint radians=False,
-        int initial_idx=1,
-        int terminus_idx=1,
-    ) -> int:
+    ) -> GeodIntermediateReturn:
         """
+        .. versionadded:: 3.1.0
+
         given initial and terminus lat/lon, find npts intermediate points.
         using given lons, lats buffers
         """
         cdef Py_ssize_t iii
-        cdef double del_s
         cdef double pazi2
         cdef double s12
         cdef double plon2
         cdef double plat2
         cdef geod_geodesicline line
 
-        cdef PyBuffWriteManager lons_buff = PyBuffWriteManager(out_lons)
-        cdef PyBuffWriteManager lats_buff = PyBuffWriteManager(out_lats)
+        cdef bint store_az = \
+            out_azis is not None \
+            or (flags & GEOD_INTER_FLAG_AZIS_MASK) == GEOD_INTER_FLAG_AZIS_KEEP
 
-        if lons_buff.len < npts or lats_buff.len < npts:
-            raise GeodError("lons or lats arrays are not long enough.")
-
+        cdef array.array array_template = array.array("d", [])
+        cdef PyBuffWriteManager lons_buff
+        cdef PyBuffWriteManager lats_buff
         cdef PyBuffWriteManager azis_buff
-        cdef bint store_az = out_azis is not None
 
-        if store_az:
-            azis_buff = PyBuffWriteManager(out_azis)
-            if azis_buff.len < npts:
-                raise GeodError("az array is not long enough.")
+        cdef bint is_fwd = isnan(lat2_or_nan)
 
+        if not is_fwd and (del_s == 0) == (npts == 0):
+            raise GeodError("inv_intermediate: "
+                            "npts and del_s are mutually exclusive, "
+                            "only one of them must be != 0.")
         with nogil:
             if radians:
                 lon1 *= _RAD2DG
                 lat1 *= _RAD2DG
-                lon2 *= _RAD2DG
-                lat2 *= _RAD2DG
-            # do inverse computation to set azimuths, distance.
-            geod_inverseline(
-                &line, &self._geod_geodesic, lat1, lon1, lat2, lon2, 0u,
-            )
-            # distance increment.
-            del_s = line.s13 / (npts + initial_idx + terminus_idx - 1)
+                lon2_or_azi1 *= _RAD2DG
+                if not is_fwd:
+                    lat2_or_nan *= _RAD2DG
+
+            if is_fwd:
+                # do fwd computation to set azimuths, distance.
+                geod_lineinit(&line, &self._geod_geodesic, lat1, lon1, lon2_or_azi1, 0u)
+                line.s13 = del_s * (npts + initial_idx + terminus_idx - 1)
+            else:
+                # do inverse computation to set azimuths, distance.
+                geod_inverseline(&line, &self._geod_geodesic, lat1, lon1,
+                                 lat2_or_nan, lon2_or_azi1, 0u)
+
+                if npts == 0:
+                    # calc the number of required points by the distance increment
+                    # s12 holds a temporary float value of npts (just reusing this var)
+                    s12 = line.s13 / del_s - initial_idx - terminus_idx + 1
+                    if (flags & GEOD_INTER_FLAG_NPTS_MASK) == \
+                            GEOD_INTER_FLAG_NPTS_ROUND:
+                        s12 = round(s12)
+                    elif (flags & GEOD_INTER_FLAG_NPTS_MASK) == \
+                            GEOD_INTER_FLAG_NPTS_CEIL:
+                        s12 = ceil(s12)
+                    npts = int(s12)
+                if (flags & GEOD_INTER_FLAG_DEL_S_MASK) == GEOD_INTER_FLAG_DEL_S_RECALC:
+                    # calc the distance increment by the number of required points
+                    del_s = line.s13 / (npts + initial_idx + terminus_idx - 1)
+
+            with gil:
+                if out_lons is None:
+                    out_lons = array.clone(array_template, npts, zero=False)
+                if out_lats is None:
+                    out_lats = array.clone(array_template, npts, zero=False)
+                if out_azis is None and store_az:
+                    out_azis = array.clone(array_template, npts, zero=False)
+
+                lons_buff = PyBuffWriteManager(out_lons)
+                lats_buff = PyBuffWriteManager(out_lats)
+                if store_az:
+                    azis_buff = PyBuffWriteManager(out_azis)
+
+                if lons_buff.len < npts \
+                        or lats_buff.len < npts \
+                        or (store_az and azis_buff.len < npts):
+                    raise GeodError(
+                        "Arrays are not long enough ("
+                        f"{lons_buff.len}, {lats_buff.len}, "
+                        f"{azis_buff.len if store_az else -1}) < {npts}.")
+
             # loop over intermediate points, compute lat/lons.
             for iii in range(0, npts):
                 s12 = (iii + initial_idx) * del_s
@@ -246,7 +344,8 @@ cdef class Geod:
                 if store_az:
                     azis_buff.data[iii] = pazi2
 
-        return npts
+        return GeodIntermediateReturn(
+            npts, del_s, line.s13, out_lons, out_lats, out_azis)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
