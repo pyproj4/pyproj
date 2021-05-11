@@ -430,6 +430,18 @@
       "contributions": [
         "platform"
       ]
+    },
+    {
+      "login": "idanmiara",
+      "name": "Idan Miara",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26349741?v=4",
+      "profile": "https://github.com/idanmiara",
+      "contributions": [
+        "code",
+        "doc",
+        "example",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
