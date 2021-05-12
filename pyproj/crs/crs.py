@@ -1296,7 +1296,7 @@ class CRS:
 
     def to_3d(self, name: Optional[str] = None) -> "CRS":
         """
-        .. versionadded:: 3.1
+        .. versionadded:: 3.1.0
 
         Convert the current CRS to the 3D version if it makes sense.
 

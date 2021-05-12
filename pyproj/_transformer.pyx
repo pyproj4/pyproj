@@ -571,7 +571,7 @@ cdef class _Transformer(Base):
         """
         Convert the projection to a PROJ string.
 
-        .. versionadded:: 3.1
+        .. versionadded:: 3.1.0
 
         Parameters
         ----------

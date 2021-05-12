@@ -36,7 +36,7 @@ from pyproj.utils import _convertback, _copytobuffer
 
 class TransformerMaker(ABC):
     """
-    .. versionadded:: 3.1
+    .. versionadded:: 3.1.0
 
     Base class for generating new instances
     of the Cython _Transformer class for
@@ -56,7 +56,7 @@ class TransformerMaker(ABC):
 @dataclass(frozen=True)
 class TransformerUnsafe(TransformerMaker):
     """
-    .. versionadded:: 3.1
+    .. versionadded:: 3.1.0
 
     Returns the original Cython _Transformer
     and is not thread-safe.
@@ -76,7 +76,7 @@ class TransformerUnsafe(TransformerMaker):
 @dataclass(frozen=True)
 class TransformerFromCRS(TransformerMaker):
     """
-    .. versionadded:: 3.1
+    .. versionadded:: 3.1.0
 
     Generates a Cython _Transformer class from input CRS data.
     """
@@ -109,7 +109,7 @@ class TransformerFromCRS(TransformerMaker):
 @dataclass(frozen=True)
 class TransformerFromPipeline(TransformerMaker):
     """
-    .. versionadded:: 3.1
+    .. versionadded:: 3.1.0
 
     Generates a Cython _Transformer class from input pipeline data.
     """
@@ -551,7 +551,7 @@ class Transformer:
 
         https://proj.org/operations/pipeline.html
 
-        .. versionadded:: 3.1 AUTH:CODE string suppor (e.g. EPSG:1671)
+        .. versionadded:: 3.1.0 AUTH:CODE string suppor (e.g. EPSG:1671)
 
         Allowed input:
           - a PROJ string
@@ -885,7 +885,7 @@ class Transformer:
         """
         Convert the projection to a PROJ string.
 
-        .. versionadded:: 3.1
+        .. versionadded:: 3.1.0
 
         Parameters
         ----------

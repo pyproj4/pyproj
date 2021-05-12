@@ -45,7 +45,7 @@ _INV_PJ_TYPE_MAP = {value: key for key, value in _PJ_TYPE_MAP.items()}
 
 def get_authorities():
     """
-    .. versionadded:: 2.4
+    .. versionadded:: 2.4.0
 
     Returns
     -------
@@ -71,7 +71,7 @@ def get_authorities():
 
 def get_codes(auth_name, pj_type, allow_deprecated=False):
     """
-    .. versionadded:: 2.4
+    .. versionadded:: 2.4.0
 
     Parameters
     ----------
@@ -126,7 +126,7 @@ CRSInfo = namedtuple(
     ],
 )
 CRSInfo.__doc__ = """
-.. versionadded:: 3.0
+.. versionadded:: 3.0.0
 
 CRS Information
 
@@ -157,7 +157,7 @@ def query_crs_info(
     allow_deprecated=False,
  ):
     """
-    .. versionadded:: 3.0
+    .. versionadded:: 3.0.0
 
     Query for CRS information from the PROJ database.
 
@@ -267,7 +267,7 @@ def query_utm_crs_info(
     contains=False,
  ):
     """
-    .. versionadded:: 3.0
+    .. versionadded:: 3.0.0
 
     Query for EPSG UTM CRS information from the PROJ database.
 
@@ -314,7 +314,7 @@ Unit = namedtuple(
     ],
 )
 Unit.__doc__ = """
-.. versionadded:: 3.0
+.. versionadded:: 3.0.0
 
 Parameters
 ----------
@@ -340,8 +340,8 @@ deprecated: bool
 
 def get_units_map(auth_name=None, category=None, allow_deprecated=False):
     """
-    .. versionadded:: 2.2
-    .. versionadded:: 3.0 query PROJ database.
+    .. versionadded:: 2.2.0
+    .. versionadded:: 3.0.0 query PROJ database.
 
     Get the units available in the PROJ database.
 
