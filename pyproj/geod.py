@@ -364,17 +364,23 @@ class Geod(_Geod):
             list of (lon, lat) points along the geodesic
             between the initial and terminus points.
         """
-        lons, lats = super()._npts(
-            lon1,
-            lat1,
-            lon2,
-            lat2,
-            npts,
+
+        res = self._inv_or_fwd_intermediate(
+            lon1=lon1,
+            lat1=lat1,
+            lon2_or_azi1=lon2,
+            lat2_or_nan=lat2,
+            npts=npts,
+            del_s=0,
             radians=radians,
             initial_idx=initial_idx,
             terminus_idx=terminus_idx,
+            flags=GeodIntermediateFlag.AZIS_DISCARD,
+            out_lons=None,
+            out_lats=None,
+            out_azis=None,
         )
-        return list(zip(lons, lats))
+        return list(zip(res.lons, res.lats))
 
     def inv_intermediate(
         self,

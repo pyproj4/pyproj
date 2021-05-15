@@ -28,17 +28,6 @@ class Geod:
     def _inv(
         self, lons1: Any, lats1: Any, lons2: Any, lats2: Any, radians: bool = False
     ) -> None: ...
-    def _npts(
-        self,
-        lon1: float,
-        lat1: float,
-        lon2: float,
-        lat2: float,
-        npts: int,
-        radians: bool = False,
-        initial_idx: int = 1,
-        terminus_idx: int = 1,
-    ) -> Tuple[Tuple[float], Tuple[float]]: ...
     def _inv_or_fwd_intermediate(
         self,
         lon1: float,

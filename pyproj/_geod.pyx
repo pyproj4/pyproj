@@ -199,42 +199,6 @@ cdef class Geod:
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    def _npts(
-        self,
-        double lon1,
-        double lat1,
-        double lon2,
-        double lat2,
-        int npts,
-        bint radians=False,
-        int initial_idx=1,
-        int terminus_idx=1,
-    ):
-        """
-        given initial and terminus lat/lon, find npts intermediate points.
-        returns lons, lats buffers
-        """
-        res = \
-            self._inv_or_fwd_intermediate(
-                lon1=lon1,
-                lat1=lat1,
-                lon2_or_azi1=lon2,
-                lat2_or_nan=lat2,
-                npts=npts,
-                del_s=0,
-                radians=radians,
-                initial_idx=initial_idx,
-                terminus_idx=terminus_idx,
-                flags = GEOD_INTER_FLAG_AZIS_DISCARD,
-                out_lons=None,
-                out_lats=None,
-                out_azis=None,
-            )
-
-        return res.lons, res.lats
-
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
     def _inv_or_fwd_intermediate(
         self,
         double lon1,
