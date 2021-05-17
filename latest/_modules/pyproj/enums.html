@@ -170,7 +170,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module contains enumerations used in pyproj.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">IntFlag</span>
 
 
 <span class="k">class</span> <span class="nc">BaseEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -305,6 +305,29 @@
     <span class="n">TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;TRANSFORMATION&quot;</span>
     <span class="n">CONCATENATED_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;CONCATENATED_OPERATION&quot;</span>
     <span class="n">OTHER_COORDINATE_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;OTHER_COORDINATE_OPERATION&quot;</span></div>
+
+
+<div class="viewcode-block" id="GeodIntermediateFlag"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.GeodIntermediateFlag">[docs]</a><span class="k">class</span> <span class="nc">GeodIntermediateFlag</span><span class="p">(</span><span class="n">IntFlag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 3.1.0</span>
+
+<span class="sd">    Flags to be used in Geod.[inv|fwd]_intermediate()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULT</span> <span class="o">=</span> <span class="mh">0x0</span>
+
+    <span class="n">NPTS_MASK</span> <span class="o">=</span> <span class="mh">0xF</span>
+    <span class="n">NPTS_ROUND</span> <span class="o">=</span> <span class="mh">0x0</span>
+    <span class="n">NPTS_CEIL</span> <span class="o">=</span> <span class="mh">0x1</span>
+    <span class="n">NPTS_TRUNC</span> <span class="o">=</span> <span class="mh">0x2</span>
+
+    <span class="n">DEL_S_MASK</span> <span class="o">=</span> <span class="mh">0xF0</span>
+    <span class="n">DEL_S_RECALC</span> <span class="o">=</span> <span class="mh">0x00</span>
+    <span class="n">DEL_S_NO_RECALC</span> <span class="o">=</span> <span class="mh">0x10</span>
+
+    <span class="n">AZIS_MASK</span> <span class="o">=</span> <span class="mh">0xF00</span>
+    <span class="n">AZIS_DISCARD</span> <span class="o">=</span> <span class="mh">0x000</span>
+    <span class="n">AZIS_KEEP</span> <span class="o">=</span> <span class="mh">0x100</span></div>
 </pre></div>
 
            </div>

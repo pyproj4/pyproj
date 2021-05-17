@@ -9,3 +9,6 @@ pyproj.Geod
     :show-inheritance:
     :inherited-members:
     :special-members: __init__
+
+.. autoclass:: pyproj.geod.GeodIntermediateReturn
+    :members:
