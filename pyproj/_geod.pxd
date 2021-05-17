@@ -32,6 +32,13 @@ cdef extern from "geodesic.h":
         double* ps12,
         double* pazi1,
         double* pazi2) nogil
+    void geod_lineinit(
+        geod_geodesicline* l,
+        const geod_geodesic* g,
+        double lat1,
+        double lon1,
+        double azi1,
+        unsigned caps) nogil
     void geod_inverseline(
         geod_geodesicline* l,
         const geod_geodesic* g,

@@ -88,6 +88,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://rahulporuri.github.io"><img src="https://avatars0.githubusercontent.com/u/1926457?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Poruri Sai Rahul</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=rahulporuri" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://medium.com/@underchemist"><img src="https://avatars1.githubusercontent.com/u/5283998?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yann-Sebastien Tremblay-Johnston</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=underchemist" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/odidev"><img src="https://avatars2.githubusercontent.com/u/40816837?v=4?s=100" width="100px;" alt=""/><br /><sub><b>odidev</b></sub></a><br /><a href="#platform-odidev" title="Packaging/porting to new platform">📦</a></td>
+    <td align="center"><a href="https://github.com/idanmiara"><img src="https://avatars.githubusercontent.com/u/26349741?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Idan Miara</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=idanmiara" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=idanmiara" title="Documentation">📖</a> <a href="#example-idanmiara" title="Examples">💡</a> <a href="https://github.com/pyproj4/pyproj/commits?author=idanmiara" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
