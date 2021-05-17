@@ -10,7 +10,7 @@ from pyproj.utils import is_null
 @dataclass(frozen=True)
 class AreaOfInterest:
     """
-    .. versionadded:: 2.3
+    .. versionadded:: 2.3.0
 
     This is the area of interest for:
 
@@ -39,7 +39,7 @@ class AreaOfInterest:
 
 class AreaOfUse(NamedTuple):
     """
-    .. versionadded:: 2.0
+    .. versionadded:: 2.0.0
 
     Area of Use for CRS, CoordinateOperation, or a Transformer.
     """
@@ -69,7 +69,7 @@ class BBox:
     Bounding box to check if data intersects/contains other
     bounding boxes.
 
-    .. versionadded:: 3.0
+    .. versionadded:: 3.0.0
 
     """
 

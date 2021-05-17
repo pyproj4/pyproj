@@ -2206,7 +2206,7 @@ cdef class CoordinateOperation(_CRSParts):
         """
         Convert the projection to a PROJ string.
 
-        .. versionadded:: 3.1 pretty
+        .. versionadded:: 3.1.0 pretty
 
         Parameters
         ----------
@@ -2788,7 +2788,7 @@ cdef class _CRS(Base):
 
     def to_3d(self, name=None):
         """
-        .. versionadded:: 3.1
+        .. versionadded:: 3.1.0
 
         Convert the current CRS to the 3D version if it makes sense.
 
