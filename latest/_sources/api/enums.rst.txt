@@ -15,3 +15,6 @@ Enumerations
 
 .. autoclass:: pyproj.enums.PJType
     :members:
+
+.. autoclass:: pyproj.enums.GeodIntermediateFlag
+    :members:

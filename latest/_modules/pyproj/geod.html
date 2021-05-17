@@ -177,13 +177,20 @@
 <span class="sd">latitudes and longitudes of an initial and terminus point.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Geod&quot;</span><span class="p">,</span> <span class="s2">&quot;pj_ellps&quot;</span><span class="p">,</span> <span class="s2">&quot;geodesic_version_str&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Geod&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pj_ellps&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geodesic_version_str&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GeodIntermediateFlag&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GeodIntermediateReturn&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="kn">import</span> <span class="n">Geod</span> <span class="k">as</span> <span class="n">_Geod</span>
-<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="kn">import</span> <span class="n">geodesic_version_str</span>
+<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="kn">import</span> <span class="n">GeodIntermediateReturn</span><span class="p">,</span> <span class="n">geodesic_version_str</span>
+<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">GeodIntermediateFlag</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">GeodError</span>
 <span class="kn">from</span> <span class="nn">pyproj.list</span> <span class="kn">import</span> <span class="n">get_ellps_map</span>
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
@@ -442,12 +449,18 @@
         <span class="n">lat2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">npts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">initial_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">terminus_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 3.1.0 initial_idx, terminus_idx</span>
+
 <span class="sd">        Given a single initial point and terminus point, returns</span>
 <span class="sd">        a list of longitude/latitude pairs describing npts equally</span>
 <span class="sd">        spaced intermediate points along the geodesic between the</span>
 <span class="sd">        initial and terminus points.</span>
+
+<span class="sd">        Similar to inv_intermediate(), but with less options.</span>
 
 <span class="sd">        Example usage:</span>
 
@@ -505,17 +518,312 @@
 <span class="sd">            Latitude of the terminus point</span>
 <span class="sd">        npts: int</span>
 <span class="sd">            Number of points to be returned</span>
+<span class="sd">            (including initial and/or terminus points, if required)</span>
 <span class="sd">        radians: bool, optional</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
-
+<span class="sd">        initial_idx: int, optional</span>
+<span class="sd">            if initial_idx==0 then the initial point would be included in the output</span>
+<span class="sd">            (as the first point)</span>
+<span class="sd">        terminus_idx: int, optional</span>
+<span class="sd">            if terminus_idx==0 then the terminus point would be included in the output</span>
+<span class="sd">            (as the last point)</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        list of tuples:</span>
 <span class="sd">            list of (lon, lat) points along the geodesic</span>
 <span class="sd">            between the initial and terminus points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_npts</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">))</span></div>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_or_fwd_intermediate</span><span class="p">(</span>
+            <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span><span class="p">,</span>
+            <span class="n">lat1</span><span class="o">=</span><span class="n">lat1</span><span class="p">,</span>
+            <span class="n">lon2_or_azi1</span><span class="o">=</span><span class="n">lon2</span><span class="p">,</span>
+            <span class="n">lat2_or_nan</span><span class="o">=</span><span class="n">lat2</span><span class="p">,</span>
+            <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">,</span>
+            <span class="n">del_s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+            <span class="n">initial_idx</span><span class="o">=</span><span class="n">initial_idx</span><span class="p">,</span>
+            <span class="n">terminus_idx</span><span class="o">=</span><span class="n">terminus_idx</span><span class="p">,</span>
+            <span class="n">flags</span><span class="o">=</span><span class="n">GeodIntermediateFlag</span><span class="o">.</span><span class="n">AZIS_DISCARD</span><span class="p">,</span>
+            <span class="n">out_lons</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">out_lats</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">out_azis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">lats</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Geod.inv_intermediate"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv_intermediate">[docs]</a>    <span class="k">def</span> <span class="nf">inv_intermediate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">lon1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">lat1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">lon2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">lat2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">npts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">del_s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">initial_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">terminus_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">flags</span><span class="p">:</span> <span class="n">GeodIntermediateFlag</span> <span class="o">=</span> <span class="n">GeodIntermediateFlag</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">out_lons</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">out_lats</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">out_azis</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeodIntermediateReturn</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 3.1.0</span>
+
+<span class="sd">        Given a single initial point and terminus point,</span>
+<span class="sd">        and the number of points, returns</span>
+<span class="sd">        a list of longitude/latitude pairs describing npts equally</span>
+<span class="sd">        spaced intermediate points along the geodesic between the</span>
+<span class="sd">        initial and terminus points.</span>
+
+<span class="sd">        npts and del_s parameters are mutually exclusive:</span>
+
+<span class="sd">        if npts != 0:</span>
+<span class="sd">            it calculates the distance between the points by</span>
+<span class="sd">            the distance between the initial point and the</span>
+<span class="sd">            terminus point divided by npts</span>
+<span class="sd">            (the number of intermediate points)</span>
+<span class="sd">        else:</span>
+<span class="sd">            it calculates the number of intermediate points by</span>
+<span class="sd">            dividing the distance between the initial and</span>
+<span class="sd">            terminus points by del_s</span>
+<span class="sd">            (delimiter distance between two successive points)</span>
+
+<span class="sd">        Similar to npts(), but with more options.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; g = Geod(ellps=&#39;clrk66&#39;) # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; # specify the lat/lons of Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)</span>
+<span class="sd">        &gt;&gt;&gt; portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)</span>
+<span class="sd">        &gt;&gt;&gt; # find ten equally spaced points between Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; r = g.inv_intermediate(boston_lon,boston_lat,portland_lon,portland_lat,10)</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in zip(r.lons, r.lats): f&#39;{lat:.3f} {lon:.3f}&#39;</span>
+<span class="sd">        &#39;43.528 -75.414&#39;</span>
+<span class="sd">        &#39;44.637 -79.883&#39;</span>
+<span class="sd">        &#39;45.565 -84.512&#39;</span>
+<span class="sd">        &#39;46.299 -89.279&#39;</span>
+<span class="sd">        &#39;46.830 -94.156&#39;</span>
+<span class="sd">        &#39;47.149 -99.112&#39;</span>
+<span class="sd">        &#39;47.251 -104.106&#39;</span>
+<span class="sd">        &#39;47.136 -109.100&#39;</span>
+<span class="sd">        &#39;46.805 -114.051&#39;</span>
+<span class="sd">        &#39;46.262 -118.924&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # test with radians=True (inputs/outputs in radians, not degrees)</span>
+<span class="sd">        &gt;&gt;&gt; import math</span>
+<span class="sd">        &gt;&gt;&gt; dg2rad = math.radians(1.)</span>
+<span class="sd">        &gt;&gt;&gt; rad2dg = math.degrees(1.)</span>
+<span class="sd">        &gt;&gt;&gt; r = g.inv_intermediate(</span>
+<span class="sd">        ...    dg2rad*boston_lon,</span>
+<span class="sd">        ...    dg2rad*boston_lat,</span>
+<span class="sd">        ...    dg2rad*portland_lon,</span>
+<span class="sd">        ...    dg2rad*portland_lat,</span>
+<span class="sd">        ...    10,</span>
+<span class="sd">        ...    radians=True</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in zip(r.lons, r.lats): f&#39;{rad2dg*lat:.3f} {rad2dg*lon:.3f}&#39;</span>
+<span class="sd">        &#39;43.528 -75.414&#39;</span>
+<span class="sd">        &#39;44.637 -79.883&#39;</span>
+<span class="sd">        &#39;45.565 -84.512&#39;</span>
+<span class="sd">        &#39;46.299 -89.279&#39;</span>
+<span class="sd">        &#39;46.830 -94.156&#39;</span>
+<span class="sd">        &#39;47.149 -99.112&#39;</span>
+<span class="sd">        &#39;47.251 -104.106&#39;</span>
+<span class="sd">        &#39;47.136 -109.100&#39;</span>
+<span class="sd">        &#39;46.805 -114.051&#39;</span>
+<span class="sd">        &#39;46.262 -118.924&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lon1: float</span>
+<span class="sd">            Longitude of the initial point</span>
+<span class="sd">        lat1: float</span>
+<span class="sd">            Latitude of the initial point</span>
+<span class="sd">        lon2: float</span>
+<span class="sd">            Longitude of the terminus point</span>
+<span class="sd">        lat2: float</span>
+<span class="sd">            Latitude of the terminus point</span>
+<span class="sd">        npts: int, optional</span>
+<span class="sd">            Number of points to be returned</span>
+<span class="sd">            npts == 0 iff del_s != 0</span>
+<span class="sd">        del_s: float, optional</span>
+<span class="sd">            delimiter distance between two successive points</span>
+<span class="sd">            del_s == 0 iff npts != 0</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">        initial_idx: int, optional</span>
+<span class="sd">            if initial_idx==0 then the initial point would be included in the output</span>
+<span class="sd">            (as the first point)</span>
+<span class="sd">        terminus_idx: int, optional</span>
+<span class="sd">            if terminus_idx==0 then the terminus point would be included in the output</span>
+<span class="sd">            (as the last point)</span>
+<span class="sd">        flags: GeodIntermediateFlag, optional</span>
+<span class="sd">            1st: round/ceil/trunc (see GeodIntermediateFlag.NPTS_*)</span>
+<span class="sd">            2nd: update del_s to the new npts or not (see GeodIntermediateFlag.DEL_S_*)</span>
+<span class="sd">            3rd: iff out_azis=None, indicates if to save or discard the azimuths</span>
+<span class="sd">                 (see GeodIntermediateFlag.AZIS_*)</span>
+<span class="sd">            default - round npts, update del_s accordingly, discard azis</span>
+<span class="sd">        out_lons: array, :class:`numpy.ndarray`, optional</span>
+<span class="sd">            Longitude(s) of the intermediate point(s)</span>
+<span class="sd">            If None then buffers would be allocated internnaly</span>
+<span class="sd">        out_lats: array, :class:`numpy.ndarray`, optional</span>
+<span class="sd">            Latitudes(s) of the intermediate point(s)</span>
+<span class="sd">            If None then buffers would be allocated internnaly</span>
+<span class="sd">        out_azis: array, :class:`numpy.ndarray`, optional</span>
+<span class="sd">            az12(s) of the intermediate point(s)</span>
+<span class="sd">            If None then buffers would be allocated internnaly</span>
+<span class="sd">            unless requested otherwise by the flags</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        GeodIntermediateReturn</span>
+<span class="sd">            number of points, distance and output arrays (GeodIntermediateReturn docs)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_inv_or_fwd_intermediate</span><span class="p">(</span>
+            <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span><span class="p">,</span>
+            <span class="n">lat1</span><span class="o">=</span><span class="n">lat1</span><span class="p">,</span>
+            <span class="n">lon2_or_azi1</span><span class="o">=</span><span class="n">lon2</span><span class="p">,</span>
+            <span class="n">lat2_or_nan</span><span class="o">=</span><span class="n">lat2</span><span class="p">,</span>
+            <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">,</span>
+            <span class="n">del_s</span><span class="o">=</span><span class="n">del_s</span><span class="p">,</span>
+            <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+            <span class="n">initial_idx</span><span class="o">=</span><span class="n">initial_idx</span><span class="p">,</span>
+            <span class="n">terminus_idx</span><span class="o">=</span><span class="n">terminus_idx</span><span class="p">,</span>
+            <span class="n">flags</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">flags</span><span class="p">),</span>
+            <span class="n">out_lons</span><span class="o">=</span><span class="n">out_lons</span><span class="p">,</span>
+            <span class="n">out_lats</span><span class="o">=</span><span class="n">out_lats</span><span class="p">,</span>
+            <span class="n">out_azis</span><span class="o">=</span><span class="n">out_azis</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Geod.fwd_intermediate"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd_intermediate">[docs]</a>    <span class="k">def</span> <span class="nf">fwd_intermediate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">lon1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">lat1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">azi1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">npts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">del_s</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">initial_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">terminus_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">flags</span><span class="p">:</span> <span class="n">GeodIntermediateFlag</span> <span class="o">=</span> <span class="n">GeodIntermediateFlag</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span>
+        <span class="n">out_lons</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">out_lats</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">out_azis</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeodIntermediateReturn</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 3.1.0</span>
+
+<span class="sd">        Given a single initial point and azimuth, number of points (npts)</span>
+<span class="sd">        and delimiter distance between two successive points (del_s), returns</span>
+<span class="sd">        a list of longitude/latitude pairs describing npts equally</span>
+<span class="sd">        spaced intermediate points along the geodesic between the</span>
+<span class="sd">        initial and terminus points.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import Geod</span>
+<span class="sd">        &gt;&gt;&gt; g = Geod(ellps=&#39;clrk66&#39;) # Use Clarke 1866 ellipsoid.</span>
+<span class="sd">        &gt;&gt;&gt; # specify the lat/lons of Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; boston_lat = 42.+(15./60.); boston_lon = -71.-(7./60.)</span>
+<span class="sd">        &gt;&gt;&gt; portland_lat = 45.+(31./60.); portland_lon = -123.-(41./60.)</span>
+<span class="sd">        &gt;&gt;&gt; az12,az21,dist = g.inv(boston_lon,boston_lat,portland_lon,portland_lat)</span>
+<span class="sd">        &gt;&gt;&gt; # find ten equally spaced points between Boston and Portland.</span>
+<span class="sd">        &gt;&gt;&gt; npts = 10</span>
+<span class="sd">        &gt;&gt;&gt; del_s = dist/(npts+1)</span>
+<span class="sd">        &gt;&gt;&gt; r = g.fwd_intermediate(boston_lon,boston_lat,az12,npts=npts,del_s=del_s)</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in zip(r.lons, r.lats): f&#39;{lat:.3f} {lon:.3f}&#39;</span>
+<span class="sd">        &#39;43.528 -75.414&#39;</span>
+<span class="sd">        &#39;44.637 -79.883&#39;</span>
+<span class="sd">        &#39;45.565 -84.512&#39;</span>
+<span class="sd">        &#39;46.299 -89.279&#39;</span>
+<span class="sd">        &#39;46.830 -94.156&#39;</span>
+<span class="sd">        &#39;47.149 -99.112&#39;</span>
+<span class="sd">        &#39;47.251 -104.106&#39;</span>
+<span class="sd">        &#39;47.136 -109.100&#39;</span>
+<span class="sd">        &#39;46.805 -114.051&#39;</span>
+<span class="sd">        &#39;46.262 -118.924&#39;</span>
+<span class="sd">        &gt;&gt;&gt; # test with radians=True (inputs/outputs in radians, not degrees)</span>
+<span class="sd">        &gt;&gt;&gt; import math</span>
+<span class="sd">        &gt;&gt;&gt; dg2rad = math.radians(1.)</span>
+<span class="sd">        &gt;&gt;&gt; rad2dg = math.degrees(1.)</span>
+<span class="sd">        &gt;&gt;&gt; r = g.fwd_intermediate(</span>
+<span class="sd">        ...    dg2rad*boston_lon,</span>
+<span class="sd">        ...    dg2rad*boston_lat,</span>
+<span class="sd">        ...    dg2rad*az12,</span>
+<span class="sd">        ...    npts=npts,</span>
+<span class="sd">        ...    del_s=del_s,</span>
+<span class="sd">        ...    radians=True</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; for lon,lat in zip(r.lons, r.lats): f&#39;{rad2dg*lat:.3f} {rad2dg*lon:.3f}&#39;</span>
+<span class="sd">        &#39;43.528 -75.414&#39;</span>
+<span class="sd">        &#39;44.637 -79.883&#39;</span>
+<span class="sd">        &#39;45.565 -84.512&#39;</span>
+<span class="sd">        &#39;46.299 -89.279&#39;</span>
+<span class="sd">        &#39;46.830 -94.156&#39;</span>
+<span class="sd">        &#39;47.149 -99.112&#39;</span>
+<span class="sd">        &#39;47.251 -104.106&#39;</span>
+<span class="sd">        &#39;47.136 -109.100&#39;</span>
+<span class="sd">        &#39;46.805 -114.051&#39;</span>
+<span class="sd">        &#39;46.262 -118.924&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lon1: float</span>
+<span class="sd">            Longitude of the initial point</span>
+<span class="sd">        lat1: float</span>
+<span class="sd">            Latitude of the initial point</span>
+<span class="sd">        azi1: float</span>
+<span class="sd">            Azimuth from the initial point towards the terminus point</span>
+<span class="sd">        npts: int</span>
+<span class="sd">            Number of points to be returned</span>
+<span class="sd">            (including initial and/or terminus points, if required)</span>
+<span class="sd">        del_s: float</span>
+<span class="sd">            delimiter distance between two successive points</span>
+<span class="sd">        radians: bool, optional</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">        initial_idx: int, optional</span>
+<span class="sd">            if initial_idx==0 then the initial point would be included in the output</span>
+<span class="sd">            (as the first point)</span>
+<span class="sd">        terminus_idx: int, optional</span>
+<span class="sd">            if terminus_idx==0 then the terminus point would be included in the output</span>
+<span class="sd">            (as the last point)</span>
+<span class="sd">        flags: GeodIntermediateFlag, optional</span>
+<span class="sd">            3rd: iff out_azis=None, indicates if to save or discard the azimuths</span>
+<span class="sd">                 (see GeodIntermediateFlag.AZIS_*)</span>
+<span class="sd">            default - discard azis</span>
+<span class="sd">        out_lons: array, :class:`numpy.ndarray`, optional</span>
+<span class="sd">            Longitude(s) of the intermediate point(s)</span>
+<span class="sd">            If None then buffers would be allocated internnaly</span>
+<span class="sd">        out_lats: array, :class:`numpy.ndarray`, optional</span>
+<span class="sd">            Latitudes(s) of the intermediate point(s)</span>
+<span class="sd">            If None then buffers would be allocated internnaly</span>
+<span class="sd">        out_azis: array, :class:`numpy.ndarray`, optional</span>
+<span class="sd">            az12(s) of the intermediate point(s)</span>
+<span class="sd">            If None then buffers would be allocated internnaly</span>
+<span class="sd">            unless requested otherwise by the flags</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        GeodIntermediateReturn</span>
+<span class="sd">            number of points, distance and output arrays (GeodIntermediateReturn docs)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_inv_or_fwd_intermediate</span><span class="p">(</span>
+            <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span><span class="p">,</span>
+            <span class="n">lat1</span><span class="o">=</span><span class="n">lat1</span><span class="p">,</span>
+            <span class="n">lon2_or_azi1</span><span class="o">=</span><span class="n">azi1</span><span class="p">,</span>
+            <span class="n">lat2_or_nan</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+            <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">,</span>
+            <span class="n">del_s</span><span class="o">=</span><span class="n">del_s</span><span class="p">,</span>
+            <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+            <span class="n">initial_idx</span><span class="o">=</span><span class="n">initial_idx</span><span class="p">,</span>
+            <span class="n">terminus_idx</span><span class="o">=</span><span class="n">terminus_idx</span><span class="p">,</span>
+            <span class="n">flags</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">flags</span><span class="p">),</span>
+            <span class="n">out_lons</span><span class="o">=</span><span class="n">out_lons</span><span class="p">,</span>
+            <span class="n">out_lats</span><span class="o">=</span><span class="n">out_lats</span><span class="p">,</span>
+            <span class="n">out_azis</span><span class="o">=</span><span class="n">out_azis</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.line_length"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_length">[docs]</a>    <span class="k">def</span> <span class="nf">line_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
