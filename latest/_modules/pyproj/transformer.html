@@ -205,7 +205,7 @@
 
 <span class="k">class</span> <span class="nc">TransformerMaker</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 3.1</span>
+<span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    Base class for generating new instances</span>
 <span class="sd">    of the Cython _Transformer class for</span>
@@ -225,7 +225,7 @@
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">TransformerUnsafe</span><span class="p">(</span><span class="n">TransformerMaker</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 3.1</span>
+<span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    Returns the original Cython _Transformer</span>
 <span class="sd">    and is not thread-safe.</span>
@@ -245,7 +245,7 @@
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">TransformerFromCRS</span><span class="p">(</span><span class="n">TransformerMaker</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 3.1</span>
+<span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    Generates a Cython _Transformer class from input CRS data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -278,7 +278,7 @@
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">TransformerFromPipeline</span><span class="p">(</span><span class="n">TransformerMaker</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 3.1</span>
+<span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    Generates a Cython _Transformer class from input pipeline data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -720,7 +720,7 @@
 
 <span class="sd">        https://proj.org/operations/pipeline.html</span>
 
-<span class="sd">        .. versionadded:: 3.1 AUTH:CODE string suppor (e.g. EPSG:1671)</span>
+<span class="sd">        .. versionadded:: 3.1.0 AUTH:CODE string suppor (e.g. EPSG:1671)</span>
 
 <span class="sd">        Allowed input:</span>
 <span class="sd">          - a PROJ string</span>
@@ -1054,7 +1054,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a PROJ string.</span>
 
-<span class="sd">        .. versionadded:: 3.1</span>
+<span class="sd">        .. versionadded:: 3.1.0</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

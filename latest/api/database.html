@@ -208,10 +208,10 @@
 <dt id="pyproj.database.get_units_map">
 <code class="sig-prename descclassname">pyproj.database.</code><code class="sig-name descname">get_units_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">category</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allow_deprecated</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_units_map" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 2.2.</span></p>
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0: </span>query PROJ database.</p>
+<p><span class="versionmodified added">New in version 3.0.0: </span>query PROJ database.</p>
 </div>
 <p>Get the units available in the PROJ database.</p>
 <dl class="field-list simple">
@@ -236,7 +236,7 @@
 <dt id="pyproj.database.Unit">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.database.</code><code class="sig-name descname">Unit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span></em>, <em class="sig-param"><span class="n">code</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">category</span></em>, <em class="sig-param"><span class="n">conv_factor</span></em>, <em class="sig-param"><span class="n">proj_short_name</span></em>, <em class="sig-param"><span class="n">deprecated</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.Unit" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -267,7 +267,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dt id="pyproj.database.get_authorities">
 <code class="sig-prename descclassname">pyproj.database.</code><code class="sig-name descname">get_authorities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_authorities" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 2.4.</span></p>
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -290,7 +290,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dt id="pyproj.database.get_codes">
 <code class="sig-prename descclassname">pyproj.database.</code><code class="sig-name descname">get_codes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span></em>, <em class="sig-param"><span class="n">pj_type</span></em>, <em class="sig-param"><span class="n">allow_deprecated</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_codes" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 2.4.</span></p>
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -316,7 +316,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dt id="pyproj.database.query_crs_info">
 <code class="sig-prename descclassname">pyproj.database.</code><code class="sig-name descname">query_crs_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pj_types</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">contains</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allow_deprecated</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_crs_info" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>
 <p>Query for CRS information from the PROJ database.</p>
 <dl class="field-list simple">
@@ -346,7 +346,7 @@ intersects the specified bounding box will be returned.</p></li>
 <dt id="pyproj.database.CRSInfo">
 <em class="property">class </em><code class="sig-prename descclassname">pyproj.database.</code><code class="sig-name descname">CRSInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span></em>, <em class="sig-param"><span class="n">code</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">type</span></em>, <em class="sig-param"><span class="n">deprecated</span></em>, <em class="sig-param"><span class="n">area_of_use</span></em>, <em class="sig-param"><span class="n">projection_method_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.CRSInfo" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>
 <p>CRS Information</p>
 <dl class="field-list simple">
@@ -371,7 +371,7 @@ intersects the specified bounding box will be returned.</p></li>
 <dt id="pyproj.database.query_utm_crs_info">
 <code class="sig-prename descclassname">pyproj.database.</code><code class="sig-name descname">query_utm_crs_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">datum_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">area_of_interest</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">contains</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_utm_crs_info" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>
 <p>Query for EPSG UTM CRS information from the PROJ database.</p>
 <dl class="field-list simple">
