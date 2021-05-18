@@ -417,8 +417,9 @@ class Transformer:
         """
         return self._transformer.is_network_enabled
 
-    @staticmethod
+    @classmethod
     def from_proj(
+        cls,
         proj_from: Any,
         proj_to: Any,
         skip_equivalent: bool = False,
@@ -461,7 +462,7 @@ class Transformer:
         if not isinstance(proj_to, Proj):
             proj_to = Proj(proj_to)
 
-        return Transformer.from_crs(
+        return cls.from_crs(
             proj_from.crs,
             proj_to.crs,
             skip_equivalent=skip_equivalent,
@@ -469,8 +470,9 @@ class Transformer:
             area_of_interest=area_of_interest,
         )
 
-    @staticmethod
+    @classmethod
     def from_crs(
+        cls,
         crs_from: Any,
         crs_to: Any,
         skip_equivalent: bool = False,
@@ -533,7 +535,7 @@ class Transformer:
                 stacklevel=2,
             )
 
-        return Transformer(
+        return cls(
             TransformerFromCRS(
                 CRS.from_user_input(crs_from).srs,
                 CRS.from_user_input(crs_to).srs,
@@ -545,8 +547,8 @@ class Transformer:
             )
         )
 
-    @staticmethod
-    def from_pipeline(proj_pipeline: str) -> "Transformer":
+    @classmethod
+    def from_pipeline(cls, proj_pipeline: str) -> "Transformer":
         """Make a Transformer from a PROJ pipeline string.
 
         https://proj.org/operations/pipeline.html
@@ -576,7 +578,7 @@ class Transformer:
         Transformer
 
         """
-        return Transformer(TransformerFromPipeline(proj_pipeline))
+        return cls(TransformerFromPipeline(proj_pipeline))
 
     def transform(
         self,

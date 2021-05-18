@@ -321,8 +321,8 @@ class CRS:
             self._local.crs = _CRS(self.srs)
         return self._local.crs
 
-    @staticmethod
-    def from_authority(auth_name: str, code: Union[str, int]) -> "CRS":
+    @classmethod
+    def from_authority(cls, auth_name: str, code: Union[str, int]) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -339,10 +339,10 @@ class CRS:
         -------
         CRS
         """
-        return CRS(_prepare_from_authority(auth_name, code))
+        return cls(_prepare_from_authority(auth_name, code))
 
-    @staticmethod
-    def from_epsg(code: Union[str, int]) -> "CRS":
+    @classmethod
+    def from_epsg(cls, code: Union[str, int]) -> "CRS":
         """Make a CRS from an EPSG code
 
         Parameters
@@ -354,10 +354,10 @@ class CRS:
         -------
         CRS
         """
-        return CRS(_prepare_from_epsg(code))
+        return cls(_prepare_from_epsg(code))
 
-    @staticmethod
-    def from_proj4(in_proj_string: str) -> "CRS":
+    @classmethod
+    def from_proj4(cls, in_proj_string: str) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -374,10 +374,10 @@ class CRS:
         """
         if not is_proj(in_proj_string):
             raise CRSError(f"Invalid PROJ string: {in_proj_string}")
-        return CRS(_prepare_from_string(in_proj_string))
+        return cls(_prepare_from_string(in_proj_string))
 
-    @staticmethod
-    def from_wkt(in_wkt_string: str) -> "CRS":
+    @classmethod
+    def from_wkt(cls, in_wkt_string: str) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -394,10 +394,10 @@ class CRS:
         """
         if not is_wkt(in_wkt_string):
             raise CRSError(f"Invalid WKT string: {in_wkt_string}")
-        return CRS(_prepare_from_string(in_wkt_string))
+        return cls(_prepare_from_string(in_wkt_string))
 
-    @staticmethod
-    def from_string(in_crs_string: str) -> "CRS":
+    @classmethod
+    def from_string(cls, in_crs_string: str) -> "CRS":
         """
         Make a CRS from:
 
@@ -416,7 +416,7 @@ class CRS:
         -------
         CRS
         """
-        return CRS(_prepare_from_string(in_crs_string))
+        return cls(_prepare_from_string(in_crs_string))
 
     def to_string(self) -> str:
         """
@@ -437,8 +437,8 @@ class CRS:
             return ":".join(auth_info)
         return self.srs
 
-    @staticmethod
-    def from_user_input(value: Any, **kwargs) -> "CRS":
+    @classmethod
+    def from_user_input(cls, value: Any, **kwargs) -> "CRS":
         """
         Initialize a CRS class instance with:
           - PROJ string
@@ -463,7 +463,7 @@ class CRS:
         """
         if isinstance(value, CRS):
             return value
-        return CRS(value, **kwargs)
+        return cls(value, **kwargs)
 
     def get_geod(self) -> Optional[Geod]:
         """
@@ -480,8 +480,8 @@ class CRS:
             b=self.ellipsoid.semi_minor_metre,
         )
 
-    @staticmethod
-    def from_dict(proj_dict: dict) -> "CRS":
+    @classmethod
+    def from_dict(cls, proj_dict: dict) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -496,10 +496,10 @@ class CRS:
         -------
         CRS
         """
-        return CRS(_prepare_from_dict(proj_dict))
+        return cls(_prepare_from_dict(proj_dict))
 
-    @staticmethod
-    def from_json(crs_json: str) -> "CRS":
+    @classmethod
+    def from_json(cls, crs_json: str) -> "CRS":
         """
         .. versionadded:: 2.4.0
 
@@ -514,10 +514,10 @@ class CRS:
         -------
         CRS
         """
-        return CRS.from_json_dict(_load_proj_json(crs_json))
+        return cls.from_json_dict(_load_proj_json(crs_json))
 
-    @staticmethod
-    def from_json_dict(crs_dict: dict) -> "CRS":
+    @classmethod
+    def from_json_dict(cls, crs_dict: dict) -> "CRS":
         """
         .. versionadded:: 2.4.0
 
@@ -532,7 +532,7 @@ class CRS:
         -------
         CRS
         """
-        return CRS(json.dumps(crs_dict))
+        return cls(json.dumps(crs_dict))
 
     def to_dict(self) -> dict:
         """
