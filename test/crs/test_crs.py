@@ -1475,3 +1475,10 @@ def test_to_3d(crs_input):
 def test_to_3d__name():
     crs_3d = CRS("EPSG:2056").to_3d(name="TEST")
     assert crs_3d.name == "TEST"
+
+def test_subclassing():
+    class myCRS(CRS):
+        def foo_method(self):
+            return 7
+
+    assert myCRS.from_epsg(4326).foo_method() == 7
