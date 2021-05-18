@@ -455,11 +455,14 @@ def test_str():
     assert str(Transformer.from_crs(4326, 3857)).startswith("proj=pipeline")
 
 
-_BOUND_REPR = (
-    "(-16.096100515106, 32.884955146013, 40.178745269776, 84.722623821813)"
-    if PROJ_GTE_8
-    else "(-16.1, 32.88, 40.18, 84.17)"
-)
+if PROJ_GTE_81:
+    _BOUND_REPR = "(-16.1, 32.88, 40.18, 84.73)"
+elif PROJ_GTE_8:
+    _BOUND_REPR = (
+        "(-16.096100515106, 32.884955146013, 40.178745269776, 84.722623821813)"
+    )
+else:
+    _BOUND_REPR = "(-16.1, 32.88, 40.18, 84.17)"
 
 
 @pytest.mark.parametrize(
@@ -695,14 +698,7 @@ def test_transform_group__area_of_interest():
             ),
         )
 
-    if PROJ_GTE_81:
-        trans_group = get_transformer_group()
-        assert trans_group.best_available
-        assert (
-            trans_group.transformers[0].description
-            == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
-        )
-    elif not grids_available("ca_nrc_ntv2_0.tif"):
+    if not grids_available("ca_nrc_ntv2_0.tif"):
         with pytest.warns(
             UserWarning,
             match="Best transformation is not available due to missing Grid",
@@ -735,7 +731,7 @@ def test_transformer__area_of_interest():
     transformer = Transformer.from_crs(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
     )
-    if PROJ_GTE_81 or not grids_available("ca_nrc_ntv2_0.tif"):
+    if not grids_available("ca_nrc_ntv2_0.tif"):
         assert (
             transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
         )
@@ -750,7 +746,7 @@ def test_transformer_proj__area_of_interest():
     transformer = Transformer.from_proj(
         4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
     )
-    if PROJ_GTE_81 or not grids_available("ca_nrc_ntv2_0.tif"):
+    if not grids_available("ca_nrc_ntv2_0.tif"):
         assert (
             transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
         )
