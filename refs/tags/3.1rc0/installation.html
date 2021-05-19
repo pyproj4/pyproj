@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Installation &mdash; pyproj 3.1rc0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="examples.html" />
+    <link rel="prev" title="pyproj Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.1rc0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#transformation-grids">Transformation Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setup-proj">Setup PROJ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-build-environment-variables">pyproj Build Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-pyproj">Setup pyproj</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-pyproj">Install pyproj</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The easiest methods for installing pyproj are:</p>
+<ol class="arabic simple">
+<li><p>Use pip to install the binary wheels on <a class="reference external" href="https://pypi.org/project/pyproj/">PyPI</a>:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>pyproj 3+ no longer supports manylinux1 wheels.
+pip&gt;=19.0 is required to install manylinux2010 wheels.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>pyproj 3+ wheels do not include transformation grids.
+For migration assistance see: <a class="reference internal" href="transformation_grids.html#transformation-grids"><span class="std std-ref">Transformation Grids</span></a></p>
+</div>
+<ul class="simple">
+<li><p>The MacOS and Linux wheels are powered by <a class="reference external" href="https://github.com/matthew-brett/multibuild">multibuild by Matthew Brett</a></p></li>
+<li><p>The Windows wheels are built by <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">Christoph Gohlke</a></p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Use <a class="reference external" href="https://conda.io/en/latest/">conda</a> with the <a class="reference external" href="https://conda-forge.org/">conda-forge</a> channel:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c conda-forge pyproj
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><cite>pypoj</cite> is maintaned by the <a class="reference external" href="http://github.com/conda-forge/pyproj-feedstock">pyproj-feedstock maintainers</a></p></li>
+<li><p><cite>PROJ</cite> is maintaned by the <a class="reference external" href="http://github.com/conda-forge/proj.4-feedstock">proj.4-feedstock maintainers</a></p></li>
+</ul>
+</div></blockquote>
+<p>If these installation methods do not meet your needs, the section below provides further instructions
+for getting setup.</p>
+<div class="section" id="transformation-grids">
+<h2>Transformation Grids<a class="headerlink" href="#transformation-grids" title="Permalink to this headline">¶</a></h2>
+<p>See: <a class="reference internal" href="transformation_grids.html#transformation-grids"><span class="std std-ref">Transformation Grids</span></a></p>
+</div>
+<div class="section" id="installing-from-source">
+<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
+<p>Version compatibility matrix:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>pyproj</p></th>
+<th class="head"><p>PROJ</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&lt;= 1.9.6</p></td>
+<td><p>&lt;= 5.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>2.0-2.1</p></td>
+<td><p>6.0+</p></td>
+</tr>
+<tr class="row-even"><td><p>2.2-2.3</p></td>
+<td><p>6.1-7</p></td>
+</tr>
+<tr class="row-odd"><td><p>2.4-2.6</p></td>
+<td><p>6.2-7</p></td>
+</tr>
+<tr class="row-even"><td><p>3.0.0</p></td>
+<td><p>7.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>3.0.1+</p></td>
+<td><p>7.2+</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="setup-proj">
+<h3>Setup PROJ<a class="headerlink" href="#setup-proj" title="Permalink to this headline">¶</a></h3>
+<p>PROJ is required when building from source.</p>
+<p>Installation instructions: <a class="reference external" href="https://proj.org/install.html">https://proj.org/install.html</a></p>
+<p>You can also download PROJ from:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://download.osgeo.org/proj">https://download.osgeo.org/proj</a></p></li>
+<li><p><a class="reference external" href="https://github.com/OSGeo/PROJ">https://github.com/OSGeo/PROJ</a></p></li>
+</ul>
+</div>
+<div class="section" id="pyproj-build-environment-variables">
+<h3>pyproj Build Environment Variables<a class="headerlink" href="#pyproj-build-environment-variables" title="Permalink to this headline">¶</a></h3>
+<dl class="std envvar">
+<dt id="envvar-PROJ_VERSION">
+<code class="sig-name descname">PROJ_VERSION</code><a class="headerlink" href="#envvar-PROJ_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+<p>This sets the version of PROJ when building pyproj. This
+enables installing pyproj when the PROJ executables are not
+present but the header files exist.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PROJ_DIR">
+<code class="sig-name descname">PROJ_DIR</code><a class="headerlink" href="#envvar-PROJ_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the path to the base directory for PROJ.
+Examples of how to set the PROJ_DIR environment variable:</p>
+<p>Windows:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="nv">PROJ_DIR</span><span class="o">=</span>C:<span class="se">\O</span>SGeo4W<span class="se">\</span>
+</pre></div>
+</div>
+<p>Linux:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PROJ_DIR</span><span class="o">=</span>/usr/local
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PROJ_LIBDIR">
+<code class="sig-name descname">PROJ_LIBDIR</code><a class="headerlink" href="#envvar-PROJ_LIBDIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the path to the directory containing the PROJ libraries.
+If not set, it searches the <cite>lib</cite> and <cite>lib64</cite> directories inside
+the PROJ directory.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PROJ_INCDIR">
+<code class="sig-name descname">PROJ_INCDIR</code><a class="headerlink" href="#envvar-PROJ_INCDIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the path to the PROJ include directory. If not set, it assumes
+it is the <cite>includes</cite> directory inside the PROJ directory.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PROJ_WHEEL">
+<code class="sig-name descname">PROJ_WHEEL</code><a class="headerlink" href="#envvar-PROJ_WHEEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a boolean value used when building a wheel. When true
+it includes the contents of the <cite>pyproj/proj_dir/proj/share</cite>
+directory if present.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-PYPROJ_FULL_COVERAGE">
+<code class="sig-name descname">PYPROJ_FULL_COVERAGE</code><a class="headerlink" href="#envvar-PYPROJ_FULL_COVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean that sets the compiler directive for cython to include
+the test coverage.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="setup-pyproj">
+<h3>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Permalink to this headline">¶</a></h3>
+<p>In the setup.py, the order for searching for PROJ is:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>The <span class="target" id="index-0"></span><a class="reference internal" href="#envvar-PROJ_DIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_DIR</span></code></a> environment variable</p></li>
+<li><p>The internal PROJ directory (pyproj/proj_dir)</p></li>
+<li><p>The <cite>proj</cite> executable in sys.prefix</p></li>
+<li><p>The <cite>proj</cite> executable on the PATH</p></li>
+</ol>
+</div></blockquote>
+<p>For best results, set the <span class="target" id="index-1"></span><a class="reference internal" href="#envvar-PROJ_DIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_DIR</span></code></a> environment variable to
+point to location of PROJ installation before running setup.py.</p>
+<p>If you have a previous version of PROJ installed alongside the current
+version of PROJ, the best way to avoid conflicts is to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Remove the previous PROJ from <cite>PATH</cite> &amp; unset the <cite>PROJ_LIB</cite> environment variable (temporarily)</p></li>
+<li><p>Install PROJ to the internal PROJ directory (pyproj/proj_dir)</p></li>
+<li><p>Set the environment variable <span class="target" id="index-2"></span><a class="reference internal" href="#envvar-PROJ_DIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_DIR</span></code></a> to point to the internal PROJ directory</p></li>
+<li><p>Set the environment variable <span class="target" id="index-3"></span><a class="reference internal" href="#envvar-PROJ_WHEEL"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_WHEEL</span></code></a> to true</p></li>
+<li><p>Build pyproj</p></li>
+</ol>
+</div></blockquote>
+<div class="section" id="install-pyproj">
+<h4>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="http://cython.org/">Cython</a> or pip&gt;=10.0.1 is required for the installation.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may need to run pip with administrative privileges (e.g. <cite>sudo pip</cite>) or
+perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
+</div>
+<div class="section" id="from-pypi">
+<h5>From pypi:<a class="headerlink" href="#from-pypi" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj --no-binary pyproj
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-github-with-pip">
+<h5>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/pyproj4/pyproj.git
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-cloned-github-repo-for-development">
+<h5>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -e .
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="examples.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="pyproj Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
