@@ -1489,12 +1489,13 @@ class _CleanlyInheritableCRS(CRS):
 
 # remove from_* factory methods in _CleanlyInheritableCRS. They can't be deleted, as that would delete them from the
 # parent CRS. Best we can do is override them with a property which raises AttributeError.
-for item in CRS.__dict__:
+for item in CRS.__dict__.keys():
+    if item.startswith("from_"):
 
-    def _override(self):
-        raise AttributeError(f"method '{item}' is not accessible from this class")
+        def _override(self, item=item):
+            raise AttributeError(f"method '{item}' is not accessible from this class")
 
-    setattr(_CleanlyInheritableCRS, item, property(_override))
+        setattr(_CleanlyInheritableCRS, item, _override)
 
 
 class GeographicCRS(_CleanlyInheritableCRS):
