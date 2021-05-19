@@ -1483,3 +1483,10 @@ def test_subclassing():
             return 7
 
     assert myCRS.from_epsg(4326).foo_method() == 7
+
+
+def test_from_methods():
+    with pytest.raises(AttributeError):
+        pyproj.crs.VerticalCRS.from_epsg
+    with pytest.raises(AttributeError):
+        pyproj.crs.VerticalCRS.from_proj4

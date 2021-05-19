@@ -1481,7 +1481,23 @@ class CRS:
         )
 
 
-class GeographicCRS(CRS):
+class _CleanlyInheritableCRS(CRS):
+    """
+    This class exists to remove certain attributes from inheritance which do not make sense for certain derived classes.
+    """
+
+
+# remove from_* factory methods in _CleanlyInheritableCRS. They can't be deleted, as that would delete them from the
+# parent CRS. Best we can do is override them with a property which raises AttributeError.
+for item in CRS.__dict__:
+
+    def _override(self):
+        raise AttributeError(f"method '{item}' is not accessible from this class")
+
+    setattr(_CleanlyInheritableCRS, item, property(_override))
+
+
+class GeographicCRS(_CleanlyInheritableCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1519,7 +1535,7 @@ class GeographicCRS(CRS):
         super().__init__(geographic_crs_json)
 
 
-class DerivedGeographicCRS(CRS):
+class DerivedGeographicCRS(_CleanlyInheritableCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1564,7 +1580,7 @@ class DerivedGeographicCRS(CRS):
         super().__init__(derived_geographic_crs_json)
 
 
-class ProjectedCRS(CRS):
+class ProjectedCRS(_CleanlyInheritableCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1611,7 +1627,7 @@ class ProjectedCRS(CRS):
         super().__init__(proj_crs_json)
 
 
-class VerticalCRS(CRS):
+class VerticalCRS(_CleanlyInheritableCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1657,7 +1673,7 @@ class VerticalCRS(CRS):
         super().__init__(vert_crs_json)
 
 
-class CompoundCRS(CRS):
+class CompoundCRS(_CleanlyInheritableCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1687,7 +1703,7 @@ class CompoundCRS(CRS):
         super().__init__(compound_crs_json)
 
 
-class BoundCRS(CRS):
+class BoundCRS(_CleanlyInheritableCRS):
     """
     .. versionadded:: 2.5.0
 
