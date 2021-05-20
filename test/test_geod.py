@@ -132,7 +132,10 @@ def test_geod_inverse_transform():
         latprev = lat1pt
         for (lon, lat), (res12, res21, resdist) in zip(lonlats, res_az12_az21_dists):
             o_az12, o_az21, o_dist = gg.inv(lonprev, latprev, lon, lat)
-            assert_almost_equal((o_az12, o_az21, o_dist), (res12, res21, resdist))
+            if resdist == 0:
+                assert_almost_equal(o_dist, 0)
+            else:
+                assert_almost_equal((o_az12, o_az21, o_dist), (res12, res21, resdist))
             latprev = lat
             lonprev = lon
         if not include_terminus:
