@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyproj.network &mdash; pyproj 3.1rc1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.1rc1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyproj.network</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyproj.network</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for managing the PROJ network settings.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">certifi</span>
+
+<span class="kn">from</span> <span class="nn">pyproj._network</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401</span>
+    <span class="n">_set_ca_bundle_path</span><span class="p">,</span>
+    <span class="n">is_network_enabled</span><span class="p">,</span>
+    <span class="n">set_network_enabled</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="set_ca_bundle_path"><a class="viewcode-back" href="../../api/network.html#pyproj.network.set_ca_bundle_path">[docs]</a><span class="k">def</span> <span class="nf">set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 3.0.0</span>
+
+<span class="sd">    Sets the path to the CA Bundle used by the `curl`</span>
+<span class="sd">    built into PROJ when PROJ network is enabled..</span>
+
+<span class="sd">    Environment variables that can be used with PROJ 7.2+:</span>
+
+<span class="sd">    - PROJ_CURL_CA_BUNDLE</span>
+<span class="sd">    - CURL_CA_BUNDLE</span>
+<span class="sd">    - SSL_CERT_FILE</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ca_bundle_path: Union[Path, str, bool, None], optional</span>
+<span class="sd">        Default is None, which only uses the `certifi` package path as a fallback if</span>
+<span class="sd">        the environment variables are not set. If a path is passed in, then</span>
+<span class="sd">        that will be the path used. If it is set to True, then it will default</span>
+<span class="sd">        to using the path provied by the `certifi` package. If it is set to False</span>
+<span class="sd">        or an empty string then it will default to the system settings or environment</span>
+<span class="sd">        variables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">env_var_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;PROJ_CURL_CA_BUNDLE&quot;</span><span class="p">,</span> <span class="s2">&quot;CURL_CA_BUNDLE&quot;</span><span class="p">,</span> <span class="s2">&quot;SSL_CERT_FILE&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ca_bundle_path</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="c1"># need to reset CA Bundle path to use system settings</span>
+        <span class="c1"># or environment variables because it</span>
+        <span class="c1"># could have been changed by the user previously</span>
+        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
+        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">ca_bundle_path</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+        <span class="n">env_var_name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span> <span class="k">for</span> <span class="n">env_var_name</span> <span class="ow">in</span> <span class="n">env_var_names</span>
+    <span class="p">):</span>
+        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># reset CA Bundle path to use system settings</span>
+        <span class="c1"># or environment variables</span>
+        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">_set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
