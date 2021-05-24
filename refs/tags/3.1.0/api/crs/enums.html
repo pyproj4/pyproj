@@ -1,0 +1,492 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Enumerations &mdash; pyproj 3.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Transformer" href="../transformer.html" />
+    <link rel="prev" title="Datum" href="datum.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">CRS module API Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="crs.html">CRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coordinate_system.html">Coordinate Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coordinate_operation.html">Coordinate Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html">Datum</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Enumerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datumtype">DatumType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coordinateoperationtype">CoordinateOperationType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cartesian2dcsaxis">Cartesian2DCSAxis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ellipsoidal2dcsaxis">Ellipsoidal2DCSAxis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ellipsoidal3dcsaxis">Ellipsoidal3DCSAxis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verticalcsaxis">VerticalCSAxis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../transformer.html">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geod.html">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database.html">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network.html">PROJ Network Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sync.html">Sync Transformation Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../global_context.html">Global Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aoi.html">Area of Interest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../show_versions.html">Show Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="index.html">CRS module API Documentation</a> &raquo;</li>
+        
+      <li>Enumerations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/api/crs/enums.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="enumerations">
+<h1>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="datumtype">
+<h2>DatumType<a class="headerlink" href="#datumtype" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.enums.DatumType">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.enums.</code><code class="sig-name descname">DatumType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/enums.html#DatumType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.enums.DatumType" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Datum Types for creating datum with <a class="reference internal" href="datum.html#pyproj.crs.Datum.from_name" title="pyproj.crs.Datum.from_name"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Datum.from_name()</span></code></a></p>
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.DatumType.GEODETIC_REFERENCE_FRAME">
+<code class="sig-name descname">GEODETIC_REFERENCE_FRAME</code><a class="headerlink" href="#pyproj.crs.enums.DatumType.GEODETIC_REFERENCE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.DatumType.DYNAMIC_GEODETIC_REFERENCE_FRAME">
+<code class="sig-name descname">DYNAMIC_GEODETIC_REFERENCE_FRAME</code><a class="headerlink" href="#pyproj.crs.enums.DatumType.DYNAMIC_GEODETIC_REFERENCE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.DatumType.VERTICAL_REFERENCE_FRAME">
+<code class="sig-name descname">VERTICAL_REFERENCE_FRAME</code><a class="headerlink" href="#pyproj.crs.enums.DatumType.VERTICAL_REFERENCE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.DatumType.DYNAMIC_VERTICAL_REFERENCE_FRAME">
+<code class="sig-name descname">DYNAMIC_VERTICAL_REFERENCE_FRAME</code><a class="headerlink" href="#pyproj.crs.enums.DatumType.DYNAMIC_VERTICAL_REFERENCE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.DatumType.DATUM_ENSEMBLE">
+<code class="sig-name descname">DATUM_ENSEMBLE</code><a class="headerlink" href="#pyproj.crs.enums.DatumType.DATUM_ENSEMBLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="coordinateoperationtype">
+<h2>CoordinateOperationType<a class="headerlink" href="#coordinateoperationtype" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.enums.CoordinateOperationType">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.enums.</code><code class="sig-name descname">CoordinateOperationType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/enums.html#CoordinateOperationType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.enums.CoordinateOperationType" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Coordinate Operation Types for creating operation
+with <a class="reference internal" href="coordinate_operation.html#pyproj.crs.CoordinateOperation.from_name" title="pyproj.crs.CoordinateOperation.from_name"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation.from_name()</span></code></a></p>
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.CoordinateOperationType.CONVERSION">
+<code class="sig-name descname">CONVERSION</code><a class="headerlink" href="#pyproj.crs.enums.CoordinateOperationType.CONVERSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.CoordinateOperationType.TRANSFORMATION">
+<code class="sig-name descname">TRANSFORMATION</code><a class="headerlink" href="#pyproj.crs.enums.CoordinateOperationType.TRANSFORMATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.CoordinateOperationType.CONCATENATED_OPERATION">
+<code class="sig-name descname">CONCATENATED_OPERATION</code><a class="headerlink" href="#pyproj.crs.enums.CoordinateOperationType.CONCATENATED_OPERATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.CoordinateOperationType.OTHER_COORDINATE_OPERATION">
+<code class="sig-name descname">OTHER_COORDINATE_OPERATION</code><a class="headerlink" href="#pyproj.crs.enums.CoordinateOperationType.OTHER_COORDINATE_OPERATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="cartesian2dcsaxis">
+<h2>Cartesian2DCSAxis<a class="headerlink" href="#cartesian2dcsaxis" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.enums.</code><code class="sig-name descname">Cartesian2DCSAxis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/enums.html#Cartesian2DCSAxis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Cartesian 2D Coordinate System Axis for creating axis with
+with <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordinate_system.Cartesian2DCS" title="pyproj.crs.coordinate_system.Cartesian2DCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_system.Cartesian2DCS</span></code></a></p>
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING">
+<code class="sig-name descname">EASTING_NORTHING</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING">
+<code class="sig-name descname">NORTHING_EASTING</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING_FT">
+<code class="sig-name descname">EASTING_NORTHING_FT</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING_FT">
+<code class="sig-name descname">NORTHING_EASTING_FT</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING_US_FT">
+<code class="sig-name descname">EASTING_NORTHING_US_FT</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING_US_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING_US_FT">
+<code class="sig-name descname">NORTHING_EASTING_US_FT</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING_US_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH">
+<code class="sig-name descname">NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH">
+<code class="sig-name descname">SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Cartesian2DCSAxis.WESTING_SOUTHING">
+<code class="sig-name descname">WESTING_SOUTHING</code><a class="headerlink" href="#pyproj.crs.enums.Cartesian2DCSAxis.WESTING_SOUTHING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ellipsoidal2dcsaxis">
+<h2>Ellipsoidal2DCSAxis<a class="headerlink" href="#ellipsoidal2dcsaxis" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.enums.Ellipsoidal2DCSAxis">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.enums.</code><code class="sig-name descname">Ellipsoidal2DCSAxis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/enums.html#Ellipsoidal2DCSAxis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.enums.Ellipsoidal2DCSAxis" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Ellisoidal 2D Coordinate System Axis for creating axis with
+with <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordinate_system.Ellipsoidal2DCS" title="pyproj.crs.coordinate_system.Ellipsoidal2DCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_system.Ellipsoidal2DCS</span></code></a></p>
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE">
+<code class="sig-name descname">LONGITUDE_LATITUDE</code><a class="headerlink" href="#pyproj.crs.enums.Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Ellipsoidal2DCSAxis.LATITUDE_LONGITUDE">
+<code class="sig-name descname">LATITUDE_LONGITUDE</code><a class="headerlink" href="#pyproj.crs.enums.Ellipsoidal2DCSAxis.LATITUDE_LONGITUDE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ellipsoidal3dcsaxis">
+<h2>Ellipsoidal3DCSAxis<a class="headerlink" href="#ellipsoidal3dcsaxis" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.enums.Ellipsoidal3DCSAxis">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.enums.</code><code class="sig-name descname">Ellipsoidal3DCSAxis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/enums.html#Ellipsoidal3DCSAxis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.enums.Ellipsoidal3DCSAxis" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Ellisoidal 3D Coordinate System Axis for creating axis with
+with <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordinate_system.Ellipsoidal3DCS" title="pyproj.crs.coordinate_system.Ellipsoidal3DCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_system.Ellipsoidal3DCS</span></code></a></p>
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT">
+<code class="sig-name descname">LONGITUDE_LATITUDE_HEIGHT</code><a class="headerlink" href="#pyproj.crs.enums.Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.Ellipsoidal3DCSAxis.LATITUDE_LONGITUDE_HEIGHT">
+<code class="sig-name descname">LATITUDE_LONGITUDE_HEIGHT</code><a class="headerlink" href="#pyproj.crs.enums.Ellipsoidal3DCSAxis.LATITUDE_LONGITUDE_HEIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="verticalcsaxis">
+<h2>VerticalCSAxis<a class="headerlink" href="#verticalcsaxis" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.enums.VerticalCSAxis">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.enums.</code><code class="sig-name descname">VerticalCSAxis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/enums.html#VerticalCSAxis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.5.0.</span></p>
+</div>
+<p>Vertical Coordinate System Axis for creating axis with
+with <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordinate_system.VerticalCS" title="pyproj.crs.coordinate_system.VerticalCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_system.VerticalCS</span></code></a></p>
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.UP">
+<code class="sig-name descname">UP</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.UP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.UP_FT">
+<code class="sig-name descname">UP_FT</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.UP_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.UP_US_FT">
+<code class="sig-name descname">UP_US_FT</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.UP_US_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.DEPTH">
+<code class="sig-name descname">DEPTH</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.DEPTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.DEPTH_FT">
+<code class="sig-name descname">DEPTH_FT</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.DEPTH_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.DEPTH_US_FT">
+<code class="sig-name descname">DEPTH_US_FT</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.DEPTH_US_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT">
+<code class="sig-name descname">GRAVITY_HEIGHT</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT_FT">
+<code class="sig-name descname">GRAVITY_HEIGHT_FT</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT_US_FT">
+<code class="sig-name descname">GRAVITY_HEIGHT_US_FT</code><a class="headerlink" href="#pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT_US_FT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../transformer.html" class="btn btn-neutral float-right" title="Transformer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="datum.html" class="btn btn-neutral float-left" title="Datum" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
