@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- ENH: Allow cimport (pull #870)
 
 3.1.0
 -----
