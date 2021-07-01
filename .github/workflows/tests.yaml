@@ -38,13 +38,15 @@ jobs:
           - os: ubuntu-latest
             python-version: 3.7
             proj-version: 7.2
+          - os: ubuntu-latest
+            python-version: 3.8
+            proj-version: 8.0
     steps:
       - uses: actions/checkout@v2
 
       - name: Setup Conda
         uses: s-weigand/setup-conda@v1
         with:
-          activate-conda: false
           python-version: ${{ matrix.python-version }}
           conda-channels: conda-forge
 
