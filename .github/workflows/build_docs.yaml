@@ -19,7 +19,6 @@ jobs:
       - name: Setup Conda
         uses: s-weigand/setup-conda@v1
         with:
-          activate-conda: false
           python-version: 3.8
           conda-channels: conda-forge
 
