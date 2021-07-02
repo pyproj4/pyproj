@@ -10,8 +10,12 @@ Also see:
   - `PROJ FAQ <https://proj.org/faq.html>`__
 
 
-What is the best format to store the CRS information?
+What are the best formats to store the CRS information?
 -----------------------------------------------------
+
+In general, **Well-Known Text (WKT)** or **Spatial Reference ID (SRID)** are
+the preferred formats to describe a CRS.
+
 PROJ strings can be lossy for storing CRS information.
 If you can avoid it, it is best to not use them.
 Additionally, PROJ strings will likely not be supported
