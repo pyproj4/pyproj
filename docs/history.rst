@@ -4,6 +4,7 @@ Change Log
 Latest
 ------
 - ENH: Allow cimport (pull #870)
+- DOC: Improve FAQ text about CRS formats (issue #789)
 
 3.1.0
 -----
