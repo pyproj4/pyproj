@@ -94,7 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_grids.html">Transformation Grids</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Gotchas/FAQ</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#what-is-the-best-format-to-store-the-crs-information">What is the best format to store the CRS information?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-are-the-best-formats-to-store-the-crs-information">What are the best formats to store the CRS information?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#axis-order-changes-in-proj-6">Axis order changes in PROJ 6+</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#init-auth-auth-code-should-be-replaced-with-auth-auth-code"><cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> should be replaced with <cite>&lt;auth&gt;:&lt;auth_code&gt;</cite></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#proj-not-a-generic-latitude-longitude-to-projection-converter">Proj (Not a generic latitude/longitude to projection converter)</a></li>
@@ -189,8 +189,13 @@
 </ul>
 </dd>
 </dl>
-<div class="section" id="what-is-the-best-format-to-store-the-crs-information">
-<h2>What is the best format to store the CRS information?<a class="headerlink" href="#what-is-the-best-format-to-store-the-crs-information" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-are-the-best-formats-to-store-the-crs-information">
+<h2>What are the best formats to store the CRS information?<a class="headerlink" href="#what-are-the-best-formats-to-store-the-crs-information" title="Permalink to this headline">¶</a></h2>
+<p>In general, [Well-Known Text (WKT)](<a class="reference external" href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems">https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems</a>)
+or [Spatial Reference ID
+(SRID)](<a class="reference external" href="https://en.wikipedia.org/wiki/Spatial_reference_system">https://en.wikipedia.org/wiki/Spatial_reference_system</a>), such as EPSG
+codes, are the preferred formats to describe a CRS.</p>
+<p>WKT2 is preferred over WKT1.</p>
 <p>PROJ strings can be lossy for storing CRS information.
 If you can avoid it, it is best to not use them.
 Additionally, PROJ strings will likely not be supported
