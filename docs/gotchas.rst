@@ -13,12 +13,12 @@ Also see:
 What are the best formats to store the CRS information?
 -----------------------------------------------------
 
-In general, [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems)
-or [Spatial Reference ID
-(SRID)](https://en.wikipedia.org/wiki/Spatial_reference_system), such as EPSG
+In general, `Well-Known Text (WKT) <https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems>`__
+or `Spatial Reference ID
+(SRID) <https://en.wikipedia.org/wiki/Spatial_reference_system>`__, such as EPSG
 codes, are the preferred formats to describe a CRS.
 
-WKT2 is preferred over WKT1.
+.. note:: WKT2 is preferred over WKT1.
 
 PROJ strings can be lossy for storing CRS information.
 If you can avoid it, it is best to not use them.
