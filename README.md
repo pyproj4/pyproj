@@ -4,7 +4,7 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 
 <p align="center">
 <a href="https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Join the chat at https://gitter.im/pyproj4-pyproj/community" src="https://badges.gitter.im/pyproj4-pyproj/community.svg"></a>
-<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-41-orange.svg?style=flat-square"></a>
+<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-42-orange.svg?style=flat-square"></a>
 <a href="https://ci.appveyor.com/project/jswhit/pyproj"><img alt="Appveyor Build Status" src="https://ci.appveyor.com/api/projects/status/8xkka4s97uwhkc64/branch/master?svg=true"></a>
 <a href="https://github.com/pyproj4/pyproj/actions?query=workflow%3ATests"><img alt="GitHub Actions Build Status" src="https://github.com/pyproj4/pyproj/workflows/Tests/badge.svg"></a>
 <a href="https://codecov.io/gh/pyproj4/pyproj"><img alt="Codecov Status" src="https://codecov.io/gh/pyproj4/pyproj/branch/master/graph/badge.svg"></a>
@@ -89,6 +89,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://medium.com/@underchemist"><img src="https://avatars1.githubusercontent.com/u/5283998?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yann-Sebastien Tremblay-Johnston</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=underchemist" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/odidev"><img src="https://avatars2.githubusercontent.com/u/40816837?v=4?s=100" width="100px;" alt=""/><br /><sub><b>odidev</b></sub></a><br /><a href="#platform-odidev" title="Packaging/porting to new platform">📦</a></td>
     <td align="center"><a href="https://github.com/idanmiara"><img src="https://avatars.githubusercontent.com/u/26349741?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Idan Miara</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=idanmiara" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=idanmiara" title="Documentation">📖</a> <a href="#example-idanmiara" title="Examples">💡</a> <a href="https://github.com/pyproj4/pyproj/commits?author=idanmiara" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/direvus"><img src="https://avatars.githubusercontent.com/u/312229?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Brendan Jurd</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=direvus" title="Documentation">📖</a></td>
   </tr>
 </table>
 
