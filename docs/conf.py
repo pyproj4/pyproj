@@ -41,6 +41,10 @@ extensions = [
     "sphinxarg.ext",
 ]
 
+intersphinx_mapping = {
+    "proj": ("https://proj.org/", None),
+}
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 

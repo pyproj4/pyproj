@@ -7,11 +7,11 @@ This is a page for some suggestions, gotchas, and FAQs.
 
 Also see:
   - :ref:`examples`
-  - `PROJ FAQ <https://proj.org/faq.html>`__
+  - :ref:`PROJ FAQ <faq>`
 
 
 What are the best formats to store the CRS information?
------------------------------------------------------
+--------------------------------------------------------
 
 In general, `Well-Known Text (WKT) <https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems>`__
 or `Spatial Reference ID

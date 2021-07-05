@@ -1012,8 +1012,7 @@ class CRS:
         Returns
         -------
         str:
-            The name of the CRS (from `proj_get_name <https://proj.org/
-            development/reference/functions.html#_CPPv313proj_get_namePK2PJ>`_).
+            The name of the CRS (from :cpp:func:`proj_get_name`).
         """
         return self._crs.name
 

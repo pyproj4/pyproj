@@ -7,7 +7,7 @@ A Proj class instance is initialized with proj map projection
 control parameter key/value pairs. The key/value pairs can
 either be passed in a dictionary, or as keyword arguments,
 or as a PROJ string (compatible with the proj command). See
-https://proj.org/operations/projections/index.html for examples of
+:ref:`projections` for examples of
 key/value pairs defining different map projections.
 
 Calling a Proj class instance with the arguments lon, lat will
@@ -52,7 +52,7 @@ class Proj(Transformer):
         control parameter key/value pairs. The key/value pairs can
         either be passed in a dictionary, or as keyword arguments,
         or as a PROJ string (compatible with the proj command). See
-        https://proj.org/operations/projections/index.html for examples of
+        :ref:`projections` for examples of
         key/value pairs defining different map projections.
 
         Parameters
