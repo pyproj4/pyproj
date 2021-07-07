@@ -2,7 +2,7 @@
 This module is for building operations to be used when
 building a CRS.
 
-https://proj.org/operations/
+:ref:`operations`
 """
 import warnings
 from typing import Any
@@ -17,7 +17,7 @@ class AlbersEqualAreaConversion(CoordinateOperation):
 
     Class for constructing the Albers Equal Area Conversion.
 
-    https://proj.org/operations/projections/aea.html
+    :ref:`PROJ docs <aea>`
     """
 
     def __new__(
@@ -109,7 +109,7 @@ class AzumuthalEquidistantConversion(CoordinateOperation):
 
     Class for constructing the Modified Azimuthal Equidistant conversion.
 
-    https://proj.org/operations/projections/aeqd.html
+    :ref:`PROJ docs <aeqd>`
     """
 
     def __new__(
@@ -176,7 +176,7 @@ class GeostationarySatelliteConversion(CoordinateOperation):
 
     Class for constructing the Geostationary Satellite conversion.
 
-    https://proj.org/operations/projections/geos.html
+    :ref:`PROJ docs <geos>`
     """
 
     def __new__(
@@ -263,7 +263,7 @@ class LambertAzumuthalEqualAreaConversion(CoordinateOperation):
 
     Class for constructing the Lambert Azimuthal Equal Area conversion.
 
-    https://proj.org/operations/projections/laea.html
+    :ref:`PROJ docs <laea>`
     """
 
     def __new__(
@@ -330,7 +330,7 @@ class LambertConformalConic2SPConversion(CoordinateOperation):
 
     Class for constructing the Lambert Conformal Conic 2SP conversion.
 
-    https://proj.org/operations/projections/lcc.html
+    :ref:`PROJ docs <lcc>`
     """
 
     def __new__(
@@ -415,7 +415,7 @@ class LambertConformalConic1SPConversion(CoordinateOperation):
 
     Class for constructing the Lambert Conformal Conic 1SP conversion.
 
-    https://proj.org/operations/projections/lcc.html
+    :ref:`PROJ docs <lcc>`
     """
 
     def __new__(
@@ -491,7 +491,7 @@ class LambertCylindricalEqualAreaConversion(CoordinateOperation):
 
     Class for constructing the Lambert Cylindrical Equal Area conversion.
 
-    https://proj.org/operations/projections/cea.html
+    :ref:`PROJ docs <cea>`
     """
 
     def __new__(
@@ -564,7 +564,7 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
     when exporting to WKT in PROJ>=7.0.0. Previous version will export it as a
     PROJ-based coordinate operation in the WKT.
 
-    https://proj.org/operations/projections/cea.html
+    :ref:`PROJ docs <cea>`
     """
 
     def __new__(
@@ -590,7 +590,6 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
         from pyproj.crs import CRS
 
         # hack due to: https://github.com/OSGeo/PROJ/issues/1881
-        # https://proj.org/operations/projections/cea.html
         proj_string = (
             "+proj=cea "
             f"+lon_0={longitude_natural_origin} "
@@ -609,7 +608,7 @@ class MercatorAConversion(CoordinateOperation):
 
     Class for constructing the Mercator (variant A) conversion.
 
-    https://proj.org/operations/projections/merc.html
+    :ref:`PROJ docs <merc>`
     """
 
     def __new__(
@@ -685,7 +684,7 @@ class MercatorBConversion(CoordinateOperation):
 
     Class for constructing the Mercator (variant B) conversion.
 
-    https://proj.org/operations/projections/merc.html
+    :ref:`PROJ docs <merc>`
     """
 
     def __new__(
@@ -752,7 +751,7 @@ class HotineObliqueMercatorBConversion(CoordinateOperation):
 
     Class for constructing the Hotine Oblique Mercator (variant B) conversion.
 
-    https://proj.org/operations/projections/omerc.html
+    :ref:`PROJ docs <omerc>`
     """
 
     def __new__(
@@ -845,7 +844,7 @@ class OrthographicConversion(CoordinateOperation):
 
     Class for constructing the Orthographic conversion.
 
-    https://proj.org/operations/projections/ortho.html
+    :ref:`PROJ docs <ortho>`
     """
 
     def __new__(
@@ -912,7 +911,7 @@ class PolarStereographicAConversion(CoordinateOperation):
 
     Class for constructing the Polar Stereographic A conversion.
 
-    https://proj.org/operations/projections/stere.html
+    :ref:`PROJ docs <stere>`
     """
 
     def __new__(
@@ -989,7 +988,7 @@ class PolarStereographicBConversion(CoordinateOperation):
 
     Class for constructing the Polar Stereographic B conversion.
 
-    https://proj.org/operations/projections/stere.html
+    :ref:`PROJ docs <stere>`
     """
 
     def __new__(
@@ -1056,7 +1055,7 @@ class SinusoidalConversion(CoordinateOperation):
 
     Class for constructing the Sinusoidal conversion.
 
-    https://proj.org/operations/projections/sinu.html
+    :ref:`PROJ docs <sinu>`
     """
 
     def __new__(
@@ -1111,7 +1110,7 @@ class StereographicConversion(CoordinateOperation):
 
     Class for constructing the Stereographic conversion.
 
-    https://proj.org/operations/projections/stere.html
+    :ref:`PROJ docs <stere>`
     """
 
     def __new__(
@@ -1185,7 +1184,7 @@ class UTMConversion(CoordinateOperation):
 
     Class for constructing the UTM conversion.
 
-    https://proj.org/operations/projections/utm.html
+    :ref:`PROJ docs <utm>`
     """
 
     def __new__(cls, zone: str, hemisphere: str = "N"):
@@ -1206,7 +1205,7 @@ class TransverseMercatorConversion(CoordinateOperation):
 
     Class for constructing the Transverse Mercator conversion.
 
-    https://proj.org/operations/projections/tmerc.html
+    :ref:`PROJ docs <tmerc>`
     """
 
     def __new__(
@@ -1282,7 +1281,7 @@ class VerticalPerspectiveConversion(CoordinateOperation):
 
     Class for constructing the Vetical Perspective conversion.
 
-    https://proj.org/operations/projections/nsper.html
+    :ref:`PROJ docs <nsper>`
     """
 
     def __new__(
@@ -1367,7 +1366,7 @@ class RotatedLatitudeLongitudeConversion(CoordinateOperation):
 
     Class for constructing the Rotated Latitude Longitude conversion.
 
-    https://proj.org/operations/projections/ob_tran.html
+    :ref:`PROJ docs <ob_tran>`
     """
 
     def __new__(cls, o_lat_p: float, o_lon_p: float, lon_0: float = 0.0):
@@ -1404,7 +1403,7 @@ class EquidistantCylindricalConversion(CoordinateOperation):
 
     Class for constructing the Equidistant Cylintrical (Plate Carrée) conversion.
 
-    https://proj.org/operations/projections/eqc.html
+    :ref:`PROJ docs <eqc>`
     """
 
     def __new__(

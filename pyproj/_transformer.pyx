@@ -77,7 +77,7 @@ Factors.__doc__ = """
 
 These are the scaling and angular distortion factors.
 
-See `PJ_FACTORS documentation <https://proj.org/development/reference/datatypes.html?highlight=pj_factors#c.PJ_FACTORS>`__  # noqa
+See PROJ :c:type:`PJ_FACTORS` documentation.
 
 Parameters
 ----------

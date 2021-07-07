@@ -549,7 +549,7 @@ class Transformer:
     def from_pipeline(proj_pipeline: str) -> "Transformer":
         """Make a Transformer from a PROJ pipeline string.
 
-        https://proj.org/operations/pipeline.html
+        :ref:`pipeline`
 
         .. versionadded:: 3.1.0 AUTH:CODE string suppor (e.g. EPSG:1671)
 
