@@ -6,8 +6,7 @@ Transformer
 
 The `pyproj.Transformer` has the capabilities of performing 2D, 3D, and 4D (time)
 transformations. It can do anything that the PROJ command line programs
-`proj <https://proj.org/apps/proj.html>`__, `cs2cs <https://proj.org/apps/cs2cs.html>`__,
-and `cct <https://proj.org/apps/cct.html>`__ can do.
+:ref:`proj`, :ref:`cs2cs`, and :ref:`cct` can do.
 This means that it allows translation between any pair of definable coordinate systems,
 including support for datum transformation.
 

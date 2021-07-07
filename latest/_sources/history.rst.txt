@@ -35,7 +35,7 @@ Latest
 * Minimum PROJ version 7.2 (issues #599 & #689)
 * WHL: Removed datumgrids from wheels because not needed with RFC 4 (pull #628)
 * WHL: Wheels contain PROJ 7.2
-* ENH: Added :ref:`network` (#675, #691, #695)
+* ENH: Added :ref:`network_api` (#675, #691, #695)
 * ENH: Added ability to use global context (issue #661)
 * ENH: Added transformation grid sync API/CLI (issue #572)
 * ENH: Support obects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
