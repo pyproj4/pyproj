@@ -62,7 +62,7 @@ Setup PROJ
 
 PROJ is required when building from source.
 
-Installation instructions: https://proj.org/install.html
+:ref:`PROJ Installation Instructions <install>`
 
 You can also download PROJ from:
 

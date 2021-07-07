@@ -1,4 +1,4 @@
-.. _network:
+.. _network_api:
 
 PROJ Network Settings
 ======================
