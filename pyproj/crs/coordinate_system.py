@@ -69,7 +69,8 @@ class Ellipsoidal2DCS(CoordinateSystem):
         Parameters
         ----------
         axis: :class:`pyproj.crs.enums.Ellipsoidal2DCSAxis` or str, optional
-            This is the axis order of the coordinate system.
+            This is the axis order of the coordinate system. Default is
+            :attr:`pyproj.crs.enums.Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE`.
         """
         return cls.from_json_dict(
             {
@@ -141,7 +142,8 @@ class Ellipsoidal3DCS(CoordinateSystem):
         Parameters
         ----------
         axis: :class:`pyproj.crs.enums.Ellipsoidal3DCSAxis` or str, optional
-            This is the axis order of the coordinate system.
+            This is the axis order of the coordinate system. Default is
+            :attr:`pyproj.crs.enums.Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT`.
         """
         return cls.from_json_dict(
             {
@@ -287,6 +289,7 @@ class Cartesian2DCS(CoordinateSystem):
         ----------
         axis: :class:`pyproj.crs.enums.Cartesian2DCSAxis` or str, optional
             This is the axis order of the coordinate system.
+            Default is :attr:`pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING`.
         """
         return cls.from_json_dict(
             {
@@ -368,6 +371,7 @@ class VerticalCS(CoordinateSystem):
         ----------
         axis: :class:`pyproj.crs.enums.VerticalCSAxis` or str, optional
             This is the axis direction of the coordinate system.
+            Default is :attr:`pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT`.
         """
         return cls.from_json_dict(
             {

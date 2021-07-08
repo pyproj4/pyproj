@@ -227,14 +227,13 @@ def get_transform_grid_list(
     area_of_use: str, optional
     filename: str, optional
     bbox: BBox, optional
-    spatial_test: str, optional
-        Can be "contains" or "intersects". Defaults to "intersects".
-    include_world_coverage: bool, optional
-        Defaults to True.
-    include_already_downloaded: bool, optional
+    spatial_test: str, default="intersects"
+        Can be "contains" or "intersects".
+    include_world_coverage: bool, default=True
+        If True, it will include grids with a global extent.
+    include_already_downloaded: bool, default=False
         If True, it will list grids regardless of if they are downloaded.
-        Defaults to False.
-    target_directory: Union[str, Path], optional
+    target_directory: Union[str, Path, None], optional
         The directory to download the geojson file to.
         Default is the user writable directory.
 

@@ -23,12 +23,12 @@ class CustomDatum(Datum):
         """
         Parameters
         ----------
-        name: str, optional
-            Name of the datum. Default is 'undefined'.
-        ellipsoid: Any, optional
+        name: str, default="undefined"
+            Name of the datum.
+        ellipsoid: Any, default="WGS 84"
             Anything accepted by :meth:`pyproj.crs.Ellipsoid.from_user_input`
             or a :class:`pyproj.crs.datum.CustomEllipsoid`.
-        prime_meridian: Any, optional
+        prime_meridian: Any, default="Greenwich"
             Anything accepted by :meth:`pyproj.crs.PrimeMeridian.from_user_input`.
         """
         datum_json = {
@@ -61,8 +61,8 @@ class CustomEllipsoid(Ellipsoid):
         """
         Parameters
         ----------
-        name: str, optional
-            Name of the ellipsoid. Default is 'undefined'.
+        name: str, default="undefined"
+            Name of the ellipsoid.
         semi_major_axis: float, optional
             The semi major axis in meters. Required if missing radius.
         inverse_flattening: float, optional
