@@ -238,7 +238,8 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        axis: :class:`pyproj.crs.enums.Ellipsoidal2DCSAxis` or str, optional</span>
-<span class="sd">            This is the axis order of the coordinate system.</span>
+<span class="sd">            This is the axis order of the coordinate system. Default is</span>
+<span class="sd">            :attr:`pyproj.crs.enums.Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span>
             <span class="p">{</span>
@@ -310,7 +311,8 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        axis: :class:`pyproj.crs.enums.Ellipsoidal3DCSAxis` or str, optional</span>
-<span class="sd">            This is the axis order of the coordinate system.</span>
+<span class="sd">            This is the axis order of the coordinate system. Default is</span>
+<span class="sd">            :attr:`pyproj.crs.enums.Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span>
             <span class="p">{</span>
@@ -456,6 +458,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        axis: :class:`pyproj.crs.enums.Cartesian2DCSAxis` or str, optional</span>
 <span class="sd">            This is the axis order of the coordinate system.</span>
+<span class="sd">            Default is :attr:`pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span>
             <span class="p">{</span>
@@ -537,6 +540,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        axis: :class:`pyproj.crs.enums.VerticalCSAxis` or str, optional</span>
 <span class="sd">            This is the axis direction of the coordinate system.</span>
+<span class="sd">            Default is :attr:`pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span>
             <span class="p">{</span>

@@ -330,7 +330,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>auth_name</strong> (<em>str</em>) – Name of the authority.</p></li>
 <li><p><strong>code</strong> (<em>str</em><em> or </em><em>int</em>) – The code used by the authority.</p></li>
-<li><p><strong>use_proj_alternative_grid_names</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use the PROJ alternative grid names. Default is False.</p></li>
+<li><p><strong>use_proj_alternative_grid_names</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Use the PROJ alternative grid names.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -350,7 +350,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>code</strong> (<em>str</em><em> or </em><em>int</em>) – The code used by EPSG.</p></li>
-<li><p><strong>use_proj_alternative_grid_names</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use the PROJ alternative grid names. Default is False.</p></li>
+<li><p><strong>use_proj_alternative_grid_names</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Use the PROJ alternative grid names.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -418,9 +418,9 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>coordinate_operation_name</strong> (<em>str</em>) – Coordinate Operation name.</p></li>
 <li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search (e.g. ‘EPSG’).
-If None, will search all authorities. Default is None.</p></li>
-<li><p><strong>coordinate_operation_type</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.CoordinateOperationType" title="pyproj.crs.enums.CoordinateOperationType"><em>CoordinateOperationType</em></a><em>, </em><em>optional</em>) – The coordinate operation type to create.
-Default is CoordinateOperationType.CONVERSION.</p></li>
+If None, will search all authorities.</p></li>
+<li><p><strong>coordinate_operation_type</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.CoordinateOperationType" title="pyproj.crs.enums.CoordinateOperationType"><em>CoordinateOperationType</em></a><em>, </em><em>optional</em>) – The coordinate operation type to create. Default is
+<code class="docutils literal notranslate"><span class="pre">pyproj.crs.enums.CoordinateOperationType.CONVERSION</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -564,8 +564,8 @@ Default is CoordinateOperationType.CONVERSION.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
-<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em><em>, </em><em>default=2</em>) – If pretty is True, it will set the width of the indentation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -604,9 +604,8 @@ Default is CoordinateOperationType.CONVERSION.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.ProjVersion" title="pyproj.enums.ProjVersion"><em>pyproj.enums.ProjVersion</em></a>) – The version of the PROJ string output.
-Default is <a class="reference internal" href="../enums.html#pyproj.enums.ProjVersion.PROJ_5" title="pyproj.enums.ProjVersion.PROJ_5"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.ProjVersion.PROJ_5</span></code></a>.</p></li>
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.ProjVersion" title="pyproj.enums.ProjVersion"><em>pyproj.enums.ProjVersion</em></a><em>, </em><em>default=pyproj.enums.ProjVersion.PROJ_5</em>) – The version of the PROJ string output.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -636,9 +635,8 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.ProjVe
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
-Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a><em>, </em><em>default=pyproj.enums.WktVersion.WKT2_2019</em>) – The version of the WKT output.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -880,10 +878,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>latitude_first_parallel</strong> (<em>float</em>) – First standard parallel (lat_1).</p></li>
 <li><p><strong>latitude_second_parallel</strong> (<em>float</em>) – Second standard parallel (lat_2).</p></li>
-<li><p><strong>latitude_false_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of projection center (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_false_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>easting_false_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>northing_false_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_false_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of projection center (lat_0).</p></li>
+<li><p><strong>longitude_false_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>easting_false_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>northing_false_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -909,10 +907,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of projection center (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of projection center (lat_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -938,11 +936,11 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_first_parallel</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.</p></li>
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_first_parallel</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of 1st standard parallel (lat_ts).</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -970,10 +968,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sweep_angle_axis</strong> (<em>str</em>) – Sweep angle axis of the viewing instrument. Valid options are “X” and “Y”.</p></li>
 <li><p><strong>satellite_height</strong> (<em>float</em>) – Satellite height.</p></li>
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of projection center (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of projection center (lat_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -999,10 +997,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of projection center (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of projection center (lat_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1028,11 +1026,11 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of projection center (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
-<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor at natural origin (k_0). Defaults to 1.0.</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of projection center (lat_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
+<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Scale factor at natural origin (k_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1060,10 +1058,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>latitude_first_parallel</strong> (<em>float</em>) – Latitude of 1st standard parallel (lat_1).</p></li>
 <li><p><strong>latitude_second_parallel</strong> (<em>float</em>) – Latitude of 2nd standard parallel (lat_2).</p></li>
-<li><p><strong>latitude_false_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of projection center (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_false_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>easting_false_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>northing_false_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_false_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of projection center (lat_0).</p></li>
+<li><p><strong>longitude_false_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>easting_false_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>northing_false_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1089,10 +1087,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_first_parallel</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_first_parallel</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of 1st standard parallel (lat_ts).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1141,11 +1139,11 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of natural origin (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> – Longitude of natural origin (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
-<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor at natural origin (k or k_0). Defaults to 1.0</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of natural origin (lat_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> – Longitude of natural origin (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
+<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Scale factor at natural origin (k or k_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1171,10 +1169,10 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_first_parallel</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_first_parallel</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of 1st standard parallel (lat_ts).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1204,9 +1202,9 @@ PROJ-based coordinate operation in the WKT.</p>
 <li><p><strong>longitude_projection_centre</strong> (<em>float</em>) – Longitude of projection centre (lonc).</p></li>
 <li><p><strong>azimuth_initial_line</strong> (<em>float</em>) – Azimuth of initial line (azimuth).</p></li>
 <li><p><strong>angle_from_rectified_to_skew_grid</strong> (<em>float</em>) – Angle from Rectified to Skew Grid (gamma).</p></li>
-<li><p><strong>scale_factor_on_initial_line</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor on initial line (k or k_0). Default is 1.0.</p></li>
-<li><p><strong>easting_projection_centre</strong> (<em>float</em><em>, </em><em>optional</em>) – Easting at projection centre (x_0). Default is 0.</p></li>
-<li><p><strong>northing_projection_centre</strong> (<em>float</em><em>, </em><em>optional</em>) – Northing at projection centre (y_0). Default is 0.</p></li>
+<li><p><strong>scale_factor_on_initial_line</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Scale factor on initial line (k or k_0).</p></li>
+<li><p><strong>easting_projection_centre</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Easting at projection centre (x_0).</p></li>
+<li><p><strong>northing_projection_centre</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Northing at projection centre (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1232,10 +1230,10 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of projection center (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of projection center (lat_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1270,11 +1268,11 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of natural origin (lat_0). Either +90 or -90.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of natural origin (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
-<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor at natural origin (k or k_0). Defaults to 1.0</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em>) – Latitude of natural origin (lat_0). Either +90 or -90.</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of natural origin (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
+<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Scale factor at natural origin (k or k_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1300,10 +1298,10 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_standard_parallel</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of standard parallel (lat_ts). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of origin (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_standard_parallel</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of standard parallel (lat_ts).</p></li>
+<li><p><strong>longitude_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of origin (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1329,9 +1327,9 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1357,11 +1355,11 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of natural origin (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of natural origin (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
-<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor at natural origin (k or k_0). Defaults to 1.0</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of natural origin (lat_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of natural origin (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
+<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Scale factor at natural origin (k or k_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1388,7 +1386,7 @@ PROJ-based coordinate operation in the WKT.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>zone</strong> (<em>int</em>) – UTM Zone between 1-60.</p></li>
-<li><p><strong>hemisphere</strong> (<em>str</em><em>, </em><em>optional</em>) – Either N for North or S for South. Default is N.</p></li>
+<li><p><strong>hemisphere</strong> (<em>str</em><em>, </em><em>default=&quot;N&quot;</em>) – Either N for North or S for South.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1414,11 +1412,11 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of projection center (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
-<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor at natural origin (k or k_0). Defaults to 1.0</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of projection center (lat_0).</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
+<li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Scale factor at natural origin (k or k_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1445,11 +1443,11 @@ PROJ-based coordinate operation in the WKT.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>viewpoint_height</strong> (<em>float</em>) – Viewpoint height (h).</p></li>
-<li><p><strong>latitude_topocentric_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Latitude of topocentric origin (lat_0). Defaults to 0.0.</p></li>
-<li><p><strong>longitude_topocentric_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of topocentric origin (lon_0). Defaults to 0.0.</p></li>
-<li><p><strong>ellipsoidal_height_topocentric_origin</strong> (<em>float</em><em>, </em><em>optional</em>) – Ellipsoidal height of topocentric origin. Defaults to 0.0.</p></li>
-<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>optional</em>) – False easting (x_0). Defaults to 0.0.</p></li>
-<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>optional</em>) – False northing (y_0). Defaults to 0.0.</p></li>
+<li><p><strong>latitude_topocentric_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of topocentric origin (lat_0).</p></li>
+<li><p><strong>longitude_topocentric_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of topocentric origin (lon_0).</p></li>
+<li><p><strong>ellipsoidal_height_topocentric_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Ellipsoidal height of topocentric origin.</p></li>
+<li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
+<li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1479,7 +1477,7 @@ PROJ-based coordinate operation in the WKT.</p>
 expressed in the rotated geographic CRS.</p></li>
 <li><p><strong>o_lon_p</strong> (<em>float</em>) – Longitude of the North pole of the unrotated source CRS,
 expressed in the rotated geographic CRS.</p></li>
-<li><p><strong>lon_0</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude of projection center (lon_0). Defaults to 0.0.</p></li>
+<li><p><strong>lon_0</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1505,13 +1503,13 @@ expressed in the rotated geographic CRS.</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>source_crs</strong> (<em>Any</em>) – Input to create the Source CRS.</p></li>
-<li><p><strong>x_axis_translation</strong> (<em>float</em><em>, </em><em>optional</em>) – X-axis translation. Defaults to 0.0.</p></li>
-<li><p><strong>y_axis_translation</strong> (<em>float</em><em>, </em><em>optional</em>) – Y-axis translation. Defaults to 0.0.</p></li>
-<li><p><strong>z_axis_translation</strong> (<em>float</em><em>, </em><em>optional</em>) – Z-axis translation. Defaults to 0.0.</p></li>
-<li><p><strong>x_axis_rotation</strong> (<em>float</em><em>, </em><em>optional</em>) – X-axis rotation. Defaults to 0.0.</p></li>
-<li><p><strong>y_axis_rotation</strong> (<em>float</em><em>, </em><em>optional</em>) – Y-axis rotation. Defaults to 0.0.</p></li>
-<li><p><strong>z_axis_rotation</strong> (<em>float</em><em>, </em><em>optional</em>) – Z-axis rotation. Defaults to 0.0.</p></li>
-<li><p><strong>scale_difference</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale difference. Defaults to 0.0.</p></li>
+<li><p><strong>x_axis_translation</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – X-axis translation.</p></li>
+<li><p><strong>y_axis_translation</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Y-axis translation.</p></li>
+<li><p><strong>z_axis_translation</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Z-axis translation.</p></li>
+<li><p><strong>x_axis_rotation</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – X-axis rotation.</p></li>
+<li><p><strong>y_axis_rotation</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Y-axis rotation.</p></li>
+<li><p><strong>z_axis_rotation</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Z-axis rotation.</p></li>
+<li><p><strong>scale_difference</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Scale difference.</p></li>
 </ul>
 </dd>
 </dl>

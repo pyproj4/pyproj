@@ -296,12 +296,11 @@ is to make repeated transforms faster.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
 <li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
-<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – DEPRECATED: If true, will skip the transformation operation
-if input and output projections are equivalent. Default is false.</p></li>
-<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>default=False</em>) – DEPRECATED: If true, will skip the transformation operation
+if input and output projections are equivalent.</p></li>
+<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
-for geographic CRS and easting, northing for most projected CRS.
-Default is false.</p></li>
+for geographic CRS and easting, northing for most projected CRS.</p></li>
 <li><p><strong>area_of_interest</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code>, optional) – The area of interest to help select the transformation.</p></li>
 <li><p><strong>authority</strong> (<em>str</em><em>, </em><em>optional</em>) – When not specified, coordinate operations from any authority will be
 searched, with the restrictions set in the
@@ -385,12 +384,11 @@ coordinateOperation:EPSG::1618”)</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>proj_from</strong> (<a class="reference internal" href="proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one) – Projection of input data.</p></li>
 <li><p><strong>proj_to</strong> (<a class="reference internal" href="proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
-<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – DEPRECATED: If true, will skip the transformation operation
-if input and output projections are equivalent. Default is false.</p></li>
-<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>default=False</em>) – DEPRECATED: If true, will skip the transformation operation
+if input and output projections are equivalent.</p></li>
+<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
-for geographic CRS and easting, northing for most projected CRS.
-Default is false.</p></li>
+for geographic CRS and easting, northing for most projected CRS.</p></li>
 <li><p><strong>area_of_interest</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code>, optional) – The area of interest to help select the transformation.</p></li>
 </ul>
 </dd>
@@ -440,15 +438,15 @@ Default is false.</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>points</strong> (<em>list</em>) – List of point tuples.</p></li>
-<li><p><strong>switch</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True x, y or lon,lat coordinates of points are switched to y, x
+<li><p><strong>switch</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True x, y or lon,lat coordinates of points are switched to y, x
 or lat, lon. Default is False.</p></li>
-<li><p><strong>time_3rd</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If the input coordinates are 3 dimensional and the 3rd dimension is time.</p></li>
-<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
-if the projection is geographic. Default is False (degrees). Ignored for
-pipeline transformations.</p></li>
-<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the transformation is invalid.
-By default errcheck=False and an invalid transformation
-returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>
+<li><p><strong>time_3rd</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If the input coordinates are 3 dimensional and the 3rd dimension is time.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Otherwise, it uses degrees.
+Ignored for pipeline transformations with pyproj 2,
+but will work in pyproj 3.</p></li>
+<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, an exception is raised if the errors are found in the process.
+If False, <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for errors.</p></li>
 <li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
 Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
 </ul>
@@ -573,8 +571,8 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
-<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em><em>, </em><em>default=2</em>) – If pretty is True, it will set the width of the indentation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -615,7 +613,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.ProjVersion" title="pyproj.enums.ProjVersion"><em>pyproj.enums.ProjVersion</em></a>) – The version of the PROJ string output.
 Default is <a class="reference internal" href="enums.html#pyproj.enums.ProjVersion.PROJ_5" title="pyproj.enums.ProjVersion.PROJ_5"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.ProjVersion.PROJ_5</span></code></a>.</p></li>
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -645,9 +643,9 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.ProjVersi
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
+<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a><em>, </em><em>optional</em>) – The version of the WKT output.
 Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -676,12 +674,12 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <li><p><strong>yy</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em>) – Input y coordinate(s).</p></li>
 <li><p><strong>zz</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em><em>, </em><em>optional</em>) – Input z coordinate(s).</p></li>
 <li><p><strong>tt</strong> (<em>scalar</em><em> or </em><em>array</em><em> (</em><em>numpy</em><em> or </em><em>python</em><em>)</em><em>, </em><em>optional</em>) – Input time coordinate(s).</p></li>
-<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
-if the projection is geographic. Default is False (degrees). Ignored for
-pipeline transformations with pyproj 2, but will work in pyproj 3.</p></li>
-<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the transformation is invalid.
-By default errcheck=False and an invalid transformation
-returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Otherwise, it uses degrees.
+Ignored for pipeline transformations with pyproj 2,
+but will work in pyproj 3.</p></li>
+<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, an exception is raised if the errors are found in the process.
+If False, <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for errors.</p></li>
 <li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
 Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
 </ul>
@@ -745,15 +743,13 @@ transformations along these edges and extracting the outermost bounds.</p>
 <li><p><strong>bottom</strong> (<em>float</em>) – Bottom bounding coordinate in source CRS.</p></li>
 <li><p><strong>right</strong> (<em>float</em>) – Right bounding coordinate in source CRS.</p></li>
 <li><p><strong>top</strong> (<em>float</em>) – Top bounding coordinate in source CRS.</p></li>
-<li><p><strong>densify_points</strong> (<em>uint</em><em>, </em><em>optional</em>) – Number of points to add to each edge to account for nonlinear edges
+<li><p><strong>densify_points</strong> (<em>uint</em><em>, </em><em>default=21</em>) – Number of points to add to each edge to account for nonlinear edges
 produced by the transform process. Large numbers will produce worse
-performance. Default: 21 (gdal default).</p></li>
-<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, will expect input data to be in radians and will return radians
-if the projection is geographic. Default is False (degrees). Ignored for
-pipeline transformations.</p></li>
-<li><p><strong>errcheck</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True an exception is raised if the transformation is invalid.
-By default errcheck=False and an invalid transformation
-returns <code class="docutils literal notranslate"><span class="pre">inf</span></code> and no exception is raised.</p></li>
+performance.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Otherwise, it uses degrees.</p></li>
+<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, an exception is raised if the errors are found in the process.
+If False, <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for errors.</p></li>
 <li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
 Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
 </ul>
@@ -805,12 +801,11 @@ or input used to create one.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
 <li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
-<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>optional</em>) – DEPRECATED: If true, will skip the transformation operation
-if input and output projections are equivalent. Default is false.</p></li>
-<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, the transform method will accept as input and return as output
+<li><p><strong>skip_equivalent</strong> (<em>bool</em><em>, </em><em>default=False</em>) – DEPRECATED: If true, will skip the transformation operation
+if input and output projections are equivalent.</p></li>
+<li><p><strong>always_xy</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If true, the transform method will accept as input and return as output
 coordinates using the traditional GIS order, that is longitude, latitude
-for geographic CRS and easting, northing for most projected CRS.
-Default is false.</p></li>
+for geographic CRS and easting, northing for most projected CRS.</p></li>
 <li><p><strong>area_of_interest</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.AreaOfInterest</span></code>, optional) – The area of interest to help order the transformations based on the
 best operation for the area.</p></li>
 </ul>
@@ -848,10 +843,8 @@ transformation. The logs will show the grids PROJ searches for.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>optional</em>) – The directory to download the grids to.
 Defaults to <a class="reference internal" href="datadir.html#pyproj.datadir.get_user_data_dir" title="pyproj.datadir.get_user_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_user_data_dir()</span></code></a></p></li>
-<li><p><strong>open_license</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will only download grids with an open license.
-Defaults to False.</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will print information about grids downloaded.
-Default is False.</p></li>
+<li><p><strong>open_license</strong> (<em>bool</em><em>, </em><em>default=True</em>) – If True, will only download grids with an open license.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, will print information about grids downloaded.</p></li>
 </ul>
 </dd>
 </dl>

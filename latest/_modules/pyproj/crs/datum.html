@@ -192,12 +192,12 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name: str, optional</span>
-<span class="sd">            Name of the datum. Default is &#39;undefined&#39;.</span>
-<span class="sd">        ellipsoid: Any, optional</span>
+<span class="sd">        name: str, default=&quot;undefined&quot;</span>
+<span class="sd">            Name of the datum.</span>
+<span class="sd">        ellipsoid: Any, default=&quot;WGS 84&quot;</span>
 <span class="sd">            Anything accepted by :meth:`pyproj.crs.Ellipsoid.from_user_input`</span>
 <span class="sd">            or a :class:`pyproj.crs.datum.CustomEllipsoid`.</span>
-<span class="sd">        prime_meridian: Any, optional</span>
+<span class="sd">        prime_meridian: Any, default=&quot;Greenwich&quot;</span>
 <span class="sd">            Anything accepted by :meth:`pyproj.crs.PrimeMeridian.from_user_input`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">datum_json</span> <span class="o">=</span> <span class="p">{</span>
@@ -230,8 +230,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name: str, optional</span>
-<span class="sd">            Name of the ellipsoid. Default is &#39;undefined&#39;.</span>
+<span class="sd">        name: str, default=&quot;undefined&quot;</span>
+<span class="sd">            Name of the ellipsoid.</span>
 <span class="sd">        semi_major_axis: float, optional</span>
 <span class="sd">            The semi major axis in meters. Required if missing radius.</span>
 <span class="sd">        inverse_flattening: float, optional</span>

@@ -373,8 +373,9 @@
 <span class="sd">        dist: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
 <span class="sd">            Distance(s) between initial and terminus point(s)</span>
 <span class="sd">            in meters</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -416,8 +417,9 @@
 <span class="sd">            Longitude(s) of terminus point(s)</span>
 <span class="sd">        lats2: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
 <span class="sd">            Latitude(s) of terminus point(s)</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -519,12 +521,13 @@
 <span class="sd">        npts: int</span>
 <span class="sd">            Number of points to be returned</span>
 <span class="sd">            (including initial and/or terminus points, if required)</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
-<span class="sd">        initial_idx: int, optional</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
+<span class="sd">        initial_idx: int, default=1</span>
 <span class="sd">            if initial_idx==0 then the initial point would be included in the output</span>
 <span class="sd">            (as the first point)</span>
-<span class="sd">        terminus_idx: int, optional</span>
+<span class="sd">        terminus_idx: int, default=1</span>
 <span class="sd">            if terminus_idx==0 then the terminus point would be included in the output</span>
 <span class="sd">            (as the last point)</span>
 <span class="sd">        Returns</span>
@@ -645,26 +648,28 @@
 <span class="sd">            Longitude of the terminus point</span>
 <span class="sd">        lat2: float</span>
 <span class="sd">            Latitude of the terminus point</span>
-<span class="sd">        npts: int, optional</span>
+<span class="sd">        npts: int, default=0</span>
 <span class="sd">            Number of points to be returned</span>
-<span class="sd">            npts == 0 iff del_s != 0</span>
-<span class="sd">        del_s: float, optional</span>
+<span class="sd">            npts == 0 if del_s != 0</span>
+<span class="sd">        del_s: float, default=0</span>
 <span class="sd">            delimiter distance between two successive points</span>
-<span class="sd">            del_s == 0 iff npts != 0</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">            del_s == 0 if npts != 0</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
-<span class="sd">        initial_idx: int, optional</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
+<span class="sd">        initial_idx: int, default=1</span>
 <span class="sd">            if initial_idx==0 then the initial point would be included in the output</span>
 <span class="sd">            (as the first point)</span>
-<span class="sd">        terminus_idx: int, optional</span>
+<span class="sd">        terminus_idx: int, default=1</span>
 <span class="sd">            if terminus_idx==0 then the terminus point would be included in the output</span>
 <span class="sd">            (as the last point)</span>
-<span class="sd">        flags: GeodIntermediateFlag, optional</span>
-<span class="sd">            1st: round/ceil/trunc (see GeodIntermediateFlag.NPTS_*)</span>
-<span class="sd">            2nd: update del_s to the new npts or not (see GeodIntermediateFlag.DEL_S_*)</span>
-<span class="sd">            3rd: iff out_azis=None, indicates if to save or discard the azimuths</span>
-<span class="sd">                 (see GeodIntermediateFlag.AZIS_*)</span>
-<span class="sd">            default - round npts, update del_s accordingly, discard azis</span>
+<span class="sd">        flags: GeodIntermediateFlag, default=GeodIntermediateFlag.DEFAULT</span>
+<span class="sd">            * 1st - round/ceil/trunc (see ``GeodIntermediateFlag.NPTS_*``)</span>
+<span class="sd">            * 2nd - update del_s to the new npts or not</span>
+<span class="sd">                    (see ``GeodIntermediateFlag.DEL_S_*``)</span>
+<span class="sd">            * 3rd - if out_azis=None, indicates if to save or discard the azimuths</span>
+<span class="sd">                    (see ``GeodIntermediateFlag.AZIS_*``)</span>
+<span class="sd">            * default - round npts, update del_s accordingly, discard azis</span>
 <span class="sd">        out_lons: array, :class:`numpy.ndarray`, optional</span>
 <span class="sd">            Longitude(s) of the intermediate point(s)</span>
 <span class="sd">            If None then buffers would be allocated internnaly</span>
@@ -678,7 +683,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        GeodIntermediateReturn</span>
+<span class="sd">        GeodIntermediateReturn:</span>
 <span class="sd">            number of points, distance and output arrays (GeodIntermediateReturn docs)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_inv_or_fwd_intermediate</span><span class="p">(</span>
@@ -781,18 +786,22 @@
 <span class="sd">            (including initial and/or terminus points, if required)</span>
 <span class="sd">        del_s: float</span>
 <span class="sd">            delimiter distance between two successive points</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
-<span class="sd">        initial_idx: int, optional</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
+<span class="sd">        initial_idx: int, default=1</span>
 <span class="sd">            if initial_idx==0 then the initial point would be included in the output</span>
 <span class="sd">            (as the first point)</span>
-<span class="sd">        terminus_idx: int, optional</span>
+<span class="sd">        terminus_idx: int, default=1</span>
 <span class="sd">            if terminus_idx==0 then the terminus point would be included in the output</span>
 <span class="sd">            (as the last point)</span>
-<span class="sd">        flags: GeodIntermediateFlag, optional</span>
-<span class="sd">            3rd: iff out_azis=None, indicates if to save or discard the azimuths</span>
-<span class="sd">                 (see GeodIntermediateFlag.AZIS_*)</span>
-<span class="sd">            default - discard azis</span>
+<span class="sd">        flags: GeodIntermediateFlag, default=GeodIntermediateFlag.DEFAULT</span>
+<span class="sd">            * 1st - round/ceil/trunc (see ``GeodIntermediateFlag.NPTS_*``)</span>
+<span class="sd">            * 2nd - update del_s to the new npts or not</span>
+<span class="sd">                    (see ``GeodIntermediateFlag.DEL_S_*``)</span>
+<span class="sd">            * 3rd - if out_azis=None, indicates if to save or discard the azimuths</span>
+<span class="sd">                    (see ``GeodIntermediateFlag.AZIS_*``)</span>
+<span class="sd">            * default - round npts, update del_s accordingly, discard azis</span>
 <span class="sd">        out_lons: array, :class:`numpy.ndarray`, optional</span>
 <span class="sd">            Longitude(s) of the intermediate point(s)</span>
 <span class="sd">            If None then buffers would be allocated internnaly</span>
@@ -806,7 +815,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        GeodIntermediateReturn</span>
+<span class="sd">        GeodIntermediateReturn:</span>
 <span class="sd">            number of points, distance and output arrays (GeodIntermediateReturn docs)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_inv_or_fwd_intermediate</span><span class="p">(</span>
@@ -848,8 +857,9 @@
 <span class="sd">            The longitude points along a line.</span>
 <span class="sd">        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
 <span class="sd">            The latitude points along a line.</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -882,8 +892,9 @@
 <span class="sd">            The longitude points along a line.</span>
 <span class="sd">        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
 <span class="sd">            The latitude points along a line.</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -934,8 +945,9 @@
 <span class="sd">            An array of longitude values.</span>
 <span class="sd">        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
 <span class="sd">            An array of latitude values.</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -970,8 +982,9 @@
 <span class="sd">        ----------</span>
 <span class="sd">        geometry: :class:`shapely.geometry.BaseGeometry`</span>
 <span class="sd">            The geometry to calculate the length from.</span>
-<span class="sd">        radians: bool, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1040,8 +1053,9 @@
 <span class="sd">        ----------</span>
 <span class="sd">        geometry: :class:`shapely.geometry.BaseGeometry`</span>
 <span class="sd">            The geometry to calculate the area and perimeter from.</span>
-<span class="sd">        radians: bool, optional</span>
-<span class="sd">            If True, the input data is assumed to be in radians. Default is degrees.</span>
+<span class="sd">        radians: bool, default=False</span>
+<span class="sd">            If True, the input data is assumed to be in radians.</span>
+<span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>

@@ -220,7 +220,7 @@
 <li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to filter by (e.g. EPSG, PROJ). Default is all.</p></li>
 <li><p><strong>category</strong> (<em>str</em><em>, </em><em>optional</em>) – Category of the unit: one of “linear”, “linear_per_time”, “angular”,
 “angular_per_time”, “scale”, “scale_per_time” or “time”. Default is all.</p></li>
-<li><p><strong>allow_deprecated</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether or not to allow deprecated units. Default is False.</p></li>
+<li><p><strong>allow_deprecated</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether or not to allow deprecated units.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -297,7 +297,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>auth_name</strong> (<em>str</em>) – The name of the authority.</p></li>
 <li><p><strong>pj_type</strong> (<a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a>) – The type of object to get the authorities.</p></li>
-<li><p><strong>allow_deprecated</strong> (<em>bool</em><em>, </em><em>optional</em>) – Allow a deprecated code in the return.</p></li>
+<li><p><strong>allow_deprecated</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Allow a deprecated code in the return.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -322,15 +322,15 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>auth_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The name of the authority. Default is all authorities.</p></li>
-<li><p><strong>pj_types</strong> (<em>Union</em><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em>, </em><em>List</em><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em>]</em><em>, </em><em>None</em><em>]</em>) – The type(s) of CRS to get the information (i.e. the types with CRS in the name).
-Default is all of them (i.e. PJType.CRS).</p></li>
-<li><p><strong>area_of_interest</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><em>AreaOfInterest</em></a><em>]</em>) – Filter returned CRS by the area of interest. Default method is intersection.</p></li>
-<li><p><strong>contains</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Only works if the area of interest is passed in.
+<li><p><strong>auth_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The name of the authority. Default is all authorities.</p></li>
+<li><p><strong>pj_types</strong> (<em>Union</em><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em>, </em><em>List</em><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The type(s) of CRS to get the information (i.e. the types with CRS in the name).
+If None is provided, it will use all of types (i.e. PJType.CRS).</p></li>
+<li><p><strong>area_of_interest</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><em>AreaOfInterest</em></a><em>]</em><em>, </em><em>optional</em>) – Filter returned CRS by the area of interest. Default method is intersection.</p></li>
+<li><p><strong>contains</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Only works if the area of interest is passed in.
 If True, then only CRS whose area of use entirely contains the specified
 bounding box will be returned. If False, then only CRS whose area of use
 intersects the specified bounding box will be returned.</p></li>
-<li><p><strong>allow_deprecated</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Allow a deprecated code in the return.</p></li>
+<li><p><strong>allow_deprecated</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Allow a deprecated code in the return.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -377,9 +377,9 @@ intersects the specified bounding box will be returned.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>datum_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The name of the datum in the CRS name (‘NAD27’, ‘NAD83’, ‘WGS 84’, …).</p></li>
-<li><p><strong>area_of_interest</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><em>AreaOfInterest</em></a><em>]</em>) – Filter returned CRS by the area of interest. Default method is intersection.</p></li>
-<li><p><strong>contains</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Only works if the area of interest is passed in.
+<li><p><strong>datum_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The name of the datum in the CRS name (‘NAD27’, ‘NAD83’, ‘WGS 84’, …).</p></li>
+<li><p><strong>area_of_interest</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><em>AreaOfInterest</em></a><em>]</em><em>, </em><em>optional</em>) – Filter returned CRS by the area of interest. Default method is intersection.</p></li>
+<li><p><strong>contains</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Only works if the area of interest is passed in.
 If True, then only CRS whose area of use entirely contains the specified
 bounding box will be returned. If False, then only CRS whose area of use
 intersects the specified bounding box will be returned.</p></li>
