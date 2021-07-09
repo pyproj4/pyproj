@@ -36,14 +36,14 @@ class AlbersEqualAreaConversion(CoordinateOperation):
             First standard parallel (lat_1).
         latitude_second_parallel: float
             Second standard parallel (lat_2).
-        latitude_false_origin: float, optional
-            Latitude of projection center (lat_0). Defaults to 0.0.
-        longitude_false_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        easting_false_origin: float, optional
-            False easting (x_0). Defaults to 0.0.
-        northing_false_origin: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_false_origin: float, default=0.0
+            Latitude of projection center (lat_0).
+        longitude_false_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        easting_false_origin: float, default=0.0
+            False easting (x_0).
+        northing_false_origin: float, default=0.0
+            False northing (y_0).
         """
         aea_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
@@ -122,14 +122,14 @@ class AzumuthalEquidistantConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_natural_origin: float, optional
-            Latitude of projection center (lat_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_natural_origin: float, default=0.0
+            Latitude of projection center (lat_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         aeqd_json = {
@@ -195,14 +195,14 @@ class GeostationarySatelliteConversion(CoordinateOperation):
             Sweep angle axis of the viewing instrument. Valid options are “X” and “Y”.
         satellite_height: float
             Satellite height.
-        latitude_natural_origin: float, optional
-            Latitude of projection center (lat_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_natural_origin: float, default=0.0
+            Latitude of projection center (lat_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         sweep_angle_axis = sweep_angle_axis.strip().upper()
@@ -276,14 +276,14 @@ class LambertAzumuthalEqualAreaConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_natural_origin: float, optional
-            Latitude of projection center (lat_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_natural_origin: float, default=0.0
+            Latitude of projection center (lat_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         laea_json = {
@@ -349,14 +349,14 @@ class LambertConformalConic2SPConversion(CoordinateOperation):
             Latitude of 1st standard parallel (lat_1).
         latitude_second_parallel: float
             Latitude of 2nd standard parallel (lat_2).
-        latitude_false_origin: float, optional
-            Latitude of projection center (lat_0). Defaults to 0.0.
-        longitude_false_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        easting_false_origin: float, optional
-            False easting (x_0). Defaults to 0.0.
-        northing_false_origin: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_false_origin: float, default=0.0
+            Latitude of projection center (lat_0).
+        longitude_false_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        easting_false_origin: float, default=0.0
+            False easting (x_0).
+        northing_false_origin: float, default=0.0
+            False northing (y_0).
 
         """
         lcc_json = {
@@ -429,16 +429,16 @@ class LambertConformalConic1SPConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_natural_origin: float, optional
-            Latitude of projection center (lat_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
-        scale_factor_natural_origin: float, optional
-            Scale factor at natural origin (k_0). Defaults to 1.0.
+        latitude_natural_origin: float, default=0.0
+            Latitude of projection center (lat_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
+        scale_factor_natural_origin: float, default=1.0
+            Scale factor at natural origin (k_0).
 
         """
         lcc_json = {
@@ -504,14 +504,14 @@ class LambertCylindricalEqualAreaConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_first_parallel: float, optional
-            Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_first_parallel: float, default=0.0
+            Latitude of 1st standard parallel (lat_ts).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         cea_json = {
@@ -577,14 +577,14 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
-        scale_factor_natural_origin: float, optional
-            Scale factor at natural origin (k or k_0). Defaults to 1.0
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
+        scale_factor_natural_origin: float, default=1.0
+            Scale factor at natural origin (k or k_0).
 
         """
         from pyproj.crs import CRS
@@ -622,16 +622,16 @@ class MercatorAConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        longitude_natural_origin: float, optional
-            Latitude of natural origin (lat_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of natural origin (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
-        scale_factor_natural_origin: float, optional
-            Scale factor at natural origin (k or k_0). Defaults to 1.0
+        longitude_natural_origin: float, default=0.0
+            Latitude of natural origin (lat_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of natural origin (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
+        scale_factor_natural_origin: float, default=1.0
+            Scale factor at natural origin (k or k_0).
 
         """
         merc_json = {
@@ -697,14 +697,14 @@ class MercatorBConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_first_parallel: float, optional
-            Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_first_parallel: float, default=0.0
+            Latitude of 1st standard parallel (lat_ts).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         merc_json = {
@@ -775,12 +775,12 @@ class HotineObliqueMercatorBConversion(CoordinateOperation):
             Azimuth of initial line (azimuth).
         angle_from_rectified_to_skew_grid: float
             Angle from Rectified to Skew Grid (gamma).
-        scale_factor_on_initial_line: float, optional
-            Scale factor on initial line (k or k_0). Default is 1.0.
-        easting_projection_centre: float, optional
-            Easting at projection centre (x_0). Default is 0.
-        northing_projection_centre: float, optional
-            Northing at projection centre (y_0). Default is 0.
+        scale_factor_on_initial_line: float, default=1.0
+            Scale factor on initial line (k or k_0).
+        easting_projection_centre: float, default=0.0
+            Easting at projection centre (x_0).
+        northing_projection_centre: float, default=0.0
+            Northing at projection centre (y_0).
         """
         omerc_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
@@ -857,14 +857,14 @@ class OrthographicConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_natural_origin: float, optional
-            Latitude of projection center (lat_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_natural_origin: float, default=0.0
+            Latitude of projection center (lat_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         ortho_json = {
@@ -925,16 +925,16 @@ class PolarStereographicAConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_natural_origin: float, optional
+        latitude_natural_origin: float
             Latitude of natural origin (lat_0). Either +90 or -90.
-        longitude_natural_origin: float, optional
-            Longitude of natural origin (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
-        scale_factor_natural_origin: float, optional
-            Scale factor at natural origin (k or k_0). Defaults to 1.0
+        longitude_natural_origin: float, default=0.0
+            Longitude of natural origin (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
+        scale_factor_natural_origin: float, default=0.0
+            Scale factor at natural origin (k or k_0).
 
         """
 
@@ -1001,14 +1001,14 @@ class PolarStereographicBConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_standard_parallel: float, optional
-            Latitude of standard parallel (lat_ts). Defaults to 0.0.
-        longitude_origin: float, optional
-            Longitude of origin (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_standard_parallel: float, default=0.0
+            Latitude of standard parallel (lat_ts).
+        longitude_origin: float, default=0.0
+            Longitude of origin (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         stere_json = {
@@ -1067,12 +1067,12 @@ class SinusoidalConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         sinu_json = {
@@ -1124,16 +1124,16 @@ class StereographicConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_natural_origin: float, optional
-            Latitude of natural origin (lat_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of natural origin (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
-        scale_factor_natural_origin: float, optional
-            Scale factor at natural origin (k or k_0). Defaults to 1.0
+        latitude_natural_origin: float, default=0.0
+            Latitude of natural origin (lat_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of natural origin (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
+        scale_factor_natural_origin: float, default=1.0
+            Scale factor at natural origin (k or k_0).
 
         """
 
@@ -1193,8 +1193,8 @@ class UTMConversion(CoordinateOperation):
         ----------
         zone: int
             UTM Zone between 1-60.
-        hemisphere: str, optional
-            Either N for North or S for South. Default is N.
+        hemisphere: str, default="N"
+            Either N for North or S for South.
         """
         return cls.from_name(f"UTM zone {zone}{hemisphere}")
 
@@ -1219,16 +1219,16 @@ class TransverseMercatorConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_natural_origin: float, optional
-            Latitude of projection center (lat_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
-        scale_factor_natural_origin: float, optional
-            Scale factor at natural origin (k or k_0). Defaults to 1.0
+        latitude_natural_origin: float, default=0.0
+            Latitude of projection center (lat_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
+        scale_factor_natural_origin: float, default=1.0
+            Scale factor at natural origin (k or k_0).
 
         """
         tmerc_json = {
@@ -1298,16 +1298,16 @@ class VerticalPerspectiveConversion(CoordinateOperation):
         ----------
         viewpoint_height: float
             Viewpoint height (h).
-        latitude_topocentric_origin: float, optional
-            Latitude of topocentric origin (lat_0). Defaults to 0.0.
-        longitude_topocentric_origin: float, optional
-            Longitude of topocentric origin (lon_0). Defaults to 0.0.
-        ellipsoidal_height_topocentric_origin: float, optional
-            Ellipsoidal height of topocentric origin. Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_topocentric_origin: float, default=0.0
+            Latitude of topocentric origin (lat_0).
+        longitude_topocentric_origin: float, default=0.0
+            Longitude of topocentric origin (lon_0).
+        ellipsoidal_height_topocentric_origin: float, default=0.0
+            Ellipsoidal height of topocentric origin.
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
 
         """
         nsper_json = {
@@ -1379,8 +1379,8 @@ class RotatedLatitudeLongitudeConversion(CoordinateOperation):
         o_lon_p: float
             Longitude of the North pole of the unrotated source CRS,
             expressed in the rotated geographic CRS.
-        lon_0: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
+        lon_0: float, default=0.0
+            Longitude of projection center (lon_0).
 
         """
         rot_latlon_json = {
@@ -1417,16 +1417,16 @@ class EquidistantCylindricalConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        latitude_first_parallel: float, optional
-            Latitude of 1st standard parallel (lat_ts). Defaults to 0.0.
-        latitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        longitude_natural_origin: float, optional
-            Longitude of projection center (lon_0). Defaults to 0.0.
-        false_easting: float, optional
-            False easting (x_0). Defaults to 0.0.
-        false_northing: float, optional
-            False northing (y_0). Defaults to 0.0.
+        latitude_first_parallel: float, default=0.0
+            Latitude of 1st standard parallel (lat_ts).
+        latitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        longitude_natural_origin: float, default=0.0
+            Longitude of projection center (lon_0).
+        false_easting: float, default=0.0
+            False easting (x_0).
+        false_northing: float, default=0.0
+            False northing (y_0).
         """
         eqc_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
@@ -1499,20 +1499,20 @@ class ToWGS84Transformation(CoordinateOperation):
         ----------
         source_crs: Any
             Input to create the Source CRS.
-        x_axis_translation: float, optional
-            X-axis translation. Defaults to 0.0.
-        y_axis_translation: float, optional
-            Y-axis translation. Defaults to 0.0.
-        z_axis_translation: float, optional
-            Z-axis translation. Defaults to 0.0.
-        x_axis_rotation: float, optional
-            X-axis rotation. Defaults to 0.0.
-        y_axis_rotation: float, optional
-            Y-axis rotation. Defaults to 0.0.
-        z_axis_rotation: float, optional
-            Z-axis rotation. Defaults to 0.0.
-        scale_difference: float, optional
-            Scale difference. Defaults to 0.0.
+        x_axis_translation: float, default=0.0
+            X-axis translation.
+        y_axis_translation: float, default=0.0
+            Y-axis translation.
+        z_axis_translation: float, default=0.0
+            Z-axis translation.
+        x_axis_rotation: float, default=0.0
+            X-axis rotation.
+        y_axis_rotation: float, default=0.0
+            Y-axis rotation.
+        z_axis_rotation: float, default=0.0
+            Z-axis rotation.
+        scale_difference: float, default=0.0
+            Scale difference.
         """
         from pyproj.crs import CRS
 

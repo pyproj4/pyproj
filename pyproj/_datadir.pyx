@@ -41,7 +41,7 @@ def set_use_global_context(active=None):
         If True, it activates the use of the global context. If False,
         the use of the global context is deactivated. If None, it uses
         the environment variable PYPROJ_GLOBAL_CONTEXT and defaults
-        to False if it is not found. The default is None.
+        to False if it is not found.
     """
     global _USE_GLOBAL_CONTEXT
     if active is None:
@@ -63,9 +63,8 @@ def get_user_data_dir(create=False):
 
     Parameters
     ----------
-    create: bool, optional
+    create: bool, default=False
         If True, it will create the directory if it does not already exist.
-        Default is False.
 
     Returns
     -------

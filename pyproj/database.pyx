@@ -79,7 +79,7 @@ def get_codes(auth_name, pj_type, allow_deprecated=False):
         The name of the authority.
     pj_type: pyproj.enums.PJType
         The type of object to get the authorities.
-    allow_deprecated: bool, optional
+    allow_deprecated: bool, default=False
         Allow a deprecated code in the return.
 
     Returns
@@ -163,19 +163,19 @@ def query_crs_info(
 
     Parameters
     ----------
-    auth_name: Optional[str]
+    auth_name: Optional[str], optional
         The name of the authority. Default is all authorities.
-    pj_types: Union[pyproj.enums.PJType, List[pyproj.enums.PJType], None]
+    pj_types: Union[pyproj.enums.PJType, List[pyproj.enums.PJType], None], optional
         The type(s) of CRS to get the information (i.e. the types with CRS in the name).
-        Default is all of them (i.e. PJType.CRS).
-    area_of_interest: Optional[AreaOfInterest]
+        If None is provided, it will use all of types (i.e. PJType.CRS).
+    area_of_interest: Optional[AreaOfInterest], optional
         Filter returned CRS by the area of interest. Default method is intersection.
-    contains: Optional[bool]
+    contains: bool, default=False
         Only works if the area of interest is passed in.
         If True, then only CRS whose area of use entirely contains the specified
         bounding box will be returned. If False, then only CRS whose area of use
         intersects the specified bounding box will be returned.
-    allow_deprecated: Optional[bool]
+    allow_deprecated: bool, default=False
         Allow a deprecated code in the return.
 
     Returns
@@ -273,11 +273,11 @@ def query_utm_crs_info(
 
     Parameters
     ----------
-    datum_name: Optional[str]
+    datum_name: Optional[str], optional
         The name of the datum in the CRS name ('NAD27', 'NAD83', 'WGS 84', ...).
-    area_of_interest: Optional[AreaOfInterest]
+    area_of_interest: Optional[AreaOfInterest], optional
         Filter returned CRS by the area of interest. Default method is intersection.
-    contains: Optional[bool]
+    contains: bool, default=False
         Only works if the area of interest is passed in.
         If True, then only CRS whose area of use entirely contains the specified
         bounding box will be returned. If False, then only CRS whose area of use
@@ -352,8 +352,8 @@ def get_units_map(auth_name=None, category=None, allow_deprecated=False):
     category: str, optional
         Category of the unit: one of "linear", "linear_per_time", "angular",
         "angular_per_time", "scale", "scale_per_time" or "time". Default is all.
-    allow_deprecated: bool, optional
-        Whether or not to allow deprecated units. Default is False.
+    allow_deprecated: bool, default=False
+        Whether or not to allow deprecated units.
 
     Returns
     -------

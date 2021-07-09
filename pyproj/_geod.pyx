@@ -324,7 +324,7 @@ cdef class Geod:
             The longitude points along a line.
         lats: array
             The latitude points along a line.
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
 
         Returns
@@ -387,7 +387,7 @@ cdef class Geod:
             An array of longitude values.
         lats: array
             An array of latitude values.
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
 
         Returns

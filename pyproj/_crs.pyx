@@ -203,7 +203,7 @@ cdef PJ * _from_name(
             The context to use to create the object.
         name_string: str
             Name of object to create.
-        auth_name: str, optional
+        auth_name: str
             The authority name to refine search.
             If None, will search all authorities.
         pj_type: PJ_TYPE
@@ -404,11 +404,10 @@ cdef class Base:
 
         Parameters
         ----------
-        version: pyproj.enums.WktVersion
+        version: pyproj.enums.WktVersion, default=pyproj.enums.WktVersion.WKT2_2019
             The version of the WKT output.
-            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
+        pretty: bool, default=False
+            If True, it will set the output to be a multiline string.
 
         Returns
         -------
@@ -424,10 +423,10 @@ cdef class Base:
 
         Parameters
         ----------
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
-        indentation: int
-            If pretty is True, it will set the width of the indentation. Default is 2.
+        pretty: bool, default=False
+            If True, it will set the output to be a multiline string.
+        indentation: int, default=2
+            If pretty is True, it will set the width of the indentation.
 
         Returns
         -------
@@ -692,10 +691,9 @@ cdef class CoordinateSystem(_CRSParts):
 
         Parameters
         ----------
-        rotated_pole: bool, optional
+        rotated_pole: bool, default=False
             If True, the geographic coordinates are on a rotated pole grid.
             This corresponds to the rotated_latitude_longitude grid_mapping_name.
-            Default is False.
 
         Returns
         -------
@@ -1024,7 +1022,7 @@ cdef class Ellipsoid(_CRSParts):
             Ellipsoid name.
         auth_name: str, optional
             The authority name to refine search (e.g. 'EPSG').
-            If None, will search all authorities. Default is None.
+            If None, will search all authorities.
 
         Returns
         -------
@@ -1272,7 +1270,7 @@ cdef class PrimeMeridian(_CRSParts):
             Prime Meridian name.
         auth_name: str, optional
             The authority name to refine search (e.g. 'EPSG').
-            If None, will search all authorities. Default is None.
+            If None, will search all authorities.
 
         Returns
         -------
@@ -1500,7 +1498,7 @@ cdef class Datum(_CRSParts):
         auth_name: str
             The authority name to refine search (e.g. 'EPSG').
             If None, will search all authorities.
-        datum_type: DatumType, optional
+        datum_type: DatumType
             The datum type to create.
 
         Returns
@@ -1542,9 +1540,9 @@ cdef class Datum(_CRSParts):
             Datum name.
         auth_name: str, optional
             The authority name to refine search (e.g. 'EPSG').
-            If None, will search all authorities. Default is None.
+            If None, will search all authorities.
         datum_type: DatumType, optional
-            The datum type to create. Default is from any datum type.
+            The datum type to create. If it is None, it uses any datum type.
 
         Returns
         -------
@@ -1937,8 +1935,8 @@ cdef class CoordinateOperation(_CRSParts):
             Name of the authority.
         code: str or int
             The code used by the authority.
-        use_proj_alternative_grid_names: bool, optional
-            Use the PROJ alternative grid names. Default is False.
+        use_proj_alternative_grid_names: bool, default=False
+            Use the PROJ alternative grid names.
 
         Returns
         -------
@@ -1969,8 +1967,8 @@ cdef class CoordinateOperation(_CRSParts):
         ----------
         code: str or int
             The code used by EPSG.
-        use_proj_alternative_grid_names: bool, optional
-            Use the PROJ alternative grid names. Default is False.
+        use_proj_alternative_grid_names: bool, default=False
+            Use the PROJ alternative grid names.
 
         Returns
         -------
@@ -2107,10 +2105,10 @@ cdef class CoordinateOperation(_CRSParts):
             Coordinate Operation name.
         auth_name: str, optional
             The authority name to refine search (e.g. 'EPSG').
-            If None, will search all authorities. Default is None.
+            If None, will search all authorities.
         coordinate_operation_type: CoordinateOperationType, optional
-            The coordinate operation type to create.
-            Default is CoordinateOperationType.CONVERSION.
+            The coordinate operation type to create. Default is
+            ``pyproj.crs.enums.CoordinateOperationType.CONVERSION``
 
         Returns
         -------
@@ -2210,11 +2208,10 @@ cdef class CoordinateOperation(_CRSParts):
 
         Parameters
         ----------
-        version: pyproj.enums.ProjVersion
+        version: pyproj.enums.ProjVersion, default=pyproj.enums.ProjVersion.PROJ_5
             The version of the PROJ string output.
-            Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
+        pretty: bool, default=False
+            If True, it will set the output to be a multiline string.
 
         Returns
         -------
@@ -2624,9 +2621,8 @@ cdef class _CRS(Base):
 
         Parameters
         ----------
-        version: pyproj.enums.ProjVersion
+        version: pyproj.enums.ProjVersion, default=pyproj.enums.ProjVersion.PROJ_4
             The version of the PROJ string output.
-            Default is :attr:`pyproj.enums.ProjVersion.PROJ_4`.
 
         Returns
         -------
@@ -2665,8 +2661,8 @@ cdef class _CRS(Base):
 
         Parameters
         ----------
-        min_confidence: int, optional
-            A value between 0-100 where 100 is the most confident. Default is 70.
+        min_confidence: int, default=70
+            A value between 0-100 where 100 is the most confident.
             :ref:`min_confidence`
 
 
@@ -2712,8 +2708,8 @@ cdef class _CRS(Base):
         ----------
         auth_name: str, optional
             The name of the authority to filter by.
-        min_confidence: int, optional
-            A value between 0-100 where 100 is the most confident. Default is 70.
+        min_confidence: int, default=70
+            A value between 0-100 where 100 is the most confident.
             :ref:`min_confidence`
 
         Returns
@@ -2800,7 +2796,7 @@ cdef class _CRS(Base):
         Parameters
         ----------
         name: str, optional
-            CRS name. Defaults to use the name of the original CRS.
+            CRS name. If None, it will use the name of the original CRS.
 
         Returns
         -------
@@ -2838,8 +2834,8 @@ cdef class _CRS(Base):
             The name of the CRS property.
         property_types: tuple(PJ_TYPE)
             The types to check for for the property.
-        sub_crs_index: int, optional
-            THe index of the CRS in the sub CRS list. Default is 0.
+        sub_crs_index: int, default=0
+            THe index of the CRS in the sub CRS list.
 
         Returns
         -------
@@ -2987,9 +2983,8 @@ cdef class _CRS(Base):
         ----------
         other: CRS
             Check if the other object
-        ignore_axis_order: bool, optional
+        ignore_axis_order: bool, default=False
             If True, it will compare the CRS class and ignore the axis order.
-            Default is False.
 
         Returns
         -------

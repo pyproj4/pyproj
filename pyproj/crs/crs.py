@@ -595,8 +595,8 @@ class CRS:
         wkt_version: str or pyproj.enums.WktVersion
             Version of WKT supported by CRS.to_wkt.
             Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
-        errcheck: bool, optional
-            If True, will warn when parameters are ignored. Defaults to False.
+        errcheck: bool, default=False
+            If True, will warn when parameters are ignored.
 
         Returns
         -------
@@ -729,7 +729,7 @@ class CRS:
             Input to create a Vertical Coordinate System accepted by
             :meth:`pyproj.crs.CoordinateSystem.from_user_input`
             or :class:`pyproj.crs.coordinate_system.VerticalCS`
-        errcheck: bool, optional
+        errcheck: bool, default=False
             This parameter is for backwards compatibility with the old version.
             It currently does nothing when True or False.
 
@@ -918,9 +918,8 @@ class CRS:
             Check if the other object is equivalent to this object.
             If the other object is not a CRS, it will try to create one.
             On Failure, it will return False.
-        ignore_axis_order: bool, optional
+        ignore_axis_order: bool, default=False
             If True, it will compare the CRS class and ignore the axis order.
-            Default is False.
 
         Returns
         -------
@@ -1150,11 +1149,11 @@ class CRS:
 
         Parameters
         ----------
-        version: pyproj.enums.WktVersion
+        version: pyproj.enums.WktVersion, optional
             The version of the WKT output.
             Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
+        pretty: bool, default=False
+            If True, it will set the output to be a multiline string.
 
         Returns
         -------
@@ -1170,10 +1169,10 @@ class CRS:
 
         Parameters
         ----------
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
-        indentation: int
-            If pretty is True, it will set the width of the indentation. Default is 2.
+        pretty: bool, default=False
+            If True, it will set the output to be a multiline string.
+        indentation: int, default=2
+            If pretty is True, it will set the width of the indentation.
 
         Returns
         -------
@@ -1239,8 +1238,8 @@ class CRS:
 
         Parameters
         ----------
-        min_confidence: int, optional
-            A value between 0-100 where 100 is the most confident. Default is 70.
+        min_confidence: int, default=70
+            A value between 0-100 where 100 is the most confident.
             :ref:`min_confidence`
 
 
@@ -1280,8 +1279,8 @@ class CRS:
         ----------
         auth_name: str, optional
             The name of the authority to filter by.
-        min_confidence: int, optional
-            A value between 0-100 where 100 is the most confident. Default is 70.
+        min_confidence: int, default=70
+            A value between 0-100 where 100 is the most confident.
             :ref:`min_confidence`
 
         Returns
@@ -1496,9 +1495,9 @@ class GeographicCRS(CRS):
         """
         Parameters
         ----------
-        name: str, optional
-            Name of the CRS. Default is undefined.
-        datum: Any, optional
+        name: str, default="undefined"
+            Name of the CRS.
+        datum: Any, default="urn:ogc:def:datum:EPSG::6326"
             Anything accepted by :meth:`pyproj.crs.Datum.from_user_input` or
             a :class:`pyproj.crs.datum.CustomDatum`.
         ellipsoidal_cs: Any, optional
@@ -1545,8 +1544,8 @@ class DerivedGeographicCRS(CRS):
             Input to create an Ellipsoidal Coordinate System.
             Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
             or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
-        name: str, optional
-            Name of the CRS. Default is undefined.
+        name: str, default="undefined"
+            Name of the CRS.
         """
         derived_geographic_crs_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",

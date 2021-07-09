@@ -204,8 +204,9 @@ class Geod(_Geod):
         dist: array, :class:`numpy.ndarray`, list, tuple, or scalar
             Distance(s) between initial and terminus point(s)
             in meters
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
 
         Returns
         -------
@@ -247,8 +248,9 @@ class Geod(_Geod):
             Longitude(s) of terminus point(s)
         lats2: array, :class:`numpy.ndarray`, list, tuple, or scalar
             Latitude(s) of terminus point(s)
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
 
         Returns
         -------
@@ -350,12 +352,13 @@ class Geod(_Geod):
         npts: int
             Number of points to be returned
             (including initial and/or terminus points, if required)
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
-        initial_idx: int, optional
+            Otherwise, the data is assumed to be in degrees.
+        initial_idx: int, default=1
             if initial_idx==0 then the initial point would be included in the output
             (as the first point)
-        terminus_idx: int, optional
+        terminus_idx: int, default=1
             if terminus_idx==0 then the terminus point would be included in the output
             (as the last point)
         Returns
@@ -476,26 +479,28 @@ class Geod(_Geod):
             Longitude of the terminus point
         lat2: float
             Latitude of the terminus point
-        npts: int, optional
+        npts: int, default=0
             Number of points to be returned
-            npts == 0 iff del_s != 0
-        del_s: float, optional
+            npts == 0 if del_s != 0
+        del_s: float, default=0
             delimiter distance between two successive points
-            del_s == 0 iff npts != 0
-        radians: bool, optional
+            del_s == 0 if npts != 0
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
-        initial_idx: int, optional
+            Otherwise, the data is assumed to be in degrees.
+        initial_idx: int, default=1
             if initial_idx==0 then the initial point would be included in the output
             (as the first point)
-        terminus_idx: int, optional
+        terminus_idx: int, default=1
             if terminus_idx==0 then the terminus point would be included in the output
             (as the last point)
-        flags: GeodIntermediateFlag, optional
-            1st: round/ceil/trunc (see GeodIntermediateFlag.NPTS_*)
-            2nd: update del_s to the new npts or not (see GeodIntermediateFlag.DEL_S_*)
-            3rd: iff out_azis=None, indicates if to save or discard the azimuths
-                 (see GeodIntermediateFlag.AZIS_*)
-            default - round npts, update del_s accordingly, discard azis
+        flags: GeodIntermediateFlag, default=GeodIntermediateFlag.DEFAULT
+            * 1st - round/ceil/trunc (see ``GeodIntermediateFlag.NPTS_*``)
+            * 2nd - update del_s to the new npts or not
+                    (see ``GeodIntermediateFlag.DEL_S_*``)
+            * 3rd - if out_azis=None, indicates if to save or discard the azimuths
+                    (see ``GeodIntermediateFlag.AZIS_*``)
+            * default - round npts, update del_s accordingly, discard azis
         out_lons: array, :class:`numpy.ndarray`, optional
             Longitude(s) of the intermediate point(s)
             If None then buffers would be allocated internnaly
@@ -509,7 +514,7 @@ class Geod(_Geod):
 
         Returns
         -------
-        GeodIntermediateReturn
+        GeodIntermediateReturn:
             number of points, distance and output arrays (GeodIntermediateReturn docs)
         """
         return super()._inv_or_fwd_intermediate(
@@ -612,18 +617,22 @@ class Geod(_Geod):
             (including initial and/or terminus points, if required)
         del_s: float
             delimiter distance between two successive points
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
-        initial_idx: int, optional
+            Otherwise, the data is assumed to be in degrees.
+        initial_idx: int, default=1
             if initial_idx==0 then the initial point would be included in the output
             (as the first point)
-        terminus_idx: int, optional
+        terminus_idx: int, default=1
             if terminus_idx==0 then the terminus point would be included in the output
             (as the last point)
-        flags: GeodIntermediateFlag, optional
-            3rd: iff out_azis=None, indicates if to save or discard the azimuths
-                 (see GeodIntermediateFlag.AZIS_*)
-            default - discard azis
+        flags: GeodIntermediateFlag, default=GeodIntermediateFlag.DEFAULT
+            * 1st - round/ceil/trunc (see ``GeodIntermediateFlag.NPTS_*``)
+            * 2nd - update del_s to the new npts or not
+                    (see ``GeodIntermediateFlag.DEL_S_*``)
+            * 3rd - if out_azis=None, indicates if to save or discard the azimuths
+                    (see ``GeodIntermediateFlag.AZIS_*``)
+            * default - round npts, update del_s accordingly, discard azis
         out_lons: array, :class:`numpy.ndarray`, optional
             Longitude(s) of the intermediate point(s)
             If None then buffers would be allocated internnaly
@@ -637,7 +646,7 @@ class Geod(_Geod):
 
         Returns
         -------
-        GeodIntermediateReturn
+        GeodIntermediateReturn:
             number of points, distance and output arrays (GeodIntermediateReturn docs)
         """
         return super()._inv_or_fwd_intermediate(
@@ -679,8 +688,9 @@ class Geod(_Geod):
             The longitude points along a line.
         lats: array, :class:`numpy.ndarray`, list, tuple, or scalar
             The latitude points along a line.
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
 
         Returns
         -------
@@ -713,8 +723,9 @@ class Geod(_Geod):
             The longitude points along a line.
         lats: array, :class:`numpy.ndarray`, list, tuple, or scalar
             The latitude points along a line.
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
 
         Returns
         -------
@@ -765,8 +776,9 @@ class Geod(_Geod):
             An array of longitude values.
         lats: array, :class:`numpy.ndarray`, list, tuple, or scalar
             An array of latitude values.
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
 
         Returns
         -------
@@ -801,8 +813,9 @@ class Geod(_Geod):
         ----------
         geometry: :class:`shapely.geometry.BaseGeometry`
             The geometry to calculate the length from.
-        radians: bool, optional
+        radians: bool, default=False
             If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
 
         Returns
         -------
@@ -871,8 +884,9 @@ class Geod(_Geod):
         ----------
         geometry: :class:`shapely.geometry.BaseGeometry`
             The geometry to calculate the area and perimeter from.
-        radians: bool, optional
-            If True, the input data is assumed to be in radians. Default is degrees.
+        radians: bool, default=False
+            If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
 
         Returns
         -------

@@ -163,14 +163,13 @@ class TransformerGroup(_TransformerGroup):
             Projection of input data.
         crs_to: pyproj.crs.CRS or input used to create one
             Projection of output data.
-        skip_equivalent: bool, optional
+        skip_equivalent: bool, default=False
             DEPRECATED: If true, will skip the transformation operation
-            if input and output projections are equivalent. Default is false.
-        always_xy: bool, optional
+            if input and output projections are equivalent.
+        always_xy: bool, default=False
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
-            Default is false.
         area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help order the transformations based on the
             best operation for the area.
@@ -238,12 +237,10 @@ class TransformerGroup(_TransformerGroup):
         directory: str or Path, optional
             The directory to download the grids to.
             Defaults to :func:`pyproj.datadir.get_user_data_dir`
-        open_license: bool, optional
+        open_license: bool, default=True
             If True, will only download grids with an open license.
-            Defaults to False.
-        verbose: bool, optional
+        verbose: bool, default=False
             If True, will print information about grids downloaded.
-            Default is False.
         """
         if directory is None:
             directory = get_user_data_dir(True)
@@ -438,14 +435,13 @@ class Transformer:
             Projection of input data.
         proj_to: :obj:`pyproj.Proj` or input used to create one
             Projection of output data.
-        skip_equivalent: bool, optional
+        skip_equivalent: bool, default=False
             DEPRECATED: If true, will skip the transformation operation
-            if input and output projections are equivalent. Default is false.
-        always_xy: bool, optional
+            if input and output projections are equivalent.
+        always_xy: bool, default=False
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
-            Default is false.
         area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help select the transformation.
 
@@ -494,14 +490,13 @@ class Transformer:
             Projection of input data.
         crs_to: pyproj.crs.CRS or input used to create one
             Projection of output data.
-        skip_equivalent: bool, optional
+        skip_equivalent: bool, default=False
             DEPRECATED: If true, will skip the transformation operation
-            if input and output projections are equivalent. Default is false.
-        always_xy: bool, optional
+            if input and output projections are equivalent.
+        always_xy: bool, default=False
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
-            Default is false.
         area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help select the transformation.
         authority: str, optional
@@ -604,14 +599,14 @@ class Transformer:
             Input z coordinate(s).
         tt: scalar or array (numpy or python), optional
             Input time coordinate(s).
-        radians: boolean, optional
+        radians: bool, default=False
             If True, will expect input data to be in radians and will return radians
-            if the projection is geographic. Default is False (degrees). Ignored for
-            pipeline transformations with pyproj 2, but will work in pyproj 3.
-        errcheck: boolean, optional
-            If True an exception is raised if the transformation is invalid.
-            By default errcheck=False and an invalid transformation
-            returns ``inf`` and no exception is raised.
+            if the projection is geographic. Otherwise, it uses degrees.
+            Ignored for pipeline transformations with pyproj 2,
+            but will work in pyproj 3.
+        errcheck: bool, default=False
+            If True, an exception is raised if the errors are found in the process.
+            If False, ``inf`` is returned for errors.
         direction: pyproj.enums.TransformDirection, optional
             The direction of the transform.
             Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
@@ -713,19 +708,19 @@ class Transformer:
         ----------
         points: list
             List of point tuples.
-        switch: boolean, optional
+        switch: bool, default=False
             If True x, y or lon,lat coordinates of points are switched to y, x
             or lat, lon. Default is False.
-        time_3rd: boolean, optional
+        time_3rd: bool, default=False
             If the input coordinates are 3 dimensional and the 3rd dimension is time.
-        radians: boolean, optional
+        radians: bool, default=False
             If True, will expect input data to be in radians and will return radians
-            if the projection is geographic. Default is False (degrees). Ignored for
-            pipeline transformations.
-        errcheck: boolean, optional
-            If True an exception is raised if the transformation is invalid.
-            By default errcheck=False and an invalid transformation
-            returns ``inf`` and no exception is raised.
+            if the projection is geographic. Otherwise, it uses degrees.
+            Ignored for pipeline transformations with pyproj 2,
+            but will work in pyproj 3.
+        errcheck: bool, default=False
+            If True, an exception is raised if the errors are found in the process.
+            If False, ``inf`` is returned for errors.
         direction: pyproj.enums.TransformDirection, optional
             The direction of the transform.
             Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
@@ -845,18 +840,16 @@ class Transformer:
             Right bounding coordinate in source CRS.
         top: float
             Top bounding coordinate in source CRS.
-        densify_points: uint, optional
+        densify_points: uint, default=21
             Number of points to add to each edge to account for nonlinear edges
             produced by the transform process. Large numbers will produce worse
-            performance. Default: 21 (gdal default).
-        radians: boolean, optional
+            performance.
+        radians: bool, default=False
             If True, will expect input data to be in radians and will return radians
-            if the projection is geographic. Default is False (degrees). Ignored for
-            pipeline transformations.
-        errcheck: boolean, optional
-            If True an exception is raised if the transformation is invalid.
-            By default errcheck=False and an invalid transformation
-            returns ``inf`` and no exception is raised.
+            if the projection is geographic. Otherwise, it uses degrees.
+        errcheck: bool, default=False
+            If True, an exception is raised if the errors are found in the process.
+            If False, ``inf`` is returned for errors.
         direction: pyproj.enums.TransformDirection, optional
             The direction of the transform.
             Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
@@ -892,8 +885,8 @@ class Transformer:
         version: pyproj.enums.ProjVersion
             The version of the PROJ string output.
             Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
+        pretty: bool, default=False
+            If True, it will set the output to be a multiline string.
 
         Returns
         -------
@@ -922,11 +915,11 @@ class Transformer:
 
         Parameters
         ----------
-        version: pyproj.enums.WktVersion
+        version: pyproj.enums.WktVersion, optional
             The version of the WKT output.
             Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
+        pretty: bool, default=False
+            If True, it will set the output to be a multiline string.
 
         Returns
         -------
@@ -943,10 +936,10 @@ class Transformer:
 
         Parameters
         ----------
-        pretty: bool
-            If True, it will set the output to be a multiline string. Defaults to False.
-        indentation: int
-            If pretty is True, it will set the width of the indentation. Default is 2.
+        pretty: bool, default=False
+            If True, it will set the output to be a multiline string.
+        indentation: int, default=2
+            If pretty is True, it will set the width of the indentation.
 
         Returns
         -------
