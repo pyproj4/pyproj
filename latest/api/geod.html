@@ -341,7 +341,8 @@ plus forward azimuths and distances.</p>
 <li><p><strong>az</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Forward azimuth(s)</p></li>
 <li><p><strong>dist</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Distance(s) between initial and terminus point(s)
 in meters</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -422,16 +423,26 @@ initial and terminus points.</p>
 <li><p><strong>npts</strong> (<em>int</em>) – Number of points to be returned
 (including initial and/or terminus points, if required)</p></li>
 <li><p><strong>del_s</strong> (<em>float</em>) – delimiter distance between two successive points</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
-<li><p><strong>initial_idx</strong> (<em>int</em><em>, </em><em>optional</em>) – if initial_idx==0 then the initial point would be included in the output
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+<li><p><strong>initial_idx</strong> (<em>int</em><em>, </em><em>default=1</em>) – if initial_idx==0 then the initial point would be included in the output
 (as the first point)</p></li>
-<li><p><strong>terminus_idx</strong> (<em>int</em><em>, </em><em>optional</em>) – if terminus_idx==0 then the terminus point would be included in the output
+<li><p><strong>terminus_idx</strong> (<em>int</em><em>, </em><em>default=1</em>) – if terminus_idx==0 then the terminus point would be included in the output
 (as the last point)</p></li>
-<li><p><strong>flags</strong> (<a class="reference internal" href="enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><em>GeodIntermediateFlag</em></a><em>, </em><em>optional</em>) – <dl class="simple">
-<dt>3rd: iff out_azis=None, indicates if to save or discard the azimuths</dt><dd><p>(see GeodIntermediateFlag.AZIS_*)</p>
+<li><p><strong>flags</strong> (<a class="reference internal" href="enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><em>GeodIntermediateFlag</em></a><em>, </em><em>default=GeodIntermediateFlag.DEFAULT</em>) – <ul>
+<li><p>1st - round/ceil/trunc (see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.NPTS_*</span></code>)</p></li>
+<li><dl class="simple">
+<dt>2nd - update del_s to the new npts or not</dt><dd><p>(see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.DEL_S_*</span></code>)</p>
 </dd>
 </dl>
-<p>default - discard azis</p>
+</li>
+<li><dl class="simple">
+<dt>3rd - if out_azis=None, indicates if to save or discard the azimuths</dt><dd><p>(see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.AZIS_*</span></code>)</p>
+</dd>
+</dl>
+</li>
+<li><p>default - round npts, update del_s accordingly, discard azis</p></li>
+</ul>
 </p></li>
 <li><p><strong>out_lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, optional) – Longitude(s) of the intermediate point(s)
 If None then buffers would be allocated internnaly</p></li>
@@ -499,7 +510,8 @@ the sum of the areas and perimeters of all geometries.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.BaseGeometry</span></code>) – The geometry to calculate the area and perimeter from.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians. Default is degrees.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -535,7 +547,8 @@ the sum of the lengths.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.BaseGeometry</span></code>) – The geometry to calculate the length from.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -560,7 +573,8 @@ between initial points and terminus points.</p>
 <li><p><strong>lats1</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Latitude(s) of initial point(s)</p></li>
 <li><p><strong>lons2</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Longitude(s) of terminus point(s)</p></li>
 <li><p><strong>lats2</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – Latitude(s) of terminus point(s)</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -651,22 +665,30 @@ terminus points by del_s
 <li><p><strong>lat1</strong> (<em>float</em>) – Latitude of the initial point</p></li>
 <li><p><strong>lon2</strong> (<em>float</em>) – Longitude of the terminus point</p></li>
 <li><p><strong>lat2</strong> (<em>float</em>) – Latitude of the terminus point</p></li>
-<li><p><strong>npts</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of points to be returned
-npts == 0 iff del_s != 0</p></li>
-<li><p><strong>del_s</strong> (<em>float</em><em>, </em><em>optional</em>) – delimiter distance between two successive points
-del_s == 0 iff npts != 0</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
-<li><p><strong>initial_idx</strong> (<em>int</em><em>, </em><em>optional</em>) – if initial_idx==0 then the initial point would be included in the output
+<li><p><strong>npts</strong> (<em>int</em><em>, </em><em>default=0</em>) – Number of points to be returned
+npts == 0 if del_s != 0</p></li>
+<li><p><strong>del_s</strong> (<em>float</em><em>, </em><em>default=0</em>) – delimiter distance between two successive points
+del_s == 0 if npts != 0</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+<li><p><strong>initial_idx</strong> (<em>int</em><em>, </em><em>default=1</em>) – if initial_idx==0 then the initial point would be included in the output
 (as the first point)</p></li>
-<li><p><strong>terminus_idx</strong> (<em>int</em><em>, </em><em>optional</em>) – if terminus_idx==0 then the terminus point would be included in the output
+<li><p><strong>terminus_idx</strong> (<em>int</em><em>, </em><em>default=1</em>) – if terminus_idx==0 then the terminus point would be included in the output
 (as the last point)</p></li>
-<li><p><strong>flags</strong> (<a class="reference internal" href="enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><em>GeodIntermediateFlag</em></a><em>, </em><em>optional</em>) – <p>1st: round/ceil/trunc (see GeodIntermediateFlag.NPTS_*)
-2nd: update del_s to the new npts or not (see GeodIntermediateFlag.DEL_S_*)
-3rd: iff out_azis=None, indicates if to save or discard the azimuths</p>
-<blockquote>
-<div><p>(see GeodIntermediateFlag.AZIS_*)</p>
-</div></blockquote>
-<p>default - round npts, update del_s accordingly, discard azis</p>
+<li><p><strong>flags</strong> (<a class="reference internal" href="enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><em>GeodIntermediateFlag</em></a><em>, </em><em>default=GeodIntermediateFlag.DEFAULT</em>) – <ul>
+<li><p>1st - round/ceil/trunc (see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.NPTS_*</span></code>)</p></li>
+<li><dl class="simple">
+<dt>2nd - update del_s to the new npts or not</dt><dd><p>(see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.DEL_S_*</span></code>)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>3rd - if out_azis=None, indicates if to save or discard the azimuths</dt><dd><p>(see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.AZIS_*</span></code>)</p>
+</dd>
+</dl>
+</li>
+<li><p>default - round npts, update del_s accordingly, discard azis</p></li>
+</ul>
 </p></li>
 <li><p><strong>out_lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, optional) – Longitude(s) of the intermediate point(s)
 If None then buffers would be allocated internnaly</p></li>
@@ -709,7 +731,8 @@ unless requested otherwise by the flags</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – The longitude points along a line.</p></li>
 <li><p><strong>lats</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – The latitude points along a line.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -743,7 +766,8 @@ unless requested otherwise by the flags</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – The longitude points along a line.</p></li>
 <li><p><strong>lats</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – The latitude points along a line.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -819,10 +843,11 @@ initial and terminus points.</p>
 <li><p><strong>lat2</strong> (<em>float</em>) – Latitude of the terminus point</p></li>
 <li><p><strong>npts</strong> (<em>int</em>) – Number of points to be returned
 (including initial and/or terminus points, if required)</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
-<li><p><strong>initial_idx</strong> (<em>int</em><em>, </em><em>optional</em>) – if initial_idx==0 then the initial point would be included in the output
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+<li><p><strong>initial_idx</strong> (<em>int</em><em>, </em><em>default=1</em>) – if initial_idx==0 then the initial point would be included in the output
 (as the first point)</p></li>
-<li><p><strong>terminus_idx</strong> (<em>int</em><em>, </em><em>optional</em>) – if terminus_idx==0 then the terminus point would be included in the output
+<li><p><strong>terminus_idx</strong> (<em>int</em><em>, </em><em>default=1</em>) – if terminus_idx==0 then the terminus point would be included in the output
 (as the last point)</p></li>
 </ul>
 </dd>
@@ -870,7 +895,8 @@ is signed with counter-clockwise traversal being treated as positive.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lons</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – An array of longitude values.</p></li>
 <li><p><strong>lats</strong> (array, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, list, tuple, or scalar) – An array of latitude values.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input data is assumed to be in radians.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

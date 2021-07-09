@@ -334,8 +334,8 @@ currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>datum_name</strong> (<em>str</em>) – Datum name.</p></li>
 <li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search (e.g. ‘EPSG’).
-If None, will search all authorities. Default is None.</p></li>
-<li><p><strong>datum_type</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.DatumType" title="pyproj.crs.enums.DatumType"><em>DatumType</em></a><em>, </em><em>optional</em>) – The datum type to create. Default is from any datum type.</p></li>
+If None, will search all authorities.</p></li>
+<li><p><strong>datum_type</strong> (<a class="reference internal" href="enums.html#pyproj.crs.enums.DatumType" title="pyproj.crs.enums.DatumType"><em>DatumType</em></a><em>, </em><em>optional</em>) – The datum type to create. If it is None, it uses any datum type.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -459,8 +459,8 @@ ID[“EPSG”,6326]]</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
-<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em><em>, </em><em>default=2</em>) – If pretty is True, it will set the width of the indentation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -507,9 +507,8 @@ ID[“EPSG”,6326]]</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
-Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a><em>, </em><em>default=pyproj.enums.WktVersion.WKT2_2019</em>) – The version of the WKT output.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -540,10 +539,10 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the datum. Default is ‘undefined’.</p></li>
-<li><p><strong>ellipsoid</strong> (<em>Any</em><em>, </em><em>optional</em>) – Anything accepted by <a class="reference internal" href="#pyproj.crs.Ellipsoid.from_user_input" title="pyproj.crs.Ellipsoid.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Ellipsoid.from_user_input()</span></code></a>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>default=&quot;undefined&quot;</em>) – Name of the datum.</p></li>
+<li><p><strong>ellipsoid</strong> (<em>Any</em><em>, </em><em>default=&quot;WGS 84&quot;</em>) – Anything accepted by <a class="reference internal" href="#pyproj.crs.Ellipsoid.from_user_input" title="pyproj.crs.Ellipsoid.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Ellipsoid.from_user_input()</span></code></a>
 or a <a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid" title="pyproj.crs.datum.CustomEllipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.datum.CustomEllipsoid</span></code></a>.</p></li>
-<li><p><strong>prime_meridian</strong> (<em>Any</em><em>, </em><em>optional</em>) – Anything accepted by <a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_user_input" title="pyproj.crs.PrimeMeridian.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.PrimeMeridian.from_user_input()</span></code></a>.</p></li>
+<li><p><strong>prime_meridian</strong> (<em>Any</em><em>, </em><em>default=&quot;Greenwich&quot;</em>) – Anything accepted by <a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_user_input" title="pyproj.crs.PrimeMeridian.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.PrimeMeridian.from_user_input()</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -715,7 +714,7 @@ or a <a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid" titl
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ellipsoid_name</strong> (<em>str</em>) – Ellipsoid name.</p></li>
 <li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search (e.g. ‘EPSG’).
-If None, will search all authorities. Default is None.</p></li>
+If None, will search all authorities.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -834,8 +833,8 @@ ID[“EPSG”,7001]]</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
-<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em><em>, </em><em>default=2</em>) – If pretty is True, it will set the width of the indentation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -882,9 +881,8 @@ ID[“EPSG”,7001]]</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
-Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a><em>, </em><em>default=pyproj.enums.WktVersion.WKT2_2019</em>) – The version of the WKT output.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -915,7 +913,7 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the ellipsoid. Default is ‘undefined’.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>default=&quot;undefined&quot;</em>) – Name of the ellipsoid.</p></li>
 <li><p><strong>semi_major_axis</strong> (<em>float</em><em>, </em><em>optional</em>) – The semi major axis in meters. Required if missing radius.</p></li>
 <li><p><strong>inverse_flattening</strong> (<em>float</em><em>, </em><em>optional</em>) – The inverse flattening in meters.
 Required if missing semi_minor_axis and radius.</p></li>
@@ -1061,7 +1059,7 @@ Cannot be mixed with other parameters.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prime_meridian_name</strong> (<em>str</em>) – Prime Meridian name.</p></li>
 <li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The authority name to refine search (e.g. ‘EPSG’).
-If None, will search all authorities. Default is None.</p></li>
+If None, will search all authorities.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1180,8 +1178,8 @@ ID[“EPSG”,8901]]</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
-<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em><em>, </em><em>default=2</em>) – If pretty is True, it will set the width of the indentation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1228,9 +1226,8 @@ ID[“EPSG”,8901]]</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
-Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a><em>, </em><em>default=pyproj.enums.WktVersion.WKT2_2019</em>) – The version of the WKT output.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

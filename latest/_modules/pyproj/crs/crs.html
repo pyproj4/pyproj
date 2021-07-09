@@ -764,8 +764,8 @@
 <span class="sd">        wkt_version: str or pyproj.enums.WktVersion</span>
 <span class="sd">            Version of WKT supported by CRS.to_wkt.</span>
 <span class="sd">            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.</span>
-<span class="sd">        errcheck: bool, optional</span>
-<span class="sd">            If True, will warn when parameters are ignored. Defaults to False.</span>
+<span class="sd">        errcheck: bool, default=False</span>
+<span class="sd">            If True, will warn when parameters are ignored.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -898,7 +898,7 @@
 <span class="sd">            Input to create a Vertical Coordinate System accepted by</span>
 <span class="sd">            :meth:`pyproj.crs.CoordinateSystem.from_user_input`</span>
 <span class="sd">            or :class:`pyproj.crs.coordinate_system.VerticalCS`</span>
-<span class="sd">        errcheck: bool, optional</span>
+<span class="sd">        errcheck: bool, default=False</span>
 <span class="sd">            This parameter is for backwards compatibility with the old version.</span>
 <span class="sd">            It currently does nothing when True or False.</span>
 
@@ -1087,9 +1087,8 @@
 <span class="sd">            Check if the other object is equivalent to this object.</span>
 <span class="sd">            If the other object is not a CRS, it will try to create one.</span>
 <span class="sd">            On Failure, it will return False.</span>
-<span class="sd">        ignore_axis_order: bool, optional</span>
+<span class="sd">        ignore_axis_order: bool, default=False</span>
 <span class="sd">            If True, it will compare the CRS class and ignore the axis order.</span>
-<span class="sd">            Default is False.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1319,11 +1318,11 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        version: pyproj.enums.WktVersion</span>
+<span class="sd">        version: pyproj.enums.WktVersion, optional</span>
 <span class="sd">            The version of the WKT output.</span>
 <span class="sd">            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.</span>
-<span class="sd">        pretty: bool</span>
-<span class="sd">            If True, it will set the output to be a multiline string. Defaults to False.</span>
+<span class="sd">        pretty: bool, default=False</span>
+<span class="sd">            If True, it will set the output to be a multiline string.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1339,10 +1338,10 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pretty: bool</span>
-<span class="sd">            If True, it will set the output to be a multiline string. Defaults to False.</span>
-<span class="sd">        indentation: int</span>
-<span class="sd">            If pretty is True, it will set the width of the indentation. Default is 2.</span>
+<span class="sd">        pretty: bool, default=False</span>
+<span class="sd">            If True, it will set the output to be a multiline string.</span>
+<span class="sd">        indentation: int, default=2</span>
+<span class="sd">            If pretty is True, it will set the width of the indentation.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1408,8 +1407,8 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        min_confidence: int, optional</span>
-<span class="sd">            A value between 0-100 where 100 is the most confident. Default is 70.</span>
+<span class="sd">        min_confidence: int, default=70</span>
+<span class="sd">            A value between 0-100 where 100 is the most confident.</span>
 <span class="sd">            :ref:`min_confidence`</span>
 
 
@@ -1449,8 +1448,8 @@
 <span class="sd">        ----------</span>
 <span class="sd">        auth_name: str, optional</span>
 <span class="sd">            The name of the authority to filter by.</span>
-<span class="sd">        min_confidence: int, optional</span>
-<span class="sd">            A value between 0-100 where 100 is the most confident. Default is 70.</span>
+<span class="sd">        min_confidence: int, default=70</span>
+<span class="sd">            A value between 0-100 where 100 is the most confident.</span>
 <span class="sd">            :ref:`min_confidence`</span>
 
 <span class="sd">        Returns</span>
@@ -1665,9 +1664,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name: str, optional</span>
-<span class="sd">            Name of the CRS. Default is undefined.</span>
-<span class="sd">        datum: Any, optional</span>
+<span class="sd">        name: str, default=&quot;undefined&quot;</span>
+<span class="sd">            Name of the CRS.</span>
+<span class="sd">        datum: Any, default=&quot;urn:ogc:def:datum:EPSG::6326&quot;</span>
 <span class="sd">            Anything accepted by :meth:`pyproj.crs.Datum.from_user_input` or</span>
 <span class="sd">            a :class:`pyproj.crs.datum.CustomDatum`.</span>
 <span class="sd">        ellipsoidal_cs: Any, optional</span>
@@ -1714,8 +1713,8 @@
 <span class="sd">            Input to create an Ellipsoidal Coordinate System.</span>
 <span class="sd">            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`</span>
 <span class="sd">            or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.</span>
-<span class="sd">        name: str, optional</span>
-<span class="sd">            Name of the CRS. Default is undefined.</span>
+<span class="sd">        name: str, default=&quot;undefined&quot;</span>
+<span class="sd">            Name of the CRS.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">derived_geographic_crs_json</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>

@@ -498,8 +498,7 @@ to a list of Climate and Forecast (CF) Version 1.8 dicts.</p>
 <li><p><strong>other</strong> (<em>Any</em>) – Check if the other object is equivalent to this object.
 If the other object is not a CRS, it will try to create one.
 On Failure, it will return False.</p></li>
-<li><p><strong>ignore_axis_order</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, it will compare the CRS class and ignore the axis order.
-Default is False.</p></li>
+<li><p><strong>ignore_axis_order</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will compare the CRS class and ignore the axis order.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -559,7 +558,7 @@ or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordin
 <li><p><strong>vertical_cs</strong> (<em>Any</em><em>, </em><em>optional</em>) – Input to create a Vertical Coordinate System accepted by
 <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
 or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordinate_system.VerticalCS" title="pyproj.crs.coordinate_system.VerticalCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_system.VerticalCS</span></code></a></p></li>
-<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>optional</em>) – This parameter is for backwards compatibility with the old version.
+<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>default=False</em>) – This parameter is for backwards compatibility with the old version.
 It currently does nothing when True or False.</p></li>
 </ul>
 </dd>
@@ -1060,7 +1059,7 @@ the source CRS:</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the authority to filter by.</p></li>
-<li><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.
+<li><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>default=70</em>) – A value between 0-100 where 100 is the most confident.
 <a class="reference internal" href="../../gotchas.html#min-confidence"><span class="std std-ref">Why does the EPSG code return when using EPSG:xxxx and not with +init=EPSG:xxxx?</span></a></p></li>
 </ul>
 </dd>
@@ -1087,7 +1086,7 @@ to a Climate and Forecast (CF) Grid Mapping Version 1.8 dict.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>wkt_version</strong> (<em>str</em><em> or </em><a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – Version of WKT supported by CRS.to_wkt.
 Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
-<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will warn when parameters are ignored. Defaults to False.</p></li>
+<li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, will warn when parameters are ignored.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1147,7 +1146,7 @@ the source CRS:</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>optional</em>) – A value between 0-100 where 100 is the most confident. Default is 70.
+<dd class="field-odd"><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>default=70</em>) – A value between 0-100 where 100 is the most confident.
 <a class="reference internal" href="../../gotchas.html#min-confidence"><span class="std std-ref">Why does the EPSG code return when using EPSG:xxxx and not with +init=EPSG:xxxx?</span></a></p>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1169,8 +1168,8 @@ the source CRS:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
-<li><p><strong>indentation</strong> (<em>int</em>) – If pretty is True, it will set the width of the indentation. Default is 2.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+<li><p><strong>indentation</strong> (<em>int</em><em>, </em><em>default=2</em>) – If pretty is True, it will set the width of the indentation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1262,9 +1261,9 @@ input to create the CRS.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a>) – The version of the WKT output.
+<li><p><strong>version</strong> (<a class="reference internal" href="../enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a><em>, </em><em>optional</em>) – The version of the WKT output.
 Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
-<li><p><strong>pretty</strong> (<em>bool</em>) – If True, it will set the output to be a multiline string. Defaults to False.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1319,8 +1318,8 @@ Default is <a class="reference internal" href="../enums.html#pyproj.enums.WktVer
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the CRS. Default is undefined.</p></li>
-<li><p><strong>datum</strong> (<em>Any</em><em>, </em><em>optional</em>) – Anything accepted by <a class="reference internal" href="datum.html#pyproj.crs.Datum.from_user_input" title="pyproj.crs.Datum.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Datum.from_user_input()</span></code></a> or
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>default=&quot;undefined&quot;</em>) – Name of the CRS.</p></li>
+<li><p><strong>datum</strong> (Any, default=”<a class="reference external" href="urn:ogc:def:datum:EPSG::6326">urn:ogc:def:datum:EPSG::6326</a>”) – Anything accepted by <a class="reference internal" href="datum.html#pyproj.crs.Datum.from_user_input" title="pyproj.crs.Datum.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Datum.from_user_input()</span></code></a> or
 a <a class="reference internal" href="datum.html#pyproj.crs.datum.CustomDatum" title="pyproj.crs.datum.CustomDatum"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.datum.CustomDatum</span></code></a>.</p></li>
 <li><p><strong>ellipsoidal_cs</strong> (<em>Any</em><em>, </em><em>optional</em>) – Input to create an Ellipsoidal Coordinate System.
 Anything accepted by <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
@@ -1356,7 +1355,7 @@ or a conversion from <a class="reference internal" href="coordinate_operation.ht
 <li><p><strong>ellipsoidal_cs</strong> (<em>Any</em><em>, </em><em>optional</em>) – Input to create an Ellipsoidal Coordinate System.
 Anything accepted by <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
 or an Ellipsoidal Coordinate System created from <a class="reference internal" href="coordinate_system.html#coordinate-system"><span class="std std-ref">Coordinate Systems</span></a>.</p></li>
-<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the CRS. Default is undefined.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>default=&quot;undefined&quot;</em>) – Name of the CRS.</p></li>
 </ul>
 </dd>
 </dl>

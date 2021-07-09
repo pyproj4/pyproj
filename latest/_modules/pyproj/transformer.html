@@ -332,14 +332,13 @@
 <span class="sd">            Projection of input data.</span>
 <span class="sd">        crs_to: pyproj.crs.CRS or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
-<span class="sd">        skip_equivalent: bool, optional</span>
+<span class="sd">        skip_equivalent: bool, default=False</span>
 <span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
-<span class="sd">            if input and output projections are equivalent. Default is false.</span>
-<span class="sd">        always_xy: bool, optional</span>
+<span class="sd">            if input and output projections are equivalent.</span>
+<span class="sd">        always_xy: bool, default=False</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
-<span class="sd">            Default is false.</span>
 <span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help order the transformations based on the</span>
 <span class="sd">            best operation for the area.</span>
@@ -407,12 +406,10 @@
 <span class="sd">        directory: str or Path, optional</span>
 <span class="sd">            The directory to download the grids to.</span>
 <span class="sd">            Defaults to :func:`pyproj.datadir.get_user_data_dir`</span>
-<span class="sd">        open_license: bool, optional</span>
+<span class="sd">        open_license: bool, default=True</span>
 <span class="sd">            If True, will only download grids with an open license.</span>
-<span class="sd">            Defaults to False.</span>
-<span class="sd">        verbose: bool, optional</span>
+<span class="sd">        verbose: bool, default=False</span>
 <span class="sd">            If True, will print information about grids downloaded.</span>
-<span class="sd">            Default is False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">directory</span> <span class="o">=</span> <span class="n">get_user_data_dir</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -607,14 +604,13 @@
 <span class="sd">            Projection of input data.</span>
 <span class="sd">        proj_to: :obj:`pyproj.Proj` or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
-<span class="sd">        skip_equivalent: bool, optional</span>
+<span class="sd">        skip_equivalent: bool, default=False</span>
 <span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
-<span class="sd">            if input and output projections are equivalent. Default is false.</span>
-<span class="sd">        always_xy: bool, optional</span>
+<span class="sd">            if input and output projections are equivalent.</span>
+<span class="sd">        always_xy: bool, default=False</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
-<span class="sd">            Default is false.</span>
 <span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help select the transformation.</span>
 
@@ -663,14 +659,13 @@
 <span class="sd">            Projection of input data.</span>
 <span class="sd">        crs_to: pyproj.crs.CRS or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
-<span class="sd">        skip_equivalent: bool, optional</span>
+<span class="sd">        skip_equivalent: bool, default=False</span>
 <span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
-<span class="sd">            if input and output projections are equivalent. Default is false.</span>
-<span class="sd">        always_xy: bool, optional</span>
+<span class="sd">            if input and output projections are equivalent.</span>
+<span class="sd">        always_xy: bool, default=False</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
-<span class="sd">            Default is false.</span>
 <span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help select the transformation.</span>
 <span class="sd">        authority: str, optional</span>
@@ -773,14 +768,14 @@
 <span class="sd">            Input z coordinate(s).</span>
 <span class="sd">        tt: scalar or array (numpy or python), optional</span>
 <span class="sd">            Input time coordinate(s).</span>
-<span class="sd">        radians: boolean, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, will expect input data to be in radians and will return radians</span>
-<span class="sd">            if the projection is geographic. Default is False (degrees). Ignored for</span>
-<span class="sd">            pipeline transformations with pyproj 2, but will work in pyproj 3.</span>
-<span class="sd">        errcheck: boolean, optional</span>
-<span class="sd">            If True an exception is raised if the transformation is invalid.</span>
-<span class="sd">            By default errcheck=False and an invalid transformation</span>
-<span class="sd">            returns ``inf`` and no exception is raised.</span>
+<span class="sd">            if the projection is geographic. Otherwise, it uses degrees.</span>
+<span class="sd">            Ignored for pipeline transformations with pyproj 2,</span>
+<span class="sd">            but will work in pyproj 3.</span>
+<span class="sd">        errcheck: bool, default=False</span>
+<span class="sd">            If True, an exception is raised if the errors are found in the process.</span>
+<span class="sd">            If False, ``inf`` is returned for errors.</span>
 <span class="sd">        direction: pyproj.enums.TransformDirection, optional</span>
 <span class="sd">            The direction of the transform.</span>
 <span class="sd">            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.</span>
@@ -882,19 +877,19 @@
 <span class="sd">        ----------</span>
 <span class="sd">        points: list</span>
 <span class="sd">            List of point tuples.</span>
-<span class="sd">        switch: boolean, optional</span>
+<span class="sd">        switch: bool, default=False</span>
 <span class="sd">            If True x, y or lon,lat coordinates of points are switched to y, x</span>
 <span class="sd">            or lat, lon. Default is False.</span>
-<span class="sd">        time_3rd: boolean, optional</span>
+<span class="sd">        time_3rd: bool, default=False</span>
 <span class="sd">            If the input coordinates are 3 dimensional and the 3rd dimension is time.</span>
-<span class="sd">        radians: boolean, optional</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, will expect input data to be in radians and will return radians</span>
-<span class="sd">            if the projection is geographic. Default is False (degrees). Ignored for</span>
-<span class="sd">            pipeline transformations.</span>
-<span class="sd">        errcheck: boolean, optional</span>
-<span class="sd">            If True an exception is raised if the transformation is invalid.</span>
-<span class="sd">            By default errcheck=False and an invalid transformation</span>
-<span class="sd">            returns ``inf`` and no exception is raised.</span>
+<span class="sd">            if the projection is geographic. Otherwise, it uses degrees.</span>
+<span class="sd">            Ignored for pipeline transformations with pyproj 2,</span>
+<span class="sd">            but will work in pyproj 3.</span>
+<span class="sd">        errcheck: bool, default=False</span>
+<span class="sd">            If True, an exception is raised if the errors are found in the process.</span>
+<span class="sd">            If False, ``inf`` is returned for errors.</span>
 <span class="sd">        direction: pyproj.enums.TransformDirection, optional</span>
 <span class="sd">            The direction of the transform.</span>
 <span class="sd">            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.</span>
@@ -1014,18 +1009,16 @@
 <span class="sd">            Right bounding coordinate in source CRS.</span>
 <span class="sd">        top: float</span>
 <span class="sd">            Top bounding coordinate in source CRS.</span>
-<span class="sd">        densify_points: uint, optional</span>
+<span class="sd">        densify_points: uint, default=21</span>
 <span class="sd">            Number of points to add to each edge to account for nonlinear edges</span>
 <span class="sd">            produced by the transform process. Large numbers will produce worse</span>
-<span class="sd">            performance. Default: 21 (gdal default).</span>
-<span class="sd">        radians: boolean, optional</span>
+<span class="sd">            performance.</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, will expect input data to be in radians and will return radians</span>
-<span class="sd">            if the projection is geographic. Default is False (degrees). Ignored for</span>
-<span class="sd">            pipeline transformations.</span>
-<span class="sd">        errcheck: boolean, optional</span>
-<span class="sd">            If True an exception is raised if the transformation is invalid.</span>
-<span class="sd">            By default errcheck=False and an invalid transformation</span>
-<span class="sd">            returns ``inf`` and no exception is raised.</span>
+<span class="sd">            if the projection is geographic. Otherwise, it uses degrees.</span>
+<span class="sd">        errcheck: bool, default=False</span>
+<span class="sd">            If True, an exception is raised if the errors are found in the process.</span>
+<span class="sd">            If False, ``inf`` is returned for errors.</span>
 <span class="sd">        direction: pyproj.enums.TransformDirection, optional</span>
 <span class="sd">            The direction of the transform.</span>
 <span class="sd">            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.</span>
@@ -1061,8 +1054,8 @@
 <span class="sd">        version: pyproj.enums.ProjVersion</span>
 <span class="sd">            The version of the PROJ string output.</span>
 <span class="sd">            Default is :attr:`pyproj.enums.ProjVersion.PROJ_5`.</span>
-<span class="sd">        pretty: bool</span>
-<span class="sd">            If True, it will set the output to be a multiline string. Defaults to False.</span>
+<span class="sd">        pretty: bool, default=False</span>
+<span class="sd">            If True, it will set the output to be a multiline string.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1091,11 +1084,11 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        version: pyproj.enums.WktVersion</span>
+<span class="sd">        version: pyproj.enums.WktVersion, optional</span>
 <span class="sd">            The version of the WKT output.</span>
 <span class="sd">            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.</span>
-<span class="sd">        pretty: bool</span>
-<span class="sd">            If True, it will set the output to be a multiline string. Defaults to False.</span>
+<span class="sd">        pretty: bool, default=False</span>
+<span class="sd">            If True, it will set the output to be a multiline string.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1112,10 +1105,10 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pretty: bool</span>
-<span class="sd">            If True, it will set the output to be a multiline string. Defaults to False.</span>
-<span class="sd">        indentation: int</span>
-<span class="sd">            If pretty is True, it will set the width of the indentation. Default is 2.</span>
+<span class="sd">        pretty: bool, default=False</span>
+<span class="sd">            If True, it will set the output to be a multiline string.</span>
+<span class="sd">        indentation: int, default=2</span>
+<span class="sd">            If pretty is True, it will set the width of the indentation.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>

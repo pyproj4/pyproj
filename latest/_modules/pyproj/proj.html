@@ -327,17 +327,17 @@
 <span class="sd">            Input longitude coordinate(s).</span>
 <span class="sd">        latitude: scalar or array (numpy or python)</span>
 <span class="sd">            Input latitude coordinate(s).</span>
-<span class="sd">        inverse: boolean, optional</span>
+<span class="sd">        inverse: bool, default=False</span>
 <span class="sd">            If inverse is True the inverse transformation from x/y to</span>
-<span class="sd">            lon/lat is performed. Default is False.</span>
-<span class="sd">        radians: boolean, optional</span>
+<span class="sd">            lon/lat is performed.</span>
+<span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, will expect input data to be in radians and will return radians</span>
-<span class="sd">            if the projection is geographic. Default is False (degrees).</span>
+<span class="sd">            if the projection is geographic. Otherwise, it uses degrees.</span>
 <span class="sd">            This does not work with pyproj 2 and is ignored. It will be enabled again</span>
 <span class="sd">            in pyproj 3.</span>
-<span class="sd">        errcheck: boolean, optional</span>
-<span class="sd">            If True an exception is raised if the errors are found in the process.</span>
-<span class="sd">            By default errcheck=False and ``inf`` is returned.</span>
+<span class="sd">        errcheck: bool, default=False</span>
+<span class="sd">            If True, an exception is raised if the errors are found in the process.</span>
+<span class="sd">            If False, ``inf`` is returned for errors.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -379,12 +379,12 @@
 <span class="sd">            Input longitude coordinate(s).</span>
 <span class="sd">        latitude: scalar or array (numpy or python)</span>
 <span class="sd">            Input latitude coordinate(s).</span>
-<span class="sd">        radians: boolean, optional</span>
-<span class="sd">            If True, will expect input data to be in radians.</span>
-<span class="sd">            Default is False (degrees).</span>
-<span class="sd">        errcheck: boolean, optional</span>
-<span class="sd">            If True an exception is raised if the errors are found in the process.</span>
-<span class="sd">            By default errcheck=False and ``inf`` is returned.</span>
+<span class="sd">        radians: bool, default=False</span>
+<span class="sd">            If True, will expect input data to be in radians and will return radians</span>
+<span class="sd">            if the projection is geographic. Otherwise, it uses degrees.</span>
+<span class="sd">        errcheck: bool, default=False</span>
+<span class="sd">            If True, an exception is raised if the errors are found in the process.</span>
+<span class="sd">            If False, ``inf`` is returned on error.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
