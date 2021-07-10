@@ -287,8 +287,6 @@ cdef extern from "proj.h":
     void proj_list_destroy(PJ_OBJ_LIST *result)
     void proj_int_list_destroy(int* list)
     void proj_context_use_proj4_init_rules(PJ_CONTEXT *ctx, int enable)
-    void proj_context_set_autoclose_database(PJ_CONTEXT *ctx,
-                                             int autoclose)
     ctypedef enum PJ_GUESSED_WKT_DIALECT:
         PJ_GUESSED_WKT2_2018
         PJ_GUESSED_WKT2_2015
