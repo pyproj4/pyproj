@@ -20,6 +20,19 @@ _USE_GLOBAL_CONTEXT = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
 cdef const char* _USER_DATA_DIR = proj_context_get_user_writable_directory(NULL, False)
 
 
+IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (8, 1):
+    cdef void proj_context_set_autoclose_database(PJ_CONTEXT *ctx,
+                                                  int autoclose):
+        # THIS METHOD IS DEPRECATED IN PROJ 8.1
+        # https://github.com/OSGeo/PROJ/pull/2738
+        pass
+
+ELSE:
+    cdef extern from "proj.h":
+        void proj_context_set_autoclose_database(PJ_CONTEXT *ctx,
+                                                 int autoclose)
+
+
 def set_use_global_context(active=None):
     """
     .. versionadded:: 3.0.0
