@@ -23,7 +23,10 @@ Converting from `osgeo.osr.SpatialReference` to `pyproj.crs.CRS`
 
     osr_crs = SpatialReference()
     osr_crs.ImportFromEPSG(4326)
-    proj_crs = CRS.from_wkt(osr_crs.ExportToWkt())
+    if osgeo.version_info.major < 3:
+        proj_crs = CRS.from_wkt(osr_crs.ExportToWkt())
+    else:
+        proj_crs = CRS.from_wkt(osr_crs.ExportToWkt(["FORMAT=WKT2_2018"]))
 
 
 Converting from `pyproj.crs.CRS` to `osgeo.osr.SpatialReference`
@@ -58,19 +61,22 @@ Converting from `rasterio.crs.CRS` to `pyproj.crs.CRS`
 If you have `rasterio >= 1.0.14`, then you can pass in the `rasterio.crs.CRS`
 directly::
 
+    import rasterio
     import rasterio.crs
     from pyproj.crs import CRS
 
-    rio_crs = rasterio.crs.CRS.from_epsg(4326)
-    proj_crs = CRS.from_user_input(rio_crs)
+    with rasterio.Env(OSR_WKT_FORMAT="WKT2_2018"):
+        rio_crs = rasterio.crs.CRS.from_epsg(4326)
+        proj_crs = CRS.from_user_input(rio_crs)
 
 Otherwise, you should use the `wkt` property::
 
     import rasterio.crs
     from pyproj.crs import CRS
 
-    rio_crs = rasterio.crs.CRS.from_epsg(4326)
-    proj_crs = CRS.from_wkt(rio_crs.wkt)
+    with rasterio.Env(OSR_WKT_FORMAT="WKT2_2018"):
+        rio_crs = rasterio.crs.CRS.from_epsg(4326)
+        proj_crs = CRS.from_wkt(rio_crs.wkt)
 
 Converting from `pyproj.crs.CRS` to `rasterio.crs.CRS`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -121,7 +127,7 @@ Example::
     import fiona
     from pyproj.crs import CRS
 
-    with fiona.open(...) as fds:
+    with fiona.Env(OSR_WKT_FORMAT="WKT2_2018"), fiona.open(...) as fds:
         proj_crs = CRS.from_wkt(fds.crs_wkt)
 
 
