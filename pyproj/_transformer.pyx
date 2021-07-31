@@ -1,7 +1,6 @@
 include "base.pxi"
 
 cimport cython
-from cpython cimport array
 from cpython.mem cimport PyMem_Free, PyMem_Malloc
 
 import copy
@@ -811,7 +810,7 @@ cdef class _Transformer(Base):
     def _transform_sequence(
         self,
         Py_ssize_t stride,
-        array.array inseq,
+        object inseq,
         bint switch,
         object direction,
         bint time_3rd,

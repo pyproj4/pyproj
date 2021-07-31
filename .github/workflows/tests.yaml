@@ -24,36 +24,42 @@ jobs:
 
   test:
     needs: linting
-    name: ${{ matrix.os }}, ${{ matrix.python-version }}, PROJ=${{ matrix.proj-version }}
+    name: ${{ matrix.os }}, ${{ matrix.python-implementation }}=${{ matrix.python-version }}, PROJ=${{ matrix.proj-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: true
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.7, 3.8, 3.9]
+        python-implementation: [python]
         proj-version: ['*']
         env:
           - PYPROJ_FULL_COVERAGE: YES
         include:
           - os: ubuntu-latest
             python-version: 3.7
+            python-implementation: python
             proj-version: 7.2
           - os: ubuntu-latest
             python-version: 3.8
+            python-implementation: python
             proj-version: 8.0
+          - os: ubuntu-latest
+            python-version: '*'
+            python-implementation: pypy
+            proj-version: '*'
     steps:
       - uses: actions/checkout@v2
 
       - name: Setup Conda
         uses: s-weigand/setup-conda@v1
         with:
-          python-version: ${{ matrix.python-version }}
           conda-channels: conda-forge
 
       - name: Install Env
         shell: bash
         run: |
-          conda create -n test python=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy shapely xarray pandas
+          conda create -n test ${{ matrix.python-implementation }}=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy shapely xarray pandas
           source activate test
           python -m pip install -e . --no-use-pep517 || python -m pip install -e .
           python -m pip install -r requirements-test.txt
@@ -66,11 +72,19 @@ jobs:
           pyproj -v
           conda info
 
-      - name: Test
+      - name: Test with Coverage
         shell: bash
+        if: matrix.python-implementation == 'python'
         run: |
           source activate test
           py.test --cov-report term-missing --cov=pyproj --cov-report xml
+
+      - name: Test
+        shell: bash
+        if: matrix.python-implementation == 'pypy'
+        run: |
+          source activate test
+          py.test
 
       - name: Test Network
         shell: bash
@@ -97,7 +111,7 @@ jobs:
 
       - name: Test Build docs
         shell: bash
-        if: contains(matrix.os, 'ubuntu')
+        if: contains(matrix.os, 'ubuntu') && matrix.python-implementation == 'python'
         run: |
           source activate test
           python -m pip install -r requirements-docs.txt
