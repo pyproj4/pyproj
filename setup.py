@@ -1,4 +1,5 @@
 import os
+import platform
 import subprocess
 import sys
 from distutils.spawn import find_executable
@@ -183,6 +184,7 @@ def get_extension_modules():
             "CTE_PROJ_VERSION_MAJOR": int(proj_version_major),
             "CTE_PROJ_VERSION_MINOR": int(proj_version_minor),
             "CTE_PROJ_VERSION_PATCH": int(proj_version_patch),
+            "CTE_PYTHON_IMPLEMENTATION": platform.python_implementation(),
         },
         **get_cythonize_options(),
     )

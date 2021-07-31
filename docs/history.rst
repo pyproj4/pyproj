@@ -6,6 +6,7 @@ Latest
 - ENH: Allow cimport (pull #870)
 - REF: Handle deprecation of proj_context_set_autoclose_database (issue #866)
 - DOC: Improve FAQ text about CRS formats (issue #789)
+- BUG: Add PyPy cython array implementation (issue #854)
 
 3.1.0
 -----

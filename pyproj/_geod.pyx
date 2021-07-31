@@ -1,12 +1,11 @@
 include "base.pxi"
 
 cimport cython
-from cpython cimport array
 from libc.math cimport ceil, isnan, round
 
-import array
 from collections import namedtuple
 
+from pyproj._compat import empty_array
 from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import GeodIntermediateFlag
 from pyproj.exceptions import GeodError
@@ -232,7 +231,6 @@ cdef class Geod:
             out_azis is not None \
             or (flags & GEOD_INTER_FLAG_AZIS_MASK) == GEOD_INTER_FLAG_AZIS_KEEP
 
-        cdef array.array array_template = array.array("d", [])
         cdef PyBuffWriteManager lons_buff
         cdef PyBuffWriteManager lats_buff
         cdef PyBuffWriteManager azis_buff
@@ -277,11 +275,11 @@ cdef class Geod:
 
             with gil:
                 if out_lons is None:
-                    out_lons = array.clone(array_template, npts, zero=False)
+                    out_lons = empty_array(npts)
                 if out_lats is None:
-                    out_lats = array.clone(array_template, npts, zero=False)
+                    out_lats = empty_array(npts)
                 if out_azis is None and store_az:
-                    out_azis = array.clone(array_template, npts, zero=False)
+                    out_azis = empty_array(npts)
 
                 lons_buff = PyBuffWriteManager(out_lons)
                 lats_buff = PyBuffWriteManager(out_lats)
