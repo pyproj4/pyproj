@@ -272,16 +272,17 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">aea_json</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="AzumuthalEquidistantConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.AzumuthalEquidistantConversion">[docs]</a><span class="k">class</span> <span class="nc">AzumuthalEquidistantConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
+<div class="viewcode-block" id="AzimuthalEquidistantConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion">[docs]</a><span class="k">class</span> <span class="nc">AzimuthalEquidistantConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 2.5.0</span>
+<span class="sd">    .. versionadded:: 2.5.0 AzumuthalEquidistantConversion</span>
+<span class="sd">    .. versionadded:: 3.2.0 AzimuthalEquidistantConversion</span>
 
 <span class="sd">    Class for constructing the Modified Azimuthal Equidistant conversion.</span>
 
 <span class="sd">    :ref:`PROJ docs &lt;aeqd&gt;`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AzumuthalEquidistantConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.AzumuthalEquidistantConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<div class="viewcode-block" id="AzimuthalEquidistantConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
@@ -337,6 +338,36 @@
             <span class="p">],</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">aeqd_json</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">AzumuthalEquidistantConversion</span><span class="p">(</span><span class="n">AzimuthalEquidistantConversion</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For backwards compatibility.</span>
+
+<span class="sd">    .. versionadded:: 2.5.0</span>
+<span class="sd">    .. deprecated:: 3.2.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;AzumuthalEquidistantConversion is deprecated. &quot;</span>
+            <span class="s2">&quot;Please use AzimuthalEquidistantConversion.&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">AzimuthalEquidistantConversion</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
+            <span class="n">AzimuthalEquidistantConversion</span><span class="p">,</span>
+            <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="n">latitude_natural_origin</span><span class="p">,</span>
+            <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="n">longitude_natural_origin</span><span class="p">,</span>
+            <span class="n">false_easting</span><span class="o">=</span><span class="n">false_easting</span><span class="p">,</span>
+            <span class="n">false_northing</span><span class="o">=</span><span class="n">false_northing</span><span class="p">,</span>
+        <span class="p">)</span>
 
 
 <div class="viewcode-block" id="GeostationarySatelliteConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion">[docs]</a><span class="k">class</span> <span class="nc">GeostationarySatelliteConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
@@ -426,16 +457,17 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">geos_json</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="LambertAzumuthalEqualAreaConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertAzumuthalEqualAreaConversion">[docs]</a><span class="k">class</span> <span class="nc">LambertAzumuthalEqualAreaConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
+<div class="viewcode-block" id="LambertAzimuthalEqualAreaConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion">[docs]</a><span class="k">class</span> <span class="nc">LambertAzimuthalEqualAreaConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 2.5.0</span>
+<span class="sd">    .. versionadded:: 2.5.0 LambertAzumuthalEqualAreaConversion</span>
+<span class="sd">    .. versionadded:: 3.2.0 LambertAzimuthalEqualAreaConversion</span>
 
 <span class="sd">    Class for constructing the Lambert Azimuthal Equal Area conversion.</span>
 
 <span class="sd">    :ref:`PROJ docs &lt;laea&gt;`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LambertAzumuthalEqualAreaConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertAzumuthalEqualAreaConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<div class="viewcode-block" id="LambertAzimuthalEqualAreaConversion.__new__"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
@@ -491,6 +523,36 @@
             <span class="p">],</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">laea_json</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">LambertAzumuthalEqualAreaConversion</span><span class="p">(</span><span class="n">LambertAzimuthalEqualAreaConversion</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For backwards compatibility.</span>
+
+<span class="sd">    .. versionadded:: 2.5.0</span>
+<span class="sd">    .. deprecated:: 3.2.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">latitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">longitude_natural_origin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;LambertAzumuthalEqualAreaConversion is deprecated. &quot;</span>
+            <span class="s2">&quot;Please use LambertAzimuthalEqualAreaConversion.&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">LambertAzimuthalEqualAreaConversion</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
+            <span class="n">LambertAzimuthalEqualAreaConversion</span><span class="p">,</span>
+            <span class="n">latitude_natural_origin</span><span class="o">=</span><span class="n">latitude_natural_origin</span><span class="p">,</span>
+            <span class="n">longitude_natural_origin</span><span class="o">=</span><span class="n">longitude_natural_origin</span><span class="p">,</span>
+            <span class="n">false_easting</span><span class="o">=</span><span class="n">false_easting</span><span class="p">,</span>
+            <span class="n">false_northing</span><span class="o">=</span><span class="n">false_northing</span><span class="p">,</span>
+        <span class="p">)</span>
 
 
 <div class="viewcode-block" id="LambertConformalConic2SPConversion"><a class="viewcode-back" href="../../../api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertConformalConic2SPConversion">[docs]</a><span class="k">class</span> <span class="nc">LambertConformalConic2SPConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
