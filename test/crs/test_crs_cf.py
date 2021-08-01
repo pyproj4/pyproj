@@ -8,7 +8,7 @@ from pyproj import CRS
 from pyproj.crs import ProjectedCRS
 from pyproj.crs._cf1x8 import _try_list_if_string
 from pyproj.crs.coordinate_operation import (
-    LambertAzumuthalEqualAreaConversion,
+    LambertAzimuthalEqualAreaConversion,
     LambertCylindricalEqualAreaConversion,
     MercatorAConversion,
     OrthographicConversion,
@@ -1129,7 +1129,7 @@ def test_azimuthal_equidistant():
 
 
 def test_lambert_azimuthal_equal_area():
-    crs = ProjectedCRS(conversion=LambertAzumuthalEqualAreaConversion(1, 2, 3, 4))
+    crs = ProjectedCRS(conversion=LambertAzimuthalEqualAreaConversion(1, 2, 3, 4))
     expected_cf = {
         "semi_major_axis": 6378137.0,
         "semi_minor_axis": crs.ellipsoid.semi_minor_metre,
