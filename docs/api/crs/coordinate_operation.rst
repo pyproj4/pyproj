@@ -32,10 +32,10 @@ AlbersEqualAreaConversion
     :special-members: __new__
 
 
-AzumuthalEquidistantConversion
+AzimuthalEquidistantConversion
 -------------------------------
 
-.. autoclass:: pyproj.crs.coordinate_operation.AzumuthalEquidistantConversion
+.. autoclass:: pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion
     :members:
     :show-inheritance:
     :special-members: __new__
@@ -58,10 +58,10 @@ GeostationarySatelliteConversion
     :special-members: __new__
 
 
-LambertAzumuthalEqualAreaConversion
+LambertAzimuthalEqualAreaConversion
 -----------------------------------
 
-.. autoclass:: pyproj.crs.coordinate_operation.LambertAzumuthalEqualAreaConversion
+.. autoclass:: pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion
     :members:
     :show-inheritance:
     :special-members: __new__

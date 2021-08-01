@@ -10,10 +10,10 @@ import warnings
 from pyproj._crs import Datum, Ellipsoid, PrimeMeridian
 from pyproj.crs.coordinate_operation import (
     AlbersEqualAreaConversion,
-    AzumuthalEquidistantConversion,
+    AzimuthalEquidistantConversion,
     GeostationarySatelliteConversion,
     HotineObliqueMercatorBConversion,
-    LambertAzumuthalEqualAreaConversion,
+    LambertAzimuthalEqualAreaConversion,
     LambertConformalConic1SPConversion,
     LambertConformalConic2SPConversion,
     LambertCylindricalEqualAreaConversion,
@@ -117,7 +117,7 @@ def _azimuthal_equidistant(cf_params):
     """
     http://cfconventions.org/cf-conventions/cf-conventions.html#azimuthal-equidistant
     """
-    return AzumuthalEquidistantConversion(
+    return AzimuthalEquidistantConversion(
         latitude_natural_origin=cf_params.get("latitude_of_projection_origin", 0.0),
         longitude_natural_origin=cf_params.get("longitude_of_projection_origin", 0.0),
         false_easting=cf_params.get("false_easting", 0.0),
@@ -147,7 +147,7 @@ def _lambert_azimuthal_equal_area(cf_params):
     """
     http://cfconventions.org/cf-conventions/cf-conventions.html#lambert-azimuthal-equal-area
     """
-    return LambertAzumuthalEqualAreaConversion(
+    return LambertAzimuthalEqualAreaConversion(
         latitude_natural_origin=cf_params.get("latitude_of_projection_origin", 0.0),
         longitude_natural_origin=cf_params.get("longitude_of_projection_origin", 0.0),
         false_easting=cf_params.get("false_easting", 0.0),

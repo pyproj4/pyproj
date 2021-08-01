@@ -4,10 +4,12 @@ from numpy.testing import assert_almost_equal
 from pyproj.crs import GeographicCRS
 from pyproj.crs.coordinate_operation import (
     AlbersEqualAreaConversion,
+    AzimuthalEquidistantConversion,
     AzumuthalEquidistantConversion,
     EquidistantCylindricalConversion,
     GeostationarySatelliteConversion,
     HotineObliqueMercatorBConversion,
+    LambertAzimuthalEqualAreaConversion,
     LambertAzumuthalEqualAreaConversion,
     LambertConformalConic1SPConversion,
     LambertConformalConic2SPConversion,
@@ -74,8 +76,21 @@ def test_albers_equal_area_operation():
     }
 
 
+def test_azumuthal_equidistant_operation__defaults():
+    with pytest.warns(FutureWarning, match="deprecated"):
+        aeop = AzumuthalEquidistantConversion()
+    assert aeop.name == "unknown"
+    assert aeop.method_name == "Modified Azimuthal Equidistant"
+    assert _to_dict(aeop) == {
+        "Latitude of natural origin": 0.0,
+        "Longitude of natural origin": 0.0,
+        "False easting": 0.0,
+        "False northing": 0.0,
+    }
+
+
 def test_azimuthal_equidistant_operation__defaults():
-    aeop = AzumuthalEquidistantConversion()
+    aeop = AzimuthalEquidistantConversion()
     assert aeop.name == "unknown"
     assert aeop.method_name == "Modified Azimuthal Equidistant"
     assert _to_dict(aeop) == {
@@ -87,7 +102,7 @@ def test_azimuthal_equidistant_operation__defaults():
 
 
 def test_azimuthal_equidistant_operation():
-    aeop = AzumuthalEquidistantConversion(
+    aeop = AzimuthalEquidistantConversion(
         latitude_natural_origin=1,
         longitude_natural_origin=2,
         false_easting=3,
@@ -142,8 +157,21 @@ def test_geostationary_operation__invalid_sweep():
         GeostationarySatelliteConversion(sweep_angle_axis="P", satellite_height=10)
 
 
+def test_lambert_azumuthal_equal_area_operation__defaults():
+    with pytest.warns(FutureWarning, match="deprecated"):
+        aeop = LambertAzumuthalEqualAreaConversion()
+    assert aeop.name == "unknown"
+    assert aeop.method_name == "Lambert Azimuthal Equal Area"
+    assert _to_dict(aeop) == {
+        "Latitude of natural origin": 0.0,
+        "Longitude of natural origin": 0.0,
+        "False easting": 0.0,
+        "False northing": 0.0,
+    }
+
+
 def test_lambert_azimuthal_equal_area_operation__defaults():
-    aeop = LambertAzumuthalEqualAreaConversion()
+    aeop = LambertAzimuthalEqualAreaConversion()
     assert aeop.name == "unknown"
     assert aeop.method_name == "Lambert Azimuthal Equal Area"
     assert _to_dict(aeop) == {
@@ -155,7 +183,7 @@ def test_lambert_azimuthal_equal_area_operation__defaults():
 
 
 def test_lambert_azimuthal_equal_area_operation():
-    aeop = LambertAzumuthalEqualAreaConversion(
+    aeop = LambertAzimuthalEqualAreaConversion(
         latitude_natural_origin=1,
         longitude_natural_origin=2,
         false_easting=3,
