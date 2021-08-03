@@ -1,7 +1,3 @@
-# WARNING: cartopy uses pyproj to import PROJ geodesic routines.
-# Check what cartopy uses before removing any definitions.
-
-
 cdef extern from "geodesic.h":
     struct geod_geodesic:
         pass
@@ -69,18 +65,6 @@ cdef extern from "geodesic.h":
         GEODESIC_VERSION_MAJOR
         GEODESIC_VERSION_MINOR
         GEODESIC_VERSION_PATCH
-
-    # FOR CARTOPY ONLY
-    cdef int GEOD_ARCMODE
-    cdef int GEOD_LATITUDE
-    cdef int GEOD_LONGITUDE
-
-    double geod_geninverse(geod_geodesic*, double, double, double, double,
-                           double*, double*, double*, double*, double*,
-                           double*, double*) nogil
-    void geod_genposition(geod_geodesicline*, int, double, double*,
-                          double*, double*, double*, double*, double*,
-                          double*, double*) nogil
 
 
 cdef class Geod:

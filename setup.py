@@ -195,7 +195,7 @@ def get_package_data() -> Dict[str, List[str]]:
     This function retrieves the package data
     """
     # setup package data
-    package_data = {"pyproj": ["*.pyi", "py.typed", "*.pyx", "*.pxd"]}
+    package_data = {"pyproj": ["*.pyi", "py.typed"]}
     if os.environ.get("PROJ_WHEEL") is not None and INTERNAL_PROJ_DIR.exists():
         package_data["pyproj"].append(
             str(BASE_INTERNAL_PROJ_DIR / "share" / "proj" / "*")
