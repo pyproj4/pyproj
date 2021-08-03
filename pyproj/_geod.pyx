@@ -43,16 +43,24 @@ out_azis: Any
 
 cdef int GEOD_INTER_FLAG_DEFAULT = GeodIntermediateFlag.DEFAULT
 
-cdef int GEOD_INTER_FLAG_NPTS_MASK = GeodIntermediateFlag.NPTS_MASK
+cdef int GEOD_INTER_FLAG_NPTS_MASK = (
+    GeodIntermediateFlag.NPTS_ROUND
+    | GeodIntermediateFlag.NPTS_CEIL
+    | GeodIntermediateFlag.NPTS_TRUNC
+)
 cdef int GEOD_INTER_FLAG_NPTS_ROUND = GeodIntermediateFlag.NPTS_ROUND
 cdef int GEOD_INTER_FLAG_NPTS_CEIL = GeodIntermediateFlag.NPTS_CEIL
 cdef int GEOD_INTER_FLAG_NPTS_TRUNC = GeodIntermediateFlag.NPTS_TRUNC
 
-cdef int GEOD_INTER_FLAG_DEL_S_MASK = GeodIntermediateFlag.DEL_S_MASK
+cdef int GEOD_INTER_FLAG_DEL_S_MASK = (
+    GeodIntermediateFlag.DEL_S_RECALC | GeodIntermediateFlag.DEL_S_NO_RECALC
+)
 cdef int GEOD_INTER_FLAG_DEL_S_RECALC = GeodIntermediateFlag.DEL_S_RECALC
 cdef int GEOD_INTER_FLAG_DEL_S_NO_RECALC = GeodIntermediateFlag.DEL_S_NO_RECALC
 
-cdef int GEOD_INTER_FLAG_AZIS_MASK = GeodIntermediateFlag.AZIS_MASK
+cdef int GEOD_INTER_FLAG_AZIS_MASK = (
+    GeodIntermediateFlag.AZIS_DISCARD | GeodIntermediateFlag.AZIS_KEEP
+)
 cdef int GEOD_INTER_FLAG_AZIS_DISCARD = GeodIntermediateFlag.AZIS_DISCARD
 cdef int GEOD_INTER_FLAG_AZIS_KEEP = GeodIntermediateFlag.AZIS_KEEP
 
