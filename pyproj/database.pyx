@@ -298,7 +298,10 @@ def query_utm_crs_info(
     if datum_name is None:
         return utm_crs
     datum_name = datum_name.replace(" ", "")
-    return [crs for crs in utm_crs if datum_name in crs.name.replace(" ", "")]
+    return [
+        crs for crs in utm_crs
+        if datum_name == crs.name.split("/")[0].replace(" ", "")
+    ]
 
 
 Unit = namedtuple(

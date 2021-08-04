@@ -204,7 +204,7 @@ def test_query_crs_info__aoi_contains():
         assert not crs_info.deprecated
 
 
-@pytest.mark.parametrize("datum_name", ["WGS 84", "WGS84", "NAD27"])
+@pytest.mark.parametrize("datum_name", ["WGS 84", "WGS84", "NAD27", "NAD83"])
 def test_query_utm_crs_info__aoi_datum_name(datum_name):
     aoi = BBox(west=-93.581543, south=42.032974, east=-93.581543, north=42.032974)
     crs_info_list = query_utm_crs_info(
