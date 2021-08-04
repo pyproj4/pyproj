@@ -9,6 +9,7 @@ Latest
 - BUG: Fix spelling for
   :class:`pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion`
   and :class:`pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion` (issue #882)
+- BUG: Make datum name match exact in :func:`pyproj.database.query_utm_crs_info` (pull #887)
 
 3.1.0
 -----
