@@ -147,15 +147,12 @@ class GeodIntermediateFlag(IntFlag):
 
     DEFAULT = 0x0
 
-    NPTS_MASK = 0xF
     NPTS_ROUND = 0x0
     NPTS_CEIL = 0x1
     NPTS_TRUNC = 0x2
 
-    DEL_S_MASK = 0xF0
     DEL_S_RECALC = 0x00
     DEL_S_NO_RECALC = 0x10
 
-    AZIS_MASK = 0xF00
     AZIS_DISCARD = 0x000
     AZIS_KEEP = 0x100
