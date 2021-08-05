@@ -27,7 +27,9 @@ The easiest methods for installing pyproj are:
 
   .. code-block:: bash
 
-      conda install -c conda-forge pyproj
+      conda config --prepend channels conda-forge
+      conda config --set channel_priority strict
+      conda install pyproj
 
   - `pypoj` is maintaned by the `pyproj-feedstock maintainers <http://github.com/conda-forge/pyproj-feedstock>`__
   - `PROJ` is maintaned by the `proj.4-feedstock maintainers <http://github.com/conda-forge/proj.4-feedstock>`__
