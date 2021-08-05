@@ -25,6 +25,8 @@ jobs:
       - name: Install and Build
         shell: bash
         run: |
+          conda config --prepend channels conda-forge
+          conda config --set channel_priority strict
           conda create -n docs python=3.8 cython proj
           source activate docs
           python -m pip install -e . --no-use-pep517 || python -m pip install -e .

@@ -59,6 +59,8 @@ jobs:
       - name: Install Env
         shell: bash
         run: |
+          conda config --prepend channels conda-forge
+          conda config --set channel_priority strict
           conda create -n test ${{ matrix.python-implementation }}=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy shapely xarray pandas
           source activate test
           python -m pip install -e . --no-use-pep517 || python -m pip install -e .
