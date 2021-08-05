@@ -2488,6 +2488,13 @@ cdef class _CRS(Base):
                 if self._coordinate_operation is False
                 else self._coordinate_operation
             )
+
+        if not (
+            self.is_bound or proj_is_derived_crs(self.context, self.projobj)
+        ):
+            self._coordinate_operation = False
+            return None
+
         cdef PJ_CONTEXT* context = pyproj_context_create()
         cdef PJ* coord_pj = proj_crs_get_coordoperation(
             context,

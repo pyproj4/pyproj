@@ -11,6 +11,7 @@ Latest
   and :class:`pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion` (issue #882)
 - BUG: Make datum name match exact in :func:`pyproj.database.query_utm_crs_info` (pull #887)
 - BUG: Update :class:`pyproj.enums.GeodIntermediateFlag` for future Python compatibility (issue #855)
+- BUG: Hide unnecessary PROJ ERROR from proj_crs_get_coordoperation (issue #873)
 
 3.1.0
 -----
