@@ -227,6 +227,7 @@ cdef extern from "proj.h":
     const char* proj_get_scope(const PJ *obj)
 
     int proj_is_crs(const PJ *obj)
+    int proj_is_derived_crs(PJ_CONTEXT *ctx, const PJ* crs)
     PJ *proj_crs_get_datum(PJ_CONTEXT *ctx, const PJ *crs)
     PJ *proj_crs_get_horizontal_datum(PJ_CONTEXT *ctx, const PJ *crs)
 
