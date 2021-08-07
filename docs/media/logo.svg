@@ -26,9 +26,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.87860203"
-     inkscape:cx="124.05094"
-     inkscape:cy="39.425126"
+     inkscape:zoom="1.1594791"
+     inkscape:cx="374.37732"
+     inkscape:cy="185.25695"
      inkscape:document-units="mm"
      inkscape:current-layer="g871"
      showgrid="false"
@@ -77,25 +77,21 @@
        transform="translate(-21.965123,-2.4518183)"
        inkscape:export-xdpi="180.14684"
        inkscape:export-ydpi="180.14684">
-      <g
-         id="g842"
-         transform="translate(-27.910828,0.09448762)">
-        <path
-           style="opacity:1;fill:#2eb0d1;fill-opacity:1;stroke:none;stroke-width:0.76499999;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
-           d="m 191.42879,28.055953 a 18.171912,15.127886 0 0 0 -18.1718,15.12826 18.171912,15.127886 0 0 0 18.1718,15.127797 18.171912,15.127886 0 0 0 18.17182,-15.127797 18.171912,15.127886 0 0 0 -18.17182,-15.12826 z m 0,5.304973 a 11.799942,9.8233022 0 0 1 11.79996,9.823287 11.799942,9.8233022 0 0 1 -11.79996,9.823301 11.799942,9.8233022 0 0 1 -11.79994,-9.823301 11.799942,9.8233022 0 0 1 11.79994,-9.823287 z"
-           id="path1386-1-6-8"
-           inkscape:connector-curvature="0" />
-        <rect
-           style="opacity:1;fill:#2eb0d1;fill-opacity:1;stroke:none;stroke-width:0.76499999;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
-           id="rect1404-8-1-7"
-           width="3.5399821"
-           height="38.703815"
-           x="194.19019"
-           y="-29.812881"
-           rx="2.064862"
-           ry="2.064862"
-           transform="rotate(15.768155)" />
-      </g>
+      <path
+         inkscape:connector-curvature="0"
+         id="path1386-1-6-8"
+         d="m 163.51796,28.150441 a 18.171912,15.127886 0 0 0 -18.1718,15.12826 18.171912,15.127886 0 0 0 18.1718,15.127797 18.171912,15.127886 0 0 0 18.17182,-15.127797 18.171912,15.127886 0 0 0 -18.17182,-15.12826 z m 0,5.304973 a 11.799942,9.8233022 0 0 1 11.79996,9.823287 11.799942,9.8233022 0 0 1 -11.79996,9.823301 11.799942,9.8233022 0 0 1 -11.79994,-9.823301 11.799942,9.8233022 0 0 1 11.79994,-9.823287 z"
+         style="opacity:1;fill:#407daf;fill-opacity:1;stroke:none;stroke-width:0.76499999;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <rect
+         transform="rotate(15.768155)"
+         ry="2.064862"
+         rx="2.064862"
+         y="-22.13731"
+         x="167.35535"
+         height="38.703815"
+         width="3.5399821"
+         id="rect1404-8-1-7"
+         style="opacity:1;fill:#ffdf59;fill-opacity:1;stroke:none;stroke-width:0.76499999;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
       <path
          inkscape:connector-curvature="0"
          id="path4550"
