@@ -4,6 +4,7 @@ Change Log
 Latest
 ------
 - REF: Handle deprecation of proj_context_set_autoclose_database (issue #866)
+- REF: Modify custom CRS classes to be functions that return CRS (issue #897)
 - DOC: Improve FAQ text about CRS formats (issue #789)
 - BUG: Add PyPy cython array implementation (issue #854)
 - BUG: Fix spelling for

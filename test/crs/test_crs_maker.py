@@ -19,22 +19,24 @@ from pyproj.crs.coordinate_operation import (
 from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal3DCS, VerticalCS
 from pyproj.crs.datum import CustomDatum
 from pyproj.crs.enums import VerticalCSAxis
-from test.conftest import HAYFORD_ELLIPSOID_NAME
+from test.conftest import HAYFORD_ELLIPSOID_NAME, assert_can_pickle
 
 
-def test_make_projected_crs():
+def test_make_projected_crs(tmp_path):
     aeaop = AlbersEqualAreaConversion(0, 0)
     pc = ProjectedCRS(conversion=aeaop, name="Albers")
     assert pc.name == "Albers"
     assert pc.type_name == "Projected CRS"
     assert pc.coordinate_operation == aeaop
+    assert_can_pickle(pc, tmp_path)
 
 
-def test_make_geographic_crs():
+def test_make_geographic_crs(tmp_path):
     gc = GeographicCRS(name="WGS 84")
     assert gc.name == "WGS 84"
     assert gc.type_name == "Geographic 2D CRS"
     assert gc.to_authority() == ("OGC", "CRS84")
+    assert_can_pickle(gc, tmp_path)
 
 
 def test_make_geographic_3d_crs():
@@ -43,15 +45,16 @@ def test_make_geographic_3d_crs():
     assert gcrs.to_authority() == ("IGNF", "WGS84GEODD")
 
 
-def test_make_derived_geographic_crs():
+def test_make_derived_geographic_crs(tmp_path):
     conversion = RotatedLatitudeLongitudeConversion(o_lat_p=0, o_lon_p=0)
     dgc = DerivedGeographicCRS(base_crs=GeographicCRS(), conversion=conversion)
     assert dgc.name == "undefined"
     assert dgc.type_name == "Geographic 2D CRS"
     assert dgc.coordinate_operation == conversion
+    assert_can_pickle(dgc, tmp_path)
 
 
-def test_vertical_crs():
+def test_vertical_crs(tmp_path):
     vc = VerticalCRS(
         name="NAVD88 height",
         datum="North American Vertical Datum 1988",
@@ -61,6 +64,7 @@ def test_vertical_crs():
     assert vc.type_name == "Vertical CRS"
     assert vc.coordinate_system == VerticalCS()
     assert vc.to_json_dict()["geoid_model"]["name"] == "GEOID12B"
+    assert_can_pickle(vc, tmp_path)
 
 
 @pytest.mark.parametrize(
@@ -84,7 +88,7 @@ def test_vertical_crs__chance_cs_axis(axis):
     assert vc.coordinate_system == VerticalCS(axis=axis)
 
 
-def test_compund_crs():
+def test_compund_crs(tmp_path):
     vertcrs = VerticalCRS(
         name="NAVD88 height",
         datum="North American Vertical Datum 1988",
@@ -111,9 +115,10 @@ def test_compund_crs():
     assert compcrs.type_name == "Compound CRS"
     assert compcrs.sub_crs_list[0].type_name == "Projected CRS"
     assert compcrs.sub_crs_list[1].type_name == "Vertical CRS"
+    assert_can_pickle(compcrs, tmp_path)
 
 
-def test_bound_crs():
+def test_bound_crs(tmp_path):
     proj_crs = ProjectedCRS(conversion=UTMConversion(12))
     bound_crs = BoundCRS(
         source_crs=proj_crs,
@@ -126,6 +131,7 @@ def test_bound_crs():
     assert bound_crs.source_crs.coordinate_operation.name == "UTM zone 12N"
     assert bound_crs.coordinate_operation.towgs84 == [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
     assert bound_crs.target_crs.name == "WGS 84"
+    assert_can_pickle(bound_crs, tmp_path)
 
 
 def test_bound_crs__example():

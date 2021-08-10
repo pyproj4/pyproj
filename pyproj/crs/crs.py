@@ -1479,238 +1479,206 @@ class CRS:
         )
 
 
-class GeographicCRS(CRS):
+def GeographicCRS(
+    name: str = "undefined",
+    datum: Any = "urn:ogc:def:datum:EPSG::6326",
+    ellipsoidal_cs: Any = None,
+) -> CRS:
     """
     .. versionadded:: 2.5.0
 
-    This class is for building a Geographic CRS
+    Builds a Geographic CRS
+
+    Parameters
+    ----------
+    name: str, default="undefined"
+        Name of the CRS.
+    datum: Any, default="urn:ogc:def:datum:EPSG::6326"
+        Anything accepted by :meth:`pyproj.crs.Datum.from_user_input` or
+        a :class:`pyproj.crs.datum.CustomDatum`.
+    ellipsoidal_cs: Any, optional
+        Input to create an Ellipsoidal Coordinate System.
+        Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+        or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
     """
-
-    def __init__(
-        self,
-        name: str = "undefined",
-        datum: Any = "urn:ogc:def:datum:EPSG::6326",
-        ellipsoidal_cs: Any = None,
-    ) -> None:
-        """
-        Parameters
-        ----------
-        name: str, default="undefined"
-            Name of the CRS.
-        datum: Any, default="urn:ogc:def:datum:EPSG::6326"
-            Anything accepted by :meth:`pyproj.crs.Datum.from_user_input` or
-            a :class:`pyproj.crs.datum.CustomDatum`.
-        ellipsoidal_cs: Any, optional
-            Input to create an Ellipsoidal Coordinate System.
-            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
-            or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
-        """
-        geographic_crs_json = {
-            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
-            "type": "GeographicCRS",
-            "name": name,
-            "datum": Datum.from_user_input(datum).to_json_dict(),
-            "coordinate_system": CoordinateSystem.from_user_input(
-                ellipsoidal_cs or Ellipsoidal2DCS()
-            ).to_json_dict(),
-        }
-        super().__init__(geographic_crs_json)
+    geographic_crs_json = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "GeographicCRS",
+        "name": name,
+        "datum": Datum.from_user_input(datum).to_json_dict(),
+        "coordinate_system": CoordinateSystem.from_user_input(
+            ellipsoidal_cs or Ellipsoidal2DCS()
+        ).to_json_dict(),
+    }
+    return CRS(geographic_crs_json)
 
 
-class DerivedGeographicCRS(CRS):
+def DerivedGeographicCRS(
+    base_crs: Any,
+    conversion: Any,
+    ellipsoidal_cs: Any = None,
+    name: str = "undefined",
+) -> CRS:
     """
     .. versionadded:: 2.5.0
 
-    This class is for building a Derived Geographic CRS
+    Builds a Derived Geographic CRS
+
+    Parameters
+    ----------
+    base_crs: Any
+        Input to create the Geodetic CRS, a :func:`GeographicCRS` or
+        anything accepted by :meth:`pyproj.crs.CRS.from_user_input`.
+    conversion: Any
+        Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+        or a conversion from :ref:`coordinate_operation`.
+    ellipsoidal_cs: Any, optional
+        Input to create an Ellipsoidal Coordinate System.
+        Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+        or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
+    name: str, default="undefined"
+        Name of the CRS.
     """
-
-    def __init__(
-        self,
-        base_crs: Any,
-        conversion: Any,
-        ellipsoidal_cs: Any = None,
-        name: str = "undefined",
-    ) -> None:
-        """
-        Parameters
-        ----------
-        base_crs: Any
-            Input to create the Geodetic CRS, a :class:`GeographicCRS` or
-            anything accepted by :meth:`pyproj.crs.CRS.from_user_input`.
-        conversion: Any
-            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
-            or a conversion from :ref:`coordinate_operation`.
-        ellipsoidal_cs: Any, optional
-            Input to create an Ellipsoidal Coordinate System.
-            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
-            or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
-        name: str, default="undefined"
-            Name of the CRS.
-        """
-        derived_geographic_crs_json = {
-            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
-            "type": "DerivedGeographicCRS",
-            "name": name,
-            "base_crs": CRS.from_user_input(base_crs).to_json_dict(),
-            "conversion": CoordinateOperation.from_user_input(
-                conversion
-            ).to_json_dict(),
-            "coordinate_system": CoordinateSystem.from_user_input(
-                ellipsoidal_cs or Ellipsoidal2DCS()
-            ).to_json_dict(),
-        }
-        super().__init__(derived_geographic_crs_json)
+    derived_geographic_crs_json = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "DerivedGeographicCRS",
+        "name": name,
+        "base_crs": CRS.from_user_input(base_crs).to_json_dict(),
+        "conversion": CoordinateOperation.from_user_input(conversion).to_json_dict(),
+        "coordinate_system": CoordinateSystem.from_user_input(
+            ellipsoidal_cs or Ellipsoidal2DCS()
+        ).to_json_dict(),
+    }
+    return CRS(derived_geographic_crs_json)
 
 
-class ProjectedCRS(CRS):
+def ProjectedCRS(
+    conversion: Any,
+    name: str = "undefined",
+    cartesian_cs: Any = None,
+    geodetic_crs: Any = None,
+) -> CRS:
     """
     .. versionadded:: 2.5.0
 
-    This class is for building a Projected CRS.
+    Builds a Projected CRS.
+
+    Parameters
+    ----------
+    conversion: Any
+        Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+        or a conversion from :ref:`coordinate_operation`.
+    name: str, optional
+        The name of the Projected CRS. Default is undefined.
+    cartesian_cs: Any, optional
+        Input to create a Cartesian Coordinate System.
+        Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+        or :class:`pyproj.crs.coordinate_system.Cartesian2DCS`.
+    geodetic_crs: Any, optional
+        Input to create the Geodetic CRS, a :func:`GeographicCRS` or
+        anything accepted by :meth:`pyproj.crs.CRS.from_user_input`.
     """
-
-    def __init__(
-        self,
-        conversion: Any,
-        name: str = "undefined",
-        cartesian_cs: Any = None,
-        geodetic_crs: Any = None,
-    ) -> None:
-        """
-        Parameters
-        ----------
-        conversion: Any
-            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
-            or a conversion from :ref:`coordinate_operation`.
-        name: str, optional
-            The name of the Projected CRS. Default is undefined.
-        cartesian_cs: Any, optional
-            Input to create a Cartesian Coordinate System.
-            Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
-            or :class:`pyproj.crs.coordinate_system.Cartesian2DCS`.
-        geodetic_crs: Any, optional
-            Input to create the Geodetic CRS, a :class:`GeographicCRS` or
-            anything accepted by :meth:`pyproj.crs.CRS.from_user_input`.
-        """
-        proj_crs_json = {
-            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
-            "type": "ProjectedCRS",
-            "name": name,
-            "base_crs": CRS.from_user_input(
-                geodetic_crs or GeographicCRS()
-            ).to_json_dict(),
-            "conversion": CoordinateOperation.from_user_input(
-                conversion
-            ).to_json_dict(),
-            "coordinate_system": CoordinateSystem.from_user_input(
-                cartesian_cs or Cartesian2DCS()
-            ).to_json_dict(),
-        }
-        super().__init__(proj_crs_json)
+    proj_crs_json = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "ProjectedCRS",
+        "name": name,
+        "base_crs": CRS.from_user_input(geodetic_crs or GeographicCRS()).to_json_dict(),
+        "conversion": CoordinateOperation.from_user_input(conversion).to_json_dict(),
+        "coordinate_system": CoordinateSystem.from_user_input(
+            cartesian_cs or Cartesian2DCS()
+        ).to_json_dict(),
+    }
+    return CRS(proj_crs_json)
 
 
-class VerticalCRS(CRS):
+def VerticalCRS(
+    name: str,
+    datum: Any,
+    vertical_cs: Any = None,
+    geoid_model: Optional[str] = None,
+) -> CRS:
     """
     .. versionadded:: 2.5.0
 
-    This class is for building a Vetical CRS.
+    Builds a Vetical CRS.
 
     .. warning:: geoid_model support only exists in PROJ >= 6.3.0
 
+    Parameters
+    ----------
+    name: str
+        The name of the Vertical CRS (e.g. NAVD88 height).
+    datum: Any
+        Anything accepted by :meth:`pyproj.crs.Datum.from_user_input`
+    vertical_cs: Any, optional
+        Input to create a Vertical Coordinate System accepted by
+        :meth:`pyproj.crs.CoordinateSystem.from_user_input`
+        or :class:`pyproj.crs.coordinate_system.VerticalCS`
+    geoid_model: str, optional
+        The name of the GEOID Model (e.g. GEOID12B).
     """
+    vert_crs_json = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "VerticalCRS",
+        "name": name,
+        "datum": Datum.from_user_input(datum).to_json_dict(),
+        "coordinate_system": CoordinateSystem.from_user_input(
+            vertical_cs or VerticalCS()
+        ).to_json_dict(),
+    }
+    if geoid_model is not None:
+        vert_crs_json["geoid_model"] = {"name": geoid_model}
 
-    def __init__(
-        self,
-        name: str,
-        datum: Any,
-        vertical_cs: Any = None,
-        geoid_model: Optional[str] = None,
-    ) -> None:
-        """
-        Parameters
-        ----------
-        name: str
-            The name of the Vertical CRS (e.g. NAVD88 height).
-        datum: Any
-            Anything accepted by :meth:`pyproj.crs.Datum.from_user_input`
-        vertical_cs: Any, optional
-            Input to create a Vertical Coordinate System accepted by
-            :meth:`pyproj.crs.CoordinateSystem.from_user_input`
-            or :class:`pyproj.crs.coordinate_system.VerticalCS`
-        geoid_model: str, optional
-            The name of the GEOID Model (e.g. GEOID12B).
-        """
-        vert_crs_json = {
-            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
-            "type": "VerticalCRS",
-            "name": name,
-            "datum": Datum.from_user_input(datum).to_json_dict(),
-            "coordinate_system": CoordinateSystem.from_user_input(
-                vertical_cs or VerticalCS()
-            ).to_json_dict(),
-        }
-        if geoid_model is not None:
-            vert_crs_json["geoid_model"] = {"name": geoid_model}
-
-        super().__init__(vert_crs_json)
+    return CRS(vert_crs_json)
 
 
-class CompoundCRS(CRS):
+def CompoundCRS(name: str, components: List[Any]) -> CRS:
     """
     .. versionadded:: 2.5.0
 
-    This class is for building a Compound CRS.
+    Builds a Compound CRS.
+
+    Parameters
+    ----------
+    name: str
+        The name of the Compound CRS.
+    components: List[Any], optional
+        List of CRS to create a Compound Coordinate System.
+        List of anything accepted by :meth:`pyproj.crs.CRS.from_user_input`
     """
-
-    def __init__(self, name: str, components: List[Any]) -> None:
-        """
-        Parameters
-        ----------
-        name: str
-            The name of the Compound CRS.
-        components: List[Any], optional
-            List of CRS to create a Compound Coordinate System.
-            List of anything accepted by :meth:`pyproj.crs.CRS.from_user_input`
-        """
-        compound_crs_json = {
-            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
-            "type": "CompoundCRS",
-            "name": name,
-            "components": [
-                CRS.from_user_input(component).to_json_dict()
-                for component in components
-            ],
-        }
-
-        super().__init__(compound_crs_json)
+    compound_crs_json = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "CompoundCRS",
+        "name": name,
+        "components": [
+            CRS.from_user_input(component).to_json_dict() for component in components
+        ],
+    }
+    return CRS(compound_crs_json)
 
 
-class BoundCRS(CRS):
+def BoundCRS(source_crs: Any, target_crs: Any, transformation: Any) -> CRS:
     """
     .. versionadded:: 2.5.0
 
-    This class is for building a Bound CRS.
+    Builds a Bound CRS.
+
+    Parameters
+    ----------
+    source_crs: Any
+        Input to create a source CRS.
+    target_crs: Any
+        Input to create the target CRS.
+    transformation: Any
+        Input to create the transformation.
     """
-
-    def __init__(self, source_crs: Any, target_crs: Any, transformation: Any) -> None:
-        """
-        Parameters
-        ----------
-        source_crs: Any
-            Input to create a source CRS.
-        target_crs: Any
-            Input to create the target CRS.
-        transformation: Any
-            Input to create the transformation.
-        """
-        bound_crs_json = {
-            "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
-            "type": "BoundCRS",
-            "source_crs": CRS.from_user_input(source_crs).to_json_dict(),
-            "target_crs": CRS.from_user_input(target_crs).to_json_dict(),
-            "transformation": CoordinateOperation.from_user_input(
-                transformation
-            ).to_json_dict(),
-        }
-
-        super().__init__(bound_crs_json)
+    bound_crs_json = {
+        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
+        "type": "BoundCRS",
+        "source_crs": CRS.from_user_input(source_crs).to_json_dict(),
+        "target_crs": CRS.from_user_input(target_crs).to_json_dict(),
+        "transformation": CoordinateOperation.from_user_input(
+            transformation
+        ).to_json_dict(),
+    }
+    return CRS(bound_crs_json)

@@ -15,54 +15,36 @@ CRS
 GeographicCRS
 ------------------------
 
-.. autoclass:: pyproj.crs.GeographicCRS
-    :members:
-    :show-inheritance:
-    :special-members: __init__
+.. autofunction:: pyproj.crs.GeographicCRS
 
 
 DerivedGeographicCRS
 ------------------------
 
-.. autoclass:: pyproj.crs.DerivedGeographicCRS
-    :members:
-    :show-inheritance:
-    :special-members: __init__
+.. autofunction:: pyproj.crs.DerivedGeographicCRS
 
 
 ProjectedCRS
 -----------------------
 
-.. autoclass:: pyproj.crs.ProjectedCRS
-    :members:
-    :show-inheritance:
-    :special-members: __init__
+.. autofunction:: pyproj.crs.ProjectedCRS
 
 
 VerticalCRS
 -----------------------
 
-.. autoclass:: pyproj.crs.VerticalCRS
-    :members:
-    :show-inheritance:
-    :special-members: __init__
+.. autofunction:: pyproj.crs.VerticalCRS
 
 
 BoundCRS
 -----------------------
 
-.. autoclass:: pyproj.crs.BoundCRS
-    :members:
-    :show-inheritance:
-    :special-members: __init__
+.. autofunction:: pyproj.crs.BoundCRS
 
 CompoundCRS
 -----------------------
 
-.. autoclass:: pyproj.crs.CompoundCRS
-    :members:
-    :show-inheritance:
-    :special-members: __init__
+.. autofunction:: pyproj.crs.CompoundCRS
 
 
 is_wkt
