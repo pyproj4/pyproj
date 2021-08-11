@@ -96,15 +96,15 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-html_logo = 'media/logo.png'
-html_favicon = 'media/icon.png'
+html_logo = "media/logo.png"
+html_favicon = "media/icon.png"
 
 # Theme options are theme-specific and customize the look and feel of a
 # theme further.  For a list of options available for each theme, see the
 # documentation.
 #
 html_theme_options = {
-    'style_nav_header_background': '#353130',
+    "style_nav_header_background": "#353130",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
