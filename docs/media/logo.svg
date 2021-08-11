@@ -49,10 +49,10 @@
         <dc:title />
         <cc:license
            rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
-        <dc:date>2019/10/01</dc:date>
+        <dc:date>2021/08/04</dc:date>
         <dc:creator>
           <cc:Agent>
-            <dc:title>Sylvain Beorchia</dc:title>
+            <dc:title>Brendan Jurd</dc:title>
           </cc:Agent>
         </dc:creator>
       </cc:Work>
