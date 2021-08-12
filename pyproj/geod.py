@@ -876,8 +876,8 @@ class Geod(_Geod):
         ...         holes=[LineString([Point(1, 2), Point(3, 4), Point(5, 2)])],
         ...     )
         ... )
-        >>> f"{poly_area:.3f} {poly_perimeter:.3f}"
-        '944373881400.339 3979008.036'
+        >>> f"{poly_area:.0f} {poly_perimeter:.0f}"
+        '944373881400 3979008'
 
 
         Parameters
