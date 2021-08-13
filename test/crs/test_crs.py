@@ -20,6 +20,7 @@ from pyproj.transformer import TransformerGroup
 from test.conftest import (
     HAYFORD_ELLIPSOID_NAME,
     PROJ_GTE_8,
+    assert_can_pickle,
     get_wgs84_datum_name,
     grids_available,
 )
@@ -1475,3 +1476,7 @@ def test_to_3d(crs_input):
 def test_to_3d__name():
     crs_3d = CRS("EPSG:2056").to_3d(name="TEST")
     assert crs_3d.name == "TEST"
+
+
+def test_crs__pickle(tmp_path):
+    assert_can_pickle(CRS("epsg:4326"), tmp_path)

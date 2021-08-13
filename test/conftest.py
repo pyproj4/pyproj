@@ -1,4 +1,5 @@
 import os
+import pickle
 from contextlib import contextmanager
 from distutils.version import LooseVersion
 from pathlib import Path
@@ -87,3 +88,14 @@ def get_wgs84_datum_name():
     if PROJ_GTE_8:
         return "World Geodetic System 1984 ensemble"
     return "World Geodetic System 1984"
+
+
+def assert_can_pickle(raw_obj, tmp_path):
+    file_path = tmp_path / "temporary.pickle"
+    with open(file_path, "wb") as f:
+        pickle.dump(raw_obj, f)
+
+    with open(file_path, "rb") as f:
+        unpickled = pickle.load(f)
+
+    assert raw_obj == unpickled

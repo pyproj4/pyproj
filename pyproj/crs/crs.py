@@ -6,7 +6,7 @@ import json
 import re
 import threading
 import warnings
-from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Callable, Dict, List, Optional, Union
 
 from pyproj._crs import (  # noqa
     _CRS,
@@ -1411,9 +1411,12 @@ class CRS:
     def __eq__(self, other: Any) -> bool:
         return self.equals(other)
 
-    def __reduce__(self) -> Tuple[Type["CRS"], Tuple[str]]:
-        """special method that allows CRS instance to be pickled"""
-        return self.__class__, (self.srs,)
+    def __getstate__(self) -> Dict[str, str]:
+        return {"srs": self.srs}
+
+    def __setstate__(self, state: Dict[str, Any]):
+        self.__dict__.update(state)
+        self._local = CRSLocal()
 
     def __hash__(self) -> int:
         return hash(self.to_wkt())
