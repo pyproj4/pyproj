@@ -2490,7 +2490,7 @@ cdef class _CRS(Base):
             )
 
         if not (
-            self.is_bound or proj_is_derived_crs(self.context, self.projobj)
+            self.is_bound or self.is_derived
         ):
             self._coordinate_operation = False
             return None
@@ -2970,6 +2970,18 @@ cdef class _CRS(Base):
         if self.is_bound:
             return self.source_crs.is_geocentric
         return self._type == PJ_TYPE_GEOCENTRIC_CRS
+
+    @property
+    def is_derived(self):
+        """
+        .. versionadded:: 3.2.0
+
+        Returns
+        -------
+        bool:
+            True if CRS is a Derived CRS.
+        """
+        return proj_is_derived_crs(self.context, self.projobj) == 1
 
     def _equals(self, _CRS other, bint ignore_axis_order):
         if ignore_axis_order:

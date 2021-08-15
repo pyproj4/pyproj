@@ -1,6 +1,7 @@
 import pytest
 
 from pyproj.crs import (
+    CRS,
     BoundCRS,
     CompoundCRS,
     DerivedGeographicCRS,
@@ -19,7 +20,18 @@ from pyproj.crs.coordinate_operation import (
 from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal3DCS, VerticalCS
 from pyproj.crs.datum import CustomDatum
 from pyproj.crs.enums import VerticalCSAxis
+from pyproj.exceptions import CRSError
 from test.conftest import HAYFORD_ELLIPSOID_NAME, assert_can_pickle
+
+
+def assert_maker_inheritance_valid(new_crs, class_type):
+    assert isinstance(new_crs, class_type)
+    assert isinstance(new_crs.geodetic_crs, (type(None), CRS))
+    assert isinstance(new_crs.source_crs, (type(None), CRS))
+    assert isinstance(new_crs.target_crs, (type(None), CRS))
+    assert isinstance(new_crs.to_3d(), CRS)
+    for sub_crs in new_crs.sub_crs_list:
+        assert isinstance(sub_crs, CRS)
 
 
 def test_make_projected_crs(tmp_path):
@@ -31,12 +43,54 @@ def test_make_projected_crs(tmp_path):
     assert_can_pickle(pc, tmp_path)
 
 
+def test_projected_crs__from_methods():
+    assert_maker_inheritance_valid(ProjectedCRS.from_epsg(6933), ProjectedCRS)
+    assert_maker_inheritance_valid(ProjectedCRS.from_string("EPSG:6933"), ProjectedCRS)
+    assert_maker_inheritance_valid(
+        ProjectedCRS.from_proj4("+proj=aea +lat_1=1"), ProjectedCRS
+    )
+    assert_maker_inheritance_valid(
+        ProjectedCRS.from_user_input(ProjectedCRS.from_string("EPSG:6933")),
+        ProjectedCRS,
+    )
+    assert_maker_inheritance_valid(
+        ProjectedCRS.from_json(CRS(6933).to_json()), ProjectedCRS
+    )
+    assert_maker_inheritance_valid(
+        ProjectedCRS.from_json_dict(CRS(6933).to_json_dict()), ProjectedCRS
+    )
+    with pytest.raises(CRSError, match="Invalid type"):
+        ProjectedCRS.from_epsg(4326)
+
+
 def test_make_geographic_crs(tmp_path):
     gc = GeographicCRS(name="WGS 84")
     assert gc.name == "WGS 84"
     assert gc.type_name == "Geographic 2D CRS"
     assert gc.to_authority() == ("OGC", "CRS84")
     assert_can_pickle(gc, tmp_path)
+
+
+def test_geographic_crs__from_methods():
+    assert_maker_inheritance_valid(GeographicCRS.from_epsg(4326), GeographicCRS)
+    assert_maker_inheritance_valid(
+        GeographicCRS.from_string("EPSG:4326"), GeographicCRS
+    )
+    assert_maker_inheritance_valid(
+        GeographicCRS.from_proj4("+proj=latlon"), GeographicCRS
+    )
+    assert_maker_inheritance_valid(
+        GeographicCRS.from_user_input(GeographicCRS.from_string("EPSG:4326")),
+        GeographicCRS,
+    )
+    assert_maker_inheritance_valid(
+        GeographicCRS.from_json(CRS(4326).to_json()), GeographicCRS
+    )
+    assert_maker_inheritance_valid(
+        GeographicCRS.from_json_dict(CRS(4326).to_json_dict()), GeographicCRS
+    )
+    with pytest.raises(CRSError, match="Invalid type"):
+        GeographicCRS.from_epsg(6933)
 
 
 def test_make_geographic_3d_crs():
@@ -51,7 +105,31 @@ def test_make_derived_geographic_crs(tmp_path):
     assert dgc.name == "undefined"
     assert dgc.type_name == "Geographic 2D CRS"
     assert dgc.coordinate_operation == conversion
+    assert dgc.is_derived
     assert_can_pickle(dgc, tmp_path)
+
+
+def test_derived_geographic_crs__from_methods():
+    crs_str = "+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0 +lon_0=0"
+    with pytest.raises(CRSError, match="CRS is not a Derived Geographic CRS"):
+        DerivedGeographicCRS.from_epsg(4326)
+    assert_maker_inheritance_valid(
+        DerivedGeographicCRS.from_string(crs_str), DerivedGeographicCRS
+    )
+    assert_maker_inheritance_valid(
+        DerivedGeographicCRS.from_proj4(crs_str), DerivedGeographicCRS
+    )
+    assert_maker_inheritance_valid(
+        DerivedGeographicCRS.from_user_input(DerivedGeographicCRS.from_string(crs_str)),
+        DerivedGeographicCRS,
+    )
+    assert_maker_inheritance_valid(
+        DerivedGeographicCRS.from_json(CRS(crs_str).to_json()), DerivedGeographicCRS
+    )
+    assert_maker_inheritance_valid(
+        DerivedGeographicCRS.from_json_dict(CRS(crs_str).to_json_dict()),
+        DerivedGeographicCRS,
+    )
 
 
 def test_vertical_crs(tmp_path):
@@ -65,6 +143,22 @@ def test_vertical_crs(tmp_path):
     assert vc.coordinate_system == VerticalCS()
     assert vc.to_json_dict()["geoid_model"]["name"] == "GEOID12B"
     assert_can_pickle(vc, tmp_path)
+
+
+def test_vertical_crs__from_methods():
+    assert_maker_inheritance_valid(VerticalCRS.from_epsg(5703), VerticalCRS)
+    assert_maker_inheritance_valid(VerticalCRS.from_string("EPSG:5703"), VerticalCRS)
+    with pytest.raises(CRSError, match="Invalid type"):
+        VerticalCRS.from_proj4("+proj=latlon")
+    assert_maker_inheritance_valid(
+        VerticalCRS.from_user_input(VerticalCRS.from_string("EPSG:5703")), VerticalCRS
+    )
+    assert_maker_inheritance_valid(
+        VerticalCRS.from_json(CRS(5703).to_json()), VerticalCRS
+    )
+    assert_maker_inheritance_valid(
+        VerticalCRS.from_json_dict(CRS(5703).to_json_dict()), VerticalCRS
+    )
 
 
 @pytest.mark.parametrize(
@@ -118,6 +212,20 @@ def test_compund_crs(tmp_path):
     assert_can_pickle(compcrs, tmp_path)
 
 
+def test_compund_crs__from_methods():
+    crs = CompoundCRS.from_string("EPSG:4326+5773")
+    with pytest.raises(CRSError, match="Invalid type"):
+        CompoundCRS.from_epsg(4326)
+    assert_maker_inheritance_valid(crs, CompoundCRS)
+    with pytest.raises(CRSError, match="Invalid type"):
+        CompoundCRS.from_proj4("+proj=longlat +datum=WGS84 +vunits=m")
+    assert_maker_inheritance_valid(CompoundCRS.from_user_input(crs), CompoundCRS)
+    assert_maker_inheritance_valid(CompoundCRS.from_json(crs.to_json()), CompoundCRS)
+    assert_maker_inheritance_valid(
+        CompoundCRS.from_json_dict(crs.to_json_dict()), CompoundCRS
+    )
+
+
 def test_bound_crs(tmp_path):
     proj_crs = ProjectedCRS(conversion=UTMConversion(12))
     bound_crs = BoundCRS(
@@ -166,3 +274,18 @@ def test_bound_crs__example():
             "x_0": 2520000,
             "y_0": 0,
         }
+
+
+def test_bound_crs_crs__from_methods():
+    crs_str = "+proj=latlon +towgs84=0,0,0"
+    with pytest.raises(CRSError, match="Invalid type"):
+        BoundCRS.from_epsg(4326)
+    assert_maker_inheritance_valid(BoundCRS.from_string(crs_str), BoundCRS)
+    assert_maker_inheritance_valid(BoundCRS.from_proj4(crs_str), BoundCRS)
+    assert_maker_inheritance_valid(
+        BoundCRS.from_user_input(BoundCRS.from_string(crs_str)), BoundCRS
+    )
+    assert_maker_inheritance_valid(BoundCRS.from_json(CRS(crs_str).to_json()), BoundCRS)
+    assert_maker_inheritance_valid(
+        BoundCRS.from_json_dict(CRS(crs_str).to_json_dict()), BoundCRS
+    )
