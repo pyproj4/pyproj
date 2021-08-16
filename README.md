@@ -1,3 +1,5 @@
+![Pyproj logo](docs/media/logo.png)
+
 # pyproj
 
 Python interface to [PROJ](http://proj.org) (cartographic projections and coordinate transformations library).

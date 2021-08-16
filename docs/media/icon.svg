@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64"
+   height="64"
+   viewBox="0 0 16.933333 16.933333"
+   version="1.1"
+   id="svg3821"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="icon.png"
+   inkscape:export-xdpi="24.000002"
+   inkscape:export-ydpi="24.000002">
+  <defs
+     id="defs3815" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="13.515625"
+     inkscape:cx="32"
+     inkscape:cy="32"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g871"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:document-rotation="0"
+     units="px" />
+  <metadata
+     id="metadata3818">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:date>2021/08/04</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Brendan Jurd</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-17.575893,-45.721423)">
+    <g
+       id="g871"
+       transform="translate(-21.965123,-2.4518183)"
+       inkscape:export-xdpi="180.14684"
+       inkscape:export-ydpi="180.14684">
+      <path
+         inkscape:connector-curvature="0"
+         id="path1386-1-6-8"
+         d="m 48.007679,50.018539 a 7.9536551,6.6213169 0 0 0 -7.953606,6.621481 7.9536551,6.6213169 0 0 0 7.953606,6.621278 7.9536551,6.6213169 0 0 0 7.953615,-6.621278 7.9536551,6.6213169 0 0 0 -7.953615,-6.621481 z m 0,2.321931 a 5.1647107,4.2995562 0 0 1 5.164719,4.29955 5.1647107,4.2995562 0 0 1 -5.164719,4.299555 5.1647107,4.2995562 0 0 1 -5.164709,-4.299555 5.1647107,4.2995562 0 0 1 5.164709,-4.29955 z"
+         style="opacity:1;fill:#407daf;fill-opacity:1;stroke:none;stroke-width:0.33483246;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <rect
+         transform="rotate(15.768155)"
+         ry="0.90376842"
+         rx="0.90376842"
+         y="32.992512"
+         x="60.818024"
+         height="16.940254"
+         width="1.549413"
+         id="rect1404-8-1-7"
+         style="opacity:1;fill:#ffdf59;fill-opacity:1;stroke:none;stroke-width:0.33483246;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    </g>
+  </g>
+</svg>
