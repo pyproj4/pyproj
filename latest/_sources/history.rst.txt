@@ -5,6 +5,8 @@ Latest
 ------
 - DOC: Add new pyproj logo (issue #700)
 - REF: Handle deprecation of proj_context_set_autoclose_database (issue #866)
+- REF: Make CRS methods inheritable (issue #847)
+- ENH: Added :attr:`pyproj.crs.CRS.is_derived` (pull #902)
 - DOC: Improve FAQ text about CRS formats (issue #789)
 - BUG: Add PyPy cython array implementation (issue #854)
 - BUG: Fix spelling for
