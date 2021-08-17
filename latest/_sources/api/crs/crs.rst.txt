@@ -30,6 +30,15 @@ DerivedGeographicCRS
     :special-members: __init__
 
 
+GeocentricCRS
+------------------------
+
+.. autoclass:: pyproj.crs.GeocentricCRS
+    :members:
+    :show-inheritance:
+    :special-members: __init__
+
+
 ProjectedCRS
 -----------------------
 

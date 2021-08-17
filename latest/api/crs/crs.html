@@ -105,6 +105,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#id2">CRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#geographiccrs">GeographicCRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#derivedgeographiccrs">DerivedGeographicCRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#geocentriccrs">GeocentricCRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#projectedcrs">ProjectedCRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#verticalcrs">VerticalCRS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#boundcrs">BoundCRS</a></li>
@@ -1377,6 +1378,33 @@ or a conversion from <a class="reference internal" href="coordinate_operation.ht
 Anything accepted by <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
 or an Ellipsoidal Coordinate System created from <a class="reference internal" href="coordinate_system.html#coordinate-system"><span class="std std-ref">Coordinate Systems</span></a>.</p></li>
 <li><p><strong>name</strong> (<em>str</em><em>, </em><em>default=&quot;undefined&quot;</em>) – Name of the CRS.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="geocentriccrs">
+<h2>GeocentricCRS<a class="headerlink" href="#geocentriccrs" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.GeocentricCRS">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.</code><code class="sig-name descname">GeocentricCRS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'undefined'</span></em>, <em class="sig-param"><span class="n">datum</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">'urn:ogc:def:datum:EPSG::6326'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#GeocentricCRS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.GeocentricCRS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.crs._MakerCRS</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2.0.</span></p>
+</div>
+<p>This class is for building a Geocentric CRS</p>
+<dl class="py method">
+<dt id="pyproj.crs.GeocentricCRS.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'undefined'</span></em>, <em class="sig-param"><span class="n">datum</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">'urn:ogc:def:datum:EPSG::6326'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/pyproj/crs/crs.html#GeocentricCRS.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.GeocentricCRS.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>default=&quot;undefined&quot;</em>) – Name of the CRS.</p></li>
+<li><p><strong>datum</strong> (Any, default=”<a class="reference external" href="urn:ogc:def:datum:EPSG::6326">urn:ogc:def:datum:EPSG::6326</a>”) – Anything accepted by <a class="reference internal" href="datum.html#pyproj.crs.Datum.from_user_input" title="pyproj.crs.Datum.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Datum.from_user_input()</span></code></a> or
+a <a class="reference internal" href="datum.html#pyproj.crs.datum.CustomDatum" title="pyproj.crs.datum.CustomDatum"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.datum.CustomDatum</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
