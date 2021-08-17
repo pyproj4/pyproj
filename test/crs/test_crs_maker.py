@@ -5,6 +5,7 @@ from pyproj.crs import (
     BoundCRS,
     CompoundCRS,
     DerivedGeographicCRS,
+    GeocentricCRS,
     GeographicCRS,
     ProjectedCRS,
     VerticalCRS,
@@ -130,6 +131,37 @@ def test_derived_geographic_crs__from_methods():
         DerivedGeographicCRS.from_json_dict(CRS(crs_str).to_json_dict()),
         DerivedGeographicCRS,
     )
+
+
+def test_make_geocentric_crs(tmp_path):
+    gc = GeocentricCRS(name="WGS 84")
+    assert gc.name == "WGS 84"
+    assert gc.is_geocentric
+    assert gc.type_name == "Geocentric CRS"
+    assert gc.to_authority() == ("EPSG", "4978")
+    assert_can_pickle(gc, tmp_path)
+
+
+def test_geocentric_crs__from_methods():
+    assert_maker_inheritance_valid(GeocentricCRS.from_epsg(4978), GeocentricCRS)
+    assert_maker_inheritance_valid(
+        GeocentricCRS.from_string("EPSG:4978"), GeocentricCRS
+    )
+    assert_maker_inheritance_valid(
+        GeocentricCRS.from_proj4("+proj=geocent"), GeocentricCRS
+    )
+    assert_maker_inheritance_valid(
+        GeocentricCRS.from_user_input(GeocentricCRS.from_string("EPSG:4978")),
+        GeocentricCRS,
+    )
+    assert_maker_inheritance_valid(
+        GeocentricCRS.from_json(CRS(4978).to_json()), GeocentricCRS
+    )
+    assert_maker_inheritance_valid(
+        GeocentricCRS.from_json_dict(CRS(4978).to_json_dict()), GeocentricCRS
+    )
+    with pytest.raises(CRSError, match="Invalid type"):
+        GeocentricCRS.from_epsg(6933)
 
 
 def test_vertical_crs(tmp_path):
