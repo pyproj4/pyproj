@@ -1910,6 +1910,61 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">derived_geographic_crs_json</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="GeocentricCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.GeocentricCRS">[docs]</a><span class="k">class</span> <span class="nc">GeocentricCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 3.2.0</span>
+
+<span class="sd">    This class is for building a Geocentric CRS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_expected_types</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Geocentric CRS&quot;</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="GeocentricCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.GeocentricCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
+        <span class="n">datum</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;urn:ogc:def:datum:EPSG::6326&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name: str, default=&quot;undefined&quot;</span>
+<span class="sd">            Name of the CRS.</span>
+<span class="sd">        datum: Any, default=&quot;urn:ogc:def:datum:EPSG::6326&quot;</span>
+<span class="sd">            Anything accepted by :meth:`pyproj.crs.Datum.from_user_input` or</span>
+<span class="sd">            a :class:`pyproj.crs.datum.CustomDatum`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">geocentric_crs_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;GeodeticCRS&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;datum&quot;</span><span class="p">:</span> <span class="n">Datum</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">datum</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
+            <span class="s2">&quot;coordinate_system&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;subtype&quot;</span><span class="p">:</span> <span class="s2">&quot;Cartesian&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;axis&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Geocentric X&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;abbreviation&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;geocentricX&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;metre&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Geocentric Y&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;abbreviation&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;geocentricY&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;metre&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Geocentric Z&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;abbreviation&quot;</span><span class="p">:</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;geocentricZ&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;metre&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">],</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geocentric_crs_json</span><span class="p">)</span></div></div>
+
+
 <div class="viewcode-block" id="ProjectedCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.ProjectedCRS">[docs]</a><span class="k">class</span> <span class="nc">ProjectedCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
