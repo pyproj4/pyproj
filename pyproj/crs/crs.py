@@ -6,7 +6,8 @@ import json
 import re
 import threading
 import warnings
-from typing import Any, Callable, Dict, List, Optional, Union
+from abc import abstractmethod
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from pyproj._crs import (  # noqa
     _CRS,
@@ -321,8 +322,8 @@ class CRS:
             self._local.crs = _CRS(self.srs)
         return self._local.crs
 
-    @staticmethod
-    def from_authority(auth_name: str, code: Union[str, int]) -> "CRS":
+    @classmethod
+    def from_authority(cls, auth_name: str, code: Union[str, int]) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -339,10 +340,10 @@ class CRS:
         -------
         CRS
         """
-        return CRS(_prepare_from_authority(auth_name, code))
+        return cls.from_user_input(_prepare_from_authority(auth_name, code))
 
-    @staticmethod
-    def from_epsg(code: Union[str, int]) -> "CRS":
+    @classmethod
+    def from_epsg(cls, code: Union[str, int]) -> "CRS":
         """Make a CRS from an EPSG code
 
         Parameters
@@ -354,10 +355,10 @@ class CRS:
         -------
         CRS
         """
-        return CRS(_prepare_from_epsg(code))
+        return cls.from_user_input(_prepare_from_epsg(code))
 
-    @staticmethod
-    def from_proj4(in_proj_string: str) -> "CRS":
+    @classmethod
+    def from_proj4(cls, in_proj_string: str) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -374,10 +375,10 @@ class CRS:
         """
         if not is_proj(in_proj_string):
             raise CRSError(f"Invalid PROJ string: {in_proj_string}")
-        return CRS(_prepare_from_string(in_proj_string))
+        return cls.from_user_input(_prepare_from_string(in_proj_string))
 
-    @staticmethod
-    def from_wkt(in_wkt_string: str) -> "CRS":
+    @classmethod
+    def from_wkt(cls, in_wkt_string: str) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -394,10 +395,10 @@ class CRS:
         """
         if not is_wkt(in_wkt_string):
             raise CRSError(f"Invalid WKT string: {in_wkt_string}")
-        return CRS(_prepare_from_string(in_wkt_string))
+        return cls.from_user_input(_prepare_from_string(in_wkt_string))
 
-    @staticmethod
-    def from_string(in_crs_string: str) -> "CRS":
+    @classmethod
+    def from_string(cls, in_crs_string: str) -> "CRS":
         """
         Make a CRS from:
 
@@ -416,7 +417,7 @@ class CRS:
         -------
         CRS
         """
-        return CRS(_prepare_from_string(in_crs_string))
+        return cls.from_user_input(_prepare_from_string(in_crs_string))
 
     def to_string(self) -> str:
         """
@@ -437,8 +438,8 @@ class CRS:
             return ":".join(auth_info)
         return self.srs
 
-    @staticmethod
-    def from_user_input(value: Any, **kwargs) -> "CRS":
+    @classmethod
+    def from_user_input(cls, value: Any, **kwargs) -> "CRS":
         """
         Initialize a CRS class instance with:
           - PROJ string
@@ -461,9 +462,9 @@ class CRS:
         -------
         CRS
         """
-        if isinstance(value, CRS):
+        if isinstance(value, cls):
             return value
-        return CRS(value, **kwargs)
+        return cls(value, **kwargs)
 
     def get_geod(self) -> Optional[Geod]:
         """
@@ -480,8 +481,8 @@ class CRS:
             b=self.ellipsoid.semi_minor_metre,
         )
 
-    @staticmethod
-    def from_dict(proj_dict: dict) -> "CRS":
+    @classmethod
+    def from_dict(cls, proj_dict: dict) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -496,10 +497,10 @@ class CRS:
         -------
         CRS
         """
-        return CRS(_prepare_from_dict(proj_dict))
+        return cls.from_user_input(_prepare_from_dict(proj_dict))
 
-    @staticmethod
-    def from_json(crs_json: str) -> "CRS":
+    @classmethod
+    def from_json(cls, crs_json: str) -> "CRS":
         """
         .. versionadded:: 2.4.0
 
@@ -514,10 +515,10 @@ class CRS:
         -------
         CRS
         """
-        return CRS.from_json_dict(_load_proj_json(crs_json))
+        return cls.from_user_input(_load_proj_json(crs_json))
 
-    @staticmethod
-    def from_json_dict(crs_dict: dict) -> "CRS":
+    @classmethod
+    def from_json_dict(cls, crs_dict: dict) -> "CRS":
         """
         .. versionadded:: 2.4.0
 
@@ -532,7 +533,7 @@ class CRS:
         -------
         CRS
         """
-        return CRS(json.dumps(crs_dict))
+        return cls.from_user_input(json.dumps(crs_dict))
 
     def to_dict(self) -> dict:
         """
@@ -942,7 +943,11 @@ class CRS:
             The the geodeticCRS / geographicCRS from the CRS.
 
         """
-        return None if self._crs.geodetic_crs is None else CRS(self._crs.geodetic_crs)
+        return (
+            None
+            if self._crs.geodetic_crs is None
+            else self.__class__(self._crs.geodetic_crs)
+        )
 
     @property
     def source_crs(self) -> Optional["CRS"]:
@@ -954,7 +959,11 @@ class CRS:
         -------
         CRS
         """
-        return None if self._crs.source_crs is None else CRS(self._crs.source_crs)
+        return (
+            None
+            if self._crs.source_crs is None
+            else self.__class__(self._crs.source_crs)
+        )
 
     @property
     def target_crs(self) -> Optional["CRS"]:
@@ -967,7 +976,11 @@ class CRS:
             The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
 
         """
-        return None if self._crs.target_crs is None else CRS(self._crs.target_crs)
+        return (
+            None
+            if self._crs.target_crs is None
+            else self.__class__(self._crs.target_crs)
+        )
 
     @property
     def sub_crs_list(self) -> List["CRS"]:
@@ -978,7 +991,7 @@ class CRS:
         -------
         List[CRS]
         """
-        return [CRS(sub_crs) for sub_crs in self._crs.sub_crs_list]
+        return [self.__class__(sub_crs) for sub_crs in self._crs.sub_crs_list]
 
     @property
     def utm_zone(self) -> Optional[str]:
@@ -1312,7 +1325,7 @@ class CRS:
         -------
         CRS
         """
-        return CRS(self._crs.to_3d(name=name))
+        return self.__class__(self._crs.to_3d(name=name))
 
     @property
     def is_geographic(self) -> bool:
@@ -1408,6 +1421,18 @@ class CRS:
         """
         return self._crs.is_geocentric
 
+    @property
+    def is_derived(self):
+        """
+        .. versionadded:: 3.2.0
+
+        Returns
+        -------
+        bool:
+            True if CRS is a Derived CRS.
+        """
+        return self._crs.is_derived
+
     def __eq__(self, other: Any) -> bool:
         return self.equals(other)
 
@@ -1482,12 +1507,147 @@ class CRS:
         )
 
 
-class GeographicCRS(CRS):
+class _MakerCRS(CRS):
+    """
+    This class exists to handle the oddities to do with the
+    maker CRS classes having a different constructor than
+    the base CRS classes.
+
+    .. versionadded:: 3.2.0
+
+    See: https://github.com/pyproj4/pyproj/issues/847
+    """
+
+    @property
+    @abstractmethod
+    def _expected_types(self) -> Tuple[str, ...]:
+        """
+        These are the type names of the CRS class
+        that are expected when using the from_* methods.
+        """
+        raise NotImplementedError
+
+    def _check_type(self):
+        """
+        This validates that the type of the CRS is expected
+        when using the from_* methods.
+        """
+        if self.type_name not in self._expected_types:
+            raise CRSError(
+                f"Invalid type {self.type_name}. Expected {self._expected_types}."
+            )
+
+    @classmethod
+    def from_user_input(cls, value: Any, **kwargs) -> "CRS":
+        """
+        Initialize a CRS class instance with:
+          - PROJ string
+          - Dictionary of PROJ parameters
+          - PROJ keyword arguments for parameters
+          - JSON string with PROJ parameters
+          - CRS WKT string
+          - An authority string [i.e. 'epsg:4326']
+          - An EPSG integer code [i.e. 4326]
+          - A tuple of ("auth_name": "auth_code") [i.e ('epsg', '4326')]
+          - An object with a `to_wkt` method.
+          - A :class:`pyproj.crs.CRS` class
+
+        Parameters
+        ----------
+        value : obj
+            A Python int, dict, or str.
+
+        Returns
+        -------
+        CRS
+        """
+        if isinstance(value, cls):
+            return value
+        crs = cls.__new__(cls)
+        super(_MakerCRS, crs).__init__(value, **kwargs)
+        crs._check_type()
+        return crs
+
+    @property
+    def geodetic_crs(self) -> Optional["CRS"]:
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        CRS:
+            The the geodeticCRS / geographicCRS from the CRS.
+
+        """
+        return None if self._crs.geodetic_crs is None else CRS(self._crs.geodetic_crs)
+
+    @property
+    def source_crs(self) -> Optional["CRS"]:
+        """
+        The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
+        or the source CRS of a CoordinateOperation.
+
+        Returns
+        -------
+        CRS
+        """
+        return None if self._crs.source_crs is None else CRS(self._crs.source_crs)
+
+    @property
+    def target_crs(self) -> Optional["CRS"]:
+        """
+        .. versionadded:: 2.2.0
+
+        Returns
+        -------
+        CRS:
+            The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
+
+        """
+        return None if self._crs.target_crs is None else CRS(self._crs.target_crs)
+
+    @property
+    def sub_crs_list(self) -> List["CRS"]:
+        """
+        If the CRS is a compound CRS, it will return a list of sub CRS objects.
+
+        Returns
+        -------
+        List[CRS]
+        """
+        return [CRS(sub_crs) for sub_crs in self._crs.sub_crs_list]
+
+    def to_3d(self, name: Optional[str] = None) -> "CRS":
+        """
+        .. versionadded:: 3.1.0
+
+        Convert the current CRS to the 3D version if it makes sense.
+
+        New vertical axis attributes:
+          - ellipsoidal height
+          - oriented upwards
+          - metre units
+
+        Parameters
+        ----------
+        name: str, optional
+            CRS name. Defaults to use the name of the original CRS.
+
+        Returns
+        -------
+        CRS
+        """
+        return CRS(self._crs.to_3d(name=name))
+
+
+class GeographicCRS(_MakerCRS):
     """
     .. versionadded:: 2.5.0
 
     This class is for building a Geographic CRS
     """
+
+    _expected_types = ("Geographic CRS", "Geographic 2D CRS", "Geographic 3D CRS")
 
     def __init__(
         self,
@@ -1520,12 +1680,23 @@ class GeographicCRS(CRS):
         super().__init__(geographic_crs_json)
 
 
-class DerivedGeographicCRS(CRS):
+class DerivedGeographicCRS(_MakerCRS):
     """
     .. versionadded:: 2.5.0
 
     This class is for building a Derived Geographic CRS
     """
+
+    _expected_types = ("Geographic CRS", "Geographic 2D CRS", "Geographic 3D CRS")
+
+    def _check_type(self):
+        """
+        This validates that the type of the CRS is expected
+        when using the from_* methods.
+        """
+        super()._check_type()
+        if not self.is_derived:
+            raise CRSError("CRS is not a Derived Geographic CRS")
 
     def __init__(
         self,
@@ -1565,12 +1736,14 @@ class DerivedGeographicCRS(CRS):
         super().__init__(derived_geographic_crs_json)
 
 
-class ProjectedCRS(CRS):
+class ProjectedCRS(_MakerCRS):
     """
     .. versionadded:: 2.5.0
 
     This class is for building a Projected CRS.
     """
+
+    _expected_types = ("Projected CRS",)
 
     def __init__(
         self,
@@ -1612,7 +1785,7 @@ class ProjectedCRS(CRS):
         super().__init__(proj_crs_json)
 
 
-class VerticalCRS(CRS):
+class VerticalCRS(_MakerCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1621,6 +1794,8 @@ class VerticalCRS(CRS):
     .. warning:: geoid_model support only exists in PROJ >= 6.3.0
 
     """
+
+    _expected_types = ("Vertical CRS",)
 
     def __init__(
         self,
@@ -1658,12 +1833,14 @@ class VerticalCRS(CRS):
         super().__init__(vert_crs_json)
 
 
-class CompoundCRS(CRS):
+class CompoundCRS(_MakerCRS):
     """
     .. versionadded:: 2.5.0
 
     This class is for building a Compound CRS.
     """
+
+    _expected_types = ("Compound CRS",)
 
     def __init__(self, name: str, components: List[Any]) -> None:
         """
@@ -1688,12 +1865,14 @@ class CompoundCRS(CRS):
         super().__init__(compound_crs_json)
 
 
-class BoundCRS(CRS):
+class BoundCRS(_MakerCRS):
     """
     .. versionadded:: 2.5.0
 
     This class is for building a Bound CRS.
     """
+
+    _expected_types = ("Bound CRS",)
 
     def __init__(self, source_crs: Any, target_crs: Any, transformation: Any) -> None:
         """

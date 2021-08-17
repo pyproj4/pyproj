@@ -1480,3 +1480,35 @@ def test_to_3d__name():
 
 def test_crs__pickle(tmp_path):
     assert_can_pickle(CRS("epsg:4326"), tmp_path)
+
+
+def test_is_derived():
+    assert CRS(
+        "+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0 +lon_0=0"
+    ).is_derived
+    assert not CRS("+proj=latlon").is_derived
+
+
+def test_inheritance__from_methods():
+    class ChildCRS(CRS):
+        def new_method(self):
+            return 1
+
+    def assert_inheritance_valid(new_crs):
+        assert new_crs.new_method() == 1
+        assert isinstance(new_crs, ChildCRS)
+        assert isinstance(new_crs.geodetic_crs, ChildCRS)
+        assert isinstance(new_crs.source_crs, (type(None), ChildCRS))
+        assert isinstance(new_crs.target_crs, (type(None), ChildCRS))
+        assert isinstance(new_crs.to_3d(), ChildCRS)
+        for sub_crs in new_crs.sub_crs_list:
+            assert isinstance(sub_crs, ChildCRS)
+
+    assert_inheritance_valid(ChildCRS.from_epsg(4326))
+    assert_inheritance_valid(ChildCRS.from_string("EPSG:2056"))
+    with pytest.warns(FutureWarning):
+        assert_inheritance_valid(ChildCRS.from_proj4("+init=epsg:4328 +towgs84=0,0,0"))
+    assert_inheritance_valid(ChildCRS.from_user_input("EPSG:4326+5773"))
+    assert_inheritance_valid(ChildCRS.from_json(CRS(4326).to_json()))
+    assert_inheritance_valid(ChildCRS.from_json_dict(CRS(4326).to_json_dict()))
+    assert_inheritance_valid(ChildCRS.from_wkt(CRS(4326).to_wkt()))
