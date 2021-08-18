@@ -885,7 +885,7 @@ class CRS:
                 cf_axis_list.extend(sub_crs.cs_to_cf())
         return cf_axis_list
 
-    def is_exact_same(self, other: Any, ignore_axis_order: bool = False) -> bool:
+    def is_exact_same(self, other: Any) -> bool:
         """
         Check if the CRS objects are the exact same.
 
