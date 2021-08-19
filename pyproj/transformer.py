@@ -691,14 +691,14 @@ class Transformer:
 
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(xx)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(yy)
+        inx, x_data_type = _copytobuffer(xx)
+        iny, y_data_type = _copytobuffer(yy)
         if zz is not None:
-            inz, zisfloat, zislist, zistuple = _copytobuffer(zz)
+            inz, z_data_type = _copytobuffer(zz)
         else:
             inz = None
         if tt is not None:
-            intime, tisfloat, tislist, tistuple = _copytobuffer(tt)
+            intime, t_data_type = _copytobuffer(tt)
         else:
             intime = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
@@ -712,17 +712,13 @@ class Transformer:
             errcheck=errcheck,
         )
         # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, yistuple, iny)
+        outx = _convertback(x_data_type, inx)
+        outy = _convertback(y_data_type, iny)
         return_data = (outx, outy)
         if inz is not None:
-            return_data += (  # type: ignore
-                _convertback(zisfloat, zislist, zistuple, inz),
-            )
+            return_data += (_convertback(z_data_type, inz),)  # type: ignore
         if intime is not None:
-            return_data += (  # type: ignore
-                _convertback(tisfloat, tislist, tistuple, intime),
-            )
+            return_data += (_convertback(t_data_type, intime),)  # type: ignore
         return return_data
 
     def itransform(

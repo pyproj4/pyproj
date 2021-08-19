@@ -3,6 +3,7 @@ Utility functions used within pyproj
 """
 import json
 from array import array
+from enum import Enum, auto
 from typing import Any, Tuple
 
 
@@ -34,20 +35,30 @@ class NumpyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def _copytobuffer_return_scalar(xx: Any) -> Tuple[array, bool, bool, bool]:
+class DataType(Enum):
+    """
+    Data type for copy to buffer and convertback operations
+    """
+
+    FLOAT = auto()
+    LIST = auto()
+    TUPLE = auto()
+    ARRAY = auto()
+
+
+def _copytobuffer_return_scalar(xx: Any) -> Tuple[array, DataType]:
     """
     Parameters
     -----------
     xx: float or 0-d numpy array
     """
     try:
-        # inx,isfloat,islist,istuple
-        return array("d", (float(xx),)), True, False, False
+        return array("d", (float(xx),)), DataType.FLOAT
     except Exception:
         raise TypeError("input must be a scalar")
 
 
-def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:
+def _copytobuffer(xx: Any) -> Tuple[Any, DataType]:
     """
     return a copy of xx as an object that supports the python Buffer
     API (python array if input is float, list or tuple, numpy array
@@ -55,10 +66,6 @@ def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:
     istuple (islist is True if input is a list, istuple is true if
     input is a tuple, isfloat is true if input is a float).
     """
-    # make sure x supports Buffer API and contains doubles.
-    isfloat = False
-    islist = False
-    istuple = False
     # check for pandas.Series, xarray.DataArray or dask.array.Array
     if hasattr(xx, "__array__") and callable(xx.__array__):
         xx = xx.__array__()
@@ -78,34 +85,35 @@ def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:
             # (deal with input array in fortran order)
             inx = xx.copy(order="C").astype("d", copy=False)
             # inx,isfloat,islist,istuple
-            return inx, False, False, False
+            return inx, DataType.ARRAY
     else:
+        data_type = DataType.ARRAY
         # perhaps they are regular python arrays?
         if hasattr(xx, "typecode"):
             # xx.typecode
             inx = array("d", xx)
         # try to convert to python array
         # a list.
-        elif type(xx) == list:
+        elif isinstance(xx, list):
             inx = array("d", xx)
-            islist = True
+            data_type = DataType.LIST
         # a tuple.
-        elif type(xx) == tuple:
+        elif isinstance(xx, tuple):
             inx = array("d", xx)
-            istuple = True
+            data_type = DataType.TUPLE
         # a scalar?
         else:
             return _copytobuffer_return_scalar(xx)
-    return inx, isfloat, islist, istuple
+    return inx, data_type
 
 
-def _convertback(isfloat: bool, islist: bool, istuple: bool, inx: Any) -> Any:
+def _convertback(data_type: DataType, inx: Any) -> Any:
     # if inputs were lists, tuples or floats, convert back to original type.
-    if isfloat:
+    if data_type == DataType.FLOAT:
         return inx[0]
-    elif islist:
+    elif data_type == DataType.LIST:
         return inx.tolist()
-    elif istuple:
+    elif data_type == DataType.TUPLE:
         return tuple(inx)
     else:
         return inx

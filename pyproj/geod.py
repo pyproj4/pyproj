@@ -24,7 +24,7 @@ from pyproj._geod import GeodIntermediateReturn, geodesic_version_str
 from pyproj.enums import GeodIntermediateFlag
 from pyproj.exceptions import GeodError
 from pyproj.list import get_ellps_map
-from pyproj.utils import _convertback, _copytobuffer
+from pyproj.utils import DataType, _convertback, _copytobuffer
 
 pj_ellps = get_ellps_map()
 
@@ -218,15 +218,15 @@ class Geod(_Geod):
             Back azimuth(s)
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
-        inz, zisfloat, zislist, zistuple = _copytobuffer(az)
-        ind, disfloat, dislist, distuple = _copytobuffer(dist)
+        inx, x_data_type = _copytobuffer(lons)
+        iny, y_data_type = _copytobuffer(lats)
+        inz, z_data_type = _copytobuffer(az)
+        ind = _copytobuffer(dist)[0]
         self._fwd(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, yistuple, iny)
-        outz = _convertback(zisfloat, zislist, zistuple, inz)
+        outx = _convertback(x_data_type, inx)
+        outy = _convertback(y_data_type, iny)
+        outz = _convertback(z_data_type, inz)
         return outx, outy, outz
 
     def inv(
@@ -263,15 +263,15 @@ class Geod(_Geod):
             in meters
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lons1)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lats1)
-        inz, zisfloat, zislist, zistuple = _copytobuffer(lons2)
-        ind, disfloat, dislist, distuple = _copytobuffer(lats2)
+        inx, x_data_type = _copytobuffer(lons1)
+        iny, y_data_type = _copytobuffer(lats1)
+        inz, z_data_type = _copytobuffer(lons2)
+        ind = _copytobuffer(lats2)[0]
         self._inv(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, yistuple, iny)
-        outz = _convertback(zisfloat, zislist, zistuple, inz)
+        outx = _convertback(x_data_type, inx)
+        outy = _convertback(y_data_type, iny)
+        outz = _convertback(z_data_type, inz)
         return outx, outy, outz
 
     def npts(
@@ -698,8 +698,8 @@ class Geod(_Geod):
             The total length of the line (meters).
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
+        inx = _copytobuffer(lons)[0]
+        iny = _copytobuffer(lats)[0]
         return self._line_length(inx, iny, radians=radians)
 
     def line_lengths(self, lons: Any, lats: Any, radians: bool = False) -> Any:
@@ -733,11 +733,11 @@ class Geod(_Geod):
             The total length of the line (meters).
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
+        inx, x_data_type = _copytobuffer(lons)
+        iny = _copytobuffer(lats)[0]
         self._line_length(inx, iny, radians=radians)
-        line_lengths = _convertback(xisfloat, xislist, xistuple, inx)
-        return line_lengths if xisfloat else line_lengths[:-1]
+        line_lengths = _convertback(x_data_type, inx)
+        return line_lengths if x_data_type == DataType.FLOAT else line_lengths[:-1]
 
     def polygon_area_perimeter(
         self, lons: Any, lats: Any, radians: bool = False
