@@ -5,8 +5,17 @@ from enum import Enum, IntFlag
 
 
 class BaseEnum(Enum):
+    """
+    Base enumeration class that handles
+    input as strings ignoring case.
+    """
+
     @classmethod
     def create(cls, item):
+        """
+        Handles finding the enumeration
+        ignoring case if provided as a string.
+        """
         try:
             return cls(item)
         except ValueError:
