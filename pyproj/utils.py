@@ -77,7 +77,7 @@ def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:
                 # Basemap issue
                 # https://github.com/matplotlib/basemap/pull/223/files
                 # (deal with input array in fortran order)
-                inx = xx.copy(order="C").astype("d")
+                inx = xx.copy(order="C").astype("d", copy=False)
                 # inx,isfloat,islist,istuple
                 return inx, False, False, False
             except Exception:
