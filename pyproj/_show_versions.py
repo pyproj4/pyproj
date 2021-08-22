@@ -33,6 +33,7 @@ def _get_proj_info():
     proj_info: dict
         system PROJ information
     """
+    # pylint: disable=import-outside-toplevel
     import pyproj
     from pyproj.exceptions import DataDirError
 
