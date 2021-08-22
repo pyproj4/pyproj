@@ -22,8 +22,8 @@ def _bbox_from_coords(coords: List) -> Optional[BBox]:
     Get the bounding box from coordinates
     """
     try:
-        xx, yy = zip(*coords)
-        return BBox(west=min(xx), south=min(yy), east=max(xx), north=max(yy))
+        xxx, yyy = zip(*coords)
+        return BBox(west=min(xxx), south=min(yyy), east=max(xxx), north=max(yyy))
     except ValueError:
         pass
     coord_bbox = None
@@ -117,11 +117,12 @@ def _filter_properties(
     p_source_id = properties.get("source_id")
     if not p_filename or not p_source_id:
         return False
-    if (
-        (source_id is None or source_id in p_source_id)
-        and (area_of_use is None or area_of_use in properties.get("area_of_use", ""))
-        and (filename is None or filename in p_filename)
-    ):
+    source_id__matched = source_id is None or source_id in p_source_id
+    area_of_use__matched = area_of_use is None or area_of_use in properties.get(
+        "area_of_use", ""
+    )
+    filename__matched = filename is None or filename in p_filename
+    if source_id__matched and area_of_use__matched and filename__matched:
         return True
     return False
 
