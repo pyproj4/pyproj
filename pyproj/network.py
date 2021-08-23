@@ -7,7 +7,7 @@ from typing import Union
 
 import certifi
 
-from pyproj._network import (  # noqa: F401
+from pyproj._network import (  # noqa: F401 pylint: disable=unused-import
     _set_ca_bundle_path,
     is_network_enabled,
     set_network_enabled,
