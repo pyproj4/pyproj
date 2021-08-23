@@ -19,6 +19,7 @@ Latest
 - BUG: Hide unnecessary PROJ ERROR from proj_crs_get_coordoperation (issue #873)
 - BUG: Fix pickling for CRS builder classes (issue #897)
 - CLN: Remove `ignore_axis_order` kwarg from :meth:`pyproj.crs.CRS.is_exact_same` as it was added by accident (pull #904)
+- CLN: remove numeric/numarrays support (pull #908)
 
 3.1.0
 -----
