@@ -16,7 +16,7 @@ from array import array
 from dataclasses import dataclass
 from itertools import chain, islice
 from pathlib import Path
-from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union, overload
 
 from pyproj import CRS
 from pyproj._crs import AreaOfUse, CoordinateOperation
@@ -573,16 +573,52 @@ class Transformer:
         """
         return Transformer(TransformerFromPipeline(proj_pipeline))
 
+    @overload
     def transform(
         self,
         xx: Any,
         yy: Any,
-        zz: Any = None,
-        tt: Any = None,
         radians: bool = False,
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
-    ) -> Any:
+    ) -> Tuple[Any, Any]:
+        ...
+
+    @overload
+    def transform(
+        self,
+        xx: Any,
+        yy: Any,
+        zz: Any,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Tuple[Any, Any, Any]:
+        ...
+
+    @overload
+    def transform(
+        self,
+        xx: Any,
+        yy: Any,
+        zz: Any,
+        tt: Any,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Tuple[Any, Any, Any, Any]:
+        ...
+
+    def transform(
+        self,
+        xx,
+        yy,
+        zz=None,
+        tt=None,
+        radians=False,
+        errcheck=False,
+        direction=TransformDirection.FORWARD,
+    ):
         """
         Transform points between two coordinate systems.
 
