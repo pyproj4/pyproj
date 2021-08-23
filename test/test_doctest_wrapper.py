@@ -26,7 +26,7 @@ def test_doctests():
     failure_count = failure_count_proj + failure_count_crs + failure_count_geod
     expected_failure_count = 0
     try:
-        import shapely  # noqa
+        import shapely  # noqa: F401 pylint: disable=unused-import
     except ImportError:
         # missing shapely
         expected_failure_count = 6

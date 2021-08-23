@@ -4,7 +4,7 @@ from pyproj.list import get_ellps_map, get_prime_meridians_map, get_proj_operati
 
 
 def test_backwards_compatible_import_paths():
-    from pyproj import (  # noqa: F401
+    from pyproj import (  # noqa: F401 pylint: disable=unused-import
         get_ellps_map,
         get_prime_meridians_map,
         get_proj_operations_map,
