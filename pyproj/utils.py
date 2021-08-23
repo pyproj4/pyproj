@@ -69,30 +69,16 @@ def _copytobuffer(xx: Any) -> Tuple[Any, bool, bool, bool]:
         if xx.shape == ():
             return _copytobuffer_return_scalar(xx)
         else:
-            try:
-                # typecast numpy arrays to double.
-                # (this makes a copy - which is crucial
-                #  since buffer is modified in place)
-                xx.dtype.char
-                # Basemap issue
-                # https://github.com/matplotlib/basemap/pull/223/files
-                # (deal with input array in fortran order)
-                inx = xx.copy(order="C").astype("d", copy=False)
-                # inx,isfloat,islist,istuple
-                return inx, False, False, False
-            except Exception:
-                try:  # perhaps they are Numeric/numarrays?
-                    # sorry, not tested yet.
-                    # i don't know Numeric/numarrays has `shape'.
-                    xx.typecode()
-                    inx = xx.astype("d")
-                    # inx,isfloat,islist,istuple
-                    return inx, False, False, False
-                except Exception:
-                    raise TypeError(
-                        "input must be an array, list, tuple, scalar, "
-                        "or have the __array__ method."
-                    )
+            # typecast numpy arrays to double.
+            # (this makes a copy - which is crucial
+            #  since buffer is modified in place)
+            xx.dtype.char
+            # Basemap issue
+            # https://github.com/matplotlib/basemap/pull/223/files
+            # (deal with input array in fortran order)
+            inx = xx.copy(order="C").astype("d", copy=False)
+            # inx,isfloat,islist,istuple
+            return inx, False, False, False
     else:
         # perhaps they are regular python arrays?
         if hasattr(xx, "typecode"):
