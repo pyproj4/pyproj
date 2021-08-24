@@ -87,6 +87,11 @@ def test_from_string():
         )
 
 
+def test_from_string__invalid():
+    with pytest.raises(CRSError, match="CRS input is not a string"):
+        CRS.from_string(4326)
+
+
 def test_initialize_projparams_with_kwargs():
     crs_mixed_args = CRS("+proj=utm +zone=10", ellps="WGS84")
     crs_positional = CRS("+proj=utm +zone=10 +ellps=WGS84")
@@ -1329,6 +1334,11 @@ def test_to_dict_from_dict():
     cc = CRS.from_epsg(4326)
     with pytest.warns(UserWarning):
         assert CRS.from_dict(cc.to_dict()).name == "unknown"
+
+
+def test_from_dict__invalid():
+    with pytest.raises(CRSError, match="CRS input is not a dict"):
+        CRS.from_dict(4326)
 
 
 @pytest.mark.parametrize(
