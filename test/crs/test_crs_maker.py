@@ -4,6 +4,7 @@ from pyproj.crs import (
     CRS,
     BoundCRS,
     CompoundCRS,
+    CustomConstructorCRS,
     DerivedGeographicCRS,
     GeocentricCRS,
     GeographicCRS,
@@ -321,3 +322,22 @@ def test_bound_crs_crs__from_methods():
     assert_maker_inheritance_valid(
         BoundCRS.from_json_dict(CRS(crs_str).to_json_dict()), BoundCRS
     )
+
+
+def test_custom_constructor_crs__not_implemented():
+    class MyCustomInit(CustomConstructorCRS):
+        def __init__(self, *, name: str):
+            super().__init__(name)
+
+    with pytest.raises(NotImplementedError):
+        MyCustomInit.from_epsg(4326)
+
+
+def test_custom_constructor_crs():
+    class MyCustomInit(CustomConstructorCRS):
+        _expected_types = ("Geographic 2D CRS",)
+
+        def __init__(self, *, name: str):
+            super().__init__(name)
+
+    assert isinstance(MyCustomInit.from_epsg(4326), MyCustomInit)

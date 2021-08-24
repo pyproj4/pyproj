@@ -1535,11 +1535,10 @@ class CRS:
         )
 
 
-class _MakerCRS(CRS):
+class CustomConstructorCRS(CRS):
     """
-    This class exists to handle the oddities to do with the
-    maker CRS classes having a different constructor than
-    the base CRS classes.
+    This class is a base class for CRS classes
+    that use a different constructor than the main CRS class.
 
     .. versionadded:: 3.2.0
 
@@ -1592,7 +1591,7 @@ class _MakerCRS(CRS):
         if isinstance(value, cls):
             return value
         crs = cls.__new__(cls)
-        super(_MakerCRS, crs).__init__(value, **kwargs)
+        super(CustomConstructorCRS, crs).__init__(value, **kwargs)
         crs._check_type()
         return crs
 
@@ -1668,7 +1667,7 @@ class _MakerCRS(CRS):
         return CRS(self._crs.to_3d(name=name))
 
 
-class GeographicCRS(_MakerCRS):
+class GeographicCRS(CustomConstructorCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1708,7 +1707,7 @@ class GeographicCRS(_MakerCRS):
         super().__init__(geographic_crs_json)
 
 
-class DerivedGeographicCRS(_MakerCRS):
+class DerivedGeographicCRS(CustomConstructorCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1764,7 +1763,7 @@ class DerivedGeographicCRS(_MakerCRS):
         super().__init__(derived_geographic_crs_json)
 
 
-class GeocentricCRS(_MakerCRS):
+class GeocentricCRS(CustomConstructorCRS):
     """
     .. versionadded:: 3.2.0
 
@@ -1819,7 +1818,7 @@ class GeocentricCRS(_MakerCRS):
         super().__init__(geocentric_crs_json)
 
 
-class ProjectedCRS(_MakerCRS):
+class ProjectedCRS(CustomConstructorCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1868,7 +1867,7 @@ class ProjectedCRS(_MakerCRS):
         super().__init__(proj_crs_json)
 
 
-class VerticalCRS(_MakerCRS):
+class VerticalCRS(CustomConstructorCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1916,7 +1915,7 @@ class VerticalCRS(_MakerCRS):
         super().__init__(vert_crs_json)
 
 
-class CompoundCRS(_MakerCRS):
+class CompoundCRS(CustomConstructorCRS):
     """
     .. versionadded:: 2.5.0
 
@@ -1948,7 +1947,7 @@ class CompoundCRS(_MakerCRS):
         super().__init__(compound_crs_json)
 
 
-class BoundCRS(_MakerCRS):
+class BoundCRS(CustomConstructorCRS):
     """
     .. versionadded:: 2.5.0
 

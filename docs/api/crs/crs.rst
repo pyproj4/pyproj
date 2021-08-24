@@ -74,6 +74,15 @@ CompoundCRS
     :special-members: __init__
 
 
+CustomConstructorCRS
+------------------------
+
+.. autoclass:: pyproj.crs.CustomConstructorCRS
+    :members:
+    :show-inheritance:
+    :special-members: __init__
+
+
 is_wkt
 -----------------
 

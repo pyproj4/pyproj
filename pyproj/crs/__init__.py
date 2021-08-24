@@ -17,6 +17,7 @@ from pyproj.crs.crs import (  # noqa: F401  pylint: disable=unused-import
     CRS,
     BoundCRS,
     CompoundCRS,
+    CustomConstructorCRS,
     DerivedGeographicCRS,
     GeocentricCRS,
     GeographicCRS,
