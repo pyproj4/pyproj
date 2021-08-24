@@ -1,13 +1,14 @@
 """
 Module for managing the PROJ data directory.
 """
+# pylint: disable=global-statement
 import os
 import sys
 from distutils.spawn import find_executable
 from pathlib import Path
 from typing import Union
 
-from pyproj._datadir import (  # noqa: F401
+from pyproj._datadir import (  # noqa: F401  pylint: disable=unused-import
     _global_context_set_data_dir,
     get_user_data_dir,
 )

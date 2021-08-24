@@ -1,7 +1,6 @@
 """
 The transformer module is for performing cartographic transformations.
 """
-
 __all__ = [
     "transform",
     "itransform",
@@ -20,7 +19,7 @@ from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union, overlo
 
 from pyproj import CRS
 from pyproj._crs import AreaOfUse, CoordinateOperation
-from pyproj._transformer import (  # noqa
+from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     AreaOfInterest,
     _Transformer,
     _TransformerGroup,
@@ -189,6 +188,7 @@ class TransformerGroup(_TransformerGroup):
             area_of_interest=area_of_interest,
         )
         for iii, transformer in enumerate(self._transformers):
+            # pylint: disable=unsupported-assignment-operation
             self._transformers[iii] = Transformer(TransformerUnsafe(transformer))
 
     @property
@@ -244,6 +244,7 @@ class TransformerGroup(_TransformerGroup):
         """
         if directory is None:
             directory = get_user_data_dir(True)
+        # pylint: disable=not-an-iterable
         for unavailable_operation in self.unavailable_operations:
             for grid in unavailable_operation.grids:
                 if (
@@ -279,6 +280,7 @@ class TransformerLocal(threading.local):
 
     def __init__(self):
         self.transformer = None  # Initialises in each thread
+        super().__init__()
 
 
 class Transformer:
@@ -450,6 +452,7 @@ class Transformer:
         Transformer
 
         """
+        # pylint: disable=import-outside-toplevel
         from pyproj import Proj
 
         if not isinstance(proj_from, Proj):
@@ -574,7 +577,7 @@ class Transformer:
         return Transformer(TransformerFromPipeline(proj_pipeline))
 
     @overload
-    def transform(
+    def transform(  # pylint: disable=invalid-name
         self,
         xx: Any,
         yy: Any,
@@ -585,7 +588,7 @@ class Transformer:
         ...
 
     @overload
-    def transform(
+    def transform(  # pylint: disable=invalid-name
         self,
         xx: Any,
         yy: Any,
@@ -597,7 +600,7 @@ class Transformer:
         ...
 
     @overload
-    def transform(
+    def transform(  # pylint: disable=invalid-name
         self,
         xx: Any,
         yy: Any,
@@ -609,7 +612,7 @@ class Transformer:
     ) -> Tuple[Any, Any, Any, Any]:
         ...
 
-    def transform(
+    def transform(  # pylint: disable=invalid-name
         self,
         xx,
         yy,
@@ -691,14 +694,14 @@ class Transformer:
 
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(xx)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(yy)
+        inx, x_data_type = _copytobuffer(xx)
+        iny, y_data_type = _copytobuffer(yy)
         if zz is not None:
-            inz, zisfloat, zislist, zistuple = _copytobuffer(zz)
+            inz, z_data_type = _copytobuffer(zz)
         else:
             inz = None
         if tt is not None:
-            intime, tisfloat, tislist, tistuple = _copytobuffer(tt)
+            intime, t_data_type = _copytobuffer(tt)
         else:
             intime = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
@@ -712,17 +715,13 @@ class Transformer:
             errcheck=errcheck,
         )
         # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, yistuple, iny)
-        return_data = (outx, outy)
+        outx = _convertback(x_data_type, inx)
+        outy = _convertback(y_data_type, iny)
+        return_data: Tuple[Any, ...] = (outx, outy)
         if inz is not None:
-            return_data += (  # type: ignore
-                _convertback(zisfloat, zislist, zistuple, inz),
-            )
+            return_data += (_convertback(z_data_type, inz),)
         if intime is not None:
-            return_data += (  # type: ignore
-                _convertback(tisfloat, tislist, tistuple, intime),
-            )
+            return_data += (_convertback(t_data_type, intime),)
         return return_data
 
     def itransform(
@@ -811,12 +810,12 @@ class Transformer:
         '-2.137 0.661'
 
         """
-        it = iter(points)  # point iterator
+        point_it = iter(points)  # point iterator
         # get first point to check stride
         try:
-            fst_pt = next(it)
+            fst_pt = next(point_it)
         except StopIteration:
-            raise ValueError("iterable must contain at least one point")
+            raise ValueError("iterable must contain at least one point") from None
 
         stride = len(fst_pt)
         if stride not in (2, 3, 4):
@@ -827,7 +826,9 @@ class Transformer:
 
         # create a coordinate sequence generator etc. x1,y1,z1,x2,y2,z2,....
         # chain so the generator returns the first point that was already acquired
-        coord_gen = chain(fst_pt, (coords[c] for coords in it for c in range(stride)))
+        coord_gen = chain(
+            fst_pt, (coords[c] for coords in point_it for c in range(stride))
+        )
 
         while True:
             # create a temporary buffer storage for
@@ -846,8 +847,8 @@ class Transformer:
                 errcheck=errcheck,
             )
 
-            for pt in zip(*([iter(buff)] * stride)):
-                yield pt
+            for point in zip(*([iter(buff)] * stride)):
+                yield point
 
     def transform_bounds(
         self,
@@ -1013,12 +1014,24 @@ class Transformer:
         return self._transformer.__eq__(other._transformer)
 
     def is_exact_same(self, other: Any) -> bool:
+        """
+        Check if the Transformer objects are the exact same.
+        If it is not a Transformer, then it returns False.
+
+        Parameters
+        ----------
+        other: Any
+
+        Returns
+        -------
+        bool
+        """
         if not isinstance(other, Transformer):
             return False
         return self._transformer.is_exact_same(other._transformer)
 
 
-def transform(
+def transform(  # pylint: disable=invalid-name
     p1: Any,
     p2: Any,
     x: Any,
@@ -1119,7 +1132,7 @@ def transform(
     ).transform(xx=x, yy=y, zz=z, tt=tt, radians=radians, errcheck=errcheck)
 
 
-def itransform(
+def itransform(  # pylint: disable=invalid-name
     p1: Any,
     p2: Any,
     points: Iterable[Iterable],

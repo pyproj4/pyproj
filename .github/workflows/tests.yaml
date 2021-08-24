@@ -74,6 +74,20 @@ jobs:
           pyproj -v
           conda info
 
+      - name: Install pylint
+        shell: bash
+        if: matrix.python-implementation == 'python'
+        run: |
+          source activate test
+          python -m pip install pylint
+
+      - name: pylint
+        shell: bash
+        if: matrix.python-implementation == 'python'
+        run: |
+          source activate test
+          pylint pyproj
+
       - name: Test with Coverage
         shell: bash
         if: matrix.python-implementation == 'python'

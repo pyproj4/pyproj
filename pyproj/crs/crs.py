@@ -2,6 +2,7 @@
 This module interfaces with PROJ to produce a pythonic interface
 to the coordinate reference system (CRS) information.
 """
+# pylint: disable=too-many-lines
 import json
 import re
 import threading
@@ -9,7 +10,7 @@ import warnings
 from abc import abstractmethod
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-from pyproj._crs import (  # noqa
+from pyproj._crs import (
     _CRS,
     AreaOfUse,
     Axis,
@@ -47,9 +48,12 @@ class CRSLocal(threading.local):
 
     def __init__(self):
         self.crs = None  # Initialises in each thread
+        super().__init__()
 
 
 def _prepare_from_dict(projparams: dict, allow_json: bool = True) -> str:
+    if not isinstance(projparams, dict):
+        raise CRSError("CRS input is not a dict")
     # check if it is a PROJ JSON dict
     if "proj" not in projparams and "init" not in projparams and allow_json:
         return json.dumps(projparams)
@@ -69,54 +73,61 @@ def _prepare_from_dict(projparams: dict, allow_json: bool = True) -> str:
     return _prepare_from_string(" ".join(pjargs))
 
 
+def _prepare_from_proj_string(in_crs_string: str) -> str:
+    in_crs_string = re.sub(r"[\s+]?=[\s+]?", "=", in_crs_string.lstrip())
+    # make sure the projection starts with +proj or +init
+    starting_params = ("+init", "+proj", "init", "proj")
+    if not in_crs_string.startswith(starting_params):
+        kvpairs: List[str] = []
+        first_item_inserted = False
+        for kvpair in in_crs_string.split():
+            if not first_item_inserted and (kvpair.startswith(starting_params)):
+                kvpairs.insert(0, kvpair)
+                first_item_inserted = True
+            else:
+                kvpairs.append(kvpair)
+        in_crs_string = " ".join(kvpairs)
+
+    # make sure it is the CRS type
+    if "type=crs" not in in_crs_string:
+        if "+" in in_crs_string:
+            in_crs_string += " +type=crs"
+        else:
+            in_crs_string += " type=crs"
+
+    # look for EPSG, replace with epsg (EPSG only works
+    # on case-insensitive filesystems).
+    in_crs_string = in_crs_string.replace("+init=EPSG", "+init=epsg").strip()
+    if in_crs_string.startswith(("+init", "init")):
+        warnings.warn(
+            "'+init=<authority>:<code>' syntax is deprecated. "
+            "'<authority>:<code>' is the preferred initialization method. "
+            "When making the change, be mindful of axis order changes: "
+            "https://pyproj4.github.io/pyproj/stable/gotchas.html"
+            "#axis-order-changes-in-proj-6",
+            FutureWarning,
+            stacklevel=2,
+        )
+    return in_crs_string
+
+
 def _prepare_from_string(in_crs_string: str) -> str:
+    if not isinstance(in_crs_string, str):
+        raise CRSError("CRS input is not a string")
     if not in_crs_string:
-        raise CRSError(f"CRS is empty or invalid: {in_crs_string!r}")
-    elif "{" in in_crs_string:
+        raise CRSError(f"CRS string is empty or invalid: {in_crs_string!r}")
+    if "{" in in_crs_string:
         # may be json, try to decode it
         try:
             crs_dict = json.loads(in_crs_string, strict=False)
-        except ValueError:
-            raise CRSError("CRS appears to be JSON but is not valid")
+        except ValueError as err:
+            raise CRSError("CRS appears to be JSON but is not valid") from err
 
         if not crs_dict:
             raise CRSError("CRS is empty JSON")
-        return _prepare_from_dict(crs_dict)
+        in_crs_string = _prepare_from_dict(crs_dict)
     elif is_proj(in_crs_string):
-        in_crs_string = re.sub(r"[\s+]?=[\s+]?", "=", in_crs_string.lstrip())
-        # make sure the projection starts with +proj or +init
-        starting_params = ("+init", "+proj", "init", "proj")
-        if not in_crs_string.startswith(starting_params):
-            kvpairs = []  # type: List[str]
-            first_item_inserted = False
-            for kvpair in in_crs_string.split():
-                if not first_item_inserted and (kvpair.startswith(starting_params)):
-                    kvpairs.insert(0, kvpair)
-                    first_item_inserted = True
-                else:
-                    kvpairs.append(kvpair)
-            in_crs_string = " ".join(kvpairs)
-
-        # make sure it is the CRS type
-        if "type=crs" not in in_crs_string:
-            if "+" in in_crs_string:
-                in_crs_string += " +type=crs"
-            else:
-                in_crs_string += " type=crs"
-
-        # look for EPSG, replace with epsg (EPSG only works
-        # on case-insensitive filesystems).
-        in_crs_string = in_crs_string.replace("+init=EPSG", "+init=epsg").strip()
-        if in_crs_string.startswith(("+init", "init")):
-            warnings.warn(
-                "'+init=<authority>:<code>' syntax is deprecated. "
-                "'<authority>:<code>' is the preferred initialization method. "
-                "When making the change, be mindful of axis order changes: "
-                "https://pyproj4.github.io/pyproj/stable/gotchas.html"
-                "#axis-order-changes-in-proj-6",
-                FutureWarning,
-                stacklevel=2,
-            )
+        in_crs_string = _prepare_from_proj_string(in_crs_string)
     return in_crs_string
 
 
@@ -375,7 +386,7 @@ class CRS:
         """
         if not is_proj(in_proj_string):
             raise CRSError(f"Invalid PROJ string: {in_proj_string}")
-        return cls.from_user_input(_prepare_from_string(in_proj_string))
+        return cls.from_user_input(_prepare_from_proj_string(in_proj_string))
 
     @classmethod
     def from_wkt(cls, in_wkt_string: str) -> "CRS":
@@ -555,7 +566,7 @@ class CRS:
         def parse(val):
             if val.lower() == "true":
                 return True
-            elif val.lower() == "false":
+            if val.lower() == "false":
                 return False
             try:
                 return int(val)
@@ -605,30 +616,35 @@ class CRS:
             CF-1.8 version of the projection.
 
         """
-        cf_dict = {"crs_wkt": self.to_wkt(wkt_version)}  # type: Dict[str, Any]
+        # pylint: disable=too-many-branches
+        cf_dict: Dict[str, Any] = {"crs_wkt": self.to_wkt(wkt_version)}
 
         # handle bound CRS
         if (
             self.is_bound
             and self.coordinate_operation
             and self.coordinate_operation.towgs84
+            and self.source_crs
         ):
-            sub_cf = self.source_crs.to_cf(errcheck=errcheck)  # type: ignore
+            sub_cf: Dict[str, Any] = self.source_crs.to_cf(
+                wkt_version=wkt_version,
+                errcheck=errcheck,
+            )
             sub_cf.pop("crs_wkt")
             cf_dict.update(sub_cf)
             cf_dict["towgs84"] = self.coordinate_operation.towgs84
             return cf_dict
 
         # handle compound CRS
-        elif self.sub_crs_list:
+        if self.is_compound:
             for sub_crs in self.sub_crs_list:
-                sub_cf = sub_crs.to_cf(errcheck=errcheck)
+                sub_cf = sub_crs.to_cf(wkt_version=wkt_version, errcheck=errcheck)
                 sub_cf.pop("crs_wkt")
                 cf_dict.update(sub_cf)
             return cf_dict
 
         # handle vertical CRS
-        elif self.is_vertical:
+        if self.is_vertical:
             vert_json = self.to_json_dict()
             if "geoid_model" in vert_json:
                 cf_dict["geoid_name"] = vert_json["geoid_model"]["name"]
@@ -709,6 +725,8 @@ class CRS:
 
         .. versionadded:: 3.0.0 ellipsoidal_cs, cartesian_cs, vertical_cs
 
+        .. deprecated:: 3.2.0 errcheck
+
         This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
         dict to a :obj:`pyproj.crs.CRS` object.
 
@@ -732,16 +750,24 @@ class CRS:
             or :class:`pyproj.crs.coordinate_system.VerticalCS`
         errcheck: bool, default=False
             This parameter is for backwards compatibility with the old version.
-            It currently does nothing when True or False.
+            It currently does nothing when True or False. DEPRECATED.
 
         Returns
         -------
         CRS
         """
+        # pylint: disable=too-many-branches
+        if errcheck:
+            warnings.warn(
+                "errcheck is deprecated as it does nothing.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+
         unknown_names = ("unknown", "undefined")
         if "crs_wkt" in in_cf:
             return CRS(in_cf["crs_wkt"])
-        elif "spatial_ref" in in_cf:  # for previous supported WKT key
+        if "spatial_ref" in in_cf:  # for previous supported WKT key
             return CRS(in_cf["spatial_ref"])
 
         grid_mapping_name = in_cf.get("grid_mapping_name")
@@ -753,19 +779,19 @@ class CRS:
 
         # build geographic CRS
         try:
-            geographic_conversion_method = _GEOGRAPHIC_GRID_MAPPING_NAME_MAP[
-                grid_mapping_name
-            ]  # type: Optional[Callable]
+            geographic_conversion_method: Optional[
+                Callable
+            ] = _GEOGRAPHIC_GRID_MAPPING_NAME_MAP[grid_mapping_name]
         except KeyError:
             geographic_conversion_method = None
 
         geographic_crs_name = in_cf.get("geographic_crs_name")
         if datum:
-            geographic_crs = GeographicCRS(
+            geographic_crs: CRS = GeographicCRS(
                 name=geographic_crs_name or "undefined",
                 datum=datum,
                 ellipsoidal_cs=ellipsoidal_cs,
-            )  # type: CRS
+            )
         elif geographic_crs_name and geographic_crs_name not in unknown_names:
             geographic_crs = CRS(geographic_crs_name)
             if ellipsoidal_cs is not None:
@@ -789,7 +815,9 @@ class CRS:
         try:
             conversion_method = _GRID_MAPPING_NAME_MAP[grid_mapping_name]
         except KeyError:
-            raise CRSError(f"Unsupported grid mapping name: {grid_mapping_name}")
+            raise CRSError(
+                f"Unsupported grid mapping name: {grid_mapping_name}"
+            ) from None
         projected_crs = ProjectedCRS(
             name=in_cf.get("projected_crs_name", "undefined"),
             conversion=conversion_method(in_cf),
@@ -1007,7 +1035,7 @@ class CRS:
         """
         if self.is_bound and self.source_crs:
             return self.source_crs.utm_zone
-        elif self.sub_crs_list:
+        if self.sub_crs_list:
             for sub_crs in self.sub_crs_list:
                 if sub_crs.utm_zone:
                     return sub_crs.utm_zone
@@ -1451,7 +1479,7 @@ class CRS:
 
     def __repr__(self) -> str:
         # get axis information
-        axis_info_list = []  # type: List[str]
+        axis_info_list: List[str] = []
         for axis in self.axis_info:
             axis_info_list.extend(["- ", str(axis), "\n"])
         axis_info_str = "".join(axis_info_list)
@@ -1481,8 +1509,8 @@ class CRS:
                     "Coordinate Operation:\n",
                     "- name: ",
                     str(self.coordinate_operation),
-                    "\n" "- method: ",
-                    str(self.coordinate_operation.method_name),
+                    "\n- method: ",
+                    self.coordinate_operation.method_name,
                     "\n",
                 ]
             )

@@ -4,6 +4,7 @@ building a CRS.
 
 :ref:`operations`
 """
+# pylint: disable=too-many-lines
 import warnings
 from typing import Any
 
@@ -649,6 +650,7 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
             Scale factor at natural origin (k or k_0).
 
         """
+        # pylint: disable=import-outside-toplevel
         from pyproj.crs import CRS
 
         # hack due to: https://github.com/OSGeo/PROJ/issues/1881
@@ -1576,6 +1578,7 @@ class ToWGS84Transformation(CoordinateOperation):
         scale_difference: float, default=0.0
             Scale difference.
         """
+        # pylint: disable=import-outside-toplevel
         from pyproj.crs import CRS
 
         towgs84_json = {

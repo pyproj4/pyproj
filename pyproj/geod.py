@@ -24,9 +24,95 @@ from pyproj._geod import GeodIntermediateReturn, geodesic_version_str
 from pyproj.enums import GeodIntermediateFlag
 from pyproj.exceptions import GeodError
 from pyproj.list import get_ellps_map
-from pyproj.utils import _convertback, _copytobuffer
+from pyproj.utils import DataType, _convertback, _copytobuffer
 
 pj_ellps = get_ellps_map()
+
+
+def _params_from_ellps_map(ellps):
+    """
+    Build Geodesic parameters from PROJ ellips map
+
+    Parameter
+    ---------
+    ellps: str
+        The name of the ellips in the map.
+
+    Returns
+    -------
+    Tuple[float, float, float, float, bool]
+
+    """
+    ellps_dict = pj_ellps[ellps]
+    semi_major_axis: float = ellps_dict["a"]
+    sphere = False
+    if ellps_dict["description"] == "Normal Sphere":
+        sphere = True
+    if "b" in ellps_dict:
+        semi_minor_axis: float = ellps_dict["b"]
+        eccentricity_squared: float = 1.0 - semi_minor_axis ** 2 / semi_major_axis ** 2
+        flattening: float = (semi_major_axis - semi_minor_axis) / semi_major_axis
+    elif "rf" in ellps_dict:
+        flattening = 1.0 / ellps_dict["rf"]
+        semi_minor_axis = semi_major_axis * (1.0 - flattening)
+        eccentricity_squared = 1.0 - semi_minor_axis ** 2 / semi_major_axis ** 2
+    return semi_major_axis, semi_minor_axis, flattening, eccentricity_squared, sphere
+
+
+def _params_from_kwargs(kwargs):
+    """
+    Build Geodesic parameters from input kwargs:
+
+    - a: the semi-major axis (required).
+
+    Need least one of these parameters.
+
+    - b: the semi-minor axis
+    - rf: the reciprocal flattening
+    - f: flattening
+    - es: eccentricity squared
+
+
+    Parameter
+    ---------
+    ellps: str
+        The name of the ellips in the map.
+
+    Returns
+    -------
+    Tuple[float, float, float, float]
+
+    """
+    semi_major_axis = kwargs["a"]
+    if "b" in kwargs:
+        semi_minor_axis = kwargs["b"]
+        eccentricity_squared = 1.0 - semi_minor_axis ** 2 / semi_major_axis ** 2
+        flattening = (semi_major_axis - semi_minor_axis) / semi_major_axis
+    elif "rf" in kwargs:
+        flattening = 1.0 / kwargs["rf"]
+        semi_minor_axis = semi_major_axis * (1.0 - flattening)
+        eccentricity_squared = 1.0 - semi_minor_axis ** 2 / semi_major_axis ** 2
+    elif "f" in kwargs:
+        flattening = kwargs["f"]
+        semi_minor_axis = semi_major_axis * (1.0 - flattening)
+        eccentricity_squared = 1.0 - (semi_minor_axis / semi_major_axis) ** 2
+    elif "es" in kwargs:
+        eccentricity_squared = kwargs["es"]
+        semi_minor_axis = math.sqrt(
+            semi_major_axis ** 2 - eccentricity_squared * semi_major_axis ** 2
+        )
+        flattening = (semi_major_axis - semi_minor_axis) / semi_major_axis
+    elif "e" in kwargs:
+        eccentricity_squared = kwargs["e"] ** 2
+        semi_minor_axis = math.sqrt(
+            semi_major_axis ** 2 - eccentricity_squared * semi_major_axis ** 2
+        )
+        flattening = (semi_major_axis - semi_minor_axis) / semi_major_axis
+    else:
+        semi_minor_axis = semi_major_axis
+        flattening = 0.0
+        eccentricity_squared = 0.0
+    return semi_major_axis, semi_minor_axis, flattening, eccentricity_squared
 
 
 class Geod(_Geod):
@@ -114,76 +200,46 @@ class Geod(_Geod):
         """
         # if initparams is a proj-type init string,
         # convert to dict.
-        ellpsd = {}  # type: Dict[str, Union[str, float]]
+        ellpsd: Dict[str, Union[str, float]] = {}
         if initstring is not None:
             for kvpair in initstring.split():
                 # Actually only +a and +b are needed
                 # We can ignore safely any parameter that doesn't have a value
                 if kvpair.find("=") == -1:
                     continue
-                k, v = kvpair.split("=")
-                k = k.lstrip("+")
-                if k in ["a", "b", "rf", "f", "es", "e"]:
-                    ellpsd[k] = float(v)
+                key, val = kvpair.split("=")
+                key = key.lstrip("+")
+                if key in ["a", "b", "rf", "f", "es", "e"]:
+                    ellpsd[key] = float(val)
                 else:
-                    ellpsd[k] = v
+                    ellpsd[key] = val
         # merge this dict with kwargs dict.
         kwargs = dict(list(kwargs.items()) + list(ellpsd.items()))
         sphere = False
         if "ellps" in kwargs:
-            # ellipse name given, look up in pj_ellps dict
-            ellps_dict = pj_ellps[kwargs["ellps"]]
-            a = ellps_dict["a"]  # type: float
-            if ellps_dict["description"] == "Normal Sphere":
-                sphere = True
-            if "b" in ellps_dict:
-                b = ellps_dict["b"]  # type: float
-                es = 1.0 - (b * b) / (a * a)  # type: float
-                f = (a - b) / a  # type: float
-            elif "rf" in ellps_dict:
-                f = 1.0 / ellps_dict["rf"]
-                b = a * (1.0 - f)
-                es = 1.0 - (b * b) / (a * a)
+            (
+                semi_major_axis,
+                semi_minor_axis,
+                flattening,
+                eccentricity_squared,
+                sphere,
+            ) = _params_from_ellps_map(kwargs["ellps"])
         else:
-            # a (semi-major axis) and one of
-            # b the semi-minor axis
-            # rf the reciprocal flattening
-            # f flattening
-            # es eccentricity squared
-            # must be given.
-            a = kwargs["a"]
-            if "b" in kwargs:
-                b = kwargs["b"]
-                es = 1.0 - (b * b) / (a * a)
-                f = (a - b) / a
-            elif "rf" in kwargs:
-                f = 1.0 / kwargs["rf"]
-                b = a * (1.0 - f)
-                es = 1.0 - (b * b) / (a * a)
-            elif "f" in kwargs:
-                f = kwargs["f"]
-                b = a * (1.0 - f)
-                es = 1.0 - (b / a) ** 2
-            elif "es" in kwargs:
-                es = kwargs["es"]
-                b = math.sqrt(a ** 2 - es * a ** 2)
-                f = (a - b) / a
-            elif "e" in kwargs:
-                es = kwargs["e"] ** 2
-                b = math.sqrt(a ** 2 - es * a ** 2)
-                f = (a - b) / a
-            else:
-                b = a
-                f = 0.0
-                es = 0.0
-                # msg='ellipse name or a, plus one of f,es,b must be given'
-                # raise ValueError(msg)
-        if math.fabs(f) < 1.0e-8:
+            (
+                semi_major_axis,
+                semi_minor_axis,
+                flattening,
+                eccentricity_squared,
+            ) = _params_from_kwargs(kwargs)
+
+        if math.fabs(flattening) < 1.0e-8:
             sphere = True
 
-        super().__init__(a, f, sphere, b, es)
+        super().__init__(
+            semi_major_axis, flattening, sphere, semi_minor_axis, eccentricity_squared
+        )
 
-    def fwd(
+    def fwd(  # pylint: disable=invalid-name
         self, lons: Any, lats: Any, az: Any, dist: Any, radians=False
     ) -> Tuple[Any, Any, Any]:
         """
@@ -218,15 +274,15 @@ class Geod(_Geod):
             Back azimuth(s)
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
-        inz, zisfloat, zislist, zistuple = _copytobuffer(az)
-        ind, disfloat, dislist, distuple = _copytobuffer(dist)
+        inx, x_data_type = _copytobuffer(lons)
+        iny, y_data_type = _copytobuffer(lats)
+        inz, z_data_type = _copytobuffer(az)
+        ind = _copytobuffer(dist)[0]
         self._fwd(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, yistuple, iny)
-        outz = _convertback(zisfloat, zislist, zistuple, inz)
+        outx = _convertback(x_data_type, inx)
+        outy = _convertback(y_data_type, iny)
+        outz = _convertback(z_data_type, inz)
         return outx, outy, outz
 
     def inv(
@@ -263,15 +319,15 @@ class Geod(_Geod):
             in meters
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lons1)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lats1)
-        inz, zisfloat, zislist, zistuple = _copytobuffer(lons2)
-        ind, disfloat, dislist, distuple = _copytobuffer(lats2)
+        inx, x_data_type = _copytobuffer(lons1)
+        iny, y_data_type = _copytobuffer(lats1)
+        inz, z_data_type = _copytobuffer(lons2)
+        ind = _copytobuffer(lats2)[0]
         self._inv(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(xisfloat, xislist, xistuple, inx)
-        outy = _convertback(yisfloat, yislist, yistuple, iny)
-        outz = _convertback(zisfloat, zislist, zistuple, inz)
+        outx = _convertback(x_data_type, inx)
+        outy = _convertback(y_data_type, iny)
+        outz = _convertback(z_data_type, inz)
         return outx, outy, outz
 
     def npts(
@@ -698,8 +754,8 @@ class Geod(_Geod):
             The total length of the line (meters).
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
+        inx = _copytobuffer(lons)[0]
+        iny = _copytobuffer(lats)[0]
         return self._line_length(inx, iny, radians=radians)
 
     def line_lengths(self, lons: Any, lats: Any, radians: bool = False) -> Any:
@@ -733,11 +789,11 @@ class Geod(_Geod):
             The total length of the line (meters).
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(lons)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(lats)
+        inx, x_data_type = _copytobuffer(lons)
+        iny = _copytobuffer(lats)[0]
         self._line_length(inx, iny, radians=radians)
-        line_lengths = _convertback(xisfloat, xislist, xistuple, inx)
-        return line_lengths if xisfloat else line_lengths[:-1]
+        line_lengths = _convertback(x_data_type, inx)
+        return line_lengths if x_data_type == DataType.FLOAT else line_lengths[:-1]
 
     def polygon_area_perimeter(
         self, lons: Any, lats: Any, radians: bool = False
@@ -828,7 +884,7 @@ class Geod(_Geod):
             pass
         if hasattr(geometry, "exterior"):
             return self.geometry_length(geometry.exterior, radians=radians)
-        elif hasattr(geometry, "geoms"):
+        if hasattr(geometry, "geoms"):
             total_length = 0.0
             for geom in geometry.geoms:
                 total_length += self.geometry_length(geom, radians=radians)
@@ -910,7 +966,7 @@ class Geod(_Geod):
                 total_area += area
             return total_area, total_perimeter
         # multi geometries
-        elif hasattr(geometry, "geoms"):
+        if hasattr(geometry, "geoms"):
             total_area = 0.0
             total_perimeter = 0.0
             for geom in geometry.geoms:
@@ -924,11 +980,11 @@ class Geod(_Geod):
         # search for ellipse name
         for (ellps, vals) in pj_ellps.items():
             if self.a == vals["a"]:
-                b = vals.get("b", None)
-                rf = vals.get("rf", None)
                 # self.sphere is True when self.f is zero or very close to
                 # zero (0), so prevent divide by zero.
-                if self.b == b or (not self.sphere and (1.0 / self.f) == rf):
+                if self.b == vals.get("b") or (
+                    not self.sphere and (1.0 / self.f) == vals.get("rf")
+                ):
                     return f"{self.__class__.__name__}(ellps={ellps!r})"
 
         # no ellipse name found, call super class

@@ -656,3 +656,19 @@ def test_geod_inv_honours_input_types(lons1, lats1, lons2):
     assert isinstance(outx, type(lons1))
     assert isinstance(outy, type(lats1))
     assert isinstance(outz, type(lons2))
+
+
+@pytest.mark.parametrize("kwarg", ["b", "f", "es", "rf", "e"])
+def test_geod__build_kwargs(kwarg):
+    gg = Geod(ellps="clrk66")
+    if kwarg == "rf":
+        value = 1.0 / gg.f
+    elif kwarg == "e":
+        value = math.sqrt(gg.es)
+    else:
+        value = getattr(gg, kwarg)
+    gg2 = Geod(a=gg.a, **{kwarg: value})
+    assert_almost_equal(gg.a, gg2.a)
+    assert_almost_equal(gg.b, gg2.b)
+    assert_almost_equal(gg.f, gg2.f)
+    assert_almost_equal(gg.es, gg2.es)

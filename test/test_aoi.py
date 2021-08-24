@@ -4,7 +4,9 @@ from pyproj.aoi import AreaOfInterest, BBox
 
 
 def test_backwards_compatible_import_paths():
-    from pyproj.transformer import AreaOfInterest  # noqa: F401
+    from pyproj.transformer import (  # noqa: F401 pylint: disable=unused-import
+        AreaOfInterest,
+    )
 
 
 def test_contains():

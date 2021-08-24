@@ -222,8 +222,8 @@ class Proj(Transformer):
         Factors
         """
         # process inputs, making copies that support buffer API.
-        inx, xisfloat, xislist, xistuple = _copytobuffer(longitude)
-        iny, yisfloat, yislist, yistuple = _copytobuffer(latitude)
+        inx, x_data_type = _copytobuffer(longitude)
+        iny = _copytobuffer(latitude)[0]
 
         # calculate the factors
         factors = self._transformer._get_factors(
@@ -232,32 +232,22 @@ class Proj(Transformer):
 
         # if inputs were lists, tuples or floats, convert back.
         return Factors(
-            meridional_scale=_convertback(
-                xisfloat, xislist, xistuple, factors.meridional_scale
-            ),
-            parallel_scale=_convertback(
-                xisfloat, xislist, xistuple, factors.parallel_scale
-            ),
-            areal_scale=_convertback(xisfloat, xislist, xistuple, factors.areal_scale),
-            angular_distortion=_convertback(
-                xisfloat, xislist, xistuple, factors.angular_distortion
-            ),
+            meridional_scale=_convertback(x_data_type, factors.meridional_scale),
+            parallel_scale=_convertback(x_data_type, factors.parallel_scale),
+            areal_scale=_convertback(x_data_type, factors.areal_scale),
+            angular_distortion=_convertback(x_data_type, factors.angular_distortion),
             meridian_parallel_angle=_convertback(
-                xisfloat, xislist, xistuple, factors.meridian_parallel_angle
+                x_data_type, factors.meridian_parallel_angle
             ),
             meridian_convergence=_convertback(
-                xisfloat, xislist, xistuple, factors.meridian_convergence
+                x_data_type, factors.meridian_convergence
             ),
-            tissot_semimajor=_convertback(
-                xisfloat, xislist, xistuple, factors.tissot_semimajor
-            ),
-            tissot_semiminor=_convertback(
-                xisfloat, xislist, xistuple, factors.tissot_semiminor
-            ),
-            dx_dlam=_convertback(xisfloat, xislist, xistuple, factors.dx_dlam),
-            dx_dphi=_convertback(xisfloat, xislist, xistuple, factors.dx_dphi),
-            dy_dlam=_convertback(xisfloat, xislist, xistuple, factors.dy_dlam),
-            dy_dphi=_convertback(xisfloat, xislist, xistuple, factors.dy_dphi),
+            tissot_semimajor=_convertback(x_data_type, factors.tissot_semimajor),
+            tissot_semiminor=_convertback(x_data_type, factors.tissot_semiminor),
+            dx_dlam=_convertback(x_data_type, factors.dx_dlam),
+            dx_dphi=_convertback(x_data_type, factors.dx_dphi),
+            dy_dlam=_convertback(x_data_type, factors.dy_dlam),
+            dy_dphi=_convertback(x_data_type, factors.dy_dphi),
         )
 
     def definition_string(self) -> str:

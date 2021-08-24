@@ -75,11 +75,11 @@ class CustomEllipsoid(Ellipsoid):
             The radius in meters. Can only be used alone.
             Cannot be mixed with other parameters.
         """
-        ellipsoid_json = {
+        ellipsoid_json: Dict[str, Union[float, str]] = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "Ellipsoid",
             "name": name,
-        }  # type: Dict[str, Union[float, str]]
+        }
         if semi_major_axis is not None:
             ellipsoid_json["semi_major_axis"] = semi_major_axis
         if inverse_flattening is not None:

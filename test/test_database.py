@@ -13,7 +13,11 @@ from pyproj.enums import PJType
 
 
 def test_backwards_compatible_import_paths():
-    from pyproj import get_authorities, get_codes, get_units_map  # noqa: F401
+    from pyproj import (  # noqa: F401 pylint: disable=unused-import
+        get_authorities,
+        get_codes,
+        get_units_map,
+    )
 
 
 def test_units_map__default():

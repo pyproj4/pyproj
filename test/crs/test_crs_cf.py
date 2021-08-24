@@ -692,13 +692,15 @@ def test_geos_crs_sweep():
 
 
 def test_geos_crs_fixed_angle_axis():
-    crs = CRS.from_cf(
-        dict(
-            grid_mapping_name="geostationary",
-            perspective_point_height=1,
-            fixed_angle_axis="y",
+    with pytest.warns(DeprecationWarning):
+        crs = CRS.from_cf(
+            dict(
+                grid_mapping_name="geostationary",
+                perspective_point_height=1,
+                fixed_angle_axis="y",
+            ),
+            errcheck=True,
         )
-    )
     expected_cf = {
         "semi_major_axis": 6378137.0,
         "semi_minor_axis": crs.ellipsoid.semi_minor_metre,
