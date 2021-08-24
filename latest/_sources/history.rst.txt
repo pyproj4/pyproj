@@ -20,6 +20,7 @@ Latest
 - BUG: Fix pickling for CRS builder classes (issue #897)
 - CLN: Remove `ignore_axis_order` kwarg from :meth:`pyproj.crs.CRS.is_exact_same` as it was added by accident (pull #904)
 - CLN: remove numeric/numarrays support (pull #908)
+- LNT: Add pylint & address issues (pull #909)
 
 3.1.0
 -----

@@ -249,11 +249,11 @@
 <span class="sd">            The radius in meters. Can only be used alone.</span>
 <span class="sd">            Cannot be mixed with other parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ellipsoid_json</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">ellipsoid_json</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Ellipsoid&quot;</span><span class="p">,</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-        <span class="p">}</span>  <span class="c1"># type: Dict[str, Union[float, str]]</span>
+        <span class="p">}</span>
         <span class="k">if</span> <span class="n">semi_major_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;semi_major_axis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_major_axis</span>
         <span class="k">if</span> <span class="n">inverse_flattening</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

@@ -196,8 +196,8 @@
 <span class="sd">    Get the bounding box from coordinates</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">BBox</span><span class="p">(</span><span class="n">west</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span> <span class="n">south</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">yy</span><span class="p">),</span> <span class="n">east</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span> <span class="n">north</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">yy</span><span class="p">))</span>
+        <span class="n">xxx</span><span class="p">,</span> <span class="n">yyy</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">BBox</span><span class="p">(</span><span class="n">west</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">xxx</span><span class="p">),</span> <span class="n">south</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">yyy</span><span class="p">),</span> <span class="n">east</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">xxx</span><span class="p">),</span> <span class="n">north</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">yyy</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="n">coord_bbox</span> <span class="o">=</span> <span class="kc">None</span>
@@ -291,11 +291,12 @@
     <span class="n">p_source_id</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;source_id&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">p_filename</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">p_source_id</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="p">(</span>
-        <span class="p">(</span><span class="n">source_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">source_id</span> <span class="ow">in</span> <span class="n">p_source_id</span><span class="p">)</span>
-        <span class="ow">and</span> <span class="p">(</span><span class="n">area_of_use</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">area_of_use</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;area_of_use&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
-        <span class="ow">and</span> <span class="p">(</span><span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">p_filename</span><span class="p">)</span>
-    <span class="p">):</span>
+    <span class="n">source_id__matched</span> <span class="o">=</span> <span class="n">source_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">source_id</span> <span class="ow">in</span> <span class="n">p_source_id</span>
+    <span class="n">area_of_use__matched</span> <span class="o">=</span> <span class="n">area_of_use</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">area_of_use</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;area_of_use&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">filename__matched</span> <span class="o">=</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">p_filename</span>
+    <span class="k">if</span> <span class="n">source_id__matched</span> <span class="ow">and</span> <span class="n">area_of_use__matched</span> <span class="ow">and</span> <span class="n">filename__matched</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span>
 

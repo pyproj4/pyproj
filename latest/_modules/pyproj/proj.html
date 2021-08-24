@@ -396,8 +396,8 @@
 <span class="sd">        Factors</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span>
+        <span class="n">iny</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">latitude</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># calculate the factors</span>
         <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_get_factors</span><span class="p">(</span>
@@ -406,32 +406,22 @@
 
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
         <span class="k">return</span> <span class="n">Factors</span><span class="p">(</span>
-            <span class="n">meridional_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
-                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridional_scale</span>
-            <span class="p">),</span>
-            <span class="n">parallel_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
-                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">parallel_scale</span>
-            <span class="p">),</span>
-            <span class="n">areal_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">areal_scale</span><span class="p">),</span>
-            <span class="n">angular_distortion</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
-                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">angular_distortion</span>
-            <span class="p">),</span>
+            <span class="n">meridional_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridional_scale</span><span class="p">),</span>
+            <span class="n">parallel_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">parallel_scale</span><span class="p">),</span>
+            <span class="n">areal_scale</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">areal_scale</span><span class="p">),</span>
+            <span class="n">angular_distortion</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">angular_distortion</span><span class="p">),</span>
             <span class="n">meridian_parallel_angle</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
-                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridian_parallel_angle</span>
+                <span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridian_parallel_angle</span>
             <span class="p">),</span>
             <span class="n">meridian_convergence</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
-                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridian_convergence</span>
+                <span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">meridian_convergence</span>
             <span class="p">),</span>
-            <span class="n">tissot_semimajor</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
-                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">tissot_semimajor</span>
-            <span class="p">),</span>
-            <span class="n">tissot_semiminor</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span>
-                <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">tissot_semiminor</span>
-            <span class="p">),</span>
-            <span class="n">dx_dlam</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dx_dlam</span><span class="p">),</span>
-            <span class="n">dx_dphi</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dx_dphi</span><span class="p">),</span>
-            <span class="n">dy_dlam</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dy_dlam</span><span class="p">),</span>
-            <span class="n">dy_dphi</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dy_dphi</span><span class="p">),</span>
+            <span class="n">tissot_semimajor</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">tissot_semimajor</span><span class="p">),</span>
+            <span class="n">tissot_semiminor</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">tissot_semiminor</span><span class="p">),</span>
+            <span class="n">dx_dlam</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dx_dlam</span><span class="p">),</span>
+            <span class="n">dx_dphi</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dx_dphi</span><span class="p">),</span>
+            <span class="n">dy_dlam</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dy_dlam</span><span class="p">),</span>
+            <span class="n">dy_dphi</span><span class="o">=</span><span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">factors</span><span class="o">.</span><span class="n">dy_dphi</span><span class="p">),</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Proj.definition_string"><a class="viewcode-back" href="../../api/proj.html#pyproj.Proj.definition_string">[docs]</a>    <span class="k">def</span> <span class="nf">definition_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>

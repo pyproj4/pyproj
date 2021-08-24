@@ -198,9 +198,95 @@
 <span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">GeodIntermediateFlag</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">GeodError</span>
 <span class="kn">from</span> <span class="nn">pyproj.list</span> <span class="kn">import</span> <span class="n">get_ellps_map</span>
-<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
+<span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">DataType</span><span class="p">,</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
 
 <span class="n">pj_ellps</span> <span class="o">=</span> <span class="n">get_ellps_map</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_params_from_ellps_map</span><span class="p">(</span><span class="n">ellps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build Geodesic parameters from PROJ ellips map</span>
+
+<span class="sd">    Parameter</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ellps: str</span>
+<span class="sd">        The name of the ellips in the map.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[float, float, float, float, bool]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ellps_dict</span> <span class="o">=</span> <span class="n">pj_ellps</span><span class="p">[</span><span class="n">ellps</span><span class="p">]</span>
+    <span class="n">semi_major_axis</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+    <span class="n">sphere</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Normal Sphere&quot;</span><span class="p">:</span>
+        <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
+        <span class="n">semi_minor_axis</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+        <span class="n">eccentricity_squared</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">semi_minor_axis</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">semi_major_axis</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">flattening</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">semi_major_axis</span> <span class="o">-</span> <span class="n">semi_minor_axis</span><span class="p">)</span> <span class="o">/</span> <span class="n">semi_major_axis</span>
+    <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
+        <span class="n">flattening</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
+        <span class="n">semi_minor_axis</span> <span class="o">=</span> <span class="n">semi_major_axis</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">flattening</span><span class="p">)</span>
+        <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">semi_minor_axis</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">semi_major_axis</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="p">,</span> <span class="n">flattening</span><span class="p">,</span> <span class="n">eccentricity_squared</span><span class="p">,</span> <span class="n">sphere</span>
+
+
+<span class="k">def</span> <span class="nf">_params_from_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build Geodesic parameters from input kwargs:</span>
+
+<span class="sd">    - a: the semi-major axis (required).</span>
+
+<span class="sd">    Need least one of these parameters.</span>
+
+<span class="sd">    - b: the semi-minor axis</span>
+<span class="sd">    - rf: the reciprocal flattening</span>
+<span class="sd">    - f: flattening</span>
+<span class="sd">    - es: eccentricity squared</span>
+
+
+<span class="sd">    Parameter</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ellps: str</span>
+<span class="sd">        The name of the ellips in the map.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[float, float, float, float]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">semi_major_axis</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">semi_minor_axis</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+        <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">semi_minor_axis</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">semi_major_axis</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">flattening</span> <span class="o">=</span> <span class="p">(</span><span class="n">semi_major_axis</span> <span class="o">-</span> <span class="n">semi_minor_axis</span><span class="p">)</span> <span class="o">/</span> <span class="n">semi_major_axis</span>
+    <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">flattening</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
+        <span class="n">semi_minor_axis</span> <span class="o">=</span> <span class="n">semi_major_axis</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">flattening</span><span class="p">)</span>
+        <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">semi_minor_axis</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">semi_major_axis</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="s2">&quot;f&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">flattening</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]</span>
+        <span class="n">semi_minor_axis</span> <span class="o">=</span> <span class="n">semi_major_axis</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">flattening</span><span class="p">)</span>
+        <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">semi_minor_axis</span> <span class="o">/</span> <span class="n">semi_major_axis</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="s2">&quot;es&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;es&quot;</span><span class="p">]</span>
+        <span class="n">semi_minor_axis</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="n">semi_major_axis</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">eccentricity_squared</span> <span class="o">*</span> <span class="n">semi_major_axis</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">flattening</span> <span class="o">=</span> <span class="p">(</span><span class="n">semi_major_axis</span> <span class="o">-</span> <span class="n">semi_minor_axis</span><span class="p">)</span> <span class="o">/</span> <span class="n">semi_major_axis</span>
+    <span class="k">elif</span> <span class="s2">&quot;e&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;e&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">semi_minor_axis</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="n">semi_major_axis</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">eccentricity_squared</span> <span class="o">*</span> <span class="n">semi_major_axis</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">flattening</span> <span class="o">=</span> <span class="p">(</span><span class="n">semi_major_axis</span> <span class="o">-</span> <span class="n">semi_minor_axis</span><span class="p">)</span> <span class="o">/</span> <span class="n">semi_major_axis</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">semi_minor_axis</span> <span class="o">=</span> <span class="n">semi_major_axis</span>
+        <span class="n">flattening</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="p">,</span> <span class="n">flattening</span><span class="p">,</span> <span class="n">eccentricity_squared</span>
 
 
 <div class="viewcode-block" id="Geod"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod">[docs]</a><span class="k">class</span> <span class="nc">Geod</span><span class="p">(</span><span class="n">_Geod</span><span class="p">):</span>
@@ -288,76 +374,46 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># if initparams is a proj-type init string,</span>
         <span class="c1"># convert to dict.</span>
-        <span class="n">ellpsd</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, Union[str, float]]</span>
+        <span class="n">ellpsd</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">initstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">kvpair</span> <span class="ow">in</span> <span class="n">initstring</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
                 <span class="c1"># Actually only +a and +b are needed</span>
                 <span class="c1"># We can ignore safely any parameter that doesn&#39;t have a value</span>
                 <span class="k">if</span> <span class="n">kvpair</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">kvpair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
-                <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;es&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">]:</span>
-                    <span class="n">ellpsd</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">kvpair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;es&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">]:</span>
+                    <span class="n">ellpsd</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">ellpsd</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                    <span class="n">ellpsd</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
         <span class="c1"># merge this dict with kwargs dict.</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">ellpsd</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
         <span class="n">sphere</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="s2">&quot;ellps&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="c1"># ellipse name given, look up in pj_ellps dict</span>
-            <span class="n">ellps_dict</span> <span class="o">=</span> <span class="n">pj_ellps</span><span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ellps&quot;</span><span class="p">]]</span>
-            <span class="n">a</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>  <span class="c1"># type: float</span>
-            <span class="k">if</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Normal Sphere&quot;</span><span class="p">:</span>
-                <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>  <span class="c1"># type: float</span>
-                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>  <span class="c1"># type: float</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>  <span class="c1"># type: float</span>
-            <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
-                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+            <span class="p">(</span>
+                <span class="n">semi_major_axis</span><span class="p">,</span>
+                <span class="n">semi_minor_axis</span><span class="p">,</span>
+                <span class="n">flattening</span><span class="p">,</span>
+                <span class="n">eccentricity_squared</span><span class="p">,</span>
+                <span class="n">sphere</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="n">_params_from_ellps_map</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ellps&quot;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># a (semi-major axis) and one of</span>
-            <span class="c1"># b the semi-minor axis</span>
-            <span class="c1"># rf the reciprocal flattening</span>
-            <span class="c1"># f flattening</span>
-            <span class="c1"># es eccentricity squared</span>
-            <span class="c1"># must be given.</span>
-            <span class="n">a</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
-                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
-            <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
-                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="s2">&quot;f&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>
-                <span class="n">es</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-            <span class="k">elif</span> <span class="s2">&quot;es&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="n">es</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;es&quot;</span><span class="p">]</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">es</span> <span class="o">*</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
-            <span class="k">elif</span> <span class="s2">&quot;e&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="n">es</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;e&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">es</span> <span class="o">*</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="n">es</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="c1"># msg=&#39;ellipse name or a, plus one of f,es,b must be given&#39;</span>
-                <span class="c1"># raise ValueError(msg)</span>
-        <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-8</span><span class="p">:</span>
+            <span class="p">(</span>
+                <span class="n">semi_major_axis</span><span class="p">,</span>
+                <span class="n">semi_minor_axis</span><span class="p">,</span>
+                <span class="n">flattening</span><span class="p">,</span>
+                <span class="n">eccentricity_squared</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="n">_params_from_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">flattening</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-8</span><span class="p">:</span>
             <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">flattening</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="p">,</span> <span class="n">eccentricity_squared</span>
+        <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span>
+<div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">az</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dist</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -392,15 +448,15 @@
 <span class="sd">            Back azimuth(s)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
-        <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
-        <span class="n">ind</span><span class="p">,</span> <span class="n">disfloat</span><span class="p">,</span> <span class="n">dislist</span><span class="p">,</span> <span class="n">distuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
+        <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">dist</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
-        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
-        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
-        <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">y_data_type</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">z_data_type</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
 
 <div class="viewcode-block" id="Geod.inv"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span>
@@ -437,15 +493,15 @@
 <span class="sd">            in meters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">)</span>
-        <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons2</span><span class="p">)</span>
-        <span class="n">ind</span><span class="p">,</span> <span class="n">disfloat</span><span class="p">,</span> <span class="n">dislist</span><span class="p">,</span> <span class="n">distuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats2</span><span class="p">)</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">)</span>
+        <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons2</span><span class="p">)</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
-        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
-        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
-        <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">y_data_type</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">z_data_type</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
 
 <div class="viewcode-block" id="Geod.npts"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.npts">[docs]</a>    <span class="k">def</span> <span class="nf">npts</span><span class="p">(</span>
@@ -872,8 +928,8 @@
 <span class="sd">            The total length of the line (meters).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
+        <span class="n">inx</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">iny</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line_length</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.line_lengths"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_lengths">[docs]</a>    <span class="k">def</span> <span class="nf">line_lengths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -907,11 +963,11 @@
 <span class="sd">            The total length of the line (meters).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
+        <span class="n">iny</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_line_length</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
-        <span class="n">line_lengths</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">line_lengths</span> <span class="k">if</span> <span class="n">xisfloat</span> <span class="k">else</span> <span class="n">line_lengths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+        <span class="n">line_lengths</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">line_lengths</span> <span class="k">if</span> <span class="n">x_data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span> <span class="k">else</span> <span class="n">line_lengths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Geod.polygon_area_perimeter"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.polygon_area_perimeter">[docs]</a>    <span class="k">def</span> <span class="nf">polygon_area_perimeter</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1002,7 +1058,7 @@
             <span class="k">pass</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;exterior&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">exterior</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;geoms&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;geoms&quot;</span><span class="p">):</span>
             <span class="n">total_length</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="k">for</span> <span class="n">geom</span> <span class="ow">in</span> <span class="n">geometry</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
                 <span class="n">total_length</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
@@ -1084,7 +1140,7 @@
                 <span class="n">total_area</span> <span class="o">+=</span> <span class="n">area</span>
             <span class="k">return</span> <span class="n">total_area</span><span class="p">,</span> <span class="n">total_perimeter</span>
         <span class="c1"># multi geometries</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;geoms&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="s2">&quot;geoms&quot;</span><span class="p">):</span>
             <span class="n">total_area</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="n">total_perimeter</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="k">for</span> <span class="n">geom</span> <span class="ow">in</span> <span class="n">geometry</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
@@ -1098,11 +1154,11 @@
         <span class="c1"># search for ellipse name</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">ellps</span><span class="p">,</span> <span class="n">vals</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pj_ellps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="n">vals</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]:</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="n">rf</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="c1"># self.sphere is True when self.f is zero or very close to</span>
                 <span class="c1"># zero (0), so prevent divide by zero.</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span> <span class="ow">and</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">rf</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">==</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                    <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span> <span class="ow">and</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rf&quot;</span><span class="p">)</span>
+                <span class="p">):</span>
                     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(ellps=</span><span class="si">{</span><span class="n">ellps</span><span class="si">!r}</span><span class="s2">)&quot;</span>
 
         <span class="c1"># no ellipse name found, call super class</span>
