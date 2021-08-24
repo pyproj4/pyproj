@@ -1709,11 +1709,10 @@
         <span class="p">)</span></div>
 
 
-<span class="k">class</span> <span class="nc">_MakerCRS</span><span class="p">(</span><span class="n">CRS</span><span class="p">):</span>
+<div class="viewcode-block" id="CustomConstructorCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CustomConstructorCRS">[docs]</a><span class="k">class</span> <span class="nc">CustomConstructorCRS</span><span class="p">(</span><span class="n">CRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class exists to handle the oddities to do with the</span>
-<span class="sd">    maker CRS classes having a different constructor than</span>
-<span class="sd">    the base CRS classes.</span>
+<span class="sd">    This class is a base class for CRS classes</span>
+<span class="sd">    that use a different constructor than the main CRS class.</span>
 
 <span class="sd">    .. versionadded:: 3.2.0</span>
 
@@ -1739,7 +1738,7 @@
                 <span class="sa">f</span><span class="s2">&quot;Invalid type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type_name</span><span class="si">}</span><span class="s2">. Expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_expected_types</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="p">)</span>
 
-    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="CustomConstructorCRS.from_user_input"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CustomConstructorCRS.from_user_input">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_user_input</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CRS class instance with:</span>
@@ -1766,9 +1765,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
         <span class="n">crs</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">,</span> <span class="n">crs</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CustomConstructorCRS</span><span class="p">,</span> <span class="n">crs</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">crs</span><span class="o">.</span><span class="n">_check_type</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">crs</span>
+        <span class="k">return</span> <span class="n">crs</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geodetic_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;CRS&quot;</span><span class="p">]:</span>
@@ -1819,7 +1818,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">CRS</span><span class="p">(</span><span class="n">sub_crs</span><span class="p">)</span> <span class="k">for</span> <span class="n">sub_crs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">to_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="CustomConstructorCRS.to_3d"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CustomConstructorCRS.to_3d">[docs]</a>    <span class="k">def</span> <span class="nf">to_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.1.0</span>
 
@@ -1839,10 +1838,10 @@
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="GeographicCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.GeographicCRS">[docs]</a><span class="k">class</span> <span class="nc">GeographicCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
+<div class="viewcode-block" id="GeographicCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.GeographicCRS">[docs]</a><span class="k">class</span> <span class="nc">GeographicCRS</span><span class="p">(</span><span class="n">CustomConstructorCRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
@@ -1882,7 +1881,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geographic_crs_json</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="DerivedGeographicCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.DerivedGeographicCRS">[docs]</a><span class="k">class</span> <span class="nc">DerivedGeographicCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
+<div class="viewcode-block" id="DerivedGeographicCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.DerivedGeographicCRS">[docs]</a><span class="k">class</span> <span class="nc">DerivedGeographicCRS</span><span class="p">(</span><span class="n">CustomConstructorCRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
@@ -1938,7 +1937,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">derived_geographic_crs_json</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="GeocentricCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.GeocentricCRS">[docs]</a><span class="k">class</span> <span class="nc">GeocentricCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
+<div class="viewcode-block" id="GeocentricCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.GeocentricCRS">[docs]</a><span class="k">class</span> <span class="nc">GeocentricCRS</span><span class="p">(</span><span class="n">CustomConstructorCRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 3.2.0</span>
 
@@ -1993,7 +1992,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geocentric_crs_json</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="ProjectedCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.ProjectedCRS">[docs]</a><span class="k">class</span> <span class="nc">ProjectedCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
+<div class="viewcode-block" id="ProjectedCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.ProjectedCRS">[docs]</a><span class="k">class</span> <span class="nc">ProjectedCRS</span><span class="p">(</span><span class="n">CustomConstructorCRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
@@ -2042,7 +2041,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">proj_crs_json</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="VerticalCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.VerticalCRS">[docs]</a><span class="k">class</span> <span class="nc">VerticalCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
+<div class="viewcode-block" id="VerticalCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.VerticalCRS">[docs]</a><span class="k">class</span> <span class="nc">VerticalCRS</span><span class="p">(</span><span class="n">CustomConstructorCRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
@@ -2090,7 +2089,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">vert_crs_json</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="CompoundCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CompoundCRS">[docs]</a><span class="k">class</span> <span class="nc">CompoundCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
+<div class="viewcode-block" id="CompoundCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CompoundCRS">[docs]</a><span class="k">class</span> <span class="nc">CompoundCRS</span><span class="p">(</span><span class="n">CustomConstructorCRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
@@ -2122,7 +2121,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">compound_crs_json</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="BoundCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.BoundCRS">[docs]</a><span class="k">class</span> <span class="nc">BoundCRS</span><span class="p">(</span><span class="n">_MakerCRS</span><span class="p">):</span>
+<div class="viewcode-block" id="BoundCRS"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.BoundCRS">[docs]</a><span class="k">class</span> <span class="nc">BoundCRS</span><span class="p">(</span><span class="n">CustomConstructorCRS</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 

@@ -396,10 +396,10 @@
       </ul></li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.coordinate_operation">coordinate_operation() (pyproj.crs.CRS property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.coordinate_system">coordinate_system() (pyproj.crs.CRS property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation">CoordinateOperation (class in pyproj.crs)</a>
 </li>
       <li><a href="api/crs/enums.html#pyproj.crs.enums.CoordinateOperationType">CoordinateOperationType (class in pyproj.crs.enums)</a>
@@ -419,6 +419,8 @@
       <li><a href="api/database.html#pyproj.database.CRSInfo">CRSInfo (class in pyproj.database)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.cs_to_cf">cs_to_cf() (pyproj.crs.CRS method)</a>
+</li>
+      <li><a href="api/crs/crs.html#pyproj.crs.CustomConstructorCRS">CustomConstructorCRS (class in pyproj.crs)</a>
 </li>
       <li><a href="api/crs/datum.html#pyproj.crs.datum.CustomDatum">CustomDatum (class in pyproj.crs.datum)</a>
 </li>
@@ -686,6 +688,8 @@
 </li>
         <li><a href="api/crs/crs.html#pyproj.crs.CRS.from_user_input">(pyproj.crs.CRS class method)</a>
 </li>
+        <li><a href="api/crs/crs.html#pyproj.crs.CustomConstructorCRS.from_user_input">(pyproj.crs.CustomConstructorCRS class method)</a>
+</li>
         <li><a href="api/crs/datum.html#pyproj.crs.Datum.from_user_input">(pyproj.crs.Datum method)</a>
 </li>
         <li><a href="api/crs/datum.html#pyproj.crs.Ellipsoid.from_user_input">(pyproj.crs.Ellipsoid method)</a>
@@ -718,7 +722,11 @@
       <li><a href="api/enums.html#pyproj.enums.PJType.GEODETIC_CRS">GEODETIC_CRS (pyproj.enums.PJType attribute)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.geodetic_crs">geodetic_crs() (pyproj.crs.CRS property)</a>
+
+      <ul>
+        <li><a href="api/crs/crs.html#pyproj.crs.CustomConstructorCRS.geodetic_crs">(pyproj.crs.CustomConstructorCRS property)</a>
 </li>
+      </ul></li>
       <li><a href="api/crs/enums.html#pyproj.crs.enums.DatumType.GEODETIC_REFERENCE_FRAME">GEODETIC_REFERENCE_FRAME (pyproj.crs.enums.DatumType attribute)</a>
 
       <ul>
@@ -741,10 +749,10 @@
 </li>
       <li><a href="api/geod.html#pyproj.Geod.geometry_length">geometry_length() (pyproj.Geod method)</a>
 </li>
-      <li><a href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion">GeostationarySatelliteConversion (class in pyproj.crs.coordinate_operation)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion">GeostationarySatelliteConversion (class in pyproj.crs.coordinate_operation)</a>
+</li>
       <li><a href="api/database.html#pyproj.database.get_authorities">get_authorities() (in module pyproj.database)</a>
 </li>
       <li><a href="api/database.html#pyproj.database.get_codes">get_codes() (in module pyproj.database)</a>
@@ -1163,10 +1171,10 @@
 </li>
       <li><a href="api/network.html#pyproj.network.set_network_enabled">set_network_enabled() (in module pyproj.network)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/global_context.html#pyproj.set_use_global_context">set_use_global_context() (in module pyproj)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs/coordinate_operation.html#pyproj._crs.Grid.short_name">short_name (pyproj._crs.Grid attribute)</a>
 </li>
       <li><a href="api/show_versions.html#pyproj.show_versions">show_versions() (in module pyproj)</a>
@@ -1174,7 +1182,11 @@
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.SinusoidalConversion">SinusoidalConversion (class in pyproj.crs.coordinate_operation)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.source_crs">source_crs() (pyproj.crs.CRS property)</a>
+
+      <ul>
+        <li><a href="api/crs/crs.html#pyproj.crs.CustomConstructorCRS.source_crs">(pyproj.crs.CustomConstructorCRS property)</a>
 </li>
+      </ul></li>
       <li><a href="api/aoi.html#pyproj.aoi.AreaOfUse.south">south (pyproj.aoi.AreaOfUse attribute)</a>
 
       <ul>
@@ -1196,7 +1208,11 @@
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.StereographicConversion">StereographicConversion (class in pyproj.crs.coordinate_operation)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.sub_crs_list">sub_crs_list() (pyproj.crs.CRS property)</a>
+
+      <ul>
+        <li><a href="api/crs/crs.html#pyproj.crs.CustomConstructorCRS.sub_crs_list">(pyproj.crs.CustomConstructorCRS property)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1204,7 +1220,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.target_crs">target_crs() (pyproj.crs.CRS property)</a>
+
+      <ul>
+        <li><a href="api/crs/crs.html#pyproj.crs.CustomConstructorCRS.target_crs">(pyproj.crs.CustomConstructorCRS property)</a>
 </li>
+      </ul></li>
       <li><a href="api/enums.html#pyproj.enums.PJType.TEMPORAL_CRS">TEMPORAL_CRS (pyproj.enums.PJType attribute)</a>
 </li>
       <li><a href="api/proj.html#pyproj.proj.Factors.tissot_semimajor">tissot_semimajor (pyproj.proj.Factors attribute)</a>
@@ -1212,7 +1232,11 @@
       <li><a href="api/proj.html#pyproj.proj.Factors.tissot_semiminor">tissot_semiminor (pyproj.proj.Factors attribute)</a>
 </li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.to_3d">to_3d() (pyproj.crs.CRS method)</a>
+
+      <ul>
+        <li><a href="api/crs/crs.html#pyproj.crs.CustomConstructorCRS.to_3d">(pyproj.crs.CustomConstructorCRS method)</a>
 </li>
+      </ul></li>
       <li><a href="api/crs/crs.html#pyproj.crs.CRS.to_authority">to_authority() (pyproj.crs.CRS method)</a>
 </li>
       <li><a href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.to_cf">to_cf() (pyproj.crs.CoordinateSystem method)</a>
@@ -1263,10 +1287,10 @@
       </ul></li>
       <li><a href="api/proj.html#pyproj.Proj.to_latlong">to_latlong() (pyproj.Proj method)</a>
 </li>
-      <li><a href="api/proj.html#pyproj.Proj.to_latlong_def">to_latlong_def() (pyproj.Proj method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/proj.html#pyproj.Proj.to_latlong_def">to_latlong_def() (pyproj.Proj method)</a>
+</li>
       <li><a href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation.to_proj4">to_proj4() (pyproj.crs.CoordinateOperation method)</a>
 
       <ul>
