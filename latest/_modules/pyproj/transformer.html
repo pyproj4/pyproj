@@ -175,7 +175,6 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The transformer module is for performing cartographic transformations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;transform&quot;</span><span class="p">,</span>
     <span class="s2">&quot;itransform&quot;</span><span class="p">,</span>
@@ -194,7 +193,7 @@
 
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">AreaOfUse</span><span class="p">,</span> <span class="n">CoordinateOperation</span>
-<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
+<span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401 pylint: disable=unused-import</span>
     <span class="n">AreaOfInterest</span><span class="p">,</span>
     <span class="n">_Transformer</span><span class="p">,</span>
     <span class="n">_TransformerGroup</span><span class="p">,</span>
@@ -363,6 +362,7 @@
             <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">iii</span><span class="p">,</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="p">):</span>
+            <span class="c1"># pylint: disable=unsupported-assignment-operation</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="p">[</span><span class="n">iii</span><span class="p">]</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">TransformerUnsafe</span><span class="p">(</span><span class="n">transformer</span><span class="p">))</span></div>
 
     <span class="nd">@property</span>
@@ -418,6 +418,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">directory</span> <span class="o">=</span> <span class="n">get_user_data_dir</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># pylint: disable=not-an-iterable</span>
         <span class="k">for</span> <span class="n">unavailable_operation</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">grid</span> <span class="ow">in</span> <span class="n">unavailable_operation</span><span class="o">.</span><span class="n">grids</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span>
@@ -453,6 +454,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialises in each thread</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">:</span>
@@ -624,6 +626,7 @@
 <span class="sd">        Transformer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=import-outside-toplevel</span>
         <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">proj_from</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
@@ -748,7 +751,7 @@
         <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">TransformerFromPipeline</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">))</span></div>
 
     <span class="nd">@overload</span>
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">yy</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -759,7 +762,7 @@
         <span class="o">...</span>
 
     <span class="nd">@overload</span>
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">yy</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -771,7 +774,7 @@
         <span class="o">...</span>
 
     <span class="nd">@overload</span>
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">yy</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -783,7 +786,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="o">...</span>
 
-<div class="viewcode-block" id="Transformer.transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+<div class="viewcode-block" id="Transformer.transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xx</span><span class="p">,</span>
         <span class="n">yy</span><span class="p">,</span>
@@ -865,14 +868,14 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">zz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">inz</span><span class="p">,</span> <span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">zz</span><span class="p">)</span>
+            <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">zz</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">inz</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">tt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">intime</span><span class="p">,</span> <span class="n">tisfloat</span><span class="p">,</span> <span class="n">tislist</span><span class="p">,</span> <span class="n">tistuple</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+            <span class="n">intime</span><span class="p">,</span> <span class="n">t_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">intime</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># call pj_transform.  inx,iny,inz buffers modified in place.</span>
@@ -886,17 +889,13 @@
             <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
-        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">xisfloat</span><span class="p">,</span> <span class="n">xislist</span><span class="p">,</span> <span class="n">xistuple</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
-        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">yisfloat</span><span class="p">,</span> <span class="n">yislist</span><span class="p">,</span> <span class="n">yistuple</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
-        <span class="n">return_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">)</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
+        <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">y_data_type</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
+        <span class="n">return_data</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">inz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">return_data</span> <span class="o">+=</span> <span class="p">(</span>  <span class="c1"># type: ignore</span>
-                <span class="n">_convertback</span><span class="p">(</span><span class="n">zisfloat</span><span class="p">,</span> <span class="n">zislist</span><span class="p">,</span> <span class="n">zistuple</span><span class="p">,</span> <span class="n">inz</span><span class="p">),</span>
-            <span class="p">)</span>
+            <span class="n">return_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">_convertback</span><span class="p">(</span><span class="n">z_data_type</span><span class="p">,</span> <span class="n">inz</span><span class="p">),)</span>
         <span class="k">if</span> <span class="n">intime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">return_data</span> <span class="o">+=</span> <span class="p">(</span>  <span class="c1"># type: ignore</span>
-                <span class="n">_convertback</span><span class="p">(</span><span class="n">tisfloat</span><span class="p">,</span> <span class="n">tislist</span><span class="p">,</span> <span class="n">tistuple</span><span class="p">,</span> <span class="n">intime</span><span class="p">),</span>
-            <span class="p">)</span>
+            <span class="n">return_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">_convertback</span><span class="p">(</span><span class="n">t_data_type</span><span class="p">,</span> <span class="n">intime</span><span class="p">),)</span>
         <span class="k">return</span> <span class="n">return_data</span></div>
 
 <div class="viewcode-block" id="Transformer.itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.itransform">[docs]</a>    <span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>
@@ -985,12 +984,12 @@
 <span class="sd">        &#39;-2.137 0.661&#39;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># point iterator</span>
+        <span class="n">point_it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># point iterator</span>
         <span class="c1"># get first point to check stride</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">fst_pt</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+            <span class="n">fst_pt</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">point_it</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;iterable must contain at least one point&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;iterable must contain at least one point&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
         <span class="n">stride</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fst_pt</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">stride</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
@@ -1001,7 +1000,9 @@
 
         <span class="c1"># create a coordinate sequence generator etc. x1,y1,z1,x2,y2,z2,....</span>
         <span class="c1"># chain so the generator returns the first point that was already acquired</span>
-        <span class="n">coord_gen</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">fst_pt</span><span class="p">,</span> <span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">coords</span> <span class="ow">in</span> <span class="n">it</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stride</span><span class="p">)))</span>
+        <span class="n">coord_gen</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span>
+            <span class="n">fst_pt</span><span class="p">,</span> <span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">coords</span> <span class="ow">in</span> <span class="n">point_it</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stride</span><span class="p">))</span>
+        <span class="p">)</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># create a temporary buffer storage for</span>
@@ -1020,8 +1021,8 @@
                 <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="nb">iter</span><span class="p">(</span><span class="n">buff</span><span class="p">)]</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)):</span>
-                <span class="k">yield</span> <span class="n">pt</span></div>
+            <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="nb">iter</span><span class="p">(</span><span class="n">buff</span><span class="p">)]</span> <span class="o">*</span> <span class="n">stride</span><span class="p">)):</span>
+                <span class="k">yield</span> <span class="n">point</span></div>
 
 <div class="viewcode-block" id="Transformer.transform_bounds"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.transform_bounds">[docs]</a>    <span class="k">def</span> <span class="nf">transform_bounds</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1186,13 +1187,25 @@
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_transformer</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Transformer.is_exact_same"><a class="viewcode-back" href="../../api/transformer.html#pyproj.Transformer.is_exact_same">[docs]</a>    <span class="k">def</span> <span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the Transformer objects are the exact same.</span>
+<span class="sd">        If it is not a Transformer, then it returns False.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other: Any</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Transformer</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">is_exact_same</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_transformer</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">is_exact_same</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_transformer</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="n">p1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">p2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -1293,7 +1306,7 @@
     <span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.itransform">[docs]</a><span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>
+<div class="viewcode-block" id="itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.itransform">[docs]</a><span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="n">p1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">p2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">points</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Iterable</span><span class="p">],</span>

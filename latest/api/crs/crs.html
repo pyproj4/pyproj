@@ -548,6 +548,9 @@ On Failure, it will return False.</p></li>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.0: </span>ellipsoidal_cs, cartesian_cs, vertical_cs</p>
 </div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.2.0: </span>errcheck</p>
+</div>
 <p>This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
 dict to a <a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> object.</p>
 <p><a class="reference internal" href="../../build_crs_cf.html#build-crs-cf"><span class="std std-ref">Managing CRS to and from CF</span></a></p>
@@ -565,7 +568,7 @@ or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordin
 <a class="reference internal" href="coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>
 or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordinate_system.VerticalCS" title="pyproj.crs.coordinate_system.VerticalCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_system.VerticalCS</span></code></a></p></li>
 <li><p><strong>errcheck</strong> (<em>bool</em><em>, </em><em>default=False</em>) – This parameter is for backwards compatibility with the old version.
-It currently does nothing when True or False.</p></li>
+It currently does nothing when True or False. DEPRECATED.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

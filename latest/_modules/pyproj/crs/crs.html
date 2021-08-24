@@ -176,6 +176,7 @@
 <span class="sd">This module interfaces with PROJ to produce a pythonic interface</span>
 <span class="sd">to the coordinate reference system (CRS) information.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># pylint: disable=too-many-lines</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">threading</span>
@@ -183,7 +184,7 @@
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
+<span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">_CRS</span><span class="p">,</span>
     <span class="n">AreaOfUse</span><span class="p">,</span>
     <span class="n">Axis</span><span class="p">,</span>
@@ -221,9 +222,12 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialises in each thread</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">_prepare_from_dict</span><span class="p">(</span><span class="n">projparams</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">allow_json</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">projparams</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS input is not a dict&quot;</span><span class="p">)</span>
     <span class="c1"># check if it is a PROJ JSON dict</span>
     <span class="k">if</span> <span class="s2">&quot;proj&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">projparams</span> <span class="ow">and</span> <span class="s2">&quot;init&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">projparams</span> <span class="ow">and</span> <span class="n">allow_json</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">projparams</span><span class="p">)</span>
@@ -243,54 +247,61 @@
     <span class="k">return</span> <span class="n">_prepare_from_string</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pjargs</span><span class="p">))</span>
 
 
+<span class="k">def</span> <span class="nf">_prepare_from_proj_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\s+]?=[\s+]?&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
+    <span class="c1"># make sure the projection starts with +proj or +init</span>
+    <span class="n">starting_params</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">):</span>
+        <span class="n">kvpairs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">first_item_inserted</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">kvpair</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">first_item_inserted</span> <span class="ow">and</span> <span class="p">(</span><span class="n">kvpair</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">)):</span>
+                <span class="n">kvpairs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvpair</span><span class="p">)</span>
+                <span class="n">first_item_inserted</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">kvpairs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kvpair</span><span class="p">)</span>
+        <span class="n">in_crs_string</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kvpairs</span><span class="p">)</span>
+
+    <span class="c1"># make sure it is the CRS type</span>
+    <span class="k">if</span> <span class="s2">&quot;type=crs&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;+&quot;</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
+            <span class="n">in_crs_string</span> <span class="o">+=</span> <span class="s2">&quot; +type=crs&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">in_crs_string</span> <span class="o">+=</span> <span class="s2">&quot; type=crs&quot;</span>
+
+    <span class="c1"># look for EPSG, replace with epsg (EPSG only works</span>
+    <span class="c1"># on case-insensitive filesystems).</span>
+    <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+init=EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;+init=epsg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">)):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;&#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &quot;</span>
+            <span class="s2">&quot;&#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. &quot;</span>
+            <span class="s2">&quot;When making the change, be mindful of axis order changes: &quot;</span>
+            <span class="s2">&quot;https://pyproj4.github.io/pyproj/stable/gotchas.html&quot;</span>
+            <span class="s2">&quot;#axis-order-changes-in-proj-6&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">in_crs_string</span>
+
+
 <span class="k">def</span> <span class="nf">_prepare_from_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS input is not a string&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">in_crs_string</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CRS is empty or invalid: </span><span class="si">{</span><span class="n">in_crs_string</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="s2">&quot;{&quot;</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CRS string is empty or invalid: </span><span class="si">{</span><span class="n">in_crs_string</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;{&quot;</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
         <span class="c1"># may be json, try to decode it</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">crs_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS appears to be JSON but is not valid&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS appears to be JSON but is not valid&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">crs_dict</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is empty JSON&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">)</span>
+        <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">_prepare_from_dict</span><span class="p">(</span><span class="n">crs_dict</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">is_proj</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">):</span>
-        <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\s+]?=[\s+]?&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
-        <span class="c1"># make sure the projection starts with +proj or +init</span>
-        <span class="n">starting_params</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">):</span>
-            <span class="n">kvpairs</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
-            <span class="n">first_item_inserted</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">for</span> <span class="n">kvpair</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">first_item_inserted</span> <span class="ow">and</span> <span class="p">(</span><span class="n">kvpair</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">starting_params</span><span class="p">)):</span>
-                    <span class="n">kvpairs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvpair</span><span class="p">)</span>
-                    <span class="n">first_item_inserted</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">kvpairs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kvpair</span><span class="p">)</span>
-            <span class="n">in_crs_string</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kvpairs</span><span class="p">)</span>
-
-        <span class="c1"># make sure it is the CRS type</span>
-        <span class="k">if</span> <span class="s2">&quot;type=crs&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;+&quot;</span> <span class="ow">in</span> <span class="n">in_crs_string</span><span class="p">:</span>
-                <span class="n">in_crs_string</span> <span class="o">+=</span> <span class="s2">&quot; +type=crs&quot;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">in_crs_string</span> <span class="o">+=</span> <span class="s2">&quot; type=crs&quot;</span>
-
-        <span class="c1"># look for EPSG, replace with epsg (EPSG only works</span>
-        <span class="c1"># on case-insensitive filesystems).</span>
-        <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+init=EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;+init=epsg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">in_crs_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;+init&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">)):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;&#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &quot;</span>
-                <span class="s2">&quot;&#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. &quot;</span>
-                <span class="s2">&quot;When making the change, be mindful of axis order changes: &quot;</span>
-                <span class="s2">&quot;https://pyproj4.github.io/pyproj/stable/gotchas.html&quot;</span>
-                <span class="s2">&quot;#axis-order-changes-in-proj-6&quot;</span><span class="p">,</span>
-                <span class="ne">FutureWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="n">in_crs_string</span> <span class="o">=</span> <span class="n">_prepare_from_proj_string</span><span class="p">(</span><span class="n">in_crs_string</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">in_crs_string</span>
 
 
@@ -549,7 +560,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_proj</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid PROJ string: </span><span class="si">{</span><span class="n">in_proj_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">_prepare_from_string</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">_prepare_from_proj_string</span><span class="p">(</span><span class="n">in_proj_string</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CRS.from_wkt"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_wkt">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_wkt</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">in_wkt_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
@@ -729,7 +740,7 @@
         <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">elif</span> <span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
@@ -779,30 +790,35 @@
 <span class="sd">            CF-1.8 version of the projection.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cf_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">wkt_version</span><span class="p">)}</span>  <span class="c1"># type: Dict[str, Any]</span>
+        <span class="c1"># pylint: disable=too-many-branches</span>
+        <span class="n">cf_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">wkt_version</span><span class="p">)}</span>
 
         <span class="c1"># handle bound CRS</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">towgs84</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span>
         <span class="p">):</span>
-            <span class="n">sub_cf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="n">sub_cf</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span>
+                <span class="n">wkt_version</span><span class="o">=</span><span class="n">wkt_version</span><span class="p">,</span>
+                <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">sub_cf</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">)</span>
             <span class="n">cf_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sub_cf</span><span class="p">)</span>
             <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;towgs84&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">towgs84</span>
             <span class="k">return</span> <span class="n">cf_dict</span>
 
         <span class="c1"># handle compound CRS</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_compound</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">sub_crs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">:</span>
-                <span class="n">sub_cf</span> <span class="o">=</span> <span class="n">sub_crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
+                <span class="n">sub_cf</span> <span class="o">=</span> <span class="n">sub_crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">(</span><span class="n">wkt_version</span><span class="o">=</span><span class="n">wkt_version</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span>
                 <span class="n">sub_cf</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">)</span>
                 <span class="n">cf_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sub_cf</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">cf_dict</span>
 
         <span class="c1"># handle vertical CRS</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_vertical</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_vertical</span><span class="p">:</span>
             <span class="n">vert_json</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span>
             <span class="k">if</span> <span class="s2">&quot;geoid_model&quot;</span> <span class="ow">in</span> <span class="n">vert_json</span><span class="p">:</span>
                 <span class="n">cf_dict</span><span class="p">[</span><span class="s2">&quot;geoid_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vert_json</span><span class="p">[</span><span class="s2">&quot;geoid_model&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
@@ -883,6 +899,8 @@
 
 <span class="sd">        .. versionadded:: 3.0.0 ellipsoidal_cs, cartesian_cs, vertical_cs</span>
 
+<span class="sd">        .. deprecated:: 3.2.0 errcheck</span>
+
 <span class="sd">        This converts a Climate and Forecast (CF) Grid Mapping Version 1.8</span>
 <span class="sd">        dict to a :obj:`pyproj.crs.CRS` object.</span>
 
@@ -906,16 +924,24 @@
 <span class="sd">            or :class:`pyproj.crs.coordinate_system.VerticalCS`</span>
 <span class="sd">        errcheck: bool, default=False</span>
 <span class="sd">            This parameter is for backwards compatibility with the old version.</span>
-<span class="sd">            It currently does nothing when True or False.</span>
+<span class="sd">            It currently does nothing when True or False. DEPRECATED.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=too-many-branches</span>
+        <span class="k">if</span> <span class="n">errcheck</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;errcheck is deprecated as it does nothing.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="n">unknown_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;undefined&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;crs_wkt&quot;</span> <span class="ow">in</span> <span class="n">in_cf</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">in_cf</span><span class="p">[</span><span class="s2">&quot;crs_wkt&quot;</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="s2">&quot;spatial_ref&quot;</span> <span class="ow">in</span> <span class="n">in_cf</span><span class="p">:</span>  <span class="c1"># for previous supported WKT key</span>
+        <span class="k">if</span> <span class="s2">&quot;spatial_ref&quot;</span> <span class="ow">in</span> <span class="n">in_cf</span><span class="p">:</span>  <span class="c1"># for previous supported WKT key</span>
             <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="n">in_cf</span><span class="p">[</span><span class="s2">&quot;spatial_ref&quot;</span><span class="p">])</span>
 
         <span class="n">grid_mapping_name</span> <span class="o">=</span> <span class="n">in_cf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;grid_mapping_name&quot;</span><span class="p">)</span>
@@ -927,19 +953,19 @@
 
         <span class="c1"># build geographic CRS</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">geographic_conversion_method</span> <span class="o">=</span> <span class="n">_GEOGRAPHIC_GRID_MAPPING_NAME_MAP</span><span class="p">[</span>
-                <span class="n">grid_mapping_name</span>
-            <span class="p">]</span>  <span class="c1"># type: Optional[Callable]</span>
+            <span class="n">geographic_conversion_method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+                <span class="n">Callable</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="n">_GEOGRAPHIC_GRID_MAPPING_NAME_MAP</span><span class="p">[</span><span class="n">grid_mapping_name</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">geographic_conversion_method</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">geographic_crs_name</span> <span class="o">=</span> <span class="n">in_cf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geographic_crs_name&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">datum</span><span class="p">:</span>
-            <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(</span>
+            <span class="n">geographic_crs</span><span class="p">:</span> <span class="n">CRS</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">geographic_crs_name</span> <span class="ow">or</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
                 <span class="n">datum</span><span class="o">=</span><span class="n">datum</span><span class="p">,</span>
                 <span class="n">ellipsoidal_cs</span><span class="o">=</span><span class="n">ellipsoidal_cs</span><span class="p">,</span>
-            <span class="p">)</span>  <span class="c1"># type: CRS</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">geographic_crs_name</span> <span class="ow">and</span> <span class="n">geographic_crs_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unknown_names</span><span class="p">:</span>
             <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">geographic_crs_name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">ellipsoidal_cs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -963,7 +989,9 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">conversion_method</span> <span class="o">=</span> <span class="n">_GRID_MAPPING_NAME_MAP</span><span class="p">[</span><span class="n">grid_mapping_name</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported grid mapping name: </span><span class="si">{</span><span class="n">grid_mapping_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unsupported grid mapping name: </span><span class="si">{</span><span class="n">grid_mapping_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
         <span class="n">projected_crs</span> <span class="o">=</span> <span class="n">ProjectedCRS</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">in_cf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;projected_crs_name&quot;</span><span class="p">,</span> <span class="s2">&quot;undefined&quot;</span><span class="p">),</span>
             <span class="n">conversion</span><span class="o">=</span><span class="n">conversion_method</span><span class="p">(</span><span class="n">in_cf</span><span class="p">),</span>
@@ -1181,7 +1209,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">utm_zone</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">sub_crs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">sub_crs</span><span class="o">.</span><span class="n">utm_zone</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">sub_crs</span><span class="o">.</span><span class="n">utm_zone</span>
@@ -1625,7 +1653,7 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="c1"># get axis information</span>
-        <span class="n">axis_info_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
+        <span class="n">axis_info_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis_info</span><span class="p">:</span>
             <span class="n">axis_info_list</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;- &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">axis</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">])</span>
         <span class="n">axis_info_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">axis_info_list</span><span class="p">)</span>
@@ -1655,8 +1683,8 @@
                     <span class="s2">&quot;Coordinate Operation:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;- name: &quot;</span><span class="p">,</span>
                     <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="p">),</span>
-                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="s2">&quot;- method: &quot;</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span><span class="p">),</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">- method: &quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">method_name</span><span class="p">,</span>
                     <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="p">]</span>
             <span class="p">)</span>
