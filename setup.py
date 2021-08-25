@@ -1,8 +1,8 @@
 import os
 import platform
+import shutil
 import subprocess
 import sys
-from distutils.spawn import find_executable
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -48,9 +48,9 @@ def get_proj_dir() -> Path:
         proj_dir = INTERNAL_PROJ_DIR
         print(f"Internally compiled directory being used {INTERNAL_PROJ_DIR}.")
     elif proj_dir is None and not INTERNAL_PROJ_DIR.exists():
-        proj = find_executable("proj", path=sys.prefix)
+        proj = shutil.which("proj", path=sys.prefix)
         if proj is None:
-            proj = find_executable("proj")
+            proj = shutil.which("proj")
         if proj is None:
             raise SystemExit(
                 "proj executable not found. Please set the PROJ_DIR variable. "

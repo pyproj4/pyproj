@@ -15,6 +15,22 @@ def is_null(value: Any) -> bool:
     return value != value or value is None
 
 
+def strtobool(value: Any) -> bool:
+    """
+    https://docs.python.org/3.9/distutils/apiref.html#distutils.util.strtobool
+
+    Here since distutils is deprecated.
+
+    Convert a string representation of truth to True or False.
+    """
+    value = str(value).lower()
+    if value in ("y", "yes", "t", "true", "on", "1"):
+        return True
+    if value in ("n", "no", "f", "false", "off", "0"):
+        return False
+    raise ValueError(f"invalid truth value: '{value}'")
+
+
 class NumpyEncoder(json.JSONEncoder):
     """
     Handle numpy types when dumping to JSON

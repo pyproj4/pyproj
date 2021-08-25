@@ -1,16 +1,17 @@
 import os
 import pickle
 from contextlib import contextmanager
-from distutils.version import LooseVersion
 from pathlib import Path
+
+from packaging import version
 
 import pyproj
 from pyproj.datadir import get_data_dir, get_user_data_dir, set_data_dir
 
 _NETWORK_ENABLED = pyproj.network.is_network_enabled()
-PROJ_LOOSE_VERSION = LooseVersion(pyproj.__proj_version__)
-PROJ_GTE_8 = PROJ_LOOSE_VERSION >= LooseVersion("8.0")
-PROJ_GTE_81 = PROJ_LOOSE_VERSION >= LooseVersion("8.1")
+PROJ_LOOSE_VERSION = version.parse(pyproj.__proj_version__)
+PROJ_GTE_8 = PROJ_LOOSE_VERSION >= version.parse("8.0")
+PROJ_GTE_81 = PROJ_LOOSE_VERSION >= version.parse("8.1")
 
 
 if PROJ_GTE_8:

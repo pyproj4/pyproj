@@ -3,8 +3,8 @@ Module for managing the PROJ data directory.
 """
 # pylint: disable=global-statement
 import os
+import shutil
 import sys
-from distutils.spawn import find_executable
 from pathlib import Path
 from typing import Union
 
@@ -100,7 +100,9 @@ def get_data_dir() -> str:
     elif valid_data_dir(prefix_datadir):
         _VALIDATED_PROJ_DATA = str(prefix_datadir)
     else:
-        proj_exe = find_executable("proj")
+        proj_exe = shutil.which("proj", path=sys.prefix)
+        if proj_exe is None:
+            proj_exe = shutil.which("proj")
         if proj_exe is not None:
             system_proj_dir = Path(proj_exe).parent.parent / "share" / "proj"
             if valid_data_dir(system_proj_dir):

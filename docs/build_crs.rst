@@ -114,7 +114,7 @@ PROJ string::
 
 .. code-block:: python
 
-    from distutils.version import LooseVersion
+    from packaging import version
 
     from pyproj.crs import BoundCRS, Ellipsoid, GeographicCRS, ProjectedCRS
     from pyproj.crs.coordinate_operation import (
@@ -124,7 +124,7 @@ PROJ string::
     from pyproj.crs.datum import CustomDatum
     import pyproj
 
-    if LooseVersion(pyproj.__proj_version__) >= LooseVersion("8.0")
+    if version.parse(pyproj.__proj_version__) >= version.parse("8.0")
         # https://github.com/OSGeo/PROJ/pull/2536
         HAYFORD_ELLIPSOID_NAME = "International 1924 (Hayford 1909, 1910)"
     else:
