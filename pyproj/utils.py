@@ -100,9 +100,7 @@ def _copytobuffer(xxx: Any) -> Tuple[Any, DataType]:
             # (array scalars don't support buffer API)
             return _copytobuffer_return_scalar(xxx)
         # Use C order when copying to handle arrays in fortran order
-        # See: https://github.com/matplotlib/basemap/pull/223
-        xxx = xxx.copy(order="C").astype("d", copy=False)
-        return xxx, DataType.ARRAY
+        return xxx.astype("d", order="C"), DataType.ARRAY
     data_type = DataType.ARRAY
     if isinstance(xxx, array):
         xxx = array("d", xxx)

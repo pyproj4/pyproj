@@ -42,6 +42,14 @@ def test__copytobuffer__numpy_array(in_arr):
     )
 
 
+def test__copytobuffer__fortran_order():
+    data = numpy.ones((2, 4), dtype=numpy.float64, order="F")
+    converted_data, dtype = _copytobuffer(data)
+    assert data.flags.f_contiguous
+    assert not converted_data.flags.f_contiguous
+    assert converted_data.flags.c_contiguous
+
+
 def test__copytobuffer__invalid():
     with pytest.raises(TypeError):
         _copytobuffer("invalid")
