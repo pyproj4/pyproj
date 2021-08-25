@@ -1350,3 +1350,24 @@ def test_transform_bounds__noop_geographic():
         transformer.transform_bounds(*crs.area_of_use.bounds),
         crs.area_of_use.bounds,
     )
+
+
+def test_transform__fortran_order():
+    lons, lats = np.arange(-180, 180, 20), np.arange(-90, 90, 10)
+    lats, lons = np.meshgrid(lats, lons)
+    f_lons, f_lats = lons.copy(order="F"), lats.copy(order="F")
+    transformer = Transformer.from_crs(
+        "EPSG:4326",
+        "EPSG:6933",
+        always_xy=True,
+    )
+    xxx, yyy = transformer.transform(lons, lats)
+    f_xxx, f_yyy = transformer.transform(f_lons, f_lats)
+    assert f_lons.flags.f_contiguous
+    assert f_lats.flags.f_contiguous
+    assert not f_xxx.flags.f_contiguous
+    assert f_xxx.flags.c_contiguous
+    assert not f_yyy.flags.f_contiguous
+    assert f_yyy.flags.c_contiguous
+    assert_array_equal(xxx, f_xxx)
+    assert_array_equal(yyy, f_yyy)
