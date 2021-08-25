@@ -61,7 +61,7 @@ def test_get_data_dir__missing():
     with proj_env(), pytest.raises(DataDirError), patch.dict(
         os.environ, {}, clear=True
     ), patch("pyproj.datadir.Path.absolute", return_value=_INVALID_PATH), patch(
-        "pyproj.datadir.find_executable", return_value=None
+        "pyproj.datadir.shutil.which", return_value=None
     ), patch(
         "pyproj.datadir.Path.absolute", return_value=_INVALID_PATH
     ), patch(
@@ -148,7 +148,7 @@ def test_get_data_dir__from_path(tmp_path):
     with proj_env(), patch.dict(os.environ, {}, clear=True), patch(
         "pyproj.datadir.Path.absolute", return_value=_INVALID_PATH
     ), patch("pyproj.datadir.sys.prefix", str(_INVALID_PATH)), patch(
-        "pyproj.datadir.find_executable", return_value=str(tmp_path / "bin" / "proj")
+        "pyproj.datadir.shutil.which", return_value=str(tmp_path / "bin" / "proj")
     ):
         proj_dir = tmp_path / "share" / "proj"
         proj_dir.mkdir(parents=True)

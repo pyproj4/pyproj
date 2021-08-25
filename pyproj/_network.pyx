@@ -1,7 +1,8 @@
 include "proj.pxi"
 
 import os
-from distutils.util import strtobool
+
+from pyproj.utils import strtobool
 
 from pyproj._datadir cimport PYPROJ_GLOBAL_CONTEXT
 

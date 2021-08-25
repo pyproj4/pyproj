@@ -1,7 +1,8 @@
 import logging
 import os
 import warnings
-from distutils.util import strtobool
+
+from pyproj.utils import strtobool
 
 from libc.stdlib cimport free, malloc
 

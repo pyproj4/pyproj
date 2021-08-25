@@ -1,8 +1,7 @@
-from distutils.version import LooseVersion
-
 import numpy
 import pytest
 from numpy.testing import assert_almost_equal
+from packaging import version
 
 from pyproj import CRS
 from pyproj.crs import ProjectedCRS
@@ -873,7 +872,7 @@ def test_osgb_1936():
             "Scale factor at natural origin"
         ],
     }
-    if PROJ_LOOSE_VERSION >= LooseVersion("8.0.1"):
+    if PROJ_LOOSE_VERSION >= version.parse("8.0.1"):
         expected_cf.update(
             geographic_crs_name="OSGB36",
             horizontal_datum_name="Ordnance Survey of Great Britain 1936",
