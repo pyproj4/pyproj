@@ -94,7 +94,7 @@ directly::
 
 If you want to be compatible across GDAL/rasterio versions, you can do::
 
-    from distutils.version import LooseVersion
+    from packaging import version
 
     import rasterio
     import rasterio.crs
@@ -102,7 +102,7 @@ If you want to be compatible across GDAL/rasterio versions, you can do::
     from pyproj.enums import WktVersion
 
     proj_crs = CRS.from_epsg(4326)
-    if LooseVersion(rasterio.__gdal_version__) < LooseVersion("3.0.0")
+    if version.parse(rasterio.__gdal_version__) < version.parse("3.0.0")
         rio_crs = rasterio.crs.CRS.from_wkt(proj_crs.to_wkt(WktVersion.WKT1_GDAL))
     else:
         rio_crs = rasterio.crs.CRS.from_wkt(proj_crs.to_wkt())
@@ -138,14 +138,14 @@ Converting from `pyproj.crs.CRS` for `fiona`
 
 If you want to be compatible across GDAL versions, you can do::
 
-    from distutils.version import LooseVersion
+    from packaging import version
 
     import fiona
     from pyproj.crs import CRS
 
     proj_crs = CRS.from_epsg(4326)
 
-    if LooseVersion(fiona.__gdal_version__) < LooseVersion("3.0.0"):
+    if version.parse(fiona.__gdal_version__) < version.parse("3.0.0"):
         fio_crs = proj_crs.to_wkt(WktVersion.WKT1_GDAL)
     else:
         # GDAL 3+ can use WKT2
@@ -174,12 +174,12 @@ Preparing `pyproj.crs.CRS` for `geopandas`
 
     proj_crs = CRS.from_epsg(4326)
 
-    if LooseVersion(geopandas.__version__) >= LooseVersion("0.7.0"):
+    if version.parse(geopandas.__version__) >= version.parse("0.7.0"):
         # geopandas uses pyproj.crs.CRS
         geo_crs = proj_crs
-    elif LooseVersion(geopandas.__version__) >= LooseVersion("0.6.0"):
+    elif version.parse(geopandas.__version__) >= version.parse("0.6.0"):
         # this version of geopandas uses always_xy=True so WKT version is safe
-        if LooseVersion(fiona.__gdal_version__) < LooseVersion("3.0.0"):
+        if version.parse(fiona.__gdal_version__) < version.parse("3.0.0"):
             geo_crs = proj_crs.to_wkt(WktVersion.WKT1_GDAL)
         else:
             # GDAL 3+ can use WKT2

@@ -21,6 +21,7 @@ Latest
 - CLN: Remove `ignore_axis_order` kwarg from :meth:`pyproj.crs.CRS.is_exact_same` as it was added by accident (pull #904)
 - CLN: remove numeric/numarrays support (pull #908)
 - LNT: Add pylint & address issues (pull #909)
+- DEP: Remove distutils dependency (pull #917)
 
 3.1.0
 -----
