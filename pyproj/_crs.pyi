@@ -1,4 +1,4 @@
-from typing import Any, Iterable, List, Optional, Tuple, Union
+from typing import Any, Iterable, List, NamedTuple, Optional, Tuple, Union
 
 from pyproj.crs.enums import CoordinateOperationType
 from pyproj.enums import ProjVersion, WktVersion
@@ -185,6 +185,13 @@ class CoordinateOperation(_CRSParts):
         ] = CoordinateOperationType.CONVERSION,
     ) -> "CoordinateOperation": ...
 
+
+class AuthorityMatchInfo(NamedTuple):
+    auth_name: str
+    code: str
+    confidence: int
+
+
 class _CRS(Base):
     srs: str
     type_name: str
@@ -218,6 +225,9 @@ class _CRS(Base):
     def to_authority(
         self, auth_name: Optional[str] = None, min_confidence: int = 70
     ): ...
+    def list_authority(
+        self, auth_name: Optional[str] = None, min_confidence: int = 70
+    ) -> List[AuthorityMatchInfo]: ...
     def to_3d(self, name: Optional[str] = None) -> "_CRS": ...
     @property
     def is_geographic(self) -> bool: ...

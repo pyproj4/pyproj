@@ -1,7 +1,7 @@
 import json
 import re
 import warnings
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 
 from pyproj._compat cimport cstrdecode
 from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
@@ -2273,6 +2273,30 @@ cdef class CoordinateOperation(_CRSParts):
             f"Area of Use:\n{self.area_of_use or '- undefined'}"
         )
 
+AuthorityMatchInfo = namedtuple(
+    "AuthorityMatchInfo",
+    [
+        "auth_name",
+        "code",
+        "confidence",
+    ],
+)
+AuthorityMatchInfo.__doc__ = """
+.. versionadded:: 3.2.0
+
+CRS Authority Match Information
+
+Parameters
+----------
+auth_name: str
+    Authority name.
+code: str
+    Object code.
+confidence: int
+    Confidence that this CRS matches
+    the authority and code.
+"""
+
 
 _CRS_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown CRS",
@@ -2724,70 +2748,110 @@ cdef class _CRS(Base):
         tuple(str, str) or None:
             The best matching (<auth_name>, <code>) for the confidence level.
         """
+        try:
+            authority = self.list_authority(
+                auth_name=auth_name, min_confidence=min_confidence,
+            )[0]
+            return authority.auth_name, authority.code
+        except IndexError:
+            return None
+
+    def list_authority(self, auth_name=None, min_confidence=70):
+        """
+        .. versionadded:: 3.2.0
+
+        Return the authority names and codes best matching the CRS.
+
+        Example:
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("epsg:4328")
+        >>> ccs.list_authority()
+        [AuthorityMatchInfo(auth_name='EPSG', code='4326', confidence=100)]
+
+        If the CRS is bound, you can get an authority from
+        the source CRS:
+
+        >>> from pyproj import CRS
+        >>> ccs = CRS("+proj=geocent +datum=WGS84 +towgs84=0,0,0")
+        >>> ccs.list_authority()
+        []
+        >>> ccs.source_crs.list_authority()
+        [AuthorityMatchInfo(auth_name='EPSG', code='4978', confidence=70)]
+        >>> ccs == CRS.from_authorty('EPSG', '4978')
+        False
+
+        Parameters
+        ----------
+        auth_name: str, optional
+            The name of the authority to filter by.
+        min_confidence: int, default=70
+            A value between 0-100 where 100 is the most confident.
+            :ref:`min_confidence`
+
+        Returns
+        -------
+        List[AuthorityMatchInfo]:
+            List of authority matches for the CRS.
+        """
         # get list of possible matching projections
         cdef PJ_OBJ_LIST *proj_list = NULL
-        cdef int *out_confidence_list = NULL
+        cdef int *c_out_confidence_list = NULL
         cdef int out_confidence = -9999
         cdef int num_proj_objects = -9999
         cdef char *user_auth_name = NULL
+        cdef int iii = 0
 
         if auth_name is not None:
             b_auth_name = cstrencode(auth_name)
             user_auth_name = b_auth_name
 
+        out_confidence_list = []
         try:
             proj_list = proj_identify(
                 self.context,
                 self.projobj,
                 user_auth_name,
                 NULL,
-                &out_confidence_list
+                &c_out_confidence_list
             )
             if proj_list != NULL:
                 num_proj_objects = proj_list_get_count(proj_list)
-            if out_confidence_list != NULL and num_proj_objects > 0:
-                out_confidence = out_confidence_list[0]
+            if c_out_confidence_list != NULL and num_proj_objects > 0:
+                out_confidence_list = [
+                    c_out_confidence_list[iii] for iii in range(num_proj_objects)
+                ]
         finally:
-            if out_confidence_list != NULL:
-                proj_int_list_destroy(out_confidence_list)
+            if c_out_confidence_list != NULL:
+                proj_int_list_destroy(c_out_confidence_list)
             CRSError.clear()
-
-        # check to make sure that the projection found is valid
-        if (
-            proj_list == NULL
-            or num_proj_objects <= 0
-            or out_confidence < min_confidence
-        ):
-            if proj_list != NULL:
-                proj_list_destroy(proj_list)
-            return None
 
         # retrieve the best matching projection
         cdef PJ* proj = NULL
-        cdef int iii = 0
+        cdef const char* code
+        cdef const char* out_auth_name
+        authority_list = []
         try:
-            proj = proj_list_get(self.context, proj_list, 0)
+            for iii in range(num_proj_objects):
+                if out_confidence_list[iii] < min_confidence:
+                    continue
+                proj = proj_list_get(self.context, proj_list, iii)
+                code = proj_get_id_code(proj, iii)
+                out_auth_name = proj_get_id_auth_name(proj, iii)
+                if out_auth_name != NULL and code != NULL:
+                    authority_list.append(
+                        AuthorityMatchInfo(
+                            pystrdecode(out_auth_name),
+                            pystrdecode(code),
+                            out_confidence_list[iii]
+                        )
+                    )
         finally:
-            for iii in range(1, num_proj_objects):
+            for iii in range(num_proj_objects):
                 proj_destroy(proj_list_get(self.context, proj_list, iii))
             proj_list_destroy(proj_list)
             CRSError.clear()
-        if proj == NULL:
-            return None
-
-        # convert the matching projection to the EPSG code
-        cdef const char* code
-        cdef const char* out_auth_name
-        try:
-            code = proj_get_id_code(proj, 0)
-            out_auth_name = proj_get_id_auth_name(proj, 0)
-            if out_auth_name != NULL and code != NULL:
-                return pystrdecode(out_auth_name), pystrdecode(code)
-        finally:
-            proj_destroy(proj)
-            CRSError.clear()
-
-        return None
+        return authority_list
 
     def to_3d(self, name=None):
         """
