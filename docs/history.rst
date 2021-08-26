@@ -8,6 +8,7 @@ Latest
 - REF: Make CRS methods inheritable (issue #847)
 - ENH: Added :attr:`pyproj.crs.CRS.is_derived` (pull #902)
 - ENH: Added :attr:`pyproj.crs.GeocentricCRS` (pull #903)
+- ENH: Added :attr:`pyproj.crs.CRS.list_authority` (issue #918)
 - PERF: Disable unnecessary copy in dtype conversion for buffer (pull #904)
 - DOC: Improve FAQ text about CRS formats (issue #789)
 - BUG: Add PyPy cython array implementation (issue #854)

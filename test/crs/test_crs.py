@@ -6,6 +6,7 @@ import pytest
 
 import pyproj
 from pyproj import CRS
+from pyproj._crs import AuthorityMatchInfo
 from pyproj.crs import (
     CoordinateOperation,
     CoordinateSystem,
@@ -1522,3 +1523,9 @@ def test_inheritance__from_methods():
     assert_inheritance_valid(ChildCRS.from_json(CRS(4326).to_json()))
     assert_inheritance_valid(ChildCRS.from_json_dict(CRS(4326).to_json_dict()))
     assert_inheritance_valid(ChildCRS.from_wkt(CRS(4326).to_wkt()))
+
+
+def test_list_authority():
+    assert CRS("+proj=utm +zone=15").list_authority() == [
+        AuthorityMatchInfo(auth_name="EPSG", code="32615", confidence=70)
+    ]
