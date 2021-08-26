@@ -187,6 +187,7 @@
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">_CRS</span><span class="p">,</span>
     <span class="n">AreaOfUse</span><span class="p">,</span>
+    <span class="n">AuthorityMatchInfo</span><span class="p">,</span>
     <span class="n">Axis</span><span class="p">,</span>
     <span class="n">CoordinateOperation</span><span class="p">,</span>
     <span class="n">CoordinateSystem</span><span class="p">,</span>
@@ -1504,6 +1505,50 @@
 <span class="sd">            The best matching (&lt;auth_name&gt;, &lt;code&gt;) for the confidence level.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">(</span>
+            <span class="n">auth_name</span><span class="o">=</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">min_confidence</span><span class="o">=</span><span class="n">min_confidence</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CRS.list_authority"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.list_authority">[docs]</a>    <span class="k">def</span> <span class="nf">list_authority</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorityMatchInfo</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 3.2.0</span>
+
+<span class="sd">        Return the authority names and codes best matching the CRS.</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import CRS</span>
+<span class="sd">        &gt;&gt;&gt; ccs = CRS(&quot;epsg:4328&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; ccs.list_authority()</span>
+<span class="sd">        [AuthorityMatchInfo(auth_name=&#39;EPSG&#39;, code=&#39;4326&#39;, confidence=100)]</span>
+
+<span class="sd">        If the CRS is bound, you can get an authority from</span>
+<span class="sd">        the source CRS:</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyproj import CRS</span>
+<span class="sd">        &gt;&gt;&gt; ccs = CRS(&quot;+proj=geocent +datum=WGS84 +towgs84=0,0,0&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; ccs.list_authority()</span>
+<span class="sd">        []</span>
+<span class="sd">        &gt;&gt;&gt; ccs.source_crs.list_authority()</span>
+<span class="sd">        [AuthorityMatchInfo(auth_name=&#39;EPSG&#39;, code=&#39;4978&#39;, confidence=70)]</span>
+<span class="sd">        &gt;&gt;&gt; ccs == CRS.from_authorty(&#39;EPSG&#39;, &#39;4978&#39;)</span>
+<span class="sd">        False</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        auth_name: str, optional</span>
+<span class="sd">            The name of the authority to filter by.</span>
+<span class="sd">        min_confidence: int, default=70</span>
+<span class="sd">            A value between 0-100 where 100 is the most confident.</span>
+<span class="sd">            :ref:`min_confidence`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[AuthorityMatchInfo]:</span>
+<span class="sd">            List of authority matches for the CRS.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">list_authority</span><span class="p">(</span>
             <span class="n">auth_name</span><span class="o">=</span><span class="n">auth_name</span><span class="p">,</span> <span class="n">min_confidence</span><span class="o">=</span><span class="n">min_confidence</span>
         <span class="p">)</span></div>
 
