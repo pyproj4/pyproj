@@ -928,6 +928,49 @@ the source CRS is vertical if it is a bound CRS.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pyproj.crs.CRS.list_authority">
+<code class="sig-name descname">list_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_confidence</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">70</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>importlib._bootstrap.AuthorityMatchInfo<span class="p">]</span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.list_authority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.CRS.list_authority" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2.0.</span></p>
+</div>
+<p>Return the authority names and codes best matching the CRS.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;epsg:4328&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">list_authority</span><span class="p">()</span>
+<span class="go">[AuthorityMatchInfo(auth_name=&#39;EPSG&#39;, code=&#39;4326&#39;, confidence=100)]</span>
+</pre></div>
+</div>
+<p>If the CRS is bound, you can get an authority from
+the source CRS:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+proj=geocent +datum=WGS84 +towgs84=0,0,0&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">list_authority</span><span class="p">()</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">list_authority</span><span class="p">()</span>
+<span class="go">[AuthorityMatchInfo(auth_name=&#39;EPSG&#39;, code=&#39;4978&#39;, confidence=70)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">==</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_authorty</span><span class="p">(</span><span class="s1">&#39;EPSG&#39;</span><span class="p">,</span> <span class="s1">&#39;4978&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the authority to filter by.</p></li>
+<li><p><strong>min_confidence</strong> (<em>int</em><em>, </em><em>default=70</em>) – A value between 0-100 where 100 is the most confident.
+<a class="reference internal" href="../../gotchas.html#min-confidence"><span class="std std-ref">Why does the EPSG code return when using EPSG:xxxx and not with +init=EPSG:xxxx?</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of authority matches for the CRS.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[AuthorityMatchInfo]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pyproj.crs.CRS.name">
 <em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pyproj.crs.CRS.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns: The name of the CRS (from <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">proj_get_name()</span></code>).
