@@ -85,7 +85,7 @@ def _copytobuffer_return_scalar(xxx: Any) -> Tuple[array, DataType]:
         raise TypeError("input must be a scalar") from None
 
 
-def _copytobuffer(xxx: Any) -> Tuple[Any, DataType]:
+def _copytobuffer(xxx: Any, inplace: bool = False) -> Tuple[Any, DataType]:
     """
     Prepares data for PROJ C-API:
     - Makes a copy because PROJ modifies buffer in place
@@ -99,6 +99,9 @@ def _copytobuffer(xxx: Any) -> Tuple[Any, DataType]:
     xxx: Any
         A scalar, list, tuple, numpy.array,
         pandas.Series, xaray.DataArray, or dask.array.Array.
+    inplace: bool, default=False
+        If True, will return the array withour a copy if it
+        meets the requirements of the Python Buffer API & PROJ C-API.
 
     Returns
     -------
@@ -116,10 +119,11 @@ def _copytobuffer(xxx: Any) -> Tuple[Any, DataType]:
             # (array scalars don't support buffer API)
             return _copytobuffer_return_scalar(xxx)
         # Use C order when copying to handle arrays in fortran order
-        return xxx.astype("d", order="C"), DataType.ARRAY
+        return xxx.astype("d", order="C", copy=not inplace), DataType.ARRAY
     data_type = DataType.ARRAY
     if isinstance(xxx, array):
-        xxx = array("d", xxx)
+        if not inplace or xxx.typecode != "d":
+            xxx = array("d", xxx)
     elif isinstance(xxx, list):
         xxx = array("d", xxx)
         data_type = DataType.LIST

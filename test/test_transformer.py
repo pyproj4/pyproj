@@ -1,5 +1,6 @@
 import concurrent.futures
 import os
+from array import array
 from functools import partial
 from glob import glob
 from itertools import permutations
@@ -1352,7 +1353,8 @@ def test_transform_bounds__noop_geographic():
     )
 
 
-def test_transform__fortran_order():
+@pytest.mark.parametrize("inplace", [True, False])
+def test_transform__fortran_order(inplace):
     lons, lats = np.arange(-180, 180, 20), np.arange(-90, 90, 10)
     lats, lons = np.meshgrid(lats, lons)
     f_lons, f_lats = lons.copy(order="F"), lats.copy(order="F")
@@ -1362,7 +1364,7 @@ def test_transform__fortran_order():
         always_xy=True,
     )
     xxx, yyy = transformer.transform(lons, lats)
-    f_xxx, f_yyy = transformer.transform(f_lons, f_lats)
+    f_xxx, f_yyy = transformer.transform(f_lons, f_lats, inplace=inplace)
     assert f_lons.flags.f_contiguous
     assert f_lats.flags.f_contiguous
     assert not f_xxx.flags.f_contiguous
@@ -1371,3 +1373,79 @@ def test_transform__fortran_order():
     assert f_yyy.flags.c_contiguous
     assert_array_equal(xxx, f_xxx)
     assert_array_equal(yyy, f_yyy)
+
+
+def test_4d_transform__inplace__array():
+    transformer = Transformer.from_crs(7789, 8401)
+    xarr = array("d", [3496737.2679])
+    yarr = array("d", [743254.4507])
+    zarr = array("d", [5264462.9620])
+    tarr = array("d", [2019.0])
+    t_xarr, t_yarr, t_zarr, t_tarr = transformer.transform(
+        xx=xarr, yy=yarr, zz=zarr, tt=tarr, inplace=True
+    )
+    assert xarr is t_xarr
+    assert_almost_equal(xarr[0], 3496737.757717311)
+    assert yarr is t_yarr
+    assert_almost_equal(yarr[0], 743253.9940103051)
+    assert zarr is t_zarr
+    assert_almost_equal(zarr[0], 5264462.701132784)
+    assert tarr is t_tarr
+    assert_almost_equal(tarr[0], 2019.0)
+
+
+def test_4d_transform__inplace__array__int():
+    transformer = Transformer.from_crs(7789, 8401)
+    xarr = array("i", [3496737])
+    yarr = array("i", [743254])
+    zarr = array("i", [5264462])
+    tarr = array("i", [2019])
+    t_xarr, t_yarr, t_zarr, t_tarr = transformer.transform(
+        xx=xarr, yy=yarr, zz=zarr, tt=tarr, inplace=True
+    )
+    assert xarr is not t_xarr
+    assert xarr[0] == 3496737
+    assert yarr is not t_yarr
+    assert yarr[0] == 743254
+    assert zarr is not t_zarr
+    assert zarr[0] == 5264462
+    assert tarr is not t_tarr
+    assert tarr[0] == 2019
+
+
+def test_4d_transform__inplace__numpy():
+    transformer = Transformer.from_crs(7789, 8401)
+    xarr = np.array([3496737.2679], dtype=np.float64)
+    yarr = np.array([743254.4507], dtype=np.float64)
+    zarr = np.array([5264462.9620], dtype=np.float64)
+    tarr = np.array([2019.0], dtype=np.float64)
+    t_xarr, t_yarr, t_zarr, t_tarr = transformer.transform(
+        xx=xarr, yy=yarr, zz=zarr, tt=tarr, inplace=True
+    )
+    assert xarr is t_xarr
+    assert_almost_equal(xarr[0], 3496737.757717311)
+    assert yarr is t_yarr
+    assert_almost_equal(yarr[0], 743253.9940103051)
+    assert zarr is t_zarr
+    assert_almost_equal(zarr[0], 5264462.701132784)
+    assert tarr is t_tarr
+    assert_almost_equal(tarr[0], 2019.0)
+
+
+def test_4d_transform__inplace__numpy__int():
+    transformer = Transformer.from_crs(7789, 8401)
+    xarr = np.array([3496737], dtype=np.int32)
+    yarr = np.array([743254], dtype=np.int32)
+    zarr = np.array([5264462], dtype=np.int32)
+    tarr = np.array([2019], dtype=np.int32)
+    t_xarr, t_yarr, t_zarr, t_tarr = transformer.transform(
+        xx=xarr, yy=yarr, zz=zarr, tt=tarr, inplace=True
+    )
+    assert xarr is not t_xarr
+    assert xarr[0] == 3496737
+    assert yarr is not t_yarr
+    assert yarr[0] == 743254
+    assert zarr is not t_zarr
+    assert zarr[0] == 5264462
+    assert tarr is not t_tarr
+    assert tarr[0] == 2019
