@@ -584,6 +584,7 @@ class Transformer:
         radians: bool = False,
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        inplace: bool = False,
     ) -> Tuple[Any, Any]:
         ...
 
@@ -596,6 +597,7 @@ class Transformer:
         radians: bool = False,
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        inplace: bool = False,
     ) -> Tuple[Any, Any, Any]:
         ...
 
@@ -609,6 +611,7 @@ class Transformer:
         radians: bool = False,
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        inplace: bool = False,
     ) -> Tuple[Any, Any, Any, Any]:
         ...
 
@@ -621,12 +624,14 @@ class Transformer:
         radians=False,
         errcheck=False,
         direction=TransformDirection.FORWARD,
+        inplace=False,
     ):
         """
         Transform points between two coordinate systems.
 
         .. versionadded:: 2.1.1 errcheck
         .. versionadded:: 2.2.0 direction
+        .. versionadded:: 3.2.0 inplace
 
         Parameters
         ----------
@@ -649,7 +654,10 @@ class Transformer:
         direction: pyproj.enums.TransformDirection, optional
             The direction of the transform.
             Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
-
+        inplace: bool, default=False
+            If True, will attempt to write the results to the input array
+            instead of returning a new array. This will fail if the input
+            is not an array in C order with the double data type.
 
         Example:
 
@@ -694,14 +702,14 @@ class Transformer:
 
         """
         # process inputs, making copies that support buffer API.
-        inx, x_data_type = _copytobuffer(xx)
-        iny, y_data_type = _copytobuffer(yy)
+        inx, x_data_type = _copytobuffer(xx, inplace=inplace)
+        iny, y_data_type = _copytobuffer(yy, inplace=inplace)
         if zz is not None:
-            inz, z_data_type = _copytobuffer(zz)
+            inz, z_data_type = _copytobuffer(zz, inplace=inplace)
         else:
             inz = None
         if tt is not None:
-            intime, t_data_type = _copytobuffer(tt)
+            intime, t_data_type = _copytobuffer(tt, inplace=inplace)
         else:
             intime = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
