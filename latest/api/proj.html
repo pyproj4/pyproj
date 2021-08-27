@@ -840,13 +840,16 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 
 <dl class="py method">
 <dt id="pyproj.Proj.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">xx</em>, <em class="sig-param">yy</em>, <em class="sig-param">zz=None</em>, <em class="sig-param">tt=None</em>, <em class="sig-param">radians=False</em>, <em class="sig-param">errcheck=False</em>, <em class="sig-param">direction=&lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.Proj.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">xx</em>, <em class="sig-param">yy</em>, <em class="sig-param">zz=None</em>, <em class="sig-param">tt=None</em>, <em class="sig-param">radians=False</em>, <em class="sig-param">errcheck=False</em>, <em class="sig-param">direction=&lt;TransformDirection.FORWARD: 'FORWARD'&gt;</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.Proj.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform points between two coordinate systems.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>
 </div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0: </span>direction</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2.0: </span>inplace</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -863,50 +866,76 @@ but will work in pyproj 3.</p></li>
 If False, <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for errors.</p></li>
 <li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
 Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
+<li><p><strong>inplace</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, will attempt to write the results to the input array
+instead of returning a new array. This will fail if the input
+is not an array in C order with the double data type.</p></li>
+<li><p><strong>Example</strong> – </p></li>
+<li><p><strong>from pyproj import Transformer</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>transformer = Transformer.from_crs</strong><strong>(</strong><strong>&quot;epsg</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>x3</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>= transformer.transform</strong><strong>(</strong><strong>33</strong> (<em>y3</em>) – </p></li>
+<li><p><strong>98</strong><strong>)</strong> – </p></li>
+<li><p><strong>f&quot;{x3</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>3895303.963'</strong> (<em>'10909310.098</em>) – </p></li>
+<li><p><strong>pipeline_str =</strong><strong> (</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>&quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</strong> (<em>..</em>) – </p></li>
+<li><p><strong>&quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</strong> (<em>..</em>) – </p></li>
+<li><p><strong>)</strong> (<em>..</em>) – </p></li>
+<li><p><strong>pipe_trans = Transformer.from_pipeline</strong><strong>(</strong><strong>pipeline_str</strong><strong>)</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>xt</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>= pipe_trans.transform</strong><strong>(</strong><strong>2.1</strong> (<em>yt</em>) – </p></li>
+<li><p><strong>0.001</strong><strong>)</strong> – </p></li>
+<li><p><strong>f&quot;{xt</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>0.001'</strong> (<em>'2.100</em>) – </p></li>
+<li><p><strong>transproj = Transformer.from_crs</strong><strong>(</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>{&quot;proj&quot;</strong> (<em>..</em>) – </p></li>
+<li><p><strong>&quot;EPSG</strong> (<em>..</em>) – </p></li>
+<li><p><strong>always_xy=True</strong> (<em>..</em>) – </p></li>
 </ul>
 </dd>
 </dl>
-<p>Example:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:3857&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">y3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;10909310.098  3895303.963&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_str</span> <span class="o">=</span> <span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
-<span class="gp">... </span>    <span class="s2">&quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe_trans</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">pipeline_str</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xt</span><span class="p">,</span> <span class="n">yt</span> <span class="o">=</span> <span class="n">pipe_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;2.100  0.001&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
-<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span> <span class="o">=</span> <span class="n">transproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="o">-</span><span class="mf">2704026.010</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="o">-</span><span class="mf">4253051.810</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="mf">3895878.820</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;-2.137 0.661 -20.531&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transprojr</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
-<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xpjr</span><span class="p">,</span> <span class="n">ypjr</span><span class="p">,</span> <span class="n">zpjr</span> <span class="o">=</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xeq</span><span class="p">,</span> <span class="n">yeq</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;33  98&#39;</span>
-</pre></div>
-</div>
+<p>:param :
+:param … ):
+:param &gt;&gt;&gt; xpj:
+:param ypj:
+:param zpj = transproj.transform(:
+:param …     -2704026.010:
+:param :
+:param …     -4253051.810:
+:param :
+:param …     3895878.820:
+:param :
+:param …     radians=True:
+:param :
+:param … ):
+:param &gt;&gt;&gt; f”{xpj:
+:type &gt;&gt;&gt; f”{xpj: .3f} {ypj:.3f} {zpj:.3f}”
+:param ‘-2.137 0.661 -20.531’:
+:param &gt;&gt;&gt; transprojr = Transformer.from_crs(:
+:param …     “EPSG:
+:type …     “EPSG: 4326”,
+:param …     {“proj”:
+:type …     {“proj”: ‘geocent’, “ellps”:’WGS84’, “datum”:’WGS84’},
+:param …     always_xy=True:
+:param :
+:param … ):
+:param &gt;&gt;&gt; xpjr:
+:param ypjr:
+:param zpjr = transprojr.transform(xpj:
+:param ypj:
+:param zpj:
+:param radians=True):
+:param &gt;&gt;&gt; f”{xpjr:
+:type &gt;&gt;&gt; f”{xpjr: .3f} {ypjr:.3f} {zpjr:.3f}”
+:param ‘-2704026.010 -4253051.810 3895878.820’:
+:param &gt;&gt;&gt; transformer = Transformer.from_proj(“epsg:
+:type &gt;&gt;&gt; transformer = Transformer.from_proj(“epsg: 4326”, 4326)
+:param &gt;&gt;&gt; xeq:
+:param yeq = transformer.transform(33:
+:param 98):
+:param &gt;&gt;&gt; f”{xeq:
+:type &gt;&gt;&gt; f”{xeq: .0f}  {yeq:.0f}”
+:param ‘33  98’:</p>
 </dd></dl>
 
 <dl class="py method">
