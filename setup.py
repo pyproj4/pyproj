@@ -23,7 +23,7 @@ def get_proj_version(proj_dir: Path) -> str:
     proj_ver = subprocess.check_output(str(proj), stderr=subprocess.STDOUT).decode(
         "ascii"
     )
-    return (proj_ver.split()[1]).strip(",")
+    return parse_version((proj_ver.split()[1]).strip(",")).base_version
 
 
 def check_proj_version(proj_version: str) -> None:
