@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Latest
+3.2.0
 ------
 * WHL: Wheels contain PROJ 8.1.1
 - DOC: Add new pyproj logo (issue #700)
