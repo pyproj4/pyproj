@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+* WHL: Wheels contain PROJ 8.1.1
 - DOC: Add new pyproj logo (issue #700)
 - REF: Handle deprecation of proj_context_set_autoclose_database (issue #866)
 - REF: Make CRS methods inheritable (issue #847)
@@ -27,6 +28,7 @@ Latest
 
 3.1.0
 -----
+* WHL: Wheels contain PROJ 8.0.1
 * DEP: Minimum supported Python version 3.7 (issue #790)
 * REF: Multithread safe CRS, Proj, & Transformer (issue #782)
 * BUG: Disallow NaN values with AreaOfInterest & BBox (issue #788)
