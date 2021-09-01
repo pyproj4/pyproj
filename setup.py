@@ -18,7 +18,7 @@ INTERNAL_PROJ_DIR = CURRENT_FILE_PATH / "pyproj" / BASE_INTERNAL_PROJ_DIR
 def get_proj_version(proj_dir: Path) -> str:
     proj_version = os.environ.get("PROJ_VERSION")
     if proj_version:
-        return proj_version
+        return parse_version(proj_version).base_version
     proj = proj_dir / "bin" / "proj"
     proj_ver = subprocess.check_output(str(proj), stderr=subprocess.STDOUT).decode(
         "ascii"
