@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Change Log &mdash; pyproj 3.2.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/icon.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation Archive" href="past_versions.html" />
+    <link rel="prev" title="Optimize Transformations" href="optimize_transformations.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #353130" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyproj
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Change Log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">3.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">3.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.0.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">2.6.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">2.6.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">2.5.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">2.4.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">2.4.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">2.4.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">2.3.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">2.3.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">2.2.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">2.2.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">2.2.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">2.1.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">2.1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">2.1.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">2.1.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">2.0.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">2.0.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">2.0.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">1.9.6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">1.9.5.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">1.9.5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-tag-v1-9-4rel">1.9.4 (git tag v1.9.4rel)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-327">1.9.3 (svn revision 327)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-301">1.9.2 (svn revision 301)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-285">1.9.1 (svn revision 285)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-282">1.9.0 (svn revision 282)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-222">1.8.9 (svn revision 222)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-196">1.8.8 (svn revision 196)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-175">1.8.7 (svn revision 175)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-169">1.8.6 (svn revision 169)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-155">1.8.5 (svn revision 155)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-151">1.8.4 (svn revision 151)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn-revision-146">1.8.3 (svn revision 146)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">1.8.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">1.8.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">1.8.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">1.7.3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Change Log</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/history.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="change-log">
+<h1>Change Log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>3.2.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>WHL: Wheels contain PROJ 8.1.1</p></li>
+</ul>
+<ul class="simple">
+<li><p>DOC: Add new pyproj logo (issue #700)</p></li>
+<li><p>REF: Handle deprecation of proj_context_set_autoclose_database (issue #866)</p></li>
+<li><p>REF: Make CRS methods inheritable (issue #847)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_derived" title="pyproj.crs.CRS.is_derived"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_derived</span></code></a> (pull #902)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.GeocentricCRS" title="pyproj.crs.GeocentricCRS"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.GeocentricCRS</span></code></a> (pull #903)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.list_authority" title="pyproj.crs.CRS.list_authority"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.list_authority</span></code></a> (issue #918)</p></li>
+<li><p>ENH: Added <cite>inplace</cite> kwarg to <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.transform" title="pyproj.transformer.Transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.transform()</span></code></a> (issue #906)</p></li>
+<li><p>PERF: Disable unnecessary copy in dtype conversion for buffer (pull #904)</p></li>
+<li><p>DOC: Improve FAQ text about CRS formats (issue #789)</p></li>
+<li><p>BUG: Add PyPy cython array implementation (issue #854)</p></li>
+<li><p>BUG: Fix spelling for
+<a class="reference internal" href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion" title="pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion</span></code></a>
+and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion" title="pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion</span></code></a> (issue #882)</p></li>
+<li><p>BUG: Make datum name match exact in <a class="reference internal" href="api/database.html#pyproj.database.query_utm_crs_info" title="pyproj.database.query_utm_crs_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.database.query_utm_crs_info()</span></code></a> (pull #887)</p></li>
+<li><p>BUG: Update <a class="reference internal" href="api/enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.enums.GeodIntermediateFlag</span></code></a> for future Python compatibility (issue #855)</p></li>
+<li><p>BUG: Hide unnecessary PROJ ERROR from proj_crs_get_coordoperation (issue #873)</p></li>
+<li><p>BUG: Fix pickling for CRS builder classes (issue #897)</p></li>
+<li><p>CLN: Remove <cite>ignore_axis_order</cite> kwarg from <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_exact_same" title="pyproj.crs.CRS.is_exact_same"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_exact_same()</span></code></a> as it was added by accident (pull #904)</p></li>
+<li><p>CLN: remove numeric/numarrays support (pull #908)</p></li>
+<li><p>LNT: Add pylint &amp; address issues (pull #909)</p></li>
+<li><p>DEP: Remove distutils dependency (pull #917)</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>3.1.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>WHL: Wheels contain PROJ 8.0.1</p></li>
+<li><p>DEP: Minimum supported Python version 3.7 (issue #790)</p></li>
+<li><p>REF: Multithread safe CRS, Proj, &amp; Transformer (issue #782)</p></li>
+<li><p>BUG: Disallow NaN values with AreaOfInterest &amp; BBox (issue #788)</p></li>
+<li><p>ENH: Pretty format PROJ string support (issue #764)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.to_proj4" title="pyproj.transformer.Transformer.to_proj4"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.to_proj4()</span></code></a> (pull #798)</p></li>
+<li><p>ENH: Added authority, accuracy, and allow_ballpark kwargs to <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.from_crs()</span></code></a> (issue #754)</p></li>
+<li><p>ENH: Added support for “AUTH:CODE” input to <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_pipeline" title="pyproj.transformer.Transformer.from_pipeline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.from_pipeline()</span></code></a> (issue #755)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_3d" title="pyproj.crs.CRS.to_3d"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_3d()</span></code></a> (pull #808)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.transform_bounds" title="pyproj.transformer.Transformer.transform_bounds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.transform_bounds()</span></code></a> (issue #809)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_compound" title="pyproj.crs.CRS.is_compound"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_compound</span></code></a> (pull #823)</p></li>
+<li><p>ENH: Added <cite>initial_idx</cite> and <cite>terminal_index</cite> kwargs to <a class="reference internal" href="api/geod.html#pyproj.Geod.npts" title="pyproj.Geod.npts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.npts()</span></code></a> (pull #841)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/geod.html#pyproj.Geod.inv_intermediate" title="pyproj.Geod.inv_intermediate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.inv_intermediate()</span></code></a> &amp; <a class="reference internal" href="api/geod.html#pyproj.Geod.fwd_intermediate" title="pyproj.Geod.fwd_intermediate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.fwd_intermediate()</span></code></a> (pull #841)</p></li>
+<li><p>REF: Skip transformations if <cite>noop</cite> &amp; deprecate <cite>skip_equivalent</cite> (pull #824)</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>3.0.1<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>WHL: Wheels contain PROJ 7.2.1</p></li>
+<li><p>Use <cite>proj_context_errno_string</cite> in PROJ 8+ due to deprecation (issue #760)</p></li>
+<li><p>BUG: Allow transformations with empty arrays (issue #766)</p></li>
+<li><p>BUG: support numpy objects in CRS.from_cf (issue #773)</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>3.0.0<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Minimum supported Python version 3.6 (issue #499)</p></li>
+<li><p>Minimum PROJ version 7.2 (issues #599 &amp; #689)</p></li>
+<li><p>WHL: Removed datumgrids from wheels because not needed with RFC 4 (pull #628)</p></li>
+<li><p>WHL: Wheels contain PROJ 7.2</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/network.html#network-api"><span class="std std-ref">PROJ Network Settings</span></a> (#675, #691, #695)</p></li>
+<li><p>ENH: Added ability to use global context (issue #661)</p></li>
+<li><p>ENH: Added transformation grid sync API/CLI (issue #572)</p></li>
+<li><p>ENH: Support obects with ‘__array__’ method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/datadir.html#pyproj.datadir.get_user_data_dir" title="pyproj.datadir.get_user_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_user_data_dir()</span></code></a> (pull #636)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.is_network_enabled" title="pyproj.transformer.Transformer.is_network_enabled"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.is_network_enabled</span></code></a> (issue #629)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup.download_grids" title="pyproj.transformer.TransformerGroup.download_grids"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup.download_grids()</span></code></a> (pull #643)</p></li>
+<li><p>ENH: Use ‘proj_get_units_from_database’ in <a class="reference internal" href="api/database.html#pyproj.database.get_units_map" title="pyproj.database.get_units_map"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.database.get_units_map()</span></code></a> &amp; cleanup <a class="reference internal" href="api/database.html#pyproj.database.get_codes" title="pyproj.database.get_codes"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.database.get_codes()</span></code></a> (issue #619)</p></li>
+<li><p>ENH: Added support for radians for Proj &amp; Transformer.from_pipeline &amp; use less gil (issue #612)</p></li>
+<li><p>ENH: Datum.from_name default to check all datum types (issue #606)</p></li>
+<li><p>ENH: Use from_user_input in __eq__ when comparing CRS sub-classes (i.e. PrimeMeridian, Datum, Ellipsoid, etc.) (issue #606)</p></li>
+<li><p>ENH: Add support for coordinate systems with CRS using CF conventions (issue #536)</p></li>
+<li><p>ENH: Use <cite>proj_is_equivalent_to_with_ctx</cite> in the place of <cite>proj_is_equivalent_to</cite> internally (issue #666)</p></li>
+<li><p>BUG: Add support for identifying engineering/parametric/temporal datums (issue #670)</p></li>
+<li><p>ENH: Add support for temporal CRS CF coordinate system (issue #672)</p></li>
+<li><p>ENH: Added support for debugging internal PROJ (pull #696)</p></li>
+<li><p>ENH: Added pathlib support for data directory methods (pull #702)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/database.html#pyproj.database.query_crs_info" title="pyproj.database.query_crs_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.database.query_crs_info()</span></code></a> (pull #703)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/database.html#pyproj.database.query_utm_crs_info" title="pyproj.database.query_utm_crs_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.database.query_utm_crs_info()</span></code></a> (pull #712)</p></li>
+<li><p>REF: Refactor Proj to inherit from Transformer (issue #624)</p></li>
+<li><p>REF: Added <cite>pyproj.database</cite>, <cite>pyproj.aoi</cite>, and <cite>pyproj.list</cite> modules (pull #703)</p></li>
+<li><p>BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)</p></li>
+</ul>
+<div class="section" id="id5">
+<h3>2.6.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>WHL: Wheels contain PROJ version is 7.0.1</p></li>
+<li><p>BUG: Allow <cite>*_name</cite> to be added in CRS.to_cf (issue #585)</p></li>
+<li><p>BUG: Fix building prime meridian in <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_cf" title="pyproj.crs.CRS.from_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_cf()</span></code></a> (pull #588)</p></li>
+<li><p>BUG: Fix check for numpy bool True kwarg (pull #590)</p></li>
+<li><p>DOC: Update pyproj.Proj docstrings for clarity (issue #584)</p></li>
+<li><p>Added <cite>pyproj.__proj_version__</cite></p></li>
+<li><p>BUG: Fix <a class="reference internal" href="api/proj.html#pyproj.Proj.get_factors" title="pyproj.Proj.get_factors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Proj.get_factors()</span></code></a> (issue #600)</p></li>
+<li><p>BUG: fix unequal (!=) with non-CRS type (pull #596)</p></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>2.6.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>ENH: Added <a class="reference internal" href="api/proj.html#pyproj.Proj.get_factors" title="pyproj.Proj.get_factors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Proj.get_factors()</span></code></a> (issue #503)</p></li>
+<li><p>ENH: Added type hints (issue #369)</p></li>
+<li><p>BUG: Don’t use CRS classes for defaults in CRS child class init signatures (issue #554)</p></li>
+<li><p>ENH: Updated <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.axis_info" title="pyproj.crs.CRS.axis_info"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.axis_info</span></code></a> to pull all relevant axis information from CRS (issue #557)</p></li>
+<li><p>ENH: Added <code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transform.__eq__()</span></code> (issue #559)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.utm_zone" title="pyproj.crs.CRS.utm_zone"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.utm_zone</span></code></a> (issue #561)</p></li>
+<li><p>BUG: Modify CRS dict test to accommodate numpy bool types. (issue #564)</p></li>
+<li><p>BUG: Fix pipeline transformations to match cct (issue #565)</p></li>
+<li><p>BUG: Don’t silently ignore kwargs when projparams are specified (Proj &amp; CRS) (issue #565)</p></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>2.5.0<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>WHL: Wheels contain PROJ version is 6.3.1</p></li>
+<li><p>Remove deprecated PyObject_AsWriteBuffer (issue #495)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.equals" title="pyproj.crs.CRS.equals"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.equals()</span></code></a> with <cite>ignore_axis_order</cite> kwarg (issue #493)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.from_json" title="pyproj.crs.CoordinateSystem.from_json"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_json()</span></code></a>, <a class="reference internal" href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.from_json_dict" title="pyproj.crs.CoordinateSystem.from_json_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_json_dict()</span></code></a>, and <a class="reference internal" href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.from_string" title="pyproj.crs.CoordinateSystem.from_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_string()</span></code></a> (pull #501)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem" title="pyproj.crs.CoordinateSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem</span></code></a> to <cite>pyproj.crs</cite> namespace (pull #501)</p></li>
+<li><p>ENH: Added <a class="reference internal" href="api/crs/coordinate_system.html#pyproj.crs.CoordinateSystem.from_user_input" title="pyproj.crs.CoordinateSystem.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_user_input()</span></code></a>, <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation.from_user_input" title="pyproj.crs.CoordinateOperation.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation.from_user_input()</span></code></a>, <a class="reference internal" href="api/crs/datum.html#pyproj.crs.Datum.from_user_input" title="pyproj.crs.Datum.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Datum.from_user_input()</span></code></a>, <a class="reference internal" href="api/crs/datum.html#pyproj.crs.PrimeMeridian.from_user_input" title="pyproj.crs.PrimeMeridian.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.PrimeMeridian.from_user_input()</span></code></a>, <a class="reference internal" href="api/crs/datum.html#pyproj.crs.Ellipsoid.from_user_input" title="pyproj.crs.Ellipsoid.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Ellipsoid.from_user_input()</span></code></a> (pull #502)</p></li>
+<li><p>ENH: Added <code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateSystem.from_name()</span></code>, <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation.from_name" title="pyproj.crs.CoordinateOperation.from_name"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation.from_name()</span></code></a>, <a class="reference internal" href="api/crs/datum.html#pyproj.crs.Datum.from_name" title="pyproj.crs.Datum.from_name"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Datum.from_name()</span></code></a>, <a class="reference internal" href="api/crs/datum.html#pyproj.crs.PrimeMeridian.from_name" title="pyproj.crs.PrimeMeridian.from_name"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.PrimeMeridian.from_name()</span></code></a>, <a class="reference internal" href="api/crs/datum.html#pyproj.crs.Ellipsoid.from_name" title="pyproj.crs.Ellipsoid.from_name"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.Ellipsoid.from_name()</span></code></a> (pull #505)</p></li>
+<li><p>BUG: Fix getting <a class="reference internal" href="api/crs/datum.html#pyproj.crs.Ellipsoid.semi_minor_metre" title="pyproj.crs.Ellipsoid.semi_minor_metre"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.Ellipsoid.semi_minor_metre</span></code></a> when not computed (issue #457)</p></li>
+<li><p>ENH: Added support for custom CRS (issue #389)</p></li>
+<li><p>ENH: Added enumeration for WKT2_2019 (issue #526)</p></li>
+<li><p>ENH: Update from_cf/to_cf to use WKT instead of PROJ strings for internal management (issue #515)</p></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>2.4.2<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Elevate +init= warning to FutureWarning (pull #486)</p></li>
+<li><p>Add UserWarning to <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_proj4" title="pyproj.crs.CRS.to_proj4"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_proj4()</span></code></a> (pull #486)</p></li>
+<li><p>BUG: Fix for 32-bit i686 platforms (issue #481)</p></li>
+<li><p>Return ‘inf’ in Proj instead of 1.e30 (pull #491)</p></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>2.4.1<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>WHL: Wheels contain PROJ version is 6.2.1 (issue #456)</p></li>
+<li><p>WHL: Wheels for Linux x86_64 use manylinux2010 (pyproj4/pyproj-wheels/pull/18)</p></li>
+<li><p>BUG: Fix setting lat_ts for mercator projection in <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_cf" title="pyproj.crs.CRS.from_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_cf()</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_cf()</span></code></a> (issue #461)</p></li>
+<li><p>BUG: latlon -&gt; longlat in <cite>CRS.from_cf()</cite> for o_proj so behavior consistent in PROJ 6.2.0 and 6.2.1 (pull #472)</p></li>
+<li><p>ENH: Add repr for <cite>pyproj.crs.CoordinateOperation</cite> and for <cite>pyproj.transformer.TransformerGroup</cite> (pull #464)</p></li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>2.4.0<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Minimum PROJ version is 6.2.0 (issue #411)</p></li>
+<li><p>Removed global pyproj context (issue #418)</p></li>
+<li><p>Added support for PROJ JSON in <cite>pyproj.crs</cite> objects and <cite>pyproj.Transformer</cite> (pull #432)</p></li>
+<li><p>Moved doctests code out of <cite>pyproj.__init__</cite> (issue #417)</p></li>
+<li><p>Added version information to <cite>python -m pyproj</cite> (pull #429)</p></li>
+<li><p>Added <cite>scope</cite> &amp; <cite>remarks</cite> to <cite>pyproj.crs</cite> objects and <cite>pyproj.Transformer</cite> (issue #441)</p></li>
+<li><p>Added <cite>operations</cite> to <cite>pyproj.crs.CoordinateOperation</cite> objects and <cite>pyproj.Transformer</cite> (issue #441)</p></li>
+<li><p>Added <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.get_authorities()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.get_codes()</span></code> (issue #440)</p></li>
+<li><p>Release gil in core cython/PROJ code (issue #386)</p></li>
+<li><p>BUG: Added checks for unititialized <cite>pyproj.crs</cite> objects to prevent core dumping (issue #433)</p></li>
+<li><p>BUG: Added fix for get_transform_crs when checking type (pull #439)</p></li>
+<li><p>DOC: Build docs with python3 (pull #428)</p></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>2.3.1<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added cleanup for internal PROJ errors (issue #413)</p></li>
+<li><p>Delay checking for pyproj data directory until importing pyproj (issue #415)</p></li>
+<li><p>Address issue where PROJ core dumps on proj_create with +init= when global context does not have data directory set (issue #415 &amp; issue #368)</p></li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>2.3.0<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Minimum supported Python version 3.5 (issue #331)</p></li>
+<li><dl class="simple">
+<dt>New <cite>pyproj.geod.Geod</cite> additions:</dt><dd><ul>
+<li><p>Added support for calculating geodesic area (<a class="reference internal" href="api/geod.html#pyproj.Geod.polygon_area_perimeter" title="pyproj.Geod.polygon_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.polygon_area_perimeter()</span></code></a>)
+and added interface to calculate total length of a line
+(<a class="reference internal" href="api/geod.html#pyproj.Geod.line_length" title="pyproj.Geod.line_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.line_length()</span></code></a> &amp; <a class="reference internal" href="api/geod.html#pyproj.Geod.line_lengths" title="pyproj.Geod.line_lengths"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.line_lengths()</span></code></a>) (issue #210).</p></li>
+<li><p>Added support for calculating geodesic area and line lengths with shapely geometries
+(<a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_area_perimeter" title="pyproj.Geod.geometry_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.geometry_area_perimeter()</span></code></a> &amp; <a class="reference internal" href="api/geod.html#pyproj.Geod.geometry_length" title="pyproj.Geod.geometry_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.geometry_length()</span></code></a>)
+(pull #366)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>New <cite>pyproj.transformer</cite> additions:</dt><dd><ul>
+<li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup" title="pyproj.transformer.TransformerGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup</span></code></a> to make all transformations available (issue #381)</p></li>
+<li><p>Added option for <cite>area_of_interest</cite> for <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.from_crs()</span></code></a>,
+<a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_proj" title="pyproj.transformer.Transformer.from_proj"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.from_proj()</span></code></a> and <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup" title="pyproj.transformer.TransformerGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup</span></code></a></p></li>
+<li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.area_of_use" title="pyproj.transformer.Transformer.area_of_use"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.area_of_use</span></code></a> (issue #385)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Added <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj.crs.CoordinateOperation.area_of_use" title="pyproj.crs.CoordinateOperation.area_of_use"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation.area_of_use</span></code></a> (issue #385)</p></li>
+<li><p>Updated to only have one PJ_CONTEXT per pyproj session (issue #374)</p></li>
+<li><p>Always return latlon with Proj (issue #356)</p></li>
+<li><p>Remove aenum dependency (issue #339)</p></li>
+<li><p>Removed deprecated functions <cite>Proj.proj_version</cite>, <cite>CRS.is_valid</cite>, and <cite>CRS.to_geodetic()</cite> (pull #371)</p></li>
+<li><p>Search on <cite>sys.prefix</cite> for the PROJ data directory (issue #387)</p></li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h3>2.2.2<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Update wheels to PROJ 6.1.1</p></li>
+<li><p>Add deprecation warning when using +init= syntax (pull #358)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.is_proj" title="pyproj.crs.is_proj"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.is_proj()</span></code></a> (pull #359)</p></li>
+<li><p>Fixed case in <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_dict" title="pyproj.crs.CRS.to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_dict()</span></code></a> with <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_proj4" title="pyproj.crs.CRS.to_proj4"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_proj4()</span></code></a> returning None (pull #359)</p></li>
+<li><p>Keep <cite>no_defs</cite> in input PROJ string as it does not hurt/help anything in current code (pull #359)</p></li>
+<li><p>Made public properties on C classes readonly (pull #359)</p></li>
+<li><p>Update data dir exception handling to prevent ignoring errors (pull #361)</p></li>
+<li><p><a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_cf()</span></code></a> export transverse mercator parameters for UTM zones (pull #362)</p></li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h3>2.2.1<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added <a class="reference internal" href="api/show_versions.html#pyproj.show_versions" title="pyproj.show_versions"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.show_versions()</span></code></a> (issue #334)</p></li>
+<li><p>Added fix for whitepace around ‘=’ in PROJ strings (issue #345)</p></li>
+<li><p>Update version check in <cite>setup.py</cite> (issue #323)</p></li>
+<li><p>Add “stable” doc site pointing to latest release (issue #347, pull #348)</p></li>
+<li><p>Depreate <cite>Proj.proj_version</cite> (pull #337)</p></li>
+<li><p>Test fixes (pull #333, pull #335)</p></li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h3>2.2.0<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Minimum PROJ version is now 6.1.0</p></li>
+<li><dl class="simple">
+<dt><cite>pyproj.crs</cite> updates:</dt><dd><ul>
+<li><p>Updated CRS repr (issue #264)</p></li>
+<li><p>Add Datum, CoordinateSystem, CoordinateOperation clases (issue #262)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_cf()</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_cf" title="pyproj.crs.CRS.from_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_cf()</span></code></a> for
+converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_dict" title="pyproj.crs.CRS.to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_dict()</span></code></a> (issue #226)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_authority" title="pyproj.crs.CRS.to_authority"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_authority()</span></code></a> (pull #294)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_vertical" title="pyproj.crs.CRS.is_vertical"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_vertical</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_engineering" title="pyproj.crs.CRS.is_engineering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_engineering</span></code></a> (issue #316)</p></li>
+<li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.target_crs" title="pyproj.crs.CRS.target_crs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.target_crs</span></code></a> (pull #328)</p></li>
+<li><p>Provide option to “pretty print” WKT in <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_wkt" title="pyproj.crs.CRS.to_wkt"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_wkt</span></code></a> (issue #258)</p></li>
+<li><p>Add support for Bound and Compound CRS for <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_geographic" title="pyproj.crs.CRS.is_geographic"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_geographic</span></code></a>, <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_projected" title="pyproj.crs.CRS.is_projected"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_projected</span></code></a> (issue #274)</p></li>
+<li><p>Add support for Bound CRS for <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_geocentric" title="pyproj.crs.CRS.is_geocentric"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_geocentric</span></code></a> (issue #374)</p></li>
+<li><p>Add support for comparison with CRS a non-crs type supported by <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_user_input()</span></code></a> (issue #312)</p></li>
+<li><p>Added support for ITRF, compound EPSG, and urn projection strings in CRS (pull #289)</p></li>
+<li><p>Better handle Compound CRS (issue #265)</p></li>
+<li><p>Disallow creation of non-CRS object (eg pipeline) in CRS class (issue #267)</p></li>
+<li><p>Added check in <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_epsg" title="pyproj.crs.CRS.to_epsg"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_epsg()</span></code></a> for when <cite>proj_list</cite> is null (issue #257)</p></li>
+<li><p>Fix comparing classes of non-instance types (issue #310)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>pyroj.transformer</cite> updates:</dt><dd><ul>
+<li><p>Added <cite>always_xy</cite> option to Transformer so the transform method will
+always accept as input and return as output coordinates using the
+traditional GIS order, that is longitude, latitudecfor geographic
+CRS and easting, northing for most projected CRS (issue #225)</p></li>
+<li><p>Provide <cite>direction</cite> option in <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.transform" title="pyproj.transformer.Transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.transform()</span></code></a> (issue #266)</p></li>
+<li><p>Add check for valid initialization of Transformer and ensure it is a transformer (issue #321)</p></li>
+<li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.to_wkt" title="pyproj.transformer.Transformer.to_wkt"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.to_wkt()</span></code></a> as well as attributes related to <cite>PJ_PROJ_INFO</cite> (pull #322)</p></li>
+<li><p>Undo deprecation of <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.from_crs()</span></code></a> (issue #275)</p></li>
+<li><p>Fix false positive errors raised in transformer (issue #249)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Fix <a class="reference internal" href="api/proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> initialization from DerivedGeographicCRS (issue #270)</p></li>
+<li><p>Add interface to get the projection/ellps/prime_meridian/units lists (issue #251)</p></li>
+<li><p>Docs/Build/Test fixes (pull #278, pull #245, pull #248, pull #247, issue #253, pull #252)</p></li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>2.1.3<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added support for time transformations (issue #208)</p></li>
+<li><p>Fixed projection equivalence testing for transformations (pull #231).</p></li>
+<li><p>Switch to pytest for testing (pull #230)</p></li>
+<li><p>Various testing fixes (pull #223, #222, #221, #220)</p></li>
+<li><p>Convert PROJ error messages from bytes to strings (pull #219)</p></li>
+<li><p>Fix data dir path separator to be (;) for windows and (:) for linux (pull #234)</p></li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>2.1.2<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Updated to use the CRS definition for Proj instances in transforms (issue #207)</p></li>
+<li><p>Add option to skip transformation operation if input and output projections are equivalent
+and always skip if the input and output projections are exact (issue #128)</p></li>
+<li><p>Update setup.py method for checking PROJ version (pull #211)</p></li>
+<li><p>Add internal proj error log messages to exceptions (pull #215)</p></li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>2.1.1<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Restore behavior of 1.9.6 when illegal projection transformation requested
+(return <code class="docutils literal notranslate"><span class="pre">inf</span></code> instead of raising an exception, issue #202).  kwarg <code class="docutils literal notranslate"><span class="pre">errcheck</span></code>
+added to <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.transformer.transform()</span></code></a> and <a class="reference internal" href="api/transformer.html#pyproj.transformer.itransform" title="pyproj.transformer.itransform"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.transformer.itransform()</span></code></a>
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>). When <code class="docutils literal notranslate"><span class="pre">errcheck=True</span></code> an exception is raised.</p></li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>2.1.0<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> to make repetitive transformations more efficient (issue #187)</p></li>
+<li><p>Added fix for using local datumgrids with transform (issue #191)</p></li>
+<li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_pipeline" title="pyproj.transformer.Transformer.from_pipeline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.from_pipeline()</span></code></a> to support pipeline transformations.</p></li>
+<li><p>Added fix for conversion between radians/degrees for transformations (issues #192 &amp; #195)</p></li>
+</ul>
+</div>
+<div class="section" id="id20">
+<h3>2.0.2<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>add filter for boolean values in dict2string so “no_rot=True” works (issue #183).</p></li>
+<li><p>make sure .pxd files included in source tarball.</p></li>
+<li><p>add radians flag back in for transform/itransform (issue #185).</p></li>
+</ul>
+</div>
+<div class="section" id="id21">
+<h3>2.0.1<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Ensure data path set properly for TransProj (pull request #179, addressed
+issue #176).</p></li>
+</ul>
+</div>
+<div class="section" id="id22">
+<h3>2.0.0<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Update to PROJ version 6.0.0 &amp; removed support for older PROJ versions.</p></li>
+<li><p>Added pyproj.CRS class.</p></li>
+<li><p>Updated pyproj.Proj &amp; pyproj.transform to accept any input from CRS.from_user_input.</p></li>
+<li><p>Removed internal PROJ source code.</p></li>
+<li><p>Changed default for preserve_units to be True in pyproj.Proj class initialization.</p></li>
+<li><p>Modified logic for searching for the PROJ data directory to not conflict with older versions of PROJ.</p></li>
+<li><p>Added pyproject.toml.</p></li>
+</ul>
+</div>
+<div class="section" id="id23">
+<h3>1.9.6<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>fix segfault when inverse projection not defined (issue #43, pull request
+#44).</p></li>
+<li><p>supports python 3.7</p></li>
+</ul>
+</div>
+<div class="section" id="id24">
+<h3>1.9.5.1<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>fix for issue #42 (compilation error with microsoft visual studio).</p></li>
+</ul>
+</div>
+<div class="section" id="id25">
+<h3>1.9.5<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>update proj4 source to latest github master (commit 953cc00fd87425395cabe37641cda905c4b587c1).</p></li>
+<li><p>port of basemap fix for input arrays in fortran order</p></li>
+<li><p>restore inverse Hammer patch that was lost when proj4 source code was updated.</p></li>
+</ul>
+</div>
+<div class="section" id="git-tag-v1-9-4rel">
+<h3>1.9.4 (git tag v1.9.4rel)<a class="headerlink" href="#git-tag-v1-9-4rel" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>migrate to github from googlecode.</p></li>
+<li><p>update proj4 source code from svn r2595 (version 4.9.0RC2).</p></li>
+<li><p>include runtime_library_dirs in setup-proj.py.</p></li>
+<li><p>added to_latlong method (issue 51).</p></li>
+<li><p>fix back azimuth when lon1 and lon2 are identical.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-327">
+<h3>1.9.3 (svn revision 327)<a class="headerlink" href="#svn-revision-327" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Geod now uses C code adapted from geographiclib now included in proj4 source,
+instead of pure python code directly from geographiclib.</p></li>
+<li><p>make radians=True work with Geod.npts (issue 47).</p></li>
+<li><p>allow PROJ_DIR env var to control location of proj data (issue 40).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-301">
+<h3>1.9.2 (svn revision 301)<a class="headerlink" href="#svn-revision-301" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>updated proj4 src to 4.8.0 - includes two new map projections (natearth and
+isea).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-285">
+<h3>1.9.1 (svn revision 285)<a class="headerlink" href="#svn-revision-285" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>restore compatibility with python 2.4/2.5, which was broken by the addition
+of the geographiclib geodesic module (issue 36).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-282">
+<h3>1.9.0 (svn revision 282)<a class="headerlink" href="#svn-revision-282" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>use pure python geographiclib for geodesic computation codes instead of proj4.</p></li>
+<li><p>don’t use global variable pj_errno for return codes, use pj_ctx_get_errno instead.</p></li>
+<li><p>use new projCtx structure for thread safety in proj lib.</p></li>
+<li><p>update C source and data from proj4 svn (r2140).</p></li>
+<li><p>add pj_list and pj_ellps module level variables (a dict mapping short names to longer descriptions, e.g. pyproj.pj_list[‘aea’] = ‘Albers Equal Area’).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-222">
+<h3>1.8.9 (svn revision 222)<a class="headerlink" href="#svn-revision-222" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Python 3 now supported.</p></li>
+<li><p>allow ‘EPSG’ init (as well as ‘epsg’). This only worked on case-insensitive
+filesystems previously. Fixes issue 6.</p></li>
+<li><p>added inverse to Hammer projection.</p></li>
+<li><p>updated proj.4/src/pj_mutex.c from proj4 svn to fix a threading issue on windows
+(issue 25). Windows binary installers updated (version 1.8.8-1), courtesy
+Christoph Gohlke.</p></li>
+<li><p>if inputs are NaNs, return huge number (1.e30).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-196">
+<h3>1.8.8 (svn revision 196)<a class="headerlink" href="#svn-revision-196" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>add extra datum shift files, added test/test_datum.py (fixes issue 22).
+datum shifts now work correctly in transform function.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-175">
+<h3>1.8.7 (svn revision 175)<a class="headerlink" href="#svn-revision-175" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>reverted pj_init.c to old version (from proj4 4.6.1) because version in
+4.7.0 includes caching code that can cause segfaults in pyproj (issue 19).</p></li>
+<li><p>added ‘preserve_units’ keyword to Proj.__init__ to suppress conversion
+to meters.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-169">
+<h3>1.8.6 (svn revision 169)<a class="headerlink" href="#svn-revision-169" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>now works with ms vs2008, vs2003 (fixed missing isnan).</p></li>
+<li><p>updated to proj 4.7.0 (fixes a problem coexisting with pyqt).</p></li>
+<li><p>allow Geod instance to be initialized using a proj4 string</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-155">
+<h3>1.8.5 (svn revision 155)<a class="headerlink" href="#svn-revision-155" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>allow Proj instance to be initialized using a proj4 string
+(instead of just a dict or kwargs).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-151">
+<h3>1.8.4 (svn revision 151)<a class="headerlink" href="#svn-revision-151" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>updated proj4 sources to version 4.6.0</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="svn-revision-146">
+<h3>1.8.3 (svn revision 146)<a class="headerlink" href="#svn-revision-146" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>fixed bug in Geod class that caused erroneous error message
+“undefined inverse geodesic (may be an antipodal point)”.</p></li>
+<li><p>fix __reduce__ method of Geod class so instances can be pickled.</p></li>
+<li><p>make sure points outside projection limb are set to 1.e30 on inverse
+transform (if errcheck=False).</p></li>
+<li><p>fixed small setup.py bug.</p></li>
+<li><p>generate C source with Cython 0.9.6.6 (pycompat.h no longer needed).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id26">
+<h3>1.8.2<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>added ‘srs’ (spatial reference system) instance variable to Proj.</p></li>
+<li><p>instead of returning HUGE_VAL (usually ‘inf’) when projection not defined
+and errcheck=False, return 1.e30.</p></li>
+<li><p>added Geod class for geodesic (i.e. Great Circle) computations.
+Includes doctests (which can be run with pyproj.test()).</p></li>
+<li><p>proj.4 source code now included, thus removing proj.4 lib
+dependency. Version 4.5.0 is included, with a patch to
+create an API for geodesic computations.</p></li>
+<li><p>python 2.4 compatibility patch (suggested by Andrew Straw)
+from M. v. Loewis:
+<a class="reference external" href="http://mail.python.org/pipermail/python-dev/2006-March/062561.html">http://mail.python.org/pipermail/python-dev/2006-March/062561.html</a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id27">
+<h3>1.8.1<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>if given tuples, returns tuples (instead of lists).</p></li>
+<li><p>test for numpy arrays first.</p></li>
+<li><p>Fixed error in docstring example.</p></li>
+<li><p>README.html contains html docstrings generated by pydoc.</p></li>
+<li><p>Renamed pyproj.so to _pyproj.so, created a new python module
+called pyproj.py.  Moved as code as possible from _pyproj.so to
+pyproj.py.</p></li>
+<li><p>docstring examples now executed by doctest when ‘pyproj.test()’ is run.</p></li>
+<li><p>added test to _pyproj.c which defines Py_ssize_t for python &lt; 2.5.
+This is necessary when pyrex 0.9.5 is used.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id28">
+<h3>1.8.0<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Better error handling Proj.__init__.</p></li>
+<li><p>Added optional keyword ‘errcheck’ to __call__ method.</p></li>
+<li><p>If True, an exception is raised if the transformation is invalid.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id29">
+<h3>1.7.3<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>python 2.5 support.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="past_versions.html" class="btn btn-neutral float-right" title="Documentation Archive" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="optimize_transformations.html" class="btn btn-neutral float-left" title="Optimize Transformations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
