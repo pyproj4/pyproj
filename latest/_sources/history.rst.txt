@@ -1,9 +1,12 @@
 Change Log
 ==========
 
+Latest
+------
+
 3.2.0
 ------
-* WHL: Wheels contain PROJ 8.1.1
+- WHL: Wheels contain PROJ 8.1.1
 - DOC: Add new pyproj logo (issue #700)
 - REF: Handle deprecation of proj_context_set_autoclose_database (issue #866)
 - REF: Make CRS methods inheritable (issue #847)
