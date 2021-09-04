@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyproj.enums &mdash; pyproj 3.2.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/icon.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #353130" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyproj
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyproj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyproj.enums</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyproj.enums</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains enumerations used in pyproj.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">IntFlag</span>
+
+
+<span class="k">class</span> <span class="nc">BaseEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base enumeration class that handles</span>
+<span class="sd">    input as strings ignoring case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles finding the enumeration</span>
+<span class="sd">        ignoring case if provided as a string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="bp">cls</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">member</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">member</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid value supplied &#39;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Only </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">version</span> <span class="ow">in</span> <span class="bp">cls</span><span class="p">)</span><span class="si">}</span><span class="s2"> are supported.&quot;</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="WktVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.WktVersion">[docs]</a><span class="k">class</span> <span class="nc">WktVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     .. versionadded:: 2.2.0</span>
+
+<span class="sd">    Supported CRS WKT string versions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: WKT Version 2 from 2015</span>
+    <span class="n">WKT2_2015</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2015&quot;</span>
+    <span class="c1">#: WKT Version 2 from 2015 Simplified</span>
+    <span class="n">WKT2_2015_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2015_SIMPLIFIED&quot;</span>
+    <span class="c1">#: Deprecated alias for WKT Version 2 from 2019</span>
+    <span class="n">WKT2_2018</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2018&quot;</span>
+    <span class="c1">#: Deprecated alias for WKT Version 2 from 2019 Simplified</span>
+    <span class="n">WKT2_2018_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2018_SIMPLIFIED&quot;</span>
+    <span class="c1">#: WKT Version 2 from 2019</span>
+    <span class="n">WKT2_2019</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2019&quot;</span>
+    <span class="c1">#: WKT Version 2 from 2019 Simplified</span>
+    <span class="n">WKT2_2019_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2019_SIMPLIFIED&quot;</span>
+    <span class="c1">#: WKT Version 1 GDAL Style</span>
+    <span class="n">WKT1_GDAL</span> <span class="o">=</span> <span class="s2">&quot;WKT1_GDAL&quot;</span>
+    <span class="c1">#: WKT Version 1 ESRI Style</span>
+    <span class="n">WKT1_ESRI</span> <span class="o">=</span> <span class="s2">&quot;WKT1_ESRI&quot;</span></div>
+
+
+<div class="viewcode-block" id="ProjVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.ProjVersion">[docs]</a><span class="k">class</span> <span class="nc">ProjVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.2.0</span>
+
+<span class="sd">    Supported CRS PROJ string versions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: PROJ String version 4</span>
+    <span class="n">PROJ_4</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="c1">#: PROJ String version 5</span>
+    <span class="n">PROJ_5</span> <span class="o">=</span> <span class="mi">5</span></div>
+
+
+<div class="viewcode-block" id="TransformDirection"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.TransformDirection">[docs]</a><span class="k">class</span> <span class="nc">TransformDirection</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.2.0</span>
+
+<span class="sd">    Supported transform directions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Forward direction</span>
+    <span class="n">FORWARD</span> <span class="o">=</span> <span class="s2">&quot;FORWARD&quot;</span>
+    <span class="c1">#: Inverse direction</span>
+    <span class="n">INVERSE</span> <span class="o">=</span> <span class="s2">&quot;INVERSE&quot;</span>
+    <span class="c1">#: Do nothing</span>
+    <span class="n">IDENT</span> <span class="o">=</span> <span class="s2">&quot;IDENT&quot;</span></div>
+
+
+<div class="viewcode-block" id="PJType"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.PJType">[docs]</a><span class="k">class</span> <span class="nc">PJType</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 2.4.0</span>
+
+<span class="sd">    PJ Types for listing codes with :func:`pyproj.get_codes`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    UNKNOWN</span>
+<span class="sd">    ELLIPSOID</span>
+<span class="sd">    PRIME_MERIDIAN</span>
+<span class="sd">    GEODETIC_REFERENCE_FRAME</span>
+<span class="sd">    DYNAMIC_GEODETIC_REFERENCE_FRAME</span>
+<span class="sd">    VERTICAL_REFERENCE_FRAME</span>
+<span class="sd">    DYNAMIC_VERTICAL_REFERENCE_FRAME</span>
+<span class="sd">    DATUM_ENSEMBLE</span>
+<span class="sd">    CRS</span>
+<span class="sd">    GEODETIC_CRS</span>
+<span class="sd">    GEOCENTRIC_CRS</span>
+<span class="sd">    GEOGRAPHIC_CRS</span>
+<span class="sd">    GEOGRAPHIC_2D_CRS</span>
+<span class="sd">    GEOGRAPHIC_3D_CRS</span>
+<span class="sd">    VERTICAL_CRS</span>
+<span class="sd">    PROJECTED_CRS</span>
+<span class="sd">    COMPOUND_CRS</span>
+<span class="sd">    TEMPORAL_CRS</span>
+<span class="sd">    ENGINEERING_CRS</span>
+<span class="sd">    BOUND_CRS</span>
+<span class="sd">    OTHER_CRS</span>
+<span class="sd">    CONVERSION</span>
+<span class="sd">    TRANSFORMATION</span>
+<span class="sd">    CONCATENATED_OPERATION</span>
+<span class="sd">    OTHER_COORDINATE_OPERATION</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNKNOWN&quot;</span>
+    <span class="n">ELLIPSOID</span> <span class="o">=</span> <span class="s2">&quot;ELLIPSOID&quot;</span>
+    <span class="n">PRIME_MERIDIAN</span> <span class="o">=</span> <span class="s2">&quot;PRIME_MERIDIAN&quot;</span>
+    <span class="n">GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;GEODETIC_REFERENCE_FRAME&quot;</span>
+    <span class="n">DYNAMIC_GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_GEODETIC_REFERENCE_FRAME&quot;</span>
+    <span class="n">VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;VERTICAL_REFERENCE_FRAME&quot;</span>
+    <span class="n">DYNAMIC_VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_VERTICAL_REFERENCE_FRAME&quot;</span>
+    <span class="n">DATUM_ENSEMBLE</span> <span class="o">=</span> <span class="s2">&quot;DATUM_ENSEMBLE&quot;</span>
+    <span class="n">CRS</span> <span class="o">=</span> <span class="s2">&quot;CRS&quot;</span>
+    <span class="n">GEODETIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEODETIC_CRS&quot;</span>
+    <span class="n">GEOCENTRIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOCENTRIC_CRS&quot;</span>
+    <span class="n">GEOGRAPHIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_CRS&quot;</span>
+    <span class="n">GEOGRAPHIC_2D_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_2D_CRS&quot;</span>
+    <span class="n">GEOGRAPHIC_3D_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_3D_CRS&quot;</span>
+    <span class="n">VERTICAL_CRS</span> <span class="o">=</span> <span class="s2">&quot;VERTICAL_CRS&quot;</span>
+    <span class="n">PROJECTED_CRS</span> <span class="o">=</span> <span class="s2">&quot;PROJECTED_CRS&quot;</span>
+    <span class="n">COMPOUND_CRS</span> <span class="o">=</span> <span class="s2">&quot;COMPOUND_CRS&quot;</span>
+    <span class="n">TEMPORAL_CRS</span> <span class="o">=</span> <span class="s2">&quot;TEMPORAL_CRS&quot;</span>
+    <span class="n">ENGINEERING_CRS</span> <span class="o">=</span> <span class="s2">&quot;ENGINEERING_CRS&quot;</span>
+    <span class="n">BOUND_CRS</span> <span class="o">=</span> <span class="s2">&quot;BOUND_CRS&quot;</span>
+    <span class="n">OTHER_CRS</span> <span class="o">=</span> <span class="s2">&quot;OTHER_CRS&quot;</span>
+    <span class="n">CONVERSION</span> <span class="o">=</span> <span class="s2">&quot;CONVERSION&quot;</span>
+    <span class="n">TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;TRANSFORMATION&quot;</span>
+    <span class="n">CONCATENATED_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;CONCATENATED_OPERATION&quot;</span>
+    <span class="n">OTHER_COORDINATE_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;OTHER_COORDINATE_OPERATION&quot;</span></div>
+
+
+<div class="viewcode-block" id="GeodIntermediateFlag"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.GeodIntermediateFlag">[docs]</a><span class="k">class</span> <span class="nc">GeodIntermediateFlag</span><span class="p">(</span><span class="n">IntFlag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 3.1.0</span>
+
+<span class="sd">    Flags to be used in Geod.[inv|fwd]_intermediate()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULT</span> <span class="o">=</span> <span class="mh">0x0</span>
+
+    <span class="n">NPTS_ROUND</span> <span class="o">=</span> <span class="mh">0x0</span>
+    <span class="n">NPTS_CEIL</span> <span class="o">=</span> <span class="mh">0x1</span>
+    <span class="n">NPTS_TRUNC</span> <span class="o">=</span> <span class="mh">0x2</span>
+
+    <span class="n">DEL_S_RECALC</span> <span class="o">=</span> <span class="mh">0x00</span>
+    <span class="n">DEL_S_NO_RECALC</span> <span class="o">=</span> <span class="mh">0x10</span>
+
+    <span class="n">AZIS_DISCARD</span> <span class="o">=</span> <span class="mh">0x000</span>
+    <span class="n">AZIS_KEEP</span> <span class="o">=</span> <span class="mh">0x100</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
