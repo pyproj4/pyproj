@@ -1,6 +1,7 @@
 Documentation Archive
 =====================
 
+- `3.2.0 <https://pyproj4.github.io/pyproj/3.2.0/>`_
 - `3.1.0 <https://pyproj4.github.io/pyproj/3.1.0/>`_
 - `3.0.1 <https://pyproj4.github.io/pyproj/3.0.1/>`_
 - `2.6.1 <https://pyproj4.github.io/pyproj/v2.6.1rel/>`_
