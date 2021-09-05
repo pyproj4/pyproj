@@ -3,7 +3,7 @@ import re
 import warnings
 from collections import OrderedDict, namedtuple
 
-from pyproj._compat cimport cstrdecode, cstrencode, pystrdecode
+from pyproj._compat cimport cstrdecode, cstrencode
 from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj.aoi import AreaOfUse
@@ -360,13 +360,11 @@ cdef class Base:
         cdef const char* proj_name = proj_get_name(self.projobj)
         self.name = decode_or_undefined(proj_name)
         cdef const char* scope = proj_get_scope(self.projobj)
-        if scope != NULL:
-            py_scope = pystrdecode(scope)
-            self._scope = py_scope if py_scope else self._scope
+        if scope != NULL and scope != "":
+            self._scope = scope
         cdef const char* remarks = proj_get_remarks(self.projobj)
-        if remarks != NULL:
-            py_remarks = pystrdecode(remarks)
-            self._remarks = py_remarks if py_remarks else self._remarks
+        if remarks != NULL and remarks != "":
+            self._remarks = remarks
 
     @property
     def remarks(self):
@@ -2844,8 +2842,8 @@ cdef class _CRS(Base):
                 if out_auth_name != NULL and code != NULL:
                     authority_list.append(
                         AuthorityMatchInfo(
-                            pystrdecode(out_auth_name),
-                            pystrdecode(code),
+                            out_auth_name,
+                            code,
                             out_confidence_list[iii]
                         )
                     )

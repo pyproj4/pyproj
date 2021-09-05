@@ -4,7 +4,7 @@ import warnings
 
 from libc.stdlib cimport free, malloc
 
-from pyproj._compat cimport cstrencode, pystrdecode
+from pyproj._compat cimport cstrencode
 
 from pyproj.exceptions import DataDirError, ProjError
 from pyproj.utils import strtobool
@@ -85,9 +85,9 @@ def get_user_data_dir(create=False):
     str:
         The user writable data directory.
     """
-    return pystrdecode(proj_context_get_user_writable_directory(
+    return proj_context_get_user_writable_directory(
         PYPROJ_GLOBAL_CONTEXT, bool(create)
-    ))
+    )
 
 
 cdef void pyproj_log_function(void *user_data, int level, const char *error_msg) nogil:
@@ -99,14 +99,14 @@ cdef void pyproj_log_function(void *user_data, int level, const char *error_msg)
     # PROJ_DEBUG environment variable.
     if level == PJ_LOG_ERROR:
         with gil:
-            ProjError.internal_proj_error = pystrdecode(error_msg)
+            ProjError.internal_proj_error = error_msg
             _LOGGER.debug(f"PROJ_ERROR: {ProjError.internal_proj_error}")
     elif level == PJ_LOG_DEBUG:
         with gil:
-            _LOGGER.debug(f"PROJ_DEBUG: {pystrdecode(error_msg)}")
+            _LOGGER.debug(f"PROJ_DEBUG: {error_msg}")
     elif level == PJ_LOG_TRACE:
         with gil:
-            _LOGGER.debug(f"PROJ_TRACE: {pystrdecode(error_msg)}")
+            _LOGGER.debug(f"PROJ_TRACE: {error_msg}")
 
 
 cdef void set_context_data_dir(PJ_CONTEXT* context) except *:

@@ -11,16 +11,9 @@ cpdef bytes cstrencode(str pystr):
         return pystr.decode("utf-8").encode("utf-8")
 
 
-cpdef str pystrdecode(bytes cstr):
-    """
-    Decode a string to a python string.
-    """
-    return cstr.decode("utf-8")
-
-
 cdef str cstrdecode(const char *instring):
     if instring != NULL:
-        return pystrdecode(instring)
+        return instring
     return None
 
 

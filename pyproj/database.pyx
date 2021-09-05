@@ -6,7 +6,7 @@ from typing import Optional
 
 from libc.stdlib cimport free, malloc
 
-from pyproj._compat cimport cstrdecode, cstrencode, pystrdecode
+from pyproj._compat cimport cstrdecode, cstrencode
 from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj.aoi import AreaOfUse
@@ -60,7 +60,7 @@ def get_authorities():
     try:
         auth_list = []
         while proj_auth_list[iii] != NULL:
-            auth_list.append(pystrdecode(proj_auth_list[iii]))
+            auth_list.append(proj_auth_list[iii])
             iii += 1
     finally:
         pyproj_context_destroy(context)
@@ -105,7 +105,7 @@ def get_codes(auth_name, pj_type, allow_deprecated=False):
     try:
         code_list = []
         while proj_code_list[iii] != NULL:
-            code_list.append(pystrdecode(proj_code_list[iii]))
+            code_list.append(proj_code_list[iii])
             iii += 1
     finally:
         proj_string_list_destroy(proj_code_list)
@@ -244,9 +244,9 @@ def query_crs_info(
                     name=cstrdecode(crs_info_list[iii].area_name),
                 )
             code_list.append(CRSInfo(
-                auth_name=pystrdecode(crs_info_list[iii].auth_name),
-                code=pystrdecode(crs_info_list[iii].code),
-                name=pystrdecode(crs_info_list[iii].name),
+                auth_name=crs_info_list[iii].auth_name,
+                code=crs_info_list[iii].code,
+                name=crs_info_list[iii].name,
                 type=_INV_PJ_TYPE_MAP[crs_info_list[iii].type],
                 deprecated=bool(crs_info_list[iii].deprecated),
                 area_of_use=area_of_use,
@@ -384,13 +384,13 @@ def get_units_map(auth_name=None, category=None, allow_deprecated=False):
         for iii in range(num_units):
             proj_short_name = None
             if db_unit_list[iii].proj_short_name != NULL:
-                proj_short_name = pystrdecode(db_unit_list[iii].proj_short_name)
-            name = pystrdecode(db_unit_list[iii].name)
+                proj_short_name = db_unit_list[iii].proj_short_name
+            name = db_unit_list[iii].name
             units_map[name] = Unit(
-                auth_name=pystrdecode(db_unit_list[iii].auth_name),
-                code=pystrdecode(db_unit_list[iii].code),
+                auth_name=db_unit_list[iii].auth_name,
+                code=db_unit_list[iii].code,
                 name=name,
-                category=pystrdecode(db_unit_list[iii].category),
+                category=db_unit_list[iii].category,
                 conv_factor=db_unit_list[iii].conv_factor,
                 proj_short_name=proj_short_name,
                 deprecated=bool(db_unit_list[iii].deprecated),

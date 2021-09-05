@@ -3,7 +3,7 @@ include "base.pxi"
 cimport cython
 from libc.math cimport ceil, isnan, round
 
-from pyproj._compat cimport cstrencode, empty_array, pystrdecode
+from pyproj._compat cimport cstrencode, empty_array
 
 from collections import namedtuple
 
@@ -73,7 +73,7 @@ cdef class Geod:
         # convert 'a' only for initstring
         a_str = int(a) if a.is_integer() else a
         f_str = int(f) if f.is_integer() else f
-        self.initstring = pystrdecode(cstrencode(f"+a={a_str} +f={f_str}"))
+        self.initstring = f"+a={a_str} +f={f_str}"
         self.sphere = sphere
         self.b = b
         self.es = es
