@@ -2,12 +2,12 @@ import logging
 import os
 import warnings
 
-from pyproj.utils import strtobool
-
 from libc.stdlib cimport free, malloc
 
-from pyproj.compat import cstrencode, pystrdecode
+from pyproj._compat cimport cstrencode, pystrdecode
+
 from pyproj.exceptions import DataDirError, ProjError
+from pyproj.utils import strtobool
 
 # for logging the internal PROJ messages
 # https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library
@@ -192,9 +192,9 @@ cdef void pyproj_context_destroy(PJ_CONTEXT* context) except *:
         proj_context_destroy(context)
 
 
-def _pyproj_global_context_initialize():
+cpdef _pyproj_global_context_initialize():
     pyproj_context_initialize(PYPROJ_GLOBAL_CONTEXT)
 
 
-def _global_context_set_data_dir():
+cpdef _global_context_set_data_dir():
     set_context_data_dir(PYPROJ_GLOBAL_CONTEXT)

@@ -185,12 +185,10 @@ class CoordinateOperation(_CRSParts):
         ] = CoordinateOperationType.CONVERSION,
     ) -> "CoordinateOperation": ...
 
-
 class AuthorityMatchInfo(NamedTuple):
     auth_name: str
     code: str
     confidence: int
-
 
 class _CRS(Base):
     srs: str

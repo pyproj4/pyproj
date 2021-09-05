@@ -1,9 +1,24 @@
 import array
 
-from pyproj.compat import pystrdecode
+
+cpdef bytes cstrencode(str pystr):
+    """
+    Encode a string into bytes.
+    """
+    try:
+        return pystr.encode("utf-8")
+    except UnicodeDecodeError:
+        return pystr.decode("utf-8").encode("utf-8")
 
 
-cdef cstrdecode(const char *instring):
+cpdef str pystrdecode(bytes cstr):
+    """
+    Decode a string to a python string.
+    """
+    return cstr.decode("utf-8")
+
+
+cdef str cstrdecode(const char *instring):
     if instring != NULL:
         return pystrdecode(instring)
     return None
@@ -14,10 +29,10 @@ IF CTE_PYTHON_IMPLEMENTATION == "CPython":
 
     cdef array.array _ARRAY_TEMPLATE = array.array("d", [])
 
-    def empty_array(int npts):
+    cdef array.array empty_array(int npts):
         return array.clone(_ARRAY_TEMPLATE, npts, zero=False)
 
 ELSE:
     # https://github.com/pyproj4/pyproj/issues/854
-    def empty_array(int npts):
+    cdef empty_array(int npts):
         return array.array("d", [float("NaN")] * npts)

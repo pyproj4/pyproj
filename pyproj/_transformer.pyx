@@ -8,6 +8,7 @@ import re
 import warnings
 from collections import namedtuple
 
+from pyproj._compat cimport cstrencode, pystrdecode
 from pyproj._crs cimport (
     _CRS,
     Base,
@@ -20,7 +21,6 @@ from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj._datadir import _LOGGER
 from pyproj.aoi import AreaOfInterest
-from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import ProjVersion, TransformDirection
 from pyproj.exceptions import ProjError
 
@@ -29,7 +29,7 @@ proj_version_str = f"{PROJ_VERSION_MAJOR}.{PROJ_VERSION_MINOR}.{PROJ_VERSION_PAT
 _AUTH_CODE_RE = re.compile(r"(?P<authority>\w+)\:(?P<code>\w+)")
 
 
-cdef pyproj_errno_string(PJ_CONTEXT* ctx, int err):
+cdef str pyproj_errno_string(PJ_CONTEXT* ctx, int err):
     # https://github.com/pyproj4/pyproj/issues/760
     IF CTE_PROJ_VERSION_MAJOR >= 8:
         return pystrdecode(proj_context_errno_string(ctx, err))
@@ -37,13 +37,13 @@ cdef pyproj_errno_string(PJ_CONTEXT* ctx, int err):
         return pystrdecode(proj_errno_string(err))
 
 
-_PJ_DIRECTION_MAP = {
+cdef dict _PJ_DIRECTION_MAP = {
     TransformDirection.FORWARD: PJ_FWD,
     TransformDirection.INVERSE: PJ_INV,
     TransformDirection.IDENT: PJ_IDENT,
 }
 
-_TRANSFORMER_TYPE_MAP = {
+cdef dict _TRANSFORMER_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown Transformer",
     PJ_TYPE_CONVERSION: "Conversion Transformer",
     PJ_TYPE_TRANSFORMATION: "Transformation Transformer",
@@ -122,7 +122,7 @@ cdef class _TransformerGroup:
         self,
         _CRS crs_from,
         _CRS crs_to,
-        always_xy=False,
+        bint always_xy=False,
         area_of_interest=None,
     ):
         """
@@ -591,7 +591,7 @@ cdef class _Transformer(Base):
     def from_crs(
         const char* crs_from,
         const char* crs_to,
-        always_xy=False,
+        bint always_xy=False,
         area_of_interest=None,
         authority=None,
         accuracy=None,
@@ -649,7 +649,7 @@ cdef class _Transformer(Base):
     cdef _Transformer _from_pj(
         PJ_CONTEXT* context,
         PJ *transform_pj,
-        always_xy,
+        bint always_xy,
     ):
         """
         Create a Transformer from a PJ* object
@@ -691,7 +691,7 @@ cdef class _Transformer(Base):
                 proj_pipeline,
             )
         if transformer.projobj is NULL:
-            raise ProjError(f"Invalid projection {proj_pipeline}.")
+            raise ProjError(f"Invalid projection {pystrdecode(proj_pipeline)}.")
         transformer._initialize_from_projobj()
         return transformer
 
@@ -706,7 +706,7 @@ cdef class _Transformer(Base):
         proj_destroy(self.projobj)
         self.projobj = always_xy_pj
 
-    def _init_from_crs(self, always_xy):
+    def _init_from_crs(self, bint always_xy):
         """
         Finish initializing transformer properties from CRS objects
         """

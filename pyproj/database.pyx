@@ -6,11 +6,10 @@ from typing import Optional
 
 from libc.stdlib cimport free, malloc
 
-from pyproj._compat cimport cstrdecode
+from pyproj._compat cimport cstrdecode, cstrencode, pystrdecode
 from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj.aoi import AreaOfUse
-from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import PJType
 
 _PJ_TYPE_MAP = {

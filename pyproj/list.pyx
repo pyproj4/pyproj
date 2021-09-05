@@ -1,6 +1,6 @@
 include "proj.pxi"
 
-from pyproj.compat import pystrdecode
+from pyproj._compat cimport pystrdecode
 
 
 def get_proj_operations_map():

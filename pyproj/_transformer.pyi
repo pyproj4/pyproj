@@ -66,8 +66,8 @@ class _Transformer(Base):
     ) -> str: ...
     @staticmethod
     def from_crs(
-        crs_from: str,
-        crs_to: str,
+        crs_from: bytes,
+        crs_to: bytes,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
         authority: Optional[str] = None,
@@ -75,7 +75,7 @@ class _Transformer(Base):
         allow_ballpark: Optional[bool] = None,
     ) -> "_Transformer": ...
     @staticmethod
-    def from_pipeline(proj_pipeline: str) -> "_Transformer": ...
+    def from_pipeline(proj_pipeline: bytes) -> "_Transformer": ...
     def _transform(
         self,
         inx: Any,

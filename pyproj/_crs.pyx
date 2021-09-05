@@ -3,11 +3,10 @@ import re
 import warnings
 from collections import OrderedDict, namedtuple
 
-from pyproj._compat cimport cstrdecode
+from pyproj._compat cimport cstrdecode, cstrencode, pystrdecode
 from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj.aoi import AreaOfUse
-from pyproj.compat import cstrencode, pystrdecode
 from pyproj.crs.datum import CustomEllipsoid
 from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
@@ -15,21 +14,22 @@ from pyproj.exceptions import CRSError
 from pyproj.geod import pj_ellps
 from pyproj.utils import NumpyEncoder
 
+
 # This is for looking up the ellipsoid parameters
 # based on the long name
-_PJ_ELLPS_NAME_MAP = {
+cdef dict _PJ_ELLPS_NAME_MAP = {
     ellps["description"]: ellps_id for ellps_id, ellps in pj_ellps.items()
 }
 
 
-cdef decode_or_undefined(const char* instring):
+cdef str decode_or_undefined(const char* instring):
     pystr = cstrdecode(instring)
     if pystr is None:
         return "undefined"
     return pystr
 
 
-def is_wkt(proj_string):
+def is_wkt(str proj_string):
     """
     .. versionadded:: 2.0.0
 
@@ -48,7 +48,7 @@ def is_wkt(proj_string):
     return proj_context_guess_wkt_dialect(NULL, tmp_string) != PJ_GUESSED_NOT_WKT
 
 
-def is_proj(proj_string):
+def is_proj(str proj_string):
     """
     .. versionadded:: 2.2.2
 
@@ -69,8 +69,8 @@ def is_proj(proj_string):
 cdef _to_wkt(
     PJ_CONTEXT* context,
     PJ* projobj,
-    version=WktVersion.WKT2_2019,
-    pretty=False
+    object version=WktVersion.WKT2_2019,
+    bint pretty=False
 ):
     """
     Convert a PJ object to a wkt string.
@@ -101,7 +101,7 @@ cdef _to_wkt(
     wkt_out_type = supported_wkt_types[WktVersion.create(version)]
 
     cdef const char* options_wkt[2]
-    multiline = b"MULTILINE=NO"
+    cdef bytes multiline = b"MULTILINE=NO"
     if pretty:
         multiline = b"MULTILINE=YES"
     options_wkt[0] = multiline
@@ -120,8 +120,8 @@ cdef _to_wkt(
 cdef _to_proj4(
     PJ_CONTEXT* context,
     PJ* projobj,
-    version,
-    pretty,
+    object version,
+    bint pretty,
 ):
     """
     Convert the projection to a PROJ string.
@@ -147,7 +147,7 @@ cdef _to_proj4(
     proj_out_type = supported_prj_types[ProjVersion.create(version)]
 
     cdef const char* options[2]
-    multiline = b"MULTILINE=NO"
+    cdef bytes multiline = b"MULTILINE=NO"
     if pretty:
         multiline = b"MULTILINE=YES"
     options[0] = multiline
@@ -165,7 +165,9 @@ cdef _to_proj4(
     return cstrdecode(proj_string)
 
 
-cdef _get_concatenated_operations(PJ_CONTEXT* context, PJ* concatenated_operation):
+cdef tuple _get_concatenated_operations(
+    PJ_CONTEXT* context, PJ* concatenated_operation
+):
     """
     For a PJ* of type concatenated operation, get the operations
     """
@@ -190,8 +192,8 @@ cdef _get_concatenated_operations(PJ_CONTEXT* context, PJ* concatenated_operatio
 
 cdef PJ * _from_name(
         PJ_CONTEXT* context,
-        name_string,
-        auth_name,
+        str name_string,
+        str auth_name,
         PJ_TYPE pj_type,
     ):
         """
@@ -215,6 +217,7 @@ cdef PJ * _from_name(
         """
         cdef PJ_TYPE[1] pj_types = [pj_type]
         cdef char* c_auth_name = NULL
+        cdef bytes b_auth_name
         if auth_name is not None:
             b_auth_name = cstrencode(auth_name)
             c_auth_name = b_auth_name
@@ -237,7 +240,7 @@ cdef PJ * _from_name(
         return datum_pj
 
 
-def _load_proj_json(in_proj_json):
+def _load_proj_json(str in_proj_json):
     try:
         return json.loads(in_proj_json)
     except ValueError:
@@ -536,7 +539,7 @@ cdef class _CRSParts(Base):
         return self._is_equivalent(other)
 
 
-_COORD_SYSTEM_TYPE_MAP = {
+cdef dict _COORD_SYSTEM_TYPE_MAP = {
     PJ_CS_TYPE_UNKNOWN: "unknown",
     PJ_CS_TYPE_CARTESIAN: "cartesian",
     PJ_CS_TYPE_ELLIPSOIDAL: "ellipsoidal",
@@ -607,7 +610,7 @@ cdef class CoordinateSystem(_CRSParts):
         return self._axis_list
 
     @staticmethod
-    def from_string(coordinate_system_string):
+    def from_string(str coordinate_system_string):
         """
         .. versionadded:: 2.5.0
 
@@ -637,13 +640,13 @@ cdef class CoordinateSystem(_CRSParts):
             pyproj_context_destroy(context)
             raise CRSError(
                 "Invalid coordinate system string: "
-                f"{pystrdecode(coordinate_system_string)}"
+                f"{coordinate_system_string}"
             )
         CRSError.clear()
         return CoordinateSystem.create(context, coordinate_system_pj)
 
     @staticmethod
-    def from_json_dict(coordinate_system_dict):
+    def from_json_dict(dict coordinate_system_dict):
         """
         .. versionadded:: 2.5.0
 
@@ -663,7 +666,7 @@ cdef class CoordinateSystem(_CRSParts):
         )
 
     @staticmethod
-    def from_json(coordinate_system_json_str):
+    def from_json(str coordinate_system_json_str):
         """
         .. versionadded:: 2.5.0
 
@@ -682,7 +685,7 @@ cdef class CoordinateSystem(_CRSParts):
             _load_proj_json(coordinate_system_json_str)
         )
 
-    def to_cf(self, rotated_pole=False):
+    def to_cf(self, bint rotated_pole=False):
         """
         .. versionadded:: 3.0.0
 
@@ -816,7 +819,7 @@ cdef class Ellipsoid(_CRSParts):
         return ellips
 
     @staticmethod
-    def from_authority(auth_name, code):
+    def from_authority(str auth_name, code):
         """
         .. versionadded:: 2.2.0
 
@@ -868,7 +871,7 @@ cdef class Ellipsoid(_CRSParts):
         return Ellipsoid.from_authority("EPSG", code)
 
     @staticmethod
-    def _from_string(ellipsoid_string):
+    def _from_string(str ellipsoid_string):
         """
         Create an Ellipsoid from a string.
 
@@ -896,13 +899,13 @@ cdef class Ellipsoid(_CRSParts):
             proj_destroy(ellipsoid_pj)
             pyproj_context_destroy(context)
             raise CRSError(
-                f"Invalid ellipsoid string: {pystrdecode(ellipsoid_string)}"
+                f"Invalid ellipsoid string: {ellipsoid_string}"
             )
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
 
     @staticmethod
-    def from_string(ellipsoid_string):
+    def from_string(str ellipsoid_string):
         """
         .. versionadded:: 2.2.0
 
@@ -933,7 +936,7 @@ cdef class Ellipsoid(_CRSParts):
                 raise crs_err
 
     @staticmethod
-    def from_json_dict(ellipsoid_dict):
+    def from_json_dict(dict ellipsoid_dict):
         """
         .. versionadded:: 2.4.0
 
@@ -951,7 +954,7 @@ cdef class Ellipsoid(_CRSParts):
         return Ellipsoid._from_string(json.dumps(ellipsoid_dict, cls=NumpyEncoder))
 
     @staticmethod
-    def from_json(ellipsoid_json_str):
+    def from_json(str ellipsoid_json_str):
         """
         .. versionadded:: 2.4.0
 
@@ -970,8 +973,8 @@ cdef class Ellipsoid(_CRSParts):
 
     @staticmethod
     def _from_name(
-        ellipsoid_name,
-        auth_name,
+        str ellipsoid_name,
+        str auth_name,
     ):
         """
         .. versionadded:: 2.5.0
@@ -999,14 +1002,14 @@ cdef class Ellipsoid(_CRSParts):
         )
         if ellipsoid_pj == NULL:
             pyproj_context_destroy(context)
-            raise CRSError(f"Invalid ellipsoid name: {pystrdecode(ellipsoid_name)}")
+            raise CRSError(f"Invalid ellipsoid name: {ellipsoid_name}")
         CRSError.clear()
         return Ellipsoid.create(context, ellipsoid_pj)
 
     @staticmethod
     def from_name(
-        ellipsoid_name,
-        auth_name=None,
+        str ellipsoid_name,
+        str auth_name=None,
     ):
         """
         .. versionadded:: 2.5.0
@@ -1094,7 +1097,7 @@ cdef class PrimeMeridian(_CRSParts):
         return prime_meridian
 
     @staticmethod
-    def from_authority(auth_name, code):
+    def from_authority(str auth_name, code):
         """
         .. versionadded:: 2.2.0
 
@@ -1146,7 +1149,7 @@ cdef class PrimeMeridian(_CRSParts):
         return PrimeMeridian.from_authority("EPSG", code)
 
     @staticmethod
-    def _from_string(prime_meridian_string):
+    def _from_string(str prime_meridian_string):
         """
         Create an PrimeMeridian from a string.
 
@@ -1177,13 +1180,13 @@ cdef class PrimeMeridian(_CRSParts):
             proj_destroy(prime_meridian_pj)
             pyproj_context_destroy(context)
             raise CRSError(
-                f"Invalid prime meridian string: {pystrdecode(prime_meridian_string)}"
+                f"Invalid prime meridian string: {prime_meridian_string}"
             )
         CRSError.clear()
         return PrimeMeridian.create(context, prime_meridian_pj)
 
     @staticmethod
-    def from_string(prime_meridian_string):
+    def from_string(str prime_meridian_string):
         """
         .. versionadded:: 2.2.0
 
@@ -1214,7 +1217,7 @@ cdef class PrimeMeridian(_CRSParts):
                 raise crs_err
 
     @staticmethod
-    def from_json_dict(prime_meridian_dict):
+    def from_json_dict(dict prime_meridian_dict):
         """
         .. versionadded:: 2.4.0
 
@@ -1234,7 +1237,7 @@ cdef class PrimeMeridian(_CRSParts):
         )
 
     @staticmethod
-    def from_json(prime_meridian_json_str):
+    def from_json(str prime_meridian_json_str):
         """
         .. versionadded:: 2.4.0
 
@@ -1253,8 +1256,8 @@ cdef class PrimeMeridian(_CRSParts):
 
     @staticmethod
     def from_name(
-        prime_meridian_name,
-        auth_name=None,
+        str prime_meridian_name,
+        str auth_name=None,
     ):
         """
         .. versionadded:: 2.5.0
@@ -1286,13 +1289,13 @@ cdef class PrimeMeridian(_CRSParts):
         if prime_meridian_pj == NULL:
             pyproj_context_destroy(context)
             raise CRSError(
-                f"Invalid prime meridian name: {pystrdecode(prime_meridian_name)}"
+                f"Invalid prime meridian name: {prime_meridian_name}"
             )
         CRSError.clear()
         return PrimeMeridian.create(context, prime_meridian_pj)
 
 
-_DATUM_TYPE_MAP = {
+cdef dict _DATUM_TYPE_MAP = {
     PJ_TYPE_GEODETIC_REFERENCE_FRAME: "Geodetic Reference Frame",
     PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME: "Dynamic Geodetic Reference Frame",
     PJ_TYPE_VERTICAL_REFERENCE_FRAME: "Vertical Reference Frame",
@@ -1303,7 +1306,7 @@ _DATUM_TYPE_MAP = {
     PJ_TYPE_PARAMETRIC_DATUM: "Parametric Datum",
 }
 
-_PJ_DATUM_TYPE_MAP = {
+cdef dict _PJ_DATUM_TYPE_MAP = {
     DatumType.DATUM_ENSEMBLE: PJ_TYPE_DATUM_ENSEMBLE,
     DatumType.GEODETIC_REFERENCE_FRAME: PJ_TYPE_GEODETIC_REFERENCE_FRAME,
     DatumType.DYNAMIC_GEODETIC_REFERENCE_FRAME:
@@ -1378,7 +1381,7 @@ cdef class Datum(_CRSParts):
         return Datum.create(context, datum_pj)
 
     @staticmethod
-    def from_authority(auth_name, code):
+    def from_authority(str auth_name, code):
         """
         Create a Datum from an authority code.
 
@@ -1415,7 +1418,7 @@ cdef class Datum(_CRSParts):
         return Datum.from_authority("EPSG", code)
 
     @staticmethod
-    def _from_string(datum_string):
+    def _from_string(str datum_string):
         """
         Create a Datum from a string.
 
@@ -1446,12 +1449,12 @@ cdef class Datum(_CRSParts):
         ):
             proj_destroy(datum_pj)
             pyproj_context_destroy(context)
-            raise CRSError(f"Invalid datum string: {pystrdecode(datum_string)}")
+            raise CRSError(f"Invalid datum string: {datum_string}")
         CRSError.clear()
         return Datum.create(context, datum_pj)
 
     @staticmethod
-    def from_string(datum_string):
+    def from_string(str datum_string):
         """
         Create a Datum from a string.
 
@@ -1482,9 +1485,9 @@ cdef class Datum(_CRSParts):
 
     @staticmethod
     def _from_name(
-        datum_name,
-        auth_name,
-        datum_type,
+        str datum_name,
+        str auth_name,
+        object datum_type,
     ):
         """
         .. versionadded:: 2.5.0
@@ -1515,14 +1518,14 @@ cdef class Datum(_CRSParts):
         )
         if datum_pj == NULL:
             pyproj_context_destroy(context)
-            raise CRSError(f"Invalid datum name: {pystrdecode(datum_name)}")
+            raise CRSError(f"Invalid datum name: {datum_name}")
         CRSError.clear()
         return Datum.create(context, datum_pj)
 
     @staticmethod
     def from_name(
-        datum_name,
-        auth_name=None,
+        str datum_name,
+        str auth_name=None,
         datum_type=None,
     ):
         """
@@ -1571,7 +1574,7 @@ cdef class Datum(_CRSParts):
         )
 
     @staticmethod
-    def from_json_dict(datum_dict):
+    def from_json_dict(dict datum_dict):
         """
         .. versionadded:: 2.4.0
 
@@ -1589,7 +1592,7 @@ cdef class Datum(_CRSParts):
         return Datum._from_string(json.dumps(datum_dict, cls=NumpyEncoder))
 
     @staticmethod
-    def from_json(datum_json_str):
+    def from_json(str datum_json_str):
         """
         .. versionadded:: 2.4.0
 
@@ -1824,7 +1827,7 @@ cdef class Grid:
         )
 
 
-_COORDINATE_OPERATION_TYPE_MAP = {
+cdef dict _COORDINATE_OPERATION_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown",
     PJ_TYPE_CONVERSION: "Conversion",
     PJ_TYPE_TRANSFORMATION: "Transformation",
@@ -1832,7 +1835,7 @@ _COORDINATE_OPERATION_TYPE_MAP = {
     PJ_TYPE_OTHER_COORDINATE_OPERATION: "Other Coordinate Operation",
 }
 
-_PJ_COORDINATE_OPERATION_TYPE_MAP = {
+cdef dict _PJ_COORDINATE_OPERATION_TYPE_MAP = {
     CoordinateOperationType.CONVERSION: PJ_TYPE_CONVERSION,
     CoordinateOperationType.TRANSFORMATION: PJ_TYPE_TRANSFORMATION,
     CoordinateOperationType.CONCATENATED_OPERATION: PJ_TYPE_CONCATENATED_OPERATION,
@@ -1925,7 +1928,7 @@ cdef class CoordinateOperation(_CRSParts):
         return coord_operation
 
     @staticmethod
-    def from_authority(auth_name, code, use_proj_alternative_grid_names=False):
+    def from_authority(str auth_name, code, bint use_proj_alternative_grid_names=False):
         """
         Create a CoordinateOperation from an authority code.
 
@@ -1959,7 +1962,7 @@ cdef class CoordinateOperation(_CRSParts):
         return CoordinateOperation.create(context, coord_operation_pj)
 
     @staticmethod
-    def from_epsg(code, use_proj_alternative_grid_names=False):
+    def from_epsg(code, bint use_proj_alternative_grid_names=False):
         """
         Create a CoordinateOperation from an EPSG code.
 
@@ -1979,7 +1982,7 @@ cdef class CoordinateOperation(_CRSParts):
         )
 
     @staticmethod
-    def _from_string(coordinate_operation_string):
+    def _from_string(str coordinate_operation_string):
         """
         Create a CoordinateOperation from a string.
 
@@ -2013,13 +2016,13 @@ cdef class CoordinateOperation(_CRSParts):
             pyproj_context_destroy(context)
             raise CRSError(
                 "Invalid coordinate operation string: "
-                f"{pystrdecode(coordinate_operation_string)}"
+                f"{coordinate_operation_string}"
             )
         CRSError.clear()
         return CoordinateOperation.create(context, coord_operation_pj)
 
     @staticmethod
-    def from_string(coordinate_operation_string):
+    def from_string(str coordinate_operation_string):
         """
         Create a CoordinateOperation from a string.
 
@@ -2046,7 +2049,7 @@ cdef class CoordinateOperation(_CRSParts):
                 raise crs_err
 
     @staticmethod
-    def from_json_dict(coordinate_operation_dict):
+    def from_json_dict(dict coordinate_operation_dict):
         """
         Create CoordinateOperation from a JSON dictionary.
 
@@ -2066,7 +2069,7 @@ cdef class CoordinateOperation(_CRSParts):
         )
 
     @staticmethod
-    def from_json(coordinate_operation_json_str):
+    def from_json(str coordinate_operation_json_str):
         """
         Create CoordinateOperation from a JSON string.
 
@@ -2087,8 +2090,8 @@ cdef class CoordinateOperation(_CRSParts):
 
     @staticmethod
     def from_name(
-        coordinate_operation_name,
-        auth_name=None,
+        str coordinate_operation_name,
+        str auth_name=None,
         coordinate_operation_type=CoordinateOperationType.CONVERSION,
     ):
         """
@@ -2128,7 +2131,7 @@ cdef class CoordinateOperation(_CRSParts):
             pyproj_context_destroy(context)
             raise CRSError(
                 "Invalid coordinate operation name: "
-                f"{pystrdecode(coordinate_operation_name)}"
+                f"{coordinate_operation_name}"
             )
         CRSError.clear()
         return CoordinateOperation.create(context, coordinate_operation_pj)
@@ -2298,7 +2301,7 @@ confidence: int
 """
 
 
-_CRS_TYPE_MAP = {
+cdef dict _CRS_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown CRS",
     PJ_TYPE_CRS: "CRS",
     PJ_TYPE_GEODETIC_CRS: "Geodetic CRS",
@@ -2336,7 +2339,7 @@ cdef class _CRS(Base):
         self._coordinate_operation = None
         self.type_name = "undefined"
 
-    def __init__(self, proj_string):
+    def __init__(self, str proj_string):
         self.context = pyproj_context_create()
         # initialize projection
         self.projobj = proj_create(
@@ -2344,12 +2347,12 @@ cdef class _CRS(Base):
             cstrencode(proj_string),
         )
         if self.projobj == NULL:
-            raise CRSError(f"Invalid projection: {pystrdecode(proj_string)}")
+            raise CRSError(f"Invalid projection: {proj_string}")
         # make sure the input is a CRS
         if not proj_is_crs(self.projobj):
             raise CRSError(f"Input is not a CRS: {proj_string}")
         # set proj information
-        self.srs = pystrdecode(proj_string)
+        self.srs = proj_string
         self._type = proj_get_type(self.projobj)
         self.type_name = _CRS_TYPE_MAP[self._type]
         self._set_base_info()

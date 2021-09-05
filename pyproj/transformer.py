@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union, overload
 
 from pyproj import CRS
+from pyproj._compat import cstrencode
 from pyproj._crs import AreaOfUse, CoordinateOperation
 from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     AreaOfInterest,
@@ -25,7 +26,6 @@ from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     _TransformerGroup,
     proj_version_str,
 )
-from pyproj.compat import cstrencode
 from pyproj.datadir import get_user_data_dir
 from pyproj.enums import ProjVersion, TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
