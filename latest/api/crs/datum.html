@@ -247,7 +247,7 @@ currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.Datum.from_authority">
-<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span></em>, <em class="sig-param"><span class="n">code</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">unicode auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Datum from an authority code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -284,7 +284,7 @@ currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.Datum.from_json">
-<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">datum_json_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_json" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param">unicode datum_json_str</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_json" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -304,7 +304,7 @@ currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.Datum.from_json_dict">
-<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">datum_dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param">dict datum_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -324,7 +324,7 @@ currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 
 <dl class="py method">
 <dt id="pyproj.crs.Datum.from_name">
-<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">datum_name</span></em>, <em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">datum_type</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">unicode datum_name</em>, <em class="sig-param">unicode auth_name=None</em>, <em class="sig-param">datum_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_name" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -354,7 +354,7 @@ If None, will search all authorities.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.Datum.from_string">
-<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">datum_string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">unicode datum_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Datum.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Datum from a string.</p>
 <p class="rubric">Examples</p>
 <ul class="simple">
@@ -622,7 +622,7 @@ or a <a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid" titl
 
 <dl class="py method">
 <dt id="pyproj.crs.Ellipsoid.from_authority">
-<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span></em>, <em class="sig-param"><span class="n">code</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">unicode auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -665,7 +665,7 @@ or a <a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid" titl
 
 <dl class="py method">
 <dt id="pyproj.crs.Ellipsoid.from_json">
-<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ellipsoid_json_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_json" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param">unicode ellipsoid_json_str</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_json" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -685,7 +685,7 @@ or a <a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid" titl
 
 <dl class="py method">
 <dt id="pyproj.crs.Ellipsoid.from_json_dict">
-<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ellipsoid_dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param">dict ellipsoid_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -705,7 +705,7 @@ or a <a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid" titl
 
 <dl class="py method">
 <dt id="pyproj.crs.Ellipsoid.from_name">
-<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ellipsoid_name</span></em>, <em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">unicode ellipsoid_name</em>, <em class="sig-param">unicode auth_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_name" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -733,7 +733,7 @@ If None, will search all authorities.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.Ellipsoid.from_string">
-<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ellipsoid_string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">unicode ellipsoid_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.Ellipsoid.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -967,7 +967,7 @@ Cannot be mixed with other parameters.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.PrimeMeridian.from_authority">
-<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span></em>, <em class="sig-param"><span class="n">code</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">unicode auth_name</em>, <em class="sig-param">code</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>
@@ -1010,7 +1010,7 @@ Cannot be mixed with other parameters.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.PrimeMeridian.from_json">
-<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prime_meridian_json_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_json" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param">unicode prime_meridian_json_str</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_json" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1030,7 +1030,7 @@ Cannot be mixed with other parameters.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.PrimeMeridian.from_json_dict">
-<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prime_meridian_dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param">dict prime_meridian_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
 </div>
@@ -1050,7 +1050,7 @@ Cannot be mixed with other parameters.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.PrimeMeridian.from_name">
-<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prime_meridian_name</span></em>, <em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">unicode prime_meridian_name</em>, <em class="sig-param">unicode auth_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_name" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -1078,7 +1078,7 @@ If None, will search all authorities.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.PrimeMeridian.from_string">
-<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prime_meridian_string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">unicode prime_meridian_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.PrimeMeridian.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0.</span></p>
 </div>

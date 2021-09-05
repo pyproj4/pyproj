@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- REF: declare specific python types in cython
 
 3.2.0
 ------
