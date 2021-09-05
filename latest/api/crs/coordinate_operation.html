@@ -328,7 +328,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="py method">
 <dt id="pyproj.crs.CoordinateOperation.from_authority">
-<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth_name</span></em>, <em class="sig-param"><span class="n">code</span></em>, <em class="sig-param"><span class="n">use_proj_alternative_grid_names</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_authority" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_authority</code><span class="sig-paren">(</span><em class="sig-param">unicode auth_name</em>, <em class="sig-param">code</em>, <em class="sig-param">bool use_proj_alternative_grid_names=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_authority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from an authority code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -349,7 +349,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="py method">
 <dt id="pyproj.crs.CoordinateOperation.from_epsg">
-<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span></em>, <em class="sig-param"><span class="n">use_proj_alternative_grid_names</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_epsg" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_epsg</code><span class="sig-paren">(</span><em class="sig-param">code</em>, <em class="sig-param">bool use_proj_alternative_grid_names=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_epsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from an EPSG code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -369,7 +369,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="py method">
 <dt id="pyproj.crs.CoordinateOperation.from_json">
-<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinate_operation_json_str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_json" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json</code><span class="sig-paren">(</span><em class="sig-param">unicode coordinate_operation_json_str</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create CoordinateOperation from a JSON string.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
@@ -389,7 +389,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="py method">
 <dt id="pyproj.crs.CoordinateOperation.from_json_dict">
-<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinate_operation_dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_json_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_json_dict</code><span class="sig-paren">(</span><em class="sig-param">dict coordinate_operation_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_json_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create CoordinateOperation from a JSON dictionary.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.0.</span></p>
@@ -409,7 +409,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="py method">
 <dt id="pyproj.crs.CoordinateOperation.from_name">
-<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinate_operation_name</span></em>, <em class="sig-param"><span class="n">auth_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coordinate_operation_type</span><span class="o">=</span><span class="default_value">CoordinateOperationType.CONVERSION</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_name</code><span class="sig-paren">(</span><em class="sig-param">unicode coordinate_operation_name</em>, <em class="sig-param">unicode auth_name=None</em>, <em class="sig-param">coordinate_operation_type=CoordinateOperationType.CONVERSION</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_name" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -439,7 +439,7 @@ If None, will search all authorities.</p></li>
 
 <dl class="py method">
 <dt id="pyproj.crs.CoordinateOperation.from_string">
-<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinate_operation_string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">unicode coordinate_operation_string</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from a string.</p>
 <p class="rubric">Example</p>
 <ul class="simple">

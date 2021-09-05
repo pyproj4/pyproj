@@ -193,7 +193,6 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="kn">import</span> <span class="n">Factors</span>
-<span class="kn">from</span> <span class="nn">pyproj.compat</span> <span class="kn">import</span> <span class="n">pystrdecode</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">TransformDirection</span>
 <span class="kn">from</span> <span class="nn">pyproj.list</span> <span class="kn">import</span> <span class="n">get_proj_operations_map</span>
@@ -430,7 +429,7 @@
 <span class="sd">        &gt;&gt;&gt; Proj(&quot;epsg:4326&quot;).definition_string()</span>
 <span class="sd">        &#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">pystrdecode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span></div>
 
 <div class="viewcode-block" id="Proj.to_latlong_def"><a class="viewcode-back" href="../../api/proj.html#pyproj.Proj.to_latlong_def">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong_def</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;return the definition string of the geographic (lat/lon)</span>
