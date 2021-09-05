@@ -19,7 +19,6 @@ import warnings
 from typing import Any, Optional, Tuple, Type
 
 from pyproj._transformer import Factors
-from pyproj.compat import pystrdecode
 from pyproj.crs import CRS
 from pyproj.enums import TransformDirection
 from pyproj.list import get_proj_operations_map
@@ -256,7 +255,7 @@ class Proj(Transformer):
         >>> Proj("epsg:4326").definition_string()
         'proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0'
         """
-        return pystrdecode(self.definition)
+        return self.definition
 
     def to_latlong_def(self) -> Optional[str]:
         """return the definition string of the geographic (lat/lon)

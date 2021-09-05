@@ -3,10 +3,10 @@ include "base.pxi"
 cimport cython
 from libc.math cimport ceil, isnan, round
 
+from pyproj._compat cimport cstrencode, empty_array, pystrdecode
+
 from collections import namedtuple
 
-from pyproj._compat import empty_array
-from pyproj.compat import cstrencode, pystrdecode
 from pyproj.enums import GeodIntermediateFlag
 from pyproj.exceptions import GeodError
 

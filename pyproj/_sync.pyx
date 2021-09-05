@@ -1,7 +1,6 @@
 include "proj.pxi"
 
-from pyproj.compat import pystrdecode
-
+from pyproj._compat cimport pystrdecode
 from pyproj._datadir cimport PYPROJ_GLOBAL_CONTEXT
 
 

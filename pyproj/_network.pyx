@@ -4,9 +4,8 @@ import os
 
 from pyproj.utils import strtobool
 
+from pyproj._compat cimport cstrencode
 from pyproj._datadir cimport PYPROJ_GLOBAL_CONTEXT
-
-from pyproj.compat import cstrencode
 
 
 def _set_ca_bundle_path(ca_bundle_path):
