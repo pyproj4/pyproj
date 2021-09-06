@@ -3,7 +3,8 @@ Change Log
 
 Latest
 ------
-- REF: declare specific python types in cython
+- REF: declare specific python types in cython (pull #928)
+- REF: Use cython string decoding (pull #929)
 
 3.2.0
 ------
