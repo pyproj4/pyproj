@@ -8,7 +8,7 @@ from pyproj._compat cimport cstrencode
 from pyproj._datadir cimport PYPROJ_GLOBAL_CONTEXT
 
 
-def _set_ca_bundle_path(ca_bundle_path):
+def _set_ca_bundle_path(str ca_bundle_path):
     """
     Sets the path to the CA Bundle used by the `curl`
     built into PROJ.

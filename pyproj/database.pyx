@@ -12,7 +12,8 @@ from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 from pyproj.aoi import AreaOfUse
 from pyproj.enums import PJType
 
-_PJ_TYPE_MAP = {
+
+cdef dict _PJ_TYPE_MAP = {
     PJType.UNKNOWN: PJ_TYPE_UNKNOWN,
     PJType.ELLIPSOID: PJ_TYPE_ELLIPSOID,
     PJType.PRIME_MERIDIAN: PJ_TYPE_PRIME_MERIDIAN,
@@ -39,7 +40,7 @@ _PJ_TYPE_MAP = {
     PJType.CONCATENATED_OPERATION: PJ_TYPE_CONCATENATED_OPERATION,
     PJType.OTHER_COORDINATE_OPERATION: PJ_TYPE_OTHER_COORDINATE_OPERATION,
 }
-_INV_PJ_TYPE_MAP = {value: key for key, value in _PJ_TYPE_MAP.items()}
+cdef dict _INV_PJ_TYPE_MAP = {value: key for key, value in _PJ_TYPE_MAP.items()}
 
 
 def get_authorities():
@@ -68,7 +69,7 @@ def get_authorities():
     return auth_list
 
 
-def get_codes(auth_name, pj_type, allow_deprecated=False):
+def get_codes(str auth_name not None, pj_type not None, bint allow_deprecated=False):
     """
     .. versionadded:: 2.4.0
 
@@ -149,11 +150,11 @@ projection_method_name: Optional[str]
 
 
 def query_crs_info(
-    auth_name=None,
+    str auth_name=None,
     pj_types=None,
     area_of_interest=None,
-    contains=False,
-    allow_deprecated=False,
+    bint contains=False,
+    bint allow_deprecated=False,
  ):
     """
     .. versionadded:: 3.0.0
@@ -190,6 +191,7 @@ def query_crs_info(
     cdef int result_count = 0
     cdef int pj_type_count = 0
     cdef int iii = 0
+    cdef bytes b_auth_name
     if auth_name is not None:
         b_auth_name = cstrencode(auth_name)
         c_auth_name = b_auth_name
@@ -261,9 +263,9 @@ def query_crs_info(
 
 
 def query_utm_crs_info(
-    datum_name=None,
+    str datum_name=None,
     area_of_interest=None,
-    contains=False,
+    bint contains=False,
  ):
     """
     .. versionadded:: 3.0.0
@@ -340,7 +342,7 @@ deprecated: bool
 """
 
 
-def get_units_map(auth_name=None, category=None, allow_deprecated=False):
+def get_units_map(str auth_name=None, str category=None, bint allow_deprecated=False):
     """
     .. versionadded:: 2.2.0
     .. versionadded:: 3.0.0 query PROJ database.
@@ -363,12 +365,14 @@ def get_units_map(auth_name=None, category=None, allow_deprecated=False):
     """
     cdef const char* c_auth_name = NULL
     cdef const char* c_category = NULL
+    cdef bytes b_auth_name
+    cdef bytes b_category
     if auth_name is not None:
-        auth_name = cstrencode(auth_name)
-        c_auth_name = auth_name
+        b_auth_name = cstrencode(auth_name)
+        c_auth_name = b_auth_name
     if category is not None:
-        category = cstrencode(category)
-        c_category = category
+        b_category = cstrencode(category)
+        c_category = b_category
 
     cdef int num_units = 0
     cdef PJ_CONTEXT* context = pyproj_context_create()

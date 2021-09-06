@@ -18,6 +18,7 @@ import re
 import warnings
 from typing import Any, Optional, Tuple, Type
 
+from pyproj._compat import cstrencode
 from pyproj._transformer import Factors
 from pyproj.crs import CRS
 from pyproj.enums import TransformDirection
@@ -130,7 +131,7 @@ class Proj(Transformer):
             projstring = self.crs.to_proj4() or self.crs.srs
 
         self.srs = re.sub(r"\s\+?type=crs", "", projstring).strip()
-        super().__init__(TransformerFromPipeline(self.srs))
+        super().__init__(TransformerFromPipeline(cstrencode(self.srs)))
 
     def __call__(
         self,
