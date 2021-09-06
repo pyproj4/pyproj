@@ -80,12 +80,12 @@ class TransformerFromCRS(TransformerMaker):
     Generates a Cython _Transformer class from input CRS data.
     """
 
-    crs_from: str
-    crs_to: str
+    crs_from: bytes
+    crs_to: bytes
     always_xy: bool
     area_of_interest: Optional[AreaOfInterest]
     authority: Optional[str]
-    accuracy: Optional[float]
+    accuracy: Optional[str]
     allow_ballpark: Optional[bool]
 
     def __call__(self) -> _Transformer:
@@ -95,8 +95,8 @@ class TransformerFromCRS(TransformerMaker):
         _Transformer
         """
         return _Transformer.from_crs(
-            cstrencode(self.crs_from),
-            cstrencode(self.crs_to),
+            self.crs_from,
+            self.crs_to,
             always_xy=self.always_xy,
             area_of_interest=self.area_of_interest,
             authority=self.authority,
@@ -113,7 +113,7 @@ class TransformerFromPipeline(TransformerMaker):
     Generates a Cython _Transformer class from input pipeline data.
     """
 
-    proj_pipeline: str
+    proj_pipeline: bytes
 
     def __call__(self) -> _Transformer:
         """
@@ -121,7 +121,7 @@ class TransformerFromPipeline(TransformerMaker):
         -------
         _Transformer
         """
-        return _Transformer.from_pipeline(cstrencode(self.proj_pipeline))
+        return _Transformer.from_pipeline(self.proj_pipeline)
 
 
 class TransformerGroup(_TransformerGroup):
@@ -533,12 +533,12 @@ class Transformer:
 
         return Transformer(
             TransformerFromCRS(
-                CRS.from_user_input(crs_from).srs,
-                CRS.from_user_input(crs_to).srs,
+                cstrencode(CRS.from_user_input(crs_from).srs),
+                cstrencode(CRS.from_user_input(crs_to).srs),
                 always_xy=always_xy,
                 area_of_interest=area_of_interest,
                 authority=authority,
-                accuracy=accuracy,
+                accuracy=accuracy if accuracy is None else str(accuracy),
                 allow_ballpark=allow_ballpark,
             )
         )
@@ -574,7 +574,7 @@ class Transformer:
         Transformer
 
         """
-        return Transformer(TransformerFromPipeline(proj_pipeline))
+        return Transformer(TransformerFromPipeline(cstrencode(proj_pipeline)))
 
     @overload
     def transform(  # pylint: disable=invalid-name

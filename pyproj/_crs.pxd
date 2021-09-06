@@ -126,13 +126,13 @@ cdef class _CRS(Base):
     cdef PJ_PROJ_INFO projpj_info
     cdef readonly str srs
     cdef readonly str type_name
-    cdef readonly object _ellipsoid
+    cdef readonly Ellipsoid _ellipsoid
     cdef readonly object _area_of_use
-    cdef readonly object _prime_meridian
-    cdef readonly object _datum
+    cdef readonly PrimeMeridian _prime_meridian
+    cdef readonly Datum _datum
     cdef readonly list _sub_crs_list
-    cdef readonly object _source_crs
-    cdef readonly object _target_crs
-    cdef readonly object _geodetic_crs
-    cdef readonly object _coordinate_system
-    cdef readonly object _coordinate_operation
+    cdef readonly _CRS _source_crs
+    cdef readonly _CRS _target_crs
+    cdef readonly _CRS _geodetic_crs
+    cdef readonly CoordinateSystem _coordinate_system
+    cdef readonly CoordinateOperation _coordinate_operation

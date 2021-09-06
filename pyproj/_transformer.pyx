@@ -120,8 +120,8 @@ cdef class _TransformerGroup:
 
     def __init__(
         self,
-        _CRS crs_from,
-        _CRS crs_to,
+        _CRS crs_from not None,
+        _CRS crs_to not None,
         bint always_xy=False,
         area_of_interest=None,
     ):
@@ -237,8 +237,8 @@ cdef PJ* proj_create_crs_to_crs(
     const char *source_crs_str,
     const char *target_crs_str,
     PJ_AREA *area,
-    authority,
-    accuracy,
+    str authority,
+    str accuracy,
     allow_ballpark,
 ):
     """
@@ -566,7 +566,7 @@ cdef class _Transformer(Base):
         """
         return proj_context_is_network_enabled(self.context) == 1
 
-    def to_proj4(self, version=ProjVersion.PROJ_5, pretty=False):
+    def to_proj4(self, version=ProjVersion.PROJ_5, bint pretty=False):
         """
         Convert the projection to a PROJ string.
 
@@ -593,8 +593,8 @@ cdef class _Transformer(Base):
         const char* crs_to,
         bint always_xy=False,
         area_of_interest=None,
-        authority=None,
-        accuracy=None,
+        str authority=None,
+        str accuracy=None,
         allow_ballpark=None,
     ):
         """

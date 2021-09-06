@@ -71,7 +71,7 @@ class _Transformer(Base):
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
         authority: Optional[str] = None,
-        accuracy: Optional[float] = None,
+        accuracy: Optional[str] = None,
         allow_ballpark: Optional[bool] = None,
     ) -> "_Transformer": ...
     @staticmethod

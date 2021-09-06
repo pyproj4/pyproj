@@ -608,7 +608,7 @@ cdef class CoordinateSystem(_CRSParts):
         return self._axis_list
 
     @staticmethod
-    def from_string(str coordinate_system_string):
+    def from_string(str coordinate_system_string not None):
         """
         .. versionadded:: 2.5.0
 
@@ -644,7 +644,7 @@ cdef class CoordinateSystem(_CRSParts):
         return CoordinateSystem.create(context, coordinate_system_pj)
 
     @staticmethod
-    def from_json_dict(dict coordinate_system_dict):
+    def from_json_dict(dict coordinate_system_dict not None):
         """
         .. versionadded:: 2.5.0
 
@@ -664,7 +664,7 @@ cdef class CoordinateSystem(_CRSParts):
         )
 
     @staticmethod
-    def from_json(str coordinate_system_json_str):
+    def from_json(str coordinate_system_json_str not None):
         """
         .. versionadded:: 2.5.0
 
@@ -817,7 +817,7 @@ cdef class Ellipsoid(_CRSParts):
         return ellips
 
     @staticmethod
-    def from_authority(str auth_name, code):
+    def from_authority(str auth_name not None, code not None):
         """
         .. versionadded:: 2.2.0
 
@@ -851,7 +851,7 @@ cdef class Ellipsoid(_CRSParts):
         return Ellipsoid.create(context, ellipsoid_pj)
 
     @staticmethod
-    def from_epsg(code):
+    def from_epsg(code not None):
         """
         .. versionadded:: 2.2.0
 
@@ -903,7 +903,7 @@ cdef class Ellipsoid(_CRSParts):
         return Ellipsoid.create(context, ellipsoid_pj)
 
     @staticmethod
-    def from_string(str ellipsoid_string):
+    def from_string(str ellipsoid_string not None):
         """
         .. versionadded:: 2.2.0
 
@@ -934,7 +934,7 @@ cdef class Ellipsoid(_CRSParts):
                 raise crs_err
 
     @staticmethod
-    def from_json_dict(dict ellipsoid_dict):
+    def from_json_dict(dict ellipsoid_dict not None):
         """
         .. versionadded:: 2.4.0
 
@@ -952,7 +952,7 @@ cdef class Ellipsoid(_CRSParts):
         return Ellipsoid._from_string(json.dumps(ellipsoid_dict, cls=NumpyEncoder))
 
     @staticmethod
-    def from_json(str ellipsoid_json_str):
+    def from_json(str ellipsoid_json_str not None):
         """
         .. versionadded:: 2.4.0
 
@@ -1006,7 +1006,7 @@ cdef class Ellipsoid(_CRSParts):
 
     @staticmethod
     def from_name(
-        str ellipsoid_name,
+        str ellipsoid_name not None,
         str auth_name=None,
     ):
         """
@@ -1095,7 +1095,7 @@ cdef class PrimeMeridian(_CRSParts):
         return prime_meridian
 
     @staticmethod
-    def from_authority(str auth_name, code):
+    def from_authority(str auth_name not None, code not None):
         """
         .. versionadded:: 2.2.0
 
@@ -1129,7 +1129,7 @@ cdef class PrimeMeridian(_CRSParts):
         return PrimeMeridian.create(context, prime_meridian_pj)
 
     @staticmethod
-    def from_epsg(code):
+    def from_epsg(code not None):
         """
         .. versionadded:: 2.2.0
 
@@ -1184,7 +1184,7 @@ cdef class PrimeMeridian(_CRSParts):
         return PrimeMeridian.create(context, prime_meridian_pj)
 
     @staticmethod
-    def from_string(str prime_meridian_string):
+    def from_string(str prime_meridian_string not None):
         """
         .. versionadded:: 2.2.0
 
@@ -1215,7 +1215,7 @@ cdef class PrimeMeridian(_CRSParts):
                 raise crs_err
 
     @staticmethod
-    def from_json_dict(dict prime_meridian_dict):
+    def from_json_dict(dict prime_meridian_dict not None):
         """
         .. versionadded:: 2.4.0
 
@@ -1235,7 +1235,7 @@ cdef class PrimeMeridian(_CRSParts):
         )
 
     @staticmethod
-    def from_json(str prime_meridian_json_str):
+    def from_json(str prime_meridian_json_str not None):
         """
         .. versionadded:: 2.4.0
 
@@ -1254,7 +1254,7 @@ cdef class PrimeMeridian(_CRSParts):
 
     @staticmethod
     def from_name(
-        str prime_meridian_name,
+        str prime_meridian_name not None,
         str auth_name=None,
     ):
         """
@@ -1379,7 +1379,7 @@ cdef class Datum(_CRSParts):
         return Datum.create(context, datum_pj)
 
     @staticmethod
-    def from_authority(str auth_name, code):
+    def from_authority(str auth_name not None, code not None):
         """
         Create a Datum from an authority code.
 
@@ -1400,7 +1400,7 @@ cdef class Datum(_CRSParts):
             return Datum._from_authority(auth_name, code, PJ_CATEGORY_DATUM)
 
     @staticmethod
-    def from_epsg(code):
+    def from_epsg(code not None):
         """
         Create a Datum from an EPSG code.
 
@@ -1452,7 +1452,7 @@ cdef class Datum(_CRSParts):
         return Datum.create(context, datum_pj)
 
     @staticmethod
-    def from_string(str datum_string):
+    def from_string(str datum_string not None):
         """
         Create a Datum from a string.
 
@@ -1522,7 +1522,7 @@ cdef class Datum(_CRSParts):
 
     @staticmethod
     def from_name(
-        str datum_name,
+        str datum_name not None,
         str auth_name=None,
         datum_type=None,
     ):
@@ -1572,7 +1572,7 @@ cdef class Datum(_CRSParts):
         )
 
     @staticmethod
-    def from_json_dict(dict datum_dict):
+    def from_json_dict(dict datum_dict not None):
         """
         .. versionadded:: 2.4.0
 
@@ -1590,7 +1590,7 @@ cdef class Datum(_CRSParts):
         return Datum._from_string(json.dumps(datum_dict, cls=NumpyEncoder))
 
     @staticmethod
-    def from_json(str datum_json_str):
+    def from_json(str datum_json_str not None):
         """
         .. versionadded:: 2.4.0
 
@@ -1926,7 +1926,11 @@ cdef class CoordinateOperation(_CRSParts):
         return coord_operation
 
     @staticmethod
-    def from_authority(str auth_name, code, bint use_proj_alternative_grid_names=False):
+    def from_authority(
+        str auth_name not None,
+        code not None,
+        bint use_proj_alternative_grid_names=False,
+    ):
         """
         Create a CoordinateOperation from an authority code.
 
@@ -1960,7 +1964,7 @@ cdef class CoordinateOperation(_CRSParts):
         return CoordinateOperation.create(context, coord_operation_pj)
 
     @staticmethod
-    def from_epsg(code, bint use_proj_alternative_grid_names=False):
+    def from_epsg(code not None, bint use_proj_alternative_grid_names= False):
         """
         Create a CoordinateOperation from an EPSG code.
 
@@ -1980,7 +1984,7 @@ cdef class CoordinateOperation(_CRSParts):
         )
 
     @staticmethod
-    def _from_string(str coordinate_operation_string):
+    def _from_string(str coordinate_operation_string not None):
         """
         Create a CoordinateOperation from a string.
 
@@ -2020,7 +2024,7 @@ cdef class CoordinateOperation(_CRSParts):
         return CoordinateOperation.create(context, coord_operation_pj)
 
     @staticmethod
-    def from_string(str coordinate_operation_string):
+    def from_string(str coordinate_operation_string not None):
         """
         Create a CoordinateOperation from a string.
 
@@ -2047,7 +2051,7 @@ cdef class CoordinateOperation(_CRSParts):
                 raise crs_err
 
     @staticmethod
-    def from_json_dict(dict coordinate_operation_dict):
+    def from_json_dict(dict coordinate_operation_dict not None):
         """
         Create CoordinateOperation from a JSON dictionary.
 
@@ -2067,7 +2071,7 @@ cdef class CoordinateOperation(_CRSParts):
         )
 
     @staticmethod
-    def from_json(str coordinate_operation_json_str):
+    def from_json(str coordinate_operation_json_str not None):
         """
         Create CoordinateOperation from a JSON string.
 
@@ -2088,9 +2092,9 @@ cdef class CoordinateOperation(_CRSParts):
 
     @staticmethod
     def from_name(
-        str coordinate_operation_name,
+        str coordinate_operation_name not None,
         str auth_name=None,
-        coordinate_operation_type=CoordinateOperationType.CONVERSION,
+        coordinate_operation_type not None=CoordinateOperationType.CONVERSION,
     ):
         """
         .. versionadded:: 2.5.0
@@ -2201,7 +2205,7 @@ cdef class CoordinateOperation(_CRSParts):
         self._area_of_use = create_area_of_use(self.context, self.projobj)
         return self._area_of_use
 
-    def to_proj4(self, version=ProjVersion.PROJ_5, pretty=False):
+    def to_proj4(self, version not None=ProjVersion.PROJ_5, bint pretty=False):
         """
         Convert the projection to a PROJ string.
 
@@ -2337,12 +2341,12 @@ cdef class _CRS(Base):
         self._coordinate_operation = None
         self.type_name = "undefined"
 
-    def __init__(self, str proj_string):
+    def __init__(self, const char *proj_string):
         self.context = pyproj_context_create()
         # initialize projection
         self.projobj = proj_create(
             self.context,
-            cstrencode(proj_string),
+            proj_string,
         )
         if self.projobj == NULL:
             raise CRSError(f"Invalid projection: {proj_string}")
