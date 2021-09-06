@@ -8,7 +8,7 @@ import re
 import warnings
 from collections import namedtuple
 
-from pyproj._compat cimport cstrencode, pystrdecode
+from pyproj._compat cimport cstrencode
 from pyproj._crs cimport (
     _CRS,
     Base,
@@ -32,9 +32,9 @@ _AUTH_CODE_RE = re.compile(r"(?P<authority>\w+)\:(?P<code>\w+)")
 cdef str pyproj_errno_string(PJ_CONTEXT* ctx, int err):
     # https://github.com/pyproj4/pyproj/issues/760
     IF CTE_PROJ_VERSION_MAJOR >= 8:
-        return pystrdecode(proj_context_errno_string(ctx, err))
+        return proj_context_errno_string(ctx, err)
     ELSE:
-        return pystrdecode(proj_errno_string(err))
+        return proj_errno_string(err)
 
 
 cdef dict _PJ_DIRECTION_MAP = {
@@ -512,15 +512,15 @@ cdef class _Transformer(Base):
 
     @property
     def id(self):
-        return pystrdecode(self.proj_info.id)
+        return self.proj_info.id
 
     @property
     def description(self):
-        return pystrdecode(self.proj_info.description)
+        return self.proj_info.description
 
     @property
     def definition(self):
-        return pystrdecode(self.proj_info.definition)
+        return self.proj_info.definition
 
     @property
     def has_inverse(self):
@@ -672,7 +672,7 @@ cdef class _Transformer(Base):
         cdef _Transformer transformer = _Transformer()
         transformer.context = pyproj_context_create()
 
-        auth_match = _AUTH_CODE_RE.match(pystrdecode(proj_pipeline.strip()))
+        auth_match = _AUTH_CODE_RE.match(proj_pipeline.strip())
         if auth_match:
             # attempt to create coordinate operation from AUTH:CODE
             match_data = auth_match.groupdict()
@@ -691,7 +691,7 @@ cdef class _Transformer(Base):
                 proj_pipeline,
             )
         if transformer.projobj is NULL:
-            raise ProjError(f"Invalid projection {pystrdecode(proj_pipeline)}.")
+            raise ProjError(f"Invalid projection {proj_pipeline}.")
         transformer._initialize_from_projobj()
         return transformer
 

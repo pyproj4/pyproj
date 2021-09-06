@@ -110,7 +110,11 @@ def get_cythonize_options():
     # Configure optional Cython coverage.
     cythonize_options = {
         "language_level": sys.version_info[0],
-        "compiler_directives": {"embedsignature": True},
+        "compiler_directives": {
+            "c_string_type": "str",
+            "c_string_encoding": "utf-8",
+            "embedsignature": True,
+        },
     }
     if os.environ.get("PYPROJ_FULL_COVERAGE"):
         cythonize_options["compiler_directives"].update(linetrace=True)
