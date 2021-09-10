@@ -2339,7 +2339,7 @@ cdef class _CRS(Base):
         self._geodetic_crs = None
         self._coordinate_system = None
         self._coordinate_operation = None
-        self.type_name = "undefined"
+        self._type_name = None
 
     def __init__(self, const char *proj_string):
         self.context = pyproj_context_create()
@@ -2356,9 +2356,23 @@ cdef class _CRS(Base):
         # set proj information
         self.srs = proj_string
         self._type = proj_get_type(self.projobj)
-        self.type_name = _CRS_TYPE_MAP[self._type]
         self._set_base_info()
         CRSError.clear()
+
+    @property
+    def type_name(self):
+        """
+        Returns
+        -------
+        str:
+            The name of the type of the CRS object.
+        """
+        if self._type_name is not None:
+            return self._type_name
+        self._type_name = _CRS_TYPE_MAP[self._type]
+        if self.is_derived:
+            self._type_name = f"Derived {self._type_name}"
+        return self._type_name
 
     @property
     def axis_info(self):
