@@ -1442,6 +1442,13 @@ def test_crs_multithread():
             pass
 
 
+def test_crs_multiprocess():
+    # https://github.com/pyproj4/pyproj/issues/933
+    with concurrent.futures.ProcessPoolExecutor(max_workers=2) as executor:
+        for result in executor.map(CRS, [4326 for _ in range(10)]):
+            pass
+
+
 def test_coordinate_operation__to_proj4():
     operation = CoordinateOperation.from_string(
         "+proj=pipeline +step +proj=axisswap +order=2,1 +step "
