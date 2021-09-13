@@ -1,79 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Database &mdash; pyproj 3.2.1.dev0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-    <link rel="shortcut icon" href="../_static/icon.png"/>
-  
-
-  
-  
-
-  
-
-  
+  <title>Database &mdash; pyproj 3.2.1.dev0 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /><link rel="shortcut icon" href="../_static/icon.png"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Lists" href="list.html" />
     <link rel="prev" title="Proj" href="proj.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #353130" >
-          
-
-          
-            <a href="../index.html" class="icon icon-home"> pyproj
-          
-
-          
-            
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
-          
+            <a href="../index.html" class="icon icon-home"> pyproj<img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
                 3.2.1.dev0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -81,19 +37,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
@@ -133,77 +78,35 @@
 <li class="toctree-l1"><a class="reference internal" href="../past_versions.html">Documentation Archive</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #353130" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">pyproj</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="index.html">API Documentation</a> &raquo;</li>
-        
       <li>Database</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/api/database.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="database">
+             
+  <section id="database">
 <span id="id1"></span><h1>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h1>
 <p>Methods that query the PROJ database for information.</p>
-<div class="section" id="pyproj-database-get-units-map">
+<section id="pyproj-database-get-units-map">
 <h2>pyproj.database.get_units_map<a class="headerlink" href="#pyproj-database-get-units-map" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -261,8 +164,8 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="pyproj-database-get-authorities">
+</section>
+<section id="pyproj-database-get-authorities">
 <h2>pyproj.database.get_authorities<a class="headerlink" href="#pyproj-database-get-authorities" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -284,8 +187,8 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="pyproj-database-get-codes">
+</section>
+<section id="pyproj-database-get-codes">
 <h2>pyproj.database.get_codes<a class="headerlink" href="#pyproj-database-get-codes" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -314,8 +217,8 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="pyproj-database-query-crs-info">
+</section>
+<section id="pyproj-database-query-crs-info">
 <h2>pyproj.database.query_crs_info<a class="headerlink" href="#pyproj-database-query-crs-info" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="pyproj.database.query_crs_info">
@@ -369,8 +272,8 @@ intersects the specified bounding box will be returned.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="pyproj-database-query-utm-crs-info">
+</section>
+<section id="pyproj-database-query-utm-crs-info">
 <h2>pyproj.database.query_utm_crs_info<a class="headerlink" href="#pyproj-database-query-utm-crs-info" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="pyproj.database.query_utm_crs_info">
@@ -399,55 +302,38 @@ intersects the specified bounding box will be returned.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="list.html" class="btn btn-neutral float-right" title="Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="proj.html" class="btn btn-neutral float-left" title="Proj" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="list.html" class="btn btn-neutral float-right" title="Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
-
-    </p>
+    <p>&#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

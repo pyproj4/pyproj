@@ -5,6 +5,7 @@ Latest
 ------
 - REF: declare specific python types in cython (pull #928)
 - REF: Use cython string decoding (pull #929)
+- BUG: Return multiple authorities with :attr:`pyproj.crs.CRS.list_authority` (pull #943)
 
 3.2.0
 ------

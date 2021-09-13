@@ -1,79 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Gotchas/FAQ &mdash; pyproj 3.2.1.dev0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-    <link rel="shortcut icon" href="_static/icon.png"/>
-  
-
-  
-  
-
-  
-
-  
+  <title>Gotchas/FAQ &mdash; pyproj 3.2.1.dev0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /><link rel="shortcut icon" href="_static/icon.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API Documentation" href="api/index.html" />
     <link rel="prev" title="Transformation Grids" href="transformation_grids.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #353130" >
-          
-
-          
-            <a href="index.html" class="icon icon-home"> pyproj
-          
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+            <a href="index.html" class="icon icon-home"> pyproj<img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
                 3.2.1.dev0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -81,19 +37,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
@@ -119,72 +64,31 @@
 <li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #353130" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pyproj</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Gotchas/FAQ</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/gotchas.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="gotchas-faq">
+             
+  <section id="gotchas-faq">
 <span id="gotchas"></span><h1>Gotchas/FAQ<a class="headerlink" href="#gotchas-faq" title="Permalink to this headline">¶</a></h1>
 <p>This is a page for some suggestions, gotchas, and FAQs.</p>
 <dl class="simple">
@@ -194,7 +98,7 @@
 </ul>
 </dd>
 </dl>
-<div class="section" id="what-are-the-best-formats-to-store-the-crs-information">
+<section id="what-are-the-best-formats-to-store-the-crs-information">
 <h2>What are the best formats to store the CRS information?<a class="headerlink" href="#what-are-the-best-formats-to-store-the-crs-information" title="Permalink to this headline">¶</a></h2>
 <p>In general, <a class="reference external" href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems">Well-Known Text (WKT)</a>
 or <a class="reference external" href="https://en.wikipedia.org/wiki/Spatial_reference_system">Spatial Reference ID
@@ -209,8 +113,8 @@ If you can avoid it, it is best to not use them.
 Additionally, PROJ strings will likely not be supported
 in future major version of PROJ for storing CRS information.</p>
 <p>More info: <a class="reference external" href="https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
-</div>
-<div class="section" id="axis-order-changes-in-proj-6">
+</section>
+<section id="axis-order-changes-in-proj-6">
 <h2>Axis order changes in PROJ 6+<a class="headerlink" href="#axis-order-changes-in-proj-6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent</a></p></li>
@@ -218,8 +122,8 @@ in future major version of PROJ for storing CRS information.</p>
 <li><p>Examples of how to handle it: <a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p></li>
 <li><p><a class="reference internal" href="#min-confidence"><span class="std std-ref">Why does the EPSG code return when using EPSG:xxxx and not with +init=EPSG:xxxx?</span></a></p></li>
 </ul>
-</div>
-<div class="section" id="init-auth-auth-code-should-be-replaced-with-auth-auth-code">
+</section>
+<section id="init-auth-auth-code-should-be-replaced-with-auth-auth-code">
 <h2><cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> should be replaced with <cite>&lt;auth&gt;:&lt;auth_code&gt;</cite><a class="headerlink" href="#init-auth-auth-code-should-be-replaced-with-auth-auth-code" title="Permalink to this headline">¶</a></h2>
 <p>The <cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> syntax is deprecated and will be removed
 in future versions of PROJ. Also, if you use the <cite>+init</cite> syntax,
@@ -246,8 +150,8 @@ you may have problems initializing projections when the other syntax works.</p>
 <span class="go">pyproj.exceptions.CRSError: Invalid projection: +init=ESRI:54009 +type=crs: (Internal Proj Error: proj_create: cannot expand +init=ESRI:54009 +type=crs)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="proj-not-a-generic-latitude-longitude-to-projection-converter">
+</section>
+<section id="proj-not-a-generic-latitude-longitude-to-projection-converter">
 <h2>Proj (Not a generic latitude/longitude to projection converter)<a class="headerlink" href="#proj-not-a-generic-latitude-longitude-to-projection-converter" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference internal" href="api/proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> is limited to converting between geographic and
 projection coordinates within one datum. If you have coordinates in latitude
@@ -310,8 +214,8 @@ which may not be what you want.</p>
 <span class="go">(133148.22970574044, 453192.24450392975)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx">
+</section>
+<section id="why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx">
 <span id="min-confidence"></span><h2>Why does the EPSG code return when using <cite>EPSG:xxxx</cite> and not with <cite>+init=EPSG:xxxx</cite>?<a class="headerlink" href="#why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx" title="Permalink to this headline">¶</a></h2>
 <p>From: <a class="reference external" href="https://gis.stackexchange.com/a/326919/144357">https://gis.stackexchange.com/a/326919/144357</a></p>
 <p>The reason that the EPSG code does not appear with the CRS initialized with
@@ -397,8 +301,8 @@ threshold you are comfortable with.</p>
 <span class="go">False</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="internal-proj-error-sqlite-error-on-select">
+</section>
+<section id="internal-proj-error-sqlite-error-on-select">
 <h2>Internal PROJ Error … SQLite error on SELECT<a class="headerlink" href="#internal-proj-error-sqlite-error-on-select" title="Permalink to this headline">¶</a></h2>
 <p>The PROJ database is based on the EPSG database. With each release,
 there is a good chance that there are database updates. If you have multiple
@@ -413,8 +317,8 @@ attempting to use an incompatible database.</p>
 the docstrings of <a class="reference internal" href="api/datadir.html#pyproj.datadir.get_data_dir" title="pyproj.datadir.get_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_data_dir()</span></code></a></p></li>
 <li><p>To change the data directory: <a class="reference internal" href="api/datadir.html#pyproj.datadir.set_data_dir" title="pyproj.datadir.set_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.set_data_dir()</span></code></a></p></li>
 </ul>
-</div>
-<div class="section" id="upgrading-to-pyproj-2-from-pyproj-1">
+</section>
+<section id="upgrading-to-pyproj-2-from-pyproj-1">
 <span id="upgrade-transformer"></span><h2>Upgrading to pyproj 2 from pyproj 1<a class="headerlink" href="#upgrading-to-pyproj-2-from-pyproj-1" title="Permalink to this headline">¶</a></h2>
 <p>We recommended using the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> and
 <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> and
@@ -446,55 +350,38 @@ are deprecated.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="api/index.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="transformation_grids.html" class="btn btn-neutral float-left" title="Transformation Grids" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/index.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
-
-    </p>
+    <p>&#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

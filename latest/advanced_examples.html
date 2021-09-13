@@ -1,79 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Advanced Examples &mdash; pyproj 3.2.1.dev0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-    <link rel="shortcut icon" href="_static/icon.png"/>
-  
-
-  
-  
-
-  
-
-  
+  <title>Advanced Examples &mdash; pyproj 3.2.1.dev0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /><link rel="shortcut icon" href="_static/icon.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Building a Coordinate Reference System" href="build_crs.html" />
     <link rel="prev" title="CLI" href="cli.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #353130" >
-          
-
-          
-            <a href="index.html" class="icon icon-home"> pyproj
-          
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+            <a href="index.html" class="icon icon-home"> pyproj<img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
                 3.2.1.dev0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -81,19 +37,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
@@ -124,77 +69,36 @@
 <li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #353130" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pyproj</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Advanced Examples</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/advanced_examples.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="advanced-examples">
+             
+  <section id="advanced-examples">
 <span id="id1"></span><h1>Advanced Examples<a class="headerlink" href="#advanced-examples" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="optimize-transformations">
+<section id="optimize-transformations">
 <h2>Optimize Transformations<a class="headerlink" href="#optimize-transformations" title="Permalink to this headline">¶</a></h2>
 <p>Here are a few tricks to try out if you want to optimize your transformations.</p>
-<div class="section" id="repeated-transformations">
+<section id="repeated-transformations">
 <h3>Repeated transformations<a class="headerlink" href="#repeated-transformations" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.0.</span></p>
@@ -219,13 +123,13 @@ optimize your transformations.</p>
 </pre></div>
 </div>
 <p>Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)</p>
-</div>
-<div class="section" id="transforming-with-the-same-projections">
+</section>
+<section id="transforming-with-the-same-projections">
 <h3>Transforming with the same projections<a class="headerlink" href="#transforming-with-the-same-projections" title="Permalink to this headline">¶</a></h3>
 <p>pyproj skips <cite>noop</cite> transformations.</p>
-</div>
-</div>
-<div class="section" id="transformation-group">
+</section>
+</section>
+<section id="transformation-group">
 <h2>Transformation Group<a class="headerlink" href="#transformation-group" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
@@ -271,8 +175,8 @@ And if not, how to get the missing grid.</p></li>
 <span class="go">&#39;https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip&#39;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="area-of-interest">
+</section>
+<section id="area-of-interest">
 <h2>Area of Interest<a class="headerlink" href="#area-of-interest" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
@@ -300,8 +204,8 @@ which transformation operation is selected in the transformation.</p>
 <span class="go">- bounds: (-136.46, 49.0, -60.72, 83.17)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="promote-crs-to-3d">
+</section>
+<section id="promote-crs-to-3d">
 <h2>Promote CRS to 3D<a class="headerlink" href="#promote-crs-to-3d" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
@@ -321,8 +225,8 @@ which transformation operation is selected in the transformation.</p>
 <span class="go">(2671499.8913080636, 1208075.1135782297, 951.4265527743846)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="projected-crs-bounds">
+</section>
+<section id="projected-crs-bounds">
 <h2>Projected CRS Bounds<a class="headerlink" href="#projected-crs-bounds" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
@@ -336,8 +240,8 @@ This is the recommended method for calculating the projected bounds.</p>
 <span class="go">(-20037508.342789244, -20048966.104014594, 20037508.342789244, 20048966.104014594)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="multithreading">
+</section>
+<section id="multithreading">
 <h2>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this headline">¶</a></h2>
 <p>As of version 3.1, these objects are thread-safe:</p>
 <ul class="simple">
@@ -362,8 +266,8 @@ within the thread that uses it.</p>
         <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="optimizing-single-threaded-applications">
+</section>
+<section id="optimizing-single-threaded-applications">
 <h2>Optimizing Single-Threaded Applications<a class="headerlink" href="#optimizing-single-threaded-applications" title="Permalink to this headline">¶</a></h2>
 <p>If you have a single-threaded application that generates many objects,
 enabling the use of the global context can provide performance enhancements.</p>
@@ -375,8 +279,8 @@ enabling the use of the global context can provide performance enhancements.</p>
 <span class="n">crs_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyproj</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="debugging-internal-proj">
+</section>
+<section id="debugging-internal-proj">
 <span id="id2"></span><h2>Debugging Internal PROJ<a class="headerlink" href="#debugging-internal-proj" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.0.</span></p>
@@ -409,55 +313,38 @@ environment variable to the desired level.</p></li>
 </div></blockquote>
 </li>
 </ol>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="build_crs.html" class="btn btn-neutral float-right" title="Building a Coordinate Reference System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cli.html" class="btn btn-neutral float-left" title="CLI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="build_crs.html" class="btn btn-neutral float-right" title="Building a Coordinate Reference System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
-
-    </p>
+    <p>&#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
