@@ -2802,8 +2802,8 @@ cdef class _CRS(Base):
         # get list of possible matching projections
         cdef PJ_OBJ_LIST *proj_list = NULL
         cdef int *c_out_confidence_list = NULL
-        cdef int out_confidence = -9999
         cdef int num_proj_objects = -9999
+        cdef bytes b_auth_name
         cdef char *user_auth_name = NULL
         cdef int iii = 0
 
@@ -2841,8 +2841,8 @@ cdef class _CRS(Base):
                 if out_confidence_list[iii] < min_confidence:
                     continue
                 proj = proj_list_get(self.context, proj_list, iii)
-                code = proj_get_id_code(proj, iii)
-                out_auth_name = proj_get_id_auth_name(proj, iii)
+                code = proj_get_id_code(proj, 0)
+                out_auth_name = proj_get_id_auth_name(proj, 0)
                 if out_auth_name != NULL and code != NULL:
                     authority_list.append(
                         AuthorityMatchInfo(

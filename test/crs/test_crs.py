@@ -1536,3 +1536,9 @@ def test_list_authority():
     assert CRS("+proj=utm +zone=15").list_authority() == [
         AuthorityMatchInfo(auth_name="EPSG", code="32615", confidence=70)
     ]
+
+
+def test_list_authority__multiple():
+    auth_list = CRS("+proj=longlat").list_authority()
+    assert AuthorityMatchInfo(auth_name="OGC", code="CRS84", confidence=70) in auth_list
+    assert AuthorityMatchInfo(auth_name="EPSG", code="4326", confidence=70) in auth_list
