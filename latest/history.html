@@ -1,79 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Change Log &mdash; pyproj 3.2.1.dev0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-    <link rel="shortcut icon" href="_static/icon.png"/>
-  
-
-  
-  
-
-  
-
-  
+  <title>Change Log &mdash; pyproj 3.2.1.dev0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /><link rel="shortcut icon" href="_static/icon.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Documentation Archive" href="past_versions.html" />
     <link rel="prev" title="Optimize Transformations" href="optimize_transformations.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #353130" >
-          
-
-          
-            <a href="index.html" class="icon icon-home"> pyproj
-          
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+            <a href="index.html" class="icon icon-home"> pyproj<img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
                 3.2.1.dev0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -81,19 +37,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
@@ -156,81 +101,41 @@
 <li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #353130" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pyproj</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Change Log</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/history.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="change-log">
+             
+  <section id="change-log">
 <h1>Change Log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="latest">
+<section id="latest">
 <h2>Latest<a class="headerlink" href="#latest" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>REF: declare specific python types in cython (pull #928)</p></li>
 <li><p>REF: Use cython string decoding (pull #929)</p></li>
+<li><p>BUG: Return multiple authorities with <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.list_authority" title="pyproj.crs.CRS.list_authority"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.list_authority</span></code></a> (pull #943)</p></li>
 </ul>
-</div>
-<div class="section" id="id1">
+</section>
+<section id="id1">
 <h2>3.2.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>WHL: Wheels contain PROJ 8.1.1</p></li>
@@ -256,8 +161,8 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>LNT: Add pylint &amp; address issues (pull #909)</p></li>
 <li><p>DEP: Remove distutils dependency (pull #917)</p></li>
 </ul>
-</div>
-<div class="section" id="id2">
+</section>
+<section id="id2">
 <h2>3.1.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>WHL: Wheels contain PROJ 8.0.1</p></li>
@@ -275,8 +180,8 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>ENH: Added <a class="reference internal" href="api/geod.html#pyproj.Geod.inv_intermediate" title="pyproj.Geod.inv_intermediate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.inv_intermediate()</span></code></a> &amp; <a class="reference internal" href="api/geod.html#pyproj.Geod.fwd_intermediate" title="pyproj.Geod.fwd_intermediate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.fwd_intermediate()</span></code></a> (pull #841)</p></li>
 <li><p>REF: Skip transformations if <cite>noop</cite> &amp; deprecate <cite>skip_equivalent</cite> (pull #824)</p></li>
 </ul>
-</div>
-<div class="section" id="id3">
+</section>
+<section id="id3">
 <h2>3.0.1<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>WHL: Wheels contain PROJ 7.2.1</p></li>
@@ -284,8 +189,8 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>BUG: Allow transformations with empty arrays (issue #766)</p></li>
 <li><p>BUG: support numpy objects in CRS.from_cf (issue #773)</p></li>
 </ul>
-</div>
-<div class="section" id="id4">
+</section>
+<section id="id4">
 <h2>3.0.0<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Minimum supported Python version 3.6 (issue #499)</p></li>
@@ -315,7 +220,7 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>REF: Added <cite>pyproj.database</cite>, <cite>pyproj.aoi</cite>, and <cite>pyproj.list</cite> modules (pull #703)</p></li>
 <li><p>BUG: Fix handling of polygon holes when calculating area in Geod (pull #686)</p></li>
 </ul>
-<div class="section" id="id5">
+<section id="id5">
 <h3>2.6.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>WHL: Wheels contain PROJ version is 7.0.1</p></li>
@@ -327,8 +232,8 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>BUG: Fix <a class="reference internal" href="api/proj.html#pyproj.Proj.get_factors" title="pyproj.Proj.get_factors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Proj.get_factors()</span></code></a> (issue #600)</p></li>
 <li><p>BUG: fix unequal (!=) with non-CRS type (pull #596)</p></li>
 </ul>
-</div>
-<div class="section" id="id6">
+</section>
+<section id="id6">
 <h3>2.6.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>ENH: Added <a class="reference internal" href="api/proj.html#pyproj.Proj.get_factors" title="pyproj.Proj.get_factors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Proj.get_factors()</span></code></a> (issue #503)</p></li>
@@ -341,8 +246,8 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>BUG: Fix pipeline transformations to match cct (issue #565)</p></li>
 <li><p>BUG: Don’t silently ignore kwargs when projparams are specified (Proj &amp; CRS) (issue #565)</p></li>
 </ul>
-</div>
-<div class="section" id="id7">
+</section>
+<section id="id7">
 <h3>2.5.0<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>WHL: Wheels contain PROJ version is 6.3.1</p></li>
@@ -357,8 +262,8 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>ENH: Added enumeration for WKT2_2019 (issue #526)</p></li>
 <li><p>ENH: Update from_cf/to_cf to use WKT instead of PROJ strings for internal management (issue #515)</p></li>
 </ul>
-</div>
-<div class="section" id="id8">
+</section>
+<section id="id8">
 <h3>2.4.2<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Elevate +init= warning to FutureWarning (pull #486)</p></li>
@@ -366,8 +271,8 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>BUG: Fix for 32-bit i686 platforms (issue #481)</p></li>
 <li><p>Return ‘inf’ in Proj instead of 1.e30 (pull #491)</p></li>
 </ul>
-</div>
-<div class="section" id="id9">
+</section>
+<section id="id9">
 <h3>2.4.1<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>WHL: Wheels contain PROJ version is 6.2.1 (issue #456)</p></li>
@@ -376,8 +281,8 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>BUG: latlon -&gt; longlat in <cite>CRS.from_cf()</cite> for o_proj so behavior consistent in PROJ 6.2.0 and 6.2.1 (pull #472)</p></li>
 <li><p>ENH: Add repr for <cite>pyproj.crs.CoordinateOperation</cite> and for <cite>pyproj.transformer.TransformerGroup</cite> (pull #464)</p></li>
 </ul>
-</div>
-<div class="section" id="id10">
+</section>
+<section id="id10">
 <h3>2.4.0<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Minimum PROJ version is 6.2.0 (issue #411)</p></li>
@@ -393,16 +298,16 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>BUG: Added fix for get_transform_crs when checking type (pull #439)</p></li>
 <li><p>DOC: Build docs with python3 (pull #428)</p></li>
 </ul>
-</div>
-<div class="section" id="id11">
+</section>
+<section id="id11">
 <h3>2.3.1<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added cleanup for internal PROJ errors (issue #413)</p></li>
 <li><p>Delay checking for pyproj data directory until importing pyproj (issue #415)</p></li>
 <li><p>Address issue where PROJ core dumps on proj_create with +init= when global context does not have data directory set (issue #415 &amp; issue #368)</p></li>
 </ul>
-</div>
-<div class="section" id="id12">
+</section>
+<section id="id12">
 <h3>2.3.0<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Minimum supported Python version 3.5 (issue #331)</p></li>
@@ -435,8 +340,8 @@ and added interface to calculate total length of a line
 <li><p>Removed deprecated functions <cite>Proj.proj_version</cite>, <cite>CRS.is_valid</cite>, and <cite>CRS.to_geodetic()</cite> (pull #371)</p></li>
 <li><p>Search on <cite>sys.prefix</cite> for the PROJ data directory (issue #387)</p></li>
 </ul>
-</div>
-<div class="section" id="id13">
+</section>
+<section id="id13">
 <h3>2.2.2<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Update wheels to PROJ 6.1.1</p></li>
@@ -448,8 +353,8 @@ and added interface to calculate total length of a line
 <li><p>Update data dir exception handling to prevent ignoring errors (pull #361)</p></li>
 <li><p><a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_cf()</span></code></a> export transverse mercator parameters for UTM zones (pull #362)</p></li>
 </ul>
-</div>
-<div class="section" id="id14">
+</section>
+<section id="id14">
 <h3>2.2.1<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added <a class="reference internal" href="api/show_versions.html#pyproj.show_versions" title="pyproj.show_versions"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.show_versions()</span></code></a> (issue #334)</p></li>
@@ -459,8 +364,8 @@ and added interface to calculate total length of a line
 <li><p>Depreate <cite>Proj.proj_version</cite> (pull #337)</p></li>
 <li><p>Test fixes (pull #333, pull #335)</p></li>
 </ul>
-</div>
-<div class="section" id="id15">
+</section>
+<section id="id15">
 <h3>2.2.0<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Minimum PROJ version is now 6.1.0</p></li>
@@ -506,8 +411,8 @@ CRS and easting, northing for most projected CRS (issue #225)</p></li>
 <li><p>Add interface to get the projection/ellps/prime_meridian/units lists (issue #251)</p></li>
 <li><p>Docs/Build/Test fixes (pull #278, pull #245, pull #248, pull #247, issue #253, pull #252)</p></li>
 </ul>
-</div>
-<div class="section" id="id16">
+</section>
+<section id="id16">
 <h3>2.1.3<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added support for time transformations (issue #208)</p></li>
@@ -517,8 +422,8 @@ CRS and easting, northing for most projected CRS (issue #225)</p></li>
 <li><p>Convert PROJ error messages from bytes to strings (pull #219)</p></li>
 <li><p>Fix data dir path separator to be (;) for windows and (:) for linux (pull #234)</p></li>
 </ul>
-</div>
-<div class="section" id="id17">
+</section>
+<section id="id17">
 <h3>2.1.2<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Updated to use the CRS definition for Proj instances in transforms (issue #207)</p></li>
@@ -527,8 +432,8 @@ and always skip if the input and output projections are exact (issue #128)</p></
 <li><p>Update setup.py method for checking PROJ version (pull #211)</p></li>
 <li><p>Add internal proj error log messages to exceptions (pull #215)</p></li>
 </ul>
-</div>
-<div class="section" id="id18">
+</section>
+<section id="id18">
 <h3>2.1.1<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Restore behavior of 1.9.6 when illegal projection transformation requested
@@ -536,8 +441,8 @@ and always skip if the input and output projections are exact (issue #128)</p></
 added to <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.transformer.transform()</span></code></a> and <a class="reference internal" href="api/transformer.html#pyproj.transformer.itransform" title="pyproj.transformer.itransform"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.transformer.itransform()</span></code></a>
 (default <code class="docutils literal notranslate"><span class="pre">False</span></code>). When <code class="docutils literal notranslate"><span class="pre">errcheck=True</span></code> an exception is raised.</p></li>
 </ul>
-</div>
-<div class="section" id="id19">
+</section>
+<section id="id19">
 <h3>2.1.0<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> to make repetitive transformations more efficient (issue #187)</p></li>
@@ -545,23 +450,23 @@ added to <a class="reference internal" href="api/transformer.html#pyproj.transfo
 <li><p>Added <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_pipeline" title="pyproj.transformer.Transformer.from_pipeline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.from_pipeline()</span></code></a> to support pipeline transformations.</p></li>
 <li><p>Added fix for conversion between radians/degrees for transformations (issues #192 &amp; #195)</p></li>
 </ul>
-</div>
-<div class="section" id="id20">
+</section>
+<section id="id20">
 <h3>2.0.2<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>add filter for boolean values in dict2string so “no_rot=True” works (issue #183).</p></li>
 <li><p>make sure .pxd files included in source tarball.</p></li>
 <li><p>add radians flag back in for transform/itransform (issue #185).</p></li>
 </ul>
-</div>
-<div class="section" id="id21">
+</section>
+<section id="id21">
 <h3>2.0.1<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Ensure data path set properly for TransProj (pull request #179, addressed
 issue #176).</p></li>
 </ul>
-</div>
-<div class="section" id="id22">
+</section>
+<section id="id22">
 <h3>2.0.0<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Update to PROJ version 6.0.0 &amp; removed support for older PROJ versions.</p></li>
@@ -572,30 +477,30 @@ issue #176).</p></li>
 <li><p>Modified logic for searching for the PROJ data directory to not conflict with older versions of PROJ.</p></li>
 <li><p>Added pyproject.toml.</p></li>
 </ul>
-</div>
-<div class="section" id="id23">
+</section>
+<section id="id23">
 <h3>1.9.6<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>fix segfault when inverse projection not defined (issue #43, pull request
 #44).</p></li>
 <li><p>supports python 3.7</p></li>
 </ul>
-</div>
-<div class="section" id="id24">
+</section>
+<section id="id24">
 <h3>1.9.5.1<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>fix for issue #42 (compilation error with microsoft visual studio).</p></li>
 </ul>
-</div>
-<div class="section" id="id25">
+</section>
+<section id="id25">
 <h3>1.9.5<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>update proj4 source to latest github master (commit 953cc00fd87425395cabe37641cda905c4b587c1).</p></li>
 <li><p>port of basemap fix for input arrays in fortran order</p></li>
 <li><p>restore inverse Hammer patch that was lost when proj4 source code was updated.</p></li>
 </ul>
-</div>
-<div class="section" id="git-tag-v1-9-4rel">
+</section>
+<section id="git-tag-v1-9-4rel">
 <h3>1.9.4 (git tag v1.9.4rel)<a class="headerlink" href="#git-tag-v1-9-4rel" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -606,8 +511,8 @@ issue #176).</p></li>
 <li><p>fix back azimuth when lon1 and lon2 are identical.</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-327">
+</section>
+<section id="svn-revision-327">
 <h3>1.9.3 (svn revision 327)<a class="headerlink" href="#svn-revision-327" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -617,8 +522,8 @@ instead of pure python code directly from geographiclib.</p></li>
 <li><p>allow PROJ_DIR env var to control location of proj data (issue 40).</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-301">
+</section>
+<section id="svn-revision-301">
 <h3>1.9.2 (svn revision 301)<a class="headerlink" href="#svn-revision-301" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -626,8 +531,8 @@ instead of pure python code directly from geographiclib.</p></li>
 isea).</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-285">
+</section>
+<section id="svn-revision-285">
 <h3>1.9.1 (svn revision 285)<a class="headerlink" href="#svn-revision-285" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -635,8 +540,8 @@ isea).</p></li>
 of the geographiclib geodesic module (issue 36).</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-282">
+</section>
+<section id="svn-revision-282">
 <h3>1.9.0 (svn revision 282)<a class="headerlink" href="#svn-revision-282" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -647,8 +552,8 @@ of the geographiclib geodesic module (issue 36).</p></li>
 <li><p>add pj_list and pj_ellps module level variables (a dict mapping short names to longer descriptions, e.g. pyproj.pj_list[‘aea’] = ‘Albers Equal Area’).</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-222">
+</section>
+<section id="svn-revision-222">
 <h3>1.8.9 (svn revision 222)<a class="headerlink" href="#svn-revision-222" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -662,8 +567,8 @@ Christoph Gohlke.</p></li>
 <li><p>if inputs are NaNs, return huge number (1.e30).</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-196">
+</section>
+<section id="svn-revision-196">
 <h3>1.8.8 (svn revision 196)<a class="headerlink" href="#svn-revision-196" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -671,8 +576,8 @@ Christoph Gohlke.</p></li>
 datum shifts now work correctly in transform function.</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-175">
+</section>
+<section id="svn-revision-175">
 <h3>1.8.7 (svn revision 175)<a class="headerlink" href="#svn-revision-175" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -682,8 +587,8 @@ datum shifts now work correctly in transform function.</p></li>
 to meters.</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-169">
+</section>
+<section id="svn-revision-169">
 <h3>1.8.6 (svn revision 169)<a class="headerlink" href="#svn-revision-169" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -692,8 +597,8 @@ to meters.</p></li>
 <li><p>allow Geod instance to be initialized using a proj4 string</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-155">
+</section>
+<section id="svn-revision-155">
 <h3>1.8.5 (svn revision 155)<a class="headerlink" href="#svn-revision-155" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -701,16 +606,16 @@ to meters.</p></li>
 (instead of just a dict or kwargs).</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-151">
+</section>
+<section id="svn-revision-151">
 <h3>1.8.4 (svn revision 151)<a class="headerlink" href="#svn-revision-151" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>updated proj4 sources to version 4.6.0</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="svn-revision-146">
+</section>
+<section id="svn-revision-146">
 <h3>1.8.3 (svn revision 146)<a class="headerlink" href="#svn-revision-146" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -723,8 +628,8 @@ transform (if errcheck=False).</p></li>
 <li><p>generate C source with Cython 0.9.6.6 (pycompat.h no longer needed).</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="id26">
+</section>
+<section id="id26">
 <h3>1.8.2<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -741,8 +646,8 @@ from M. v. Loewis:
 <a class="reference external" href="http://mail.python.org/pipermail/python-dev/2006-March/062561.html">http://mail.python.org/pipermail/python-dev/2006-March/062561.html</a></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="id27">
+</section>
+<section id="id27">
 <h3>1.8.1<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -758,8 +663,8 @@ pyproj.py.</p></li>
 This is necessary when pyrex 0.9.5 is used.</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="id28">
+</section>
+<section id="id28">
 <h3>1.8.0<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
@@ -768,64 +673,47 @@ This is necessary when pyrex 0.9.5 is used.</p></li>
 <li><p>If True, an exception is raised if the transformation is invalid.</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="id29">
+</section>
+<section id="id29">
 <h3>1.7.3<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>python 2.5 support.</p></li>
 </ul>
 </div></blockquote>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="past_versions.html" class="btn btn-neutral float-right" title="Documentation Archive" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="optimize_transformations.html" class="btn btn-neutral float-left" title="Optimize Transformations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="past_versions.html" class="btn btn-neutral float-right" title="Documentation Archive" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
-
-    </p>
+    <p>&#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

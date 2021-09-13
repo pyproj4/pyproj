@@ -1,79 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Coordinate Operations &mdash; pyproj 3.2.1.dev0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-
-  
-  
-    <link rel="shortcut icon" href="../../_static/icon.png"/>
-  
-
-  
-  
-
-  
-
-  
+  <title>Coordinate Operations &mdash; pyproj 3.2.1.dev0 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" /><link rel="shortcut icon" href="../../_static/icon.png"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Datum" href="datum.html" />
     <link rel="prev" title="Coordinate Systems" href="coordinate_system.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #353130" >
-          
-
-          
-            <a href="../../index.html" class="icon icon-home"> pyproj
-          
-
-          
-            
-            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
-          
+            <a href="../../index.html" class="icon icon-home"> pyproj<img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
                 3.2.1.dev0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -81,19 +37,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Getting Started</a></li>
@@ -160,78 +105,35 @@
 <li class="toctree-l1"><a class="reference internal" href="../../past_versions.html">Documentation Archive</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #353130" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">pyproj</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../index.html">API Documentation</a> &raquo;</li>
-        
           <li><a href="index.html">CRS module API Documentation</a> &raquo;</li>
-        
       <li>Coordinate Operations</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../../_sources/api/crs/coordinate_operation.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="coordinate-operations">
+             
+  <section id="coordinate-operations">
 <span id="coordinate-operation"></span><h1>Coordinate Operations<a class="headerlink" href="#coordinate-operations" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="coordinateoperation">
+<section id="coordinateoperation">
 <h2>CoordinateOperation<a class="headerlink" href="#coordinateoperation" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.CoordinateOperation">
@@ -662,8 +564,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="param">
+</section>
+<section id="param">
 <h2>Param<a class="headerlink" href="#param" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj._crs.Param">
@@ -774,8 +676,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="grid">
+</section>
+<section id="grid">
 <h2>Grid<a class="headerlink" href="#grid" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj._crs.Grid">
@@ -863,8 +765,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="albersequalareaconversion">
+</section>
+<section id="albersequalareaconversion">
 <h2>AlbersEqualAreaConversion<a class="headerlink" href="#albersequalareaconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.AlbersEqualAreaConversion">
@@ -894,8 +796,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="azimuthalequidistantconversion">
+</section>
+<section id="azimuthalequidistantconversion">
 <h2>AzimuthalEquidistantConversion<a class="headerlink" href="#azimuthalequidistantconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion">
@@ -926,8 +828,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="equidistantcylindricalconversion">
+</section>
+<section id="equidistantcylindricalconversion">
 <h2>EquidistantCylindricalConversion<a class="headerlink" href="#equidistantcylindricalconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.EquidistantCylindricalConversion">
@@ -956,8 +858,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="geostationarysatelliteconversion">
+</section>
+<section id="geostationarysatelliteconversion">
 <h2>GeostationarySatelliteConversion<a class="headerlink" href="#geostationarysatelliteconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.GeostationarySatelliteConversion">
@@ -987,8 +889,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="lambertazimuthalequalareaconversion">
+</section>
+<section id="lambertazimuthalequalareaconversion">
 <h2>LambertAzimuthalEqualAreaConversion<a class="headerlink" href="#lambertazimuthalequalareaconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion">
@@ -1019,8 +921,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="lambertconformalconic1spconversion">
+</section>
+<section id="lambertconformalconic1spconversion">
 <h2>LambertConformalConic1SPConversion<a class="headerlink" href="#lambertconformalconic1spconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertConformalConic1SPConversion">
@@ -1049,8 +951,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="lambertconformalconic2spconversion">
+</section>
+<section id="lambertconformalconic2spconversion">
 <h2>LambertConformalConic2SPConversion<a class="headerlink" href="#lambertconformalconic2spconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertConformalConic2SPConversion">
@@ -1080,8 +982,8 @@ If None, will search all authorities.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="lambertcylindricalequalareaconversion">
+</section>
+<section id="lambertcylindricalequalareaconversion">
 <h2>LambertCylindricalEqualAreaConversion<a class="headerlink" href="#lambertcylindricalequalareaconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaConversion">
@@ -1132,8 +1034,8 @@ PROJ-based coordinate operation in the WKT.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="mercatoraconversion">
+</section>
+<section id="mercatoraconversion">
 <h2>MercatorAConversion<a class="headerlink" href="#mercatoraconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.MercatorAConversion">
@@ -1162,8 +1064,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="mercatorbconversion">
+</section>
+<section id="mercatorbconversion">
 <h2>MercatorBConversion<a class="headerlink" href="#mercatorbconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.MercatorBConversion">
@@ -1191,8 +1093,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="hotineobliquemercatorbconversion">
+</section>
+<section id="hotineobliquemercatorbconversion">
 <h2>HotineObliqueMercatorBConversion<a class="headerlink" href="#hotineobliquemercatorbconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.HotineObliqueMercatorBConversion">
@@ -1223,8 +1125,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="orthographicconversion">
+</section>
+<section id="orthographicconversion">
 <h2>OrthographicConversion<a class="headerlink" href="#orthographicconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.OrthographicConversion">
@@ -1252,8 +1154,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="platecarreeconversion">
+</section>
+<section id="platecarreeconversion">
 <h2>PlateCarreeConversion<a class="headerlink" href="#platecarreeconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py attribute">
 <dt id="pyproj.crs.coordinate_operation.PlateCarreeConversion">
@@ -1261,8 +1163,8 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><p>alias of <a class="reference internal" href="#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion" title="pyproj.crs.coordinate_operation.EquidistantCylindricalConversion"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_operation.EquidistantCylindricalConversion</span></code></a></p>
 </dd></dl>
 
-</div>
-<div class="section" id="polarstereographicaconversion">
+</section>
+<section id="polarstereographicaconversion">
 <h2>PolarStereographicAConversion<a class="headerlink" href="#polarstereographicaconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.PolarStereographicAConversion">
@@ -1291,8 +1193,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="polarstereographicbconversion">
+</section>
+<section id="polarstereographicbconversion">
 <h2>PolarStereographicBConversion<a class="headerlink" href="#polarstereographicbconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.PolarStereographicBConversion">
@@ -1320,8 +1222,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="sinusoidalconversion">
+</section>
+<section id="sinusoidalconversion">
 <h2>SinusoidalConversion<a class="headerlink" href="#sinusoidalconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.SinusoidalConversion">
@@ -1348,8 +1250,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="stereographicconversion">
+</section>
+<section id="stereographicconversion">
 <h2>StereographicConversion<a class="headerlink" href="#stereographicconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.StereographicConversion">
@@ -1378,8 +1280,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="utmconversion">
+</section>
+<section id="utmconversion">
 <h2>UTMConversion<a class="headerlink" href="#utmconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.UTMConversion">
@@ -1405,8 +1307,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="transversemercatorconversion">
+</section>
+<section id="transversemercatorconversion">
 <h2>TransverseMercatorConversion<a class="headerlink" href="#transversemercatorconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.TransverseMercatorConversion">
@@ -1435,8 +1337,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="verticalperspectiveconversion">
+</section>
+<section id="verticalperspectiveconversion">
 <h2>VerticalPerspectiveConversion<a class="headerlink" href="#verticalperspectiveconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.VerticalPerspectiveConversion">
@@ -1466,8 +1368,8 @@ PROJ-based coordinate operation in the WKT.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="rotatedlatitudelongitudeconversion">
+</section>
+<section id="rotatedlatitudelongitudeconversion">
 <h2>RotatedLatitudeLongitudeConversion<a class="headerlink" href="#rotatedlatitudelongitudeconversion" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion">
@@ -1496,8 +1398,8 @@ expressed in the rotated geographic CRS.</p></li>
 
 </dd></dl>
 
-</div>
-<div class="section" id="towgs84transformation">
+</section>
+<section id="towgs84transformation">
 <h2>ToWGS84Transformation<a class="headerlink" href="#towgs84transformation" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pyproj.crs.coordinate_operation.ToWGS84Transformation">
@@ -1528,55 +1430,38 @@ expressed in the rotated geographic CRS.</p></li>
 
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="datum.html" class="btn btn-neutral float-right" title="Datum" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="coordinate_system.html" class="btn btn-neutral float-left" title="Coordinate Systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datum.html" class="btn btn-neutral float-right" title="Datum" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.
-
-    </p>
+    <p>&#169; Copyright 2006-2018, Jeffrey Whitaker; 2019-2021, Open source contributors.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
