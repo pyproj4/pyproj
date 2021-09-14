@@ -632,6 +632,27 @@ def _rotated_latitude_longitude__to_cf(conversion):
     }
 
 
+def _pole_rotation_netcdf__to_cf(conversion):
+    """
+    http://cfconventions.org/cf-conventions/cf-conventions.html#_rotated_pole
+
+    https://github.com/OSGeo/PROJ/pull/2835
+    """
+    params = _to_dict(conversion)
+    return {
+        "grid_mapping_name": "rotated_latitude_longitude",
+        "grid_north_pole_latitude": params[
+            "grid_north_pole_latitude_(netcdf_cf_convention)"
+        ],
+        "grid_north_pole_longitude": params[
+            "grid_north_pole_longitude_(netcdf_cf_convention)"
+        ],
+        "north_pole_grid_longitude": params[
+            "north_pole_grid_longitude_(netcdf_cf_convention)"
+        ],
+    }
+
+
 _INVERSE_GRID_MAPPING_NAME_MAP = {
     "albers_equal_area": _albers_conical_equal_area__to_cf,
     "modified_azimuthal_equidistant": _azimuthal_equidistant__to_cf,
@@ -658,4 +679,5 @@ _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP = {
     "proj ob_tran o_proj=lonlat": _rotated_latitude_longitude__to_cf,
     "proj ob_tran o_proj=latlon": _rotated_latitude_longitude__to_cf,
     "proj ob_tran o_proj=latlong": _rotated_latitude_longitude__to_cf,
+    "pole rotation (netcdf cf convention)": _pole_rotation_netcdf__to_cf,
 }
