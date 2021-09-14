@@ -29,7 +29,7 @@ cdef str decode_or_undefined(const char* instring):
     return pystr
 
 
-def is_wkt(str proj_string):
+def is_wkt(str proj_string not None):
     """
     .. versionadded:: 2.0.0
 
@@ -44,11 +44,11 @@ def is_wkt(str proj_string):
     -------
     bool: True if the string is in the Well-Known Text format
     """
-    tmp_string = cstrencode(proj_string)
-    return proj_context_guess_wkt_dialect(NULL, tmp_string) != PJ_GUESSED_NOT_WKT
+    cdef bytes b_proj_string = cstrencode(proj_string)
+    return proj_context_guess_wkt_dialect(NULL, b_proj_string) != PJ_GUESSED_NOT_WKT
 
 
-def is_proj(str proj_string):
+def is_proj(str proj_string not None):
     """
     .. versionadded:: 2.2.2
 
@@ -416,7 +416,7 @@ cdef class Base:
         """
         return _to_wkt(self.context, self.projobj, version, pretty=pretty)
 
-    def to_json(self, pretty=False, indentation=2):
+    def to_json(self, bint pretty=False, int indentation=2):
         """
         .. versionadded:: 2.4.0
 
@@ -869,7 +869,7 @@ cdef class Ellipsoid(_CRSParts):
         return Ellipsoid.from_authority("EPSG", code)
 
     @staticmethod
-    def _from_string(str ellipsoid_string):
+    def _from_string(str ellipsoid_string not None):
         """
         Create an Ellipsoid from a string.
 
@@ -1147,7 +1147,7 @@ cdef class PrimeMeridian(_CRSParts):
         return PrimeMeridian.from_authority("EPSG", code)
 
     @staticmethod
-    def _from_string(str prime_meridian_string):
+    def _from_string(str prime_meridian_string not None):
         """
         Create an PrimeMeridian from a string.
 
@@ -1346,7 +1346,7 @@ cdef class Datum(_CRSParts):
         return datum
 
     @staticmethod
-    def _from_authority(auth_name, code, PJ_CATEGORY category):
+    def _from_authority(str auth_name not None, code not None, PJ_CATEGORY category):
         """
         Create a Datum from an authority code.
 
@@ -1365,7 +1365,7 @@ cdef class Datum(_CRSParts):
 
         cdef PJ* datum_pj = proj_create_from_database(
             context,
-            cstrencode(str(auth_name)),
+            cstrencode(auth_name),
             cstrencode(str(code)),
             category,
             False,
@@ -1416,7 +1416,7 @@ cdef class Datum(_CRSParts):
         return Datum.from_authority("EPSG", code)
 
     @staticmethod
-    def _from_string(str datum_string):
+    def _from_string(str datum_string not None):
         """
         Create a Datum from a string.
 
@@ -2672,7 +2672,7 @@ cdef class _CRS(Base):
         )
         return _to_proj4(self.context, self.projobj, version=version, pretty=False)
 
-    def to_epsg(self, min_confidence=70):
+    def to_epsg(self, int min_confidence=70):
         """
         Return the EPSG code best matching the CRS
         or None if it a match is not found.
@@ -2715,7 +2715,7 @@ cdef class _CRS(Base):
             return int(auth_info[1])
         return None
 
-    def to_authority(self, auth_name=None, min_confidence=70):
+    def to_authority(self, str auth_name=None, int min_confidence=70):
         """
         .. versionadded:: 2.2.0
 
@@ -2761,7 +2761,7 @@ cdef class _CRS(Base):
         except IndexError:
             return None
 
-    def list_authority(self, auth_name=None, min_confidence=70):
+    def list_authority(self, str auth_name=None, int min_confidence=70):
         """
         .. versionadded:: 3.2.0
 
@@ -2858,7 +2858,7 @@ cdef class _CRS(Base):
             CRSError.clear()
         return authority_list
 
-    def to_3d(self, name=None):
+    def to_3d(self, str name=None):
         """
         .. versionadded:: 3.1.0
 
@@ -2878,13 +2878,14 @@ cdef class _CRS(Base):
         -------
         _CRS
         """
-        cdef char* name_3D = NULL
+        cdef char* c_name = NULL
+        cdef bytes b_name
         if name is not None:
             b_name = cstrencode(name)
-            name_3D = b_name
+            c_name = b_name
 
         cdef PJ * projobj = proj_crs_promote_to_3D(
-            self.context, name_3D, self.projobj
+            self.context, c_name, self.projobj
         )
         CRSError.clear()
         if projobj == NULL:
@@ -2895,7 +2896,9 @@ cdef class _CRS(Base):
             proj_destroy(projobj)
         return crs_3d
 
-    def _is_crs_property(self, property_name, property_types, sub_crs_index=0):
+    def _is_crs_property(
+        self, str property_name, tuple property_types, int sub_crs_index=0
+    ):
         """
         .. versionadded:: 2.2.0
 
