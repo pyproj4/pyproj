@@ -422,6 +422,61 @@ def test_cf_rotated_latlon__grid():
     }
 
 
+def test_rotated_pole_to_cf():
+    rotated_pole_wkt = (
+        'GEOGCRS["undefined",\n'
+        '    BASEGEOGCRS["Unknown datum based upon the GRS 1980 ellipsoid",\n'
+        '        DATUM["Not specified (based on GRS 1980 ellipsoid)",\n'
+        '            ELLIPSOID["GRS 1980",6378137,298.257222101,\n'
+        '                LENGTHUNIT["metre",1]]],\n'
+        '        PRIMEM["Greenwich",0,\n'
+        '            ANGLEUNIT["degree",0.0174532925199433]]],\n'
+        '    DERIVINGCONVERSION["Pole rotation (netCDF CF convention)",\n'
+        '        METHOD["Pole rotation (netCDF CF convention)"],\n'
+        '        PARAMETER["Grid north pole latitude (netCDF CF '
+        'convention)",2,\n'
+        '            ANGLEUNIT["degree",0.0174532925199433,\n'
+        '                ID["EPSG",9122]]],\n'
+        '        PARAMETER["Grid north pole longitude (netCDF CF '
+        'convention)",3,\n'
+        '            ANGLEUNIT["degree",0.0174532925199433,\n'
+        '                ID["EPSG",9122]]],\n'
+        '        PARAMETER["North pole grid longitude (netCDF CF '
+        'convention)",4,\n'
+        '            ANGLEUNIT["degree",0.0174532925199433,\n'
+        '                ID["EPSG",9122]]]],\n'
+        "    CS[ellipsoidal,2],\n"
+        '        AXIS["geodetic latitude (Lat)",north,\n'
+        "            ORDER[1],\n"
+        '            ANGLEUNIT["degree",0.0174532925199433,\n'
+        '                ID["EPSG",9122]]],\n'
+        '        AXIS["geodetic longitude (Lon)",east,\n'
+        "            ORDER[2],\n"
+        '            ANGLEUNIT["degree",0.0174532925199433,\n'
+        '                ID["EPSG",9122]]]]'
+    )
+    crs = CRS(rotated_pole_wkt)
+    expected_cf = {
+        "semi_major_axis": 6378137.0,
+        "semi_minor_axis": 6356752.314140356,
+        "inverse_flattening": 298.257222101,
+        "reference_ellipsoid_name": "GRS 1980",
+        "longitude_of_prime_meridian": 0.0,
+        "prime_meridian_name": "Greenwich",
+        "geographic_crs_name": "undefined",
+        "grid_mapping_name": "rotated_latitude_longitude",
+        "grid_north_pole_latitude": 2.0,
+        "grid_north_pole_longitude": 3.0,
+        "north_pole_grid_longitude": 4.0,
+        "horizontal_datum_name": "Not specified (based on GRS 1980 ellipsoid)",
+    }
+    cf_dict = crs.to_cf()
+    assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
+    assert cf_dict == expected_cf
+    # test roundtrip
+    _test_roundtrip(expected_cf, "GEOGCRS[")
+
+
 def test_cf_lambert_conformal_conic_1sp():
     crs = CRS.from_cf(
         dict(
