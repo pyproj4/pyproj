@@ -7,6 +7,7 @@ Latest
 - REF: Use cython string decoding (pull #929)
 - BUG: Return multiple authorities with :attr:`pyproj.crs.CRS.list_authority` (pull #943)
 - BUG: CRS CF conversions ensure lon_0 = north_pole_grid_longitude + 180 (issue #927)
+- BUG: CRS CF conversions ensure Pole rotation (netCDF CF convention) conversion works (issue #927)
 
 3.2.0
 ------
