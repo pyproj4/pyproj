@@ -738,7 +738,8 @@
 <span class="sd">            instead of returning a new array. This will fail if the input</span>
 <span class="sd">            is not an array in C order with the double data type.</span>
 
-<span class="sd">        Example:</span>
+<span class="sd">        Example</span>
+<span class="sd">        --------</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import Transformer</span>
 <span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(&quot;epsg:4326&quot;, &quot;epsg:3857&quot;)</span>
@@ -848,7 +849,8 @@
 <span class="sd">            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.</span>
 
 
-<span class="sd">        Example:</span>
+<span class="sd">        Example</span>
+<span class="sd">        --------</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import Transformer</span>
 <span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(4326, 2100)</span>
@@ -953,6 +955,25 @@
 
 <span class="sd">        Transform boundary densifying the edges to account for nonlinear</span>
 <span class="sd">        transformations along these edges and extracting the outermost bounds.</span>
+
+<span class="sd">        If the destination CRS is geographic and right &lt; left then the bounds</span>
+<span class="sd">        crossed the antimeridian. In this scenario there are two polygons,</span>
+<span class="sd">        one on each side of the antimeridian. The first polygon should be</span>
+<span class="sd">        constructed with (left, bottom, 180, top) and the second with</span>
+<span class="sd">        (-180, bottom, top, right).</span>
+
+<span class="sd">        To construct the bounding polygons with shapely::</span>
+
+<span class="sd">            def bounding_polygon(left, bottom, right, top):</span>
+<span class="sd">                if right &lt; left:</span>
+<span class="sd">                    return shapely.geometry.MultiPolygon(</span>
+<span class="sd">                        [</span>
+<span class="sd">                            shapely.geometry.box(left, bottom, 180, top),</span>
+<span class="sd">                            shapely.geometry.box(-180, bottom, right, top),</span>
+<span class="sd">                        ]</span>
+<span class="sd">                    )</span>
+<span class="sd">                return shapely.geometry.box(left, bottom, right, top)</span>
+
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
