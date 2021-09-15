@@ -659,7 +659,8 @@ class Transformer:
             instead of returning a new array. This will fail if the input
             is not an array in C order with the double data type.
 
-        Example:
+        Example
+        --------
 
         >>> from pyproj import Transformer
         >>> transformer = Transformer.from_crs("epsg:4326", "epsg:3857")
@@ -769,7 +770,8 @@ class Transformer:
             Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
 
 
-        Example:
+        Example
+        --------
 
         >>> from pyproj import Transformer
         >>> transformer = Transformer.from_crs(4326, 2100)
@@ -874,6 +876,25 @@ class Transformer:
 
         Transform boundary densifying the edges to account for nonlinear
         transformations along these edges and extracting the outermost bounds.
+
+        If the destination CRS is geographic and right < left then the bounds
+        crossed the antimeridian. In this scenario there are two polygons,
+        one on each side of the antimeridian. The first polygon should be
+        constructed with (left, bottom, 180, top) and the second with
+        (-180, bottom, top, right).
+
+        To construct the bounding polygons with shapely::
+
+            def bounding_polygon(left, bottom, right, top):
+                if right < left:
+                    return shapely.geometry.MultiPolygon(
+                        [
+                            shapely.geometry.box(left, bottom, 180, top),
+                            shapely.geometry.box(-180, bottom, right, top),
+                        ]
+                    )
+                return shapely.geometry.box(left, bottom, right, top)
+
 
         Parameters
         ----------
