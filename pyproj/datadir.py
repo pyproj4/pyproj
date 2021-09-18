@@ -70,7 +70,6 @@ def get_data_dir() -> str:
     global _VALIDATED_PROJ_DATA
     if _VALIDATED_PROJ_DATA is not None:
         return _VALIDATED_PROJ_DATA
-    global _USER_PROJ_DATA
     internal_datadir = Path(__file__).absolute().parent / "proj_dir" / "share" / "proj"
     proj_lib_dirs = os.environ.get("PROJ_LIB", "")
     prefix_datadir = Path(sys.prefix, "share", "proj")
