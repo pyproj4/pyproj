@@ -208,31 +208,36 @@ cartopy
 
 https://github.com/SciTools/cartopy
 
-This may change in the future:
-`Port to use pyproj v2 <https://github.com/SciTools/cartopy/issues/1477>`__
+.. note:: These examples require cartopy 0.20+
 
 Preparing `pyproj.crs.CRS` for `cartopy.crs.CRS`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. warning:: This only works for CRS created with WKT2,
+             PROJ JSON, or a spatial reference ID (i.e. EPSG)
+             with the area of use defined. Otherwise,
+             the x_limits and y_limits will not work.
 
 .. code-block:: python
 
     import cartopy.crs as ccrs
     from pyproj.crs import CRS
 
+    # geographic
     proj_crs = CRS.from_epsg(4326)
-    globe = ccrs.Globe(
-        ellipse=None,
-        semimajor_axis=proj_crs.ellipsoid.semi_major_metre,
-        semiminor_axis=proj_crs.ellipsoid.semi_minor_metre,
-        inverse_flattening=proj_crs.ellipsoid.inverse_flattening,
-    )
-    proj_dict = proj_crs.to_dict()
-    proj_dict["pm"] = proj_crs.prime_meridian.longitude
-    cart_crs = ccrs.CRS(proj_dict, globe=globe)
+    cart_crs = ccrs.CRS(proj_crs)
+
+    # projected
+    proj_crs = CRS.from_epsg(6933)
+    cart_crs = ccrs.Projection(proj_crs)
 
 
 Preparing `cartopy.crs.CRS` for `pyproj.crs.CRS`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note:: `cartopy.crs.CRS` inherits from `pyproj.crs.CRS`,
+          so it should behave like a `pyproj.crs.CRS`.
+
 .. code-block:: python
 
 
@@ -240,7 +245,7 @@ Preparing `cartopy.crs.CRS` for `pyproj.crs.CRS`
     from pyproj.crs import CRS
 
     cart_crs = PlateCarree()
-    proj_crs = CRS.from_dict(cart_crs.proj4_params)
+    proj_crs = CRS.from_user_input(cart_crs)
 
 
 pycrs
