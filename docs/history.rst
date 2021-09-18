@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+Latest
+-------
+
 3.2.1
 ------
 - REF: declare specific python types in cython (pull #928)
