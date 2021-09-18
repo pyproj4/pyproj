@@ -1,5 +1,6 @@
 import concurrent.futures
 import json
+import platform
 
 import numpy
 import pytest
@@ -1442,6 +1443,9 @@ def test_crs_multithread():
             pass
 
 
+@pytest.mark.skipif(
+    platform.python_implementation() != "CPython", reason="pypy process unstable."
+)
 def test_crs_multiprocess():
     # https://github.com/pyproj4/pyproj/issues/933
     with concurrent.futures.ProcessPoolExecutor(max_workers=2) as executor:
