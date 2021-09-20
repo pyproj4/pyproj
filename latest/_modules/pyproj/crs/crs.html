@@ -1838,16 +1838,11 @@
 <span class="sd">    This class is for building a Derived Geographic CRS</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_expected_types</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Geographic CRS&quot;</span><span class="p">,</span> <span class="s2">&quot;Geographic 2D CRS&quot;</span><span class="p">,</span> <span class="s2">&quot;Geographic 3D CRS&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_check_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This validates that the type of the CRS is expected</span>
-<span class="sd">        when using the from_* methods.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_check_type</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_derived</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS is not a Derived Geographic CRS&quot;</span><span class="p">)</span>
+    <span class="n">_expected_types</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Derived Geographic CRS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Derived Geographic 2D CRS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Derived Geographic 3D CRS&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
 <div class="viewcode-block" id="DerivedGeographicCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.DerivedGeographicCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1949,7 +1944,7 @@
 <span class="sd">    This class is for building a Projected CRS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_expected_types</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Projected CRS&quot;</span><span class="p">,)</span>
+    <span class="n">_expected_types</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Projected CRS&quot;</span><span class="p">,</span> <span class="s2">&quot;Derived Projected CRS&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ProjectedCRS.__init__"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.ProjectedCRS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
