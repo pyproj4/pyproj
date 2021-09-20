@@ -125,7 +125,7 @@ cdef class _CRS(Base):
     cdef PJ_TYPE _type
     cdef PJ_PROJ_INFO projpj_info
     cdef readonly str srs
-    cdef readonly str type_name
+    cdef readonly str _type_name
     cdef readonly Ellipsoid _ellipsoid
     cdef readonly object _area_of_use
     cdef readonly PrimeMeridian _prime_meridian

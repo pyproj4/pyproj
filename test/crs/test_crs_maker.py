@@ -40,7 +40,7 @@ def test_make_projected_crs(tmp_path):
     aeaop = AlbersEqualAreaConversion(0, 0)
     pc = ProjectedCRS(conversion=aeaop, name="Albers")
     assert pc.name == "Albers"
-    assert pc.type_name == "Projected CRS"
+    assert pc.type_name == "Derived Projected CRS"
     assert pc.coordinate_operation == aeaop
     assert_can_pickle(pc, tmp_path)
 
@@ -105,7 +105,7 @@ def test_make_derived_geographic_crs(tmp_path):
     conversion = RotatedLatitudeLongitudeConversion(o_lat_p=0, o_lon_p=0)
     dgc = DerivedGeographicCRS(base_crs=GeographicCRS(), conversion=conversion)
     assert dgc.name == "undefined"
-    assert dgc.type_name == "Geographic 2D CRS"
+    assert dgc.type_name == "Derived Geographic 2D CRS"
     assert dgc.coordinate_operation == conversion
     assert dgc.is_derived
     assert_can_pickle(dgc, tmp_path)
@@ -113,7 +113,7 @@ def test_make_derived_geographic_crs(tmp_path):
 
 def test_derived_geographic_crs__from_methods():
     crs_str = "+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0 +lon_0=0"
-    with pytest.raises(CRSError, match="CRS is not a Derived Geographic CRS"):
+    with pytest.raises(CRSError, match="Invalid type Geographic 2D CRS"):
         DerivedGeographicCRS.from_epsg(4326)
     assert_maker_inheritance_valid(
         DerivedGeographicCRS.from_string(crs_str), DerivedGeographicCRS
@@ -240,7 +240,7 @@ def test_compund_crs(tmp_path):
     )
     assert compcrs.name == "NAD83 / Pennsylvania South + NAVD88 height"
     assert compcrs.type_name == "Compound CRS"
-    assert compcrs.sub_crs_list[0].type_name == "Projected CRS"
+    assert compcrs.sub_crs_list[0].type_name == "Derived Projected CRS"
     assert compcrs.sub_crs_list[1].type_name == "Vertical CRS"
     assert_can_pickle(compcrs, tmp_path)
 

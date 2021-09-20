@@ -1173,7 +1173,7 @@ def test_from_authority__ignf():
 
 def test_ignf_authority_repr():
     assert repr(CRS.from_authority("IGNF", "ETRS89UTM28")).startswith(
-        "<Projected CRS: IGNF:ETRS89UTM28>"
+        "<Derived Projected CRS: IGNF:ETRS89UTM28>"
     )
 
 

@@ -1759,16 +1759,11 @@ class DerivedGeographicCRS(CustomConstructorCRS):
     This class is for building a Derived Geographic CRS
     """
 
-    _expected_types = ("Geographic CRS", "Geographic 2D CRS", "Geographic 3D CRS")
-
-    def _check_type(self):
-        """
-        This validates that the type of the CRS is expected
-        when using the from_* methods.
-        """
-        super()._check_type()
-        if not self.is_derived:
-            raise CRSError("CRS is not a Derived Geographic CRS")
+    _expected_types = (
+        "Derived Geographic CRS",
+        "Derived Geographic 2D CRS",
+        "Derived Geographic 3D CRS",
+    )
 
     def __init__(
         self,
@@ -1870,7 +1865,7 @@ class ProjectedCRS(CustomConstructorCRS):
     This class is for building a Projected CRS.
     """
 
-    _expected_types = ("Projected CRS",)
+    _expected_types = ("Projected CRS", "Derived Projected CRS")
 
     def __init__(
         self,
