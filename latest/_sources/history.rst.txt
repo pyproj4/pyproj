@@ -3,6 +3,7 @@ Change Log
 
 Latest
 -------
+- BUG: Prepend "Derived" to CRS type name if CRS is derived (issue #932)
 
 3.2.1
 ------
