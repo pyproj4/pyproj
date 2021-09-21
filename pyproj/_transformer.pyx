@@ -342,6 +342,20 @@ cdef double simple_max(double* data, Py_ssize_t arr_len) nogil:
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
+cdef int _find_previous_index(int iii, double* data, int arr_len) nogil:
+    # find index of nearest valid previous value if exists
+    cdef int prev_iii = iii - 1
+    if prev_iii == -1:  # handle wraparound
+        prev_iii = arr_len - 1
+    while data[prev_iii] == HUGE_VAL and prev_iii != iii:
+        prev_iii -= 1
+        if prev_iii == -1:  # handle wraparound
+            prev_iii = arr_len - 1
+    return prev_iii
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
 cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
     """
     Handles the case when longitude values cross the antimeridian
@@ -410,19 +424,19 @@ cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
     cdef bint positive_meridian = False
 
     for iii in range(0, arr_len):
-        prev_iii = iii - 1
-        if prev_iii == -1:
-            prev_iii = arr_len - 1
+        if data[iii] == HUGE_VAL:
+            continue
+        prev_iii = _find_previous_index(iii, data, arr_len)
         # check if crossed meridian
         delta = data[prev_iii] - data[iii]
         # 180 -> -180
-        if delta >= 200:
+        if delta >= 200 and delta != HUGE_VAL:
             if crossed_meridian_count == 0:
                 positive_min = min_value
             crossed_meridian_count += 1
             positive_meridian = False
         # -180 -> 180
-        elif delta <= -200:
+        elif delta <= -200 and delta != HUGE_VAL:
             if crossed_meridian_count == 0:
                 positive_min = data[iii]
             crossed_meridian_count += 1
@@ -433,6 +447,7 @@ cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
         # track genral min value
         if data[iii] < min_value:
             min_value = data[iii]
+
     if crossed_meridian_count == 2:
         return positive_min
     elif crossed_meridian_count == 4:
@@ -463,19 +478,19 @@ cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
     cdef bint negative_meridian = False
     cdef int crossed_meridian_count = 0
     for iii in range(0, arr_len):
-        prev_iii = iii - 1
-        if prev_iii == -1:
-            prev_iii = arr_len - 1
+        if data[iii] == HUGE_VAL:
+            continue
+        prev_iii = _find_previous_index(iii, data, arr_len)
         # check if crossed meridian
         delta = data[prev_iii] - data[iii]
         # 180 -> -180
-        if delta >= 200:
+        if delta >= 200 and delta != HUGE_VAL:
             if crossed_meridian_count == 0:
                 negative_max = data[iii]
             crossed_meridian_count += 1
             negative_meridian = True
         # -180 -> 180
-        elif delta <= -200:
+        elif delta <= -200 and delta != HUGE_VAL:
             if crossed_meridian_count == 0:
                 negative_max = max_value
             negative_meridian = False

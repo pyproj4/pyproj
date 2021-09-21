@@ -4,6 +4,7 @@ Change Log
 Latest
 -------
 - BUG: Prepend "Derived" to CRS type name if CRS is derived (issue #932)
+- BUG: Improved handling of inf values in :attr:`pyproj.transformer.Transformer.transform_bounds` (pull #961)
 
 3.2.1
 ------
