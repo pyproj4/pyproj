@@ -5,10 +5,6 @@ platform:
 # https://github.com/ogrisel/python-appveyor-demo
 environment:
   global:
-    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
-    # /E:ON and /V:ON options are not enabled in the batch script intepreter
-    # See: http://stackoverflow.com/a/13751649/163740
-    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci\\appveyor\\run_with_env.cmd"
     PROJ_BASE_DIR: "%APPVEYOR_BUILD_FOLDER%\\proj_install"
     PROJ_NETWORK: "ON"
 
@@ -17,34 +13,22 @@ environment:
     # See: http://www.appveyor.com/docs/installed-software#python
     # build is limited to 60 minutes, without caching each build takes 10-30 minutes
     # with caching build takes less than 1 minute
-    - PYTHON: "C:\\Python37-x64"
-      PYTHON_VERSION: "3.7"
-      PYTHON_ARCH: "64"
-      VS_VERSION: Visual Studio 14
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PROJSOURCE: 8.1.0
-      BUILD_SHARED_LIBS: ON
-  # - PYTHON: "C:\\Python37-x64"
-    #   PYTHON_VERSION: "3.8"
-    #   PYTHON_ARCH: "64"
-    #   VS_VERSION: Visual Studio 14
-    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    #   PROJSOURCE: 8.1.0
-    #   BUILD_SHARED_LIBS: ON
     # - PYTHON: "C:\\Python37-x64"
-    #   PYTHON_VERSION: "3.7"
-    #   PYTHON_ARCH: "64"
-    #   VS_VERSION: Visual Studio 14
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    #   PROJSOURCE: 8.1.1
+    #   BUILD_SHARED_LIBS: ON
+    - PYTHON: "C:\\Python38-x64"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      PROJSOURCE: 8.1.1
+      BUILD_SHARED_LIBS: ON
+    # - PYTHON: "C:\\Python39-x64"
+    #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     #   PROJSOURCE: git
     #   BUILD_SHARED_LIBS: ON
 # matrix:
 #   allow_failures:
-#     - PYTHON: "C:\\Python37-x64"
-#       PYTHON_VERSION: "3.7"
-#       PYTHON_ARCH: "64"
-#       VS_VERSION: Visual Studio 14
-#       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+#     - PYTHON: "C:\\Python39-x64"
+#       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 #       PROJSOURCE: git
 #       BUILD_SHARED_LIBS: ON
 
@@ -58,11 +42,9 @@ cache:
 build_script:
   - set VCPKG_INSTALLED=C:\Tools\vcpkg\installed\%platform%-windows
   # If cached directory does not exist, update vcpkg and install dependencies
-  # The checkout of a precise sha1 for VS2015 is a workaround for https://github.com/microsoft/vcpkg/issues/11666
   - if not exist %VCPKG_INSTALLED%\bin (
       cd "C:\Tools\vcpkg" &
       git pull > nul &
-      (if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (git checkout a64dc07690bc8806e717e190f62eb58e198b599c)) &
       .\bootstrap-vcpkg.bat -disableMetrics &
       vcpkg install sqlite3[core,tool]:"%platform%"-windows &
       vcpkg install tiff:"%platform%"-windows &
@@ -72,12 +54,8 @@ build_script:
   - dir %VCPKG_INSTALLED%\bin
   - set PATH=%VCPKG_INSTALLED%\bin;%PATH%
   # See https://www.appveyor.com/docs/lang/cpp/
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
-      call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 &
-      call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
-    )
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017"
-      (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform% )
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019"
+      (call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform% )
   # setup PROJ
   - set PROJ_DIR=%PROJ_BASE_DIR%\proj-%PROJSOURCE:~0,5%
   - if "%PROJSOURCE%" == "git" git clone https://github.com/OSGeo/PROJ.git proj-git
@@ -86,7 +64,6 @@ build_script:
   - if defined BUILD_PROJ_STABLE curl -o "proj-%PROJSOURCE:~0,5%.zip" "https://download.osgeo.org/proj/proj-%PROJSOURCE%.zip"
   - if defined BUILD_PROJ_STABLE 7z x -aoa -y "proj-%PROJSOURCE:~0,5%.zip"
   - if not exist %PROJ_DIR% cd "%APPVEYOR_BUILD_FOLDER%\proj-%PROJSOURCE:~0,5%"
-#
   - if "%PROJSOURCE%" == "git" set BUILD_PROJ=1
   - if defined BUILD_PROJ_STABLE set BUILD_PROJ=1
   - if defined BUILD_PROJ mkdir build
@@ -98,60 +75,46 @@ build_script:
   - set PROJ_LIB=%PROJ_DIR%\share\proj
   - cd %APPVEYOR_BUILD_FOLDER%
   - proj
-  # Build and install pyproj
-  - "python -m pip install \"pip>=10.0.1,<19.1\""
-  - set PYPROJ_FULL_COVERAGE=YES
-  - "python -m pip install -e ."
-  - "python -m pip install -r requirements-dev.txt"
-  - "python -m pip install -r requirements-test.txt"
+  # Build and install pyproj wheel
+  - python -m pip install -r requirements-dev.txt
+  - mkdir pyproj\proj_dir\share\proj
+  - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
+  - set PROJ_WHEEL=true
+  - python setup.py bdist_wheel
+  - FOR %%F IN (dist\*.whl) DO (set PYPROJ_WHEEL=%%F)
+  - delvewheel repair %PYPROJ_WHEEL%
+  - FOR %%F IN (wheelhouse\*.whl) DO (set PYPROJ_WHEEL=%%F)
+  - python -m pip install %PYPROJ_WHEEL%
 
 
 install:
-  - ECHO "Filesystem root:"
-  - ps: "ls \"C:/\""
-
-  # Install Python (from the official .msi of http://python.org) and pip when
-  # not already installed.
-  # - ps: if (-not(Test-Path($env:PYTHON))) { & ci\appveyor\install.ps1 }
-
-  # Prepend newly installed Python to the PATH of this build (this cannot be
-  # done from inside the powershell script as it would require to restart
-  # the parent CMD process).
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-
+  # Prepend newly installed Python to the PATH of this build
+  - SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
+  - SET BASE_PATH=%PATH%
   # Check that we have the expected version and architecture for Python
-  - "python --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-
-  # Upgrade to the latest version of pip to avoid it displaying warnings
-  # about it being out of date.
-  - "python -m pip install --disable-pip-version-check --user --upgrade pip==19.0.3"
-
+  - python --version
+  - python -c "import struct; print(struct.calcsize('P') * 8)"
   # install wheel, caching
-  - "python -m pip install wheel"
+  - python -m pip install --disable-pip-version-check --user --upgrade pip
+  - python -m pip install wheel delvewheel
 
 test_script:
-  # Run the project tests
-  - "%CMD_IN_ENV% python -c \"import pyproj; pyproj.Proj('epsg:4269')\""
-  - "%CMD_IN_ENV% py.test --cov-report term-missing --cov=pyproj -v -s"
-
-# TODO: build wheels
-# after_test:
-  # If tests are successful, create binary packages for the project.
-  # - set PROJ_WHEEL=true
-  # - "%CMD_IN_ENV% python setup.py bdist_wheel"
-  # - "%CMD_IN_ENV% python setup.py bdist_wininst"
-  # - "%CMD_IN_ENV% python setup.py bdist_msi"
-  # test wheel
-  # - python -m pip install pyproj --ignore-installed -f dist
-  # - python -c "import pyproj; pyproj.Proj('epsg:4269')"
+  # reset environment variables for test
+  - set PROJ_LIB=
+  - set PROJ_DIR=
+  - SET PATH=%BASE_PATH%
+  # run the project tests
+  - python -m pip install -r requirements-test.txt
+  - RD /S /Q pyproj\  # make sure src does not impact installed wheel
+  - python -c "import pyproj; pyproj.Proj('epsg:4269')"
+  - py.test --cov-report term-missing --cov=pyproj -v -s
   # cleanup for test dir
-  # - if %PROJSOURCE% == git del /F /Q dist\*
-  # - ps: "ls dist"
+  - rmdir /s /q dist\ 2>nul
+  - if %PROJSOURCE% == git rmdir /s /q wheelhouse\ 2>nul
 
 artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
-  - path: dist\*
+  - path: wheelhouse\*
 
 #on_success:
 #  - TODO: upload the content of dist/*.whl to a public wheelhouse
