@@ -1345,6 +1345,26 @@ def test_transform_bounds__ignore_inf(input_crs, expected_bounds):
     )
 
 
+def test_transform_bounds__ignore_inf_geographic():
+    crs_wkt = (
+        'PROJCS["Interrupted_Goode_Homolosine",'
+        'GEOGCS["GCS_unnamed ellipse",DATUM["D_unknown",'
+        'SPHEROID["Unknown",6378137,298.257223563]],'
+        'PRIMEM["Greenwich",0],UNIT["Degree",0.0174532925199433]],'
+        'PROJECTION["Interrupted_Goode_Homolosine"],'
+        'UNIT["metre",1,AUTHORITY["EPSG","9001"]],'
+        'AXIS["Easting",EAST],AXIS["Northing",NORTH]]'
+    )
+    transformer = Transformer.from_crs(crs_wkt, "EPSG:4326", always_xy=True)
+    assert_almost_equal(
+        transformer.transform_bounds(
+            left=-15028000.0, bottom=7515000.0, right=-14975000.0, top=7556000.0
+        ),
+        (-179.2133, 70.9345, -177.9054, 71.4364),
+        decimal=0,
+    )
+
+
 def test_transform_bounds__noop_geographic():
     crs = CRS("Pulkovo 1942")
     transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True)
