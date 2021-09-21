@@ -12,7 +12,8 @@ _NETWORK_ENABLED = pyproj.network.is_network_enabled()
 PROJ_LOOSE_VERSION = version.parse(pyproj.__proj_version__)
 PROJ_GTE_8 = PROJ_LOOSE_VERSION >= version.parse("8.0")
 PROJ_GTE_81 = PROJ_LOOSE_VERSION >= version.parse("8.1")
-
+PROJ_GTE_82 = PROJ_LOOSE_VERSION >= version.parse("8.2")
+RGF93toWSG84 = "RGF93 v1 to WGS 84 (1)" if PROJ_GTE_82 else "RGF93 to WGS 84 (1)"
 
 if PROJ_GTE_8:
     # https://github.com/OSGeo/PROJ/pull/2536

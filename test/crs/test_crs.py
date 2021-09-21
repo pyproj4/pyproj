@@ -22,6 +22,7 @@ from pyproj.transformer import TransformerGroup
 from test.conftest import (
     HAYFORD_ELLIPSOID_NAME,
     PROJ_GTE_8,
+    RGF93toWSG84,
     assert_can_pickle,
     get_wgs84_datum_name,
     grids_available,
@@ -624,7 +625,7 @@ def test_coordinate_operation__from_authority():
         "urn:ogc:def:coordinateOperation:EPSG::1671",
         CoordinateOperation.from_epsg(1671),
         CoordinateOperation.from_epsg(1671).to_json_dict(),
-        "RGF93 to WGS 84 (1)",
+        RGF93toWSG84,
     ],
 )
 def test_coordinate_operation__from_user_input(user_input):
@@ -1074,11 +1075,11 @@ def test_coordinate_operation_equals():
 
 
 @pytest.mark.parametrize(
-    "input_str", ["urn:ogc:def:coordinateOperation:EPSG::1671", "RGF93 to WGS 84 (1)"]
+    "input_str", ["urn:ogc:def:coordinateOperation:EPSG::1671", RGF93toWSG84]
 )
 def test_coordinate_operation__from_string(input_str):
     co = CoordinateOperation.from_string(input_str)
-    assert co.name == "RGF93 to WGS 84 (1)"
+    assert co.name == RGF93toWSG84
 
 
 def test_coordinate_operation__from_name():
