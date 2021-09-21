@@ -1610,7 +1610,6 @@ def test_build_custom_datum__default_ellipsoid():
 def test_cartesian_cs():
     unit = {"type": "LinearUnit", "name": "US Survey Foot", "conversion_factor": 0.3048}
     cartesian_cs = {
-        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
         "type": "CoordinateSystem",
         "subtype": "Cartesian",
         "axis": [
@@ -1637,7 +1636,9 @@ def test_cartesian_cs():
         },
         cartesian_cs=cartesian_cs,
     )
-    assert crs.coordinate_system.to_json_dict() == cartesian_cs
+    json_dict = crs.coordinate_system.to_json_dict()
+    json_dict.pop("$schema")
+    assert json_dict == cartesian_cs
     # test coordinate system
     assert crs.cs_to_cf() == [
         {
@@ -1657,7 +1658,6 @@ def test_cartesian_cs():
 
 def test_ellipsoidal_cs():
     ellipsoidal_cs = {
-        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
         "type": "CoordinateSystem",
         "subtype": "ellipsoidal",
         "axis": [
@@ -1683,7 +1683,9 @@ def test_ellipsoidal_cs():
         ),
         ellipsoidal_cs=ellipsoidal_cs,
     )
-    assert crs.coordinate_system.to_json_dict() == ellipsoidal_cs
+    json_dict = crs.coordinate_system.to_json_dict()
+    json_dict.pop("$schema")
+    assert json_dict == ellipsoidal_cs
     # test coordinate system
     assert crs.cs_to_cf() == [
         {
@@ -1703,7 +1705,6 @@ def test_ellipsoidal_cs():
 
 def test_ellipsoidal_cs__from_name():
     ellipsoidal_cs = {
-        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
         "type": "CoordinateSystem",
         "subtype": "ellipsoidal",
         "axis": [
@@ -1725,7 +1726,9 @@ def test_ellipsoidal_cs__from_name():
         dict(grid_mapping_name="latitude_longitude", geographic_crs_name="WGS 84"),
         ellipsoidal_cs=ellipsoidal_cs,
     )
-    assert crs.coordinate_system.to_json_dict() == ellipsoidal_cs
+    json_dict = crs.coordinate_system.to_json_dict()
+    json_dict.pop("$schema")
+    assert json_dict == ellipsoidal_cs
     # test coordinate system
     assert crs.cs_to_cf() == [
         {
@@ -1746,7 +1749,6 @@ def test_ellipsoidal_cs__from_name():
 def test_export_compound_crs_cs():
     unit = {"type": "LinearUnit", "name": "US Survey Foot", "conversion_factor": 0.3048}
     cartesian_cs = {
-        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
         "type": "CoordinateSystem",
         "subtype": "Cartesian",
         "axis": [
@@ -1760,7 +1762,6 @@ def test_export_compound_crs_cs():
         ],
     }
     vertical_cs = {
-        "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
         "type": "CoordinateSystem",
         "subtype": "vertical",
         "axis": [
@@ -1795,8 +1796,12 @@ def test_export_compound_crs_cs():
         cartesian_cs=cartesian_cs,
         vertical_cs=vertical_cs,
     )
-    assert crs.sub_crs_list[0].coordinate_system.to_json_dict() == cartesian_cs
-    assert crs.sub_crs_list[1].coordinate_system.to_json_dict() == vertical_cs
+    cartesian_json_dict = crs.sub_crs_list[0].coordinate_system.to_json_dict()
+    cartesian_json_dict.pop("$schema")
+    vertical_json_dict = crs.sub_crs_list[1].coordinate_system.to_json_dict()
+    vertical_json_dict.pop("$schema")
+    assert cartesian_json_dict == cartesian_cs
+    assert vertical_json_dict == vertical_cs
     # test coordinate system
     assert crs.cs_to_cf() == [
         {
