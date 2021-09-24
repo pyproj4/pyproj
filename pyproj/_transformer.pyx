@@ -512,6 +512,77 @@ cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
     return max_value
 
 
+cdef bint contains_north_pole(
+    PJ* projobj,
+    PJ_DIRECTION pj_direction,
+    double left,
+    double bottom,
+    double right,
+    double top,
+) nogil:
+    """
+    Check if the original projected bounds contains
+    the north pole.
+
+    This assumes that the destination CRS is geographic.
+    """
+    # North Pole
+    cdef double pole_y = 90
+    cdef double pole_x = 0
+    cdef PJ_DIRECTION direction = PJ_IDENT
+    if pj_direction == PJ_INV:
+        direction = PJ_FWD
+    elif pj_direction == PJ_FWD:
+        direction = PJ_INV
+    proj_trans_generic(
+        projobj,
+        direction,
+        &pole_x, _DOUBLESIZE, 1,
+        &pole_y, _DOUBLESIZE, 1,
+        NULL, _DOUBLESIZE, 0,
+        NULL, _DOUBLESIZE, 0,
+    )
+    if left < pole_x < right and top > pole_y > bottom:
+        return True
+    return False
+
+
+cdef bint contains_south_pole(
+    PJ* projobj,
+    PJ_DIRECTION pj_direction,
+    double left,
+    double bottom,
+    double right,
+    double top,
+) nogil:
+    """
+    Check if the original projected bounds contains
+    the south pole.
+
+    This assumes that the destination CRS is geographic.
+    """
+    # South Pole
+    cdef double pole_y = -90
+    cdef double pole_x = 0
+    cdef PJ_DIRECTION direction = PJ_IDENT
+    if pj_direction == PJ_INV:
+        direction = PJ_FWD
+    elif pj_direction == PJ_FWD:
+        direction = PJ_INV
+
+    proj_trans_generic(
+        projobj,
+        direction,
+        &pole_x, _DOUBLESIZE, 1,
+        &pole_y, _DOUBLESIZE, 1,
+        NULL, _DOUBLESIZE, 0,
+        NULL, _DOUBLESIZE, 0,
+    )
+    if left < pole_x < right and top > pole_y > bottom:
+        return True
+    return False
+
+
 cdef class _Transformer(Base):
     def __cinit__(self):
         self._area_of_use = None
@@ -954,8 +1025,27 @@ cdef class _Transformer(Base):
         cdef double delta_x = 0
         cdef double delta_y = 0
         cdef int iii = 0
-
+        cdef bint north_pole_in_bounds = False
+        cdef bint south_pole_in_bounds = False
         with nogil:
+            if degree_output:
+                north_pole_in_bounds = contains_north_pole(
+                    self.projobj,
+                    pj_direction,
+                    left,
+                    bottom,
+                    right,
+                    top,
+                )
+                south_pole_in_bounds = contains_south_pole(
+                    self.projobj,
+                    pj_direction,
+                    left,
+                    bottom,
+                    right,
+                    top,
+                )
+
             # degrees to radians
             if not radians and proj_angular_input(self.projobj, pj_direction):
                 left *= _DG2RAD
@@ -1018,7 +1108,18 @@ cdef class _Transformer(Base):
                     if ProjError.internal_proj_error is not None:
                         raise ProjError("itransform error")
 
-            if degree_output:
+            if degree_output and (north_pole_in_bounds or south_pole_in_bounds):
+                # only works with lon/lat axis order
+                # need a way to test axis order to support both
+                if north_pole_in_bounds:
+                    bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
+                    top = 90
+                elif south_pole_in_bounds:
+                    bottom = -90
+                    top = simple_max(y_boundary_array.data, y_boundary_array.len)
+                left = -180
+                right = 180
+            elif degree_output:
                 left = antimeridian_min(x_boundary_array.data, x_boundary_array.len)
                 right = antimeridian_max(x_boundary_array.data, x_boundary_array.len)
                 # depending on the axis order, longitude has the potential

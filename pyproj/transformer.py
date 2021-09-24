@@ -895,6 +895,10 @@ class Transformer:
                     )
                 return shapely.geometry.box(left, bottom, right, top)
 
+        When projecting from polar projections to geographic,
+        lon, lat output order is required. The 'always_xy' flag
+        in the 'from_crs' constructor can help ensure that is the case.
+
 
         Parameters
         ----------
