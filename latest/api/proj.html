@@ -843,6 +843,9 @@ constructed with (left, bottom, 180, top) and the second with
     <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>When projecting from polar projections to geographic,
+lon, lat output order is required. The ‘always_xy’ flag
+in the ‘from_crs’ constructor can help ensure that is the case.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
