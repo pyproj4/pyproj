@@ -499,13 +499,13 @@ cdef class _CRSParts(Base):
           - WKT string
           - An authority string
           - An EPSG integer code
-          - A tuple of ("auth_name": "auth_code")
+          - An iterable of ("auth_name", "auth_code")
           - An object with a `to_json` method.
 
         Parameters
         ----------
-        user_input: str, dict, int
-            Intput to create cls.
+        user_input: str, dict, int, Iterable[str, str]
+            Input to create cls.
 
         Returns
         -------
@@ -1761,7 +1761,7 @@ cdef class Grid:
     full_name: str
         The full name of the grid.
     package_name: str
-        The the package name where the grid might be found.
+        The package name where the grid might be found.
     url: str
         The grid URL or the package URL where the grid might be found.
     direct_download: int
@@ -2557,7 +2557,7 @@ cdef class _CRS(Base):
     @property
     def source_crs(self):
         """
-        The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
+        The base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
         or the source CRS of a CoordinateOperation.
 
         Returns
@@ -2641,7 +2641,7 @@ cdef class _CRS(Base):
         """
         .. versionadded:: 2.2.0
 
-        The the geodeticCRS / geographicCRS from the CRS.
+        The geodeticCRS / geographicCRS from the CRS.
 
         Returns
         -------
