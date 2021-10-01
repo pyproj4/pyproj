@@ -319,7 +319,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">az</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dist</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">az</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dist</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Forward transformation</span>
@@ -365,7 +365,12 @@
         <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
 
 <div class="viewcode-block" id="Geod.inv"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">lons1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lons2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">lons1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">lats1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">lons2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">lats2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Inverse transformation</span>

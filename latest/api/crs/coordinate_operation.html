@@ -375,14 +375,14 @@ If None, will search all authorities.</p></li>
 <li><p>WKT string</p></li>
 <li><p>An authority string</p></li>
 <li><p>An EPSG integer code</p></li>
-<li><p>A tuple of (“auth_name”: “auth_code”)</p></li>
+<li><p>An iterable of (“auth_name”, “auth_code”)</p></li>
 <li><p>An object with a <cite>to_json</cite> method.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em>) – Intput to create cls.</p>
+<dd class="field-odd"><p><strong>user_input</strong> (<em>str</em><em>, </em><em>dict</em><em>, </em><em>int</em><em>, </em><em>Iterable</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – Input to create cls.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -711,7 +711,7 @@ If None, will search all authorities.</p></li>
 <dl class="py attribute">
 <dt id="pyproj._crs.Grid.package_name">
 <code class="sig-name descname">package_name</code><a class="headerlink" href="#pyproj._crs.Grid.package_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>The the package name where the grid might be found.</p>
+<dd><p>The package name where the grid might be found.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
