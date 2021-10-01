@@ -11,6 +11,7 @@ from collections import namedtuple
 from pyproj._compat cimport cstrencode
 from pyproj._crs cimport (
     _CRS,
+    Axis,
     Base,
     CoordinateOperation,
     _get_concatenated_operations,
@@ -519,6 +520,7 @@ cdef bint contains_north_pole(
     double bottom,
     double right,
     double top,
+    bint lon_lat_order,
 ) nogil:
     """
     Check if the original projected bounds contains
@@ -529,11 +531,14 @@ cdef bint contains_north_pole(
     # North Pole
     cdef double pole_y = 90
     cdef double pole_x = 0
-    cdef PJ_DIRECTION direction = PJ_IDENT
+    if not lon_lat_order:
+        pole_x = 90
+        pole_y = 0
+
+    cdef PJ_DIRECTION direction = PJ_INV
     if pj_direction == PJ_INV:
         direction = PJ_FWD
-    elif pj_direction == PJ_FWD:
-        direction = PJ_INV
+
     proj_trans_generic(
         projobj,
         direction,
@@ -554,6 +559,7 @@ cdef bint contains_south_pole(
     double bottom,
     double right,
     double top,
+    bint lon_lat_order,
 ) nogil:
     """
     Check if the original projected bounds contains
@@ -564,11 +570,13 @@ cdef bint contains_south_pole(
     # South Pole
     cdef double pole_y = -90
     cdef double pole_x = 0
-    cdef PJ_DIRECTION direction = PJ_IDENT
+    if not lon_lat_order:
+        pole_y = 0
+        pole_x = -90
+
+    cdef PJ_DIRECTION direction = PJ_INV
     if pj_direction == PJ_INV:
         direction = PJ_FWD
-    elif pj_direction == PJ_FWD:
-        direction = PJ_INV
 
     proj_trans_generic(
         projobj,
@@ -581,6 +589,36 @@ cdef bint contains_south_pole(
     if left < pole_x < right and top > pole_y > bottom:
         return True
     return False
+
+
+cdef bint target_crs_lon_lat_order(
+    PJ_CONTEXT* transformer_ctx,
+    PJ* transformer_pj,
+    PJ_DIRECTION pj_direction,
+) except *:
+    cdef PJ* target_crs = NULL
+    cdef PJ* coord_system_pj = NULL
+    cdef Axis first_axis = None
+    if pj_direction == PJ_FWD:
+        target_crs = proj_get_target_crs(transformer_ctx, transformer_pj)
+    elif pj_direction == PJ_INV:
+        target_crs = proj_get_source_crs(transformer_ctx, transformer_pj)
+    if target_crs == NULL:
+        raise ProjError("Unable to retrieve target CRS")
+    try:
+        coord_system_pj = proj_crs_get_coordinate_system(
+            transformer_ctx,
+            target_crs,
+        )
+        if coord_system_pj == NULL:
+            raise ProjError("Unable to get target CRS coordinate system.")
+        first_axis = Axis.create(transformer_ctx, coord_system_pj, 0)
+    finally:
+        proj_destroy(target_crs)
+        if coord_system_pj != NULL:
+            proj_destroy(coord_system_pj)
+    ProjError.clear()
+    return first_axis.abbrev.lower() == "lon"
 
 
 cdef class _Transformer(Base):
@@ -1004,20 +1042,25 @@ cdef class _Transformer(Base):
         bint errcheck,
         object direction,
     ):
-        if self.id == "noop":
+        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
+        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
+
+        if self.id == "noop" or pj_direction == PJ_IDENT:
             return (left, bottom, right, top)
 
         if densify_pts < 0:
             raise ProjError("densify_pts must be positive")
-
-        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
-        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
 
         cdef bint degree_output = proj_degree_output(self.projobj, pj_direction)
         cdef bint degree_input = proj_degree_input(self.projobj, pj_direction)
         if degree_output and densify_pts < 2:
             raise ProjError("densify_pts must be 2+ for degree output")
 
+        cdef bint output_lon_lat_order = False
+        if degree_output:
+            output_lon_lat_order = target_crs_lon_lat_order(
+                self.context, self.projobj, pj_direction,
+            )
         cdef int side_pts = densify_pts + 1  # add one because we are densifying
         cdef Py_ssize_t boundary_len = side_pts * 4
         cdef PySimpleArray x_boundary_array = PySimpleArray(boundary_len)
@@ -1036,6 +1079,7 @@ cdef class _Transformer(Base):
                     bottom,
                     right,
                     top,
+                    output_lon_lat_order,
                 )
                 south_pole_in_bounds = contains_south_pole(
                     self.projobj,
@@ -1044,6 +1088,7 @@ cdef class _Transformer(Base):
                     bottom,
                     right,
                     top,
+                    output_lon_lat_order,
                 )
 
             # degrees to radians
@@ -1111,19 +1156,34 @@ cdef class _Transformer(Base):
             if degree_output and (north_pole_in_bounds or south_pole_in_bounds):
                 # only works with lon/lat axis order
                 # need a way to test axis order to support both
-                if north_pole_in_bounds:
+                if north_pole_in_bounds and output_lon_lat_order:
+                    left = -180
                     bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
+                    right = 180
                     top = 90
-                elif south_pole_in_bounds:
+                elif north_pole_in_bounds:
+                    left = simple_min(x_boundary_array.data, x_boundary_array.len)
+                    bottom = -180
+                    right = 90
+                    top = 180
+                elif south_pole_in_bounds and output_lon_lat_order:
+                    left = -180
                     bottom = -90
+                    right = 180
                     top = simple_max(y_boundary_array.data, y_boundary_array.len)
-                left = -180
-                right = 180
-            elif degree_output:
+                else:
+                    left = -90
+                    right = simple_max(x_boundary_array.data, x_boundary_array.len)
+                    bottom = -180
+                    top = 180
+            elif degree_output and output_lon_lat_order:
                 left = antimeridian_min(x_boundary_array.data, x_boundary_array.len)
                 right = antimeridian_max(x_boundary_array.data, x_boundary_array.len)
-                # depending on the axis order, longitude has the potential
-                # to be on the y axis. It shouldn't cause troubles if it is latitude.
+                bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
+                top = simple_max(y_boundary_array.data, y_boundary_array.len)
+            elif degree_output:
+                left = simple_min(x_boundary_array.data, x_boundary_array.len)
+                right = simple_max(x_boundary_array.data, x_boundary_array.len)
                 bottom = antimeridian_min(y_boundary_array.data, y_boundary_array.len)
                 top = antimeridian_max(y_boundary_array.data, y_boundary_array.len)
             else:
