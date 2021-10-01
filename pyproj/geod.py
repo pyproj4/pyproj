@@ -240,7 +240,7 @@ class Geod(_Geod):
         )
 
     def fwd(  # pylint: disable=invalid-name
-        self, lons: Any, lats: Any, az: Any, dist: Any, radians=False
+        self, lons: Any, lats: Any, az: Any, dist: Any, radians: bool = False
     ) -> Tuple[Any, Any, Any]:
         """
         Forward transformation
@@ -286,7 +286,12 @@ class Geod(_Geod):
         return outx, outy, outz
 
     def inv(
-        self, lons1: Any, lats1: Any, lons2: Any, lats2: Any, radians=False
+        self,
+        lons1: Any,
+        lats1: Any,
+        lons2: Any,
+        lats2: Any,
+        radians: bool = False,
     ) -> Tuple[Any, Any, Any]:
         """
         Inverse transformation
