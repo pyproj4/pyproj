@@ -974,21 +974,21 @@
 <span class="sd">                    )</span>
 <span class="sd">                return shapely.geometry.box(left, bottom, right, top)</span>
 
-<span class="sd">        When projecting from polar projections to geographic,</span>
-<span class="sd">        lon, lat output order is required. The &#39;always_xy&#39; flag</span>
-<span class="sd">        in the &#39;from_crs&#39; constructor can help ensure that is the case.</span>
-
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        left: float</span>
-<span class="sd">            Left bounding coordinate in source CRS.</span>
+<span class="sd">            Minimum bounding coordinate of the first axis in source CRS</span>
+<span class="sd">            (or the target CRS if using the reverse direction).</span>
 <span class="sd">        bottom: float</span>
-<span class="sd">            Bottom bounding coordinate in source CRS.</span>
+<span class="sd">            Minimum bounding coordinate of the second axis in source CRS.</span>
+<span class="sd">            (or the target CRS if using the reverse direction).</span>
 <span class="sd">        right: float</span>
-<span class="sd">            Right bounding coordinate in source CRS.</span>
+<span class="sd">            Maximum bounding coordinate of the first axis in source CRS.</span>
+<span class="sd">            (or the target CRS if using the reverse direction).</span>
 <span class="sd">        top: float</span>
-<span class="sd">            Top bounding coordinate in source CRS.</span>
+<span class="sd">            Maximum bounding coordinate of the second axis in source CRS.</span>
+<span class="sd">            (or the target CRS if using the reverse direction).</span>
 <span class="sd">        densify_points: uint, default=21</span>
 <span class="sd">            Number of points to add to each edge to account for nonlinear edges</span>
 <span class="sd">            produced by the transform process. Large numbers will produce worse</span>

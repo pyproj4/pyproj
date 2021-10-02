@@ -689,16 +689,17 @@ constructed with (left, bottom, 180, top) and the second with
     <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>When projecting from polar projections to geographic,
-lon, lat output order is required. The ‘always_xy’ flag
-in the ‘from_crs’ constructor can help ensure that is the case.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>left</strong> (<em>float</em>) – Left bounding coordinate in source CRS.</p></li>
-<li><p><strong>bottom</strong> (<em>float</em>) – Bottom bounding coordinate in source CRS.</p></li>
-<li><p><strong>right</strong> (<em>float</em>) – Right bounding coordinate in source CRS.</p></li>
-<li><p><strong>top</strong> (<em>float</em>) – Top bounding coordinate in source CRS.</p></li>
+<li><p><strong>left</strong> (<em>float</em>) – Minimum bounding coordinate of the first axis in source CRS
+(or the target CRS if using the reverse direction).</p></li>
+<li><p><strong>bottom</strong> (<em>float</em>) – Minimum bounding coordinate of the second axis in source CRS.
+(or the target CRS if using the reverse direction).</p></li>
+<li><p><strong>right</strong> (<em>float</em>) – Maximum bounding coordinate of the first axis in source CRS.
+(or the target CRS if using the reverse direction).</p></li>
+<li><p><strong>top</strong> (<em>float</em>) – Maximum bounding coordinate of the second axis in source CRS.
+(or the target CRS if using the reverse direction).</p></li>
 <li><p><strong>densify_points</strong> (<em>uint</em><em>, </em><em>default=21</em>) – Number of points to add to each edge to account for nonlinear edges
 produced by the transform process. Large numbers will produce worse
 performance.</p></li>
