@@ -895,21 +895,21 @@ class Transformer:
                     )
                 return shapely.geometry.box(left, bottom, right, top)
 
-        When projecting from polar projections to geographic,
-        lon, lat output order is required. The 'always_xy' flag
-        in the 'from_crs' constructor can help ensure that is the case.
-
 
         Parameters
         ----------
         left: float
-            Left bounding coordinate in source CRS.
+            Minimum bounding coordinate of the first axis in source CRS
+            (or the target CRS if using the reverse direction).
         bottom: float
-            Bottom bounding coordinate in source CRS.
+            Minimum bounding coordinate of the second axis in source CRS.
+            (or the target CRS if using the reverse direction).
         right: float
-            Right bounding coordinate in source CRS.
+            Maximum bounding coordinate of the first axis in source CRS.
+            (or the target CRS if using the reverse direction).
         top: float
-            Top bounding coordinate in source CRS.
+            Maximum bounding coordinate of the second axis in source CRS.
+            (or the target CRS if using the reverse direction).
         densify_points: uint, default=21
             Number of points to add to each edge to account for nonlinear edges
             produced by the transform process. Large numbers will produce worse

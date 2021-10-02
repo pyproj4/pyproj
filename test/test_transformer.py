@@ -1376,6 +1376,28 @@ def test_transform_bounds__noop_geographic():
 
 def test_transform_bounds__north_pole():
     crs = CRS("EPSG:32661")
+    transformer = Transformer.from_crs(crs, "EPSG:4326")
+    minx, miny, maxx, maxy = crs.area_of_use.bounds
+    bounds = transformer.transform_bounds(miny, minx, maxy, maxx, direction="INVERSE")
+    assert_almost_equal(
+        bounds,
+        (
+            -1405880.72,
+            -1371213.76,
+            5405880.72,
+            5371213.76,
+        ),
+        decimal=0,
+    )
+    assert_almost_equal(
+        transformer.transform_bounds(*bounds),
+        (48.656, -180.0, 90.0, 180.0),
+        decimal=0,
+    )
+
+
+def test_transform_bounds__north_pole__xy():
+    crs = CRS("EPSG:32661")
     transformer = Transformer.from_crs(crs, "EPSG:4326", always_xy=True)
     bounds = transformer.transform_bounds(*crs.area_of_use.bounds, direction="INVERSE")
     assert_almost_equal(
@@ -1391,6 +1413,28 @@ def test_transform_bounds__north_pole():
 
 
 def test_transform_bounds__south_pole():
+    crs = CRS("EPSG:32761")
+    transformer = Transformer.from_crs(crs, "EPSG:4326")
+    minx, miny, maxx, maxy = crs.area_of_use.bounds
+    bounds = transformer.transform_bounds(miny, minx, maxy, maxx, direction="INVERSE")
+    assert_almost_equal(
+        bounds,
+        (
+            -1405880.72,
+            -1371213.76,
+            5405880.72,
+            5371213.76,
+        ),
+        decimal=0,
+    )
+    assert_almost_equal(
+        transformer.transform_bounds(*bounds),
+        (-90, -180.0, -48.656, 180.0),
+        decimal=0,
+    )
+
+
+def test_transform_bounds__south_pole__xy():
     crs = CRS("EPSG:32761")
     transformer = Transformer.from_crs(crs, "EPSG:4326", always_xy=True)
     bounds = transformer.transform_bounds(*crs.area_of_use.bounds, direction="INVERSE")
