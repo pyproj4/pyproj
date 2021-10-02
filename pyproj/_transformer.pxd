@@ -1,6 +1,6 @@
 include "proj.pxi"
 
-from pyproj._crs cimport Base
+from pyproj._crs cimport _CRS, Base
 
 
 cdef class _TransformerGroup:
@@ -14,6 +14,8 @@ cdef class _Transformer(Base):
     cdef readonly _area_of_use
     cdef readonly str type_name
     cdef readonly tuple _operations
+    cdef readonly _CRS _source_crs
+    cdef readonly _CRS _target_crs
 
     @staticmethod
     cdef _Transformer _from_pj(

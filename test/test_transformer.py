@@ -1522,3 +1522,15 @@ def test_4d_transform__inplace__numpy__int():
     assert zarr[0] == 5264462
     assert tarr is not t_tarr
     assert tarr[0] == 2019
+
+
+def test_transformer_source_target_crs():
+    transformer = Transformer.from_crs("EPSG:4326", "EPSG:4258")
+    assert transformer.source_crs == "EPSG:4326"
+    assert transformer.target_crs == "EPSG:4258"
+
+
+def test_transformer_source_target_crs__none():
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert transformer.source_crs is None
+    assert transformer.target_crs is None

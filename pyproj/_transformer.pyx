@@ -15,13 +15,14 @@ from pyproj._crs cimport (
     CoordinateOperation,
     _get_concatenated_operations,
     _to_proj4,
+    _to_wkt,
     create_area_of_use,
 )
 from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
 
 from pyproj._datadir import _LOGGER
 from pyproj.aoi import AreaOfInterest
-from pyproj.enums import ProjVersion, TransformDirection
+from pyproj.enums import ProjVersion, TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
 
 # version number string for PROJ
@@ -798,6 +799,8 @@ cdef class _Transformer(Base):
         self._area_of_use = None
         self.type_name = "Unknown Transformer"
         self._operations = None
+        self._source_crs = None
+        self._target_crs = None
 
     def _initialize_from_projobj(self):
         self.proj_info = proj_pj_info(self.projobj)
@@ -840,6 +843,62 @@ cdef class _Transformer(Base):
             return self._area_of_use
         self._area_of_use = create_area_of_use(self.context, self.projobj)
         return self._area_of_use
+
+    @property
+    def source_crs(self):
+        """
+        .. versionadded:: 3.3.0
+
+        Returns
+        -------
+        Optional[_CRS]:
+            The source CRS of a CoordinateOperation.
+        """
+        if self._source_crs is not None:
+            return None if self._source_crs is False else self._source_crs
+        cdef PJ * projobj = proj_get_source_crs(self.context, self.projobj)
+        ProjError.clear()
+        if projobj == NULL:
+            self._source_crs = False
+            return None
+        try:
+            self._source_crs = _CRS(_to_wkt(
+                self.context,
+                projobj,
+                version=WktVersion.WKT2_2019,
+                pretty=False,
+            ))
+        finally:
+            proj_destroy(projobj)
+        return self._source_crs
+
+    @property
+    def target_crs(self):
+        """
+        .. versionadded:: 3.3.0
+
+        Returns
+        -------
+        Optional[_CRS]:
+            The target CRS of a CoordinateOperation.
+        """
+        if self._target_crs is not None:
+            return None if self._target_crs is False else self._target_crs
+        cdef PJ * projobj = proj_get_target_crs(self.context, self.projobj)
+        ProjError.clear()
+        if projobj == NULL:
+            self._target_crs = False
+            return None
+        try:
+            self._target_crs = _CRS(_to_wkt(
+                self.context,
+                projobj,
+                version=WktVersion.WKT2_2019,
+                pretty=False,
+            ))
+        finally:
+            proj_destroy(projobj)
+        return self._target_crs
 
     @property
     def operations(self):

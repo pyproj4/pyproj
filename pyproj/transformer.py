@@ -416,6 +416,38 @@ class Transformer:
         """
         return self._transformer.is_network_enabled
 
+    @property
+    def source_crs(self) -> Optional[CRS]:
+        """
+        .. versionadded:: 3.3.0
+
+        Returns
+        -------
+        Optional[CRS]:
+            The source CRS of a CoordinateOperation.
+        """
+        return (
+            None
+            if self._transformer.source_crs is None
+            else CRS(self._transformer.source_crs)
+        )
+
+    @property
+    def target_crs(self) -> Optional[CRS]:
+        """
+        .. versionadded:: 3.3.0
+
+        Returns
+        -------
+        Optional[CRS]:
+            The target CRS of a CoordinateOperation.
+        """
+        return (
+            None
+            if self._transformer.target_crs is None
+            else CRS(self._transformer.target_crs)
+        )
+
     @staticmethod
     def from_proj(
         proj_from: Any,
