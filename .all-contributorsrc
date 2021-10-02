@@ -452,6 +452,15 @@
         "doc",
         "design"
       ]
+    },
+    {
+      "login": "bjlittle",
+      "name": "Bill Little",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2051656?v=4",
+      "profile": "https://www.metoffice.gov.uk/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
