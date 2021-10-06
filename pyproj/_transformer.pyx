@@ -301,324 +301,511 @@ cdef PJ* proj_create_crs_to_crs(
     return transform
 
 
-cdef class PySimpleArray:
-    cdef double* data
-    cdef public Py_ssize_t len
+IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (8, 2):
+    cdef extern from "proj.h":
+        int proj_trans_bounds(
+            PJ_CONTEXT* context,
+            PJ *P,
+            PJ_DIRECTION direction,
+            const double xmin,
+            const double ymin,
+            const double xmax,
+            const double ymax,
+            double* out_xmin,
+            double* out_ymin,
+            double* out_xmax,
+            double* out_ymax,
+            int densify_pts
+        ) nogil
+ELSE:
+    cdef class PySimpleArray:
+        cdef double* data
+        cdef public Py_ssize_t len
 
-    def __cinit__(self):
-        self.data = NULL
+        def __cinit__(self):
+            self.data = NULL
 
-    def __init__(self, Py_ssize_t arr_len):
-        self.len = arr_len
-        self.data = <double*> PyMem_Malloc(arr_len * sizeof(double))
-        if self.data == NULL:
-            raise MemoryError("error creating array for pyproj")
+        def __init__(self, Py_ssize_t arr_len):
+            self.len = arr_len
+            self.data = <double*> PyMem_Malloc(arr_len * sizeof(double))
+            if self.data == NULL:
+                raise MemoryError("error creating array for pyproj")
 
-    def __dealloc__(self):
-        PyMem_Free(self.data)
-        self.data = NULL
-
-
-@cython.boundscheck(False)
-@cython.wraparound(False)
-cdef double simple_min(double* data, Py_ssize_t arr_len) nogil:
-    cdef int iii = 0
-    cdef double min_value = data[0]
-    for iii in range(1, arr_len):
-        if data[iii] < min_value:
-            min_value = data[iii]
-    return min_value
-
-
-@cython.boundscheck(False)
-@cython.wraparound(False)
-cdef double simple_max(double* data, Py_ssize_t arr_len) nogil:
-    cdef int iii = 0
-    cdef double max_value = data[0]
-    for iii in range(1, arr_len):
-        if (data[iii] > max_value or max_value == HUGE_VAL) and data[iii] != HUGE_VAL:
-            max_value = data[iii]
-    return max_value
+        def __dealloc__(self):
+            PyMem_Free(self.data)
+            self.data = NULL
 
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
-cdef int _find_previous_index(int iii, double* data, int arr_len) nogil:
-    # find index of nearest valid previous value if exists
-    cdef int prev_iii = iii - 1
-    if prev_iii == -1:  # handle wraparound
-        prev_iii = arr_len - 1
-    while data[prev_iii] == HUGE_VAL and prev_iii != iii:
-        prev_iii -= 1
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    cdef double simple_min(double* data, Py_ssize_t arr_len) nogil:
+        cdef int iii = 0
+        cdef double min_value = data[0]
+        for iii in range(1, arr_len):
+            if data[iii] < min_value:
+                min_value = data[iii]
+        return min_value
+
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    cdef double simple_max(double* data, Py_ssize_t arr_len) nogil:
+        cdef int iii = 0
+        cdef double max_value = data[0]
+        for iii in range(1, arr_len):
+            if (data[iii] > max_value or max_value == HUGE_VAL) and data[iii] != HUGE_VAL:
+                max_value = data[iii]
+        return max_value
+
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    cdef int _find_previous_index(int iii, double* data, int arr_len) nogil:
+        # find index of nearest valid previous value if exists
+        cdef int prev_iii = iii - 1
         if prev_iii == -1:  # handle wraparound
             prev_iii = arr_len - 1
-    return prev_iii
+        while data[prev_iii] == HUGE_VAL and prev_iii != iii:
+            prev_iii -= 1
+            if prev_iii == -1:  # handle wraparound
+                prev_iii = arr_len - 1
+        return prev_iii
 
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
-cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
-    """
-    Handles the case when longitude values cross the antimeridian
-    when calculating the minumum.
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    cdef double antimeridian_min(double* data, Py_ssize_t arr_len) nogil:
+        """
+        Handles the case when longitude values cross the antimeridian
+        when calculating the minumum.
 
-    Note: The data array must be in a linear ring.
+        Note: The data array must be in a linear ring.
 
-    Note: This requires a densified ring with at least 2 additional
-          points per edge to correctly handle global extents.
+        Note: This requires a densified ring with at least 2 additional
+            points per edge to correctly handle global extents.
 
-    If only 1 additional point:
+        If only 1 additional point:
 
-      |        |
-      |RL--x0--|RL--
-      |        |
-    -180    180|-180
+        |        |
+        |RL--x0--|RL--
+        |        |
+        -180    180|-180
 
-    If they are evenly spaced and it crosses the antimeridian:
-    x0 - L = 180
-    R - x0 = -180
+        If they are evenly spaced and it crosses the antimeridian:
+        x0 - L = 180
+        R - x0 = -180
 
-    For example:
-    Let R = -179.9, x0 = 0.1, L = -179.89
-    x0 - L = 0.1 - -179.9 = 180
-    R - x0 = -179.89 - 0.1 ~= -180
-    This is the same in the case when it didn't cross the antimeridian.
+        For example:
+        Let R = -179.9, x0 = 0.1, L = -179.89
+        x0 - L = 0.1 - -179.9 = 180
+        R - x0 = -179.89 - 0.1 ~= -180
+        This is the same in the case when it didn't cross the antimeridian.
 
-    If you have 2 additional points:
-      |            |
-      |RL--x0--x1--|RL--
-      |            |
-    -180        180|-180
+        If you have 2 additional points:
+        |            |
+        |RL--x0--x1--|RL--
+        |            |
+        -180        180|-180
 
-    If they are evenly spaced and it crosses the antimeridian:
-    x0 - L = 120
-    x1 - x0 = 120
-    R - x1 = -240
+        If they are evenly spaced and it crosses the antimeridian:
+        x0 - L = 120
+        x1 - x0 = 120
+        R - x1 = -240
 
-    For example:
-    Let R = -179.9, x0 = -59.9, x1 = 60.1 L = -179.89
-    x0 - L = 59.9 - -179.9 = 120
-    x1 - x0 = 60.1 - 59.9 = 120
-    R - x1 = -179.89 - 60.1 ~= -240
+        For example:
+        Let R = -179.9, x0 = -59.9, x1 = 60.1 L = -179.89
+        x0 - L = 59.9 - -179.9 = 120
+        x1 - x0 = 60.1 - 59.9 = 120
+        R - x1 = -179.89 - 60.1 ~= -240
 
-    However, if they are evenly spaced and it didn't cross the antimeridian:
-    x0 - L = 120
-    x1 - x0 = 120
-    R - x1 = 120
+        However, if they are evenly spaced and it didn't cross the antimeridian:
+        x0 - L = 120
+        x1 - x0 = 120
+        R - x1 = 120
 
-    From this, we have a delta that is guaranteed to be significantly
-    large enough to tell the difference reguarless of the direction
-    the antimeridian was crossed.
+        From this, we have a delta that is guaranteed to be significantly
+        large enough to tell the difference reguarless of the direction
+        the antimeridian was crossed.
 
-    However, even though the spacing was even in the source projection, it isn't
-    guaranteed in the targed geographic projection. So, instead of 240, 200 is used
-    as it significantly larger than 120 to be sure that the antimeridian was crossed
-    but smalller than 240 to account for possible irregularities in distances
-    when re-projecting. Also, 200 ensures latitudes are ignored for axis order handling.
-    """
-    cdef int iii = 0
-    cdef int prev_iii = arr_len - 1
-    cdef double positive_min = HUGE_VAL
-    cdef double min_value = HUGE_VAL
-    cdef double delta = 0
-    cdef int crossed_meridian_count = 0
-    cdef bint positive_meridian = False
+        However, even though the spacing was even in the source projection, it isn't
+        guaranteed in the targed geographic projection. So, instead of 240, 200 is used
+        as it significantly larger than 120 to be sure that the antimeridian was crossed
+        but smalller than 240 to account for possible irregularities in distances
+        when re-projecting. Also, 200 ensures latitudes are ignored for axis order handling.
+        """
+        cdef int iii = 0
+        cdef int prev_iii = arr_len - 1
+        cdef double positive_min = HUGE_VAL
+        cdef double min_value = HUGE_VAL
+        cdef double delta = 0
+        cdef int crossed_meridian_count = 0
+        cdef bint positive_meridian = False
 
-    for iii in range(0, arr_len):
-        if data[iii] == HUGE_VAL:
-            continue
-        prev_iii = _find_previous_index(iii, data, arr_len)
-        # check if crossed meridian
-        delta = data[prev_iii] - data[iii]
-        # 180 -> -180
-        if delta >= 200 and delta != HUGE_VAL:
-            if crossed_meridian_count == 0:
-                positive_min = min_value
-            crossed_meridian_count += 1
-            positive_meridian = False
-        # -180 -> 180
-        elif delta <= -200 and delta != HUGE_VAL:
-            if crossed_meridian_count == 0:
+        for iii in range(0, arr_len):
+            if data[iii] == HUGE_VAL:
+                continue
+            prev_iii = _find_previous_index(iii, data, arr_len)
+            # check if crossed meridian
+            delta = data[prev_iii] - data[iii]
+            # 180 -> -180
+            if delta >= 200 and delta != HUGE_VAL:
+                if crossed_meridian_count == 0:
+                    positive_min = min_value
+                crossed_meridian_count += 1
+                positive_meridian = False
+            # -180 -> 180
+            elif delta <= -200 and delta != HUGE_VAL:
+                if crossed_meridian_count == 0:
+                    positive_min = data[iii]
+                crossed_meridian_count += 1
+                positive_meridian = True
+            # positive meridian side min
+            if positive_meridian and data[iii] < positive_min:
                 positive_min = data[iii]
-            crossed_meridian_count += 1
-            positive_meridian = True
-        # positive meridian side min
-        if positive_meridian and data[iii] < positive_min:
-            positive_min = data[iii]
-        # track genral min value
-        if data[iii] < min_value:
-            min_value = data[iii]
+            # track genral min value
+            if data[iii] < min_value:
+                min_value = data[iii]
 
-    if crossed_meridian_count == 2:
-        return positive_min
-    elif crossed_meridian_count == 4:
-        # bounds extends beyond -180/180
-        return -180
-    return min_value
+        if crossed_meridian_count == 2:
+            return positive_min
+        elif crossed_meridian_count == 4:
+            # bounds extends beyond -180/180
+            return -180
+        return min_value
 
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
-cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
-    """
-    Handles the case when longitude values cross the antimeridian
-    when calculating the minumum.
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    cdef double antimeridian_max(double* data, Py_ssize_t arr_len) nogil:
+        """
+        Handles the case when longitude values cross the antimeridian
+        when calculating the minumum.
 
-    Note: The data array must be in a linear ring.
+        Note: The data array must be in a linear ring.
 
-    Note: This requires a densified ring with at least 2 additional
-          points per edge to correctly handle global extents.
+        Note: This requires a densified ring with at least 2 additional
+            points per edge to correctly handle global extents.
 
-    See antimeridian_min docstring for reasoning.
-    """
-    cdef int iii = 0
-    cdef int prev_iii = arr_len - 1
-    cdef double negative_max = -HUGE_VAL
-    cdef double max_value = -HUGE_VAL
-    cdef double delta = 0
-    cdef bint negative_meridian = False
-    cdef int crossed_meridian_count = 0
-    for iii in range(0, arr_len):
-        if data[iii] == HUGE_VAL:
-            continue
-        prev_iii = _find_previous_index(iii, data, arr_len)
-        # check if crossed meridian
-        delta = data[prev_iii] - data[iii]
-        # 180 -> -180
-        if delta >= 200 and delta != HUGE_VAL:
-            if crossed_meridian_count == 0:
+        See antimeridian_min docstring for reasoning.
+        """
+        cdef int iii = 0
+        cdef int prev_iii = arr_len - 1
+        cdef double negative_max = -HUGE_VAL
+        cdef double max_value = -HUGE_VAL
+        cdef double delta = 0
+        cdef bint negative_meridian = False
+        cdef int crossed_meridian_count = 0
+        for iii in range(0, arr_len):
+            if data[iii] == HUGE_VAL:
+                continue
+            prev_iii = _find_previous_index(iii, data, arr_len)
+            # check if crossed meridian
+            delta = data[prev_iii] - data[iii]
+            # 180 -> -180
+            if delta >= 200 and delta != HUGE_VAL:
+                if crossed_meridian_count == 0:
+                    negative_max = data[iii]
+                crossed_meridian_count += 1
+                negative_meridian = True
+            # -180 -> 180
+            elif delta <= -200 and delta != HUGE_VAL:
+                if crossed_meridian_count == 0:
+                    negative_max = max_value
+                negative_meridian = False
+                crossed_meridian_count += 1
+            # negative meridian side max
+            if (negative_meridian
+                and (data[iii] > negative_max or negative_max == HUGE_VAL)
+                and data[iii] != HUGE_VAL
+            ):
                 negative_max = data[iii]
-            crossed_meridian_count += 1
-            negative_meridian = True
-        # -180 -> 180
-        elif delta <= -200 and delta != HUGE_VAL:
-            if crossed_meridian_count == 0:
-                negative_max = max_value
-            negative_meridian = False
-            crossed_meridian_count += 1
-        # negative meridian side max
-        if (negative_meridian
-            and (data[iii] > negative_max or negative_max == HUGE_VAL)
-            and data[iii] != HUGE_VAL
-        ):
-            negative_max = data[iii]
-        # track genral max value
-        if (data[iii] > max_value or max_value == HUGE_VAL) and data[iii] != HUGE_VAL:
-            max_value = data[iii]
-    if crossed_meridian_count == 2:
-        return negative_max
-    elif crossed_meridian_count == 4:
-        # bounds extends beyond -180/180
-        return 180
-    return max_value
+            # track genral max value
+            if (data[iii] > max_value or max_value == HUGE_VAL) and data[iii] != HUGE_VAL:
+                max_value = data[iii]
+        if crossed_meridian_count == 2:
+            return negative_max
+        elif crossed_meridian_count == 4:
+            # bounds extends beyond -180/180
+            return 180
+        return max_value
 
 
-cdef bint contains_north_pole(
-    PJ* projobj,
-    PJ_DIRECTION pj_direction,
-    double left,
-    double bottom,
-    double right,
-    double top,
-    bint lon_lat_order,
-) nogil:
-    """
-    Check if the original projected bounds contains
-    the north pole.
-
-    This assumes that the destination CRS is geographic.
-    """
-    # North Pole
-    cdef double pole_y = 90
-    cdef double pole_x = 0
-    if not lon_lat_order:
-        pole_x = 90
-        pole_y = 0
-
-    cdef PJ_DIRECTION direction = PJ_INV
-    if pj_direction == PJ_INV:
-        direction = PJ_FWD
-
-    proj_trans_generic(
-        projobj,
-        direction,
-        &pole_x, _DOUBLESIZE, 1,
-        &pole_y, _DOUBLESIZE, 1,
-        NULL, _DOUBLESIZE, 0,
-        NULL, _DOUBLESIZE, 0,
-    )
-    if left < pole_x < right and top > pole_y > bottom:
-        return True
-    return False
+    cdef PJ_DIRECTION opposite_direction(PJ_DIRECTION direction) nogil:
+        if direction == PJ_FWD:
+            return PJ_INV
+        if direction == PJ_INV:
+            return PJ_FWD
+        return PJ_IDENT
 
 
-cdef bint contains_south_pole(
-    PJ* projobj,
-    PJ_DIRECTION pj_direction,
-    double left,
-    double bottom,
-    double right,
-    double top,
-    bint lon_lat_order,
-) nogil:
-    """
-    Check if the original projected bounds contains
-    the south pole.
+    cdef bint contains_north_pole(
+        PJ* projobj,
+        PJ_DIRECTION pj_direction,
+        double left,
+        double bottom,
+        double right,
+        double top,
+        bint lon_lat_order,
+    ) nogil:
+        """
+        Check if the original projected bounds contains
+        the north pole.
 
-    This assumes that the destination CRS is geographic.
-    """
-    # South Pole
-    cdef double pole_y = -90
-    cdef double pole_x = 0
-    if not lon_lat_order:
-        pole_y = 0
-        pole_x = -90
+        This assumes that the destination CRS is geographic.
+        """
+        # North Pole
+        cdef double pole_y = 90
+        cdef double pole_x = 0
+        if not lon_lat_order:
+            pole_x = 90
+            pole_y = 0
 
-    cdef PJ_DIRECTION direction = PJ_INV
-    if pj_direction == PJ_INV:
-        direction = PJ_FWD
-
-    proj_trans_generic(
-        projobj,
-        direction,
-        &pole_x, _DOUBLESIZE, 1,
-        &pole_y, _DOUBLESIZE, 1,
-        NULL, _DOUBLESIZE, 0,
-        NULL, _DOUBLESIZE, 0,
-    )
-    if left < pole_x < right and top > pole_y > bottom:
-        return True
-    return False
+        proj_trans_generic(
+            projobj,
+            opposite_direction(pj_direction),
+            &pole_x, _DOUBLESIZE, 1,
+            &pole_y, _DOUBLESIZE, 1,
+            NULL, _DOUBLESIZE, 0,
+            NULL, _DOUBLESIZE, 0,
+        )
+        if left < pole_x < right and top > pole_y > bottom:
+            return True
+        return False
 
 
-cdef bint target_crs_lon_lat_order(
-    PJ_CONTEXT* transformer_ctx,
-    PJ* transformer_pj,
-    PJ_DIRECTION pj_direction,
-) except *:
-    cdef PJ* target_crs = NULL
-    cdef PJ* coord_system_pj = NULL
-    cdef Axis first_axis = None
-    if pj_direction == PJ_FWD:
-        target_crs = proj_get_target_crs(transformer_ctx, transformer_pj)
-    elif pj_direction == PJ_INV:
-        target_crs = proj_get_source_crs(transformer_ctx, transformer_pj)
-    if target_crs == NULL:
-        raise ProjError("Unable to retrieve target CRS")
-    try:
+    cdef bint contains_south_pole(
+        PJ* projobj,
+        PJ_DIRECTION pj_direction,
+        double left,
+        double bottom,
+        double right,
+        double top,
+        bint lon_lat_order,
+    ) nogil:
+        """
+        Check if the original projected bounds contains
+        the south pole.
+
+        This assumes that the destination CRS is geographic.
+        """
+        # South Pole
+        cdef double pole_y = -90
+        cdef double pole_x = 0
+        if not lon_lat_order:
+            pole_y = 0
+            pole_x = -90
+
+        proj_trans_generic(
+            projobj,
+            opposite_direction(pj_direction),
+            &pole_x, _DOUBLESIZE, 1,
+            &pole_y, _DOUBLESIZE, 1,
+            NULL, _DOUBLESIZE, 0,
+            NULL, _DOUBLESIZE, 0,
+        )
+        if left < pole_x < right and top > pole_y > bottom:
+            return True
+        return False
+
+
+    cdef int target_crs_lon_lat_order(
+        PJ_CONTEXT* transformer_ctx,
+        PJ* transformer_pj,
+        PJ_DIRECTION pj_direction,
+    ) nogil:
+        cdef PJ* target_crs = NULL
+        cdef PJ* coord_system_pj = NULL
+        if pj_direction == PJ_FWD:
+            target_crs = proj_get_target_crs(transformer_ctx, transformer_pj)
+        elif pj_direction == PJ_INV:
+            target_crs = proj_get_source_crs(transformer_ctx, transformer_pj)
+        if target_crs == NULL:
+            return -1
         coord_system_pj = proj_crs_get_coordinate_system(
             transformer_ctx,
             target_crs,
         )
-        if coord_system_pj == NULL:
-            raise ProjError("Unable to get target CRS coordinate system.")
-        first_axis = Axis.create(transformer_ctx, coord_system_pj, 0)
-    finally:
         proj_destroy(target_crs)
-        if coord_system_pj != NULL:
-            proj_destroy(coord_system_pj)
-    ProjError.clear()
-    return first_axis.abbrev.lower() == "lon"
+        if coord_system_pj == NULL:
+            return -1
+
+        cdef const char* abbrev = NULL
+        cdef int success = proj_cs_get_axis_info(
+            transformer_ctx,
+            coord_system_pj,
+            0,
+            NULL,
+            &abbrev,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+        )
+        proj_destroy(coord_system_pj)
+        if success != 1:
+            return -1
+        with gil:
+            return abbrev.lower() == "lon"
+
+    cdef bint proj_trans_bounds(
+        PJ_CONTEXT* context,
+        PJ* projobj,
+        PJ_DIRECTION direction,
+        const double left,
+        const double bottom,
+        const double right,
+        const double top,
+        double* out_left,
+        double* out_bottom,
+        double* out_right,
+        double* out_top,
+        int densify_pts,
+    ) nogil:
+
+        if densify_pts < 0 or densify_pts > 10000:
+            with gil:
+                ProjError.internal_proj_error = "densify_pts must be between 0-10000"
+            return False
+
+        cdef bint degree_output = proj_degree_output(projobj, direction)
+        cdef bint degree_input = proj_degree_input(projobj, direction)
+        if degree_output and densify_pts < 2:
+            with gil:
+                ProjError.internal_proj_error = "densify_pts must be 2+ for degree output"
+            return False
+
+        cdef bint input_lon_lat_order = False
+        cdef bint output_lon_lat_order = False
+        cdef int in_lon_lat_order = 0
+        cdef int out_lon_lat_order = 0
+        if degree_input:
+            in_lon_lat_order = target_crs_lon_lat_order(
+                context, projobj, opposite_direction(direction),
+            )
+            if in_lon_lat_order == -1:
+                return False
+            input_lon_lat_order = in_lon_lat_order != 0
+        if degree_output:
+            out_lon_lat_order = target_crs_lon_lat_order(
+                context, projobj, direction,
+            )
+            if in_lon_lat_order == -1:
+                return False
+            output_lon_lat_order = out_lon_lat_order != 0
+
+        cdef int side_pts = densify_pts + 1  # add one because we are densifying
+        cdef Py_ssize_t boundary_len = side_pts * 4
+        cdef PySimpleArray x_boundary_array
+        cdef PySimpleArray y_boundary_array
+        with gil:
+            x_boundary_array = PySimpleArray(boundary_len)
+            y_boundary_array = PySimpleArray(boundary_len)
+        cdef double delta_x = 0
+        cdef double delta_y = 0
+        cdef int iii = 0
+        cdef bint north_pole_in_bounds = False
+        cdef bint south_pole_in_bounds = False
+        if degree_output:
+            north_pole_in_bounds = contains_north_pole(
+                projobj,
+                direction,
+                left,
+                bottom,
+                right,
+                top,
+                output_lon_lat_order,
+            )
+            south_pole_in_bounds = contains_south_pole(
+                projobj,
+                direction,
+                left,
+                bottom,
+                right,
+                top,
+                output_lon_lat_order,
+            )
+
+        if degree_input and right < left:
+            if not input_lon_lat_order:
+                with gil:
+                    ProjError.internal_proj_error = "max latitide < min latitude"
+                return False
+            # handle antimeridian
+            delta_x = (right - left + 360.0) / side_pts
+        else:
+            delta_x = (right - left) / side_pts
+        if degree_input and top < bottom:
+            if input_lon_lat_order:
+                with gil:
+                    ProjError.internal_proj_error = "max latitide < min latitude"
+                return False
+            # handle antimeridian
+            delta_y = (top - bottom + 360.0) / side_pts
+        else:
+            delta_y = (top - bottom) / side_pts
+
+        # build densified bounding box
+        # Note: must be a linear ring for antimeridian logic
+        for iii in range(side_pts):
+            # left boundary
+            y_boundary_array.data[iii] = top - iii * delta_y
+            x_boundary_array.data[iii] = left
+            # bottom boundary
+            y_boundary_array.data[iii + side_pts] = bottom
+            x_boundary_array.data[iii + side_pts] = left + iii * delta_x
+            # right boundary
+            y_boundary_array.data[iii + side_pts * 2] = bottom + iii * delta_y
+            x_boundary_array.data[iii + side_pts * 2] = right
+            # top boundary
+            y_boundary_array.data[iii + side_pts * 3] = top
+            x_boundary_array.data[iii + side_pts * 3] = right - iii * delta_x
+
+        proj_trans_generic(
+            projobj,
+            direction,
+            x_boundary_array.data, _DOUBLESIZE, x_boundary_array.len,
+            y_boundary_array.data, _DOUBLESIZE, y_boundary_array.len,
+            NULL, 0, 0,
+            NULL, 0, 0,
+        )
+
+        if not degree_output:
+            out_left[0] = simple_min(x_boundary_array.data, x_boundary_array.len)
+            out_right[0] = simple_max(x_boundary_array.data, x_boundary_array.len)
+            out_bottom[0] = simple_min(y_boundary_array.data, y_boundary_array.len)
+            out_top[0] = simple_max(y_boundary_array.data, y_boundary_array.len)
+        elif north_pole_in_bounds and output_lon_lat_order:
+            out_left[0] = -180
+            out_bottom[0] = simple_min(y_boundary_array.data, y_boundary_array.len)
+            out_right[0] = 180
+            out_top[0] = 90
+        elif north_pole_in_bounds:
+            out_left[0] = simple_min(x_boundary_array.data, x_boundary_array.len)
+            out_bottom[0] = -180
+            out_right[0] = 90
+            out_top[0] = 180
+        elif south_pole_in_bounds and output_lon_lat_order:
+            out_left[0] = -180
+            out_bottom[0] = -90
+            out_right[0] = 180
+            out_top[0] = simple_max(y_boundary_array.data, y_boundary_array.len)
+        elif south_pole_in_bounds:
+            out_left[0] = -90
+            out_right[0] = simple_max(x_boundary_array.data, x_boundary_array.len)
+            out_bottom[0] = -180
+            out_top[0] = 180
+        elif output_lon_lat_order:
+            out_left[0] = antimeridian_min(x_boundary_array.data, x_boundary_array.len)
+            out_right[0] = antimeridian_max(x_boundary_array.data, x_boundary_array.len)
+            out_bottom[0] = simple_min(y_boundary_array.data, y_boundary_array.len)
+            out_top[0] = simple_max(y_boundary_array.data, y_boundary_array.len)
+        else:
+            out_left[0] = simple_min(x_boundary_array.data, x_boundary_array.len)
+            out_right[0] = simple_max(x_boundary_array.data, x_boundary_array.len)
+            out_bottom[0] = antimeridian_min(y_boundary_array.data, y_boundary_array.len)
+            out_top[0] = antimeridian_max(y_boundary_array.data, y_boundary_array.len)
+        return True
 
 
 cdef class _Transformer(Base):
@@ -1048,49 +1235,14 @@ cdef class _Transformer(Base):
         if self.id == "noop" or pj_direction == PJ_IDENT:
             return (left, bottom, right, top)
 
-        if densify_pts < 0:
-            raise ProjError("densify_pts must be positive")
+        cdef int errno = 0
+        cdef bint success = True
+        cdef double out_left = left
+        cdef double out_bottom = bottom
+        cdef double out_right = right
+        cdef double out_top = top
 
-        cdef bint degree_output = proj_degree_output(self.projobj, pj_direction)
-        cdef bint degree_input = proj_degree_input(self.projobj, pj_direction)
-        if degree_output and densify_pts < 2:
-            raise ProjError("densify_pts must be 2+ for degree output")
-
-        cdef bint output_lon_lat_order = False
-        if degree_output:
-            output_lon_lat_order = target_crs_lon_lat_order(
-                self.context, self.projobj, pj_direction,
-            )
-        cdef int side_pts = densify_pts + 1  # add one because we are densifying
-        cdef Py_ssize_t boundary_len = side_pts * 4
-        cdef PySimpleArray x_boundary_array = PySimpleArray(boundary_len)
-        cdef PySimpleArray y_boundary_array = PySimpleArray(boundary_len)
-        cdef double delta_x = 0
-        cdef double delta_y = 0
-        cdef int iii = 0
-        cdef bint north_pole_in_bounds = False
-        cdef bint south_pole_in_bounds = False
         with nogil:
-            if degree_output:
-                north_pole_in_bounds = contains_north_pole(
-                    self.projobj,
-                    pj_direction,
-                    left,
-                    bottom,
-                    right,
-                    top,
-                    output_lon_lat_order,
-                )
-                south_pole_in_bounds = contains_south_pole(
-                    self.projobj,
-                    pj_direction,
-                    left,
-                    bottom,
-                    right,
-                    top,
-                    output_lon_lat_order,
-                )
-
             # degrees to radians
             if not radians and proj_angular_input(self.projobj, pj_direction):
                 left *= _DG2RAD
@@ -1098,114 +1250,56 @@ cdef class _Transformer(Base):
                 right *= _DG2RAD
                 top *= _DG2RAD
             # radians to degrees
-            elif radians and degree_input:
+            elif radians and proj_degree_input(self.projobj, pj_direction):
                 left *= _RAD2DG
                 bottom *= _RAD2DG
                 right *= _RAD2DG
                 top *= _RAD2DG
-
-            if degree_input and right < left:
-                # handle antimeridian
-                delta_x = (right - left + 360.0) / side_pts
-            else:
-                delta_x = (right - left) / side_pts
-            if degree_input and top < bottom:
-                # handle antimeridian
-                # depending on the axis order, longitude has the potential
-                # to be on the y axis. It shouldn't reach here if it is latitude.
-                delta_y = (top - bottom + 360.0) / side_pts
-            else:
-                delta_y = (top - bottom) / side_pts
-
-            # build densified bounding box
-            # Note: must be a linear ring for antimeridian logic
-            for iii in range(side_pts):
-                # left boundary
-                y_boundary_array.data[iii] = top - iii * delta_y
-                x_boundary_array.data[iii] = left
-                # bottom boundary
-                y_boundary_array.data[iii + side_pts] = bottom
-                x_boundary_array.data[iii + side_pts] = left + iii * delta_x
-                # right boundary
-                y_boundary_array.data[iii + side_pts * 2] = bottom + iii * delta_y
-                x_boundary_array.data[iii + side_pts * 2] = right
-                # top boundary
-                y_boundary_array.data[iii + side_pts * 3] = top
-                x_boundary_array.data[iii + side_pts * 3] = right - iii * delta_x
 
             proj_errno_reset(self.projobj)
-            proj_trans_generic(
+            success = proj_trans_bounds(
+                self.context,
                 self.projobj,
                 pj_direction,
-                x_boundary_array.data, _DOUBLESIZE, x_boundary_array.len,
-                y_boundary_array.data, _DOUBLESIZE, y_boundary_array.len,
-                NULL, 0, 0,
-                NULL, 0, 0,
+                left,
+                bottom,
+                right,
+                top,
+                &out_left,
+                &out_bottom,
+                &out_right,
+                &out_top,
+                densify_pts,
             )
-            errno = proj_errno(self.projobj)
-            if errcheck and errno:
-                with gil:
-                    raise ProjError(
-                        f"itransform error: {pyproj_errno_string(self.context, errno)}"
-                    )
-            elif errcheck:
-                with gil:
-                    if ProjError.internal_proj_error is not None:
-                        raise ProjError("itransform error")
 
-            if degree_output and (north_pole_in_bounds or south_pole_in_bounds):
-                # only works with lon/lat axis order
-                # need a way to test axis order to support both
-                if north_pole_in_bounds and output_lon_lat_order:
-                    left = -180
-                    bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
-                    right = 180
-                    top = 90
-                elif north_pole_in_bounds:
-                    left = simple_min(x_boundary_array.data, x_boundary_array.len)
-                    bottom = -180
-                    right = 90
-                    top = 180
-                elif south_pole_in_bounds and output_lon_lat_order:
-                    left = -180
-                    bottom = -90
-                    right = 180
-                    top = simple_max(y_boundary_array.data, y_boundary_array.len)
+            if not success or errcheck:
+                errno = proj_errno(self.projobj)
+                if errno:
+                    with gil:
+                        raise ProjError(
+                            "transform bounds error: "
+                            f"{pyproj_errno_string(self.context, errno)}"
+                        )
                 else:
-                    left = -90
-                    right = simple_max(x_boundary_array.data, x_boundary_array.len)
-                    bottom = -180
-                    top = 180
-            elif degree_output and output_lon_lat_order:
-                left = antimeridian_min(x_boundary_array.data, x_boundary_array.len)
-                right = antimeridian_max(x_boundary_array.data, x_boundary_array.len)
-                bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
-                top = simple_max(y_boundary_array.data, y_boundary_array.len)
-            elif degree_output:
-                left = simple_min(x_boundary_array.data, x_boundary_array.len)
-                right = simple_max(x_boundary_array.data, x_boundary_array.len)
-                bottom = antimeridian_min(y_boundary_array.data, y_boundary_array.len)
-                top = antimeridian_max(y_boundary_array.data, y_boundary_array.len)
-            else:
-                left = simple_min(x_boundary_array.data, x_boundary_array.len)
-                right = simple_max(x_boundary_array.data, x_boundary_array.len)
-                bottom = simple_min(y_boundary_array.data, y_boundary_array.len)
-                top = simple_max(y_boundary_array.data, y_boundary_array.len)
+                    with gil:
+                        if ProjError.internal_proj_error is not None:
+                            raise ProjError("transform bounds error")
+
             # radians to degrees
             if not radians and proj_angular_output(self.projobj, pj_direction):
-                left *= _RAD2DG
-                bottom *= _RAD2DG
-                right *= _RAD2DG
-                top *= _RAD2DG
+                out_left *= _RAD2DG
+                out_bottom *= _RAD2DG
+                out_right *= _RAD2DG
+                out_top *= _RAD2DG
             # degrees to radians
-            elif radians and degree_output:
-                left *= _DG2RAD
-                bottom *= _DG2RAD
-                right *= _DG2RAD
-                top *= _DG2RAD
+            elif radians and proj_degree_output(self.projobj, pj_direction):
+                out_left *= _DG2RAD
+                out_bottom *= _DG2RAD
+                out_right *= _DG2RAD
+                out_top *= _DG2RAD
 
         ProjError.clear()
-        return left, bottom, right, top
+        return out_left, out_bottom, out_right, out_top
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
