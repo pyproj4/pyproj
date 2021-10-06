@@ -301,7 +301,7 @@ cdef PJ* proj_create_crs_to_crs(
     return transform
 
 
-IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (8, 1):
+IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (8, 2):
     cdef extern from "proj.h":
         int proj_trans_bounds(
             PJ_CONTEXT* context,
