@@ -143,7 +143,7 @@ cdef extern from "proj.h":
         PJ_COMP_EQUIVALENT
         PJ_COMP_EQUIVALENT_EXCEPT_AXIS_ORDER_GEOGCRS
 
-    void proj_destroy(PJ *obj)
+    void proj_destroy(PJ *obj) nogil
     int proj_is_equivalent_to_with_ctx(PJ_CONTEXT *ctx,
                                        const PJ *obj, const PJ *other,
                                        PJ_COMPARISON_CRITERION criterion)
@@ -243,7 +243,7 @@ cdef extern from "proj.h":
         PJ_CS_TYPE_TEMPORALCOUNT
         PJ_CS_TYPE_TEMPORALMEASURE
 
-    PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs)
+    PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs) nogil
     PJ_COORDINATE_SYSTEM_TYPE proj_cs_get_type(PJ_CONTEXT *ctx,
                                                const PJ *cs)
     int proj_cs_get_axis_count(PJ_CONTEXT *ctx,
@@ -256,7 +256,7 @@ cdef extern from "proj.h":
                               double *out_unit_conv_factor,
                               const char **out_unit_name,
                               const char **out_unit_auth_name,
-                              const char **out_unit_code)
+                              const char **out_unit_code) nogil
 
     PJ *proj_get_ellipsoid(PJ_CONTEXT *ctx, const PJ *obj)
     int proj_ellipsoid_get_parameters(PJ_CONTEXT *ctx,
@@ -272,8 +272,8 @@ cdef extern from "proj.h":
                                            double *out_unit_conv_factor,
                                            const char **out_unit_name)
     PJ *proj_crs_get_sub_crs(PJ_CONTEXT *ctx, const PJ *crs, int index)
-    PJ *proj_get_source_crs(PJ_CONTEXT *ctx, const PJ *obj)
-    PJ *proj_get_target_crs(PJ_CONTEXT *ctx, const PJ *obj)
+    PJ *proj_get_source_crs(PJ_CONTEXT *ctx, const PJ *obj) nogil
+    PJ *proj_get_target_crs(PJ_CONTEXT *ctx, const PJ *obj) nogil
 
     ctypedef struct PJ_OBJ_LIST
     PJ_OBJ_LIST *proj_identify(PJ_CONTEXT *ctx,
