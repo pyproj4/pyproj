@@ -146,6 +146,7 @@
         <span class="c1"># Deadlock avoidance for concurrent circular imports.</span>
         <span class="n">me</span> <span class="o">=</span> <span class="n">_thread</span><span class="o">.</span><span class="n">get_ident</span><span class="p">()</span>
         <span class="n">tid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">lock</span> <span class="o">=</span> <span class="n">_blocking_on</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tid</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">lock</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -153,6 +154,14 @@
             <span class="n">tid</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="n">owner</span>
             <span class="k">if</span> <span class="n">tid</span> <span class="o">==</span> <span class="n">me</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">tid</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="c1"># bpo 38091: the chain of tid&#39;s we encounter here</span>
+                <span class="c1"># eventually leads to a fixpoint or a cycle, but</span>
+                <span class="c1"># does not reach &#39;me&#39;.  This means we would not</span>
+                <span class="c1"># actually deadlock.  This can happen if other</span>
+                <span class="c1"># threads are at the beginning of acquire() below.</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tid</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -450,7 +459,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">cached</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cached</span> <span class="ow">and</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">has_location</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">has_location</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -792,6 +801,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">_ORIGIN</span> <span class="o">=</span> <span class="s2">&quot;built-in&quot;</span>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">module_repr</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return repr for the module.</span>
@@ -799,14 +810,14 @@
 <span class="sd">        The method is deprecated.  The import machinery does the job itself.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s1">&#39;&lt;module </span><span class="si">{!r}</span><span class="s1"> (built-in)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;module </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s1"> (</span><span class="si">{</span><span class="n">BuiltinImporter</span><span class="o">.</span><span class="n">_ORIGIN</span><span class="si">}</span><span class="s1">)&gt;&#39;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">find_spec</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">_imp</span><span class="o">.</span><span class="n">is_builtin</span><span class="p">(</span><span class="n">fullname</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">spec_from_loader</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;built-in&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">spec_from_loader</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_ORIGIN</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
@@ -952,7 +963,7 @@
     <span class="sd">&quot;&quot;&quot;Resolve a relative module name to an absolute one.&quot;&quot;&quot;</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">level</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;attempted relative import beyond top-level package&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;attempted relative import beyond top-level package&#39;</span><span class="p">)</span>
     <span class="n">base</span> <span class="o">=</span> <span class="n">bits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="n">base</span>
 
@@ -1055,7 +1066,12 @@
     <span class="k">if</span> <span class="n">parent</span><span class="p">:</span>
         <span class="c1"># Set the module as an attribute on its parent.</span>
         <span class="n">parent_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="n">parent_module</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">module</span><span class="p">)</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">parent_module</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Cannot set an attribute on </span><span class="si">{</span><span class="n">parent</span><span class="si">!r}</span><span class="s2"> for child module </span><span class="si">{</span><span class="n">child</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="n">_warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">module</span>
 
 
