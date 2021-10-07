@@ -18,7 +18,7 @@ from pyproj.datadir import (
 )
 from pyproj.enums import PJType
 from pyproj.exceptions import CRSError
-from test.conftest import PROJ_GTE_8, proj_env
+from test.conftest import proj_env
 
 
 @contextmanager
@@ -237,10 +237,7 @@ def test_proj_debug_logging(capsys):
             assert "PROJ_TRACE" not in captured.err
             assert "PROJ_DEBUG" in captured.err
         else:
-            if PROJ_GTE_8:
-                assert "PROJ_ERROR" in captured.err
-            else:
-                assert captured.err == ""
+            assert "PROJ_ERROR" in captured.err
 
 
 def test_proj_debug_logging__error(capsys):

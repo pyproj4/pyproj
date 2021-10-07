@@ -1,27 +1,5 @@
 # PROJ API Definition
 
-IF CTE_PROJ_VERSION_MAJOR >= 8:
-    cdef extern from "proj.h":
-        const char * proj_context_errno_string(PJ_CONTEXT* ctx, int err)
-        ctypedef enum PJ_CATEGORY:
-            PJ_CATEGORY_ELLIPSOID
-            PJ_CATEGORY_PRIME_MERIDIAN
-            PJ_CATEGORY_DATUM
-            PJ_CATEGORY_CRS
-            PJ_CATEGORY_COORDINATE_OPERATION
-            PJ_CATEGORY_DATUM_ENSEMBLE
-ELSE:
-    cdef extern from "proj.h":
-        const char * proj_errno_string(int err)
-        ctypedef enum PJ_CATEGORY:
-            PJ_CATEGORY_ELLIPSOID
-            PJ_CATEGORY_PRIME_MERIDIAN
-            PJ_CATEGORY_DATUM
-            PJ_CATEGORY_CRS
-            PJ_CATEGORY_COORDINATE_OPERATION
-    cdef int PJ_CATEGORY_DATUM_ENSEMBLE = PJ_CATEGORY_DATUM
-
-
 cdef extern from "proj.h":
     cdef int PROJ_VERSION_MAJOR
     cdef int PROJ_VERSION_MINOR
@@ -34,8 +12,6 @@ cdef extern from "proj.h":
                                        const char* const *options)
     void proj_context_set_ca_bundle_path(PJ_CONTEXT *ctx, const char *path);
 
-    # projCtx has been replaced by PJ_CONTEXT *.
-    # projPJ  has been replaced by PJ *
     ctypedef struct PJ
     ctypedef struct PJ_CONTEXT
     PJ_CONTEXT *proj_context_create ()
@@ -52,7 +28,7 @@ cdef extern from "proj.h":
     void proj_log_func (PJ_CONTEXT *ctx, void *app_data, PJ_LOG_FUNCTION logf)
 
     int proj_errno (const PJ *P) nogil
-    int proj_context_errno (PJ_CONTEXT *ctx)
+    const char * proj_context_errno_string(PJ_CONTEXT* ctx, int err)
     int  proj_errno_reset (const PJ *P) nogil
     PJ *proj_create (PJ_CONTEXT *ctx, const char *definition)
     PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj)
@@ -424,6 +400,13 @@ cdef extern from "proj.h":
     PJ *proj_concatoperation_get_step(PJ_CONTEXT *ctx,
                                       const PJ *concatoperation,
                                       int i_step)
+    ctypedef enum PJ_CATEGORY:
+        PJ_CATEGORY_ELLIPSOID
+        PJ_CATEGORY_PRIME_MERIDIAN
+        PJ_CATEGORY_DATUM
+        PJ_CATEGORY_CRS
+        PJ_CATEGORY_COORDINATE_OPERATION
+        PJ_CATEGORY_DATUM_ENSEMBLE
     PJ *proj_create_from_database(PJ_CONTEXT *ctx,
                                   const char *auth_name,
                                   const char *code,

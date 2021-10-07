@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 from pkg_resources import parse_version
 from setuptools import Extension, setup
 
-PROJ_MIN_VERSION = parse_version("7.2.0")
+PROJ_MIN_VERSION = parse_version("8.0.0")
 CURRENT_FILE_PATH = Path(__file__).absolute().parent
 BASE_INTERNAL_PROJ_DIR = Path("proj_dir")
 INTERNAL_PROJ_DIR = CURRENT_FILE_PATH / "pyproj" / BASE_INTERNAL_PROJ_DIR
