@@ -510,14 +510,13 @@ class Transformer:
             to “any”, then coordinate operations from any authority will be
             searched. If authority is a non-empty string different from "any",
             then coordinate operations will be searched only in that authority
-            namespace (e.g. EPSG). Requires PROJ 8+.
+            namespace (e.g. EPSG).
         accuracy: float, optional
             The minimum desired accuracy (in metres) of the candidate
-            coordinate operations. Requires PROJ 8+.
+            coordinate operations.
         allow_ballpark: bool, optional
             Set to False to disallow the use of Ballpark transformation
             in the candidate coordinate operations. Default is to allow.
-            Requires PROJ 8+.
 
         Returns
         -------

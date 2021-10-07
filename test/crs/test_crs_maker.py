@@ -23,7 +23,7 @@ from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal3DCS, Vertica
 from pyproj.crs.datum import CustomDatum
 from pyproj.crs.enums import VerticalCSAxis
 from pyproj.exceptions import CRSError
-from test.conftest import HAYFORD_ELLIPSOID_NAME, assert_can_pickle
+from test.conftest import assert_can_pickle
 
 
 def assert_maker_inheritance_valid(new_crs, class_type):
@@ -284,7 +284,9 @@ def test_bound_crs__example():
             false_northing=0,
             scale_factor_natural_origin=0.9996,
         ),
-        geodetic_crs=GeographicCRS(datum=CustomDatum(ellipsoid=HAYFORD_ELLIPSOID_NAME)),
+        geodetic_crs=GeographicCRS(
+            datum=CustomDatum(ellipsoid="International 1924 (Hayford 1909, 1910)")
+        ),
     )
     bound_crs = BoundCRS(
         source_crs=proj_crs,

@@ -30,14 +30,6 @@ proj_version_str = f"{PROJ_VERSION_MAJOR}.{PROJ_VERSION_MINOR}.{PROJ_VERSION_PAT
 _AUTH_CODE_RE = re.compile(r"(?P<authority>\w+)\:(?P<code>\w+)")
 
 
-cdef str pyproj_errno_string(PJ_CONTEXT* ctx, int err):
-    # https://github.com/pyproj4/pyproj/issues/760
-    IF CTE_PROJ_VERSION_MAJOR >= 8:
-        return proj_context_errno_string(ctx, err)
-    ELSE:
-        return proj_errno_string(err)
-
-
 cdef dict _PJ_DIRECTION_MAP = {
     TransformDirection.FORWARD: PJ_FWD,
     TransformDirection.INVERSE: PJ_INV,
@@ -272,20 +264,14 @@ cdef PJ* proj_create_crs_to_crs(
     options[2] = NULL
     options[3] = NULL
     if authority is not None:
-        if PROJ_VERSION_MAJOR < 8:
-            warnings.warn("authority requires PROJ 8+")
         b_authority = cstrencode(f"AUTHORITY={authority}")
         options[options_index] = b_authority
         options_index += 1
     if accuracy is not None:
-        if PROJ_VERSION_MAJOR < 8:
-            warnings.warn("accuracy requires PROJ 8+")
         b_accuracy = cstrencode(f"ACCURACY={accuracy}")
         options[options_index] = b_accuracy
         options_index += 1
     if allow_ballpark is not None:
-        if PROJ_VERSION_MAJOR < 8:
-            warnings.warn("allow_ballpark requires PROJ 8+")
         if not allow_ballpark:
             options[options_index] = b"ALLOW_BALLPARK=NO"
 
@@ -1099,7 +1085,7 @@ cdef class _Transformer(Base):
             if errcheck and errno:
                 with gil:
                     raise ProjError(
-                        f"transform error: {pyproj_errno_string(self.context, errno)}"
+                        f"transform error: {proj_context_errno_string(self.context, errno)}"
                     )
             elif errcheck:
                 with gil:
@@ -1194,7 +1180,7 @@ cdef class _Transformer(Base):
             if errcheck and errno:
                 with gil:
                     raise ProjError(
-                        f"itransform error: {pyproj_errno_string(self.context, errno)}"
+                        f"itransform error: {proj_context_errno_string(self.context, errno)}"
                     )
             elif errcheck:
                 with gil:
@@ -1278,7 +1264,7 @@ cdef class _Transformer(Base):
                     with gil:
                         raise ProjError(
                             "transform bounds error: "
-                            f"{pyproj_errno_string(self.context, errno)}"
+                            f"{proj_context_errno_string(self.context, errno)}"
                         )
                 else:
                     with gil:
@@ -1379,7 +1365,7 @@ cdef class _Transformer(Base):
                 if errcheck and errno:
                     with gil:
                         raise ProjError(
-                            f"proj error: {pyproj_errno_string(self.context, errno)}"
+                            f"proj error: {proj_context_errno_string(self.context, errno)}"
                         )
 
                 if errno or invalid_coord:

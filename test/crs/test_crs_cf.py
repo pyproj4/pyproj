@@ -18,11 +18,7 @@ from pyproj.crs.coordinate_operation import (
     VerticalPerspectiveConversion,
 )
 from pyproj.exceptions import CRSError
-from test.conftest import (
-    HAYFORD_ELLIPSOID_NAME,
-    PROJ_LOOSE_VERSION,
-    get_wgs84_datum_name,
-)
+from test.conftest import PROJ_LOOSE_VERSION
 
 
 def _to_dict(operation):
@@ -89,11 +85,11 @@ def test_to_cf_transverse_mercator():
         "semi_major_axis": 6378388.0,
         "semi_minor_axis": crs.ellipsoid.semi_minor_metre,
         "inverse_flattening": 297.0,
-        "reference_ellipsoid_name": HAYFORD_ELLIPSOID_NAME,
+        "reference_ellipsoid_name": "International 1924 (Hayford 1909, 1910)",
         "longitude_of_prime_meridian": 0.0,
         "prime_meridian_name": "Greenwich",
         "horizontal_datum_name": (
-            f"Unknown based on {HAYFORD_ELLIPSOID_NAME} ellipsoid"
+            "Unknown based on International 1924 (Hayford 1909, 1910) ellipsoid"
         ),
         "towgs84": towgs84_test,
         "grid_mapping_name": "transverse_mercator",
@@ -165,7 +161,7 @@ def test_from_cf_transverse_mercator(towgs84_test):
         "semi_major_axis": 6378388.0,
         "semi_minor_axis": crs.ellipsoid.semi_minor_metre,
         "inverse_flattening": 297.0,
-        "reference_ellipsoid_name": HAYFORD_ELLIPSOID_NAME,
+        "reference_ellipsoid_name": "International 1924 (Hayford 1909, 1910)",
         "longitude_of_prime_meridian": 0.0,
         "prime_meridian_name": "Greenwich",
         "grid_mapping_name": "transverse_mercator",
@@ -271,7 +267,7 @@ def test_cf_from_utm():
         "longitude_of_prime_meridian": 0.0,
         "prime_meridian_name": "Greenwich",
         "geographic_crs_name": "WGS 84",
-        "horizontal_datum_name": get_wgs84_datum_name(),
+        "horizontal_datum_name": "World Geodetic System 1984 ensemble",
         "projected_crs_name": "WGS 84 / UTM zone 15N",
         "grid_mapping_name": "transverse_mercator",
         "latitude_of_projection_origin": 0.0,

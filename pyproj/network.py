@@ -19,9 +19,9 @@ def set_ca_bundle_path(ca_bundle_path: Union[Path, str, bool, None] = None) -> N
     .. versionadded:: 3.0.0
 
     Sets the path to the CA Bundle used by the `curl`
-    built into PROJ when PROJ network is enabled..
+    built into PROJ when PROJ network is enabled.
 
-    Environment variables that can be used with PROJ 7.2+:
+    Environment variables:
 
     - PROJ_CURL_CA_BUNDLE
     - CURL_CA_BUNDLE

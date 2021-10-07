@@ -18,7 +18,6 @@ from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import (
-    PROJ_GTE_8,
     PROJ_GTE_81,
     RGF93toWSG84,
     grids_available,
@@ -53,7 +52,7 @@ def test_transform_wgs84_to_alaska():
         assert f"{xx:.3f} {yy:.3f}" == "-1825155.697 330730.391"
 
 
-@pytest.mark.skipif(PROJ_GTE_8, reason="https://github.com/OSGeo/PROJ/issues/2425")
+@pytest.mark.skip(reason="https://github.com/OSGeo/PROJ/issues/2425")
 def test_illegal_transformation():
     # issue 202
     with pytest.warns(FutureWarning):
@@ -459,12 +458,10 @@ def test_str():
 
 if PROJ_GTE_81:
     _BOUND_REPR = "(-16.1, 32.88, 40.18, 84.73)"
-elif PROJ_GTE_8:
+else:
     _BOUND_REPR = (
         "(-16.096100515106, 32.884955146013, 40.178745269776, 84.722623821813)"
     )
-else:
-    _BOUND_REPR = "(-16.1, 32.88, 40.18, 84.17)"
 
 
 @pytest.mark.parametrize(
@@ -1120,19 +1117,11 @@ def test_transformer_multithread__crs():
             pass
 
 
-@pytest.mark.skipif(not PROJ_GTE_8, reason="Requires PROJ 8+")
 def test_transformer_accuracy_filter():
     with pytest.raises(ProjError):
         Transformer.from_crs("EPSG:4326", "EPSG:4258", accuracy=0.05)
 
 
-@pytest.mark.skipif(PROJ_GTE_8, reason="Warning for PROJ<8")
-def test_transformer_accuracy_filter_warning():
-    with pytest.warns(UserWarning, match="accuracy requires PROJ 8+"):
-        Transformer.from_crs("EPSG:4326", "EPSG:4258", accuracy=0.05)
-
-
-@pytest.mark.skipif(not PROJ_GTE_8, reason="Requires PROJ 8+")
 def test_transformer_allow_ballpark_filter():
     with pytest.raises(ProjError):
         Transformer.from_crs(
@@ -1140,22 +1129,9 @@ def test_transformer_allow_ballpark_filter():
         )
 
 
-@pytest.mark.skipif(PROJ_GTE_8, reason="Warning for PROJ<8")
-def test_transformer_allow_ballpark_filter_warning():
-    with pytest.warns(UserWarning, match="allow_ballpark requires PROJ 8+"):
-        Transformer.from_crs("EPSG:4326", "EPSG:4258", allow_ballpark=False)
-
-
-@pytest.mark.skipif(not PROJ_GTE_8, reason="Requires PROJ 8+")
 def test_transformer_authority_filter():
     transformer = Transformer.from_crs("EPSG:4326", "EPSG:4258", authority="PROJ")
     assert transformer.description == "Ballpark geographic offset from WGS 84 to ETRS89"
-
-
-@pytest.mark.skipif(PROJ_GTE_8, reason="Warning for PROJ<8")
-def test_transformer_authority_filter_warning():
-    with pytest.warns(UserWarning, match="authority requires PROJ 8+"):
-        Transformer.from_crs("EPSG:4326", "EPSG:4258", authority="PROJ")
 
 
 @pytest.mark.parametrize(

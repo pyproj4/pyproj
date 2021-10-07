@@ -10,16 +10,9 @@ from pyproj.datadir import get_data_dir, get_user_data_dir, set_data_dir
 
 _NETWORK_ENABLED = pyproj.network.is_network_enabled()
 PROJ_LOOSE_VERSION = version.parse(pyproj.__proj_version__)
-PROJ_GTE_8 = PROJ_LOOSE_VERSION >= version.parse("8.0")
 PROJ_GTE_81 = PROJ_LOOSE_VERSION >= version.parse("8.1")
 PROJ_GTE_82 = PROJ_LOOSE_VERSION >= version.parse("8.2")
 RGF93toWSG84 = "RGF93 v1 to WGS 84 (1)" if PROJ_GTE_82 else "RGF93 to WGS 84 (1)"
-
-if PROJ_GTE_8:
-    # https://github.com/OSGeo/PROJ/pull/2536
-    HAYFORD_ELLIPSOID_NAME = "International 1924 (Hayford 1909, 1910)"
-else:
-    HAYFORD_ELLIPSOID_NAME = "International 1909 (Hayford)"
 
 
 def unset_data_dir():
@@ -84,12 +77,6 @@ def grids_available(*grid_names, check_network=True, check_all=False):
     if check_all:
         return all(available)
     return any(available)
-
-
-def get_wgs84_datum_name():
-    if PROJ_GTE_8:
-        return "World Geodetic System 1984 ensemble"
-    return "World Geodetic System 1984"
 
 
 def assert_can_pickle(raw_obj, tmp_path):

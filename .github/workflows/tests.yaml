@@ -39,11 +39,11 @@ jobs:
           - os: ubuntu-latest
             python-version: 3.8
             python-implementation: python
-            proj-version: 7.2
+            proj-version: 8.0
           - os: ubuntu-latest
             python-version: 3.8
             python-implementation: python
-            proj-version: 8.0
+            proj-version: 8.1
           - os: ubuntu-latest
             python-version: '*'
             python-implementation: pypy
