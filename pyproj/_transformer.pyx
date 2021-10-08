@@ -11,7 +11,6 @@ from collections import namedtuple
 from pyproj._compat cimport cstrencode
 from pyproj._crs cimport (
     _CRS,
-    Axis,
     Base,
     CoordinateOperation,
     _get_concatenated_operations,
