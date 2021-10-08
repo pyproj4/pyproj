@@ -631,6 +631,38 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 </dd></dl>
 
 <dl class="py method">
+<dt id="pyproj.Proj.source_crs">
+<em class="property">property </em><code class="sig-name descname">source_crs</code><a class="headerlink" href="#pyproj.Proj.source_crs" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The source CRS of a CoordinateOperation.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Optional[<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyproj.Proj.target_crs">
+<em class="property">property </em><code class="sig-name descname">target_crs</code><a class="headerlink" href="#pyproj.Proj.target_crs" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The target CRS of a CoordinateOperation.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Optional[<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pyproj.Proj.to_json">
 <code class="sig-name descname">to_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pretty</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indentation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pyproj.Proj.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the projection to a JSON string.</p>
