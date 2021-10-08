@@ -69,8 +69,8 @@ def is_proj(str proj_string not None):
 cdef _to_wkt(
     PJ_CONTEXT* context,
     PJ* projobj,
-    object version=WktVersion.WKT2_2019,
-    bint pretty=False
+    object version,
+    bint pretty,
 ):
     """
     Convert a PJ object to a wkt string.
@@ -2557,12 +2557,10 @@ cdef class _CRS(Base):
     @property
     def source_crs(self):
         """
-        The base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
-        or the source CRS of a CoordinateOperation.
-
         Returns
         -------
-        _CRS
+        _CRS:
+            The base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS.
         """
         if self._source_crs is not None:
             return None if self._source_crs is False else self._source_crs
@@ -2572,7 +2570,12 @@ cdef class _CRS(Base):
             self._source_crs = False
             return None
         try:
-            self._source_crs = _CRS(_to_wkt(self.context, projobj))
+            self._source_crs = _CRS(_to_wkt(
+                self.context,
+                projobj,
+                version=WktVersion.WKT2_2019,
+                pretty=False,
+            ))
         finally:
             proj_destroy(projobj)
         return self._source_crs
@@ -2585,7 +2588,7 @@ cdef class _CRS(Base):
         Returns
         -------
         _CRS:
-            The hub CRS of a BoundCRS or the target CRS of a CoordinateOperation.
+            The hub CRS of a BoundCRS.
         """
         if self._target_crs is not None:
             return None if self._target_crs is False else self._target_crs
@@ -2595,7 +2598,12 @@ cdef class _CRS(Base):
             self._target_crs = False
             return None
         try:
-            self._target_crs = _CRS(_to_wkt(self.context, projobj))
+            self._target_crs = _CRS(_to_wkt(
+                self.context,
+                projobj,
+                version=WktVersion.WKT2_2019,
+                pretty=False,
+            ))
         finally:
             proj_destroy(projobj)
         return self._target_crs
@@ -2624,7 +2632,12 @@ cdef class _CRS(Base):
         self._sub_crs_list = []
         while projobj != NULL:
             try:
-                self._sub_crs_list.append(_CRS(_to_wkt(self.context, projobj)))
+                self._sub_crs_list.append(_CRS(_to_wkt(
+                    self.context,
+                    projobj,
+                    version=WktVersion.WKT2_2019,
+                    pretty=False,
+                )))
             finally:
                 proj_destroy(projobj)  # deallocate temp proj
             iii += 1
@@ -2655,7 +2668,12 @@ cdef class _CRS(Base):
             self._geodetic_crs = False
             return None
         try:
-            self._geodetic_crs = _CRS(_to_wkt(self.context, projobj))
+            self._geodetic_crs = _CRS(_to_wkt(
+                self.context,
+                projobj,
+                version=WktVersion.WKT2_2019,
+                pretty=False,
+            ))
         finally:
             proj_destroy(projobj)  # deallocate temp proj
         return self._geodetic_crs
@@ -2905,7 +2923,12 @@ cdef class _CRS(Base):
         if projobj == NULL:
             return self
         try:
-            crs_3d = _CRS(_to_wkt(self.context, projobj))
+            crs_3d = _CRS(_to_wkt(
+                self.context,
+                projobj,
+                version=WktVersion.WKT2_2019,
+                pretty=False,
+            ))
         finally:
             proj_destroy(projobj)
         return crs_3d

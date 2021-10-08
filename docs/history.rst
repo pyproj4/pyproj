@@ -6,8 +6,9 @@ Latest
 - DEP: Minimum supported Python version 3.8 (issue #930)
 - DEP: Minimum PROJ version 8.0 (issue #940)
 - BUG: Prepend "Derived" to CRS type name if CRS is derived (issue #932)
-- BUG: Improved handling of inf values in :attr:`pyproj.transformer.Transformer.transform_bounds` (pull #961)
-- ENH: Add support for transforming bounds at the poles in :attr:`pyproj.transformer.Transformer.transform_bounds` (pull #962)
+- BUG: Improved handling of inf values in :meth:`pyproj.transformer.Transformer.transform_bounds` (pull #961)
+- ENH: Add support for transforming bounds at the poles in :meth:`pyproj.transformer.Transformer.transform_bounds` (pull #962)
+- ENH: Added :attr:`pyproj.transformer.Transformer.source_crs` & :attr:`pyproj.transformer.Transformer.target_crs` (pull #976)
 
 3.2.1
 ------

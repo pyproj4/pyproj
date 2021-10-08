@@ -1,5 +1,9 @@
 include "proj.pxi"
 
+
+from pyproj.enums import WktVersion
+
+
 cdef extern from "proj_experimental.h":
     PJ *proj_crs_promote_to_3D(PJ_CONTEXT *ctx,
                                const char* crs_3D_name,
@@ -8,6 +12,12 @@ cdef extern from "proj_experimental.h":
 
 cdef tuple _get_concatenated_operations(PJ_CONTEXT*context, PJ*concatenated_operation)
 cdef _to_proj4(
+    PJ_CONTEXT* context,
+    PJ* projobj,
+    object version,
+    bint pretty,
+)
+cdef _to_wkt(
     PJ_CONTEXT* context,
     PJ* projobj,
     object version,
