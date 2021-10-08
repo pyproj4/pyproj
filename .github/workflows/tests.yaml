@@ -44,10 +44,11 @@ jobs:
             python-version: 3.8
             python-implementation: python
             proj-version: 8.1
-          - os: ubuntu-latest
-            python-version: '*'
-            python-implementation: pypy
-            proj-version: '*'
+          # disabled until pypy has 3.8+ version
+          # - os: ubuntu-latest
+          #   python-version: '*'
+          #   python-implementation: pypy
+          #   proj-version: '*'
     steps:
       - uses: actions/checkout@v2
 
