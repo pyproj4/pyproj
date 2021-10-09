@@ -5,6 +5,7 @@ from pyproj._crs import _CRS, AreaOfUse, Base, CoordinateOperation
 from pyproj.enums import ProjVersion, TransformDirection
 
 proj_version_str: str
+PROJ_VERSION: Tuple[int, int, int]
 
 class AreaOfInterest(NamedTuple):
     west_lon_degree: float

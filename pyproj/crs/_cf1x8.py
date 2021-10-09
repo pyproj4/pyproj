@@ -23,7 +23,7 @@ from pyproj.crs.coordinate_operation import (
     OrthographicConversion,
     PolarStereographicAConversion,
     PolarStereographicBConversion,
-    RotatedLatitudeLongitudeConversion,
+    PoleRotationNetCDFCFConversion,
     SinusoidalConversion,
     StereographicConversion,
     TransverseMercatorConversion,
@@ -333,11 +333,10 @@ def _rotated_latitude_longitude(cf_params):
     """
     http://cfconventions.org/cf-conventions/cf-conventions.html#_rotated_pole
     """
-    return RotatedLatitudeLongitudeConversion(
-        o_lat_p=cf_params["grid_north_pole_latitude"],
-        o_lon_p=cf_params["grid_north_pole_longitude"],
-        # https://github.com/pyproj4/pyproj/issues/927
-        lon_0=cf_params.get("north_pole_grid_longitude", 0.0) + 180,
+    return PoleRotationNetCDFCFConversion(
+        grid_north_pole_latitude=cf_params["grid_north_pole_latitude"],
+        grid_north_pole_longitude=cf_params["grid_north_pole_longitude"],
+        north_pole_grid_longitude=cf_params.get("north_pole_grid_longitude", 0.0),
     )
 
 
@@ -626,9 +625,9 @@ def _rotated_latitude_longitude__to_cf(conversion):
     return {
         "grid_mapping_name": "rotated_latitude_longitude",
         "grid_north_pole_latitude": params["o_lat_p"],
-        "grid_north_pole_longitude": params["o_lon_p"],
         # https://github.com/pyproj4/pyproj/issues/927
-        "north_pole_grid_longitude": params["lon_0"] - 180,
+        "grid_north_pole_longitude": params["lon_0"] - 180,
+        "north_pole_grid_longitude": params["o_lon_p"],
     }
 
 

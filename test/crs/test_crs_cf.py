@@ -387,8 +387,8 @@ def test_cf_rotated_latlon():
         "proj": "ob_tran",
         "o_proj": "longlat",
         "o_lat_p": 32.5,
-        "o_lon_p": 170.0,
-        "lon_0": 180,
+        "o_lon_p": 0,
+        "lon_0": 350,
         "datum": "WGS84",
         "no_defs": None,
         "type": "crs",
@@ -400,8 +400,8 @@ def test_cf_rotated_latlon__grid():
         dict(
             grid_mapping_name="rotated_latitude_longitude",
             grid_north_pole_latitude=32.5,
-            grid_north_pole_longitude=170.0,
-            north_pole_grid_longitude=1.0,
+            grid_north_pole_longitude=1.0,
+            north_pole_grid_longitude=170.0,
         )
     )
     with pytest.warns(UserWarning):
