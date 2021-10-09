@@ -214,6 +214,15 @@ RotatedLatitudeLongitudeConversion
     :special-members: __new__
 
 
+PoleRotationNetCDFCFConversion
+----------------------------------
+
+.. autoclass:: pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion
+    :members:
+    :show-inheritance:
+    :special-members: __new__
+
+
 ToWGS84Transformation
 ---------------------
 

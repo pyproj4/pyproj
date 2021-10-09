@@ -21,6 +21,7 @@ from pyproj.crs.coordinate_operation import (
     PlateCarreeConversion,
     PolarStereographicAConversion,
     PolarStereographicBConversion,
+    PoleRotationNetCDFCFConversion,
     RotatedLatitudeLongitudeConversion,
     SinusoidalConversion,
     StereographicConversion,
@@ -30,6 +31,7 @@ from pyproj.crs.coordinate_operation import (
     VerticalPerspectiveConversion,
 )
 from pyproj.exceptions import CRSError
+from test.conftest import PROJ_GTE_82
 
 
 def _to_dict(operation):
@@ -638,6 +640,52 @@ def test_rotated_latitude_longitude_operation():
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "PROJ ob_tran o_proj=longlat"
     assert _to_dict(aeaop) == {"o_lat_p": 1.0, "o_lon_p": 2.0, "lon_0": 3.0}
+
+
+def test_pole_rotation_netcdf_cf_convention__defaults():
+    poleop = PoleRotationNetCDFCFConversion(
+        grid_north_pole_latitude=1, grid_north_pole_longitude=2
+    )
+    if PROJ_GTE_82:
+        assert poleop.name == "Pole rotation (netCDF CF convention)"
+        assert poleop.method_name == "Pole rotation (netCDF CF convention)"
+        assert _to_dict(poleop) == {
+            "Grid north pole latitude (netCDF CF convention)": 1.0,
+            "Grid north pole longitude (netCDF CF convention)": 2.0,
+            "North pole grid longitude (netCDF CF convention)": 0.0,
+        }
+    else:
+        assert poleop.name == "unknown"
+        assert poleop.method_name == "PROJ ob_tran o_proj=longlat"
+        assert _to_dict(poleop) == {
+            "o_lat_p": 1.0,
+            "o_lon_p": 0.0,
+            "lon_0": 182.0,
+        }
+
+
+def test_pole_rotation_netcdf_cf_convention():
+    poleop = PoleRotationNetCDFCFConversion(
+        grid_north_pole_latitude=1,
+        grid_north_pole_longitude=2,
+        north_pole_grid_longitude=10,
+    )
+    if PROJ_GTE_82:
+        assert poleop.name == "Pole rotation (netCDF CF convention)"
+        assert poleop.method_name == "Pole rotation (netCDF CF convention)"
+        assert _to_dict(poleop) == {
+            "Grid north pole latitude (netCDF CF convention)": 1.0,
+            "Grid north pole longitude (netCDF CF convention)": 2.0,
+            "North pole grid longitude (netCDF CF convention)": 10.0,
+        }
+    else:
+        assert poleop.name == "unknown"
+        assert poleop.method_name == "PROJ ob_tran o_proj=longlat"
+        assert _to_dict(poleop) == {
+            "o_lat_p": 1.0,
+            "o_lon_p": 10.0,
+            "lon_0": 182.0,
+        }
 
 
 def test_lambert_cylindrical_equal_area_scale_operation__defaults():
