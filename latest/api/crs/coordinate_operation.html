@@ -73,6 +73,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#transversemercatorconversion">TransverseMercatorConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#verticalperspectiveconversion">VerticalPerspectiveConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#rotatedlatitudelongitudeconversion">RotatedLatitudeLongitudeConversion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#polerotationnetcdfcfconversion">PoleRotationNetCDFCFConversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#towgs84transformation">ToWGS84Transformation</a></li>
 </ul>
 </li>
@@ -1390,7 +1391,38 @@ PROJ-based coordinate operation in the WKT.</p>
 expressed in the rotated geographic CRS.</p></li>
 <li><p><strong>o_lon_p</strong> (<em>float</em>) – Longitude of the North pole of the unrotated source CRS,
 expressed in the rotated geographic CRS.</p></li>
-<li><p><strong>lon_0</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center (lon_0).</p></li>
+<li><p><strong>lon_0</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of projection center.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="polerotationnetcdfcfconversion">
+<h2>PoleRotationNetCDFCFConversion<a class="headerlink" href="#polerotationnetcdfcfconversion" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion">
+<em class="property">class </em><code class="sig-prename descclassname">pyproj.crs.coordinate_operation.</code><code class="sig-name descname">PoleRotationNetCDFCFConversion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grid_north_pole_latitude</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">grid_north_pole_longitude</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">north_pole_grid_longitude</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#PoleRotationNetCDFCFConversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.CoordinateOperation</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.0.</span></p>
+</div>
+<p>Class for constructing the Pole rotation (netCDF CF convention) conversion.</p>
+<p><a class="reference external" href="http://cfconventions.org/cf-conventions/cf-conventions.html#_rotated_pole">http://cfconventions.org/cf-conventions/cf-conventions.html#_rotated_pole</a></p>
+<p><a class="reference external" href="https://proj.org/operations/projections/ob_tran.html#ob-tran" title="(in PROJ v8.1.1)"><span class="xref std std-ref">PROJ docs</span></a></p>
+<dl class="py method">
+<dt id="pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion.__new__">
+<em class="property">static </em><code class="sig-name descname">__new__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span></em>, <em class="sig-param"><span class="n">grid_north_pole_latitude</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">grid_north_pole_longitude</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">north_pole_grid_longitude</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/coordinate_operation.html#PoleRotationNetCDFCFConversion.__new__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_north_pole_latitude</strong> (<em>float</em>) – Latitude of the North pole of the unrotated source CRS,
+expressed in the rotated geographic CRS (o_lat_p)</p></li>
+<li><p><strong>grid_north_pole_longitude</strong> (<em>float</em>) – Longitude of projection center (lon_0 - 180).</p></li>
+<li><p><strong>north_pole_grid_longitude</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of the North pole of the unrotated source CRS,
+expressed in the rotated geographic CRS (o_lon_p).</p></li>
 </ul>
 </dd>
 </dl>

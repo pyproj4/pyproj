@@ -7,8 +7,10 @@ Latest
 - DEP: Minimum PROJ version 8.0 (issue #940)
 - BUG: Prepend "Derived" to CRS type name if CRS is derived (issue #932)
 - BUG: Improved handling of inf values in :meth:`pyproj.transformer.Transformer.transform_bounds` (pull #961)
+- BUG: CRS CF conversions mismatch of PROJ parameters in rotated pole (issue #948)
 - ENH: Add support for transforming bounds at the poles in :meth:`pyproj.transformer.Transformer.transform_bounds` (pull #962)
 - ENH: Added :attr:`pyproj.transformer.Transformer.source_crs` & :attr:`pyproj.transformer.Transformer.target_crs` (pull #976)
+- ENH: Added :class:`pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion` (issue #948)
 
 3.2.1
 ------
