@@ -25,7 +25,6 @@ cmake .. \
     -DBUILD_GIE:BOOL=OFF \
     -DBUILD_GMOCK:BOOL=OFF \
     -DBUILD_PROJINFO:BOOL=OFF \
-    -DBUILD_PROJSYNC:BOOL=OFF \
     -DBUILD_TESTING:BOOL=OFF
 cmake --build . -j$(nproc)
 cmake --install .
