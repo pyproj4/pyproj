@@ -8,7 +8,7 @@ cdef double _RAD2DG = degrees(1.)
 cdef int _DOUBLESIZE = sizeof(double)
 
 
-cdef extern from "math.h":
+cdef extern from "math.h" nogil:
     ctypedef enum:
         HUGE_VAL
 
