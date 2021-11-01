@@ -3,4 +3,4 @@
 requires = ["setuptools", "wheel", "cython>=0.28.4"]
 
 [tool.black]
-target_version = ['py37']
+target_version = ['py38']
