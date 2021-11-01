@@ -1,6 +1,6 @@
 # PROJ API Definition
 
-cdef extern from "proj.h":
+cdef extern from "proj.h" nogil:
     cdef int PROJ_VERSION_MAJOR
     cdef int PROJ_VERSION_MINOR
     cdef int PROJ_VERSION_PATCH
@@ -27,9 +27,9 @@ cdef extern from "proj.h":
     ctypedef void (*PJ_LOG_FUNCTION)(void *, int, const char *)
     void proj_log_func (PJ_CONTEXT *ctx, void *app_data, PJ_LOG_FUNCTION logf)
 
-    int proj_errno (const PJ *P) nogil
+    int proj_errno (const PJ *P)
     const char * proj_context_errno_string(PJ_CONTEXT* ctx, int err)
-    int  proj_errno_reset (const PJ *P) nogil
+    int  proj_errno_reset (const PJ *P)
     PJ *proj_create (PJ_CONTEXT *ctx, const char *definition)
     PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj)
 
@@ -92,10 +92,10 @@ cdef extern from "proj.h":
         PJ_IDENT =  0 # Do nothing
         PJ_INV   = -1 # Inverse
 
-    int proj_angular_input (PJ *P, PJ_DIRECTION dir) nogil
-    int proj_angular_output (PJ *P, PJ_DIRECTION dir) nogil
-    int proj_degree_input (PJ *P, PJ_DIRECTION dir) nogil
-    int proj_degree_output (PJ *P, PJ_DIRECTION dir) nogil
+    int proj_angular_input (PJ *P, PJ_DIRECTION dir)
+    int proj_angular_output (PJ *P, PJ_DIRECTION dir)
+    int proj_degree_input (PJ *P, PJ_DIRECTION dir)
+    int proj_degree_output (PJ *P, PJ_DIRECTION dir)
 
     size_t proj_trans_generic (
         PJ *P,
@@ -104,7 +104,7 @@ cdef extern from "proj.h":
         double *y, size_t sy, size_t ny,
         double *z, size_t sz, size_t nz,
         double *t, size_t st, size_t nt
-    ) nogil
+    )
     ctypedef struct PJ_AREA
     PJ *proj_create_crs_to_crs_from_pj(
         PJ_CONTEXT *ctx,
@@ -119,7 +119,7 @@ cdef extern from "proj.h":
         PJ_COMP_EQUIVALENT
         PJ_COMP_EQUIVALENT_EXCEPT_AXIS_ORDER_GEOGCRS
 
-    void proj_destroy(PJ *obj) nogil
+    void proj_destroy(PJ *obj)
     int proj_is_equivalent_to_with_ctx(PJ_CONTEXT *ctx,
                                        const PJ *obj, const PJ *other,
                                        PJ_COMPARISON_CRITERION criterion)
@@ -219,7 +219,7 @@ cdef extern from "proj.h":
         PJ_CS_TYPE_TEMPORALCOUNT
         PJ_CS_TYPE_TEMPORALMEASURE
 
-    PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs) nogil
+    PJ *proj_crs_get_coordinate_system(PJ_CONTEXT *ctx, const PJ *crs)
     PJ_COORDINATE_SYSTEM_TYPE proj_cs_get_type(PJ_CONTEXT *ctx,
                                                const PJ *cs)
     int proj_cs_get_axis_count(PJ_CONTEXT *ctx,
@@ -232,7 +232,7 @@ cdef extern from "proj.h":
                               double *out_unit_conv_factor,
                               const char **out_unit_name,
                               const char **out_unit_auth_name,
-                              const char **out_unit_code) nogil
+                              const char **out_unit_code)
 
     PJ *proj_get_ellipsoid(PJ_CONTEXT *ctx, const PJ *obj)
     int proj_ellipsoid_get_parameters(PJ_CONTEXT *ctx,
@@ -248,8 +248,8 @@ cdef extern from "proj.h":
                                            double *out_unit_conv_factor,
                                            const char **out_unit_name)
     PJ *proj_crs_get_sub_crs(PJ_CONTEXT *ctx, const PJ *crs, int index)
-    PJ *proj_get_source_crs(PJ_CONTEXT *ctx, const PJ *obj) nogil
-    PJ *proj_get_target_crs(PJ_CONTEXT *ctx, const PJ *obj) nogil
+    PJ *proj_get_source_crs(PJ_CONTEXT *ctx, const PJ *obj)
+    PJ *proj_get_target_crs(PJ_CONTEXT *ctx, const PJ *obj)
 
     ctypedef struct PJ_OBJ_LIST
     PJ_OBJ_LIST *proj_identify(PJ_CONTEXT *ctx,
@@ -479,7 +479,7 @@ cdef extern from "proj.h":
         double dy_dlam
         double dy_dphi
 
-    PJ_FACTORS proj_factors(PJ *P, PJ_COORD lp) nogil
+    PJ_FACTORS proj_factors(PJ *P, PJ_COORD lp)
     # neworking related
     const char *proj_context_get_user_writable_directory(PJ_CONTEXT *ctx, int create)
     int proj_context_set_enable_network(PJ_CONTEXT* ctx, int enabled)
