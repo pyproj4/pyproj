@@ -43,3 +43,9 @@ pyproj.database.query_utm_crs_info
 -----------------------------------
 
 .. autofunction:: pyproj.database.query_utm_crs_info
+
+
+pyproj.database.get_database_metadata
+---------------------------------------
+
+.. autofunction:: pyproj.database.get_database_metadata
