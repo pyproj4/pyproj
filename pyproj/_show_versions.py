@@ -35,6 +35,7 @@ def _get_proj_info():
     """
     # pylint: disable=import-outside-toplevel
     import pyproj
+    from pyproj.database import get_database_metadata
     from pyproj.exceptions import DataDirError
 
     try:
@@ -47,6 +48,27 @@ def _get_proj_info():
         ("PROJ", pyproj.__proj_version__),
         ("data dir", data_dir),
         ("user_data_dir", pyproj.datadir.get_user_data_dir()),
+        ("PROJ DATA (recommended version)", get_database_metadata("PROJ_DATA.VERSION")),
+        (
+            "PROJ Database",
+            f"{get_database_metadata('DATABASE.LAYOUT.VERSION.MAJOR')}."
+            f"{get_database_metadata('DATABASE.LAYOUT.VERSION.MINOR')}",
+        ),
+        (
+            "EPSG Database",
+            f"{get_database_metadata('EPSG.VERSION')} "
+            f"[{get_database_metadata('EPSG.DATE')}]",
+        ),
+        (
+            "ESRI Database",
+            f"{get_database_metadata('ESRI.VERSION')} "
+            f"[{get_database_metadata('ESRI.DATE')}]",
+        ),
+        (
+            "IGNF Database",
+            f"{get_database_metadata('IGNF.VERSION')} "
+            f"[{get_database_metadata('IGNF.DATE')}]",
+        ),
     ]
 
     return dict(blob)
