@@ -114,6 +114,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># pylint: disable=import-outside-toplevel</span>
     <span class="kn">import</span> <span class="nn">pyproj</span>
+    <span class="kn">from</span> <span class="nn">pyproj.database</span> <span class="kn">import</span> <span class="n">get_database_metadata</span>
     <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">DataDirError</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -126,6 +127,27 @@
         <span class="p">(</span><span class="s2">&quot;PROJ&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">__proj_version__</span><span class="p">),</span>
         <span class="p">(</span><span class="s2">&quot;data dir&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">),</span>
         <span class="p">(</span><span class="s2">&quot;user_data_dir&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">datadir</span><span class="o">.</span><span class="n">get_user_data_dir</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s2">&quot;PROJ DATA (recommended version)&quot;</span><span class="p">,</span> <span class="n">get_database_metadata</span><span class="p">(</span><span class="s2">&quot;PROJ_DATA.VERSION&quot;</span><span class="p">)),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;PROJ Database&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;DATABASE.LAYOUT.VERSION.MAJOR&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;DATABASE.LAYOUT.VERSION.MINOR&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;EPSG Database&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;EPSG.VERSION&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;EPSG.DATE&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;ESRI Database&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;ESRI.VERSION&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;ESRI.DATE&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;IGNF Database&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;IGNF.VERSION&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;IGNF.DATE&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">]</span>
 
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>

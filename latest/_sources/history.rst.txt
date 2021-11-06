@@ -12,6 +12,7 @@ Latest
 - ENH: Added :attr:`pyproj.transformer.Transformer.source_crs` & :attr:`pyproj.transformer.Transformer.target_crs` (pull #976)
 - ENH: Added :class:`pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion` (issue #948)
 - ENH: Added :func:`pyproj.database.get_database_metadata` (issue #990)
+- ENH: Added PROJ database metadata to :func:`pyproj.show_versions` (issue #990)
 
 3.2.1
 ------
