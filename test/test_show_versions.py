@@ -11,6 +11,12 @@ def test_get_proj_info():
     assert "pyproj" in pyproj_info
     assert "PROJ" in pyproj_info
     assert "data dir" in pyproj_info
+    assert "user_data_dir" in pyproj_info
+    assert "PROJ DATA (recommended version)" in pyproj_info
+    assert "PROJ Database" in pyproj_info
+    assert "EPSG Database" in pyproj_info
+    assert "ESRI Database" in pyproj_info
+    assert "IGNF Database" in pyproj_info
 
 
 def test_get_sys_info():
