@@ -403,3 +403,48 @@ def get_units_map(str auth_name=None, str category=None, bint allow_deprecated=F
         proj_unit_list_destroy(db_unit_list)
         pyproj_context_destroy(context)
     return units_map
+
+
+def get_database_metadata(str key not None):
+    """
+    Return metadata from the database.
+
+    Available keys:
+
+    - DATABASE.LAYOUT.VERSION.MAJOR
+    - DATABASE.LAYOUT.VERSION.MINOR
+    - EPSG.VERSION
+    - EPSG.DATE
+    - ESRI.VERSION
+    - ESRI.DATE
+    - IGNF.SOURCE
+    - IGNF.VERSION
+    - IGNF.DATE
+    - NKG.SOURCE
+    - NKG.VERSION
+    - NKG.DATE
+    - PROJ.VERSION
+    - PROJ_DATA.VERSION : PROJ-data version most compatible with this database.
+
+    Parameters
+    ----------
+    key: str
+        The name of the metadata item to get data for.
+
+    Returns
+    -------
+    Optional[str]:
+        The metatada information if available.
+    """
+    cdef PJ_CONTEXT* context = pyproj_context_create()
+    cdef const char* metadata = NULL
+    try:
+        metadata = proj_context_get_database_metadata(
+            context,
+            cstrdecode(key),
+        )
+        if metadata == NULL:
+            return None
+        return metadata
+    finally:
+        pyproj_context_destroy(context)

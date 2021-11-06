@@ -10,8 +10,9 @@ cdef extern from "proj.h" nogil:
                                        const char *dbPath,
                                        const char *const *auxDbPaths,
                                        const char* const *options)
-    void proj_context_set_ca_bundle_path(PJ_CONTEXT *ctx, const char *path);
-
+    void proj_context_set_ca_bundle_path(PJ_CONTEXT *ctx, const char *path)
+    const char *proj_context_get_database_metadata(PJ_CONTEXT* ctx,
+                                                   const char* key)
     ctypedef struct PJ
     ctypedef struct PJ_CONTEXT
     PJ_CONTEXT *proj_context_create ()

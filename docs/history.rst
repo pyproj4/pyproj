@@ -11,6 +11,7 @@ Latest
 - ENH: Add support for transforming bounds at the poles in :meth:`pyproj.transformer.Transformer.transform_bounds` (pull #962)
 - ENH: Added :attr:`pyproj.transformer.Transformer.source_crs` & :attr:`pyproj.transformer.Transformer.target_crs` (pull #976)
 - ENH: Added :class:`pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion` (issue #948)
+- ENH: Added :func:`pyproj.database.get_database_metadata` (issue #990)
 
 3.2.1
 ------
