@@ -5,6 +5,7 @@ from pyproj.database import (
     Unit,
     get_authorities,
     get_codes,
+    get_database_metadata,
     get_units_map,
     query_crs_info,
     query_utm_crs_info,
@@ -249,3 +250,13 @@ def test_query_utm_crs_info__aoi_contains():
         assert crs_info.auth_name == "EPSG"
         assert crs_info.type == PJType.PROJECTED_CRS
         assert not crs_info.deprecated
+
+
+def test_get_database_metadata():
+    epsg_version = get_database_metadata("EPSG.VERSION")
+    assert epsg_version
+    assert isinstance(epsg_version, str)
+
+
+def test_get_database_metadata__invalid():
+    assert get_database_metadata("doesnotexist") is None
