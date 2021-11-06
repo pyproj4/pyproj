@@ -55,6 +55,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-database-get-codes">pyproj.database.get_codes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-database-query-crs-info">pyproj.database.query_crs_info</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyproj-database-query-utm-crs-info">pyproj.database.query_utm_crs_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyproj-database-get-database-metadata">pyproj.database.get_database_metadata</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
@@ -298,6 +299,43 @@ intersects the specified bounding box will be returned.</p></li>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>List[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="pyproj-database-get-database-metadata">
+<h2>pyproj.database.get_database_metadata<a class="headerlink" href="#pyproj-database-get-database-metadata" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyproj.database.get_database_metadata">
+<code class="sig-prename descclassname">pyproj.database.</code><code class="sig-name descname">get_database_metadata</code><span class="sig-paren">(</span><em class="sig-param">unicode key</em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_database_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return metadata from the database.</p>
+<p>Available keys:</p>
+<ul class="simple">
+<li><p>DATABASE.LAYOUT.VERSION.MAJOR</p></li>
+<li><p>DATABASE.LAYOUT.VERSION.MINOR</p></li>
+<li><p>EPSG.VERSION</p></li>
+<li><p>EPSG.DATE</p></li>
+<li><p>ESRI.VERSION</p></li>
+<li><p>ESRI.DATE</p></li>
+<li><p>IGNF.SOURCE</p></li>
+<li><p>IGNF.VERSION</p></li>
+<li><p>IGNF.DATE</p></li>
+<li><p>NKG.SOURCE</p></li>
+<li><p>NKG.VERSION</p></li>
+<li><p>NKG.DATE</p></li>
+<li><p>PROJ.VERSION</p></li>
+<li><p>PROJ_DATA.VERSION : PROJ-data version most compatible with this database.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – The name of the metadata item to get data for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The metatada information if available.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Optional[str]</p>
 </dd>
 </dl>
 </dd></dl>
