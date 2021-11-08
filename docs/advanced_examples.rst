@@ -220,6 +220,98 @@ Here is an example where enabling the global context can help:
     crs_list = [pyproj.CRS.from_epsg(code) for code in codes]
 
 
+Caching pyproj objects
+-----------------------
+
+If you are likely to re-create pyproj objects such as :class:`pyproj.transformer.Transformer`
+or :class:`pyproj.crs.CRS`, using a cache can help reduce the cost
+of re-creating the objects.
+
+Transformer
+~~~~~~~~~~~~
+
+.. code-block:: python
+
+    from functools import lru_cache
+
+    from pyproj import Transformer
+
+    TransformerFromCRS = lru_cache(Transformer.from_crs)
+
+    Transformer.from_crs(2263, 4326)  # no cache
+    TransformerFromCRS(2263, 4326)  # cache
+
+
+Try it:
+
+.. code-block:: python
+
+    from timeit import timeit
+
+    timeit(
+        "CachedTransformer(2263, 4326)",
+        setup=(
+            "from pyproj import Transformer; "
+            "from functools import lru_cache; "
+            "CachedTransformer = lru_cache(Transformer.from_crs)"
+        ),
+        number=1000000,
+    )
+
+    timeit(
+        "Transformer.from_crs(2263, 4326)",
+        setup=("from pyproj import Transformer"),
+        number=100,
+    )
+
+
+Without the cache, it takes around 2 seconds to do 100 iterations. With the cache,
+it takes 0.1 seconds to do 1 million iterations.
+
+
+CRS Example
+~~~~~~~~~~~~
+
+.. code-block:: python
+
+
+    from functools import lru_cache
+
+    from pyproj import CRS
+
+    CachedCRS = lru_cache(CRS)
+
+    crs = CRS(4326)  # no cache
+    crs = CachedCRS(4326)  # cache
+
+
+Try it:
+
+.. code-block:: python
+
+    from timeit import timeit
+
+    timeit(
+        "CachedCRS(4326)",
+        setup=(
+            "from pyproj import CRS; "
+            "from functools import lru_cache; "
+            "CachedCRS = lru_cache(CRS)"
+        ),
+        number=1000000,
+    )
+
+    timeit(
+        "CRS(4326)",
+        setup=("from pyproj import CRS"),
+        number=1000,
+    )
+
+
+Without the cache, it takes around 1 seconds to do 1000 iterations. With the cache,
+it takes 0.1 seconds to do 1 million iterations.
+
+
 .. _debugging-internal-proj:
 
 Debugging Internal PROJ
