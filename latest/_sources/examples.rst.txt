@@ -175,7 +175,8 @@ This is just a small subset of what is available.
     - Ellipsoid: undefined
     - Prime Meridian: undefined
     ]
-    >>> print(crs.sub_crs_list[0].coordinate_operation.to_wkt(pretty=True))
+    >>> cop = crs.sub_crs_list[0].coordinate_operation
+    >>> print(cop.to_wkt(pretty=True))
     CONVERSION["Finland Uniform Coordinate System",
         METHOD["Transverse Mercator",
             ID["EPSG",9807]],

@@ -265,7 +265,8 @@ This is just a small subset of what is available.</p>
 <span class="go">- Ellipsoid: undefined</span>
 <span class="go">- Prime Meridian: undefined</span>
 <span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cop</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinate_operation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cop</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="go">CONVERSION[&quot;Finland Uniform Coordinate System&quot;,</span>
 <span class="go">    METHOD[&quot;Transverse Mercator&quot;,</span>
 <span class="go">        ID[&quot;EPSG&quot;,9807]],</span>
