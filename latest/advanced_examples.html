@@ -58,6 +58,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#projected-crs-bounds">Projected CRS Bounds</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multithreading">Multithreading</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#optimizing-single-threaded-applications">Optimizing Single-Threaded Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#caching-pyproj-objects">Caching pyproj objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformer">Transformer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#crs-example">CRS Example</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging-internal-proj">Debugging Internal PROJ</a></li>
 </ul>
 </li>
@@ -279,6 +284,82 @@ enabling the use of the global context can provide performance enhancements.</p>
 <span class="n">crs_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyproj</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">]</span>
 </pre></div>
 </div>
+</section>
+<section id="caching-pyproj-objects">
+<h2>Caching pyproj objects<a class="headerlink" href="#caching-pyproj-objects" title="Permalink to this headline">¶</a></h2>
+<p>If you are likely to re-create pyproj objects such as <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>
+or <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>, using a cache can help reduce the cost
+of re-creating the objects.</p>
+<section id="transformer">
+<h3>Transformer<a class="headerlink" href="#transformer" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+
+<span class="n">TransformerFromCRS</span> <span class="o">=</span> <span class="n">lru_cache</span><span class="p">(</span><span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">)</span>
+
+<span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">2263</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>  <span class="c1"># no cache</span>
+<span class="n">TransformerFromCRS</span><span class="p">(</span><span class="mi">2263</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>  <span class="c1"># cache</span>
+</pre></div>
+</div>
+<p>Try it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">timeit</span>
+
+<span class="n">timeit</span><span class="p">(</span>
+    <span class="s2">&quot;CachedTransformer(2263, 4326)&quot;</span><span class="p">,</span>
+    <span class="n">setup</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;from pyproj import Transformer; &quot;</span>
+        <span class="s2">&quot;from functools import lru_cache; &quot;</span>
+        <span class="s2">&quot;CachedTransformer = lru_cache(Transformer.from_crs)&quot;</span>
+    <span class="p">),</span>
+    <span class="n">number</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">timeit</span><span class="p">(</span>
+    <span class="s2">&quot;Transformer.from_crs(2263, 4326)&quot;</span><span class="p">,</span>
+    <span class="n">setup</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;from pyproj import Transformer&quot;</span><span class="p">),</span>
+    <span class="n">number</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Without the cache, it takes around 2 seconds to do 100 iterations. With the cache,
+it takes 0.1 seconds to do 1 million iterations.</p>
+</section>
+<section id="crs-example">
+<h3>CRS Example<a class="headerlink" href="#crs-example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+
+<span class="n">CachedCRS</span> <span class="o">=</span> <span class="n">lru_cache</span><span class="p">(</span><span class="n">CRS</span><span class="p">)</span>
+
+<span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>  <span class="c1"># no cache</span>
+<span class="n">crs</span> <span class="o">=</span> <span class="n">CachedCRS</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>  <span class="c1"># cache</span>
+</pre></div>
+</div>
+<p>Try it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">timeit</span>
+
+<span class="n">timeit</span><span class="p">(</span>
+    <span class="s2">&quot;CachedCRS(4326)&quot;</span><span class="p">,</span>
+    <span class="n">setup</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;from pyproj import CRS; &quot;</span>
+        <span class="s2">&quot;from functools import lru_cache; &quot;</span>
+        <span class="s2">&quot;CachedCRS = lru_cache(CRS)&quot;</span>
+    <span class="p">),</span>
+    <span class="n">number</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">timeit</span><span class="p">(</span>
+    <span class="s2">&quot;CRS(4326)&quot;</span><span class="p">,</span>
+    <span class="n">setup</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;from pyproj import CRS&quot;</span><span class="p">),</span>
+    <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Without the cache, it takes around 1 seconds to do 1000 iterations. With the cache,
+it takes 0.1 seconds to do 1 million iterations.</p>
+</section>
 </section>
 <section id="debugging-internal-proj">
 <span id="id2"></span><h2>Debugging Internal PROJ<a class="headerlink" href="#debugging-internal-proj" title="Permalink to this headline">¶</a></h2>
