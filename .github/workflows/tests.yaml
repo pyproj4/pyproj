@@ -32,7 +32,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.8, 3.9] # '3.10'
+        python-version: [3.8, 3.9, '3.10']
         python-implementation: [python]
         proj-version: ['*']
         env:
@@ -64,7 +64,13 @@ jobs:
         run: |
           conda config --prepend channels conda-forge
           conda config --set channel_priority strict
-          conda create -n test ${{ matrix.python-implementation }}=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy shapely xarray pandas
+          export INSTALL_DEPS='${{ matrix.python-implementation }}=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy xarray pandas'
+          if [ "${{ matrix.os }}" = "macos-latest" -a "${{ matrix.python-version }}" = "3.10" ]; then
+            sed -i.bak '/shapely/d' requirements-test.txt;
+          else
+            export INSTALL_DEPS="${INSTALL_DEPS} shapely";
+          fi;
+          conda create -n test $INSTALL_DEPS
           source activate test
           python -m pip install -e . --no-use-pep517 || python -m pip install -e .
           python -m pip install -r requirements-test.txt
