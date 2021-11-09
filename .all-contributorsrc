@@ -461,6 +461,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "gerritholl",
+      "name": "Gerrit Holl",
+      "avatar_url": "https://avatars.githubusercontent.com/u/500246?v=4",
+      "profile": "https://github.com/gerritholl",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
