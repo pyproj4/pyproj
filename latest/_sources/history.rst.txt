@@ -3,6 +3,7 @@ Change Log
 
 Latest
 -------
+- WHL: Wheels contain PROJ 8.2.0
 - DEP: Minimum supported Python version 3.8 (issue #930)
 - DEP: Minimum PROJ version 8.0 (issue #940)
 - BUG: Prepend "Derived" to CRS type name if CRS is derived (issue #932)
