@@ -122,8 +122,26 @@ For migration assistance see: <a class="reference internal" href="transformation
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda config --prepend channels conda-forge
 conda config --set channel_priority strict
-conda install pyproj
+conda create -n pyproj_env pyproj
+conda activate pyproj_env
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>“… we recommend always installing your packages inside a
+new environment instead of the base environment from
+anaconda/miniconda. Using envs make it easier to
+debug problems with packages and ensure the stability
+of your root env.”</p>
+<blockquote>
+<div><p>– <a class="reference external" href="https://conda-forge.org/docs/user/tipsandtricks.html">https://conda-forge.org/docs/user/tipsandtricks.html</a></p>
+</div></blockquote>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Avoid using <cite>pip install</cite> with a conda environment. If you encounter
+a python package that isn’t in conda-forge, consider submitting a
+recipe: <a class="reference external" href="https://github.com/conda-forge/staged-recipes/">https://github.com/conda-forge/staged-recipes/</a></p>
 </div>
 <ul class="simple">
 <li><p><cite>pypoj</cite> is maintaned by the <a class="reference external" href="http://github.com/conda-forge/pyproj-feedstock">pyproj-feedstock maintainers</a></p></li>
