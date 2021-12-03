@@ -969,7 +969,7 @@ class CRS:
         Returns
         -------
         CRS:
-            The the geodeticCRS / geographicCRS from the CRS.
+            The geodeticCRS / geographicCRS from the CRS.
 
         """
         return (
@@ -981,7 +981,7 @@ class CRS:
     @property
     def source_crs(self) -> Optional["CRS"]:
         """
-        The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
+        The base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
         or the source CRS of a CoordinateOperation.
 
         Returns
@@ -1648,7 +1648,7 @@ class CustomConstructorCRS(CRS):
         Returns
         -------
         CRS:
-            The the geodeticCRS / geographicCRS from the CRS.
+            The geodeticCRS / geographicCRS from the CRS.
 
         """
         return None if self._crs.geodetic_crs is None else CRS(self._crs.geodetic_crs)
@@ -1656,7 +1656,7 @@ class CustomConstructorCRS(CRS):
     @property
     def source_crs(self) -> Optional["CRS"]:
         """
-        The the base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
+        The base CRS of a BoundCRS or a DerivedCRS/ProjectedCRS,
         or the source CRS of a CoordinateOperation.
 
         Returns
