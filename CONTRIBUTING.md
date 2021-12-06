@@ -35,7 +35,7 @@ So, please take a few minutes to read through this guide and get setup for succe
 ## Ground Rules
 The goal is to maintain a diverse community that's pleasant for everyone. Please
 be considerate and respectful of others by following our
-[code of conduct](https://github.com/pyproj4/pyproj/blob/master/CODE_OF_CONDUCT.md).
+[code of conduct](https://github.com/pyproj4/pyproj/blob/main/CODE_OF_CONDUCT.md).
 
 Other items:
 
@@ -97,9 +97,9 @@ terminal or your system. If you want to get back to the root environment, just r
 
 ## Pull Requests
 
-The changes to the pyproj source (and documentation) should be made via GitHub pull requests against ``master``, even for those with administration rights. While it's tempting to make changes directly to ``master`` and push them up, it is better to make a pull request so that others can give feedback. If nothing else, this gives a chance for the automated tests to run on the PR. This can eliminate "brown paper bag" moments with buggy commits on the master branch.
+The changes to the pyproj source (and documentation) should be made via GitHub pull requests against ``main``, even for those with administration rights. While it's tempting to make changes directly to ``main`` and push them up, it is better to make a pull request so that others can give feedback. If nothing else, this gives a chance for the automated tests to run on the PR. This can eliminate "brown paper bag" moments with buggy commits on the main branch.
 
-During the Pull Request process, before the final merge, it's a good idea to rebase the branch and squash together smaller commits. It's not necessary to flatten the entire branch, but it can be nice to eliminate small fixes and get the merge down to logically arranged commits. This can also be used to hide sins from history--this is the only chance, since once it hits ``master``, it's there forever!
+During the Pull Request process, before the final merge, it's a good idea to rebase the branch and squash together smaller commits. It's not necessary to flatten the entire branch, but it can be nice to eliminate small fixes and get the merge down to logically arranged commits. This can also be used to hide sins from history--this is the only chance, since once it hits ``main``, it's there forever!
 
 **Working on your first Pull Request?** You can learn how from this *free* video series
 [How to Contribute to an Open Source Project on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github), Aaron Meurer's [tutorial on the git workflow](https://www.asmeurer.com/git-workflow/), or the guide [“How to Contribute to Open Source"](https://opensource.guide/how-to-contribute/).
