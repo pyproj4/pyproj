@@ -470,6 +470,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Kirill888",
+      "name": "Kirill Kouzoubov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1428024?v=4",
+      "profile": "https://github.com/Kirill888",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
