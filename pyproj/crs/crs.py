@@ -7,7 +7,6 @@ import json
 import re
 import threading
 import warnings
-from abc import abstractmethod
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from pyproj._crs import (
@@ -1591,7 +1590,6 @@ class CustomConstructorCRS(CRS):
     """
 
     @property
-    @abstractmethod
     def _expected_types(self) -> Tuple[str, ...]:
         """
         These are the type names of the CRS class
