@@ -81,7 +81,7 @@ def _get_deps_info():
     deps_info: dict
         version information on relevant Python libraries
     """
-    deps = ["certifi", "pip", "setuptools", "Cython"]
+    deps = ["certifi", "Cython", "setuptools", "pip"]
 
     def get_version(module):
         try:
