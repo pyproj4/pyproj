@@ -1,26 +1,26 @@
 repos:
     -   repo: https://github.com/pre-commit/pre-commit-hooks
-        rev: v3.2.0
+        rev: v4.1.0
         hooks:
         -   id: check-yaml
         -   id: end-of-file-fixer
         -   id: trailing-whitespace
     -   repo: https://github.com/psf/black
-        rev: 20.8b1
+        rev: 22.1.0
         hooks:
         -   id: black
     -   repo: https://github.com/timothycrosley/isort
-        rev: 5.6.1
+        rev: 5.10.1
         hooks:
         -   id: isort
             args: [setup.py, pyproj/, test/, docs/]
     -   repo: https://github.com/asottile/blacken-docs
-        rev: v1.8.0
+        rev: v1.12.1
         hooks:
         -   id: blacken-docs
             args: [--skip-errors]
     -   repo: https://gitlab.com/pycqa/flake8
-        rev: 3.8.4
+        rev: 4.0.1
         hooks:
         -   id: flake8
             additional_dependencies: [flake8-comprehensions>=3.1.0]
