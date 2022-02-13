@@ -1,6 +1,6 @@
 from cpython.ref cimport PyObject
 
-from math import radians, degrees
+from math import degrees, radians
 
 
 cdef double _DG2RAD = radians(1.)
