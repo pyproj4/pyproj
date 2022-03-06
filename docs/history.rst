@@ -6,6 +6,7 @@ Latest
 - BUG: Reorder deps in show_versions for setuptools issue (issue #1017)
 - BUG: remove CustomConstructorCRS @abstractmethod decorator (pull #1018)
 - BUG: Correct type annotation for AreaofUse.bounds (issue #1012)
+- BUG: :func:`pyproj.datadir.get_data_dir` support for conda Windows (issue #1029)
 
 3.3.0
 -------

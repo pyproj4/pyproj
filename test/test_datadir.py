@@ -144,6 +144,16 @@ def test_get_data_dir__from_prefix(tmp_path):
         assert get_data_dir() == str(proj_dir)
 
 
+def test_get_data_dir__from_prefix__conda_windows(tmp_path):
+    with proj_env(), patch.dict(os.environ, {}, clear=True), patch(
+        "pyproj.datadir.Path.absolute", return_value=_INVALID_PATH
+    ), patch("pyproj.datadir.sys.prefix", str(tmp_path)):
+        proj_dir = tmp_path / "Library" / "share" / "proj"
+        proj_dir.mkdir(parents=True)
+        create_projdb(proj_dir)
+        assert get_data_dir() == str(proj_dir)
+
+
 def test_get_data_dir__from_path(tmp_path):
     with proj_env(), patch.dict(os.environ, {}, clear=True), patch(
         "pyproj.datadir.Path.absolute", return_value=_INVALID_PATH
