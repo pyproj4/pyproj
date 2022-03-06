@@ -152,6 +152,7 @@
     <span class="n">internal_datadir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;proj_dir&quot;</span> <span class="o">/</span> <span class="s2">&quot;share&quot;</span> <span class="o">/</span> <span class="s2">&quot;proj&quot;</span>
     <span class="n">proj_lib_dirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PROJ_LIB&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">prefix_datadir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
+    <span class="n">conda_windows_prefix_datadir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;Library&quot;</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">valid_data_dir</span><span class="p">(</span><span class="n">potential_data_dir</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span>
@@ -177,6 +178,8 @@
         <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="n">proj_lib_dirs</span>
     <span class="k">elif</span> <span class="n">valid_data_dir</span><span class="p">(</span><span class="n">prefix_datadir</span><span class="p">):</span>
         <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">prefix_datadir</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">valid_data_dir</span><span class="p">(</span><span class="n">conda_windows_prefix_datadir</span><span class="p">):</span>
+        <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">conda_windows_prefix_datadir</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">proj_exe</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;proj&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">proj_exe</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
