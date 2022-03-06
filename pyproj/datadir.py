@@ -73,6 +73,7 @@ def get_data_dir() -> str:
     internal_datadir = Path(__file__).absolute().parent / "proj_dir" / "share" / "proj"
     proj_lib_dirs = os.environ.get("PROJ_LIB", "")
     prefix_datadir = Path(sys.prefix, "share", "proj")
+    conda_windows_prefix_datadir = Path(sys.prefix, "Library", "share", "proj")
 
     def valid_data_dir(potential_data_dir):
         if (
@@ -98,6 +99,8 @@ def get_data_dir() -> str:
         _VALIDATED_PROJ_DATA = proj_lib_dirs
     elif valid_data_dir(prefix_datadir):
         _VALIDATED_PROJ_DATA = str(prefix_datadir)
+    elif valid_data_dir(conda_windows_prefix_datadir):
+        _VALIDATED_PROJ_DATA = str(conda_windows_prefix_datadir)
     else:
         proj_exe = shutil.which("proj", path=sys.prefix)
         if proj_exe is None:
