@@ -107,7 +107,7 @@ test_script:
   - python -m pip install -r requirements-test.txt
   - RD /S /Q pyproj\  # make sure src does not impact installed wheel
   - python -c "import pyproj; pyproj.Proj('epsg:4269')"
-  - py.test --cov-report term-missing --cov=pyproj -v -s
+  - python -m pytest --cov-report term-missing --cov=pyproj -v -s
   # cleanup for test dir
   - rmdir /s /q dist\ 2>nul
   - if %PROJSOURCE% == git rmdir /s /q wheelhouse\ 2>nul
