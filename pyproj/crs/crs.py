@@ -1175,7 +1175,7 @@ class CRS:
         self,
         version: Union[WktVersion, str] = WktVersion.WKT2_2019,
         pretty: bool = False,
-    ) -> str:
+    ) -> Optional[str]:
         """
         Convert the projection to a WKT string.
 
@@ -1200,7 +1200,15 @@ class CRS:
         -------
         str
         """
-        return self._crs.to_wkt(version=version, pretty=pretty)
+        wkt = self._crs.to_wkt(version=version, pretty=pretty)
+        if wkt is None:
+            warnings.warn(
+                f"CRS cannot be converted to a WKT string of a '{version}' version. "
+                "Select a different version of a WKT string or edit your CRS.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+        return wkt
 
     def to_json(self, pretty: bool = False, indentation: int = 2) -> str:
         """
@@ -1289,9 +1297,18 @@ class CRS:
         Optional[int]:
             The best matching EPSG code matching the confidence level.
         """
-        return self._crs.to_epsg(min_confidence=min_confidence)
+        epsg = self._crs.to_epsg(min_confidence=min_confidence)
+        if epsg is None:
+            warnings.warn(
+                "CRS cannot be converted to the EPSG code. Match not found.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+        return epsg
 
-    def to_authority(self, auth_name: Optional[str] = None, min_confidence: int = 70):
+    def to_authority(
+        self, auth_name: Optional[str] = None, min_confidence: int = 70
+    ) -> Optional[tuple]:
         """
         .. versionadded:: 2.2.0
 
@@ -1329,9 +1346,17 @@ class CRS:
         tuple(str, str) or None:
             The best matching (<auth_name>, <code>) for the confidence level.
         """
-        return self._crs.to_authority(
+        authority = self._crs.to_authority(
             auth_name=auth_name, min_confidence=min_confidence
         )
+        if authority is None:
+            warnings.warn(
+                "CRS cannot be converted to the authority name and code. "
+                "Match not found.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+        return authority
 
     def list_authority(
         self, auth_name: Optional[str] = None, min_confidence: int = 70
