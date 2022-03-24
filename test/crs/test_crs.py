@@ -340,7 +340,7 @@ def test_epsg_none():
     )
     crs = CRS.from_wkt(wkt_string)
     with pytest.warns(RuntimeWarning, match="CRS cannot be converted to the EPSG code"):
-        crs.to_epsg()
+        assert crs.to_epsg() is None
 
 
 def test_datum():
@@ -934,7 +934,7 @@ def test_to_wkt_none_warning(wkt_version):
     )
     crs = CRS.from_wkt(wkt_string)
     with pytest.warns(RuntimeWarning, match="CRS cannot be converted to a WKT string"):
-        crs.to_wkt(version=wkt_version)
+        assert crs.to_wkt(version=wkt_version) is None
 
 
 def test_to_proj4_enum():
@@ -1229,7 +1229,7 @@ def test_to_authority_none():
     with pytest.warns(
         RuntimeWarning, match="CRS cannot be converted to the authority name and code"
     ):
-        crs.to_authority()
+        assert crs.to_authority() is None
 
 
 def test_ignf_authority_repr():
