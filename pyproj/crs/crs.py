@@ -444,7 +444,13 @@ class CRS:
         -------
         str
         """
-        auth_info = self.to_authority(min_confidence=100)
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message="CRS cannot be converted to the authority name and code",
+                category=RuntimeWarning,
+            )
+            auth_info = self.to_authority(min_confidence=100)
         if auth_info:
             return ":".join(auth_info)
         return self.srs
@@ -1198,7 +1204,7 @@ class CRS:
 
         Returns
         -------
-        str
+        Optional[str]
         """
         wkt = self._crs.to_wkt(version=version, pretty=pretty)
         if wkt is None:
