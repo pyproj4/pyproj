@@ -4,12 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; pyproj 3.3.1.dev0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /><link rel="shortcut icon" href="_static/icon.png"/>
+  <title>Installation &mdash; pyproj 3.3.1.dev0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/icon.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -25,7 +28,8 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #353130" >
-            <a href="index.html" class="icon icon-home"> pyproj<img src="_static/logo.png" class="logo" alt="Logo"/>
+            <a href="index.html" class="icon icon-home"> pyproj
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 3.3.1.dev0
@@ -38,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#transformation-grids">Transformation Grids</a></li>
@@ -92,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
 <p>The easiest methods for installing pyproj are:</p>
 <ol class="arabic simple">
 <li><p>Use pip to install the binary wheels on <a class="reference external" href="https://pypi.org/project/pyproj/">PyPI</a>:</p></li>
@@ -151,11 +155,11 @@ recipe: <a class="reference external" href="https://github.com/conda-forge/stage
 <p>If these installation methods do not meet your needs, the section below provides further instructions
 for getting setup.</p>
 <section id="transformation-grids">
-<h2>Transformation Grids<a class="headerlink" href="#transformation-grids" title="Permalink to this headline">¶</a></h2>
+<h2>Transformation Grids<a class="headerlink" href="#transformation-grids" title="Permalink to this headline"></a></h2>
 <p>See: <a class="reference internal" href="transformation_grids.html#transformation-grids"><span class="std std-ref">Transformation Grids</span></a></p>
 </section>
 <section id="installing-from-source">
-<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
+<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline"></a></h2>
 <p>Version compatibility matrix:</p>
 <table class="docutils align-default">
 <colgroup>
@@ -192,7 +196,7 @@ for getting setup.</p>
 </tbody>
 </table>
 <section id="setup-proj">
-<h3>Setup PROJ<a class="headerlink" href="#setup-proj" title="Permalink to this headline">¶</a></h3>
+<h3>Setup PROJ<a class="headerlink" href="#setup-proj" title="Permalink to this headline"></a></h3>
 <p>PROJ is required when building from source.</p>
 <p><a class="reference external" href="https://proj.org/install.html#install" title="(in PROJ v9.0.0)"><span class="xref std std-ref">PROJ Installation Instructions</span></a></p>
 <p>You can also download PROJ from:</p>
@@ -202,10 +206,10 @@ for getting setup.</p>
 </ul>
 </section>
 <section id="pyproj-build-environment-variables">
-<h3>pyproj Build Environment Variables<a class="headerlink" href="#pyproj-build-environment-variables" title="Permalink to this headline">¶</a></h3>
+<h3>pyproj Build Environment Variables<a class="headerlink" href="#pyproj-build-environment-variables" title="Permalink to this headline"></a></h3>
 <dl class="std envvar">
-<dt id="envvar-PROJ_VERSION">
-<code class="sig-name descname">PROJ_VERSION</code><a class="headerlink" href="#envvar-PROJ_VERSION" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="envvar-PROJ_VERSION">
+<span class="sig-name descname"><span class="pre">PROJ_VERSION</span></span><a class="headerlink" href="#envvar-PROJ_VERSION" title="Permalink to this definition"></a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.</span></p>
 </div>
@@ -215,8 +219,8 @@ present but the header files exist.</p>
 </dd></dl>
 
 <dl class="std envvar">
-<dt id="envvar-PROJ_DIR">
-<code class="sig-name descname">PROJ_DIR</code><a class="headerlink" href="#envvar-PROJ_DIR" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="envvar-PROJ_DIR">
+<span class="sig-name descname"><span class="pre">PROJ_DIR</span></span><a class="headerlink" href="#envvar-PROJ_DIR" title="Permalink to this definition"></a></dt>
 <dd><p>This is the path to the base directory for PROJ.
 Examples of how to set the PROJ_DIR environment variable:</p>
 <p>Windows:</p>
@@ -230,38 +234,38 @@ Examples of how to set the PROJ_DIR environment variable:</p>
 </dd></dl>
 
 <dl class="std envvar">
-<dt id="envvar-PROJ_LIBDIR">
-<code class="sig-name descname">PROJ_LIBDIR</code><a class="headerlink" href="#envvar-PROJ_LIBDIR" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="envvar-PROJ_LIBDIR">
+<span class="sig-name descname"><span class="pre">PROJ_LIBDIR</span></span><a class="headerlink" href="#envvar-PROJ_LIBDIR" title="Permalink to this definition"></a></dt>
 <dd><p>This is the path to the directory containing the PROJ libraries.
 If not set, it searches the <cite>lib</cite> and <cite>lib64</cite> directories inside
 the PROJ directory.</p>
 </dd></dl>
 
 <dl class="std envvar">
-<dt id="envvar-PROJ_INCDIR">
-<code class="sig-name descname">PROJ_INCDIR</code><a class="headerlink" href="#envvar-PROJ_INCDIR" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="envvar-PROJ_INCDIR">
+<span class="sig-name descname"><span class="pre">PROJ_INCDIR</span></span><a class="headerlink" href="#envvar-PROJ_INCDIR" title="Permalink to this definition"></a></dt>
 <dd><p>This is the path to the PROJ include directory. If not set, it assumes
 it is the <cite>includes</cite> directory inside the PROJ directory.</p>
 </dd></dl>
 
 <dl class="std envvar">
-<dt id="envvar-PROJ_WHEEL">
-<code class="sig-name descname">PROJ_WHEEL</code><a class="headerlink" href="#envvar-PROJ_WHEEL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="envvar-PROJ_WHEEL">
+<span class="sig-name descname"><span class="pre">PROJ_WHEEL</span></span><a class="headerlink" href="#envvar-PROJ_WHEEL" title="Permalink to this definition"></a></dt>
 <dd><p>This is a boolean value used when building a wheel. When true
 it includes the contents of the <cite>pyproj/proj_dir/proj/share</cite>
 directory if present.</p>
 </dd></dl>
 
 <dl class="std envvar">
-<dt id="envvar-PYPROJ_FULL_COVERAGE">
-<code class="sig-name descname">PYPROJ_FULL_COVERAGE</code><a class="headerlink" href="#envvar-PYPROJ_FULL_COVERAGE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="envvar-PYPROJ_FULL_COVERAGE">
+<span class="sig-name descname"><span class="pre">PYPROJ_FULL_COVERAGE</span></span><a class="headerlink" href="#envvar-PYPROJ_FULL_COVERAGE" title="Permalink to this definition"></a></dt>
 <dd><p>Boolean that sets the compiler directive for cython to include
 the test coverage.</p>
 </dd></dl>
 
 </section>
 <section id="setup-pyproj">
-<h3>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Permalink to this headline">¶</a></h3>
+<h3>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Permalink to this headline"></a></h3>
 <p>In the setup.py, the order for searching for PROJ is:</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -285,7 +289,7 @@ version of PROJ, the best way to avoid conflicts is to:</p>
 </ol>
 </div></blockquote>
 <section id="install-pyproj">
-<h4>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline">¶</a></h4>
+<h4>Install pyproj<a class="headerlink" href="#install-pyproj" title="Permalink to this headline"></a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference external" href="http://cython.org/">Cython</a> or pip&gt;=10.0.1 is required for the installation.</p>
@@ -296,19 +300,19 @@ version of PROJ, the best way to avoid conflicts is to:</p>
 perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
 </div>
 <section id="from-pypi">
-<h5>From pypi:<a class="headerlink" href="#from-pypi" title="Permalink to this headline">¶</a></h5>
+<h5>From pypi:<a class="headerlink" href="#from-pypi" title="Permalink to this headline"></a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj --no-binary pyproj
 </pre></div>
 </div>
 </section>
 <section id="from-github-with-pip">
-<h5>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Permalink to this headline">¶</a></h5>
+<h5>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Permalink to this headline"></a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/pyproj4/pyproj.git
 </pre></div>
 </div>
 </section>
 <section id="from-cloned-github-repo-for-development">
-<h5>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Permalink to this headline">¶</a></h5>
+<h5>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Permalink to this headline"></a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -e .
 </pre></div>
 </div>

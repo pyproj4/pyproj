@@ -4,12 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Directory &mdash; pyproj 3.3.1.dev0 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /><link rel="shortcut icon" href="../_static/icon.png"/>
+  <title>Data Directory &mdash; pyproj 3.3.1.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/icon.png"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
@@ -25,7 +28,8 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #353130" >
-            <a href="../index.html" class="icon icon-home"> pyproj<img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <a href="../index.html" class="icon icon-home"> pyproj
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 3.3.1.dev0
@@ -38,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
@@ -103,12 +107,12 @@
            <div itemprop="articleBody">
              
   <section id="data-directory">
-<span id="id1"></span><h1>Data Directory<a class="headerlink" href="#data-directory" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Data Directory<a class="headerlink" href="#data-directory" title="Permalink to this headline"></a></h1>
 <section id="pyproj-datadir-get-data-dir">
-<h2>pyproj.datadir.get_data_dir<a class="headerlink" href="#pyproj-datadir-get-data-dir" title="Permalink to this headline">¶</a></h2>
+<h2>pyproj.datadir.get_data_dir<a class="headerlink" href="#pyproj-datadir-get-data-dir" title="Permalink to this headline"></a></h2>
 <dl class="py function">
-<dt id="pyproj.datadir.get_data_dir">
-<code class="sig-prename descclassname">pyproj.datadir.</code><code class="sig-name descname">get_data_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/pyproj/datadir.html#get_data_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.datadir.get_data_dir" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyproj.datadir.get_data_dir">
+<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">get_data_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#get_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.get_data_dir" title="Permalink to this definition"></a></dt>
 <dd><p>The order of preference for the data directory is:</p>
 <ol class="arabic simple">
 <li><p>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</p></li>
@@ -129,10 +133,10 @@
 
 </section>
 <section id="pyproj-datadir-set-data-dir">
-<h2>pyproj.datadir.set_data_dir<a class="headerlink" href="#pyproj-datadir-set-data-dir" title="Permalink to this headline">¶</a></h2>
+<h2>pyproj.datadir.set_data_dir<a class="headerlink" href="#pyproj-datadir-set-data-dir" title="Permalink to this headline"></a></h2>
 <dl class="py function">
-<dt id="pyproj.datadir.set_data_dir">
-<code class="sig-prename descclassname">pyproj.datadir.</code><code class="sig-name descname">set_data_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_data_dir</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/datadir.html#set_data_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.datadir.set_data_dir" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyproj.datadir.set_data_dir">
+<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">set_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#set_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.set_data_dir" title="Permalink to this definition"></a></dt>
 <dd><p>Set the data directory for PROJ to use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -143,10 +147,10 @@
 
 </section>
 <section id="pyproj-datadir-append-data-dir">
-<h2>pyproj.datadir.append_data_dir<a class="headerlink" href="#pyproj-datadir-append-data-dir" title="Permalink to this headline">¶</a></h2>
+<h2>pyproj.datadir.append_data_dir<a class="headerlink" href="#pyproj-datadir-append-data-dir" title="Permalink to this headline"></a></h2>
 <dl class="py function">
-<dt id="pyproj.datadir.append_data_dir">
-<code class="sig-prename descclassname">pyproj.datadir.</code><code class="sig-name descname">append_data_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proj_data_dir</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/pyproj/datadir.html#append_data_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyproj.datadir.append_data_dir" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyproj.datadir.append_data_dir">
+<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">append_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#append_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.append_data_dir" title="Permalink to this definition"></a></dt>
 <dd><p>Add an additional data directory for PROJ to use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -157,10 +161,10 @@
 
 </section>
 <section id="pyproj-datadir-get-user-data-dir">
-<h2>pyproj.datadir.get_user_data_dir<a class="headerlink" href="#pyproj-datadir-get-user-data-dir" title="Permalink to this headline">¶</a></h2>
+<h2>pyproj.datadir.get_user_data_dir<a class="headerlink" href="#pyproj-datadir-get-user-data-dir" title="Permalink to this headline"></a></h2>
 <dl class="py function">
-<dt id="pyproj.datadir.get_user_data_dir">
-<code class="sig-prename descclassname">pyproj.datadir.</code><code class="sig-name descname">get_user_data_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">create</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.datadir.get_user_data_dir" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyproj.datadir.get_user_data_dir">
+<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">get_user_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.datadir.get_user_data_dir" title="Permalink to this definition"></a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>
