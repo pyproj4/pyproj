@@ -1204,8 +1204,9 @@ class CRS:
         if wkt is None:
             warnings.warn(
                 f"CRS cannot be converted to a WKT string of a '{version}' version. "
-                "Select a different version of a WKT string or edit your CRS.",
-                RuntimeWarning,
+                "Select a different version of a WKT string or edit your CRS. Future"
+                "versions of pyproj will raise a CRSError in this case.",
+                FutureWarning,
                 stacklevel=2,
             )
         return wkt

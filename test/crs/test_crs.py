@@ -911,7 +911,7 @@ def test_to_wkt_none_warning(wkt_version):
         'ORDER[3],LENGTHUNIT["metre",1,ID["EPSG",9001]]]]'
     )
     crs = CRS.from_wkt(wkt_string)
-    with pytest.warns(RuntimeWarning, match="CRS cannot be converted to a WKT string"):
+    with pytest.warns(FutureWarning, match="CRS cannot be converted to a WKT string"):
         assert crs.to_wkt(version=wkt_version) is None
 
 
