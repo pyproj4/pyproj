@@ -1200,7 +1200,16 @@ class CRS:
         -------
         str
         """
-        return self._crs.to_wkt(version=version, pretty=pretty)
+        wkt = self._crs.to_wkt(version=version, pretty=pretty)
+        if wkt is None:
+            warnings.warn(
+                f"CRS cannot be converted to a WKT string of a '{version}' version. "
+                "Select a different version of a WKT string or edit your CRS. Future"
+                "versions of pyproj will raise a CRSError in this case.",
+                FutureWarning,
+                stacklevel=2,
+            )
+        return wkt
 
     def to_json(self, pretty: bool = False, indentation: int = 2) -> str:
         """
