@@ -321,28 +321,6 @@ def test_epsg():
     assert CRS.from_user_input("epsg:4326").to_epsg() == 4326
 
 
-def test_epsg_none():
-    wkt_string = (
-        'PROJCRS["unknown",BASEGEOGCRS["unknown",DATUM["unknown",'
-        'ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1,'
-        'ID["EPSG",9001]]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199],'
-        'ID["EPSG",8901]]],CONVERSION["unknown",METHOD["Equidistant Cylindrical",'
-        'ID["EPSG",1028]],PARAMETER["Latitude of 1st standard parallel",0,'
-        'ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8823]],'
-        'PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199],'
-        'ID["EPSG",8802]],PARAMETER["False easting",0,'
-        'LENGTHUNIT["unknown",111319.490793274],ID["EPSG",8806]],'
-        'PARAMETER["False northing",0,LENGTHUNIT["unknown",111319.490793274],'
-        'ID["EPSG",8807]]],CS[Cartesian,3],AXIS["(E)",east,ORDER[1],'
-        'LENGTHUNIT["unknown",111319.490793274]],AXIS["(N)",north,ORDER[2],'
-        'LENGTHUNIT["unknown",111319.490793274]],AXIS["ellipsoidal height (h)",up,'
-        'ORDER[3],LENGTHUNIT["metre",1,ID["EPSG",9001]]]]'
-    )
-    crs = CRS.from_wkt(wkt_string)
-    with pytest.warns(RuntimeWarning, match="CRS cannot be converted to the EPSG code"):
-        assert crs.to_epsg() is None
-
-
 def test_datum():
     datum = CRS.from_epsg(4326).datum
     assert "\n" in repr(datum)
@@ -1206,30 +1184,6 @@ def test_from_authority__ignf():
     assert cc.to_authority() == ("IGNF", "ETRS89UTM28")
     assert cc.to_authority("EPSG") == ("EPSG", "25828")
     assert cc.to_epsg() == 25828
-
-
-def test_to_authority_none():
-    wkt_string = (
-        'PROJCRS["unknown",BASEGEOGCRS["unknown",DATUM["unknown",'
-        'ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1,'
-        'ID["EPSG",9001]]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199],'
-        'ID["EPSG",8901]]],CONVERSION["unknown",METHOD["Equidistant Cylindrical",'
-        'ID["EPSG",1028]],PARAMETER["Latitude of 1st standard parallel",0,'
-        'ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8823]],'
-        'PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199],'
-        'ID["EPSG",8802]],PARAMETER["False easting",0,'
-        'LENGTHUNIT["unknown",111319.490793274],ID["EPSG",8806]],'
-        'PARAMETER["False northing",0,LENGTHUNIT["unknown",111319.490793274],'
-        'ID["EPSG",8807]]],CS[Cartesian,3],AXIS["(E)",east,ORDER[1],'
-        'LENGTHUNIT["unknown",111319.490793274]],AXIS["(N)",north,ORDER[2],'
-        'LENGTHUNIT["unknown",111319.490793274]],AXIS["ellipsoidal height (h)",up,'
-        'ORDER[3],LENGTHUNIT["metre",1,ID["EPSG",9001]]]]'
-    )
-    crs = CRS.from_wkt(wkt_string)
-    with pytest.warns(
-        RuntimeWarning, match="CRS cannot be converted to the authority name and code"
-    ):
-        assert crs.to_authority() is None
 
 
 def test_ignf_authority_repr():

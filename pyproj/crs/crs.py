@@ -444,13 +444,7 @@ class CRS:
         -------
         str
         """
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore",
-                message="CRS cannot be converted to the authority name and code",
-                category=RuntimeWarning,
-            )
-            auth_info = self.to_authority(min_confidence=100)
+        auth_info = self.to_authority(min_confidence=100)
         if auth_info:
             return ":".join(auth_info)
         return self.srs
@@ -1181,7 +1175,7 @@ class CRS:
         self,
         version: Union[WktVersion, str] = WktVersion.WKT2_2019,
         pretty: bool = False,
-    ) -> Optional[str]:
+    ) -> str:
         """
         Convert the projection to a WKT string.
 
@@ -1204,7 +1198,7 @@ class CRS:
 
         Returns
         -------
-        Optional[str]
+        str
         """
         wkt = self._crs.to_wkt(version=version, pretty=pretty)
         if wkt is None:
@@ -1303,18 +1297,9 @@ class CRS:
         Optional[int]:
             The best matching EPSG code matching the confidence level.
         """
-        epsg = self._crs.to_epsg(min_confidence=min_confidence)
-        if epsg is None:
-            warnings.warn(
-                "CRS cannot be converted to the EPSG code. Match not found.",
-                RuntimeWarning,
-                stacklevel=2,
-            )
-        return epsg
+        return self._crs.to_epsg(min_confidence=min_confidence)
 
-    def to_authority(
-        self, auth_name: Optional[str] = None, min_confidence: int = 70
-    ) -> Optional[tuple]:
+    def to_authority(self, auth_name: Optional[str] = None, min_confidence: int = 70):
         """
         .. versionadded:: 2.2.0
 
@@ -1352,17 +1337,9 @@ class CRS:
         tuple(str, str) or None:
             The best matching (<auth_name>, <code>) for the confidence level.
         """
-        authority = self._crs.to_authority(
+        return self._crs.to_authority(
             auth_name=auth_name, min_confidence=min_confidence
         )
-        if authority is None:
-            warnings.warn(
-                "CRS cannot be converted to the authority name and code. "
-                "Match not found.",
-                RuntimeWarning,
-                stacklevel=2,
-            )
-        return authority
 
     def list_authority(
         self, auth_name: Optional[str] = None, min_confidence: int = 70
