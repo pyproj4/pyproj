@@ -489,6 +489,17 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "martinfleis",
+      "name": "Martin Fleischmann",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36797143?v=4",
+      "profile": "https://github.com/martinfleis",
+      "contributions": [
+        "bug",
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
