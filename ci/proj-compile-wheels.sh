@@ -10,6 +10,23 @@ NGHTTP2_VERSION=1.43.0
 # From: https://github.com/multi-build/multibuild/
 # ------------------------------------------
 BUILD_PREFIX="${BUILD_PREFIX:-/usr/local}"
+OPENSSL_ROOT=${OPENSSL_ROOT:-openssl-1.1.1l}
+# Hash from https://www.openssl.org/source/openssl-1.1.1?.tar.gz.sha256
+OPENSSL_HASH=${OPENSSL_HASH:-0b7a3e5e59c34827fe0c3a74b7ec8baef302b98fa80088d7f9153aa16fa76bd1}
+OPENSSL_DOWNLOAD_URL=${OPENSSL_DOWNLOAD_URL:-https://www.openssl.org/source}
+
+if [ $(uname) == "Darwin" ]; then
+  IS_MACOS=1;
+fi
+
+if [ -z "$IS_MACOS" ]; then
+    # Strip all binaries after compilation.
+    STRIP_FLAGS=${STRIP_FLAGS:-"-Wl,-strip-all"}
+
+    export CFLAGS="${CFLAGS:-$STRIP_FLAGS}"
+    export CXXFLAGS="${CXXFLAGS:-$STRIP_FLAGS}"
+    export FFLAGS="${FFLAGS:-$STRIP_FLAGS}"
+fi
 
 export CPPFLAGS_BACKUP="$CPPFLAGS"
 export LIBRARY_PATH_BACKUP="$LIBRARY_PATH"
@@ -23,10 +40,6 @@ function update_env_for_build_prefix {
   # Add binary path for configure utils etc
   export PATH="$BUILD_PREFIX/bin:$PATH"
 }
-
-if [ $(uname) == "Darwin" ]; then
-  IS_MACOS=1;
-fi
 
 function rm_mkdir {
     # Remove directory if present, then make directory
@@ -74,6 +87,12 @@ function suppress {
     rm -f "$tmp"
     if [[ -n $errexit_set ]]; then set -e; fi
     return "$ret"
+}
+
+function yum_install {
+    # CentOS 5 yum doesn't fail in some cases, e.g. if package is not found
+    # https://serverfault.com/questions/694942/yum-should-error-when-a-package-is-not-available
+    yum install -y "$1" && rpm -q "$1"
 }
 
 function install_rsync {
@@ -186,6 +205,17 @@ function build_zlib {
         yum_install zlib-devel
     fi
     touch zlib-stamp
+}
+
+function build_openssl {
+    if [ -e openssl-stamp ]; then return; fi
+    fetch_unpack ${OPENSSL_DOWNLOAD_URL}/${OPENSSL_ROOT}.tar.gz
+    check_sha256sum $ARCHIVE_SDIR/${OPENSSL_ROOT}.tar.gz ${OPENSSL_HASH}
+    (cd ${OPENSSL_ROOT} \
+        && ./config no-ssl2 no-shared -fPIC --prefix=$BUILD_PREFIX \
+        && make -j4 \
+        && make install)
+    touch openssl-stamp
 }
 # ------------------------------------------
 

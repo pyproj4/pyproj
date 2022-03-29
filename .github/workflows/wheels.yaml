@@ -5,6 +5,10 @@ on:
     branches: [ main ]
   release:
     types: [ created ]
+  pull_request:  # also build on PRs touching this file
+    paths:
+      - ".github/workflows/wheels.yaml"
+      - "ci/proj-compile-wheels.sh"
 
 jobs:
   build_wheels:
@@ -12,11 +16,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       PROJ_VERSION: "8.2.0"
-      PROJ_DIR: ${GITHUB_WORKSPACE}/pyproj/proj_dir
     strategy:
       fail-fast: false
       matrix:
         include:
+        - os: ubuntu-20.04
+          arch: x86_64
+        - os: ubuntu-20.04
+          arch: i686
         - os: macos-10.15
           arch: x86_64
           cmake_osx_architectures: x86_64
@@ -34,14 +41,19 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.3.1
         env:
+          CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_ENVIRONMENT_LINUX:
+            PROJ_WHEEL=true
+            PROJ_VERSION=${{ env.PROJ_VERSION }}
+            PROJ_DIR=/project/pyproj/proj_dir
           CIBW_ENVIRONMENT_MACOS:
             PROJ_WHEEL=true
             PROJ_VERSION=${{ env.PROJ_VERSION }}
-            PROJ_DIR=${{ env.PROJ_DIR }}
+            PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
             MACOSX_DEPLOYMENT_TARGET=10.9
             CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
-            LDFLAGS="${LDFLAGS} -Wl,-rpath,${{ env.PROJ_DIR }}/lib"
+            LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"
           CIBW_BEFORE_ALL: bash ./ci/proj-compile-wheels.sh
           CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy pandas xarray
           CIBW_BEFORE_TEST: python -m pip install shapely~=1.7.1 || echo "Shapely install failed"
