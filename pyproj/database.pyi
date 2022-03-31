@@ -38,4 +38,9 @@ def query_crs_info(
     contains: bool = False,
     allow_deprecated: bool = False,
 ) -> List[CRSInfo]: ...
+def query_utm_crs_info(
+    datum_name: Optional[str] = None,
+    area_of_interest: Optional[AreaOfInterest] = None,
+    contains: bool = False,
+) -> List[CRSInfo]: ...
 def get_database_metadata(key: str) -> Optional[str]: ...
