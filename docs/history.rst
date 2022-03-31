@@ -3,6 +3,7 @@ Change Log
 
 Latest
 -------
+- BUG: Complete database stub file with query_utm_crs_info() signature (issue #1044)
 - BUG: Reorder deps in show_versions for setuptools issue (issue #1017)
 - BUG: remove CustomConstructorCRS @abstractmethod decorator (pull #1018)
 - BUG: Correct type annotation for AreaofUse.bounds (issue #1012)
