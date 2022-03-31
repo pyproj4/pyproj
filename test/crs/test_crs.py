@@ -100,7 +100,7 @@ def test_from_numpy():
     # Test with invalid EPSG code
     with pytest.raises(CRSError):
         crs_numpy = numpy.array([0])[0]
-        assert CRS.from_epsg(0)
+        assert CRS.from_epsg(crs_numpy)
 
 
 def test_from_string__invalid():
