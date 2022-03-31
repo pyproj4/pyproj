@@ -301,7 +301,10 @@ class CRS:
             if isinstance(projparams, _CRS):
                 projstring = projparams.srs
             elif isinstance(projparams, str):
-                projstring = _prepare_from_string(projparams)
+                if projparams.isnumeric():
+                    projstring = _prepare_from_epsg(int(projparams))
+                else:
+                    projstring = _prepare_from_string(projparams)
             elif isinstance(projparams, dict):
                 projstring = _prepare_from_dict(projparams)
             elif isinstance(projparams, int):
@@ -310,6 +313,8 @@ class CRS:
                 projstring = _prepare_from_authority(*projparams)
             elif hasattr(projparams, "to_wkt"):
                 projstring = projparams.to_wkt()  # type: ignore
+            elif hasattr(projparams, "shape") and projparams.shape == ():
+                projstring = _prepare_from_epsg(int(projparams))
             else:
                 raise CRSError(f"Invalid CRS input: {projparams!r}")
 
