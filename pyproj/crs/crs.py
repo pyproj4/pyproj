@@ -139,6 +139,16 @@ def _prepare_from_epsg(auth_code: Union[str, int]):
     return _prepare_from_authority("epsg", auth_code)
 
 
+def _is_epsg_code(auth_code):
+    if isinstance(auth_code, int):
+        return True
+    if isinstance(auth_code, str) and auth_code.isnumeric():
+        return True
+    elif hasattr(auth_code, "shape") and auth_code.shape == ():
+        return True
+    return False
+
+
 class CRS:
     """
     A pythonic Coordinate Reference System manager.
@@ -300,21 +310,16 @@ class CRS:
         if projparams:
             if isinstance(projparams, _CRS):
                 projstring = projparams.srs
+            elif _is_epsg_code(projparams):
+                projstring = _prepare_from_epsg(projparams)
             elif isinstance(projparams, str):
-                if projparams.isnumeric():
-                    projstring = _prepare_from_epsg(int(projparams))
-                else:
-                    projstring = _prepare_from_string(projparams)
+                projstring = _prepare_from_string(projparams)
             elif isinstance(projparams, dict):
                 projstring = _prepare_from_dict(projparams)
-            elif isinstance(projparams, int):
-                projstring = _prepare_from_epsg(projparams)
             elif isinstance(projparams, (list, tuple)) and len(projparams) == 2:
                 projstring = _prepare_from_authority(*projparams)
             elif hasattr(projparams, "to_wkt"):
                 projstring = projparams.to_wkt()  # type: ignore
-            elif hasattr(projparams, "shape") and projparams.shape == ():
-                projstring = _prepare_from_epsg(int(projparams))
             else:
                 raise CRSError(f"Invalid CRS input: {projparams!r}")
 
