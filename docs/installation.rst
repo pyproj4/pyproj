@@ -12,14 +12,15 @@ The easiest methods for installing pyproj are:
 
       pip install pyproj
 
-  .. note:: pyproj 3+ no longer supports manylinux1 wheels.
-            pip>=19.0 is required to install manylinux2010 wheels.
+  .. note:: Linux (manylinux2014) wheels require pip 19.3+
 
   .. note:: pyproj 3+ wheels do not include transformation grids.
             For migration assistance see: :ref:`transformation_grids`
 
 
-  - The MacOS and Linux wheels are powered by `multibuild by Matthew Brett <https://github.com/matthew-brett/multibuild>`__
+  - The MacOS and Linux wheels are powered by
+    `cibuildwheel <https://github.com/pypa/cibuildwheel>`__
+    & `multibuild <https://github.com/multi-build/multibuild>`__
   - The Windows wheels are built by `Christoph Gohlke <https://www.lfd.uci.edu/~gohlke/pythonlibs/>`__
 
 
