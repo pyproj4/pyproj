@@ -107,8 +107,7 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>pyproj 3+ no longer supports manylinux1 wheels.
-pip&gt;=19.0 is required to install manylinux2010 wheels.</p>
+<p>Linux (manylinux2014) wheels require pip 19.3+</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -116,7 +115,9 @@ pip&gt;=19.0 is required to install manylinux2010 wheels.</p>
 For migration assistance see: <a class="reference internal" href="transformation_grids.html#transformation-grids"><span class="std std-ref">Transformation Grids</span></a></p>
 </div>
 <ul class="simple">
-<li><p>The MacOS and Linux wheels are powered by <a class="reference external" href="https://github.com/matthew-brett/multibuild">multibuild by Matthew Brett</a></p></li>
+<li><p>The MacOS and Linux wheels are powered by
+<a class="reference external" href="https://github.com/pypa/cibuildwheel">cibuildwheel</a>
+&amp; <a class="reference external" href="https://github.com/multi-build/multibuild">multibuild</a></p></li>
 <li><p>The Windows wheels are built by <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">Christoph Gohlke</a></p></li>
 </ul>
 </div></blockquote>
