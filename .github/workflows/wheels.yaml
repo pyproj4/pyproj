@@ -68,3 +68,13 @@ jobs:
         with:
           path: ./wheelhouse/*.whl
           retention-days: 5
+
+      - name: Upload Wheels to PyPI
+        # if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
+        uses: pypa/gh-action-pypi-publish@v1.4.2
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip_existing: true
+          packages_dir: wheelhouse/
+          repository_url: https://test.pypi.org/legacy/  # To test
