@@ -139,7 +139,7 @@ def _prepare_from_epsg(auth_code: Union[str, int]):
     return _prepare_from_authority("epsg", auth_code)
 
 
-def _is_epsg_code(auth_code):
+def _is_epsg_code(auth_code: Any) -> bool:
     if isinstance(auth_code, int):
         return True
     if isinstance(auth_code, str) and auth_code.isnumeric():
