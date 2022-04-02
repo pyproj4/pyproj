@@ -144,7 +144,7 @@ def _is_epsg_code(auth_code: Any) -> bool:
         return True
     if isinstance(auth_code, str) and auth_code.isnumeric():
         return True
-    elif hasattr(auth_code, "shape") and auth_code.shape == ():
+    if hasattr(auth_code, "shape") and auth_code.shape == ():
         return True
     return False
 
