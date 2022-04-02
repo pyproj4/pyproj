@@ -1,4 +1,4 @@
-name: Wheels
+name: Wheels & sdist
 
 on:
   push:
@@ -10,12 +10,39 @@ on:
       - ".github/workflows/wheels.yaml"
       - "ci/proj-compile-wheels.sh"
 
+env:
+  PROJ_VERSION: "8.2.0"
+
 jobs:
+  make_sdist:
+    name: Make sdist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Conda
+        uses: s-weigand/setup-conda@v1
+        with:
+          conda-channels: conda-forge
+
+      - name: Make sdist
+        shell: bash
+        run: |
+          conda config --prepend channels conda-forge
+          conda config --set channel_priority strict
+          conda create -n sdist_env cython proj=${{ env.PROJ_VERSION }}
+          source activate sdist_env
+          python setup.py sdist
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*.tar.gz
+          retention-days: 5
+
   build_wheels:
     name: Build ${{ matrix.arch }} wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    env:
-      PROJ_VERSION: "8.2.0"
     strategy:
       fail-fast: false
       matrix:
@@ -71,7 +98,7 @@ jobs:
 
   publish:
     name: Publish on PyPI
-    needs: [build_wheels]
+    needs: [make_sdist,build_wheels]
     runs-on: ubuntu-latest
     # release on every tag
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
