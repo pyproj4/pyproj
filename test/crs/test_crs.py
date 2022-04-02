@@ -74,6 +74,15 @@ def test_from_epsg_string():
         assert CRS.from_string("epsg:xyz")
 
 
+def test_from_epsg_int_like_string():
+    proj = CRS.from_string("4326")
+    assert proj.to_epsg() == 4326
+
+    # Test with invalid EPSG code
+    with pytest.raises(CRSError):
+        assert CRS.from_string("0")
+
+
 def test_from_string():
     wgs84_crs = CRS.from_string("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
     with pytest.warns(UserWarning):
@@ -87,6 +96,17 @@ def test_from_string():
             epsg_init_crs.to_proj4()
             == "+proj=utm +zone=11 +datum=NAD83 +units=m +no_defs +type=crs"
         )
+
+
+def test_from_numpy():
+    crs_numpy = numpy.array([4326])[0]
+    proj = CRS.from_user_input(crs_numpy)
+    assert proj.to_epsg() == 4326
+
+    # Test with invalid EPSG code
+    with pytest.raises(CRSError):
+        crs_numpy = numpy.array([0])[0]
+        assert CRS.from_epsg(crs_numpy)
 
 
 def test_from_string__invalid():
