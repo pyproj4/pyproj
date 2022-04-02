@@ -510,6 +510,17 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "iboates",
+      "name": "Isaac Boates",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13814358?v=4",
+      "profile": "https://github.com/iboates",
+      "contributions": [
+        "code",
+        "bug",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
