@@ -9,7 +9,7 @@ Latest
 - BUG: remove CustomConstructorCRS @abstractmethod decorator (pull #1018)
 - BUG: Correct type annotation for AreaofUse.bounds (issue #1012)
 - BUG: :func:`pyproj.datadir.get_data_dir` support for conda Windows (issue #1029)
-- ENH: warn when :meth:`pyproj.crs.CRS.to_wkt()` returns None (issue #1036)
+- ENH: warn when :meth:`pyproj.crs.CRS.to_wkt()`, :meth:`pyproj.crs.CRS.to_proj4()`, or :meth:`pyproj.crs.CRS.to_json()` returns None (issue #1036)
 - ENH: Added support for int-like strings and numpy dtypes (issues #1026 and #1835)
 
 3.3.0
