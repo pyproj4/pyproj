@@ -1238,7 +1238,15 @@ class CRS:
         -------
         str
         """
-        return self._crs.to_json(pretty=pretty, indentation=indentation)
+        proj_json = self._crs.to_json(pretty=pretty, indentation=indentation)
+        if proj_json is None:
+            warnings.warn(
+                "CRS cannot be converted to a PROJ JSON string. "
+                "Future versions of pyproj will raise a CRSError in this case.",
+                FutureWarning,
+                stacklevel=2,
+            )
+        return proj_json
 
     def to_json_dict(self) -> dict:
         """
@@ -1271,7 +1279,15 @@ class CRS:
         -------
         str
         """
-        return self._crs.to_proj4(version=version)
+        proj = self._crs.to_proj4(version=version)
+        if proj is None:
+            warnings.warn(
+                "CRS cannot be converted to a PROJ string. "
+                "Future versions of pyproj will raise a CRSError in this case.",
+                FutureWarning,
+                stacklevel=2,
+            )
+        return proj
 
     def to_epsg(self, min_confidence: int = 70) -> Optional[int]:
         """
