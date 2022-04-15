@@ -15,7 +15,7 @@ from array import array
 from dataclasses import dataclass
 from itertools import chain, islice
 from pathlib import Path
-from typing import Any, Iterable, Iterator, List, Optional, Tuple, Union, overload
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union, overload
 
 from pyproj import CRS
 from pyproj._compat import cstrencode
@@ -309,6 +309,14 @@ class Transformer:
         self._local = TransformerLocal()
         self._local.transformer = transformer_maker()
         self._transformer_maker = transformer_maker
+
+    def __getstate__(self) -> Dict[str, Any]:
+        return {"_transformer_maker": self._transformer_maker}
+
+    def __setstate__(self, state: Dict[str, Any]):
+        self.__dict__.update(state)
+        self._local = TransformerLocal()
+        self._local.transformer = self._transformer_maker()
 
     @property
     def _transformer(self):

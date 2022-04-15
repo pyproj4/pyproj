@@ -1,5 +1,6 @@
 import concurrent.futures
 import os
+import pickle
 from array import array
 from functools import partial
 from glob import glob
@@ -1534,3 +1535,18 @@ def test_transformer_source_target_crs__none():
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert transformer.source_crs is None
     assert transformer.target_crs is None
+
+
+def test_pickle_transformer_from_pipeline():
+    transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
+    assert transformer == pickle.loads(pickle.dumps(transformer))
+
+
+def test_pickle_transformer_from_crs():
+    transformer = Transformer.from_crs(
+        "EPSG:4326",
+        "EPSG:2964",
+        always_xy=True,
+        area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17),
+    )
+    assert transformer == pickle.loads(pickle.dumps(transformer))
