@@ -23,7 +23,7 @@ from pyproj.crs.coordinate_system import Cartesian2DCS, Ellipsoidal3DCS, Vertica
 from pyproj.crs.datum import CustomDatum
 from pyproj.crs.enums import VerticalCSAxis
 from pyproj.exceptions import CRSError
-from test.conftest import assert_can_pickle
+from test.conftest import PROJ_GTE_901, assert_can_pickle
 
 
 def assert_maker_inheritance_valid(new_crs, class_type):
@@ -98,7 +98,10 @@ def test_geographic_crs__from_methods():
 def test_make_geographic_3d_crs():
     gcrs = GeographicCRS(ellipsoidal_cs=Ellipsoidal3DCS())
     assert gcrs.type_name == "Geographic 3D CRS"
-    assert gcrs.to_authority() == ("IGNF", "WGS84GEODD")
+    expected_authority = ("IGNF", "WGS84GEODD")
+    if PROJ_GTE_901:
+        expected_authority = ("OGC", "CRS84h")
+    assert gcrs.to_authority() == expected_authority
 
 
 def test_make_derived_geographic_crs(tmp_path):
