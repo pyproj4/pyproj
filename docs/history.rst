@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Latest
+3.3.1
 -------
 - WHL: Wheels for Linux are manylinux2014 (pip 19.3+)
 - BUG: Complete database stub file with query_utm_crs_info() signature (issue #1044)
