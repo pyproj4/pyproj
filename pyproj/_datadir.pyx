@@ -21,19 +21,6 @@ _USE_GLOBAL_CONTEXT = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
 cdef const char* _USER_DATA_DIR = proj_context_get_user_writable_directory(NULL, False)
 
 
-IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (8, 1):
-    cdef void proj_context_set_autoclose_database(PJ_CONTEXT *ctx,
-                                                  int autoclose):
-        # THIS METHOD IS DEPRECATED IN PROJ 8.1
-        # https://github.com/OSGeo/PROJ/pull/2738
-        pass
-
-ELSE:
-    cdef extern from "proj.h":
-        void proj_context_set_autoclose_database(PJ_CONTEXT *ctx,
-                                                 int autoclose)
-
-
 def set_use_global_context(active=None):
     """
     .. versionadded:: 3.0.0
@@ -61,7 +48,6 @@ def set_use_global_context(active=None):
     if active is None:
         active = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
     _USE_GLOBAL_CONTEXT = bool(active)
-    proj_context_set_autoclose_database(PYPROJ_GLOBAL_CONTEXT, not _USE_GLOBAL_CONTEXT)
 
 
 def get_user_data_dir(create=False):
@@ -142,7 +128,6 @@ cdef void pyproj_context_initialize(PJ_CONTEXT* context) except *:
     """
     proj_log_func(context, NULL, pyproj_log_function)
     proj_context_use_proj4_init_rules(context, 1)
-    proj_context_set_autoclose_database(context, not _USE_GLOBAL_CONTEXT)
     set_context_data_dir(context)
 
 
