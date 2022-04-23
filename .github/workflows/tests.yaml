@@ -58,6 +58,7 @@ jobs:
           python${{ matrix.python-version }} -m venv testenv
           . testenv/bin/activate
           python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
           python -m pip install -e . --no-use-pep517 || python -m pip install -e .
           python -m pip install -r requirements-test.txt
 
