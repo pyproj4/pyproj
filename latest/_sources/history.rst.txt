@@ -3,7 +3,7 @@ Change Log
 
 Latest
 -------
-
+- DEP: Minimum PROJ version 8.1 (issue #1011)
 
 3.3.1
 -------
