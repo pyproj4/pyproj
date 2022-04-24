@@ -18,13 +18,7 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import (
-    PROJ_GTE_81,
-    RGF93toWSG84,
-    grids_available,
-    proj_env,
-    proj_network_env,
-)
+from test.conftest import RGF93toWSG84, grids_available, proj_env, proj_network_env
 
 
 def test_tranform_wgs84_to_custom():
@@ -457,14 +451,6 @@ def test_str():
     assert str(Transformer.from_crs(4326, 3857)).startswith("proj=pipeline")
 
 
-if PROJ_GTE_81:
-    _BOUND_REPR = "(-16.1, 32.88, 40.18, 84.73)"
-else:
-    _BOUND_REPR = (
-        "(-16.096100515106, 32.884955146013, 40.178745269776, 84.722623821813)"
-    )
-
-
 @pytest.mark.parametrize(
     "from_crs, to_crs, expected_repr",
     [
@@ -486,7 +472,7 @@ else:
                 "Spain; Sweden; Switzerland; "
                 "United Kingdom (UK) including Channel Islands and Isle of Man; "
                 "Vatican City State.\n"
-                f"- bounds: {_BOUND_REPR}"
+                "- bounds: (-16.1, 32.88, 40.18, 84.73)"
             ),
         ),
         (
