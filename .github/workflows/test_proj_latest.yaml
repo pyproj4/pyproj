@@ -5,6 +5,10 @@ on:
     branches: [ main ]
   schedule:
     - cron:  '0 0 * * 0'
+  pull_request:  # also build on PRs touching this file
+    paths:
+      - ".github/workflows/test_proj_latest.yaml"
+      - "ci/proj-compile.sh"
 
 jobs:
   test_proj_latest:
