@@ -709,7 +709,7 @@ def test_transformer_group__get_transform_crs():
     if not grids_available("nl_nsgi_rdtrans2018.tif"):
         assert len(tg.transformers) == 1
     else:
-        assert len(tg.transformers) == 2
+        assert len(tg.transformers) == 6
 
 
 @pytest.mark.grid
