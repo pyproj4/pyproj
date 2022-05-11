@@ -172,8 +172,8 @@ cdef class _TransformerGroup:
             )
             pj_operations = proj_create_operations(
                 self.context,
-                get_transform_crs(crs_from).projobj,
-                get_transform_crs(crs_to).projobj,
+                crs_from.projobj,
+                crs_to.projobj,
                 operation_factory_context,
             )
             num_operations = proj_list_get_count(pj_operations)
@@ -214,16 +214,6 @@ cdef class _TransformerGroup:
             if pj_operations != NULL:
                 proj_list_destroy(pj_operations)
             ProjError.clear()
-
-
-cdef _CRS get_transform_crs(_CRS in_crs):
-    for sub_crs in in_crs.sub_crs_list:
-        if (
-            not sub_crs.type_name.startswith("Temporal") and
-            not sub_crs.type_name.startswith("Temporal")
-        ):
-            return sub_crs.source_crs if sub_crs.is_bound else sub_crs
-    return in_crs.source_crs if in_crs.is_bound else in_crs
 
 
 cdef PJ* proj_create_crs_to_crs(
