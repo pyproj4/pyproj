@@ -147,7 +147,6 @@ class TransformerGroup(_TransformerGroup):
         self,
         crs_from: Any,
         crs_to: Any,
-        skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
         authority: Optional[str] = None,
@@ -159,17 +158,12 @@ class TransformerGroup(_TransformerGroup):
 
         .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
 
-        .. deprecated:: 3.1 skip_equivalent
-
         Parameters
         ----------
         crs_from: pyproj.crs.CRS or input used to create one
             Projection of input data.
         crs_to: pyproj.crs.CRS or input used to create one
             Projection of output data.
-        skip_equivalent: bool, default=False
-            DEPRECATED: If true, will skip the transformation operation
-            if input and output projections are equivalent.
         always_xy: bool, default=False
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
@@ -194,13 +188,6 @@ class TransformerGroup(_TransformerGroup):
             in the candidate coordinate operations. Default is to allow.
 
         """
-        if skip_equivalent:
-            warnings.warn(
-                "skip_equivalent is deprecated.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-
         super().__init__(
             CRS.from_user_input(crs_from)._crs,
             CRS.from_user_input(crs_to)._crs,
@@ -483,16 +470,13 @@ class Transformer:
     def from_proj(
         proj_from: Any,
         proj_to: Any,
-        skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.
 
-        .. versionadded:: 2.1.2 skip_equivalent
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest
-        .. deprecated:: 3.1 skip_equivalent
 
         Parameters
         ----------
@@ -500,9 +484,6 @@ class Transformer:
             Projection of input data.
         proj_to: :obj:`pyproj.Proj` or input used to create one
             Projection of output data.
-        skip_equivalent: bool, default=False
-            DEPRECATED: If true, will skip the transformation operation
-            if input and output projections are equivalent.
         always_xy: bool, default=False
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
@@ -526,7 +507,6 @@ class Transformer:
         return Transformer.from_crs(
             proj_from.crs,
             proj_to.crs,
-            skip_equivalent=skip_equivalent,
             always_xy=always_xy,
             area_of_interest=area_of_interest,
         )
@@ -535,7 +515,6 @@ class Transformer:
     def from_crs(
         crs_from: Any,
         crs_to: Any,
-        skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
         authority: Optional[str] = None,
@@ -544,11 +523,9 @@ class Transformer:
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
-        .. versionadded:: 2.1.2 skip_equivalent
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest
         .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark
-        .. deprecated:: 3.1 skip_equivalent
 
         Parameters
         ----------
@@ -556,9 +533,6 @@ class Transformer:
             Projection of input data.
         crs_to: pyproj.crs.CRS or input used to create one
             Projection of output data.
-        skip_equivalent: bool, default=False
-            DEPRECATED: If true, will skip the transformation operation
-            if input and output projections are equivalent.
         always_xy: bool, default=False
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
@@ -586,13 +560,6 @@ class Transformer:
         Transformer
 
         """
-        if skip_equivalent:
-            warnings.warn(
-                "skip_equivalent is deprecated.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-
         return Transformer(
             TransformerFromCRS(
                 cstrencode(CRS.from_user_input(crs_from).srs),
@@ -1135,13 +1102,10 @@ def transform(  # pylint: disable=invalid-name
     tt: Any = None,
     radians: bool = False,
     errcheck: bool = False,
-    skip_equivalent: bool = False,
     always_xy: bool = False,
 ):
     """
-    .. versionadded:: 2.1.2 skip_equivalent
     .. versionadded:: 2.2.0 always_xy
-    .. deprecated::3.1 skip_equivalent
 
     .. deprecated:: 2.6.1
         This function is deprecated. See: :ref:`upgrade_transformer`
@@ -1222,9 +1186,9 @@ def transform(  # pylint: disable=invalid-name
         DeprecationWarning,
         stacklevel=2,
     )
-    return Transformer.from_proj(
-        p1, p2, skip_equivalent=skip_equivalent, always_xy=always_xy
-    ).transform(xx=x, yy=y, zz=z, tt=tt, radians=radians, errcheck=errcheck)
+    return Transformer.from_proj(p1, p2, always_xy=always_xy).transform(
+        xx=x, yy=y, zz=z, tt=tt, radians=radians, errcheck=errcheck
+    )
 
 
 def itransform(  # pylint: disable=invalid-name
@@ -1235,13 +1199,10 @@ def itransform(  # pylint: disable=invalid-name
     time_3rd: bool = False,
     radians: bool = False,
     errcheck: bool = False,
-    skip_equivalent: bool = False,
     always_xy: bool = False,
 ):
     """
-    .. versionadded:: 2.1.2 skip_equivalent
     .. versionadded:: 2.2.0 always_xy
-    .. deprecated::3.1 skip_equivalent
 
     .. deprecated:: 2.6.1
         This function is deprecated. See: :ref:`upgrade_transformer`
@@ -1306,8 +1267,6 @@ def itransform(  # pylint: disable=invalid-name
         DeprecationWarning,
         stacklevel=2,
     )
-    return Transformer.from_proj(
-        p1, p2, skip_equivalent=skip_equivalent, always_xy=always_xy
-    ).itransform(
+    return Transformer.from_proj(p1, p2, always_xy=always_xy).itransform(
         points, switch=switch, time_3rd=time_3rd, radians=radians, errcheck=errcheck
     )
