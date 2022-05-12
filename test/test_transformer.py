@@ -1536,3 +1536,27 @@ def test_pickle_transformer_from_crs():
         area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17),
     )
     assert transformer == pickle.loads(pickle.dumps(transformer))
+
+
+def test_transformer_group_accuracy_filter():
+    group = TransformerGroup("EPSG:4326", "EPSG:4258", accuracy=0.05)
+    assert not group.transformers
+    assert not group.unavailable_operations
+
+
+def test_transformer_group_allow_ballpark_filter():
+    group = TransformerGroup(
+        "EPSG:4326", "EPSG:4258", authority="PROJ", allow_ballpark=False
+    )
+    assert not group.transformers
+    assert not group.unavailable_operations
+
+
+def test_transformer_group_authority_filter():
+    group = TransformerGroup("EPSG:4326", "EPSG:4258", authority="PROJ")
+    assert len(group.transformers) == 1
+    assert not group.unavailable_operations
+    assert (
+        group.transformers[0].description
+        == "Ballpark geographic offset from WGS 84 to ETRS89"
+    )
