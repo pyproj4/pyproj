@@ -150,9 +150,14 @@ class TransformerGroup(_TransformerGroup):
         skip_equivalent: bool = False,
         always_xy: bool = False,
         area_of_interest: Optional[AreaOfInterest] = None,
+        authority: Optional[str] = None,
+        accuracy: Optional[float] = None,
+        allow_ballpark: bool = True,
     ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
+
+        .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
 
         .. deprecated:: 3.1 skip_equivalent
 
@@ -172,6 +177,21 @@ class TransformerGroup(_TransformerGroup):
         area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
             The area of interest to help order the transformations based on the
             best operation for the area.
+        authority: str, optional
+            When not specified, coordinate operations from any authority will be
+            searched, with the restrictions set in the
+            authority_to_authority_preference database table related to the
+            authority of the source/target CRS themselves. If authority is set
+            to “any”, then coordinate operations from any authority will be
+            searched. If authority is a non-empty string different from "any",
+            then coordinate operations will be searched only in that authority
+            namespace (e.g. EPSG).
+        accuracy: float, optional
+            The minimum desired accuracy (in metres) of the candidate
+            coordinate operations.
+        allow_ballpark: bool, default=True
+            Set to False to disallow the use of Ballpark transformation
+            in the candidate coordinate operations. Default is to allow.
 
         """
         if skip_equivalent:
@@ -186,6 +206,9 @@ class TransformerGroup(_TransformerGroup):
             CRS.from_user_input(crs_to)._crs,
             always_xy=always_xy,
             area_of_interest=area_of_interest,
+            authority=authority,
+            accuracy=-1 if accuracy is None else accuracy,
+            allow_ballpark=allow_ballpark,
         )
         for iii, transformer in enumerate(self._transformers):
             # pylint: disable=unsupported-assignment-operation

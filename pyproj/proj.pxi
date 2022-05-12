@@ -456,7 +456,16 @@ cdef extern from "proj.h" nogil:
         double east_lon_degree,
         double north_lat_degree
     )
-
+    void proj_operation_factory_context_set_allow_ballpark_transformations(
+        PJ_CONTEXT *ctx,
+        PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
+        int allow
+    )
+    void proj_operation_factory_context_set_desired_accuracy(
+        PJ_CONTEXT *ctx,
+        PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
+        double accuracy
+    )
     ctypedef enum PROJ_SPATIAL_CRITERION:
         PROJ_SPATIAL_CRITERION_STRICT_CONTAINMENT
         PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
@@ -465,6 +474,7 @@ cdef extern from "proj.h" nogil:
         PROJ_GRID_AVAILABILITY_USED_FOR_SORTING
         PROJ_GRID_AVAILABILITY_DISCARD_OPERATION_IF_MISSING_GRID
         PROJ_GRID_AVAILABILITY_IGNORED
+        PROJ_GRID_AVAILABILITY_KNOWN_AVAILABLE
 
     ctypedef struct PJ_FACTORS:
         double meridional_scale

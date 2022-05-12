@@ -35,8 +35,11 @@ class _TransformerGroup:
         self,
         crs_from: str,
         crs_to: str,
-        always_xy: bool = False,
-        area_of_interest: Optional[AreaOfInterest] = None,
+        always_xy: bool,
+        area_of_interest: Optional[AreaOfInterest],
+        authority: Optional[str],
+        accuracy: Optional[float],
+        allow_ballpark: bool,
     ) -> None: ...
 
 class _Transformer(Base):
