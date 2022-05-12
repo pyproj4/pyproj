@@ -233,9 +233,14 @@
         <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">accuracy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">allow_ballpark</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get all possible transformations from a :obj:`pyproj.crs.CRS`</span>
 <span class="sd">        or input used to create one.</span>
+
+<span class="sd">        .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark</span>
 
 <span class="sd">        .. deprecated:: 3.1 skip_equivalent</span>
 
@@ -255,6 +260,21 @@
 <span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help order the transformations based on the</span>
 <span class="sd">            best operation for the area.</span>
+<span class="sd">        authority: str, optional</span>
+<span class="sd">            When not specified, coordinate operations from any authority will be</span>
+<span class="sd">            searched, with the restrictions set in the</span>
+<span class="sd">            authority_to_authority_preference database table related to the</span>
+<span class="sd">            authority of the source/target CRS themselves. If authority is set</span>
+<span class="sd">            to “any”, then coordinate operations from any authority will be</span>
+<span class="sd">            searched. If authority is a non-empty string different from &quot;any&quot;,</span>
+<span class="sd">            then coordinate operations will be searched only in that authority</span>
+<span class="sd">            namespace (e.g. EPSG).</span>
+<span class="sd">        accuracy: float, optional</span>
+<span class="sd">            The minimum desired accuracy (in metres) of the candidate</span>
+<span class="sd">            coordinate operations.</span>
+<span class="sd">        allow_ballpark: bool, default=True</span>
+<span class="sd">            Set to False to disallow the use of Ballpark transformation</span>
+<span class="sd">            in the candidate coordinate operations. Default is to allow.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">skip_equivalent</span><span class="p">:</span>
@@ -269,6 +289,9 @@
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
             <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
             <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
+            <span class="n">authority</span><span class="o">=</span><span class="n">authority</span><span class="p">,</span>
+            <span class="n">accuracy</span><span class="o">=-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">accuracy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">accuracy</span><span class="p">,</span>
+            <span class="n">allow_ballpark</span><span class="o">=</span><span class="n">allow_ballpark</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">iii</span><span class="p">,</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="p">):</span>
             <span class="c1"># pylint: disable=unsupported-assignment-operation</span>
