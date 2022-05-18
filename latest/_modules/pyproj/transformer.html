@@ -230,7 +230,6 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-        <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -242,17 +241,12 @@
 
 <span class="sd">        .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark</span>
 
-<span class="sd">        .. deprecated:: 3.1 skip_equivalent</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        crs_from: pyproj.crs.CRS or input used to create one</span>
 <span class="sd">            Projection of input data.</span>
 <span class="sd">        crs_to: pyproj.crs.CRS or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
-<span class="sd">        skip_equivalent: bool, default=False</span>
-<span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
-<span class="sd">            if input and output projections are equivalent.</span>
 <span class="sd">        always_xy: bool, default=False</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
@@ -277,13 +271,6 @@
 <span class="sd">            in the candidate coordinate operations. Default is to allow.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">skip_equivalent</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;skip_equivalent is deprecated.&quot;</span><span class="p">,</span>
-                <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="p">)</span>
-
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
@@ -566,16 +553,13 @@
     <span class="k">def</span> <span class="nf">from_proj</span><span class="p">(</span>
         <span class="n">proj_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-        <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.</span>
 
-<span class="sd">        .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
-<span class="sd">        .. deprecated:: 3.1 skip_equivalent</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -583,9 +567,6 @@
 <span class="sd">            Projection of input data.</span>
 <span class="sd">        proj_to: :obj:`pyproj.Proj` or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
-<span class="sd">        skip_equivalent: bool, default=False</span>
-<span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
-<span class="sd">            if input and output projections are equivalent.</span>
 <span class="sd">        always_xy: bool, default=False</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
@@ -609,7 +590,6 @@
         <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
             <span class="n">proj_from</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
             <span class="n">proj_to</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
-            <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span>
             <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
             <span class="n">area_of_interest</span><span class="o">=</span><span class="n">area_of_interest</span><span class="p">,</span>
         <span class="p">)</span></div>
@@ -618,7 +598,6 @@
     <span class="k">def</span> <span class="nf">from_crs</span><span class="p">(</span>
         <span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-        <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -627,11 +606,9 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.</span>
 
-<span class="sd">        .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
 <span class="sd">        .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark</span>
-<span class="sd">        .. deprecated:: 3.1 skip_equivalent</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -639,9 +616,6 @@
 <span class="sd">            Projection of input data.</span>
 <span class="sd">        crs_to: pyproj.crs.CRS or input used to create one</span>
 <span class="sd">            Projection of output data.</span>
-<span class="sd">        skip_equivalent: bool, default=False</span>
-<span class="sd">            DEPRECATED: If true, will skip the transformation operation</span>
-<span class="sd">            if input and output projections are equivalent.</span>
 <span class="sd">        always_xy: bool, default=False</span>
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
@@ -669,13 +643,6 @@
 <span class="sd">        Transformer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">skip_equivalent</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;skip_equivalent is deprecated.&quot;</span><span class="p">,</span>
-                <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="p">)</span>
-
         <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
             <span class="n">TransformerFromCRS</span><span class="p">(</span>
                 <span class="n">cstrencode</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">srs</span><span class="p">),</span>
@@ -1218,13 +1185,10 @@
     <span class="n">tt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
-<span class="sd">    .. deprecated::3.1 skip_equivalent</span>
 
 <span class="sd">    .. deprecated:: 2.6.1</span>
 <span class="sd">        This function is deprecated. See: :ref:`upgrade_transformer`</span>
@@ -1305,9 +1269,9 @@
         <span class="ne">DeprecationWarning</span><span class="p">,</span>
         <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span>
-        <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+        <span class="n">xx</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="itransform"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.itransform">[docs]</a><span class="k">def</span> <span class="nf">itransform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
@@ -1318,13 +1282,10 @@
     <span class="n">time_3rd</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">skip_equivalent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 2.1.2 skip_equivalent</span>
 <span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
-<span class="sd">    .. deprecated::3.1 skip_equivalent</span>
 
 <span class="sd">    .. deprecated:: 2.6.1</span>
 <span class="sd">        This function is deprecated. See: :ref:`upgrade_transformer`</span>
@@ -1389,9 +1350,7 @@
         <span class="ne">DeprecationWarning</span><span class="p">,</span>
         <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span>
-        <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">skip_equivalent</span><span class="o">=</span><span class="n">skip_equivalent</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
+    <span class="k">return</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">)</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
         <span class="n">points</span><span class="p">,</span> <span class="n">switch</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">time_3rd</span><span class="o">=</span><span class="n">time_3rd</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span>
     <span class="p">)</span></div>
 </pre></div>
