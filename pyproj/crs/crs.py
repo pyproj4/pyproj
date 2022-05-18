@@ -728,14 +728,11 @@ class CRS:
         ellipsoidal_cs: Any = None,
         cartesian_cs: Any = None,
         vertical_cs: Any = None,
-        errcheck=False,
     ) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
         .. versionadded:: 3.0.0 ellipsoidal_cs, cartesian_cs, vertical_cs
-
-        .. deprecated:: 3.2.0 errcheck
 
         This converts a Climate and Forecast (CF) Grid Mapping Version 1.8
         dict to a :obj:`pyproj.crs.CRS` object.
@@ -758,21 +755,12 @@ class CRS:
             Input to create a Vertical Coordinate System accepted by
             :meth:`pyproj.crs.CoordinateSystem.from_user_input`
             or :class:`pyproj.crs.coordinate_system.VerticalCS`
-        errcheck: bool, default=False
-            This parameter is for backwards compatibility with the old version.
-            It currently does nothing when True or False. DEPRECATED.
 
         Returns
         -------
         CRS
         """
         # pylint: disable=too-many-branches
-        if errcheck:
-            warnings.warn(
-                "errcheck is deprecated as it does nothing.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
 
         unknown_names = ("unknown", "undefined")
         if "crs_wkt" in in_cf:

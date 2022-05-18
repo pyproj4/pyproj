@@ -79,23 +79,6 @@ def test_lambert_conformal_transform():
     assert_almost_equal((Long1, Lat1, H1), (-4.6753456, 32.902199, 1341.467), decimal=5)
 
 
-def test_equivalent_crs():
-    with pytest.warns(DeprecationWarning):
-        Transformer.from_crs("epsg:4326", 4326, skip_equivalent=True)
-
-
-def test_equivalent_proj():
-    with pytest.warns(FutureWarning):
-        proj_from = pyproj.Proj("+init=epsg:4326")
-    with pytest.warns(DeprecationWarning):
-        Transformer.from_proj(proj_from, 4326, skip_equivalent=True)
-
-
-def test_equivalent_transformer_group():
-    with pytest.warns(DeprecationWarning):
-        TransformerGroup("epsg:4326", 4326, skip_equivalent=True)
-
-
 def test_4d_transform():
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_almost_equal(
