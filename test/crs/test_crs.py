@@ -22,6 +22,7 @@ from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
 from test.conftest import (
     PROJ_GTE_82,
+    PROJ_GTE_91,
     PROJ_GTE_901,
     RGF93toWSG84,
     assert_can_pickle,
@@ -612,7 +613,10 @@ def test_coordinate_operation_grids__alternative_grid_name():
     assert grid.short_name == "ca_nrc_ntv1_can.tif"
     if grids_available(grid.short_name):
         assert grid.available is True
-        assert grid.full_name.endswith(grid.short_name)
+        if PROJ_GTE_91:
+            assert grid.full_name == ""
+        else:
+            assert grid.full_name.endswith(grid.short_name)
     else:
         assert grid.available is False
         assert grid.full_name == ""
