@@ -811,14 +811,11 @@
         <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">errcheck</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
 <span class="sd">        .. versionadded:: 3.0.0 ellipsoidal_cs, cartesian_cs, vertical_cs</span>
-
-<span class="sd">        .. deprecated:: 3.2.0 errcheck</span>
 
 <span class="sd">        This converts a Climate and Forecast (CF) Grid Mapping Version 1.8</span>
 <span class="sd">        dict to a :obj:`pyproj.crs.CRS` object.</span>
@@ -841,21 +838,12 @@
 <span class="sd">            Input to create a Vertical Coordinate System accepted by</span>
 <span class="sd">            :meth:`pyproj.crs.CoordinateSystem.from_user_input`</span>
 <span class="sd">            or :class:`pyproj.crs.coordinate_system.VerticalCS`</span>
-<span class="sd">        errcheck: bool, default=False</span>
-<span class="sd">            This parameter is for backwards compatibility with the old version.</span>
-<span class="sd">            It currently does nothing when True or False. DEPRECATED.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        CRS</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=too-many-branches</span>
-        <span class="k">if</span> <span class="n">errcheck</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;errcheck is deprecated as it does nothing.&quot;</span><span class="p">,</span>
-                <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="p">)</span>
 
         <span class="n">unknown_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;undefined&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;crs_wkt&quot;</span> <span class="ow">in</span> <span class="n">in_cf</span><span class="p">:</span>
