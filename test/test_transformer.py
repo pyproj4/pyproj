@@ -18,7 +18,13 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import RGF93toWSG84, grids_available, proj_env, proj_network_env
+from test.conftest import (
+    PROJ_GTE_91,
+    RGF93toWSG84,
+    grids_available,
+    proj_env,
+    proj_network_env,
+)
 
 
 def test_tranform_wgs84_to_custom():
@@ -691,6 +697,8 @@ def test_transformer_group__get_transform_crs():
     tg = TransformerGroup("epsg:4258", "epsg:7415")
     if not grids_available("nl_nsgi_rdtrans2018.tif"):
         assert len(tg.transformers) == 1
+    elif PROJ_GTE_91:
+        assert len(tg.transformers) == 2
     else:
         assert len(tg.transformers) == 6
 
