@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -117,7 +118,7 @@
            <div itemprop="articleBody">
              
   <section id="datum">
-<span id="id1"></span><h1>Datum<a class="headerlink" href="#datum" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Datum<a class="headerlink" href="#datum" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>PROJ &gt;= 7.0.0 will have better support for aliases for datum names.
@@ -125,7 +126,7 @@ Until then, you will need to use the full name of the datum. There is support
 currently for the old PROJ names for datums such as WGS84 and NAD83.</p>
 </div>
 <section id="id2">
-<h2>Datum<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<h2>Datum<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyproj.crs.Datum">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.crs.</span></span><span class="sig-name descname"><span class="pre">Datum</span></span><a class="headerlink" href="#pyproj.crs.Datum" title="Permalink to this definition"></a></dt>
@@ -405,11 +406,11 @@ ID[“EPSG”,6326]]</p></li>
 
 </section>
 <section id="customdatum">
-<h2>CustomDatum<a class="headerlink" href="#customdatum" title="Permalink to this headline"></a></h2>
+<h2>CustomDatum<a class="headerlink" href="#customdatum" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyproj.crs.datum.CustomDatum">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.crs.datum.</span></span><span class="sig-name descname"><span class="pre">CustomDatum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'undefined'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ellipsoid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'WGS</span> <span class="pre">84'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prime_meridian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Greenwich'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomDatum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.crs.datum.CustomDatum" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyproj.crs.Datum" title="pyproj._crs.Datum"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.Datum</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pyproj.crs.Datum" title="pyproj._crs.Datum"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datum</span></code></a></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -433,7 +434,7 @@ or a <a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid" titl
 
 </section>
 <section id="ellipsoid">
-<h2>Ellipsoid<a class="headerlink" href="#ellipsoid" title="Permalink to this headline"></a></h2>
+<h2>Ellipsoid<a class="headerlink" href="#ellipsoid" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyproj.crs.Ellipsoid">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.crs.</span></span><span class="sig-name descname"><span class="pre">Ellipsoid</span></span><a class="headerlink" href="#pyproj.crs.Ellipsoid" title="Permalink to this definition"></a></dt>
@@ -749,11 +750,11 @@ ID[“EPSG”,7001]]</p></li>
 
 </section>
 <section id="customellipsoid">
-<h2>CustomEllipsoid<a class="headerlink" href="#customellipsoid" title="Permalink to this headline"></a></h2>
+<h2>CustomEllipsoid<a class="headerlink" href="#customellipsoid" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyproj.crs.datum.CustomEllipsoid">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.crs.datum.</span></span><span class="sig-name descname"><span class="pre">CustomEllipsoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'undefined'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_major_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverse_flattening</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_minor_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomEllipsoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.crs.datum.CustomEllipsoid" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyproj.crs.Ellipsoid" title="pyproj._crs.Ellipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.Ellipsoid</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pyproj.crs.Ellipsoid" title="pyproj._crs.Ellipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ellipsoid</span></code></a></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>
@@ -781,7 +782,7 @@ Cannot be mixed with other parameters.</p></li>
 
 </section>
 <section id="primemeridian">
-<h2>PrimeMeridian<a class="headerlink" href="#primemeridian" title="Permalink to this headline"></a></h2>
+<h2>PrimeMeridian<a class="headerlink" href="#primemeridian" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyproj.crs.PrimeMeridian">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.crs.</span></span><span class="sig-name descname"><span class="pre">PrimeMeridian</span></span><a class="headerlink" href="#pyproj.crs.PrimeMeridian" title="Permalink to this definition"></a></dt>
@@ -1064,11 +1065,11 @@ ID[“EPSG”,8901]]</p></li>
 
 </section>
 <section id="customprimemeridian">
-<h2>CustomPrimeMeridian<a class="headerlink" href="#customprimemeridian" title="Permalink to this headline"></a></h2>
+<h2>CustomPrimeMeridian<a class="headerlink" href="#customprimemeridian" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyproj.crs.datum.CustomPrimeMeridian">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.crs.datum.</span></span><span class="sig-name descname"><span class="pre">CustomPrimeMeridian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'undefined'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyproj/crs/datum.html#CustomPrimeMeridian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.crs.datum.CustomPrimeMeridian" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj._crs.PrimeMeridian"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj._crs.PrimeMeridian</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pyproj.crs.PrimeMeridian" title="pyproj._crs.PrimeMeridian"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrimeMeridian</span></code></a></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.5.0.</span></p>
 </div>

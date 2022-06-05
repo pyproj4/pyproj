@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -103,12 +104,12 @@
            <div itemprop="articleBody">
              
   <section id="advanced-examples">
-<span id="id1"></span><h1>Advanced Examples<a class="headerlink" href="#advanced-examples" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Advanced Examples<a class="headerlink" href="#advanced-examples" title="Permalink to this heading"></a></h1>
 <section id="optimize-transformations">
-<h2>Optimize Transformations<a class="headerlink" href="#optimize-transformations" title="Permalink to this headline"></a></h2>
+<h2>Optimize Transformations<a class="headerlink" href="#optimize-transformations" title="Permalink to this heading"></a></h2>
 <p>Here are a few tricks to try out if you want to optimize your transformations.</p>
 <section id="repeated-transformations">
-<h3>Repeated transformations<a class="headerlink" href="#repeated-transformations" title="Permalink to this headline"></a></h3>
+<h3>Repeated transformations<a class="headerlink" href="#repeated-transformations" title="Permalink to this heading"></a></h3>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.0.</span></p>
 </div>
@@ -134,12 +135,12 @@ optimize your transformations.</p>
 <p>Results: 6.32 µs ± 49.7 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)</p>
 </section>
 <section id="transforming-with-the-same-projections">
-<h3>Transforming with the same projections<a class="headerlink" href="#transforming-with-the-same-projections" title="Permalink to this headline"></a></h3>
+<h3>Transforming with the same projections<a class="headerlink" href="#transforming-with-the-same-projections" title="Permalink to this heading"></a></h3>
 <p>pyproj skips <cite>noop</cite> transformations.</p>
 </section>
 </section>
 <section id="transformation-group">
-<h2>Transformation Group<a class="headerlink" href="#transformation-group" title="Permalink to this headline"></a></h2>
+<h2>Transformation Group<a class="headerlink" href="#transformation-group" title="Permalink to this heading"></a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>
@@ -186,7 +187,7 @@ And if not, how to get the missing grid.</p></li>
 </div>
 </section>
 <section id="area-of-interest">
-<h2>Area of Interest<a class="headerlink" href="#area-of-interest" title="Permalink to this headline"></a></h2>
+<h2>Area of Interest<a class="headerlink" href="#area-of-interest" title="Permalink to this heading"></a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.3.0.</span></p>
 </div>
@@ -215,7 +216,7 @@ which transformation operation is selected in the transformation.</p>
 </div>
 </section>
 <section id="promote-crs-to-3d">
-<h2>Promote CRS to 3D<a class="headerlink" href="#promote-crs-to-3d" title="Permalink to this headline"></a></h2>
+<h2>Promote CRS to 3D<a class="headerlink" href="#promote-crs-to-3d" title="Permalink to this heading"></a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -236,7 +237,7 @@ which transformation operation is selected in the transformation.</p>
 </div>
 </section>
 <section id="projected-crs-bounds">
-<h2>Projected CRS Bounds<a class="headerlink" href="#projected-crs-bounds" title="Permalink to this headline"></a></h2>
+<h2>Projected CRS Bounds<a class="headerlink" href="#projected-crs-bounds" title="Permalink to this heading"></a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -251,7 +252,7 @@ This is the recommended method for calculating the projected bounds.</p>
 </div>
 </section>
 <section id="multithreading">
-<h2>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this headline"></a></h2>
+<h2>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this heading"></a></h2>
 <p>As of version 3.1, these objects are thread-safe:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a></p></li>
@@ -277,7 +278,7 @@ within the thread that uses it.</p>
 </div>
 </section>
 <section id="optimizing-single-threaded-applications">
-<h2>Optimizing Single-Threaded Applications<a class="headerlink" href="#optimizing-single-threaded-applications" title="Permalink to this headline"></a></h2>
+<h2>Optimizing Single-Threaded Applications<a class="headerlink" href="#optimizing-single-threaded-applications" title="Permalink to this heading"></a></h2>
 <p>If you have a single-threaded application that generates many objects,
 enabling the use of the global context can provide performance enhancements.</p>
 <p>For information about using the global context, see: <a class="reference internal" href="api/global_context.html#global-context"><span class="std std-ref">Global Context</span></a></p>
@@ -290,12 +291,12 @@ enabling the use of the global context can provide performance enhancements.</p>
 </div>
 </section>
 <section id="caching-pyproj-objects">
-<h2>Caching pyproj objects<a class="headerlink" href="#caching-pyproj-objects" title="Permalink to this headline"></a></h2>
+<h2>Caching pyproj objects<a class="headerlink" href="#caching-pyproj-objects" title="Permalink to this heading"></a></h2>
 <p>If you are likely to re-create pyproj objects such as <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>
 or <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>, using a cache can help reduce the cost
 of re-creating the objects.</p>
 <section id="transformer">
-<h3>Transformer<a class="headerlink" href="#transformer" title="Permalink to this headline"></a></h3>
+<h3>Transformer<a class="headerlink" href="#transformer" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
@@ -330,7 +331,7 @@ of re-creating the objects.</p>
 it takes 0.1 seconds to do 1 million iterations.</p>
 </section>
 <section id="crs-example">
-<h3>CRS Example<a class="headerlink" href="#crs-example" title="Permalink to this headline"></a></h3>
+<h3>CRS Example<a class="headerlink" href="#crs-example" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
@@ -366,7 +367,7 @@ it takes 0.1 seconds to do 1 million iterations.</p>
 </section>
 </section>
 <section id="debugging-internal-proj">
-<span id="id2"></span><h2>Debugging Internal PROJ<a class="headerlink" href="#debugging-internal-proj" title="Permalink to this headline"></a></h2>
+<span id="id2"></span><h2>Debugging Internal PROJ<a class="headerlink" href="#debugging-internal-proj" title="Permalink to this heading"></a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.0.</span></p>
 </div>

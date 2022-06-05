@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -116,7 +117,7 @@
            <div itemprop="articleBody">
              
   <section id="crs-compatibility-guide-for-geospatial-python">
-<h1>CRS Compatibility Guide for Geospatial Python<a class="headerlink" href="#crs-compatibility-guide-for-geospatial-python" title="Permalink to this headline"></a></h1>
+<h1>CRS Compatibility Guide for Geospatial Python<a class="headerlink" href="#crs-compatibility-guide-for-geospatial-python" title="Permalink to this heading"></a></h1>
 <p>This is meant to be a guide to help you along the way of you use <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
 with other Python Geospatial libraries.</p>
 <div class="admonition note">
@@ -125,10 +126,10 @@ with other Python Geospatial libraries.</p>
 <a class="reference external" href="https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">PROJ FAQ</a>.</p>
 </div>
 <section id="osgeo-gdal">
-<h2>osgeo/gdal<a class="headerlink" href="#osgeo-gdal" title="Permalink to this headline"></a></h2>
+<h2>osgeo/gdal<a class="headerlink" href="#osgeo-gdal" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://github.com/osgeo/gdal">https://github.com/osgeo/gdal</a></p>
 <section id="converting-from-osgeo-osr-spatialreference-to-pyproj-crs-crs">
-<h3>Converting from <cite>osgeo.osr.SpatialReference</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-osgeo-osr-spatialreference-to-pyproj-crs-crs" title="Permalink to this headline"></a></h3>
+<h3>Converting from <cite>osgeo.osr.SpatialReference</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-osgeo-osr-spatialreference-to-pyproj-crs-crs" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">osgeo.osr</span> <span class="kn">import</span> <span class="n">SpatialReference</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
 
@@ -142,7 +143,7 @@ with other Python Geospatial libraries.</p>
 </div>
 </section>
 <section id="converting-from-pyproj-crs-crs-to-osgeo-osr-spatialreference">
-<h3>Converting from <cite>pyproj.crs.CRS</cite> to <cite>osgeo.osr.SpatialReference</cite><a class="headerlink" href="#converting-from-pyproj-crs-crs-to-osgeo-osr-spatialreference" title="Permalink to this headline"></a></h3>
+<h3>Converting from <cite>pyproj.crs.CRS</cite> to <cite>osgeo.osr.SpatialReference</cite><a class="headerlink" href="#converting-from-pyproj-crs-crs-to-osgeo-osr-spatialreference" title="Permalink to this heading"></a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>WKT2 is only supported in GDAL 3+</p>
@@ -164,10 +165,10 @@ with other Python Geospatial libraries.</p>
 </section>
 </section>
 <section id="rasterio">
-<h2>rasterio<a class="headerlink" href="#rasterio" title="Permalink to this headline"></a></h2>
+<h2>rasterio<a class="headerlink" href="#rasterio" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://github.com/mapbox/rasterio">https://github.com/mapbox/rasterio</a></p>
 <section id="converting-from-rasterio-crs-crs-to-pyproj-crs-crs">
-<h3>Converting from <cite>rasterio.crs.CRS</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-rasterio-crs-crs-to-pyproj-crs-crs" title="Permalink to this headline"></a></h3>
+<h3>Converting from <cite>rasterio.crs.CRS</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-rasterio-crs-crs-to-pyproj-crs-crs" title="Permalink to this heading"></a></h3>
 <p>If you have <cite>rasterio &gt;= 1.0.14</cite>, then you can pass in the <cite>rasterio.crs.CRS</cite>
 directly:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rasterio</span>
@@ -190,7 +191,7 @@ directly:</p>
 </div>
 </section>
 <section id="converting-from-pyproj-crs-crs-to-rasterio-crs-crs">
-<h3>Converting from <cite>pyproj.crs.CRS</cite> to <cite>rasterio.crs.CRS</cite><a class="headerlink" href="#converting-from-pyproj-crs-crs-to-rasterio-crs-crs" title="Permalink to this headline"></a></h3>
+<h3>Converting from <cite>pyproj.crs.CRS</cite> to <cite>rasterio.crs.CRS</cite><a class="headerlink" href="#converting-from-pyproj-crs-crs-to-rasterio-crs-crs" title="Permalink to this heading"></a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>WKT2 is only supported in GDAL 3+</p>
@@ -222,10 +223,10 @@ directly:</p>
 </section>
 </section>
 <section id="fiona">
-<h2>fiona<a class="headerlink" href="#fiona" title="Permalink to this headline"></a></h2>
+<h2>fiona<a class="headerlink" href="#fiona" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://github.com/Toblerity/Fiona">https://github.com/Toblerity/Fiona</a></p>
 <section id="converting-from-fiona-crs-to-pyproj-crs-crs">
-<h3>Converting from <cite>fiona</cite> CRS to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-fiona-crs-to-pyproj-crs-crs" title="Permalink to this headline"></a></h3>
+<h3>Converting from <cite>fiona</cite> CRS to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-fiona-crs-to-pyproj-crs-crs" title="Permalink to this heading"></a></h3>
 <p>Fiona currently stores the CRS as a PROJ string dictionary in the <cite>crs</cite>
 attribute. As such, it is best to use the <cite>crs_wkt</cite> attribute.</p>
 <p>It is also useful to know that plans exist to add CRS class.
@@ -240,7 +241,7 @@ Related GitHub issue <a class="reference external" href="https://github.com/Tobl
 </div>
 </section>
 <section id="converting-from-pyproj-crs-crs-for-fiona">
-<h3>Converting from <cite>pyproj.crs.CRS</cite> for <cite>fiona</cite><a class="headerlink" href="#converting-from-pyproj-crs-crs-for-fiona" title="Permalink to this headline"></a></h3>
+<h3>Converting from <cite>pyproj.crs.CRS</cite> for <cite>fiona</cite><a class="headerlink" href="#converting-from-pyproj-crs-crs-for-fiona" title="Permalink to this heading"></a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>WKT2 is only supported in GDAL 3+</p>
@@ -266,11 +267,11 @@ Related GitHub issue <a class="reference external" href="https://github.com/Tobl
 </section>
 </section>
 <section id="geopandas">
-<h2>geopandas<a class="headerlink" href="#geopandas" title="Permalink to this headline"></a></h2>
+<h2>geopandas<a class="headerlink" href="#geopandas" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://github.com/geopandas/geopandas">https://github.com/geopandas/geopandas</a></p>
 <p>Also see the <a class="reference external" href="https://geopandas.readthedocs.io/en/latest/projections.html#upgrading-to-geopandas-0-7-with-pyproj-2-2-and-proj-6">geopandas guide for upgrading to use pyproj CRS class</a></p>
 <section id="preparing-pyproj-crs-crs-for-geopandas">
-<h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>geopandas</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-geopandas" title="Permalink to this headline"></a></h3>
+<h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>geopandas</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-geopandas" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fiona</span>
 <span class="kn">import</span> <span class="nn">geopandas</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
@@ -294,7 +295,7 @@ Related GitHub issue <a class="reference external" href="https://github.com/Tobl
 </div>
 </section>
 <section id="geopandas-to-pyproj-crs-crs">
-<h3><cite>geopandas</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#geopandas-to-pyproj-crs-crs" title="Permalink to this headline"></a></h3>
+<h3><cite>geopandas</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#geopandas-to-pyproj-crs-crs" title="Permalink to this heading"></a></h3>
 <p><a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_user_input()</span></code></a> can handle anything across the <cite>geopandas</cite>
 versions. The only gotcha would be if it is <cite>None</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">geopandas</span>
@@ -307,14 +308,14 @@ versions. The only gotcha would be if it is <cite>None</cite>.</p>
 </section>
 </section>
 <section id="cartopy">
-<h2>cartopy<a class="headerlink" href="#cartopy" title="Permalink to this headline"></a></h2>
+<h2>cartopy<a class="headerlink" href="#cartopy" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://github.com/SciTools/cartopy">https://github.com/SciTools/cartopy</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>These examples require cartopy 0.20+</p>
 </div>
 <section id="preparing-pyproj-crs-crs-for-cartopy-crs-crs">
-<h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>cartopy.crs.CRS</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-cartopy-crs-crs" title="Permalink to this headline"></a></h3>
+<h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>cartopy.crs.CRS</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-cartopy-crs-crs" title="Permalink to this heading"></a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This only works for CRS created with WKT2,
@@ -336,7 +337,7 @@ the x_limits and y_limits will not work.</p>
 </div>
 </section>
 <section id="preparing-cartopy-crs-crs-for-pyproj-crs-crs">
-<h3>Preparing <cite>cartopy.crs.CRS</cite> for <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#preparing-cartopy-crs-crs-for-pyproj-crs-crs" title="Permalink to this headline"></a></h3>
+<h3>Preparing <cite>cartopy.crs.CRS</cite> for <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#preparing-cartopy-crs-crs-for-pyproj-crs-crs" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><cite>cartopy.crs.CRS</cite> inherits from <cite>pyproj.crs.CRS</cite>,
@@ -352,14 +353,14 @@ so it should behave like a <cite>pyproj.crs.CRS</cite>.</p>
 </section>
 </section>
 <section id="pycrs">
-<h2>pycrs<a class="headerlink" href="#pycrs" title="Permalink to this headline"></a></h2>
+<h2>pycrs<a class="headerlink" href="#pycrs" title="Permalink to this heading"></a></h2>
 <p><a class="reference external" href="https://github.com/karimbahgat/PyCRS">https://github.com/karimbahgat/PyCRS</a></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Currently does not support WKT2</p>
 </div>
 <section id="preparing-pyproj-crs-crs-for-pycrs">
-<h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>pycrs</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-pycrs" title="Permalink to this headline"></a></h3>
+<h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>pycrs</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-pycrs" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pycrs</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
 
@@ -369,7 +370,7 @@ so it should behave like a <cite>pyproj.crs.CRS</cite>.</p>
 </div>
 </section>
 <section id="id1">
-<h3>Preparing <cite>cartopy.crs.CRS</cite> for <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
+<h3>Preparing <cite>cartopy.crs.CRS</cite> for <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pycrs</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
 
