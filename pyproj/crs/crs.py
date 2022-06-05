@@ -37,6 +37,17 @@ from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.geod import Geod
 
+_RE_PROJ_PARAM = re.compile(
+    r"""
+    \+              # parameter starts with '+' character
+    (?P<param>\w+)    # capture parameter name
+    \=?             # match both key only and key-value parameters
+    (?P<value>\S+)? # capture all characters up to next space (None if no value)
+    \s*?            # consume remaining whitespace, if any
+""",
+    re.X,
+)
+
 
 class CRSLocal(threading.local):
     """
@@ -573,7 +584,11 @@ class CRS:
 
         """
 
-        def parse(val):
+        proj_string = self.to_proj4()
+        if proj_string is None:
+            return {}
+
+        def _parse(val):
             if val.lower() == "true":
                 return True
             if val.lower() == "false":
@@ -588,16 +603,15 @@ class CRS:
                 pass
             return _try_list_if_string(val)
 
-        proj_string = self.to_proj4()
-        if proj_string is None:
-            return {}
+        proj_dict = {}
+        for param in _RE_PROJ_PARAM.finditer(proj_string):
+            key, value = param.groups()
+            if value is not None:
+                value = _parse(value)
+            if value is not False:
+                proj_dict[key] = value
 
-        items = map(
-            lambda kv: len(kv) == 2 and (kv[0], parse(kv[1])) or (kv[0], None),
-            (part.lstrip("+").split("=", 1) for part in proj_string.strip().split()),
-        )
-
-        return {key: value for key, value in items if value is not False}
+        return proj_dict
 
     def to_cf(
         self,
