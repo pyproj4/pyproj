@@ -42,8 +42,6 @@ jobs:
             proj-version: '8.1.1'
           - python-version: '3.9'
             proj-version: '8.2.1'
-          - python-version: '3.10'
-            proj-version: 'latest'
     steps:
       - uses: actions/checkout@v2
 
