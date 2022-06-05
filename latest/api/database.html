@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -109,10 +110,10 @@
            <div itemprop="articleBody">
              
   <section id="database">
-<span id="id1"></span><h1>Database<a class="headerlink" href="#database" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Database<a class="headerlink" href="#database" title="Permalink to this heading"></a></h1>
 <p>Methods that query the PROJ database for information.</p>
 <section id="pyproj-database-get-units-map">
-<h2>pyproj.database.get_units_map<a class="headerlink" href="#pyproj-database-get-units-map" title="Permalink to this headline"></a></h2>
+<h2>pyproj.database.get_units_map<a class="headerlink" href="#pyproj-database-get-units-map" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The backwards compatible import is <cite>pyproj.get_units_map</cite></p>
@@ -168,7 +169,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 
 </section>
 <section id="pyproj-database-get-authorities">
-<h2>pyproj.database.get_authorities<a class="headerlink" href="#pyproj-database-get-authorities" title="Permalink to this headline"></a></h2>
+<h2>pyproj.database.get_authorities<a class="headerlink" href="#pyproj-database-get-authorities" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The backwards compatible import is <cite>pyproj.get_authorities</cite></p>
@@ -191,7 +192,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 
 </section>
 <section id="pyproj-database-get-codes">
-<h2>pyproj.database.get_codes<a class="headerlink" href="#pyproj-database-get-codes" title="Permalink to this headline"></a></h2>
+<h2>pyproj.database.get_codes<a class="headerlink" href="#pyproj-database-get-codes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The backwards compatible import is <cite>pyproj.get_codes</cite></p>
@@ -221,7 +222,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 
 </section>
 <section id="pyproj-database-query-crs-info">
-<h2>pyproj.database.query_crs_info<a class="headerlink" href="#pyproj-database-query-crs-info" title="Permalink to this headline"></a></h2>
+<h2>pyproj.database.query_crs_info<a class="headerlink" href="#pyproj-database-query-crs-info" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.query_crs_info">
 <span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_types=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_crs_info" title="Permalink to this definition"></a></dt>
@@ -276,7 +277,7 @@ intersects the specified bounding box will be returned.</p></li>
 
 </section>
 <section id="pyproj-database-query-utm-crs-info">
-<h2>pyproj.database.query_utm_crs_info<a class="headerlink" href="#pyproj-database-query-utm-crs-info" title="Permalink to this headline"></a></h2>
+<h2>pyproj.database.query_utm_crs_info<a class="headerlink" href="#pyproj-database-query-utm-crs-info" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.query_utm_crs_info">
 <span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_utm_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">datum_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_utm_crs_info" title="Permalink to this definition"></a></dt>
@@ -306,7 +307,7 @@ intersects the specified bounding box will be returned.</p></li>
 
 </section>
 <section id="pyproj-database-get-database-metadata">
-<h2>pyproj.database.get_database_metadata<a class="headerlink" href="#pyproj-database-get-database-metadata" title="Permalink to this headline"></a></h2>
+<h2>pyproj.database.get_database_metadata<a class="headerlink" href="#pyproj-database-get-database-metadata" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.get_database_metadata">
 <span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_database_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_database_metadata" title="Permalink to this definition"></a></dt>
