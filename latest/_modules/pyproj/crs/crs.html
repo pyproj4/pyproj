@@ -121,6 +121,17 @@
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">CRSError</span>
 <span class="kn">from</span> <span class="nn">pyproj.geod</span> <span class="kn">import</span> <span class="n">Geod</span>
 
+<span class="n">_RE_PROJ_PARAM</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    \+              # parameter starts with &#39;+&#39; character</span>
+<span class="sd">    (?P&lt;param&gt;\w+)    # capture parameter name</span>
+<span class="sd">    \=?             # match both key only and key-value parameters</span>
+<span class="sd">    (?P&lt;value&gt;\S+)? # capture all characters up to next space (None if no value)</span>
+<span class="sd">    \s*?            # consume remaining whitespace, if any</span>
+<span class="sd">&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">re</span><span class="o">.</span><span class="n">X</span><span class="p">,</span>
+<span class="p">)</span>
+
 
 <span class="k">class</span> <span class="nc">CRSLocal</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">local</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -657,7 +668,11 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+        <span class="n">proj_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">proj_string</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
@@ -672,16 +687,15 @@
                 <span class="k">pass</span>
             <span class="k">return</span> <span class="n">_try_list_if_string</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
 
-        <span class="n">proj_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">proj_string</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{}</span>
+        <span class="n">proj_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">_RE_PROJ_PARAM</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">proj_string</span><span class="p">):</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">_parse</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">proj_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-        <span class="n">items</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">kv</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">kv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">parse</span><span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">proj_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()),</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="n">proj_dict</span></div>
 
 <div class="viewcode-block" id="CRS.to_cf"><a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_cf">[docs]</a>    <span class="k">def</span> <span class="nf">to_cf</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
