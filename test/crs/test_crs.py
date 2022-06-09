@@ -611,12 +611,12 @@ def test_coordinate_operation_grids__alternative_grid_name():
     assert grid.direct_download is True
     assert grid.open_license is True
     assert grid.short_name == "ca_nrc_ntv1_can.tif"
-    if grids_available(grid.short_name):
+    if PROJ_GTE_91 and pyproj.network.is_network_enabled():
         assert grid.available is True
-        if PROJ_GTE_91:
-            assert grid.full_name == ""
-        else:
-            assert grid.full_name.endswith(grid.short_name)
+        assert grid.full_name == ""
+    elif grids_available(grid.short_name):
+        assert grid.available is True
+        assert grid.full_name.endswith(grid.short_name)
     else:
         assert grid.available is False
         assert grid.full_name == ""
