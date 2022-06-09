@@ -66,7 +66,7 @@ def grids_available(*grid_names, check_network=True, check_all=False):
     """
     Check if the grids are available
     """
-    if check_network and os.environ.get("PROJ_NETWORK") == "ON":
+    if check_network and pyproj.network.is_network_enabled():
         return True
     available = [
         (
