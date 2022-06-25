@@ -10,6 +10,10 @@ on:
       - ".github/workflows/wheels.yaml"
       - "ci/proj-compile-wheels.sh"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 env:
   PROJ_VERSION: "8.2.0"
 
