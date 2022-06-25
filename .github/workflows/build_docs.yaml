@@ -6,6 +6,10 @@ on:
   release:
     types: [ created ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   docs:
     name: Publish Docs

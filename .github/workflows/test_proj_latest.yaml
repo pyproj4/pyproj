@@ -10,6 +10,10 @@ on:
       - ".github/workflows/test_proj_latest.yaml"
       - "ci/proj-compile.sh"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test_proj_latest:
     name: PROJ Latest

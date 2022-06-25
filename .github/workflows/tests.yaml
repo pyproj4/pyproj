@@ -8,6 +8,10 @@ on:
   schedule:
     - cron:  '0 0 * * 0'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 env:
   PYPROJ_FULL_COVERAGE: YES
 
