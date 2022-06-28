@@ -20,7 +20,7 @@ The next step is to create a tag with the same name as the version just added. T
 
 1. Create a draft PR at https://github.com/pyproj4/pyproj-wheels and verify tests pass.
 2. Create a draft PR at https://github.com/conda-forge/pyproj-feedstock and verify tests pass.
-3. Verify Windows wheels built properly.
+3. Check the wheels built at https://github.com/pyproj4/pyproj using GitHub Actions.
 4. Verify Debian builds were succesful.
 5. Verify the docs build successfully.
 
@@ -36,17 +36,19 @@ Remove the `rc` postfix from the the version number `__version__` in `__init__.p
 
 The next step is to create a tag with the name `<major>.<minor>.<patch>`. This can be done using the git command line or from https://github.com/pyproj4/pyproj/tags.
 
-Next, go through the history and add release notes. Make sure to acknowledge contributions made by others in the release. A useful script for automating this task for code contributions is the [pandas announce script](https://github.com/pandas-dev/pandas/blob/bb6135880e5e453d7701764b9f2e4ad3356a68d7/doc/sphinxext/announce.py).
+Next, go through the history and add release notes (see: [automatically generated release notes](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes)). Make sure to acknowledge contributions made by others in the release.
 
 ### The wheels
 
+The wheels are tested with each merge to main. However, the arm64 wheels on linux are still
+built separately. This provides instructions for those wheels:
+
 1. Update the PR at https://github.com/pyproj4/pyproj-wheels with the release tag, merge, and download wheels.
-2. Retrieve Windows wheels from https://www.lfd.uci.edu/~gohlke/pythonlibs.
 
 ### Create the release sdist
 
-1. Make sure the directory is clean and checkout the release tag.
-2. `python setup.py sdist`
+1. `python -m pip install build`
+2. `python -m build --sdist`
 
 ### Upload to pypi
 
