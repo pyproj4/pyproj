@@ -80,7 +80,7 @@ build_script:
   - mkdir pyproj\proj_dir\share\proj
   - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
   - set PROJ_WHEEL=true
-  - python setup.py bdist_wheel
+  - python -m build --wheel
   - FOR %%F IN (dist\*.whl) DO (set PYPROJ_WHEEL=%%F)
   - delvewheel repair %PYPROJ_WHEEL%
   - FOR %%F IN (wheelhouse\*.whl) DO (set PYPROJ_WHEEL=%%F)
@@ -96,7 +96,7 @@ install:
   - python -c "import struct; print(struct.calcsize('P') * 8)"
   # install wheel, caching
   - python -m pip install --disable-pip-version-check --user --upgrade pip
-  - python -m pip install wheel delvewheel
+  - python -m pip install build wheel delvewheel
 
 test_script:
   # reset environment variables for test

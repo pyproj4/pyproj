@@ -34,9 +34,15 @@ jobs:
         run: |
           conda config --prepend channels conda-forge
           conda config --set channel_priority strict
-          conda create -n sdist_env cython proj=${{ env.PROJ_VERSION }}
+          conda create -n sdist_env build twine cython proj=${{ env.PROJ_VERSION }}
           source activate sdist_env
-          python setup.py sdist
+          python -m build --sdist
+
+      - name: Check packages
+        shell: bash
+        run: |
+          source activate sdist_env
+          twine check --strict dist/*
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
