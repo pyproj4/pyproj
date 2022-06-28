@@ -104,7 +104,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.3.1
         env:
-          CIBW_SKIP: "musllinux* pp*-win*"
+          CIBW_SKIP: "*musllinux* pp*-win*"
           CIBW_ARCHS: ${{ matrix.arch }}
           CIBW_ENVIRONMENT_LINUX:
             PROJ_WHEEL=true
