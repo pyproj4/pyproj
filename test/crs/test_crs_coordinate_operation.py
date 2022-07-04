@@ -314,7 +314,7 @@ def test_mercator_a_operation__defaults():
 
 def test_mercator_a_operation():
     aeaop = MercatorAConversion(
-        latitude_natural_origin=1,
+        latitude_natural_origin=0,
         longitude_natural_origin=2,
         false_easting=3,
         false_northing=4,
@@ -323,12 +323,17 @@ def test_mercator_a_operation():
     assert aeaop.name == "unknown"
     assert aeaop.method_name == "Mercator (variant A)"
     assert _to_dict(aeaop) == {
-        "Latitude of natural origin": 1.0,
+        "Latitude of natural origin": 0.0,
         "Longitude of natural origin": 2.0,
         "False easting": 3.0,
         "False northing": 4.0,
         "Scale factor at natural origin": 0.5,
     }
+
+
+def test_mercator_a_operation__invalid_lat0():
+    with pytest.raises(CRSError):
+        MercatorAConversion(latitude_natural_origin=1)
 
 
 def test_mercator_b_operation__defaults():

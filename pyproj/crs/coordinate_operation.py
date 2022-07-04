@@ -687,8 +687,10 @@ class MercatorAConversion(CoordinateOperation):
         """
         Parameters
         ----------
-        longitude_natural_origin: float, default=0.0
-            Latitude of natural origin (lat_0).
+        latitude_natural_origin: float, default=0.0
+            Latitude of natural origin (lat_0). Must be 0 by `this conversion's
+            definition
+            <https://epsg.org/coord-operation-method_9804/Mercator-variant-A.html>`_.
         longitude_natural_origin: float, default=0.0
             Longitude of natural origin (lon_0).
         false_easting: float, default=0.0
@@ -699,6 +701,10 @@ class MercatorAConversion(CoordinateOperation):
             Scale factor at natural origin (k or k_0).
 
         """
+        if latitude_natural_origin != 0:
+            raise CRSError(
+                "This conversion is defined for only latitude_natural_origin = 0."
+            )
         merc_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "Conversion",
