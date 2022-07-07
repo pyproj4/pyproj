@@ -1265,7 +1265,7 @@ def test_lambert_cylindrical_equal_area():
 
 
 def test_mercator_a():
-    crs = ProjectedCRS(conversion=MercatorAConversion(1, 2, 3, 4))
+    crs = ProjectedCRS(conversion=MercatorAConversion(0, 2, 3, 4))
     expected_cf = {
         "semi_major_axis": 6378137.0,
         "semi_minor_axis": crs.ellipsoid.semi_minor_metre,
@@ -1275,7 +1275,7 @@ def test_mercator_a():
         "prime_meridian_name": "Greenwich",
         "horizontal_datum_name": "World Geodetic System 1984",
         "grid_mapping_name": "mercator",
-        "standard_parallel": 1.0,
+        "standard_parallel": 0.0,
         "longitude_of_projection_origin": 2.0,
         "false_easting": 3.0,
         "false_northing": 4.0,
