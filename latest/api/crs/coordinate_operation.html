@@ -1028,8 +1028,9 @@ PROJ-based coordinate operation in the WKT.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of natural origin (lat_0).</p></li>
-<li><p><strong>longitude_natural_origin</strong> – Longitude of natural origin (lon_0).</p></li>
+<li><p><strong>latitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Latitude of natural origin (lat_0). Must be 0 by <a class="reference external" href="https://epsg.org/coord-operation-method_9804/Mercator-variant-A.html">this conversion’s
+definition</a>.</p></li>
+<li><p><strong>longitude_natural_origin</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Longitude of natural origin (lon_0).</p></li>
 <li><p><strong>false_easting</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False easting (x_0).</p></li>
 <li><p><strong>false_northing</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – False northing (y_0).</p></li>
 <li><p><strong>scale_factor_natural_origin</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Scale factor at natural origin (k or k_0).</p></li>
