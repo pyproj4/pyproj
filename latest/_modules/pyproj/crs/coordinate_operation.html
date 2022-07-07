@@ -771,8 +771,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        longitude_natural_origin: float, default=0.0</span>
-<span class="sd">            Latitude of natural origin (lat_0).</span>
+<span class="sd">        latitude_natural_origin: float, default=0.0</span>
+<span class="sd">            Latitude of natural origin (lat_0). Must be 0 by `this conversion&#39;s</span>
+<span class="sd">            definition</span>
+<span class="sd">            &lt;https://epsg.org/coord-operation-method_9804/Mercator-variant-A.html&gt;`_.</span>
 <span class="sd">        longitude_natural_origin: float, default=0.0</span>
 <span class="sd">            Longitude of natural origin (lon_0).</span>
 <span class="sd">        false_easting: float, default=0.0</span>
@@ -783,6 +785,10 @@
 <span class="sd">            Scale factor at natural origin (k or k_0).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">latitude_natural_origin</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span>
+                <span class="s2">&quot;This conversion is defined for only latitude_natural_origin = 0.&quot;</span>
+            <span class="p">)</span>
         <span class="n">merc_json</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Conversion&quot;</span><span class="p">,</span>

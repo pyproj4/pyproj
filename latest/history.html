@@ -143,6 +143,7 @@
 <li><p>ENH: Added authority, accuracy, and allow_ballpark kwargs to <a class="reference internal" href="api/transformer.html#pyproj.transformer.TransformerGroup" title="pyproj.transformer.TransformerGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.TransformerGroup</span></code></a> (pull #1076)</p></li>
 <li><p>CLN: Remove deprecated <cite>skip_equivalent</cite> kwarg from transformers and <cite>errcheck</cite> kwarg from <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_cf" title="pyproj.crs.CRS.from_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_cf()</span></code></a> (pull #1077)</p></li>
 <li><p>REF: use regex to process PROJ strings in :meth:<a href="#id1"><span class="problematic" id="id2">`</span></a>pyproj.crs.CRS.to_dict()`(pull #1086)</p></li>
+<li><p>BUG: <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj.crs.coordinate_operation.MercatorAConversion" title="pyproj.crs.coordinate_operation.MercatorAConversion"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.coordinate_operation.MercatorAConversion</span></code></a> defined only for lat_0 = 0 (issue #1089)</p></li>
 </ul>
 </section>
 <section id="id3">

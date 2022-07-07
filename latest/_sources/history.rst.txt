@@ -8,6 +8,7 @@ Latest
 - ENH: Added authority, accuracy, and allow_ballpark kwargs to :class:`pyproj.transformer.TransformerGroup` (pull #1076)
 - CLN: Remove deprecated `skip_equivalent` kwarg from transformers and `errcheck` kwarg from :meth:`pyproj.crs.CRS.from_cf` (pull #1077)
 - REF: use regex to process PROJ strings in :meth:`pyproj.crs.CRS.to_dict()`(pull #1086)
+- BUG: :class:`pyproj.crs.coordinate_operation.MercatorAConversion` defined only for lat_0 = 0 (issue #1089)
 
 3.3.1
 -------
