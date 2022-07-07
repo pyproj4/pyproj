@@ -521,6 +521,17 @@
         "bug",
         "test"
       ]
+    },
+    {
+      "login": "kdpenner",
+      "name": "Kyle Penner",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9297904?v=4",
+      "profile": "https://github.com/kdpenner",
+      "contributions": [
+        "code",
+        "bug",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
