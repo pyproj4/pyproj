@@ -249,15 +249,28 @@ class Geod(_Geod):
         points given longitudes and latitudes of initial points,
         plus forward azimuths and distances.
 
+        Accepted numeric scalar or array:
+
+        - :class:`int`
+        - :class:`float`
+        - :class:`numpy.floating`
+        - :class:`numpy.integer`
+        - :class:`list`
+        - :class:`tuple`
+        - :class:`array.array`
+        - :class:`numpy.ndarray`
+        - :class:`xarray.DataArray`
+        - :class:`pandas.Series`
+
         Parameters
         ----------
-        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar
+        lons: scalar or array
             Longitude(s) of initial point(s)
-        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar
+        lats: scalar or array
             Latitude(s) of initial point(s)
-        az: array, :class:`numpy.ndarray`, list, tuple, or scalar
+        az: scalar or array
             Forward azimuth(s)
-        dist: array, :class:`numpy.ndarray`, list, tuple, or scalar
+        dist: scalar or array
             Distance(s) between initial and terminus point(s)
             in meters
         radians: bool, default=False
@@ -266,11 +279,11 @@ class Geod(_Geod):
 
         Returns
         -------
-        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+        scalar or array:
             Longitude(s) of terminus point(s)
-        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+        scalar or array:
             Latitude(s) of terminus point(s)
-        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+        scalar or array:
             Back azimuth(s)
         """
         # process inputs, making copies that support buffer API.
@@ -299,15 +312,28 @@ class Geod(_Geod):
         Determine forward and back azimuths, plus distances
         between initial points and terminus points.
 
+        Accepted numeric scalar or array:
+
+        - :class:`int`
+        - :class:`float`
+        - :class:`numpy.floating`
+        - :class:`numpy.integer`
+        - :class:`list`
+        - :class:`tuple`
+        - :class:`array.array`
+        - :class:`numpy.ndarray`
+        - :class:`xarray.DataArray`
+        - :class:`pandas.Series`
+
         Parameters
         ----------
-        lons1: array, :class:`numpy.ndarray`, list, tuple, or scalar
+        lons1: scalar or array
             Longitude(s) of initial point(s)
-        lats1: array, :class:`numpy.ndarray`, list, tuple, or scalar
+        lats1: scalar or array
             Latitude(s) of initial point(s)
-        lons2: array, :class:`numpy.ndarray`, list, tuple, or scalar
+        lons2: scalar or array
             Longitude(s) of terminus point(s)
-        lats2: array, :class:`numpy.ndarray`, list, tuple, or scalar
+        lats2: scalar or array
             Latitude(s) of terminus point(s)
         radians: bool, default=False
             If True, the input data is assumed to be in radians.
@@ -315,11 +341,11 @@ class Geod(_Geod):
 
         Returns
         -------
-        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+        scalar or array:
             Forward azimuth(s)
-        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+        scalar or array:
             Back azimuth(s)
-        array, :class:`numpy.ndarray`, list, tuple, or scalar:
+        scalar or array:
             Distance(s) between initial and terminus point(s)
             in meters
         """

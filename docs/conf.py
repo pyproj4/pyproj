@@ -10,9 +10,10 @@ extensions = [
 ]
 
 intersphinx_mapping = {
-    "proj": ("https://proj.org/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
+    "proj": ("https://proj.org/", None),
+    "python": ("https://docs.python.org/3", None),
     "shapely": ("https://shapely.readthedocs.io/en/stable/", None),
     "xarray": ("https://docs.xarray.dev/en/stable/", None),
 }
