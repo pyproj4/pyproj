@@ -47,8 +47,8 @@ The easiest methods for installing pyproj are:
       recipe: https://github.com/conda-forge/staged-recipes/
 
 
-  - `pyproj` is maintaned by the `pyproj-feedstock maintainers <http://github.com/conda-forge/pyproj-feedstock>`__
-  - `PROJ` is maintaned by the `proj.4-feedstock maintainers <http://github.com/conda-forge/proj.4-feedstock>`__
+  - `pyproj` is maintained by the `pyproj-feedstock maintainers <http://github.com/conda-forge/pyproj-feedstock>`__
+  - `PROJ` is maintained by the `proj.4-feedstock maintainers <http://github.com/conda-forge/proj.4-feedstock>`__
 
 If these installation methods do not meet your needs, the section below provides further instructions
 for getting setup.
