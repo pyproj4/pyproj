@@ -168,7 +168,7 @@ class TransformerGroup(_TransformerGroup):
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
-        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
+        area_of_interest: :class:`.AreaOfInterest`, optional
             The area of interest to help order the transformations based on the
             best operation for the area.
         authority: str, optional
@@ -488,7 +488,7 @@ class Transformer:
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
-        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
+        area_of_interest: :class:`.AreaOfInterest`, optional
             The area of interest to help select the transformation.
 
         Returns
@@ -537,7 +537,7 @@ class Transformer:
             If true, the transform method will accept as input and return as output
             coordinates using the traditional GIS order, that is longitude, latitude
             for geographic CRS and easting, northing for most projected CRS.
-        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional
+        area_of_interest: :class:`.AreaOfInterest`, optional
             The area of interest to help select the transformation.
         authority: str, optional
             When not specified, coordinate operations from any authority will be
@@ -662,15 +662,28 @@ class Transformer:
         .. versionadded:: 2.2.0 direction
         .. versionadded:: 3.2.0 inplace
 
+        Accepted numeric scalar or array:
+
+        - :class:`int`
+        - :class:`float`
+        - :class:`numpy.floating`
+        - :class:`numpy.integer`
+        - :class:`list`
+        - :class:`tuple`
+        - :class:`array.array`
+        - :class:`numpy.ndarray`
+        - :class:`xarray.DataArray`
+        - :class:`pandas.Series`
+
         Parameters
         ----------
-        xx: scalar or array (numpy or python)
+        xx: scalar or array
             Input x coordinate(s).
-        yy: scalar or array (numpy or python)
+        yy: scalar or array
             Input y coordinate(s).
-        zz: scalar or array (numpy or python), optional
+        zz: scalar or array, optional
             Input z coordinate(s).
-        tt: scalar or array (numpy or python), optional
+        tt: scalar or array, optional
             Input time coordinate(s).
         radians: bool, default=False
             If True, will expect input data to be in radians and will return radians

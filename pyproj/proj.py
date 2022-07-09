@@ -152,11 +152,24 @@ class Proj(Transformer):
         Works with numpy and regular python array objects, python
         sequences and scalars, but is fastest for array objects.
 
+        Accepted numeric scalar or array:
+
+        - :class:`int`
+        - :class:`float`
+        - :class:`numpy.floating`
+        - :class:`numpy.integer`
+        - :class:`list`
+        - :class:`tuple`
+        - :class:`array.array`
+        - :class:`numpy.ndarray`
+        - :class:`xarray.DataArray`
+        - :class:`pandas.Series`
+
         Parameters
         ----------
-        longitude: scalar or array (numpy or python)
+        longitude: scalar or array
             Input longitude coordinate(s).
-        latitude: scalar or array (numpy or python)
+        latitude: scalar or array
             Input latitude coordinate(s).
         inverse: bool, default=False
             If inverse is True the inverse transformation from x/y to
@@ -204,11 +217,24 @@ class Proj(Transformer):
         The function also calculates the partial derivatives of the given
         coordinate.
 
+        Accepted numeric scalar or array:
+
+        - :class:`int`
+        - :class:`float`
+        - :class:`numpy.floating`
+        - :class:`numpy.integer`
+        - :class:`list`
+        - :class:`tuple`
+        - :class:`array.array`
+        - :class:`numpy.ndarray`
+        - :class:`xarray.DataArray`
+        - :class:`pandas.Series`
+
         Parameters
         ----------
-        longitude: scalar or array (numpy or python)
+        longitude: scalar or array
             Input longitude coordinate(s).
-        latitude: scalar or array (numpy or python)
+        latitude: scalar or array
             Input latitude coordinate(s).
         radians: bool, default=False
             If True, will expect input data to be in radians and will return radians
