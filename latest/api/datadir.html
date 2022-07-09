@@ -234,12 +234,12 @@
 <h2>pyproj.datadir.get_data_dir<a class="headerlink" href="#pyproj-datadir-get-data-dir" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.datadir.get_data_dir">
-<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">get_data_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#get_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.get_data_dir" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">get_data_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#get_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.get_data_dir" title="Permalink to this definition">#</a></dt>
 <dd><p>The order of preference for the data directory is:</p>
 <ol class="arabic simple">
 <li><p>The one set by pyproj.datadir.set_data_dir (if exists &amp; valid)</p></li>
 <li><p>The internal proj directory (if exists &amp; valid)</p></li>
-<li><p>The directory in PROJ_LIB (if exists &amp; valid)</p></li>
+<li><p>The directory in PROJ_DATA (PROJ 9.1+) | PROJ_LIB (PROJ&lt;9.1) (if exists &amp; valid)</p></li>
 <li><p>The directory on sys.prefix (if exists &amp; valid)</p></li>
 <li><p>The directory on the PATH (if exists &amp; valid)</p></li>
 </ol>
@@ -248,7 +248,7 @@
 <dd class="field-odd"><p>The valid data directory.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -258,11 +258,11 @@
 <h2>pyproj.datadir.set_data_dir<a class="headerlink" href="#pyproj-datadir-set-data-dir" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.datadir.set_data_dir">
-<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">set_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#set_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.set_data_dir" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">set_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">Path</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#set_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.set_data_dir" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the data directory for PROJ to use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>proj_data_dir</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – The path to the PROJ data directory.</p>
+<dd class="field-odd"><p><strong>proj_data_dir</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Path</em><em>]</em>) – The path to the PROJ data directory.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -272,11 +272,11 @@
 <h2>pyproj.datadir.append_data_dir<a class="headerlink" href="#pyproj-datadir-append-data-dir" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.datadir.append_data_dir">
-<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">append_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#append_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.append_data_dir" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.datadir.</span></span><span class="sig-name descname"><span class="pre">append_data_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">Path</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pyproj/datadir.html#append_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.datadir.append_data_dir" title="Permalink to this definition">#</a></dt>
 <dd><p>Add an additional data directory for PROJ to use.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>proj_data_dir</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – The path to the PROJ data directory.</p>
+<dd class="field-odd"><p><strong>proj_data_dir</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Path</em><em>]</em>) – The path to the PROJ data directory.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -297,13 +297,13 @@ are enabled. It is also the default download location for the
 <a class="reference external" href="https://proj.org/apps/projsync.html#projsync" title="(in PROJ v9.0.1)"><span class="xref std std-ref">projsync</span></a> command line program.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>create</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, it will create the directory if it does not already exist.</p>
+<dd class="field-odd"><p><strong>create</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, it will create the directory if it does not already exist.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The user writable data directory.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
