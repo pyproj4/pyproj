@@ -84,7 +84,7 @@ def test_get_data_dir__from_user(projdir_type, tmp_path):
     tmpdir_env = tmp_path / "proj_env"
     tmpdir_env.mkdir()
     with proj_env(), patch.dict(
-        os.environ, {"PROJ_LIB": str(tmpdir_env)}, clear=True
+        os.environ, {"PROJ_DATA": str(tmpdir_env)}, clear=True
     ), patch("pyproj.datadir.Path.absolute", return_value=tmpdir / "datadir.py"), patch(
         "pyproj.datadir.sys.prefix", str(tmpdir_env)
     ):  # noqa: E501
@@ -103,7 +103,9 @@ def test_get_data_dir__internal(tmp_path):
     tmpdir_fake = tmp_path / "proj_fake"
     tmpdir_fake.mkdir()
     with proj_env(), patch.dict(
-        os.environ, {"PROJ_LIB": str(tmpdir_fake)}, clear=True
+        os.environ,
+        {"PROJ_LIB": str(tmpdir_fake), "PROJ_DATA": str(tmpdir_fake)},
+        clear=True,
     ), patch("pyproj.datadir.Path.absolute", return_value=tmpdir / "datadir.py"), patch(
         "pyproj.datadir.sys.prefix", str(tmpdir_fake)
     ):
@@ -115,7 +117,7 @@ def test_get_data_dir__internal(tmp_path):
         assert get_data_dir() == str(internal_proj_dir)
 
 
-def test_get_data_dir__from_env_var(tmp_path):
+def test_get_data_dir__from_env_var__proj_lib(tmp_path):
     with proj_env(), patch.dict(
         os.environ, {"PROJ_LIB": str(tmp_path)}, clear=True
     ), patch("pyproj.datadir.Path.absolute", return_value=_INVALID_PATH), patch(
@@ -125,9 +127,19 @@ def test_get_data_dir__from_env_var(tmp_path):
         assert get_data_dir() == str(tmp_path)
 
 
+def test_get_data_dir__from_env_var__proj_data(tmp_path):
+    with proj_env(), patch.dict(
+        os.environ, {"PROJ_DATA": str(tmp_path)}, clear=True
+    ), patch("pyproj.datadir.Path.absolute", return_value=_INVALID_PATH), patch(
+        "pyproj.datadir.sys.prefix", str(_INVALID_PATH)
+    ):
+        create_projdb(tmp_path)
+        assert get_data_dir() == str(tmp_path)
+
+
 def test_get_data_dir__from_env_var__multiple(tmp_path):
     tmpdir = os.pathsep.join([str(tmp_path) for _ in range(3)])
-    with proj_env(), patch.dict(os.environ, {"PROJ_LIB": tmpdir}, clear=True), patch(
+    with proj_env(), patch.dict(os.environ, {"PROJ_DATA": tmpdir}, clear=True), patch(
         "pyproj.datadir.Path.absolute", return_value=_INVALID_PATH
     ), patch("pyproj.datadir.sys.prefix", str(_INVALID_PATH)):
         create_projdb(tmp_path)

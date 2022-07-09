@@ -15,11 +15,11 @@ environment:
     # with caching build takes less than 1 minute
     # - PYTHON: "C:\\Python37-x64"
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    #   PROJSOURCE: 8.1.1
+    #   PROJSOURCE: 9.0.1
     #   BUILD_SHARED_LIBS: ON
     - PYTHON: "C:\\Python38-x64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      PROJSOURCE: 8.1.1
+      PROJSOURCE: 9.0.1
       BUILD_SHARED_LIBS: ON
     # - PYTHON: "C:\\Python39-x64"
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
@@ -72,13 +72,13 @@ build_script:
   - if defined BUILD_PROJ ninja -v
   - if defined BUILD_PROJ ninja install
   - set PATH=%PROJ_DIR%\bin;%PATH%
-  - set PROJ_LIB=%PROJ_DIR%\share\proj
+  - set PROJ_DATA=%PROJ_DIR%\share\proj
   - cd %APPVEYOR_BUILD_FOLDER%
   - proj
   # Build and install pyproj wheel
   - python -m pip install -r requirements-dev.txt
   - mkdir pyproj\proj_dir\share\proj
-  - copy %PROJ_LIB%\* pyproj\proj_dir\share\proj
+  - copy %PROJ_DATA%\* pyproj\proj_dir\share\proj
   - set PROJ_WHEEL=true
   - python -m build --wheel
   - FOR %%F IN (dist\*.whl) DO (set PYPROJ_WHEEL=%%F)
@@ -100,7 +100,7 @@ install:
 
 test_script:
   # reset environment variables for test
-  - set PROJ_LIB=
+  - set PROJ_DATA=
   - set PROJ_DIR=
   - SET PATH=%BASE_PATH%
   # run the project tests
