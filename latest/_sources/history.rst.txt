@@ -4,11 +4,11 @@ Change Log
 Latest
 -------
 - DEP: Minimum PROJ version 8.1 (issue #1011)
-- BUG: Fix transformer list for 3D transformations in :class:`pyproj.transformer.TransformerGroup` (discussion #1072)
-- ENH: Added authority, accuracy, and allow_ballpark kwargs to :class:`pyproj.transformer.TransformerGroup` (pull #1076)
-- CLN: Remove deprecated `skip_equivalent` kwarg from transformers and `errcheck` kwarg from :meth:`pyproj.crs.CRS.from_cf` (pull #1077)
-- REF: use regex to process PROJ strings in :meth:`pyproj.crs.CRS.to_dict()`(pull #1086)
-- BUG: :class:`pyproj.crs.coordinate_operation.MercatorAConversion` defined only for lat_0 = 0 (issue #1089)
+- BUG: Fix transformer list for 3D transformations in :class:`.TransformerGroup` (discussion #1072)
+- ENH: Added authority, accuracy, and allow_ballpark kwargs to :class:`.TransformerGroup` (pull #1076)
+- CLN: Remove deprecated ``skip_equivalent`` kwarg from transformers and ``errcheck`` kwarg from :meth:`.CRS.from_cf` (pull #1077)
+- REF: use regex to process PROJ strings in :meth:`.CRS.to_dict` (pull #1086)
+- BUG: :class:`.MercatorAConversion` defined only for lat_0 = 0 (issue #1089)
 
 3.3.1
 -------
@@ -18,7 +18,7 @@ Latest
 - BUG: remove CustomConstructorCRS @abstractmethod decorator (pull #1018)
 - BUG: Correct type annotation for AreaofUse.bounds (issue #1012)
 - BUG: :func:`pyproj.datadir.get_data_dir` support for conda Windows (issue #1029)
-- ENH: warn when :meth:`pyproj.crs.CRS.to_wkt()`, :meth:`pyproj.crs.CRS.to_proj4()`, or :meth:`pyproj.crs.CRS.to_json()` returns None (issue #1036)
+- ENH: warn when :meth:`pyproj.crs.CRS.to_wkt`, :meth:`pyproj.crs.CRS.to_proj4`, or :meth:`pyproj.crs.CRS.to_json()` returns None (issue #1036)
 - ENH: Added support for int-like strings and numpy dtypes (issues #1026 and #1835)
 - ENH: Added support to pickle :class:`pyproj.transformer.Transformer` (issues #1058)
 
