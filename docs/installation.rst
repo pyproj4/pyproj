@@ -21,7 +21,7 @@ The easiest methods for installing pyproj are:
   - The MacOS and Linux wheels are powered by
     `cibuildwheel <https://github.com/pypa/cibuildwheel>`__
     & `multibuild <https://github.com/multi-build/multibuild>`__
-  - The Windows wheels are built by `Christoph Gohlke <https://www.lfd.uci.edu/~gohlke/pythonlibs/>`__
+  - The Windows wheels versions <= 3.3.x were built by `Christoph Gohlke <https://www.lfd.uci.edu/~gohlke/pythonlibs/>`__
 
 
 2. Use `conda <https://conda.io/en/latest/>`__ with the `conda-forge <https://conda-forge.org/>`__ channel:
@@ -39,7 +39,7 @@ The easiest methods for installing pyproj are:
       anaconda/miniconda. Using envs make it easier to
       debug problems with packages and ensure the stability
       of your root env."
-        -- https://conda-forge.org/docs/user/tipsandtricks.html
+      -- https://conda-forge.org/docs/user/tipsandtricks.html
 
   .. warning::
       Avoid using `pip install` with a conda environment. If you encounter
@@ -47,7 +47,7 @@ The easiest methods for installing pyproj are:
       recipe: https://github.com/conda-forge/staged-recipes/
 
 
-  - `pypoj` is maintaned by the `pyproj-feedstock maintainers <http://github.com/conda-forge/pyproj-feedstock>`__
+  - `pyproj` is maintaned by the `pyproj-feedstock maintainers <http://github.com/conda-forge/pyproj-feedstock>`__
   - `PROJ` is maintaned by the `proj.4-feedstock maintainers <http://github.com/conda-forge/proj.4-feedstock>`__
 
 If these installation methods do not meet your needs, the section below provides further instructions
