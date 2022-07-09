@@ -56,7 +56,7 @@ def get_data_dir() -> str:
 
     1. The one set by pyproj.datadir.set_data_dir (if exists & valid)
     2. The internal proj directory (if exists & valid)
-    3. The directory in PROJ_LIB (if exists & valid)
+    3. The directory in PROJ_DATA (PROJ 9.1+) | PROJ_LIB (PROJ<9.1) (if exists & valid)
     4. The directory on sys.prefix (if exists & valid)
     5. The directory on the PATH (if exists & valid)
 
@@ -71,7 +71,7 @@ def get_data_dir() -> str:
     if _VALIDATED_PROJ_DATA is not None:
         return _VALIDATED_PROJ_DATA
     internal_datadir = Path(__file__).absolute().parent / "proj_dir" / "share" / "proj"
-    proj_lib_dirs = os.environ.get("PROJ_LIB", "")
+    proj_lib_dirs = os.environ.get("PROJ_DATA", os.environ.get("PROJ_LIB", ""))
     prefix_datadir = Path(sys.prefix, "share", "proj")
     conda_windows_prefix_datadir = Path(sys.prefix, "Library", "share", "proj")
 
@@ -113,7 +113,8 @@ def get_data_dir() -> str:
     if _VALIDATED_PROJ_DATA is None:
         raise DataDirError(
             "Valid PROJ data directory not found. "
-            "Either set the path using the environmental variable PROJ_LIB or "
+            "Either set the path using the environmental variable "
+            "PROJ_DATA (PROJ 9.1+) | PROJ_LIB (PROJ<9.1) or "
             "with `pyproj.datadir.set_data_dir`."
         )
     return _VALIDATED_PROJ_DATA
