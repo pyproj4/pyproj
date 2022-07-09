@@ -479,15 +479,28 @@
 <span class="sd">        points given longitudes and latitudes of initial points,</span>
 <span class="sd">        plus forward azimuths and distances.</span>
 
+<span class="sd">        Accepted numeric scalar or array:</span>
+
+<span class="sd">        - :class:`int`</span>
+<span class="sd">        - :class:`float`</span>
+<span class="sd">        - :class:`numpy.floating`</span>
+<span class="sd">        - :class:`numpy.integer`</span>
+<span class="sd">        - :class:`list`</span>
+<span class="sd">        - :class:`tuple`</span>
+<span class="sd">        - :class:`array.array`</span>
+<span class="sd">        - :class:`numpy.ndarray`</span>
+<span class="sd">        - :class:`xarray.DataArray`</span>
+<span class="sd">        - :class:`pandas.Series`</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        lons: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">        lons: scalar or array</span>
 <span class="sd">            Longitude(s) of initial point(s)</span>
-<span class="sd">        lats: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">        lats: scalar or array</span>
 <span class="sd">            Latitude(s) of initial point(s)</span>
-<span class="sd">        az: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">        az: scalar or array</span>
 <span class="sd">            Forward azimuth(s)</span>
-<span class="sd">        dist: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">        dist: scalar or array</span>
 <span class="sd">            Distance(s) between initial and terminus point(s)</span>
 <span class="sd">            in meters</span>
 <span class="sd">        radians: bool, default=False</span>
@@ -496,11 +509,11 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">        scalar or array:</span>
 <span class="sd">            Longitude(s) of terminus point(s)</span>
-<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">        scalar or array:</span>
 <span class="sd">            Latitude(s) of terminus point(s)</span>
-<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">        scalar or array:</span>
 <span class="sd">            Back azimuth(s)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
@@ -529,15 +542,28 @@
 <span class="sd">        Determine forward and back azimuths, plus distances</span>
 <span class="sd">        between initial points and terminus points.</span>
 
+<span class="sd">        Accepted numeric scalar or array:</span>
+
+<span class="sd">        - :class:`int`</span>
+<span class="sd">        - :class:`float`</span>
+<span class="sd">        - :class:`numpy.floating`</span>
+<span class="sd">        - :class:`numpy.integer`</span>
+<span class="sd">        - :class:`list`</span>
+<span class="sd">        - :class:`tuple`</span>
+<span class="sd">        - :class:`array.array`</span>
+<span class="sd">        - :class:`numpy.ndarray`</span>
+<span class="sd">        - :class:`xarray.DataArray`</span>
+<span class="sd">        - :class:`pandas.Series`</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        lons1: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">        lons1: scalar or array</span>
 <span class="sd">            Longitude(s) of initial point(s)</span>
-<span class="sd">        lats1: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">        lats1: scalar or array</span>
 <span class="sd">            Latitude(s) of initial point(s)</span>
-<span class="sd">        lons2: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">        lons2: scalar or array</span>
 <span class="sd">            Longitude(s) of terminus point(s)</span>
-<span class="sd">        lats2: array, :class:`numpy.ndarray`, list, tuple, or scalar</span>
+<span class="sd">        lats2: scalar or array</span>
 <span class="sd">            Latitude(s) of terminus point(s)</span>
 <span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
@@ -545,11 +571,11 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">        scalar or array:</span>
 <span class="sd">            Forward azimuth(s)</span>
-<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">        scalar or array:</span>
 <span class="sd">            Back azimuth(s)</span>
-<span class="sd">        array, :class:`numpy.ndarray`, list, tuple, or scalar:</span>
+<span class="sd">        scalar or array:</span>
 <span class="sd">            Distance(s) between initial and terminus point(s)</span>
 <span class="sd">            in meters</span>
 <span class="sd">        &quot;&quot;&quot;</span>

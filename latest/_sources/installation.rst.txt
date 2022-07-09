@@ -68,12 +68,12 @@ Version compatibility matrix:
 pyproj         PROJ
 ============   ============
 <= 1.9.6       <= 5.2
-2.0-2.1        6.0+
+2.0-2.1        6.0-7
 2.2-2.3        6.1-7
 2.4-2.6        6.2-7
 3.0.0          7.2
-3.0.1+         7.2+
-3.3.0+         8.0+
+3.0.1+         7.2-9
+3.3.0+         8.0-9
 3.4.0+         8.1+
 ============   ============
 
@@ -153,7 +153,7 @@ point to location of PROJ installation before running setup.py.
 If you have a previous version of PROJ installed alongside the current
 version of PROJ, the best way to avoid conflicts is to:
 
-    1. Remove the previous PROJ from `PATH` & unset the `PROJ_LIB` environment variable (temporarily)
+    1. Remove the previous PROJ from `PATH` & unset the `PROJ_DATA`` (PROJ 9.1+) | `PROJ_LIB` (PROJ<9.1) environment variables (temporarily)
     2. Install PROJ to the internal PROJ directory (pyproj/proj_dir)
     3. Set the environment variable :envvar:`PROJ_DIR` to point to the internal PROJ directory
     4. Set the environment variable :envvar:`PROJ_WHEEL` to true

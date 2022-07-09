@@ -9,6 +9,7 @@ Latest
 - CLN: Remove deprecated ``skip_equivalent`` kwarg from transformers and ``errcheck`` kwarg from :meth:`.CRS.from_cf` (pull #1077)
 - REF: use regex to process PROJ strings in :meth:`.CRS.to_dict` (pull #1086)
 - BUG: :class:`.MercatorAConversion` defined only for lat_0 = 0 (issue #1089)
+- BUG: Add support for `PROJ_DATA` environment variable (issue #1097)
 
 3.3.1
 -------

@@ -305,7 +305,7 @@ for getting setup.</p>
 <td><p>&lt;= 5.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>2.0-2.1</p></td>
-<td><p>6.0+</p></td>
+<td><p>6.0-7</p></td>
 </tr>
 <tr class="row-even"><td><p>2.2-2.3</p></td>
 <td><p>6.1-7</p></td>
@@ -317,10 +317,10 @@ for getting setup.</p>
 <td><p>7.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>3.0.1+</p></td>
-<td><p>7.2+</p></td>
+<td><p>7.2-9</p></td>
 </tr>
 <tr class="row-even"><td><p>3.3.0+</p></td>
-<td><p>8.0+</p></td>
+<td><p>8.0-9</p></td>
 </tr>
 <tr class="row-odd"><td><p>3.4.0+</p></td>
 <td><p>8.1+</p></td>
@@ -414,7 +414,7 @@ point to location of PROJ installation before running setup.py.</p>
 version of PROJ, the best way to avoid conflicts is to:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>Remove the previous PROJ from <cite>PATH</cite> &amp; unset the <cite>PROJ_LIB</cite> environment variable (temporarily)</p></li>
+<li><p>Remove the previous PROJ from <cite>PATH</cite> &amp; unset the <cite>PROJ_DATA`</cite> (PROJ 9.1+) | <cite>PROJ_LIB</cite> (PROJ&lt;9.1) environment variables (temporarily)</p></li>
 <li><p>Install PROJ to the internal PROJ directory (pyproj/proj_dir)</p></li>
 <li><p>Set the environment variable <span class="target" id="index-2"></span><a class="reference internal" href="#envvar-PROJ_DIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_DIR</span></code></a> to point to the internal PROJ directory</p></li>
 <li><p>Set the environment variable <span class="target" id="index-3"></span><a class="reference internal" href="#envvar-PROJ_WHEEL"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_WHEEL</span></code></a> to true</p></li>

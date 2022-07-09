@@ -398,7 +398,7 @@
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
-<span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
+<span class="sd">        area_of_interest: :class:`.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help order the transformations based on the</span>
 <span class="sd">            best operation for the area.</span>
 <span class="sd">        authority: str, optional</span>
@@ -718,7 +718,7 @@
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
-<span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
+<span class="sd">        area_of_interest: :class:`.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help select the transformation.</span>
 
 <span class="sd">        Returns</span>
@@ -767,7 +767,7 @@
 <span class="sd">            If true, the transform method will accept as input and return as output</span>
 <span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
 <span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
-<span class="sd">        area_of_interest: :class:`pyproj.transformer.AreaOfInterest`, optional</span>
+<span class="sd">        area_of_interest: :class:`.AreaOfInterest`, optional</span>
 <span class="sd">            The area of interest to help select the transformation.</span>
 <span class="sd">        authority: str, optional</span>
 <span class="sd">            When not specified, coordinate operations from any authority will be</span>
@@ -892,15 +892,28 @@
 <span class="sd">        .. versionadded:: 2.2.0 direction</span>
 <span class="sd">        .. versionadded:: 3.2.0 inplace</span>
 
+<span class="sd">        Accepted numeric scalar or array:</span>
+
+<span class="sd">        - :class:`int`</span>
+<span class="sd">        - :class:`float`</span>
+<span class="sd">        - :class:`numpy.floating`</span>
+<span class="sd">        - :class:`numpy.integer`</span>
+<span class="sd">        - :class:`list`</span>
+<span class="sd">        - :class:`tuple`</span>
+<span class="sd">        - :class:`array.array`</span>
+<span class="sd">        - :class:`numpy.ndarray`</span>
+<span class="sd">        - :class:`xarray.DataArray`</span>
+<span class="sd">        - :class:`pandas.Series`</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        xx: scalar or array (numpy or python)</span>
+<span class="sd">        xx: scalar or array</span>
 <span class="sd">            Input x coordinate(s).</span>
-<span class="sd">        yy: scalar or array (numpy or python)</span>
+<span class="sd">        yy: scalar or array</span>
 <span class="sd">            Input y coordinate(s).</span>
-<span class="sd">        zz: scalar or array (numpy or python), optional</span>
+<span class="sd">        zz: scalar or array, optional</span>
 <span class="sd">            Input z coordinate(s).</span>
-<span class="sd">        tt: scalar or array (numpy or python), optional</span>
+<span class="sd">        tt: scalar or array, optional</span>
 <span class="sd">            Input time coordinate(s).</span>
 <span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, will expect input data to be in radians and will return radians</span>
