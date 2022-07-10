@@ -25,7 +25,7 @@ the capability to work with grid files that are not installed on the local machi
 
 Available methods for download include:
 
-- `Mirroing the data <https://proj.org/usage/network.html#mirroring>`__:
+- `Mirroring the data <https://proj.org/usage/network.html#mirroring>`__:
 
   To download to PROJ user writable data directory:
 
