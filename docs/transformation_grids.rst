@@ -33,13 +33,13 @@ Available methods for download include:
 
   .. code-block:: bash
 
-    export PROJ_DOWNLOAD_DIR=$(python -c "import pyproj; print(pyproj.datadir.get_user_data_dir())
+    export PROJ_DOWNLOAD_DIR=$(python -c "import pyproj; print(pyproj.datadir.get_user_data_dir())")
 
   To download to the main PROJ data data directory:
 
   .. code-block:: bash
 
-    export PROJ_DOWNLOAD_DIR=$(python -c "import pyproj; print(pyproj.datadir.get_data_dir())
+    export PROJ_DOWNLOAD_DIR=$(python -c "import pyproj; print(pyproj.datadir.get_data_dir())")
 
   Download the files:
 
