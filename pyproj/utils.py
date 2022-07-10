@@ -109,7 +109,14 @@ def _copytobuffer(xxx: Any, inplace: bool = False) -> Tuple[Any, DataType]:
         The copy of the data prepared for the PROJ API & Python Buffer API.
     """
     # check for pandas.Series, xarray.DataArray or dask.array.Array
-    if hasattr(xxx, "__array__") and callable(xxx.__array__):
+    # also handle numpy masked Arrays; note that pandas.Series also has a
+    # "mask" attribute, hence checking for simply the "mask" attr in that
+    # case isn't sufficient
+    if (
+        not hasattr(xxx, "hardmask")
+        and hasattr(xxx, "__array__")
+        and callable(xxx.__array__)
+    ):
         xxx = xxx.__array__()
 
     # handle numpy data

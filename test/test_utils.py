@@ -42,6 +42,13 @@ def test__copytobuffer__numpy_array(in_arr):
     )
 
 
+def test__copytobuffer__numpy_masked_array():
+    in_arr = numpy.ma.array([1])
+    out_arr, dtype = _copytobuffer(in_arr)
+
+    assert isinstance(out_arr, numpy.ma.MaskedArray)
+
+
 def test__copytobuffer__fortran_order():
     data = numpy.ones((2, 4), dtype=numpy.float64, order="F")
     converted_data, dtype = _copytobuffer(data)
