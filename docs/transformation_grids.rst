@@ -35,7 +35,7 @@ Available methods for download include:
 
     export PROJ_DOWNLOAD_DIR=$(python -c "import pyproj; print(pyproj.datadir.get_user_data_dir())")
 
-  To download to the main PROJ data data directory:
+  To download to the main PROJ data directory:
 
   .. code-block:: bash
 
