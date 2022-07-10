@@ -27,7 +27,7 @@ Available methods for download include:
 
 - `Mirroring the data <https://proj.org/usage/network.html#mirroring>`__:
 
-  To download to PROJ user writable data directory:
+  To download to the PROJ user-writable data directory:
 
   .. versionadded:: 7.1.0
 
@@ -41,11 +41,13 @@ Available methods for download include:
 
     export PROJ_DOWNLOAD_DIR=$(python -c "import pyproj; print(pyproj.datadir.get_data_dir())")
 
-  Download the files:
+  Download the files with either:
 
   .. code-block:: bash
 
     aws s3 sync s3://cdn.proj.org ${PROJ_DOWNLOAD_DIR}
+
+  or:
 
   .. code-block:: bash
 
