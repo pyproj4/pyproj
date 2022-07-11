@@ -532,6 +532,18 @@
         "bug",
         "doc"
       ]
+    },
+    {
+      "login": "paulcochrane",
+      "name": "paulcochrane",
+      "avatar_url": "https://avatars.githubusercontent.com/u/18310598?v=4",
+      "profile": "https://github.com/paulcochrane",
+      "contributions": [
+        "code",
+        "doc",
+        "test",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7

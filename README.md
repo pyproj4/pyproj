@@ -6,7 +6,7 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 
 <p align="center">
 <a href="https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Join the chat at https://gitter.im/pyproj4-pyproj/community" src="https://badges.gitter.im/pyproj4-pyproj/community.svg"></a>
-<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-50-orange.svg?style=flat-square"></a>
+<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-51-orange.svg?style=flat-square"></a>
 <a href="https://ci.appveyor.com/project/snowman2/pyproj"><img alt="Appveyor Build Status" src="https://ci.appveyor.com/api/projects/status/v2ypts9j76doa9ey/branch/main?svg=true"></a>
 <a href="https://github.com/pyproj4/pyproj/actions?query=workflow%3ATests"><img alt="GitHub Actions Build Status" src="https://github.com/pyproj4/pyproj/workflows/Tests/badge.svg"></a>
 <a href="https://codecov.io/gh/pyproj4/pyproj"><img alt="Codecov Status" src="https://codecov.io/gh/pyproj4/pyproj/branch/main/graph/badge.svg"></a>
@@ -104,6 +104,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/kdpenner"><img src="https://avatars.githubusercontent.com/u/9297904?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kyle Penner</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=kdpenner" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/issues?q=author%3Akdpenner" title="Bug reports">🐛</a> <a href="https://github.com/pyproj4/pyproj/commits?author=kdpenner" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/paulcochrane"><img src="https://avatars.githubusercontent.com/u/18310598?v=4?s=100" width="100px;" alt=""/><br /><sub><b>paulcochrane</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=paulcochrane" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=paulcochrane" title="Documentation">📖</a> <a href="https://github.com/pyproj4/pyproj/commits?author=paulcochrane" title="Tests">⚠️</a> <a href="https://github.com/pyproj4/pyproj/issues?q=author%3Apaulcochrane" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
