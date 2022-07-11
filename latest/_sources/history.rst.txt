@@ -10,6 +10,7 @@ Latest
 - REF: use regex to process PROJ strings in :meth:`.CRS.to_dict` (pull #1086)
 - BUG: :class:`.MercatorAConversion` defined only for lat_0 = 0 (issue #1089)
 - BUG: Add support for `PROJ_DATA` environment variable (issue #1097)
+- BUG: Ensure numpy masked arrays stay masked after projection (issue #1102)
 
 3.3.1
 -------
