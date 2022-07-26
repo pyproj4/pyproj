@@ -7,7 +7,7 @@ on:
     types: [ created ]
   pull_request:  # also build on PRs touching this file
     paths:
-      - ".github/workflows/wheels.yaml"
+      - ".github/workflows/release.yaml"
       - "ci/proj-compile-wheels.sh"
 
 concurrency:
@@ -61,13 +61,13 @@ jobs:
           arch: x86_64
         - os: ubuntu-20.04
           arch: i686
-        - os: macos-10.15
+        - os: macos-11
           arch: x86_64
           cmake_osx_architectures: x86_64
-        # - os: macos-10.15
+        # - os: macos-11
         #   arch: arm64
         #   cmake_osx_architectures: arm64
-        # - os: macos-10.15
+        # - os: macos-11
         #   arch: universal2
         #   cmake_osx_architectures: "x86_64;arm64"
         - os: "windows-2019"
@@ -102,7 +102,7 @@ jobs:
           cp "$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}/share/proj/data/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.3.1
+        uses: pypa/cibuildwheel@v2.8.1
         env:
           CIBW_SKIP: "*musllinux* pp*-win*"
           CIBW_ARCHS: ${{ matrix.arch }}
