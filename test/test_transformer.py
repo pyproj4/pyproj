@@ -703,34 +703,28 @@ def test_transformer_group__get_transform_crs():
         assert len(tg.transformers) == 6
 
 
-@pytest.mark.grid
 def test_transformer__area_of_interest():
     transformer = Transformer.from_crs(
-        4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
+        "EPSG:7789",
+        "EPSG:4936",
+        area_of_interest=AreaOfInterest(-177.25, -44.64, -43.3, -175.54),
     )
-    if not grids_available("ca_nrc_ntv2_0.tif"):
-        assert (
-            transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
-        )
-    else:
-        assert (
-            transformer.description == "Inverse of NAD27 to WGS 84 (33) + Alaska Albers"
-        )
+    assert (
+        transformer.description
+        == "Ballpark geocentric translation from ITRF2014 to ETRS89"
+    )
 
 
-@pytest.mark.grid
 def test_transformer_proj__area_of_interest():
     transformer = Transformer.from_proj(
-        4326, 2964, area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17)
+        "EPSG:7789",
+        "EPSG:4936",
+        area_of_interest=AreaOfInterest(-177.25, -44.64, -43.3, -175.54),
     )
-    if not grids_available("ca_nrc_ntv2_0.tif"):
-        assert (
-            transformer.description == "Inverse of NAD27 to WGS 84 (13) + Alaska Albers"
-        )
-    else:
-        assert (
-            transformer.description == "Inverse of NAD27 to WGS 84 (33) + Alaska Albers"
-        )
+    assert (
+        transformer.description
+        == "Ballpark geocentric translation from ITRF2014 to ETRS89"
+    )
 
 
 def test_transformer__area_of_interest__invalid():
