@@ -147,7 +147,7 @@ jobs:
     needs: [make_sdist,build_wheels]
     runs-on: ubuntu-latest
     # release on every tag
-    if: github.event_name == 'release' && startsWith(github.event.ref, 'refs/tags/')
+    if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/download-artifact@v2
         with:
