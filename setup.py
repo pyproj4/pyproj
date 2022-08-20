@@ -167,7 +167,7 @@ def get_extension_modules():
     ext_options = {
         "include_dirs": include_dirs,
         "library_dirs": library_dirs,
-        "runtime_library_dirs": library_dirs if os.name != "nt" else None,
+        "runtime_library_dirs": library_dirs if os.name != "nt" and sys.platform != "cygwin" else None,
         "libraries": get_libraries(library_dirs),
     }
     # setup cythonized modules
