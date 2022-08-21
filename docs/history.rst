@@ -11,6 +11,7 @@ Latest
 - BUG: :class:`.MercatorAConversion` defined only for lat_0 = 0 (issue #1089)
 - BUG: Add support for `PROJ_DATA` environment variable (issue #1097)
 - BUG: Ensure numpy masked arrays stay masked after projection (issue #1102)
+- BLD: Don't specify runtime_library_dirs on Cygwin (pull #1120)
 
 3.3.1
 -------
