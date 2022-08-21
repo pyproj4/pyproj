@@ -553,6 +553,15 @@
       "contributions": [
         "platform"
       ]
+    },
+    {
+      "login": "DWesl",
+      "name": "DWesl",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22566757?v=4",
+      "profile": "https://github.com/DWesl",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
