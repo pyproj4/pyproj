@@ -3,5 +3,5 @@ pytest>3.6
 pytest-cov
 numpy
 pandas
-shapely
+shapely; python_version < '3.11'
 xarray
