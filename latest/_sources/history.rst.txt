@@ -3,6 +3,7 @@ Change Log
 
 Latest
 -------
+- WHL: Python 3.11 Wheels (issue #1110)
 - DEP: Minimum PROJ version 8.1 (issue #1011)
 - BUG: Fix transformer list for 3D transformations in :class:`.TransformerGroup` (discussion #1072)
 - ENH: Added authority, accuracy, and allow_ballpark kwargs to :class:`.TransformerGroup` (pull #1076)
