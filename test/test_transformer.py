@@ -18,7 +18,13 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import PROJ_GTE_91, grids_available, proj_env, proj_network_env
+from test.conftest import (
+    PROJ_GTE_9,
+    PROJ_GTE_91,
+    grids_available,
+    proj_env,
+    proj_network_env,
+)
 
 
 def test_tranform_wgs84_to_custom():
@@ -1519,6 +1525,30 @@ def test_pickle_transformer_from_crs():
     assert transformer == pickle.loads(pickle.dumps(transformer))
 
 
+def test_unpickle_transformer_from_crs_v1_3():
+    pickled_transformer = (
+        b"\x80\x04\x95p\x01\x00\x00\x00\x00\x00\x00\x8c\x12"
+        b"pyproj.transformer\x94\x8c\x0bTransformer\x94\x93\x94)"
+        b"\x81\x94}\x94\x8c\x12_transformer_maker\x94h\x00\x8c\x12"
+        b"TransformerFromCRS\x94\x93\x94)\x81\x94}\x94(\x8c\x08"
+        b"crs_from\x94C\tEPSG:4326\x94\x8c\x06crs_to\x94C\tEPSG:2964"
+        b"\x94\x8c\talways_xy\x94\x88\x8c\x10area_of_interest\x94\x8c\n"
+        b"pyproj.aoi\x94\x8c\x0eAreaOfInterest\x94\x93\x94)\x81\x94}\x94"
+        b"(\x8c\x0fwest_lon_degree\x94G\xc0a\x0e\xb8Q\xeb\x85\x1f\x8c\x10"
+        b"south_lat_degree\x94G@H\x80\x00\x00\x00\x00\x00\x8c\x0f"
+        b"east_lon_degree\x94G\xc0N\\(\xf5\xc2\x8f\\\x8c\x10"
+        b"north_lat_degree\x94G@T\xca\xe1G\xae\x14"
+        b"{ub\x8c\tauthority\x94N\x8c\x08accuracy\x94N\x8c\x0eallow_ballpark\x94Nubsb."
+    )
+    transformer = Transformer.from_crs(
+        "EPSG:4326",
+        "EPSG:2964",
+        always_xy=True,
+        area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17),
+    )
+    assert transformer == pickle.loads(pickled_transformer)
+
+
 def test_transformer_group_accuracy_filter():
     group = TransformerGroup("EPSG:4326", "EPSG:4258", accuracy=0.05)
     assert not group.transformers
@@ -1541,3 +1571,30 @@ def test_transformer_group_authority_filter():
         group.transformers[0].description
         == "Ballpark geographic offset from WGS 84 to ETRS89"
     )
+
+
+def test_transformer_force_over():
+    if PROJ_GTE_9:
+        transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857", force_over=True)
+        # Test a point along the equator.
+        # The same point, but in two different representations.
+        xxx, yyy = transformer.transform(0, 140)
+        xxx_over, yyy_over = transformer.transform(0, -220)
+        # Web Mercator x's between 0 and 180 longitude come out positive.
+        # But when forcing the over flag, the -220 calculation makes it flip.
+        assert xxx > 0
+        assert xxx_over < 0
+        # check it works in both directions
+        xxx_inverse, yyy_inverse = transformer.transform(
+            xxx, yyy, direction=TransformDirection.INVERSE
+        )
+        xxx_over_inverse, yyy_over_inverse = transformer.transform(
+            xxx_over, yyy_over, direction=TransformDirection.INVERSE
+        )
+        assert_almost_equal(xxx_inverse, 0)
+        assert_almost_equal(xxx_over_inverse, 0)
+        assert_almost_equal(yyy_inverse, 140)
+        assert_almost_equal(yyy_over_inverse, -220)
+    else:
+        with pytest.raises(NotImplementedError, match="force_over requires PROJ 9"):
+            Transformer.from_crs("EPSG:4326", "EPSG:3857", force_over=True)
