@@ -18,13 +18,7 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import (
-    PROJ_GTE_91,
-    RGF93toWSG84,
-    grids_available,
-    proj_env,
-    proj_network_env,
-)
+from test.conftest import PROJ_GTE_91, grids_available, proj_env, proj_network_env
 
 
 def test_tranform_wgs84_to_custom():
@@ -1110,12 +1104,14 @@ def test_transformer_authority_filter():
     "input_string",
     [
         "EPSG:1671",
-        RGF93toWSG84,
+        "RGF93 v1 to WGS 84 (1)",
         "urn:ogc:def:coordinateOperation:EPSG::1671",
     ],
 )
 def test_transformer_from_pipeline__input_types(input_string):
-    assert Transformer.from_pipeline(input_string).description == RGF93toWSG84
+    assert (
+        Transformer.from_pipeline(input_string).description == "RGF93 v1 to WGS 84 (1)"
+    )
 
 
 @pytest.mark.parametrize(
@@ -1133,7 +1129,7 @@ def test_transformer_from_pipeline__wkt_json(method_name):
                 method_name,
             )()
         ).description
-        == RGF93toWSG84
+        == "RGF93 v1 to WGS 84 (1)"
     )
 
 
