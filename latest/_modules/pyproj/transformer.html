@@ -303,9 +303,13 @@
 
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">TransformerFromCRS</span><span class="p">(</span><span class="n">TransformerMaker</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">TransformerFromCRS</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-instance-attributes</span>
+    <span class="n">TransformerMaker</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 3.1.0</span>
+
+<span class="sd">    .. versionadded:: 3.4.0 force_over</span>
 
 <span class="sd">    Generates a Cython _Transformer class from input CRS data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -317,6 +321,7 @@
     <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">accuracy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">allow_ballpark</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">force_over</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Transformer</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -332,6 +337,7 @@
             <span class="n">authority</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">authority</span><span class="p">,</span>
             <span class="n">accuracy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">accuracy</span><span class="p">,</span>
             <span class="n">allow_ballpark</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">allow_ballpark</span><span class="p">,</span>
+            <span class="n">force_over</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">force_over</span><span class="p">,</span>
         <span class="p">)</span>
 
 
@@ -750,12 +756,14 @@
         <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">accuracy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">allow_ballpark</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">force_over</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.</span>
 
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
 <span class="sd">        .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark</span>
+<span class="sd">        .. versionadded:: 3.4.0 force_over</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -784,6 +792,9 @@
 <span class="sd">        allow_ballpark: bool, optional</span>
 <span class="sd">            Set to False to disallow the use of Ballpark transformation</span>
 <span class="sd">            in the candidate coordinate operations. Default is to allow.</span>
+<span class="sd">        force_over: bool, default=False</span>
+<span class="sd">            If True, it will to force the +over flag on the transformation.</span>
+<span class="sd">            Requires PROJ 9+.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -799,6 +810,7 @@
                 <span class="n">authority</span><span class="o">=</span><span class="n">authority</span><span class="p">,</span>
                 <span class="n">accuracy</span><span class="o">=</span><span class="n">accuracy</span> <span class="k">if</span> <span class="n">accuracy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">accuracy</span><span class="p">),</span>
                 <span class="n">allow_ballpark</span><span class="o">=</span><span class="n">allow_ballpark</span><span class="p">,</span>
+                <span class="n">force_over</span><span class="o">=</span><span class="n">force_over</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 
