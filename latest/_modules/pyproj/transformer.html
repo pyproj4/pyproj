@@ -660,6 +660,23 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">operations</span>
 
+<div class="viewcode-block" id="Transformer.get_last_used_operation"><a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.get_last_used_operation">[docs]</a>    <span class="k">def</span> <span class="nf">get_last_used_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. versionadded:: 3.4.0</span>
+
+<span class="sd">        .. note:: Requires PROJ 9.1+</span>
+
+<span class="sd">        See: :c:func:`proj_trans_get_last_used_operation`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Transformer:</span>
+<span class="sd">            The operation used in the transform call.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
+            <span class="n">TransformerUnsafe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">get_last_used_operation</span><span class="p">())</span>
+        <span class="p">)</span></div>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_network_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
