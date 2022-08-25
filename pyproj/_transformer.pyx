@@ -242,7 +242,8 @@ cdef PJ* proj_create_crs_to_crs(
     str authority,
     str accuracy,
     allow_ballpark,
-):
+    bint force_over,
+) except NULL:
     """
     This is the same as proj_create_crs_to_crs in proj.h
     with the options added. It is a hack for stabilily
@@ -272,6 +273,7 @@ cdef PJ* proj_create_crs_to_crs(
     options[1] = NULL
     options[2] = NULL
     options[3] = NULL
+    options[4] = NULL
     if authority is not None:
         b_authority = cstrencode(f"AUTHORITY={authority}")
         options[options_index] = b_authority
@@ -283,6 +285,12 @@ cdef PJ* proj_create_crs_to_crs(
     if allow_ballpark is not None:
         if not allow_ballpark:
             options[options_index] = b"ALLOW_BALLPARK=NO"
+        options_index += 1
+    if force_over:
+        IF CTE_PROJ_VERSION_MAJOR >= 9:
+            options[options_index] = b"FORCE_OVER=YES"
+        ELSE:
+            raise NotImplementedError("force_over requires PROJ 9+.")
 
     cdef PJ* transform = proj_create_crs_to_crs_from_pj(
         ctx,
@@ -293,6 +301,8 @@ cdef PJ* proj_create_crs_to_crs(
     )
     proj_destroy(source_crs)
     proj_destroy(target_crs)
+    if transform == NULL:
+        raise ProjError("Error creating Transformer from CRS.")
     return transform
 
 
@@ -455,6 +465,7 @@ cdef class _Transformer(Base):
         str authority=None,
         str accuracy=None,
         allow_ballpark=None,
+        bint force_over=False,
     ):
         """
         Create a transformer from CRS objects
@@ -493,13 +504,11 @@ cdef class _Transformer(Base):
                 authority=authority,
                 accuracy=accuracy,
                 allow_ballpark=allow_ballpark,
+                force_over=force_over,
             )
         finally:
             if pj_area_of_interest != NULL:
                 proj_area_destroy(pj_area_of_interest)
-
-        if transformer.projobj == NULL:
-            raise ProjError("Error creating Transformer from CRS.")
 
         transformer._init_from_crs(always_xy)
         return transformer

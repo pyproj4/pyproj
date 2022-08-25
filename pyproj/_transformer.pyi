@@ -81,6 +81,7 @@ class _Transformer(Base):
         authority: Optional[str] = None,
         accuracy: Optional[str] = None,
         allow_ballpark: Optional[bool] = None,
+        force_over: bool = False,
     ) -> "_Transformer": ...
     @staticmethod
     def from_pipeline(proj_pipeline: bytes) -> "_Transformer": ...

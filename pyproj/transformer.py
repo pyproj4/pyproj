@@ -73,9 +73,13 @@ class TransformerUnsafe(TransformerMaker):
 
 
 @dataclass(frozen=True)
-class TransformerFromCRS(TransformerMaker):
+class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
+    TransformerMaker
+):
     """
     .. versionadded:: 3.1.0
+
+    .. versionadded:: 3.4.0 force_over
 
     Generates a Cython _Transformer class from input CRS data.
     """
@@ -87,6 +91,7 @@ class TransformerFromCRS(TransformerMaker):
     authority: Optional[str]
     accuracy: Optional[str]
     allow_ballpark: Optional[bool]
+    force_over: bool = False
 
     def __call__(self) -> _Transformer:
         """
@@ -102,6 +107,7 @@ class TransformerFromCRS(TransformerMaker):
             authority=self.authority,
             accuracy=self.accuracy,
             allow_ballpark=self.allow_ballpark,
+            force_over=self.force_over,
         )
 
 
@@ -520,12 +526,14 @@ class Transformer:
         authority: Optional[str] = None,
         accuracy: Optional[float] = None,
         allow_ballpark: Optional[bool] = None,
+        force_over: bool = False,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest
         .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark
+        .. versionadded:: 3.4.0 force_over
 
         Parameters
         ----------
@@ -554,6 +562,9 @@ class Transformer:
         allow_ballpark: bool, optional
             Set to False to disallow the use of Ballpark transformation
             in the candidate coordinate operations. Default is to allow.
+        force_over: bool, default=False
+            If True, it will to force the +over flag on the transformation.
+            Requires PROJ 9+.
 
         Returns
         -------
@@ -569,6 +580,7 @@ class Transformer:
                 authority=authority,
                 accuracy=accuracy if accuracy is None else str(accuracy),
                 allow_ballpark=allow_ballpark,
+                force_over=force_over,
             )
         )
 
