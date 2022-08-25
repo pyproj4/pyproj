@@ -7,6 +7,7 @@ Latest
 - DEP: Minimum PROJ version 8.2 (issue #1011)
 - BUG: Fix transformer list for 3D transformations in :class:`.TransformerGroup` (discussion #1072)
 - ENH: Added authority, accuracy, and allow_ballpark kwargs to :class:`.TransformerGroup` (pull #1076)
+- ENH: Added ``force_over`` kwarg to :meth:`.Transformer.from_crs` (issue #997)
 - CLN: Remove deprecated ``skip_equivalent`` kwarg from transformers and ``errcheck`` kwarg from :meth:`.CRS.from_cf` (pull #1077)
 - REF: use regex to process PROJ strings in :meth:`.CRS.to_dict` (pull #1086)
 - BUG: :class:`.MercatorAConversion` defined only for lat_0 = 0 (issue #1089)
