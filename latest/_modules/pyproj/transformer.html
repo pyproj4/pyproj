@@ -762,6 +762,8 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.</span>
 
+<span class="sd">        See: :c:func:`proj_create_crs_to_crs`</span>
+
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
 <span class="sd">        .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark</span>
@@ -821,6 +823,11 @@
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a PROJ pipeline string.</span>
 
 <span class="sd">        :ref:`pipeline`</span>
+
+<span class="sd">        See:</span>
+
+<span class="sd">        - :c:func:`proj_create`</span>
+<span class="sd">        - :c:func:`proj_create_from_database`</span>
 
 <span class="sd">        .. versionadded:: 3.1.0 AUTH:CODE string suppor (e.g. EPSG:1671)</span>
 
@@ -901,6 +908,8 @@
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform points between two coordinate systems.</span>
+
+<span class="sd">        See: :c:func:`proj_trans_generic`</span>
 
 <span class="sd">        .. versionadded:: 2.1.1 errcheck</span>
 <span class="sd">        .. versionadded:: 2.2.0 direction</span>
@@ -1031,6 +1040,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Iterator/generator version of the function pyproj.Transformer.transform.</span>
 
+<span class="sd">        See: :c:func:`proj_trans_generic`</span>
+
 <span class="sd">        .. versionadded:: 2.1.1 errcheck</span>
 <span class="sd">        .. versionadded:: 2.2.0 direction</span>
 
@@ -1159,6 +1170,8 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.1.0</span>
+
+<span class="sd">        See: :c:func:`proj_trans_bounds`</span>
 
 <span class="sd">        Transform boundary densifying the edges to account for nonlinear</span>
 <span class="sd">        transformations along these edges and extracting the outermost bounds.</span>
