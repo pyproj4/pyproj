@@ -532,6 +532,8 @@ class Transformer:
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
+        See: :c:func:`proj_create_crs_to_crs`
+
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest
         .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark
@@ -591,6 +593,11 @@ class Transformer:
         """Make a Transformer from a PROJ pipeline string.
 
         :ref:`pipeline`
+
+        See:
+
+        - :c:func:`proj_create`
+        - :c:func:`proj_create_from_database`
 
         .. versionadded:: 3.1.0 AUTH:CODE string suppor (e.g. EPSG:1671)
 
@@ -671,6 +678,8 @@ class Transformer:
     ):
         """
         Transform points between two coordinate systems.
+
+        See: :c:func:`proj_trans_generic`
 
         .. versionadded:: 2.1.1 errcheck
         .. versionadded:: 2.2.0 direction
@@ -801,6 +810,8 @@ class Transformer:
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
 
+        See: :c:func:`proj_trans_generic`
+
         .. versionadded:: 2.1.1 errcheck
         .. versionadded:: 2.2.0 direction
 
@@ -929,6 +940,8 @@ class Transformer:
     ) -> Tuple[float, float, float, float]:
         """
         .. versionadded:: 3.1.0
+
+        See: :c:func:`proj_trans_bounds`
 
         Transform boundary densifying the edges to account for nonlinear
         transformations along these edges and extracting the outermost bounds.
