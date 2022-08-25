@@ -417,6 +417,8 @@ cdef class _Transformer(Base):
         """
         .. versionadded:: 2.4.0
 
+        Returns
+        -------
         Tuple[CoordinateOperation]:
             The operations in a concatenated operation.
         """
@@ -430,6 +432,8 @@ cdef class _Transformer(Base):
         """
         .. versionadded:: 3.0.0
 
+        Returns
+        -------
         bool:
             If the network is enabled.
         """

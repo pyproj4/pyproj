@@ -435,6 +435,8 @@ class Transformer:
         """
         .. versionadded:: 3.0.0
 
+        Returns
+        -------
         bool:
             If the network is enabled.
         """
