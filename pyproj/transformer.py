@@ -430,6 +430,23 @@ class Transformer:
         """
         return self._transformer.operations
 
+    def get_last_used_operation(self) -> "Transformer":
+        """
+        .. versionadded:: 3.4.0
+
+        .. note:: Requires PROJ 9.1+
+
+        See: :c:func:`proj_trans_get_last_used_operation`
+
+        Returns
+        -------
+        Transformer:
+            The operation used in the transform call.
+        """
+        return Transformer(
+            TransformerUnsafe(self._transformer.get_last_used_operation())
+        )
+
     @property
     def is_network_enabled(self) -> bool:
         """

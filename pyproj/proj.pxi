@@ -18,6 +18,7 @@ cdef extern from "proj.h" nogil:
     PJ_CONTEXT *proj_context_create ()
     PJ_CONTEXT *proj_context_clone (PJ_CONTEXT *ctx)
     PJ_CONTEXT *proj_context_destroy (PJ_CONTEXT *ctx)
+    void proj_assign_context(PJ* pj, PJ_CONTEXT* ctx)
 
     ctypedef enum PJ_LOG_LEVEL:
         PJ_LOG_NONE  = 0

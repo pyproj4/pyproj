@@ -1598,3 +1598,26 @@ def test_transformer_force_over():
     else:
         with pytest.raises(NotImplementedError, match="force_over requires PROJ 9"):
             Transformer.from_crs("EPSG:4326", "EPSG:3857", force_over=True)
+
+
+def test_transformer__get_last_used_operation():
+    transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857")
+    if PROJ_GTE_91:
+        with pytest.raises(
+            ProjError,
+            match=(
+                r"Last used operation not found\. "
+                r"This is likely due to not initiating a transform\."
+            ),
+        ):
+            transformer.get_last_used_operation()
+        xxx, yyy = transformer.transform(1, 2)
+        operation = transformer.get_last_used_operation()
+        assert isinstance(operation, Transformer)
+        assert xxx, yyy == operation.transform(1, 2)
+    else:
+        with pytest.raises(
+            NotImplementedError,
+            match=r"PROJ 9\.1\+ required to get last used operation\.",
+        ):
+            transformer.get_last_used_operation()

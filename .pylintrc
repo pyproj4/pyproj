@@ -23,4 +23,4 @@ disable=cyclic-import,
 
 
 [FORMAT]
-max-module-lines=1300
+max-module-lines=1350
