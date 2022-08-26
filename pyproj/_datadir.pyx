@@ -56,6 +56,8 @@ def get_user_data_dir(create=False):
 
     Get the PROJ user writable directory for datumgrid files.
 
+    See: :c:func:`proj_context_get_user_writable_directory`
+
     This is where grids will be downloaded when
     :ref:`PROJ network <network>` capabilities
     are enabled. It is also the default download location for the

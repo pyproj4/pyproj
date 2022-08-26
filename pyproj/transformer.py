@@ -549,7 +549,10 @@ class Transformer:
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
-        See: :c:func:`proj_create_crs_to_crs`
+        See:
+
+        - :c:func:`proj_create_crs_to_crs`
+        - :c:func:`proj_create_crs_to_crs_from_pj`
 
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest

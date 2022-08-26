@@ -28,6 +28,8 @@ def set_network_enabled(active=None):
     Set whether PROJ network is enabled by default. This has the same
     behavior as the `PROJ_NETWORK` environment variable.
 
+    See: :c:func:`proj_context_set_enable_network`
+
     Parameters
     ----------
     active: bool, optional
@@ -48,6 +50,10 @@ def is_network_enabled():
     """
     .. versionadded:: 3.0.0
 
+    See: :c:func:`proj_context_is_network_enabled`
+
+    Returns
+    -------
     bool:
         If PROJ network is enabled by default.
     """

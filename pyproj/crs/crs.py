@@ -166,6 +166,8 @@ class CRS:
 
     .. versionadded:: 2.0.0
 
+    See: :c:func:`proj_create`
+
     The functionality is based on other fantastic projects:
 
     * `rasterio <https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx>`_  # noqa: E501

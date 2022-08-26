@@ -36,6 +36,8 @@ class WktVersion(BaseEnum):
      .. versionadded:: 2.2.0
 
     Supported CRS WKT string versions
+
+    See: :c:enum:`PJ_WKT_TYPE`
     """
 
     #: WKT Version 2 from 2015
@@ -89,6 +91,8 @@ class PJType(BaseEnum):
     .. versionadded:: 2.4.0
 
     PJ Types for listing codes with :func:`pyproj.get_codes`
+
+    See: :c:enum:`PJ_TYPE`
 
     Attributes
     ----------

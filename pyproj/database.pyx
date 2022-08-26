@@ -47,6 +47,8 @@ def get_authorities():
     """
     .. versionadded:: 2.4.0
 
+    See: :c:func:`proj_get_authorities_from_database`
+
     Returns
     -------
     List[str]:
@@ -72,6 +74,8 @@ def get_authorities():
 def get_codes(str auth_name not None, pj_type not None, bint allow_deprecated=False):
     """
     .. versionadded:: 2.4.0
+
+    See: :c:func:`proj_get_codes_from_database`
 
     Parameters
     ----------
@@ -160,6 +164,8 @@ def query_crs_info(
     .. versionadded:: 3.0.0
 
     Query for CRS information from the PROJ database.
+
+    See: :c:func:`proj_get_crs_info_list_from_database`
 
     Parameters
     ----------
@@ -272,6 +278,8 @@ def query_utm_crs_info(
 
     Query for EPSG UTM CRS information from the PROJ database.
 
+    See: :c:func:`proj_get_crs_info_list_from_database`
+
     Parameters
     ----------
     datum_name: Optional[str], optional
@@ -349,6 +357,8 @@ def get_units_map(str auth_name=None, str category=None, bint allow_deprecated=F
 
     Get the units available in the PROJ database.
 
+    See: :c:func:`proj_get_units_from_database`
+
     Parameters
     ----------
     auth_name: str, optional
@@ -408,6 +418,8 @@ def get_units_map(str auth_name=None, str category=None, bint allow_deprecated=F
 def get_database_metadata(str key not None):
     """
     Return metadata from the database.
+
+    See: :c:func:`proj_context_get_database_metadata`
 
     Available keys:
 
