@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 88
+ignore =
+    C408 # Unnecessary dict/list/tuple call - rewrite as a literal
+    E203 # whitespace before ':' - doesn't work well with black
+    E225 # missing whitespace around operator - let black worry about that
+    W503 # line break occurred before a binary operator - let black worry about that
