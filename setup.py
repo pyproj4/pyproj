@@ -224,21 +224,8 @@ def get_package_data() -> Dict[str, List[str]]:
     return package_data
 
 
-def get_version():
-    """
-    retreive pyproj version information (taken from Fiona)
-    """
-    with open(Path("pyproj", "__init__.py"), "r") as f:
-        for line in f:
-            if line.find("__version__") >= 0:
-                # parse __version__ and remove surrounding " or '
-                return line.split("=")[1].strip()[1:-1]
-    raise SystemExit("ERROR: pyproj version not found.")
-
-
 # static items in setup.cfg
 setup(
-    version=get_version(),
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
 )

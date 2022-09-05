@@ -28,22 +28,7 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-__version__ = "3.4.0.dev0"
-__all__ = [
-    "Proj",
-    "Geod",
-    "CRS",
-    "Transformer",
-    "transform",
-    "itransform",
-    "pj_ellps",
-    "pj_list",
-    "get_ellps_map",
-    "get_prime_meridians_map",
-    "get_proj_operations_map",
-    "get_units_map",
-    "show_versions",
-]
+import importlib.metadata
 import warnings
 
 import pyproj.network
@@ -82,6 +67,22 @@ from pyproj.transformer import (  # noqa: F401 pylint: disable=unused-import
     transform,
 )
 
+__version__ = importlib.metadata.version(__package__)
+__all__ = [
+    "Proj",
+    "Geod",
+    "CRS",
+    "Transformer",
+    "transform",
+    "itransform",
+    "pj_ellps",
+    "pj_list",
+    "get_ellps_map",
+    "get_prime_meridians_map",
+    "get_proj_operations_map",
+    "get_units_map",
+    "show_versions",
+]
 __proj_version__ = proj_version_str
 
 

@@ -96,4 +96,4 @@ install-dev: clean ## install development version to active Python's site-packag
 	python -m pip install -r requirements-dev.txt
 	pre-commit install
 	python -m pip install -r requirements-test.txt
-	PYPROJ_FULL_COVERAGE=YES python -m pip install -e . --no-use-pep517 || PYPROJ_FULL_COVERAGE=YES python -m pip install -e .
+	PYPROJ_FULL_COVERAGE=YES python -m pip install -e .
