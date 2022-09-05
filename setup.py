@@ -27,7 +27,7 @@ def get_proj_version(proj_dir: Path) -> str:
     )
     match = PROJ_VERSION_SEARCH.search(proj_ver)
     if not match:
-        raise RuntimeError(
+        raise SystemExit(
             "PROJ version unable to be determined. "
             "Please set the PROJ_VERSION environment variable."
         )
