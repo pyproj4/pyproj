@@ -15,6 +15,7 @@ Latest
 - BUG: Add support for `PROJ_DATA` environment variable (issue #1097)
 - BUG: Ensure numpy masked arrays stay masked after projection (issue #1102)
 - BLD: Don't specify runtime_library_dirs on Cygwin (pull #1120)
+- BUG: Fix finding PROJ version with PROJ_LIB and PROJ 9.1+ (issue #1127)
 
 3.3.1
 -------
