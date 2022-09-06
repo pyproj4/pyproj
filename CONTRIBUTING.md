@@ -20,7 +20,7 @@ So, please take a few minutes to read through this guide and get setup for succe
 ## What Can I Do?
 * Tackle any [issues](https://github.com/pyproj4/pyproj/issues) you wish! We have a special
   label for issues that beginners might want to try. Have a look at our
-  [current beginner issues.](https://github.com/pyproj4/pyproj/issues?q=is%3Aopen+is%3Aissue+label%3A%22Difficulty%3A+Beginner%22)
+  [current beginner issues](https://github.com/pyproj4/pyproj/issues?q=is%3Aopen+is%3Aissue+label%3Agood-first-issue).
   Also have a look at if the issue is already assigned to someone - this helps us make sure that work is not duplicated if the issue is already being worked on by someone else.
 
 * Contribute code you already have. It does not need to be perfect! We will help you clean
@@ -86,9 +86,9 @@ environments. Our recommended setup for contributing is:
     ```
 * Activate our new development environment ``conda activate devel`` on Mac/Linux or
   ``activate devel`` on Windows.
-* Install development requirements ``pip install -r requirements-dev.txt``
-* Make an editable install of pyproj by running ``pip install -e .``
-* Setup pre-commit hooks ``pre-commit install`` and ``pre-commit autoupdate``
+* Install development requirements ``python -m pip install -r requirements-dev.txt``
+* Make an editable install of pyproj by running ``python -m pip install -e .``
+* Setup pre-commit hooks ``pre-commit install``
 
 Now you're all set! You have an environment called ``devel`` that you can work in. You'll need
 to make sure to activate that environment next time you want to use it after closing the
@@ -126,16 +126,16 @@ change the code and stay confident that things have not broken. Running the test
 ``pytest``, which is easily available through ``conda`` or ``pip``. It was also installed if you made our default ``devel`` environment.
 
 ### Running Tests
-Running the tests can be done by running ``py.test``. Make sure you install the test requirements before running the tests ``pip install -r requirements-test.txt``.
+Running the tests can be done by running ``python -m pytest``. Make sure you install the test requirements before running the tests ``python -m pip install -r requirements-test.txt``.
 
 Running the whole test suite isn't that slow, but can be a burden if you're working on just
 one module or a specific test. It is easy to run tests on a single directory:
 
-    py.test pyproj/calc
+    python -m pytest pyproj/calc
 
 A specific test can be run as:
 
-    py.test -k test_my_test_func_name
+    python -m pytest -k test_my_test_func_name
 
 ### Writing Tests
 Tests should ideally hit all of the lines of code added or changed. We have automated
@@ -170,7 +170,7 @@ comparisons, parameterizing tests, testing that exceptions are raised, and more.
 pyproj uses the Python code style outlined in [PEP8](https://pep8.org) and [black](https://github.com/python/black).
 
 We enforce this style as code is added to keep everything clean and uniform. To this end, part of the automated testing for pyproj checks style. To check style
-locally within the source directory you can use the ``flake8`` and ``black`` tools. Running it from the root of the source directory is as easy as running ``make lint`` in the base of the repository.
+locally within the source directory you can use the ``flake8`` and ``black`` tools. Running it from the root of the source directory is as easy as running ``pre-commit run --all`` in the base of the repository.
 
 You can also just submit your PR and the kind robots will comment on all style violations as well. It can be a pain to make sure you have the right number of spaces around things, imports in order, and all of the other nits that the bots will find. It is very important though as this consistent style helps us keep pyproj readable, maintainable, and uniform.
 
@@ -193,7 +193,7 @@ Some things that will increase the chance that your pull request is accepted qui
 * Write tests.
 * Follow [PEP8](https://pep8.org) for style. (The `flake8` utility can help with this.)
 * Use [black](https://github.com/python/black)
-* Write a [good commit message](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+* Write a [good commit message](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) and consider using commit [conventions](https://www.conventionalcommits.org/).
 
 Pull requests will automatically have tests run by Travis. This includes
 running both the unit tests as well as the `flake8` code linter.
