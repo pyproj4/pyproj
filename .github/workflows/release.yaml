@@ -103,7 +103,7 @@ jobs:
           ./bootstrap-vcpkg.bat -disableMetrics
           vcpkg install --feature-flags="versions,manifests" --x-manifest-root=${GITHUB_WORKSPACE}/ci --x-install-root=$VCPKG_INSTALLATION_ROOT/installed
           mkdir -p ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj
-          cp "$VCPKG_INSTALLATION_ROOT/packages/proj_${{ matrix.triplet }}/share/proj/data/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
+          cp "$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}/share/proj/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.9.0
