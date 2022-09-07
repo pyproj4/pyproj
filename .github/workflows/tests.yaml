@@ -40,10 +40,12 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11']
-        proj-version: ['9.0.1']
+        proj-version: ['9.1.0']
         include:
-          - python-version: '3.9'
+          - python-version: '3.8'
             proj-version: '8.2.1'
+          - python-version: '3.9'
+            proj-version: '9.0.1'
     steps:
       - uses: actions/checkout@v2
 

@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PROJ_VERSION: "9.0.1"
+  PROJ_VERSION: "9.1.0"
 
 jobs:
   make_sdist:
@@ -81,6 +81,7 @@ jobs:
 
       - uses: actions/setup-python@v2
 
+
       - name: Cache vcpkg
         if: contains(matrix.os, 'windows')
         uses: actions/cache@v3
@@ -89,7 +90,7 @@ jobs:
           path: |
             ${{ matrix.vcpkg_cache }}
           # bump the last digit to avoid using previous build cache
-          key: ${{ matrix.os }}-${{ matrix.triplet }}-vcpkg-proj9.0.1-cache0
+          key: ${{ matrix.os }}-${{ matrix.triplet }}-vcpkg-proj${{ env.PROJ_VERSION }}-cache0
 
       - name: Install PROJ with vcpkg
         if: contains(matrix.os, 'windows')
@@ -97,9 +98,12 @@ jobs:
           VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
         shell: bash
         run: |
-          vcpkg install proj
+          cd "$VCPKG_INSTALLATION_ROOT"
+          git pull > nul
+          ./bootstrap-vcpkg.bat -disableMetrics
+          vcpkg install --feature-flags="versions,manifests" --x-manifest-root=${GITHUB_WORKSPACE}/ci --x-install-root=$VCPKG_INSTALLATION_ROOT/installed
           mkdir -p ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj
-          cp "$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}/share/proj/data/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
+          cp "$VCPKG_INSTALLATION_ROOT/packages/proj_${{ matrix.triplet }}/share/proj"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.9.0
