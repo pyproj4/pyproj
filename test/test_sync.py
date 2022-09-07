@@ -28,7 +28,14 @@ def test_get_transform_grid_list__bbox__antimeridian():
     source_ids = set()
     for grid in grids:
         source_ids.add(grid["properties"]["source_id"])
-    assert sorted(source_ids) == ["au_ga", "nc_dittt", "nz_linz", "us_nga", "us_noaa"]
+    assert sorted(source_ids) == [
+        "au_ga",
+        "nc_dittt",
+        "no_kv",
+        "nz_linz",
+        "us_nga",
+        "us_noaa",
+    ]
 
 
 @pytest.mark.network
@@ -40,7 +47,14 @@ def test_get_transform_grid_list__bbox__out_of_bounds():
     source_ids = set()
     for grid in grids:
         source_ids.add(grid["properties"]["source_id"])
-    assert sorted(source_ids) == ["au_ga", "nc_dittt", "nz_linz", "us_nga", "us_noaa"]
+    assert sorted(source_ids) == [
+        "au_ga",
+        "nc_dittt",
+        "no_kv",
+        "nz_linz",
+        "us_nga",
+        "us_noaa",
+    ]
 
 
 @pytest.mark.network
@@ -68,7 +82,7 @@ def test_get_transform_grid_list__contains():
     source_ids = set()
     for grid in grids:
         source_ids.add(grid["properties"]["source_id"])
-    assert sorted(source_ids) == ["nz_linz"]
+    assert sorted(source_ids) == ["no_kv", "nz_linz"]
 
 
 @pytest.mark.network
