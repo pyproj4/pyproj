@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0.0", "wheel", "cython>=0.28.4"]
 
 [project]
 name = "pyproj"
-version = "3.4.0.dev0"
+version = "3.4.0rc0"
 description = "Python interface to PROJ (cartographic projections and coordinate transformations library)"
 readme = "README.md"
 authors = [
