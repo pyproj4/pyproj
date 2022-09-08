@@ -1,5 +1,6 @@
 [build-system]
 requires = ["setuptools>=61.0.0", "wheel", "cython>=0.28.4"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyproj"
