@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyproj"
-version = "3.4.0rc0"
+version = "3.4.0rc1"
 description = "Python interface to PROJ (cartographic projections and coordinate transformations library)"
 readme = "README.md"
 authors = [
