@@ -1,4 +1,5 @@
-from importlib.metadata import version as pkg_version
+import importlib.metadata
+import os
 
 # Sphinx extensions
 extensions = [
@@ -35,7 +36,7 @@ project = "pyproj"
 copyright = "2006-2018, Jeffrey Whitaker; 2019-2022, Open source contributors"
 author = "Jeffrey Whitaker"
 
-version = release = pkg_version("pyproj")
+version = release = importlib.metadata.version("pyproj")
 
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
 
@@ -51,7 +52,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "furo"
+html_theme = os.getenv("PYPROJ_HTML_THEME", "furo")
 html_logo = "media/logo.png"
 html_favicon = "media/icon.png"
 
