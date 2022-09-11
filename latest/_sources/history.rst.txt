@@ -3,6 +3,9 @@ Change Log
 
 Latest
 -------
+
+3.4.0
+-----
 - WHL: Python 3.11 Wheels (issue #1110)
 - WHL: Wheels contain PROJ 9.1.0 (pull #1132)
 - DEP: Minimum PROJ version 8.2 (issue #1011)
