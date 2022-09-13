@@ -30,9 +30,8 @@ proj_version_str = f"{PROJ_VERSION_MAJOR}.{PROJ_VERSION_MINOR}.{PROJ_VERSION_PAT
 PROJ_VERSION = (PROJ_VERSION_MAJOR, PROJ_VERSION_MINOR, PROJ_VERSION_PATCH)
 _AUTH_CODE_RE = re.compile(r"(?P<authority>\w+)\:(?P<code>\w+)")
 
-IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (9, 1):
-    cdef extern from "proj.h" nogil:
-        PJ* proj_trans_get_last_used_operation(PJ *P)
+cdef extern from "pyproj.h" nogil:
+    PJ* proj_trans_get_last_used_operation(PJ *P)
 
 
 cdef dict _PJ_DIRECTION_MAP = {
@@ -291,9 +290,9 @@ cdef PJ* proj_create_crs_to_crs(
             options[options_index] = b"ALLOW_BALLPARK=NO"
         options_index += 1
     if force_over:
-        IF CTE_PROJ_VERSION_MAJOR >= 9:
+        if PROJ_VERSION_MAJOR >= 9:
             options[options_index] = b"FORCE_OVER=YES"
-        ELSE:
+        else:
             raise NotImplementedError("force_over requires PROJ 9+.")
 
     cdef PJ* transform = proj_create_crs_to_crs_from_pj(
@@ -432,27 +431,28 @@ cdef class _Transformer(Base):
         return self._operations
 
     def get_last_used_operation(self):
-        IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (9, 1):
-            cdef PJ* last_used_operation = proj_trans_get_last_used_operation(self.projobj)
-            if last_used_operation == NULL:
-                raise ProjError(
-                    "Last used operation not found. "
-                    "This is likely due to not initiating a transform."
-                )
-            cdef PJ_CONTEXT* context = NULL
-            try:
-                context = pyproj_context_create()
-            except:
-                proj_destroy(last_used_operation)
-                raise
-            proj_assign_context(last_used_operation, context)
-            return _Transformer._from_pj(
-                context,
-                last_used_operation,
-                False,
+        if (PROJ_VERSION_MAJOR, PROJ_VERSION_MINOR) < (9, 1):
+            raise NotImplementedError(
+                "PROJ 9.1+ required to get last used operation."
             )
-        ELSE:
-            raise NotImplementedError("PROJ 9.1+ required to get last used operation.")
+        cdef PJ* last_used_operation = proj_trans_get_last_used_operation(self.projobj)
+        if last_used_operation == NULL:
+            raise ProjError(
+                "Last used operation not found. "
+                "This is likely due to not initiating a transform."
+            )
+        cdef PJ_CONTEXT* context = NULL
+        try:
+            context = pyproj_context_create()
+        except:
+            proj_destroy(last_used_operation)
+            raise
+        proj_assign_context(last_used_operation, context)
+        return _Transformer._from_pj(
+            context,
+            last_used_operation,
+            False,
+        )
 
     @property
     def is_network_enabled(self):

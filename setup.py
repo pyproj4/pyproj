@@ -167,43 +167,50 @@ def get_extension_modules():
 
     proj_version = get_proj_version(proj_dir)
     check_proj_version(proj_version)
-    proj_version_major, proj_version_minor, proj_version_patch = parse_version(
-        proj_version
-    ).base_version.split(".")
 
     # setup extension options
     ext_options = {
-        "include_dirs": include_dirs,
+        "include_dirs": ["./src"] + include_dirs,
         "library_dirs": library_dirs,
         "runtime_library_dirs": (
             library_dirs if os.name != "nt" and sys.platform != "cygwin" else None
         ),
         "libraries": get_libraries(library_dirs),
     }
+    if platform.python_implementation() == "CPython":
+        src_array_pyx = Path("pyproj/_array_cpython.pyx")
+        src_array_pxd = Path("pyproj/_array_cpython.pxd")
+    else:
+        src_array_pyx = Path("pyproj/_array_backup.pyx")
+        src_array_pxd = Path("pyproj/_array_backup.pxd")
+    array_pyx = Path("pyproj/_array.pyx")
+    array_pxd = Path("pyproj/_array.pxd")
+    shutil.copy(src_array_pyx, array_pyx)
+    shutil.copy(src_array_pxd, array_pxd)
     # setup cythonized modules
-    return cythonize(
-        [
-            Extension("pyproj._geod", ["pyproj/_geod.pyx"], **ext_options),
-            Extension("pyproj._crs", ["pyproj/_crs.pyx"], **ext_options),
-            Extension(
-                "pyproj._transformer", ["pyproj/_transformer.pyx"], **ext_options
-            ),
-            Extension("pyproj._compat", ["pyproj/_compat.pyx"], **ext_options),
-            Extension("pyproj.database", ["pyproj/database.pyx"], **ext_options),
-            Extension("pyproj._datadir", ["pyproj/_datadir.pyx"], **ext_options),
-            Extension("pyproj.list", ["pyproj/list.pyx"], **ext_options),
-            Extension("pyproj._network", ["pyproj/_network.pyx"], **ext_options),
-            Extension("pyproj._sync", ["pyproj/_sync.pyx"], **ext_options),
-        ],
-        quiet=True,
-        compile_time_env={
-            "CTE_PROJ_VERSION_MAJOR": int(proj_version_major),
-            "CTE_PROJ_VERSION_MINOR": int(proj_version_minor),
-            "CTE_PROJ_VERSION_PATCH": int(proj_version_patch),
-            "CTE_PYTHON_IMPLEMENTATION": platform.python_implementation(),
-        },
-        **get_cythonize_options(),
-    )
+    try:
+        modules = cythonize(
+            [
+                Extension("pyproj._geod", ["pyproj/_geod.pyx"], **ext_options),
+                Extension("pyproj._crs", ["pyproj/_crs.pyx"], **ext_options),
+                Extension(
+                    "pyproj._transformer", ["pyproj/_transformer.pyx"], **ext_options
+                ),
+                Extension("pyproj._array", ["pyproj/_array.pyx"], **ext_options),
+                Extension("pyproj._compat", ["pyproj/_compat.pyx"], **ext_options),
+                Extension("pyproj.database", ["pyproj/database.pyx"], **ext_options),
+                Extension("pyproj._datadir", ["pyproj/_datadir.pyx"], **ext_options),
+                Extension("pyproj.list", ["pyproj/list.pyx"], **ext_options),
+                Extension("pyproj._network", ["pyproj/_network.pyx"], **ext_options),
+                Extension("pyproj._sync", ["pyproj/_sync.pyx"], **ext_options),
+            ],
+            quiet=True,
+            **get_cythonize_options(),
+        )
+    finally:
+        array_pyx.unlink(missing_ok=True)
+        array_pxd.unlink(missing_ok=True)
+    return modules
 
 
 def get_package_data() -> Dict[str, List[str]]:
