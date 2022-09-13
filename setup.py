@@ -208,7 +208,7 @@ def get_extension_modules():
             ),
             Extension("pyproj._compat", ["pyproj/_compat.pyx"], **ext_options),
             Extension("pyproj.database", ["pyproj/database.pyx"], **ext_options),
-            Extension("pyproj._datadir", ["pyproj/_datadir.pyx"], **ext_options),
+            Extension("pyproj._context", ["pyproj/_context.pyx"], **ext_options),
             Extension("pyproj.list", ["pyproj/list.pyx"], **ext_options),
             Extension("pyproj._network", ["pyproj/_network.pyx"], **ext_options),
             Extension("pyproj._sync", ["pyproj/_sync.pyx"], **ext_options),

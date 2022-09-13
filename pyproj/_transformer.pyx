@@ -9,6 +9,7 @@ import warnings
 from collections import namedtuple
 
 from pyproj._compat cimport cstrencode
+from pyproj._context cimport _clear_proj_error, _get_proj_error, pyproj_context_create
 from pyproj._crs cimport (
     _CRS,
     Base,
@@ -18,14 +19,8 @@ from pyproj._crs cimport (
     _to_wkt,
     create_area_of_use,
 )
-from pyproj._datadir cimport (
-    _clear_proj_error,
-    _get_proj_error,
-    pyproj_context_create,
-    pyproj_context_destroy,
-)
 
-from pyproj._datadir import _LOGGER
+from pyproj._context import _LOGGER, get_context_manager
 from pyproj.aoi import AreaOfInterest
 from pyproj.enums import ProjVersion, TransformDirection, WktVersion
 from pyproj.exceptions import ProjError
@@ -119,14 +114,10 @@ cdef PJ_DIRECTION get_pj_direction(object direction) except *:
 cdef class _TransformerGroup:
     def __cinit__(self):
         self.context = NULL
+        self._context_manager = None
         self._transformers = []
         self._unavailable_operations = []
         self._best_available = True
-
-    def __dealloc__(self):
-        """destroy projection definition"""
-        if self.context != NULL:
-            pyproj_context_destroy(self.context)
 
     def __init__(
         self,
@@ -149,11 +140,11 @@ cdef class _TransformerGroup:
         with unknown accuracy are sorted last, whatever their area.
         """
         self.context = pyproj_context_create()
+        self._context_manager = get_context_manager()
         cdef:
             PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
             PJ_OBJ_LIST * pj_operations = NULL
             PJ* pj_transform = NULL
-            PJ_CONTEXT* context = NULL
             const char* c_authority = NULL
             int num_operations = 0
             int is_instantiable = 0
@@ -222,27 +213,26 @@ cdef class _TransformerGroup:
             )
             num_operations = proj_list_get_count(pj_operations)
             for iii in range(num_operations):
-                context = pyproj_context_create()
                 pj_transform = proj_list_get(
-                    context,
+                    self.context,
                     pj_operations,
                     iii,
                 )
                 is_instantiable = proj_coordoperation_is_instantiable(
-                    context,
+                    self.context,
                     pj_transform,
                 )
                 if is_instantiable:
                     self._transformers.append(
                         _Transformer._from_pj(
-                            context,
+                            self.context,
                             pj_transform,
                             always_xy,
                         )
                     )
                 else:
                     coordinate_operation = CoordinateOperation.create(
-                        context,
+                        self.context,
                         pj_transform,
                     )
                     self._unavailable_operations.append(coordinate_operation)
@@ -556,6 +546,7 @@ cdef class _Transformer(Base):
                     north_lat_degree,
                 )
             transformer.context = pyproj_context_create()
+            transformer._context_manager = get_context_manager()
             transformer.projobj = proj_create_crs_to_crs(
                 transformer.context,
                 crs_from,
@@ -585,6 +576,7 @@ cdef class _Transformer(Base):
         """
         cdef _Transformer transformer = _Transformer()
         transformer.context = context
+        transformer._context_manager = get_context_manager()
         transformer.projobj = transform_pj
 
         if transformer.projobj == NULL:
@@ -600,6 +592,7 @@ cdef class _Transformer(Base):
         """
         cdef _Transformer transformer = _Transformer()
         transformer.context = pyproj_context_create()
+        transformer._context_manager = get_context_manager()
 
         auth_match = _AUTH_CODE_RE.match(proj_pipeline.strip())
         if auth_match:

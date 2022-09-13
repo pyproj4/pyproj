@@ -5,6 +5,7 @@ from pyproj._crs cimport _CRS, Base
 
 cdef class _TransformerGroup:
     cdef PJ_CONTEXT* context
+    cdef readonly object _context_manager
     cdef readonly list _transformers
     cdef readonly list _unavailable_operations
     cdef readonly list _best_available

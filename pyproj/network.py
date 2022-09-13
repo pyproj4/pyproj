@@ -7,8 +7,8 @@ from pathlib import Path
 
 import certifi
 
+from pyproj._context import _set_context_ca_bundle_path
 from pyproj._network import (  # noqa: F401 pylint: disable=unused-import
-    _set_ca_bundle_path,
     is_network_enabled,
     set_network_enabled,
 )
@@ -56,4 +56,4 @@ def set_ca_bundle_path(ca_bundle_path: Path | str | bool | None = None) -> None:
         # or environment variables
         ca_bundle_path = ""
 
-    _set_ca_bundle_path(ca_bundle_path)
+    _set_context_ca_bundle_path(ca_bundle_path)

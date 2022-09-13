@@ -6,9 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
-import pyproj._datadir
 from pyproj import CRS, Transformer, get_codes, set_use_global_context
-from pyproj._datadir import _pyproj_global_context_initialize
 from pyproj.datadir import (
     DataDirError,
     append_data_dir,
@@ -19,18 +17,6 @@ from pyproj.datadir import (
 from pyproj.enums import PJType
 from pyproj.exceptions import CRSError
 from test.conftest import proj_env
-
-
-@contextmanager
-def proj_context_env():
-    """
-    Ensure setting for global context is the same at the end.
-    """
-    context = pyproj._datadir._USE_GLOBAL_CONTEXT
-    try:
-        yield
-    finally:
-        pyproj._datadir._USE_GLOBAL_CONTEXT = context
 
 
 @contextmanager
@@ -68,15 +54,6 @@ def test_get_data_dir__missing():
         patch("pyproj.datadir.sys.prefix", str(_INVALID_PATH)),
     ):
         assert get_data_dir() is None
-
-
-def test_pyproj_global_context_initialize__datadir_missing():
-    with (
-        proj_env(),
-        pytest.raises(DataDirError),
-        patch("pyproj.datadir.get_data_dir", side_effect=DataDirError("test")),
-    ):
-        _pyproj_global_context_initialize()
 
 
 @pytest.mark.parametrize("projdir_type", [str, Path])
@@ -237,37 +214,14 @@ def test_get_user_data_dir():
 
 @patch.dict("os.environ", {"PYPROJ_GLOBAL_CONTEXT": "ON"}, clear=True)
 def test_set_use_global_context__default_on():
-    with proj_context_env():
+    with pytest.warns(FutureWarning):
         set_use_global_context()
-        assert pyproj._datadir._USE_GLOBAL_CONTEXT is True
-
-
-@patch.dict("os.environ", {"PYPROJ_GLOBAL_CONTEXT": "OFF"}, clear=True)
-def test_set_use_global_context__default_off():
-    with proj_context_env():
-        set_use_global_context()
-        assert pyproj._datadir._USE_GLOBAL_CONTEXT is False
-
-
-@patch.dict("os.environ", {}, clear=True)
-def test_set_use_global_context__default():
-    with proj_context_env():
-        set_use_global_context()
-        assert pyproj._datadir._USE_GLOBAL_CONTEXT is False
 
 
 @patch.dict("os.environ", {"PYPROJ_GLOBAL_CONTEXT": "OFF"}, clear=True)
 def test_set_use_global_context__on():
-    with proj_context_env():
+    with pytest.warns(FutureWarning):
         set_use_global_context(True)
-        assert pyproj._datadir._USE_GLOBAL_CONTEXT is True
-
-
-@patch.dict("os.environ", {"PYPROJ_GLOBAL_CONTEXT": "ON"}, clear=True)
-def test_set_use_global_context__off():
-    with proj_context_env():
-        set_use_global_context(False)
-        assert pyproj._datadir._USE_GLOBAL_CONTEXT is False
 
 
 def test_proj_debug_logging(capsys):

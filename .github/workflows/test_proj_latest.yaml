@@ -58,21 +58,6 @@ jobs:
         run: |
           python -m pytest
 
-      - name: Test Global Context
-        shell: bash
-        env:
-          PYPROJ_GLOBAL_CONTEXT: ON
-        run: |
-          python -m pytest
-
-      - name: Test Network & Global Context
-        shell: bash
-        env:
-          PROJ_NETWORK: ON
-          PYPROJ_GLOBAL_CONTEXT: ON
-        run: |
-          python -m pytest
-
       - name: Test Grids
         shell: bash
         run: |

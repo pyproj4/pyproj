@@ -47,6 +47,7 @@ cdef create_area_of_use(PJ_CONTEXT* context, PJ* projobj)
 cdef class Base:
     cdef PJ *projobj
     cdef PJ_CONTEXT* context
+    cdef readonly object _context_manager
     cdef readonly str name
     cdef readonly str _remarks
     cdef readonly str _scope

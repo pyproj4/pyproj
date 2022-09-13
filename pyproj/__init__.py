@@ -32,8 +32,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import warnings
 
 import pyproj.network
-from pyproj._datadir import (  # noqa: F401 pylint: disable=unused-import
-    _pyproj_global_context_initialize,
+from pyproj._context import (  # noqa: F401 pylint: disable=unused-import
     set_use_global_context,
 )
 from pyproj._show_versions import (  # noqa: F401 pylint: disable=unused-import
@@ -85,10 +84,7 @@ __all__ = [
 ]
 __proj_version__ = proj_version_str
 
-
 try:
-    _pyproj_global_context_initialize()
+    pyproj.network.set_ca_bundle_path()
 except DataDirError as err:
     warnings.warn(str(err))
-
-pyproj.network.set_ca_bundle_path()
