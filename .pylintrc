@@ -4,7 +4,7 @@ extension-pkg-whitelist=pyproj._crs,
                         pyproj._sync,
                         pyproj._network,
                         pyproj._geod,
-                        pyproj._datadir,
+                        pyproj._context,
                         pyproj._compat,
                         pyproj.database,
                         pyproj.list

@@ -31,7 +31,7 @@ jobs:
         run: |
           conda config --prepend channels conda-forge
           conda config --set channel_priority strict
-          conda create -n docs python=3.9 cython proj
+          conda create -n docs python=3.9 proj
           source activate docs
           python -m pip install -e .
           python -m pip install -r requirements-docs.txt

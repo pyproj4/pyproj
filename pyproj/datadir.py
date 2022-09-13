@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 from typing import Union
 
-from pyproj._datadir import (  # noqa: F401  pylint: disable=unused-import
-    _global_context_set_data_dir,
+from pyproj._context import (  # noqa: F401  pylint: disable=unused-import
+    _set_context_data_dir,
     get_user_data_dir,
 )
 from pyproj.exceptions import DataDirError
@@ -35,7 +35,7 @@ def set_data_dir(proj_data_dir: Union[str, Path]) -> None:
     # need to reset the global PROJ context
     # to prevent core dumping if the data directory
     # is not found.
-    _global_context_set_data_dir()
+    _set_context_data_dir()
 
 
 def append_data_dir(proj_data_dir: Union[str, Path]) -> None:

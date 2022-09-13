@@ -575,9 +575,6 @@ def test_radians():
     )
 
 
-@pytest.mark.skipif(
-    pyproj._datadir._USE_GLOBAL_CONTEXT, reason="Global Context not Threadsafe."
-)
 def test_proj_multithread():
     # https://github.com/pyproj4/pyproj/issues/782
     trans = Proj("EPSG:3857")

@@ -90,23 +90,6 @@ jobs:
           . testenv/bin/activate
           python -m pytest
 
-      - name: Test Global Context
-        shell: bash
-        env:
-          PYPROJ_GLOBAL_CONTEXT: ON
-        run: |
-          . testenv/bin/activate
-          python -m pytest
-
-      - name: Test Network & Global Context
-        shell: bash
-        env:
-          PROJ_NETWORK: ON
-          PYPROJ_GLOBAL_CONTEXT: ON
-        run: |
-          . testenv/bin/activate
-          python -m pytest
-
       - name: Test Grids
         shell: bash
         run: |
@@ -200,24 +183,6 @@ jobs:
         shell: bash
         env:
           PROJ_NETWORK: ON
-        run: |
-          source activate test
-          python -m pytest
-
-      - name: Test Global Context
-        shell: bash
-        env:
-          PROJ_NETWORK: OFF
-          PYPROJ_GLOBAL_CONTEXT: ON
-        run: |
-          source activate test
-          python -m pytest
-
-      - name: Test Network & Global Context
-        shell: bash
-        env:
-          PROJ_NETWORK: ON
-          PYPROJ_GLOBAL_CONTEXT: ON
         run: |
           source activate test
           python -m pytest

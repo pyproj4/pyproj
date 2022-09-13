@@ -1,6 +1,6 @@
 include "proj.pxi"
 
-from pyproj._datadir cimport PYPROJ_GLOBAL_CONTEXT
+from pyproj._context cimport pyproj_context_create
 
 
 def get_proj_endpoint() -> str:
@@ -10,4 +10,4 @@ def get_proj_endpoint() -> str:
     str:
         URL of the endpoint where PROJ grids are stored.
     """
-    return proj_context_get_url_endpoint(PYPROJ_GLOBAL_CONTEXT)
+    return proj_context_get_url_endpoint(pyproj_context_create())

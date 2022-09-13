@@ -34,7 +34,7 @@ jobs:
         run: |
           conda config --prepend channels conda-forge
           conda config --set channel_priority strict
-          conda create -n sdist_env build twine cython proj=${{ env.PROJ_VERSION }}
+          conda create -n sdist_env build twine proj=${{ env.PROJ_VERSION }}
           source activate sdist_env
           python -m build --sdist
 

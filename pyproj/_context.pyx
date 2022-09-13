@@ -1,7 +1,9 @@
 import logging
 import os
+import threading
 import warnings
 
+from cpython.pythread cimport PyThread_tss_create, PyThread_tss_get, PyThread_tss_set
 from libc.stdlib cimport free, malloc
 
 from pyproj._compat cimport cstrencode
@@ -13,17 +15,22 @@ from pyproj.utils import strtobool
 # https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library
 _LOGGER = logging.getLogger("pyproj")
 _LOGGER.addHandler(logging.NullHandler())
-# default to False is the safest mode
-# as it supports multithreading
-_USE_GLOBAL_CONTEXT = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
 # static user data directory to prevent core dumping
 # see: https://github.com/pyproj4/pyproj/issues/678
 cdef const char* _USER_DATA_DIR = proj_context_get_user_writable_directory(NULL, False)
 # Store the message from any internal PROJ errors
 cdef str _INTERNAL_PROJ_ERROR = None
+# global variables
+cdef bint _NETWORK_ENABLED = strtobool(os.environ.get("PROJ_NETWORK", "OFF"))
+cdef char* _CA_BUNDLE_PATH = ""
+# The key to get the context in each thread
+cdef Py_tss_t CONTEXT_THREAD_KEY
+
 
 def set_use_global_context(active=None):
     """
+    .. deprecated:: 3.5.0 No longer necessary as there is only one context per thread now.
+
     .. versionadded:: 3.0.0
 
     Activates the usage of the global context. Using this
@@ -45,10 +52,17 @@ def set_use_global_context(active=None):
         the environment variable PYPROJ_GLOBAL_CONTEXT and defaults
         to False if it is not found.
     """
-    global _USE_GLOBAL_CONTEXT
     if active is None:
         active = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
-    _USE_GLOBAL_CONTEXT = bool(active)
+    if active:
+        warnings.warn(
+            (
+                "PYPROJ_GLOBAL_CONTEXT is no longer necessary in pyproj 3.5+ "
+                "and does not do anything."
+            ),
+            FutureWarning,
+            stacklevel=2,
+        )
 
 
 def get_user_data_dir(create=False):
@@ -75,7 +89,7 @@ def get_user_data_dir(create=False):
         The user writable data directory.
     """
     return proj_context_get_user_writable_directory(
-        PYPROJ_GLOBAL_CONTEXT, bool(create)
+        pyproj_context_create(), bool(create)
     )
 
 
@@ -125,7 +139,7 @@ cdef void set_context_data_dir(PJ_CONTEXT* context) except *:
     cdef bytes b_database_path = cstrencode(os.path.join(data_dir_list[0], "proj.db"))
     cdef const char* c_database_path = b_database_path
     if not proj_context_set_database_path(context, c_database_path, NULL, NULL):
-        warnings.warn("pyproj unable to set database path.")
+        warnings.warn("pyproj unable to set PROJ database path.")
     cdef int dir_list_len = len(data_dir_list)
     cdef const char **c_data_dir = <const char **>malloc(
         (dir_list_len + 1) * sizeof(const char*)
@@ -148,6 +162,8 @@ cdef void pyproj_context_initialize(PJ_CONTEXT* context) except *:
     proj_log_func(context, NULL, pyproj_log_function)
     proj_context_use_proj4_init_rules(context, 1)
     set_context_data_dir(context)
+    proj_context_set_ca_bundle_path(context, _CA_BUNDLE_PATH)
+    proj_context_set_enable_network(context, _NETWORK_ENABLED)
 
 
 cdef class ContextManager:
@@ -171,35 +187,75 @@ cdef class ContextManager:
         return context_manager
 
 
-# Different libraries that modify the PROJ global context will influence
-# each other without realizing it. Due to this, pyproj is creating it's own
-# global context so that it doesn't bother other libraries and is insulated
-# against possible external changes made to the PROJ global context.
-# See: https://github.com/pyproj4/pyproj/issues/722
-cdef PJ_CONTEXT* PYPROJ_GLOBAL_CONTEXT = proj_context_create()
-cdef ContextManager CONTEXT_MANAGER = ContextManager.create(PYPROJ_GLOBAL_CONTEXT)
+class ContextManagerLocal(threading.local):
+    """
+    Threading local instance for cython ContextManager class.
+    """
 
+    def __init__(self):
+        self.context_manager = None  # Initialises in each thread
+        super().__init__()
+
+
+_CONTEXT_MANAGER_LOCAL = ContextManagerLocal()
 
 cdef PJ_CONTEXT* pyproj_context_create() except *:
     """
     Create and initialize the context(s) for pyproj.
     This also manages whether the global context is used.
     """
-    if _USE_GLOBAL_CONTEXT:
-        return PYPROJ_GLOBAL_CONTEXT
-    return proj_context_clone(PYPROJ_GLOBAL_CONTEXT)
+    global _CONTEXT_MANAGER_LOCAL
 
-cdef void pyproj_context_destroy(PJ_CONTEXT* context) except *:
+    if PyThread_tss_create(&CONTEXT_THREAD_KEY) != 0:
+        raise MemoryError("Unable to create key for PROJ context in thread.")
+    cdef const void *thread_pyproj_context = PyThread_tss_get(&CONTEXT_THREAD_KEY)
+    cdef PJ_CONTEXT* pyproj_context = NULL
+    if thread_pyproj_context == NULL:
+        pyproj_context = proj_context_create()
+        pyproj_context_initialize(pyproj_context)
+        PyThread_tss_set(&CONTEXT_THREAD_KEY, pyproj_context)
+        _CONTEXT_MANAGER_LOCAL.context_manager = ContextManager.create(pyproj_context)
+    else:
+        pyproj_context = <PJ_CONTEXT*>thread_pyproj_context
+    return pyproj_context
+
+
+def get_context_manager():
     """
-    Destroy context only if not the global context
+    This returns the manager for the context
+    responsible for cleanup
     """
-    if context != PYPROJ_GLOBAL_CONTEXT:
-        proj_context_destroy(context)
+    return _CONTEXT_MANAGER_LOCAL.context_manager
 
 
-cpdef _pyproj_global_context_initialize():
-    pyproj_context_initialize(PYPROJ_GLOBAL_CONTEXT)
+cpdef _set_context_data_dir():
+    """
+    Python compatible function to set the
+    data directory on the current context
+    """
+    set_context_data_dir(pyproj_context_create())
 
 
-cpdef _global_context_set_data_dir():
-    set_context_data_dir(PYPROJ_GLOBAL_CONTEXT)
+cpdef _set_context_ca_bundle_path(str ca_bundle_path):
+    """
+    Python compatible function to set the
+    CA Bundle path on the current context
+    and cache for future generated contexts
+    """
+    global _CA_BUNDLE_PATH
+
+    b_ca_bundle_path = cstrencode(ca_bundle_path)
+    _CA_BUNDLE_PATH = b_ca_bundle_path
+    proj_context_set_ca_bundle_path(pyproj_context_create(), _CA_BUNDLE_PATH)
+
+
+cpdef _set_context_network_enabled(bint enabled):
+    """
+    Python compatible function to set the
+    network enables on the current context
+    and cache for future generated contexts
+    """
+    global _NETWORK_ENABLED
+
+    _NETWORK_ENABLED = enabled
+    proj_context_set_enable_network(pyproj_context_create(), _NETWORK_ENABLED)
