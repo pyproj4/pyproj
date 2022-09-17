@@ -82,7 +82,7 @@ def test_get_transform_grid_list__contains():
     source_ids = set()
     for grid in grids:
         source_ids.add(grid["properties"]["source_id"])
-    assert sorted(source_ids) == ["no_kv", "nz_linz"]
+    assert sorted(source_ids) == ["nz_linz"]
 
 
 @pytest.mark.network
