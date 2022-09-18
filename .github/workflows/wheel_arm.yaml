@@ -1,4 +1,4 @@
-name: Wheels & sdist
+name: arm64 wheels
 
 on:
   workflow_dispatch:
