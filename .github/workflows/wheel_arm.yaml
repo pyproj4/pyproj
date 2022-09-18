@@ -24,7 +24,14 @@ jobs:
           cmake_osx_architectures: arm64
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Clone Repository (main)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref == ''
+      - name: Clone Repository (Custom Ref)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref != ''
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
       - name: Set up Python3.9 and requirements software with brew
         run: |
            brew install python@3.9
