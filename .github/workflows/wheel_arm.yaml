@@ -5,7 +5,7 @@ on:
     inputs:
       git-ref:
         description: Git Ref
-        default: master
+        default: main
         required: true
 env:
   PROJ_VERSION: "9.1.0"
@@ -19,12 +19,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - os: macos-12
+        - os: self-hosted
           arch: arm64
           cmake_osx_architectures: arm64
 
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Python3.9 and requirements software with brew
+        run: |
+           brew install python@3.9
+           brew install cmake libtiff
+           python3.9 -m pip install -U pip pipx setuptools
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.9.0
