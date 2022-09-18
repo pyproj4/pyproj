@@ -284,7 +284,7 @@ function build_proj {
         -DBUILD_TESTING:BOOL=OFF \
         -DCMAKE_PREFIX_PATH=$BUILD_PREFIX \
         -DCMAKE_INSTALL_LIBDIR=lib \
-        && cmake --build . -j$(nproc) \
+        && cmake --build . -j4 \
         && cmake --install .)
     touch proj-stamp
 }

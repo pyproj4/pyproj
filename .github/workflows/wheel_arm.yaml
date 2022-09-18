@@ -1,0 +1,68 @@
+name: arm64 wheels
+
+on:
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Git Ref
+        default: main
+        required: true
+env:
+  PROJ_VERSION: "9.1.0"
+
+jobs:
+
+  build_wheels:
+    name: Build ${{ matrix.arch }} wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: self-hosted
+          arch: arm64
+          cmake_osx_architectures: arm64
+
+    steps:
+      - name: Clone Repository (main)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref == ''
+      - name: Clone Repository (Custom Ref)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref != ''
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
+      - name: Set up Python3.9 and requirements software with brew
+        run: |
+           brew install python@3.9
+           brew install cmake libtiff
+           python3.9 -m pip install -U pip pipx setuptools
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.8.0
+        env:
+          CIBW_SKIP: "*musllinux* pp*-win*"
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_ENVIRONMENT_MACOS:
+            PROJ_WHEEL=true
+            PROJ_NETWORK=ON
+            PROJ_VERSION=${{ env.PROJ_VERSION }}
+            PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
+            MACOSX_DEPLOYMENT_TARGET=10.9
+            CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
+            LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"
+          CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
+          CIBW_BUILD: "cp39-macosx_arm64 cp310-macosx_arm64 cp311-macosx_arm64"
+          CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy pandas xarray
+          CIBW_BEFORE_TEST: python -m pip install shapely~=1.8.4 || echo "Shapely install failed"
+          CIBW_TEST_COMMAND: >
+            pyproj -v &&
+            python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&
+            cp -r {package}/test . &&
+            python -m pytest test -v -s
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
+          retention-days: 5

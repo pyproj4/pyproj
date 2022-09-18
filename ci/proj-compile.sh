@@ -26,7 +26,7 @@ cmake .. \
     -DBUILD_GMOCK:BOOL=OFF \
     -DBUILD_PROJINFO:BOOL=OFF \
     -DBUILD_TESTING:BOOL=OFF
-cmake --build . -j$(nproc)
+cmake --build . -j4
 cmake --install .
 # cleanup
 cd ../..
