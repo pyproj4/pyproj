@@ -43,15 +43,16 @@ jobs:
             PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
             MACOSX_DEPLOYMENT_TARGET=10.9
             CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
+            CIBW_BUILD: cp39-macosx_arm64
             LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"
-          CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
-          CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy pandas xarray
-          CIBW_BEFORE_TEST: python -m pip install shapely~=1.8.4 || echo "Shapely install failed"
-          CIBW_TEST_COMMAND: >
-            pyproj -v &&
-            python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&
-            cp -r {package}/test . &&
-            python -m pytest test -v -s
+            CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
+            CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy pandas xarray
+            CIBW_BEFORE_TEST: python -m pip install shapely~=1.8.4 || echo "Shapely install failed"
+            CIBW_TEST_COMMAND: >
+              pyproj -v &&
+              python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&
+              cp -r {package}/test . &&
+              python -m pytest test -v -s
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
