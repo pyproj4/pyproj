@@ -1,0 +1,31 @@
+build_and_store_wheels: &BUILD_AND_STORE_WHEELS
+  install_cibuildwheel_script:
+    - python -m pip install cibuildwheel==2.10.0
+  run_cibuildwheel_script:
+    - cibuildwheel
+  wheels_artifacts:
+    path: "wheelhouse/*"
+
+linux_x86_task:
+  timeout_in: 120m
+  compute_engine_instance:
+    image_project: cirrus-images
+    image: family/docker-builder
+    platform: linux
+    cpu: 4
+    memory: 4G
+
+  install_pre_requirements_script:
+    - apt install -y python3-venv python-is-python3
+  <<: *BUILD_AND_STORE_WHEELS
+
+macos_arm64_task:
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-monterey-xcode
+
+  env:
+    PATH: /opt/homebrew/opt/python@3.10/bin:$PATH
+  install_pre_requirements_script:
+    - brew install python@3.10
+    - ln -s python3 /opt/homebrew/opt/python@3.10/bin/python
+  <<: *BUILD_AND_STORE_WHEELS
