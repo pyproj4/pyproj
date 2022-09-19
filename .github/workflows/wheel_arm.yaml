@@ -39,7 +39,7 @@ jobs:
            python3.9 -m pip install -U pip pipx setuptools
 
       - name: Install cibuildwheel
-        run: python3.9 -m pip install cibuildwheel==2.8.0
+        run: python3.9 -m pip install cibuildwheel==2.10.1
 
       - name: Build wheels
         run: python3.9 -m cibuildwheel --output-dir wheelhouse
@@ -55,7 +55,7 @@ jobs:
             CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
             LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"
           CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
-          CIBW_BUILD: "cp38-macosx_arm64 cp39-macosx_arm64 cp310-macosx_arm64 cp311-macosx_arm64"
+          CIBW_BUILD: "cp39-macosx_arm64 cp310-macosx_arm64 cp311-macosx_arm64"
           CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy pandas xarray
           CIBW_BEFORE_TEST: python -m pip install shapely~=1.8.4 || echo "Shapely install failed"
           CIBW_TEST_COMMAND: >
