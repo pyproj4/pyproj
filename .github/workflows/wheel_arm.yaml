@@ -57,7 +57,9 @@ jobs:
           CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
           CIBW_BUILD: "cp39-macosx_arm64 cp310-macosx_arm64 cp311-macosx_arm64"
           CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy pandas xarray
-          CIBW_BEFORE_TEST: python -m pip install shapely~=1.8.4 || echo "Shapely install failed"
+          CIBW_BEFORE_TEST: >
+            pyver=`python -c "import sys; print(sys.version)" | awk -F \. {'print $1$2'}` &&
+            if [[ "${pyver}" != "311" ]] python -m pip install shapely~=1.8.4 || echo "Shapely install failed"
           CIBW_TEST_COMMAND: >
             pyproj -v &&
             python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&
