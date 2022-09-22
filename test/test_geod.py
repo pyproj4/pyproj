@@ -27,7 +27,7 @@ try:
     from shapely.geometry.polygon import orient
 
     SHAPELY_LOADED = True
-except ImportError:
+except (ImportError, OSError):
     SHAPELY_LOADED = False
 
 
