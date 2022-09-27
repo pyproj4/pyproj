@@ -373,7 +373,7 @@ Step 2: Create Transformer to convert from geodetic CRS to CRS
 ----------------------------
 
 .. note:: If you are doing a transformation with a CRS that is time based,
-    it is recommended to include the time in the transformaton operation.
+    it is recommended to include the time in the transformation operation.
 
 
 .. code:: python

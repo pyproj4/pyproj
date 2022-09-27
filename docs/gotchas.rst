@@ -199,7 +199,7 @@ is in the **axis order**.
 The reason the `min_confidence` parameter in
 :meth:`pyproj.crs.CRS.to_epsg` and :meth:`pyproj.crs.CRS.to_authority`
 exists is because you can initialize a CRS in several different methods and
-some of them do not always coorespond to an EPSG or authortiy code, but it
+some of them do not always correspond to an EPSG or authortiy code, but it
 can be close enough.
 
 For example, if you have a WKT/PROJ string and you use it to create the CRS instance,

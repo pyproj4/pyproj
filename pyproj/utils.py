@@ -100,7 +100,7 @@ def _copytobuffer(xxx: Any, inplace: bool = False) -> Tuple[Any, DataType]:
         A scalar, list, tuple, numpy.array,
         pandas.Series, xaray.DataArray, or dask.array.Array.
     inplace: bool, default=False
-        If True, will return the array withour a copy if it
+        If True, will return the array without a copy if it
         meets the requirements of the Python Buffer API & PROJ C-API.
 
     Returns

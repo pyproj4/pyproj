@@ -414,7 +414,7 @@ def _geostationary__to_cf(conversion):
         "grid_mapping_name": "geostationary",
         "sweep_angle_axis": sweep_angle_axis,
         "perspective_point_height": params["satellite_height"],
-        # geostationary satellites orbit arount equator
+        # geostationary satellites orbit around equator
         # so latitude_of_natural_origin is often left off and assumed to be 0.0
         "latitude_of_projection_origin": params.get("latitude_of_natural_origin", 0.0),
         "longitude_of_projection_origin": params["longitude_of_natural_origin"],

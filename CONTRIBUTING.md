@@ -200,7 +200,7 @@ running both the unit tests as well as the `flake8` code linter.
 
 ### Merging
 Once we're all happy with the pull request, it's time for it to get merged in. Only the
-maintainers can merge pull requests and you should never merge a pull request you have commits on as it circumvents the code review. If this is your first or second pull request, we'll likely help by rebasing and cleaning up the commit history for you. As your developement skills increase, we'll help you learn how to do this.
+maintainers can merge pull requests and you should never merge a pull request you have commits on as it circumvents the code review. If this is your first or second pull request, we'll likely help by rebasing and cleaning up the commit history for you. As your development skills increase, we'll help you learn how to do this.
 
 ## Allcontributors Recognition
 
@@ -213,7 +213,7 @@ other ways, feel free to contact us:
 * [pyproj's Gitter Channel](https://gitter.im/pyproj4-pyproj/community)
 * ["pyproj" tag on GIS Stack Exchange](https://gis.stackexchange.com/questions/tagged/pyproj)
 
-## Futher Reading
+## Further Reading
 There are a ton of great resources out there on contributing to open source and on the
 importance of writing tested and maintainable software.
 * [GitHub's Contributing to Open Source Guide](https://guides.github.com/activities/contributing-to-open-source/)

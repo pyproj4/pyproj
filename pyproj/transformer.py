@@ -619,7 +619,7 @@ class Transformer:
         - :c:func:`proj_create`
         - :c:func:`proj_create_from_database`
 
-        .. versionadded:: 3.1.0 AUTH:CODE string suppor (e.g. EPSG:1671)
+        .. versionadded:: 3.1.0 AUTH:CODE string support (e.g. EPSG:1671)
 
         Allowed input:
           - a PROJ string
