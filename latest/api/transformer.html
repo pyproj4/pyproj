@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Geod" href="geod.html" /><link rel="prev" title="Enumerations" href="crs/enums.html" />
 
-    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Transformer - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -369,7 +369,7 @@ Requires PROJ 9+.</p></li>
 <li><p><a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_create_from_database" title="(in PROJ v9.1.0)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_from_database()</span></code></a></p></li>
 </ul>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.0: </span>AUTH:CODE string suppor (e.g. EPSG:1671)</p>
+<p><span class="versionmodified added">New in version 3.1.0: </span>AUTH:CODE string support (e.g. EPSG:1671)</p>
 </div>
 <dl class="simple">
 <dt>Allowed input:</dt><dd><ul class="simple">
@@ -1220,10 +1220,55 @@ for most projected CRS.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Transformer</a><ul>
-<li><a class="reference internal" href="#pyproj-transformer">pyproj.Transformer</a></li>
-<li><a class="reference internal" href="#pyproj-transformer-transformergroup">pyproj.transformer.TransformerGroup</a></li>
-<li><a class="reference internal" href="#pyproj-transform">pyproj.transform</a></li>
-<li><a class="reference internal" href="#pyproj-itransform">pyproj.itransform</a></li>
+<li><a class="reference internal" href="#pyproj-transformer">pyproj.Transformer</a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer"><code class="docutils literal notranslate"><span class="pre">Transformer</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.accuracy"><code class="docutils literal notranslate"><span class="pre">Transformer.accuracy</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.area_of_use"><code class="docutils literal notranslate"><span class="pre">Transformer.area_of_use</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.definition"><code class="docutils literal notranslate"><span class="pre">Transformer.definition</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.description"><code class="docutils literal notranslate"><span class="pre">Transformer.description</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.from_crs"><code class="docutils literal notranslate"><span class="pre">Transformer.from_crs()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.from_pipeline"><code class="docutils literal notranslate"><span class="pre">Transformer.from_pipeline()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.from_proj"><code class="docutils literal notranslate"><span class="pre">Transformer.from_proj()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.get_last_used_operation"><code class="docutils literal notranslate"><span class="pre">Transformer.get_last_used_operation()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.has_inverse"><code class="docutils literal notranslate"><span class="pre">Transformer.has_inverse</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.is_exact_same"><code class="docutils literal notranslate"><span class="pre">Transformer.is_exact_same()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.is_network_enabled"><code class="docutils literal notranslate"><span class="pre">Transformer.is_network_enabled</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.itransform"><code class="docutils literal notranslate"><span class="pre">Transformer.itransform()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.name"><code class="docutils literal notranslate"><span class="pre">Transformer.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.operations"><code class="docutils literal notranslate"><span class="pre">Transformer.operations</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.remarks"><code class="docutils literal notranslate"><span class="pre">Transformer.remarks</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.scope"><code class="docutils literal notranslate"><span class="pre">Transformer.scope</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.source_crs"><code class="docutils literal notranslate"><span class="pre">Transformer.source_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.target_crs"><code class="docutils literal notranslate"><span class="pre">Transformer.target_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.to_json"><code class="docutils literal notranslate"><span class="pre">Transformer.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.to_json_dict"><code class="docutils literal notranslate"><span class="pre">Transformer.to_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.to_proj4"><code class="docutils literal notranslate"><span class="pre">Transformer.to_proj4()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.to_wkt"><code class="docutils literal notranslate"><span class="pre">Transformer.to_wkt()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.transform"><code class="docutils literal notranslate"><span class="pre">Transformer.transform()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.transform_bounds"><code class="docutils literal notranslate"><span class="pre">Transformer.transform_bounds()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-transformer-transformergroup">pyproj.transformer.TransformerGroup</a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup"><code class="docutils literal notranslate"><span class="pre">TransformerGroup</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.__init__"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.best_available"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.best_available</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.download_grids"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.download_grids()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.transformers"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.transformers</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.unavailable_operations"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.unavailable_operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-transform">pyproj.transform</a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.transform"><code class="docutils literal notranslate"><span class="pre">transform()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-itransform">pyproj.itransform</a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.itransform"><code class="docutils literal notranslate"><span class="pre">itransform()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1240,6 +1285,7 @@ for most projected CRS.</p>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     </body>
 </html>

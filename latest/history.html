@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Documentation Archive" href="past_versions.html" /><link rel="prev" title="Optimize Transformations" href="optimize_transformations.html" />
 
-    <link rel="shortcut icon" href="_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Change Log - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -451,7 +451,7 @@ and <a class="reference internal" href="api/crs/coordinate_operation.html#pyproj
 <li><p>Added <cite>operations</cite> to <cite>pyproj.crs.CoordinateOperation</cite> objects and <cite>pyproj.Transformer</cite> (issue #441)</p></li>
 <li><p>Added <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.get_authorities()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.get_codes()</span></code> (issue #440)</p></li>
 <li><p>Release gil in core cython/PROJ code (issue #386)</p></li>
-<li><p>BUG: Added checks for unititialized <cite>pyproj.crs</cite> objects to prevent core dumping (issue #433)</p></li>
+<li><p>BUG: Added checks for uninitialized <cite>pyproj.crs</cite> objects to prevent core dumping (issue #433)</p></li>
 <li><p>BUG: Added fix for get_transform_crs when checking type (pull #439)</p></li>
 <li><p>DOC: Build docs with python3 (pull #428)</p></li>
 </ul>
@@ -518,7 +518,7 @@ and added interface to calculate total length of a line
 <li><p>Added fix for whitepace around ‘=’ in PROJ strings (issue #345)</p></li>
 <li><p>Update version check in <cite>setup.py</cite> (issue #323)</p></li>
 <li><p>Add “stable” doc site pointing to latest release (issue #347, pull #348)</p></li>
-<li><p>Depreate <cite>Proj.proj_version</cite> (pull #337)</p></li>
+<li><p>Deprecate <cite>Proj.proj_version</cite> (pull #337)</p></li>
 <li><p>Test fixes (pull #333, pull #335)</p></li>
 </ul>
 </section>
@@ -529,9 +529,9 @@ and added interface to calculate total length of a line
 <li><dl class="simple">
 <dt><cite>pyproj.crs</cite> updates:</dt><dd><ul>
 <li><p>Updated CRS repr (issue #264)</p></li>
-<li><p>Add Datum, CoordinateSystem, CoordinateOperation clases (issue #262)</p></li>
+<li><p>Add Datum, CoordinateSystem, CoordinateOperation classes, (issue #262)</p></li>
 <li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_cf()</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_cf" title="pyproj.crs.CRS.from_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_cf()</span></code></a> for
-converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)</p></li>
+converting to/from Climate and Forecast (CF) 1.8 grid mappings (pull #244)</p></li>
 <li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_dict" title="pyproj.crs.CRS.to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_dict()</span></code></a> (issue #226)</p></li>
 <li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_authority" title="pyproj.crs.CRS.to_authority"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_authority()</span></code></a> (pull #294)</p></li>
 <li><p>Added <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_vertical" title="pyproj.crs.CRS.is_vertical"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_vertical</span></code></a> and <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.is_engineering" title="pyproj.crs.CRS.is_engineering"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.crs.CRS.is_engineering</span></code></a> (issue #316)</p></li>
@@ -964,6 +964,7 @@ This is necessary when pyrex 0.9.5 is used.</p></li>
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/furo.js"></script>
     </body>
 </html>

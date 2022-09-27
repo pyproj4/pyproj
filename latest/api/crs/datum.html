@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Enumerations" href="enums.html" /><link rel="prev" title="Coordinate Operations" href="coordinate_operation.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Datum - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -1261,12 +1261,94 @@ ID[“EPSG”,8901]]</p></li>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Datum</a><ul>
-<li><a class="reference internal" href="#id2">Datum</a></li>
-<li><a class="reference internal" href="#customdatum">CustomDatum</a></li>
-<li><a class="reference internal" href="#ellipsoid">Ellipsoid</a></li>
-<li><a class="reference internal" href="#customellipsoid">CustomEllipsoid</a></li>
-<li><a class="reference internal" href="#primemeridian">PrimeMeridian</a></li>
-<li><a class="reference internal" href="#customprimemeridian">CustomPrimeMeridian</a></li>
+<li><a class="reference internal" href="#id2">Datum</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.Datum"><code class="docutils literal notranslate"><span class="pre">Datum</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.Datum.name"><code class="docutils literal notranslate"><span class="pre">Datum.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.ellipsoid"><code class="docutils literal notranslate"><span class="pre">Datum.ellipsoid</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.from_authority"><code class="docutils literal notranslate"><span class="pre">Datum.from_authority()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.from_epsg"><code class="docutils literal notranslate"><span class="pre">Datum.from_epsg()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.from_json"><code class="docutils literal notranslate"><span class="pre">Datum.from_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.from_json_dict"><code class="docutils literal notranslate"><span class="pre">Datum.from_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.from_name"><code class="docutils literal notranslate"><span class="pre">Datum.from_name()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.from_string"><code class="docutils literal notranslate"><span class="pre">Datum.from_string()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.from_user_input"><code class="docutils literal notranslate"><span class="pre">Datum.from_user_input()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.is_exact_same"><code class="docutils literal notranslate"><span class="pre">Datum.is_exact_same()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.prime_meridian"><code class="docutils literal notranslate"><span class="pre">Datum.prime_meridian</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.remarks"><code class="docutils literal notranslate"><span class="pre">Datum.remarks</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.scope"><code class="docutils literal notranslate"><span class="pre">Datum.scope</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.to_json"><code class="docutils literal notranslate"><span class="pre">Datum.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.to_json_dict"><code class="docutils literal notranslate"><span class="pre">Datum.to_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Datum.to_wkt"><code class="docutils literal notranslate"><span class="pre">Datum.to_wkt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#customdatum">CustomDatum</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.datum.CustomDatum"><code class="docutils literal notranslate"><span class="pre">CustomDatum</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.datum.CustomDatum.__new__"><code class="docutils literal notranslate"><span class="pre">CustomDatum.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ellipsoid">Ellipsoid</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid"><code class="docutils literal notranslate"><span class="pre">Ellipsoid</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.name"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.is_semi_minor_computed"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.is_semi_minor_computed</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.semi_major_metre"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.semi_major_metre</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.semi_minor_metre"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.semi_minor_metre</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.inverse_flattening"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.inverse_flattening</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.from_authority"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.from_authority()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.from_epsg"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.from_epsg()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.from_json"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.from_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.from_json_dict"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.from_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.from_name"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.from_name()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.from_string"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.from_string()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.from_user_input"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.from_user_input()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.is_exact_same"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.is_exact_same()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.remarks"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.remarks</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.scope"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.scope</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.to_json"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.to_json_dict"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.to_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.Ellipsoid.to_wkt"><code class="docutils literal notranslate"><span class="pre">Ellipsoid.to_wkt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#customellipsoid">CustomEllipsoid</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid"><code class="docutils literal notranslate"><span class="pre">CustomEllipsoid</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.datum.CustomEllipsoid.__new__"><code class="docutils literal notranslate"><span class="pre">CustomEllipsoid.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#primemeridian">PrimeMeridian</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.name"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.unit_name"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.unit_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_authority"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.from_authority()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_epsg"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.from_epsg()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_json"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.from_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_json_dict"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.from_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_name"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.from_name()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_string"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.from_string()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.from_user_input"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.from_user_input()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.is_exact_same"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.is_exact_same()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.remarks"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.remarks</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.scope"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.scope</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.to_json"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.to_json_dict"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.to_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.PrimeMeridian.to_wkt"><code class="docutils literal notranslate"><span class="pre">PrimeMeridian.to_wkt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#customprimemeridian">CustomPrimeMeridian</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.datum.CustomPrimeMeridian"><code class="docutils literal notranslate"><span class="pre">CustomPrimeMeridian</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.datum.CustomPrimeMeridian.__new__"><code class="docutils literal notranslate"><span class="pre">CustomPrimeMeridian.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1283,6 +1365,7 @@ ID[“EPSG”,8901]]</p></li>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>
 </html>

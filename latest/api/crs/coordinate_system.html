@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Coordinate Operations" href="coordinate_operation.html" /><link rel="prev" title="CRS" href="crs.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Coordinate Systems - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -703,12 +703,66 @@ Default is <a class="reference internal" href="enums.html#pyproj.crs.enums.Verti
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Coordinate Systems</a><ul>
-<li><a class="reference internal" href="#coordinatesystem">CoordinateSystem</a></li>
-<li><a class="reference internal" href="#axis">Axis</a></li>
-<li><a class="reference internal" href="#ellipsoidal2dcs">Ellipsoidal2DCS</a></li>
-<li><a class="reference internal" href="#ellipsoidal3dcs">Ellipsoidal3DCS</a></li>
-<li><a class="reference internal" href="#cartesian2dcs">Cartesian2DCS</a></li>
-<li><a class="reference internal" href="#verticalcs">VerticalCS</a></li>
+<li><a class="reference internal" href="#coordinatesystem">CoordinateSystem</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.name"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.axis_list"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.axis_list</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.from_json"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.from_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.from_json_dict"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.from_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.from_string"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.from_string()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.from_user_input"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.from_user_input()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.is_exact_same"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.is_exact_same()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.remarks"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.remarks</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.scope"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.scope</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.to_cf"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.to_cf()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.to_json"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.to_json_dict"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.to_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateSystem.to_wkt"><code class="docutils literal notranslate"><span class="pre">CoordinateSystem.to_wkt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#axis">Axis</a><ul>
+<li><a class="reference internal" href="#pyproj._crs.Axis"><code class="docutils literal notranslate"><span class="pre">Axis</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj._crs.Axis.name"><code class="docutils literal notranslate"><span class="pre">Axis.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Axis.abbrev"><code class="docutils literal notranslate"><span class="pre">Axis.abbrev</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Axis.direction"><code class="docutils literal notranslate"><span class="pre">Axis.direction</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Axis.unit_conversion_factor"><code class="docutils literal notranslate"><span class="pre">Axis.unit_conversion_factor</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Axis.unit_name"><code class="docutils literal notranslate"><span class="pre">Axis.unit_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Axis.unit_auth_code"><code class="docutils literal notranslate"><span class="pre">Axis.unit_auth_code</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Axis.unit_code"><code class="docutils literal notranslate"><span class="pre">Axis.unit_code</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ellipsoidal2dcs">Ellipsoidal2DCS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_system.Ellipsoidal2DCS"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal2DCS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_system.Ellipsoidal2DCS.__new__"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal2DCS.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ellipsoidal3dcs">Ellipsoidal3DCS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_system.Ellipsoidal3DCS"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal3DCS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_system.Ellipsoidal3DCS.__new__"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal3DCS.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cartesian2dcs">Cartesian2DCS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_system.Cartesian2DCS"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_system.Cartesian2DCS.__new__"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCS.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#verticalcs">VerticalCS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_system.VerticalCS"><code class="docutils literal notranslate"><span class="pre">VerticalCS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_system.VerticalCS.__new__"><code class="docutils literal notranslate"><span class="pre">VerticalCS.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -725,6 +779,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.crs.enums.Verti
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>
 </html>
