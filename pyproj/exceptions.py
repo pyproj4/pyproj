@@ -19,7 +19,7 @@ class ProjError(RuntimeError):
     @staticmethod
     def clear() -> None:
         """
-        This will clear the internal PROJ erro message.
+        This will clear the internal PROJ error message.
         """
         ProjError.internal_proj_error = None
 

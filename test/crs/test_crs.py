@@ -394,7 +394,7 @@ def test_crs_OSR_equivalence():
     with pytest.warns(FutureWarning):
         crs3 = CRS({"init": "EPSG:4326"})
     assert crs1 == crs2
-    # these are not equivalent in proj.4 now as one uses degrees and the othe radians
+    # these are not equivalent in proj.4 now as one uses degrees and the other radians
     assert crs1 == crs3
 
 

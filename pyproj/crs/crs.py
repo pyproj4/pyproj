@@ -1443,7 +1443,7 @@ class CRS:
         """
         This checks if the CRS is geographic.
         It will check if it has a geographic CRS
-        in the sub CRS if it is a compount CRS and will check if
+        in the sub CRS if it is a compound CRS and will check if
         the source CRS is geographic if it is a bound CRS.
 
         Returns
@@ -1458,7 +1458,7 @@ class CRS:
         """
         This checks if the CRS is projected.
         It will check if it has a projected CRS
-        in the sub CRS if it is a compount CRS and will check if
+        in the sub CRS if it is a compound CRS and will check if
         the source CRS is projected if it is a bound CRS.
 
         Returns
@@ -1475,7 +1475,7 @@ class CRS:
 
         This checks if the CRS is vertical.
         It will check if it has a vertical CRS
-        in the sub CRS if it is a compount CRS and will check if
+        in the sub CRS if it is a compound CRS and will check if
         the source CRS is vertical if it is a bound CRS.
 
         Returns

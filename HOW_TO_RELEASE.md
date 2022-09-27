@@ -21,7 +21,7 @@ The next step is to create a tag with the same name as the version just added. T
 1. Create a draft PR at https://github.com/pyproj4/pyproj-wheels and verify tests pass.
 2. Create a draft PR at https://github.com/conda-forge/pyproj-feedstock and verify tests pass.
 3. Check the wheels built at https://github.com/pyproj4/pyproj using GitHub Actions.
-4. Verify Debian builds were succesful.
+4. Verify Debian builds were successful.
 5. Verify the docs build successfully.
 
 ## Phase 2: Make the release

@@ -117,7 +117,7 @@ def test_geod_inverse_transform():
         npts1 = npts + initial_idx + terminus_idx - 1
         del_s = dist / npts1
         print(
-            f"Total distnace is {dist}, "
+            f"Total distance is {dist}, "
             f"Points count: {npts}, "
             f"{inc_exc[include_initial]} initial point, "
             f"{inc_exc[include_terminus]} terminus point. "
