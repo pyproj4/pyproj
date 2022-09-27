@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Area of Interest" href="aoi.html" /><link rel="prev" title="Global Context" href="global_context.html" />
 
-    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Enumerations - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -222,7 +222,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -529,8 +529,77 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Enumerations</a><ul>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion"><code class="docutils literal notranslate"><span class="pre">WktVersion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion.WKT1_ESRI"><code class="docutils literal notranslate"><span class="pre">WktVersion.WKT1_ESRI</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion.WKT1_GDAL"><code class="docutils literal notranslate"><span class="pre">WktVersion.WKT1_GDAL</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion.WKT2_2015"><code class="docutils literal notranslate"><span class="pre">WktVersion.WKT2_2015</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion.WKT2_2015_SIMPLIFIED"><code class="docutils literal notranslate"><span class="pre">WktVersion.WKT2_2015_SIMPLIFIED</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion.WKT2_2018"><code class="docutils literal notranslate"><span class="pre">WktVersion.WKT2_2018</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion.WKT2_2018_SIMPLIFIED"><code class="docutils literal notranslate"><span class="pre">WktVersion.WKT2_2018_SIMPLIFIED</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion.WKT2_2019"><code class="docutils literal notranslate"><span class="pre">WktVersion.WKT2_2019</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.WktVersion.WKT2_2019_SIMPLIFIED"><code class="docutils literal notranslate"><span class="pre">WktVersion.WKT2_2019_SIMPLIFIED</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj.enums.ProjVersion"><code class="docutils literal notranslate"><span class="pre">ProjVersion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.enums.ProjVersion.PROJ_4"><code class="docutils literal notranslate"><span class="pre">ProjVersion.PROJ_4</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.ProjVersion.PROJ_5"><code class="docutils literal notranslate"><span class="pre">ProjVersion.PROJ_5</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj.enums.TransformDirection"><code class="docutils literal notranslate"><span class="pre">TransformDirection</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.enums.TransformDirection.FORWARD"><code class="docutils literal notranslate"><span class="pre">TransformDirection.FORWARD</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.TransformDirection.IDENT"><code class="docutils literal notranslate"><span class="pre">TransformDirection.IDENT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.TransformDirection.INVERSE"><code class="docutils literal notranslate"><span class="pre">TransformDirection.INVERSE</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj.enums.PJType"><code class="docutils literal notranslate"><span class="pre">PJType</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.enums.PJType.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">PJType.UNKNOWN</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.ELLIPSOID"><code class="docutils literal notranslate"><span class="pre">PJType.ELLIPSOID</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.PRIME_MERIDIAN"><code class="docutils literal notranslate"><span class="pre">PJType.PRIME_MERIDIAN</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.GEODETIC_REFERENCE_FRAME"><code class="docutils literal notranslate"><span class="pre">PJType.GEODETIC_REFERENCE_FRAME</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.DYNAMIC_GEODETIC_REFERENCE_FRAME"><code class="docutils literal notranslate"><span class="pre">PJType.DYNAMIC_GEODETIC_REFERENCE_FRAME</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.VERTICAL_REFERENCE_FRAME"><code class="docutils literal notranslate"><span class="pre">PJType.VERTICAL_REFERENCE_FRAME</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.DYNAMIC_VERTICAL_REFERENCE_FRAME"><code class="docutils literal notranslate"><span class="pre">PJType.DYNAMIC_VERTICAL_REFERENCE_FRAME</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.DATUM_ENSEMBLE"><code class="docutils literal notranslate"><span class="pre">PJType.DATUM_ENSEMBLE</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.CRS"><code class="docutils literal notranslate"><span class="pre">PJType.CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.GEODETIC_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.GEODETIC_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.GEOCENTRIC_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.GEOCENTRIC_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.GEOGRAPHIC_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.GEOGRAPHIC_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.GEOGRAPHIC_2D_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.GEOGRAPHIC_2D_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.GEOGRAPHIC_3D_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.GEOGRAPHIC_3D_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.VERTICAL_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.VERTICAL_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.PROJECTED_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.PROJECTED_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.COMPOUND_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.COMPOUND_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.TEMPORAL_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.TEMPORAL_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.ENGINEERING_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.ENGINEERING_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.BOUND_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.BOUND_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.OTHER_CRS"><code class="docutils literal notranslate"><span class="pre">PJType.OTHER_CRS</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.CONVERSION"><code class="docutils literal notranslate"><span class="pre">PJType.CONVERSION</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.TRANSFORMATION"><code class="docutils literal notranslate"><span class="pre">PJType.TRANSFORMATION</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.CONCATENATED_OPERATION"><code class="docutils literal notranslate"><span class="pre">PJType.CONCATENATED_OPERATION</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.enums.PJType.OTHER_COORDINATE_OPERATION"><code class="docutils literal notranslate"><span class="pre">PJType.OTHER_COORDINATE_OPERATION</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj.enums.GeodIntermediateFlag"><code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -540,6 +609,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     </body>
 </html>

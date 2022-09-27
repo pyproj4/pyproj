@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Show Versions" href="show_versions.html" /><link rel="prev" title="Area of Interest" href="aoi.html" />
 
-    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Exceptions - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -222,16 +222,16 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="module-pyproj.exceptions">
-<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-pyproj.exceptions" title="Permalink to this heading">#</a></h1>
+          <section id="exceptions">
+<h1>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this heading">#</a></h1>
 <p>Exceptions for pyproj</p>
-<dl class="py exception">
+<span class="target" id="module-pyproj.exceptions"></span><dl class="py exception">
 <dt class="sig sig-object py" id="pyproj.exceptions.CRSError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.exceptions.</span></span><span class="sig-name descname"><span class="pre">CRSError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/exceptions.html#CRSError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.exceptions.CRSError" title="Permalink to this definition">#</a></dt>
 <dd><p>Raised when a CRS error occurs.</p>
@@ -256,7 +256,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyproj.exceptions.ProjError.clear">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pyproj/exceptions.html#ProjError.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.exceptions.ProjError.clear" title="Permalink to this definition">#</a></dt>
-<dd><p>This will clear the internal PROJ erro message.</p>
+<dd><p>This will clear the internal PROJ error message.</p>
 </dd></dl>
 
 </dd></dl>
@@ -308,8 +308,33 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Exceptions</a><ul>
+<li><a class="reference internal" href="#pyproj.exceptions.CRSError"><code class="docutils literal notranslate"><span class="pre">CRSError</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.exceptions.DataDirError"><code class="docutils literal notranslate"><span class="pre">DataDirError</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.exceptions.GeodError"><code class="docutils literal notranslate"><span class="pre">GeodError</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.exceptions.ProjError"><code class="docutils literal notranslate"><span class="pre">ProjError</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.exceptions.ProjError.clear"><code class="docutils literal notranslate"><span class="pre">ProjError.clear()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -319,6 +344,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     </body>
 </html>

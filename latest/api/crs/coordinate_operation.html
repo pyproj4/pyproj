@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Datum" href="datum.html" /><link rel="prev" title="Coordinate Systems" href="coordinate_system.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Coordinate Operations - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -1590,32 +1590,225 @@ expressed in the rotated geographic CRS (o_lon_p).</p></li>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Coordinate Operations</a><ul>
-<li><a class="reference internal" href="#coordinateoperation">CoordinateOperation</a></li>
-<li><a class="reference internal" href="#param">Param</a></li>
-<li><a class="reference internal" href="#grid">Grid</a></li>
-<li><a class="reference internal" href="#albersequalareaconversion">AlbersEqualAreaConversion</a></li>
-<li><a class="reference internal" href="#azimuthalequidistantconversion">AzimuthalEquidistantConversion</a></li>
-<li><a class="reference internal" href="#equidistantcylindricalconversion">EquidistantCylindricalConversion</a></li>
-<li><a class="reference internal" href="#geostationarysatelliteconversion">GeostationarySatelliteConversion</a></li>
-<li><a class="reference internal" href="#lambertazimuthalequalareaconversion">LambertAzimuthalEqualAreaConversion</a></li>
-<li><a class="reference internal" href="#lambertconformalconic1spconversion">LambertConformalConic1SPConversion</a></li>
-<li><a class="reference internal" href="#lambertconformalconic2spconversion">LambertConformalConic2SPConversion</a></li>
-<li><a class="reference internal" href="#lambertcylindricalequalareaconversion">LambertCylindricalEqualAreaConversion</a></li>
-<li><a class="reference internal" href="#mercatoraconversion">MercatorAConversion</a></li>
-<li><a class="reference internal" href="#mercatorbconversion">MercatorBConversion</a></li>
-<li><a class="reference internal" href="#hotineobliquemercatorbconversion">HotineObliqueMercatorBConversion</a></li>
-<li><a class="reference internal" href="#orthographicconversion">OrthographicConversion</a></li>
-<li><a class="reference internal" href="#platecarreeconversion">PlateCarreeConversion</a></li>
-<li><a class="reference internal" href="#polarstereographicaconversion">PolarStereographicAConversion</a></li>
-<li><a class="reference internal" href="#polarstereographicbconversion">PolarStereographicBConversion</a></li>
-<li><a class="reference internal" href="#sinusoidalconversion">SinusoidalConversion</a></li>
-<li><a class="reference internal" href="#stereographicconversion">StereographicConversion</a></li>
-<li><a class="reference internal" href="#utmconversion">UTMConversion</a></li>
-<li><a class="reference internal" href="#transversemercatorconversion">TransverseMercatorConversion</a></li>
-<li><a class="reference internal" href="#verticalperspectiveconversion">VerticalPerspectiveConversion</a></li>
-<li><a class="reference internal" href="#rotatedlatitudelongitudeconversion">RotatedLatitudeLongitudeConversion</a></li>
-<li><a class="reference internal" href="#polerotationnetcdfcfconversion">PoleRotationNetCDFCFConversion</a></li>
-<li><a class="reference internal" href="#towgs84transformation">ToWGS84Transformation</a></li>
+<li><a class="reference internal" href="#coordinateoperation">CoordinateOperation</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.name"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.method_name"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.method_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.method_auth_name"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.method_auth_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.method_code"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.method_code</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.is_instantiable"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.is_instantiable</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.has_ballpark_transformation"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.has_ballpark_transformation</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.accuracy"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.accuracy</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.area_of_use"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.area_of_use</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.from_authority"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.from_authority()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.from_epsg"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.from_epsg()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.from_json"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.from_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.from_json_dict"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.from_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.from_name"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.from_name()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.from_string"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.from_string()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.from_user_input"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.from_user_input()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.grids"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.grids</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.is_exact_same"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.is_exact_same()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.operations"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.operations</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.params"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.remarks"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.remarks</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.scope"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.scope</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.to_json"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.to_json_dict"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.to_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.to_proj4"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.to_proj4()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.to_wkt"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.to_wkt()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CoordinateOperation.towgs84"><code class="docutils literal notranslate"><span class="pre">CoordinateOperation.towgs84</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#param">Param</a><ul>
+<li><a class="reference internal" href="#pyproj._crs.Param"><code class="docutils literal notranslate"><span class="pre">Param</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj._crs.Param.name"><code class="docutils literal notranslate"><span class="pre">Param.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Param.auth_name"><code class="docutils literal notranslate"><span class="pre">Param.auth_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Param.code"><code class="docutils literal notranslate"><span class="pre">Param.code</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Param.value"><code class="docutils literal notranslate"><span class="pre">Param.value</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Param.unit_conversion_factor"><code class="docutils literal notranslate"><span class="pre">Param.unit_conversion_factor</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Param.unit_name"><code class="docutils literal notranslate"><span class="pre">Param.unit_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Param.unit_auth_name"><code class="docutils literal notranslate"><span class="pre">Param.unit_auth_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Param.unit_code"><code class="docutils literal notranslate"><span class="pre">Param.unit_code</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Param.unit_category"><code class="docutils literal notranslate"><span class="pre">Param.unit_category</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#grid">Grid</a><ul>
+<li><a class="reference internal" href="#pyproj._crs.Grid"><code class="docutils literal notranslate"><span class="pre">Grid</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj._crs.Grid.short_name"><code class="docutils literal notranslate"><span class="pre">Grid.short_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Grid.full_name"><code class="docutils literal notranslate"><span class="pre">Grid.full_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Grid.package_name"><code class="docutils literal notranslate"><span class="pre">Grid.package_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Grid.url"><code class="docutils literal notranslate"><span class="pre">Grid.url</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Grid.direct_download"><code class="docutils literal notranslate"><span class="pre">Grid.direct_download</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Grid.open_license"><code class="docutils literal notranslate"><span class="pre">Grid.open_license</span></code></a></li>
+<li><a class="reference internal" href="#pyproj._crs.Grid.available"><code class="docutils literal notranslate"><span class="pre">Grid.available</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#albersequalareaconversion">AlbersEqualAreaConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.AlbersEqualAreaConversion"><code class="docutils literal notranslate"><span class="pre">AlbersEqualAreaConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.AlbersEqualAreaConversion.__new__"><code class="docutils literal notranslate"><span class="pre">AlbersEqualAreaConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#azimuthalequidistantconversion">AzimuthalEquidistantConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion"><code class="docutils literal notranslate"><span class="pre">AzimuthalEquidistantConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.AzimuthalEquidistantConversion.__new__"><code class="docutils literal notranslate"><span class="pre">AzimuthalEquidistantConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#equidistantcylindricalconversion">EquidistantCylindricalConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion"><code class="docutils literal notranslate"><span class="pre">EquidistantCylindricalConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.EquidistantCylindricalConversion.__new__"><code class="docutils literal notranslate"><span class="pre">EquidistantCylindricalConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#geostationarysatelliteconversion">GeostationarySatelliteConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion"><code class="docutils literal notranslate"><span class="pre">GeostationarySatelliteConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.GeostationarySatelliteConversion.__new__"><code class="docutils literal notranslate"><span class="pre">GeostationarySatelliteConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lambertazimuthalequalareaconversion">LambertAzimuthalEqualAreaConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion"><code class="docutils literal notranslate"><span class="pre">LambertAzimuthalEqualAreaConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertAzimuthalEqualAreaConversion.__new__"><code class="docutils literal notranslate"><span class="pre">LambertAzimuthalEqualAreaConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lambertconformalconic1spconversion">LambertConformalConic1SPConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertConformalConic1SPConversion"><code class="docutils literal notranslate"><span class="pre">LambertConformalConic1SPConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertConformalConic1SPConversion.__new__"><code class="docutils literal notranslate"><span class="pre">LambertConformalConic1SPConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lambertconformalconic2spconversion">LambertConformalConic2SPConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertConformalConic2SPConversion"><code class="docutils literal notranslate"><span class="pre">LambertConformalConic2SPConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertConformalConic2SPConversion.__new__"><code class="docutils literal notranslate"><span class="pre">LambertConformalConic2SPConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lambertcylindricalequalareaconversion">LambertCylindricalEqualAreaConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaConversion"><code class="docutils literal notranslate"><span class="pre">LambertCylindricalEqualAreaConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaConversion.__new__"><code class="docutils literal notranslate"><span class="pre">LambertCylindricalEqualAreaConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.LambertCylindricalEqualAreaScaleConversion"><code class="docutils literal notranslate"><span class="pre">LambertCylindricalEqualAreaScaleConversion</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mercatoraconversion">MercatorAConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.MercatorAConversion"><code class="docutils literal notranslate"><span class="pre">MercatorAConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.MercatorAConversion.__new__"><code class="docutils literal notranslate"><span class="pre">MercatorAConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mercatorbconversion">MercatorBConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.MercatorBConversion"><code class="docutils literal notranslate"><span class="pre">MercatorBConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.MercatorBConversion.__new__"><code class="docutils literal notranslate"><span class="pre">MercatorBConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hotineobliquemercatorbconversion">HotineObliqueMercatorBConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.HotineObliqueMercatorBConversion"><code class="docutils literal notranslate"><span class="pre">HotineObliqueMercatorBConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.HotineObliqueMercatorBConversion.__new__"><code class="docutils literal notranslate"><span class="pre">HotineObliqueMercatorBConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#orthographicconversion">OrthographicConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.OrthographicConversion"><code class="docutils literal notranslate"><span class="pre">OrthographicConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.OrthographicConversion.__new__"><code class="docutils literal notranslate"><span class="pre">OrthographicConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#platecarreeconversion">PlateCarreeConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.PlateCarreeConversion"><code class="docutils literal notranslate"><span class="pre">PlateCarreeConversion</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#polarstereographicaconversion">PolarStereographicAConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.PolarStereographicAConversion"><code class="docutils literal notranslate"><span class="pre">PolarStereographicAConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.PolarStereographicAConversion.__new__"><code class="docutils literal notranslate"><span class="pre">PolarStereographicAConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#polarstereographicbconversion">PolarStereographicBConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.PolarStereographicBConversion"><code class="docutils literal notranslate"><span class="pre">PolarStereographicBConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.PolarStereographicBConversion.__new__"><code class="docutils literal notranslate"><span class="pre">PolarStereographicBConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sinusoidalconversion">SinusoidalConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.SinusoidalConversion"><code class="docutils literal notranslate"><span class="pre">SinusoidalConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.SinusoidalConversion.__new__"><code class="docutils literal notranslate"><span class="pre">SinusoidalConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#stereographicconversion">StereographicConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.StereographicConversion"><code class="docutils literal notranslate"><span class="pre">StereographicConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.StereographicConversion.__new__"><code class="docutils literal notranslate"><span class="pre">StereographicConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#utmconversion">UTMConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.UTMConversion"><code class="docutils literal notranslate"><span class="pre">UTMConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.UTMConversion.__new__"><code class="docutils literal notranslate"><span class="pre">UTMConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transversemercatorconversion">TransverseMercatorConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.TransverseMercatorConversion"><code class="docutils literal notranslate"><span class="pre">TransverseMercatorConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.TransverseMercatorConversion.__new__"><code class="docutils literal notranslate"><span class="pre">TransverseMercatorConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#verticalperspectiveconversion">VerticalPerspectiveConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.VerticalPerspectiveConversion"><code class="docutils literal notranslate"><span class="pre">VerticalPerspectiveConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.VerticalPerspectiveConversion.__new__"><code class="docutils literal notranslate"><span class="pre">VerticalPerspectiveConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rotatedlatitudelongitudeconversion">RotatedLatitudeLongitudeConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion"><code class="docutils literal notranslate"><span class="pre">RotatedLatitudeLongitudeConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.RotatedLatitudeLongitudeConversion.__new__"><code class="docutils literal notranslate"><span class="pre">RotatedLatitudeLongitudeConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#polerotationnetcdfcfconversion">PoleRotationNetCDFCFConversion</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion"><code class="docutils literal notranslate"><span class="pre">PoleRotationNetCDFCFConversion</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.PoleRotationNetCDFCFConversion.__new__"><code class="docutils literal notranslate"><span class="pre">PoleRotationNetCDFCFConversion.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#towgs84transformation">ToWGS84Transformation</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.ToWGS84Transformation"><code class="docutils literal notranslate"><span class="pre">ToWGS84Transformation</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.coordinate_operation.ToWGS84Transformation.__new__"><code class="docutils literal notranslate"><span class="pre">ToWGS84Transformation.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1632,6 +1825,7 @@ expressed in the rotated geographic CRS (o_lon_p).</p></li>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>
 </html>

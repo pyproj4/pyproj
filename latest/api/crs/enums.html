@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Transformer" href="../transformer.html" /><link rel="prev" title="Datum" href="datum.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Enumerations - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -522,12 +522,73 @@ with <a class="reference internal" href="coordinate_system.html#pyproj.crs.coord
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Enumerations</a><ul>
-<li><a class="reference internal" href="#datumtype">DatumType</a></li>
-<li><a class="reference internal" href="#coordinateoperationtype">CoordinateOperationType</a></li>
-<li><a class="reference internal" href="#cartesian2dcsaxis">Cartesian2DCSAxis</a></li>
-<li><a class="reference internal" href="#ellipsoidal2dcsaxis">Ellipsoidal2DCSAxis</a></li>
-<li><a class="reference internal" href="#ellipsoidal3dcsaxis">Ellipsoidal3DCSAxis</a></li>
-<li><a class="reference internal" href="#verticalcsaxis">VerticalCSAxis</a></li>
+<li><a class="reference internal" href="#datumtype">DatumType</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.DatumType"><code class="docutils literal notranslate"><span class="pre">DatumType</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.DatumType.GEODETIC_REFERENCE_FRAME"><code class="docutils literal notranslate"><span class="pre">DatumType.GEODETIC_REFERENCE_FRAME</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.DatumType.DYNAMIC_GEODETIC_REFERENCE_FRAME"><code class="docutils literal notranslate"><span class="pre">DatumType.DYNAMIC_GEODETIC_REFERENCE_FRAME</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.DatumType.VERTICAL_REFERENCE_FRAME"><code class="docutils literal notranslate"><span class="pre">DatumType.VERTICAL_REFERENCE_FRAME</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.DatumType.DYNAMIC_VERTICAL_REFERENCE_FRAME"><code class="docutils literal notranslate"><span class="pre">DatumType.DYNAMIC_VERTICAL_REFERENCE_FRAME</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.DatumType.DATUM_ENSEMBLE"><code class="docutils literal notranslate"><span class="pre">DatumType.DATUM_ENSEMBLE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#coordinateoperationtype">CoordinateOperationType</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.CoordinateOperationType"><code class="docutils literal notranslate"><span class="pre">CoordinateOperationType</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.CoordinateOperationType.CONVERSION"><code class="docutils literal notranslate"><span class="pre">CoordinateOperationType.CONVERSION</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.CoordinateOperationType.TRANSFORMATION"><code class="docutils literal notranslate"><span class="pre">CoordinateOperationType.TRANSFORMATION</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.CoordinateOperationType.CONCATENATED_OPERATION"><code class="docutils literal notranslate"><span class="pre">CoordinateOperationType.CONCATENATED_OPERATION</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.CoordinateOperationType.OTHER_COORDINATE_OPERATION"><code class="docutils literal notranslate"><span class="pre">CoordinateOperationType.OTHER_COORDINATE_OPERATION</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cartesian2dcsaxis">Cartesian2DCSAxis</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.EASTING_NORTHING</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.NORTHING_EASTING</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING_FT"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.EASTING_NORTHING_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING_FT"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.NORTHING_EASTING_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.EASTING_NORTHING_US_FT"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.EASTING_NORTHING_US_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.NORTHING_EASTING_US_FT"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.NORTHING_EASTING_US_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Cartesian2DCSAxis.WESTING_SOUTHING"><code class="docutils literal notranslate"><span class="pre">Cartesian2DCSAxis.WESTING_SOUTHING</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ellipsoidal2dcsaxis">Ellipsoidal2DCSAxis</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.Ellipsoidal2DCSAxis"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal2DCSAxis</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Ellipsoidal2DCSAxis.LATITUDE_LONGITUDE"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal2DCSAxis.LATITUDE_LONGITUDE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ellipsoidal3dcsaxis">Ellipsoidal3DCSAxis</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.Ellipsoidal3DCSAxis"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal3DCSAxis</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.Ellipsoidal3DCSAxis.LATITUDE_LONGITUDE_HEIGHT"><code class="docutils literal notranslate"><span class="pre">Ellipsoidal3DCSAxis.LATITUDE_LONGITUDE_HEIGHT</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#verticalcsaxis">VerticalCSAxis</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.UP"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.UP</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.UP_FT"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.UP_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.UP_US_FT"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.UP_US_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.DEPTH"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.DEPTH</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.DEPTH_FT"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.DEPTH_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.DEPTH_US_FT"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.DEPTH_US_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.GRAVITY_HEIGHT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT_FT"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.GRAVITY_HEIGHT_FT</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.enums.VerticalCSAxis.GRAVITY_HEIGHT_US_FT"><code class="docutils literal notranslate"><span class="pre">VerticalCSAxis.GRAVITY_HEIGHT_US_FT</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -544,6 +605,7 @@ with <a class="reference internal" href="coordinate_system.html#pyproj.crs.coord
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>
 </html>

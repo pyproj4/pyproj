@@ -137,7 +137,7 @@ Promote CRS to 3D
 .. versionadded:: 3.1
 
 
-In PROJ 6+ you neeed to explictly change your CRS to 3D if you have
+In PROJ 6+ you need to explicitly change your CRS to 3D if you have
 2D CRS and you want the ellipsoidal height taken into account.
 
 

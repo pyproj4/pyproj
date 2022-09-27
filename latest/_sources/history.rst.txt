@@ -196,7 +196,7 @@ Latest
 * Added `operations` to `pyproj.crs.CoordinateOperation` objects and `pyproj.Transformer` (issue #441)
 * Added :func:`pyproj.get_authorities` and :func:`pyproj.get_codes` (issue #440)
 * Release gil in core cython/PROJ code (issue #386)
-* BUG: Added checks for unititialized `pyproj.crs` objects to prevent core dumping (issue #433)
+* BUG: Added checks for uninitialized `pyproj.crs` objects to prevent core dumping (issue #433)
 * BUG: Added fix for get_transform_crs when checking type (pull #439)
 * DOC: Build docs with python3 (pull #428)
 
@@ -245,7 +245,7 @@ Latest
 * Added fix for whitepace around '=' in PROJ strings (issue #345)
 * Update version check in `setup.py` (issue #323)
 * Add "stable" doc site pointing to latest release (issue #347, pull #348)
-* Depreate `Proj.proj_version` (pull #337)
+* Deprecate `Proj.proj_version` (pull #337)
 * Test fixes (pull #333, pull #335)
 
 2.2.0
@@ -253,9 +253,9 @@ Latest
 * Minimum PROJ version is now 6.1.0
 * `pyproj.crs` updates:
     * Updated CRS repr (issue #264)
-    * Add Datum, CoordinateSystem, CoordinateOperation clases (issue #262)
+    * Add Datum, CoordinateSystem, CoordinateOperation classes, (issue #262)
     * Added :meth:`pyproj.crs.CRS.to_cf` and :meth:`pyproj.crs.CRS.from_cf` for
-      converting to/from Climate and Forcast (CF) 1.8 grid mappings (pull #244)
+      converting to/from Climate and Forecast (CF) 1.8 grid mappings (pull #244)
     * Added :meth:`pyproj.crs.CRS.to_dict` (issue #226)
     * Added :meth:`pyproj.crs.CRS.to_authority` (pull #294)
     * Added :attr:`pyproj.crs.CRS.is_vertical` and :attr:`pyproj.crs.CRS.is_engineering` (issue #316)

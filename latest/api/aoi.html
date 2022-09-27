@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Exceptions" href="exceptions.html" /><link rel="prev" title="Enumerations" href="enums.html" />
 
-    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>Area of Interest - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -459,9 +459,40 @@ bounding boxes.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Area of Interest</a><ul>
-<li><a class="reference internal" href="#pyproj-aoi-areaofinterest">pyproj.aoi.AreaOfInterest</a></li>
-<li><a class="reference internal" href="#pyproj-aoi-areaofuse">pyproj.aoi.AreaOfUse</a></li>
-<li><a class="reference internal" href="#pyproj-aoi-bbox">pyproj.aoi.BBox</a></li>
+<li><a class="reference internal" href="#pyproj-aoi-areaofinterest">pyproj.aoi.AreaOfInterest</a><ul>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfInterest"><code class="docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfInterest.east_lon_degree"><code class="docutils literal notranslate"><span class="pre">AreaOfInterest.east_lon_degree</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfInterest.north_lat_degree"><code class="docutils literal notranslate"><span class="pre">AreaOfInterest.north_lat_degree</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfInterest.south_lat_degree"><code class="docutils literal notranslate"><span class="pre">AreaOfInterest.south_lat_degree</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfInterest.west_lon_degree"><code class="docutils literal notranslate"><span class="pre">AreaOfInterest.west_lon_degree</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-aoi-areaofuse">pyproj.aoi.AreaOfUse</a><ul>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfUse"><code class="docutils literal notranslate"><span class="pre">AreaOfUse</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfUse.bounds"><code class="docutils literal notranslate"><span class="pre">AreaOfUse.bounds</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfUse.east"><code class="docutils literal notranslate"><span class="pre">AreaOfUse.east</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfUse.name"><code class="docutils literal notranslate"><span class="pre">AreaOfUse.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfUse.north"><code class="docutils literal notranslate"><span class="pre">AreaOfUse.north</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfUse.south"><code class="docutils literal notranslate"><span class="pre">AreaOfUse.south</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.AreaOfUse.west"><code class="docutils literal notranslate"><span class="pre">AreaOfUse.west</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-aoi-bbox">pyproj.aoi.BBox</a><ul>
+<li><a class="reference internal" href="#pyproj.aoi.BBox"><code class="docutils literal notranslate"><span class="pre">BBox</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.aoi.BBox.contains"><code class="docutils literal notranslate"><span class="pre">BBox.contains()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.BBox.east"><code class="docutils literal notranslate"><span class="pre">BBox.east</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.BBox.intersects"><code class="docutils literal notranslate"><span class="pre">BBox.intersects()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.BBox.north"><code class="docutils literal notranslate"><span class="pre">BBox.north</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.BBox.south"><code class="docutils literal notranslate"><span class="pre">BBox.south</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.aoi.BBox.west"><code class="docutils literal notranslate"><span class="pre">BBox.west</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -478,6 +509,7 @@ bounding boxes.</p>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     </body>
 </html>

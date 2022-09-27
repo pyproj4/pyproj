@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Coordinate Systems" href="coordinate_system.html" /><link rel="prev" title="CRS module API Documentation" href="index.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.2.1, furo 2022.09.15"/>
         <title>CRS - pyproj 3.4.1.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -842,7 +842,7 @@ takes into account if the CRS is bound.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_geographic</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyproj.crs.CRS.is_geographic" title="Permalink to this definition">#</a></dt>
 <dd><p>This checks if the CRS is geographic.
 It will check if it has a geographic CRS
-in the sub CRS if it is a compount CRS and will check if
+in the sub CRS if it is a compound CRS and will check if
 the source CRS is geographic if it is a bound CRS.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -859,7 +859,7 @@ the source CRS is geographic if it is a bound CRS.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_projected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyproj.crs.CRS.is_projected" title="Permalink to this definition">#</a></dt>
 <dd><p>This checks if the CRS is projected.
 It will check if it has a projected CRS
-in the sub CRS if it is a compount CRS and will check if
+in the sub CRS if it is a compound CRS and will check if
 the source CRS is projected if it is a bound CRS.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -879,7 +879,7 @@ the source CRS is projected if it is a bound CRS.</p>
 </div>
 <p>This checks if the CRS is vertical.
 It will check if it has a vertical CRS
-in the sub CRS if it is a compount CRS and will check if
+in the sub CRS if it is a compound CRS and will check if
 the source CRS is vertical if it is a bound CRS.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1749,17 +1749,132 @@ or the source CRS of a CoordinateOperation.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">CRS</a><ul>
-<li><a class="reference internal" href="#id2">CRS</a></li>
-<li><a class="reference internal" href="#geographiccrs">GeographicCRS</a></li>
-<li><a class="reference internal" href="#derivedgeographiccrs">DerivedGeographicCRS</a></li>
-<li><a class="reference internal" href="#geocentriccrs">GeocentricCRS</a></li>
-<li><a class="reference internal" href="#projectedcrs">ProjectedCRS</a></li>
-<li><a class="reference internal" href="#verticalcrs">VerticalCRS</a></li>
-<li><a class="reference internal" href="#boundcrs">BoundCRS</a></li>
-<li><a class="reference internal" href="#compoundcrs">CompoundCRS</a></li>
-<li><a class="reference internal" href="#customconstructorcrs">CustomConstructorCRS</a></li>
-<li><a class="reference internal" href="#is-wkt">is_wkt</a></li>
-<li><a class="reference internal" href="#is-proj">is_proj</a></li>
+<li><a class="reference internal" href="#id2">CRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CRS"><code class="docutils literal notranslate"><span class="pre">CRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CRS.srs"><code class="docutils literal notranslate"><span class="pre">CRS.srs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.__init__"><code class="docutils literal notranslate"><span class="pre">CRS.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.area_of_use"><code class="docutils literal notranslate"><span class="pre">CRS.area_of_use</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.axis_info"><code class="docutils literal notranslate"><span class="pre">CRS.axis_info</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.coordinate_operation"><code class="docutils literal notranslate"><span class="pre">CRS.coordinate_operation</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.coordinate_system"><code class="docutils literal notranslate"><span class="pre">CRS.coordinate_system</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.cs_to_cf"><code class="docutils literal notranslate"><span class="pre">CRS.cs_to_cf()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.datum"><code class="docutils literal notranslate"><span class="pre">CRS.datum</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.ellipsoid"><code class="docutils literal notranslate"><span class="pre">CRS.ellipsoid</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.equals"><code class="docutils literal notranslate"><span class="pre">CRS.equals()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_authority"><code class="docutils literal notranslate"><span class="pre">CRS.from_authority()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_cf"><code class="docutils literal notranslate"><span class="pre">CRS.from_cf()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_dict"><code class="docutils literal notranslate"><span class="pre">CRS.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_epsg"><code class="docutils literal notranslate"><span class="pre">CRS.from_epsg()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_json"><code class="docutils literal notranslate"><span class="pre">CRS.from_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_json_dict"><code class="docutils literal notranslate"><span class="pre">CRS.from_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_proj4"><code class="docutils literal notranslate"><span class="pre">CRS.from_proj4()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_string"><code class="docutils literal notranslate"><span class="pre">CRS.from_string()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_user_input"><code class="docutils literal notranslate"><span class="pre">CRS.from_user_input()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.from_wkt"><code class="docutils literal notranslate"><span class="pre">CRS.from_wkt()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.geodetic_crs"><code class="docutils literal notranslate"><span class="pre">CRS.geodetic_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.get_geod"><code class="docutils literal notranslate"><span class="pre">CRS.get_geod()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_bound"><code class="docutils literal notranslate"><span class="pre">CRS.is_bound</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_compound"><code class="docutils literal notranslate"><span class="pre">CRS.is_compound</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_derived"><code class="docutils literal notranslate"><span class="pre">CRS.is_derived</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_engineering"><code class="docutils literal notranslate"><span class="pre">CRS.is_engineering</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_exact_same"><code class="docutils literal notranslate"><span class="pre">CRS.is_exact_same()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_geocentric"><code class="docutils literal notranslate"><span class="pre">CRS.is_geocentric</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_geographic"><code class="docutils literal notranslate"><span class="pre">CRS.is_geographic</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_projected"><code class="docutils literal notranslate"><span class="pre">CRS.is_projected</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_vertical"><code class="docutils literal notranslate"><span class="pre">CRS.is_vertical</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.list_authority"><code class="docutils literal notranslate"><span class="pre">CRS.list_authority()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.name"><code class="docutils literal notranslate"><span class="pre">CRS.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.prime_meridian"><code class="docutils literal notranslate"><span class="pre">CRS.prime_meridian</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.remarks"><code class="docutils literal notranslate"><span class="pre">CRS.remarks</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.scope"><code class="docutils literal notranslate"><span class="pre">CRS.scope</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.source_crs"><code class="docutils literal notranslate"><span class="pre">CRS.source_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.sub_crs_list"><code class="docutils literal notranslate"><span class="pre">CRS.sub_crs_list</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.target_crs"><code class="docutils literal notranslate"><span class="pre">CRS.target_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_3d"><code class="docutils literal notranslate"><span class="pre">CRS.to_3d()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_authority"><code class="docutils literal notranslate"><span class="pre">CRS.to_authority()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_cf"><code class="docutils literal notranslate"><span class="pre">CRS.to_cf()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_dict"><code class="docutils literal notranslate"><span class="pre">CRS.to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_epsg"><code class="docutils literal notranslate"><span class="pre">CRS.to_epsg()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_json"><code class="docutils literal notranslate"><span class="pre">CRS.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_json_dict"><code class="docutils literal notranslate"><span class="pre">CRS.to_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_proj4"><code class="docutils literal notranslate"><span class="pre">CRS.to_proj4()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_string"><code class="docutils literal notranslate"><span class="pre">CRS.to_string()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.to_wkt"><code class="docutils literal notranslate"><span class="pre">CRS.to_wkt()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.type_name"><code class="docutils literal notranslate"><span class="pre">CRS.type_name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.utm_zone"><code class="docutils literal notranslate"><span class="pre">CRS.utm_zone</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#geographiccrs">GeographicCRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.GeographicCRS"><code class="docutils literal notranslate"><span class="pre">GeographicCRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.GeographicCRS.__init__"><code class="docutils literal notranslate"><span class="pre">GeographicCRS.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#derivedgeographiccrs">DerivedGeographicCRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.DerivedGeographicCRS"><code class="docutils literal notranslate"><span class="pre">DerivedGeographicCRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.DerivedGeographicCRS.__init__"><code class="docutils literal notranslate"><span class="pre">DerivedGeographicCRS.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#geocentriccrs">GeocentricCRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.GeocentricCRS"><code class="docutils literal notranslate"><span class="pre">GeocentricCRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.GeocentricCRS.__init__"><code class="docutils literal notranslate"><span class="pre">GeocentricCRS.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#projectedcrs">ProjectedCRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.ProjectedCRS"><code class="docutils literal notranslate"><span class="pre">ProjectedCRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.ProjectedCRS.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectedCRS.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#verticalcrs">VerticalCRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.VerticalCRS"><code class="docutils literal notranslate"><span class="pre">VerticalCRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.VerticalCRS.__init__"><code class="docutils literal notranslate"><span class="pre">VerticalCRS.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#boundcrs">BoundCRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.BoundCRS"><code class="docutils literal notranslate"><span class="pre">BoundCRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.BoundCRS.__init__"><code class="docutils literal notranslate"><span class="pre">BoundCRS.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#compoundcrs">CompoundCRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CompoundCRS"><code class="docutils literal notranslate"><span class="pre">CompoundCRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CompoundCRS.__init__"><code class="docutils literal notranslate"><span class="pre">CompoundCRS.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#customconstructorcrs">CustomConstructorCRS</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CustomConstructorCRS"><code class="docutils literal notranslate"><span class="pre">CustomConstructorCRS</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.crs.CustomConstructorCRS.from_user_input"><code class="docutils literal notranslate"><span class="pre">CustomConstructorCRS.from_user_input()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CustomConstructorCRS.geodetic_crs"><code class="docutils literal notranslate"><span class="pre">CustomConstructorCRS.geodetic_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CustomConstructorCRS.source_crs"><code class="docutils literal notranslate"><span class="pre">CustomConstructorCRS.source_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CustomConstructorCRS.sub_crs_list"><code class="docutils literal notranslate"><span class="pre">CustomConstructorCRS.sub_crs_list</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CustomConstructorCRS.target_crs"><code class="docutils literal notranslate"><span class="pre">CustomConstructorCRS.target_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CustomConstructorCRS.to_3d"><code class="docutils literal notranslate"><span class="pre">CustomConstructorCRS.to_3d()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#is-wkt">is_wkt</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.is_wkt"><code class="docutils literal notranslate"><span class="pre">is_wkt()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#is-proj">is_proj</a><ul>
+<li><a class="reference internal" href="#pyproj.crs.is_proj"><code class="docutils literal notranslate"><span class="pre">is_proj()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1776,6 +1891,7 @@ or the source CRS of a CoordinateOperation.</p>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>
 </html>
