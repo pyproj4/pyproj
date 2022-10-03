@@ -66,7 +66,7 @@ from pyproj.transformer import (  # noqa: F401 pylint: disable=unused-import
     transform,
 )
 
-__version__ = "3.4.2.dev0"
+__version__ = "3.4.1.dev1"
 __all__ = [
     "Proj",
     "Geod",
