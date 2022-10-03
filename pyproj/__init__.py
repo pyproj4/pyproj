@@ -28,7 +28,6 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-import importlib.metadata
 import warnings
 
 import pyproj.network
@@ -67,7 +66,7 @@ from pyproj.transformer import (  # noqa: F401 pylint: disable=unused-import
     transform,
 )
 
-__version__ = importlib.metadata.version(__package__)
+__version__ = "3.4.2.dev0"
 __all__ = [
     "Proj",
     "Geod",
