@@ -1243,7 +1243,7 @@ def transform(  # pylint: disable=invalid-name
             "See: https://pyproj4.github.io/pyproj/stable/"
             "gotchas.html#upgrading-to-pyproj-2-from-pyproj-1"
         ),
-        DeprecationWarning,
+        FutureWarning,
         stacklevel=2,
     )
     return Transformer.from_proj(p1, p2, always_xy=always_xy).transform(
@@ -1324,7 +1324,7 @@ def itransform(  # pylint: disable=invalid-name
             "See: https://pyproj4.github.io/pyproj/stable/"
             "gotchas.html#upgrading-to-pyproj-2-from-pyproj-1"
         ),
-        DeprecationWarning,
+        FutureWarning,
         stacklevel=2,
     )
     return Transformer.from_proj(p1, p2, always_xy=always_xy).itransform(

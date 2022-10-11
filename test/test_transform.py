@@ -36,12 +36,12 @@ def test_transform():
     print("max/min x and y for awips218 grid")
     print(numpy.minimum.reduce(numpy.ravel(x1)), numpy.maximum.reduce(numpy.ravel(x1)))
     print(numpy.minimum.reduce(numpy.ravel(y1)), numpy.maximum.reduce(numpy.ravel(y1)))
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         x2, y2 = transform(awips218, awips221, x1, y1)
     print("max/min x and y for awips218 grid in awips221 coordinates")
     print(numpy.minimum.reduce(numpy.ravel(x2)), numpy.maximum.reduce(numpy.ravel(x2)))
     print(numpy.minimum.reduce(numpy.ravel(y2)), numpy.maximum.reduce(numpy.ravel(y2)))
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         x3, y3 = transform(awips221, awips218, x2, y2)
     print("error for reverse transformation back to awips218 coords")
     print("(should be close to zero)")

@@ -12,7 +12,7 @@ def test_datum(proj_class):
     s_1 = -111.5
     s_2 = 45.25919444444
     p2 = proj_class(proj="utm", zone=10, datum="NAD27")
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         x2, y2 = transform(p1, p2, s_1, s_2)
     if grids_available("us_noaa_emhpgn.tif"):
         assert_almost_equal((x2, y2), (1402286.33, 5076292.30), decimal=2)

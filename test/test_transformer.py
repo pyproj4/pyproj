@@ -34,7 +34,7 @@ def test_tranform_wgs84_to_custom():
     )
     wgs84 = pyproj.Proj("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
     lat, lon = 51.04715, 3.23406
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         xx, yy = pyproj.transform(wgs84, custom_proj, lon, lat)
     assert f"{xx:.3f} {yy:.3f}" == "212.623 4604.975"
 
@@ -45,7 +45,7 @@ def test_transform_wgs84_to_alaska():
         lat_lon_proj = pyproj.Proj(init="epsg:4326", preserve_units=False)
         alaska_aea_proj = pyproj.Proj(init="epsg:2964", preserve_units=False)
     test = (-179.72638, 49.752533)
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         xx, yy = pyproj.transform(lat_lon_proj, alaska_aea_proj, *test)
     if grids_available("us_noaa_alaska.tif"):
         assert f"{xx:.3f} {yy:.3f}" == "-1824924.495 330822.800"
@@ -59,13 +59,13 @@ def test_illegal_transformation():
     with pytest.warns(FutureWarning):
         p1 = pyproj.Proj(init="epsg:4326")
         p2 = pyproj.Proj(init="epsg:3857")
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         xx, yy = pyproj.transform(
             p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90)
         )
     assert np.all(np.isinf(xx))
     assert np.all(np.isinf(yy))
-    with pytest.warns(DeprecationWarning), pytest.raises(ProjError):
+    with pytest.warns(FutureWarning), pytest.raises(ProjError):
         pyproj.transform(
             p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90), errcheck=True
         )
@@ -80,7 +80,7 @@ def test_lambert_conformal_transform():
     E = 567623.931
     N = 256422.787
     h = 1341.467
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         Long1, Lat1, H1 = pyproj.transform(Midelt, WGS84, E, N, h, radians=False)
     assert_almost_equal((Long1, Lat1, H1), (-4.6753456, 32.902199, 1341.467), decimal=5)
 
@@ -114,7 +114,7 @@ def test_4d_transform_crs_obs1():
 
 
 def test_4d_transform_orginal_crs_obs1():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert_almost_equal(
             transform(
                 7789, 8401, x=3496737.2679, y=743254.4507, z=5264462.9620, tt=2019.0
@@ -142,7 +142,7 @@ def test_2d_with_time_transform_crs_obs2():
 
 
 def test_2d_with_time_transform_original_crs_obs2():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert_almost_equal(
             transform(4896, 7930, x=3496737.2679, y=743254.4507, tt=2019.0),
             (3496737.4105305015, 743254.1014318303, 2019.0),
@@ -174,7 +174,7 @@ def test_3d_time_itransform():
 
 
 def test_4d_itransform_orginal_crs_obs1():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert_almost_equal(
             list(
                 itransform(
@@ -186,7 +186,7 @@ def test_4d_itransform_orginal_crs_obs1():
 
 
 def test_2d_with_time_itransform_original_crs_obs2():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert_almost_equal(
             list(
                 itransform(
@@ -199,7 +199,7 @@ def test_2d_with_time_itransform_original_crs_obs2():
 
 def test_itransform_time_3rd_invalid():
 
-    with pytest.warns(DeprecationWarning), pytest.raises(
+    with pytest.warns(FutureWarning), pytest.raises(
         ValueError, match="'time_3rd' is only valid for 3 coordinates."
     ):
         list(
@@ -210,7 +210,7 @@ def test_itransform_time_3rd_invalid():
                 time_3rd=True,
             )
         )
-    with pytest.warns(DeprecationWarning), pytest.raises(
+    with pytest.warns(FutureWarning), pytest.raises(
         ValueError, match="'time_3rd' is only valid for 3 coordinates."
     ):
         list(itransform(7789, 8401, [(3496737.2679, 743254.4507)], time_3rd=True))
@@ -220,7 +220,7 @@ def test_transform_no_error():
     with pytest.warns(FutureWarning):
         pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         transform(pj, Proj(4326), pjx, pjy, radians=True, errcheck=True)
 
 
@@ -228,7 +228,7 @@ def test_itransform_no_error():
     with pytest.warns(FutureWarning):
         pj = Proj(init="epsg:4555")
     pjx, pjy = pj(116.366, 39.867)
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         list(itransform(pj, Proj(4326), [(pjx, pjy)], radians=True, errcheck=True))
 
 
@@ -251,7 +251,7 @@ def test_transform_radians():
     with pytest.warns(FutureWarning):
         WGS84 = pyproj.Proj("+init=EPSG:4326")
     ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert_almost_equal(
             pyproj.transform(
                 ECEF, WGS84, -2704026.010, -4253051.810, 3895878.820, radians=True
@@ -276,7 +276,7 @@ def test_itransform_radians():
     with pytest.warns(FutureWarning):
         WGS84 = pyproj.Proj("+init=EPSG:4326")
     ECEF = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert_almost_equal(
             list(
                 pyproj.itransform(
@@ -338,7 +338,7 @@ def test_always_xy__transformer():
 
 
 def test_always_xy__transform():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert_almost_equal(
             transform(2193, 4326, 1625350, 5504853, always_xy=True),
             (173.29964730317386, -40.60674802693758),
@@ -346,7 +346,7 @@ def test_always_xy__transform():
 
 
 def test_always_xy__itransform():
-    with pytest.warns(DeprecationWarning):
+    with pytest.warns(FutureWarning):
         assert_almost_equal(
             list(itransform(2193, 4326, [(1625350, 5504853)], always_xy=True)),
             [(173.29964730317386, -40.60674802693758)],

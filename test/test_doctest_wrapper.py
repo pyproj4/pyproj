@@ -44,7 +44,7 @@ def test_doctests__network():
     """
     with proj_network_env():
         pyproj.network.set_network_enabled(active=True)
-        with pytest.warns(DeprecationWarning):
+        with pytest.warns(FutureWarning):
             failure_count, _ = doctest.testmod(pyproj.transformer, verbose=True)
 
     assert failure_count == 0, f"{failure_count} of the doctests failed"
