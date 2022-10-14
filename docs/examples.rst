@@ -24,7 +24,7 @@ Here are some examples of initialization.
 
     >>> from pyproj import CRS
     >>> crs = CRS.from_epsg(4326)
-    >>> crs = CRS.from_string("epsg:4326")
+    >>> crs = CRS.from_string("EPSG:4326")
     >>> crs = CRS.from_proj4("+proj=latlon")
     >>> crs = CRS.from_user_input(4326)
 
@@ -407,7 +407,7 @@ ellipsoid name as well as deriving one using a :class:`pyproj.crs.CRS`.
     >>> geod_clrk = Geod(ellps='clrk66') # Use Clarke 1866 ellipsoid.
     >>> geod_clrk
     Geod(ellps='clrk66')
-    >>> geod_wgs84 = CRS("epsg:4326").get_geod()
+    >>> geod_wgs84 = CRS("EPSG:4326").get_geod()
     >>> geod_wgs84
     Geod('+a=6378137 +f=0.0033528106647475126')
 

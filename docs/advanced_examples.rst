@@ -63,7 +63,7 @@ transformations as well as missing transformations.
 .. code-block:: python
 
     >>> from pyproj.transformer import TransformerGroup
-    >>> trans_group = TransformerGroup("epsg:4326","epsg:2964")
+    >>> trans_group = TransformerGroup("EPSG:4326","EPSG:2964")
     >>> trans_group
     <TransformerGroup: best_available=True>
     - transformers: 8
@@ -85,7 +85,7 @@ transformations as well as missing transformations.
 .. code-block:: python
 
     >>> from pyproj.transformer import TransformerGroup
-    >>> tg = TransformerGroup("epsg:4326", "+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m", always_xy=True)
+    >>> tg = TransformerGroup("EPSG:4326", "+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m", always_xy=True)
     UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)
     f"{operation.grids[0]!r}"
     >>> tg
@@ -111,7 +111,7 @@ which transformation operation is selected in the transformation.
 .. code-block:: python
 
     >>> from pyproj.transformer import Transformer, AreaOfInterest
-    >>> transformer = Transformer.from_crs("epsg:4326", "epsg:2694")
+    >>> transformer = Transformer.from_crs("EPSG:4326", "EPSG:2694")
     >>> transformer
     <Concatenated Operation Transformer: pipeline>
     Description: Inverse of Pulkovo 1995 to WGS 84 (2) + 3-degree Gauss-Kruger zone 60
@@ -119,8 +119,8 @@ which transformation operation is selected in the transformation.
     - name: Russia
     - bounds: (18.92, 39.87, -168.97, 85.2)
     >>> transformer = Transformer.from_crs(
-    ...     "epsg:4326",
-    ...     "epsg:2694",
+    ...     "EPSG:4326",
+    ...     "EPSG:2694",
     ...     area_of_interest=AreaOfInterest(-136.46, 49.0, -60.72, 83.17),
     ... )
     >>> transformer
