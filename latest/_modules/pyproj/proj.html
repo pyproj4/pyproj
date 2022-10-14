@@ -321,14 +321,14 @@
 <span class="sd">        &gt;&gt;&gt; x,y = p2(-120.108, 34.36116666)</span>
 <span class="sd">        &gt;&gt;&gt; &#39;x=%9.3f y=%11.3f&#39; % (x,y)</span>
 <span class="sd">        &#39;x=765975.641 y=3805993.134&#39;</span>
-<span class="sd">        &gt;&gt;&gt; p = Proj(&quot;epsg:32667&quot;, preserve_units=False)</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(&quot;EPSG:32667&quot;, preserve_units=False)</span>
 <span class="sd">        &gt;&gt;&gt; &#39;x=%12.3f y=%12.3f (meters)&#39; % p(-114.057222, 51.045)</span>
 <span class="sd">        &#39;x=-1783506.250 y= 6193827.033 (meters)&#39;</span>
-<span class="sd">        &gt;&gt;&gt; p = Proj(&quot;epsg:32667&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; p = Proj(&quot;EPSG:32667&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; &#39;x=%12.3f y=%12.3f (feet)&#39; % p(-114.057222, 51.045)</span>
 <span class="sd">        &#39;x=-5851386.754 y=20320914.191 (feet)&#39;</span>
 <span class="sd">        &gt;&gt;&gt; # test data with radian inputs</span>
-<span class="sd">        &gt;&gt;&gt; p1 = Proj(&quot;epsg:4214&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; p1 = Proj(&quot;EPSG:4214&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; x1, y1 = p1(116.366, 39.867)</span>
 <span class="sd">        &gt;&gt;&gt; f&#39;{x1:.3f} {y1:.3f}&#39;</span>
 <span class="sd">        &#39;116.366 39.867&#39;</span>
@@ -509,7 +509,7 @@
 <div class="viewcode-block" id="Proj.definition_string"><a class="viewcode-back" href="../../api/proj.html#pyproj.Proj.definition_string">[docs]</a>    <span class="k">def</span> <span class="nf">definition_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns formal definition string for projection</span>
 
-<span class="sd">        &gt;&gt;&gt; Proj(&quot;epsg:4326&quot;).definition_string()</span>
+<span class="sd">        &gt;&gt;&gt; Proj(&quot;EPSG:4326&quot;).definition_string()</span>
 <span class="sd">        &#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span></div>

@@ -154,7 +154,7 @@ the `init=` syntax is that the CRS are different.
 
     >>> from pyproj import CRS
     >>> crs_deprecated = CRS(init="epsg:4544")
-    >>> crs = CRS("epsg:4544")
+    >>> crs = CRS("EPSG:4544")
     >>> crs == crs_deprecated
     False
 
@@ -289,5 +289,5 @@ pyproj 1 style:
 pyproj 2 style:
 
     >>> from pyproj import Transformer
-    >>> transformer = Transformer.from_crs("epsg:4326", "epsg:3857")
+    >>> transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857")
     >>> transformer.transform(12, 12)

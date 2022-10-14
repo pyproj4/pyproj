@@ -235,7 +235,7 @@
 <dl class="simple">
 <dt>Also see:</dt><dd><ul class="simple">
 <li><p><a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p></li>
-<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/getting-started-guide/faq.html#faq" title="(in xarray v2022.9.1.dev0)"><span class="xref std std-ref">PROJ FAQ</span></a></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/getting-started-guide/faq.html#faq" title="(in xarray v2022.10.1.dev0)"><span class="xref std std-ref">PROJ FAQ</span></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -363,7 +363,7 @@ which may not be what you want.</p>
 the <cite>init=</cite> syntax is that the CRS are different.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4544&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;epsg:4544&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4544&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">==</span> <span class="n">crs_deprecated</span>
 <span class="go">False</span>
 </pre></div>
@@ -487,7 +487,7 @@ are deprecated.</p>
 </div>
 <p>pyproj 2 style:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:3857&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
 </pre></div>
 </div>

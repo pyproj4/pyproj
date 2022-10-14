@@ -276,7 +276,7 @@ transformations as well as missing transformations.</p>
 <li><p>Helpful if you want to use an alternate transformation and have a good reason for it.</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">TransformerGroup</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span><span class="s2">&quot;epsg:2964&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span><span class="s2">&quot;EPSG:2964&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span>
 <span class="go">&lt;TransformerGroup: best_available=True&gt;</span>
 <span class="go">- transformers: 8</span>
@@ -296,7 +296,7 @@ transformations as well as missing transformations.</p>
 And if not, how to get the missing grid.</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">TransformerGroup</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)</span>
 <span class="go">f&quot;{operation.grids[0]!r}&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span>
@@ -320,7 +320,7 @@ And if not, how to get the missing grid.</p></li>
 <p>Depending on the location of your transformation, using the area of interest may impact
 which transformation operation is selected in the transformation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.transformer</span> <span class="kn">import</span> <span class="n">Transformer</span><span class="p">,</span> <span class="n">AreaOfInterest</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;epsg:2694&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:2694&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
 <span class="go">&lt;Concatenated Operation Transformer: pipeline&gt;</span>
 <span class="go">Description: Inverse of Pulkovo 1995 to WGS 84 (2) + 3-degree Gauss-Kruger zone 60</span>
@@ -328,8 +328,8 @@ which transformation operation is selected in the transformation.</p>
 <span class="go">- name: Russia</span>
 <span class="go">- bounds: (18.92, 39.87, -168.97, 85.2)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;epsg:4326&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s2">&quot;epsg:2694&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:2694&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">area_of_interest</span><span class="o">=</span><span class="n">AreaOfInterest</span><span class="p">(</span><span class="o">-</span><span class="mf">136.46</span><span class="p">,</span> <span class="mf">49.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">60.72</span><span class="p">,</span> <span class="mf">83.17</span><span class="p">),</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>

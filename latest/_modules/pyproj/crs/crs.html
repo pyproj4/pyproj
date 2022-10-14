@@ -377,7 +377,7 @@
 
 
 <span class="k">def</span> <span class="nf">_prepare_from_epsg</span><span class="p">(</span><span class="n">auth_code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
-    <span class="k">return</span> <span class="n">_prepare_from_authority</span><span class="p">(</span><span class="s2">&quot;epsg&quot;</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_prepare_from_authority</span><span class="p">(</span><span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_is_epsg_code</span><span class="p">(</span><span class="n">auth_code</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1531,7 +1531,7 @@
 <span class="sd">        Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import CRS</span>
-<span class="sd">        &gt;&gt;&gt; ccs = CRS(&quot;epsg:4328&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; ccs = CRS(&quot;EPSG:4328&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; ccs.to_epsg()</span>
 <span class="sd">        4328</span>
 
@@ -1570,7 +1570,7 @@
 <span class="sd">        Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import CRS</span>
-<span class="sd">        &gt;&gt;&gt; ccs = CRS(&quot;epsg:4328&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; ccs = CRS(&quot;EPSG:4328&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; ccs.to_authority()</span>
 <span class="sd">        (&#39;EPSG&#39;, &#39;4328&#39;)</span>
 
@@ -1613,7 +1613,7 @@
 <span class="sd">        Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import CRS</span>
-<span class="sd">        &gt;&gt;&gt; ccs = CRS(&quot;epsg:4328&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; ccs = CRS(&quot;EPSG:4328&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; ccs.list_authority()</span>
 <span class="sd">        [AuthorityMatchInfo(auth_name=&#39;EPSG&#39;, code=&#39;4326&#39;, confidence=100)]</span>
 
