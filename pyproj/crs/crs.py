@@ -147,7 +147,7 @@ def _prepare_from_authority(auth_name: str, auth_code: Union[str, int]):
 
 
 def _prepare_from_epsg(auth_code: Union[str, int]):
-    return _prepare_from_authority("epsg", auth_code)
+    return _prepare_from_authority("EPSG", auth_code)
 
 
 def _is_epsg_code(auth_code: Any) -> bool:
@@ -1301,7 +1301,7 @@ class CRS:
         Example:
 
         >>> from pyproj import CRS
-        >>> ccs = CRS("epsg:4328")
+        >>> ccs = CRS("EPSG:4328")
         >>> ccs.to_epsg()
         4328
 
@@ -1340,7 +1340,7 @@ class CRS:
         Example:
 
         >>> from pyproj import CRS
-        >>> ccs = CRS("epsg:4328")
+        >>> ccs = CRS("EPSG:4328")
         >>> ccs.to_authority()
         ('EPSG', '4328')
 
@@ -1383,7 +1383,7 @@ class CRS:
         Example:
 
         >>> from pyproj import CRS
-        >>> ccs = CRS("epsg:4328")
+        >>> ccs = CRS("EPSG:4328")
         >>> ccs.list_authority()
         [AuthorityMatchInfo(auth_name='EPSG', code='4326', confidence=100)]
 

@@ -2712,7 +2712,7 @@ cdef class _CRS(Base):
         Example:
 
         >>> from pyproj import CRS
-        >>> ccs = CRS("epsg:4328")
+        >>> ccs = CRS("EPSG:4328")
         >>> ccs.to_epsg()
         4328
 
@@ -2757,7 +2757,7 @@ cdef class _CRS(Base):
         Example:
 
         >>> from pyproj import CRS
-        >>> ccs = CRS("epsg:4328")
+        >>> ccs = CRS("EPSG:4328")
         >>> ccs.to_authority()
         ('EPSG', '4328')
 
@@ -2802,7 +2802,7 @@ cdef class _CRS(Base):
         Example:
 
         >>> from pyproj import CRS
-        >>> ccs = CRS("epsg:4328")
+        >>> ccs = CRS("EPSG:4328")
         >>> ccs.list_authority()
         [AuthorityMatchInfo(auth_name='EPSG', code='4326', confidence=100)]
 
