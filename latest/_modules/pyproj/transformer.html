@@ -978,7 +978,7 @@
 <span class="sd">        --------</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import Transformer</span>
-<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(&quot;epsg:4326&quot;, &quot;epsg:3857&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(&quot;EPSG:4326&quot;, &quot;EPSG:3857&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; x3, y3 = transformer.transform(33, 98)</span>
 <span class="sd">        &gt;&gt;&gt; f&quot;{x3:.3f}  {y3:.3f}&quot;</span>
 <span class="sd">        &#39;10909310.098  3895303.963&#39;</span>
@@ -1011,7 +1011,7 @@
 <span class="sd">        &gt;&gt;&gt; xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)</span>
 <span class="sd">        &gt;&gt;&gt; f&quot;{xpjr:.3f} {ypjr:.3f} {zpjr:.3f}&quot;</span>
 <span class="sd">        &#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
-<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_proj(&quot;epsg:4326&quot;, 4326)</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_proj(&quot;EPSG:4326&quot;, 4326)</span>
 <span class="sd">        &gt;&gt;&gt; xeq, yeq = transformer.transform(33, 98)</span>
 <span class="sd">        &gt;&gt;&gt; f&quot;{xeq:.0f}  {yeq:.0f}&quot;</span>
 <span class="sd">        &#39;33  98&#39;</span>
