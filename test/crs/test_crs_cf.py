@@ -479,6 +479,43 @@ def test_rotated_pole_to_cf():
     _test_roundtrip(expected_cf, "GEOGCRS[")
 
 
+def test_grib_rotated_pole_to_cf():
+    rotated_pole_wkt = """GEOGCRS["Coordinate System imported from GRIB file",
+        BASEGEOGCRS["Coordinate System imported from GRIB file",
+            DATUM["unnamed",
+                ELLIPSOID["Sphere",6371229,0,
+                    LENGTHUNIT["metre",1,
+                        ID["EPSG",9001]]]],
+            PRIMEM["Greenwich",0,
+                ANGLEUNIT["degree",0.0174532925199433,
+                    ID["EPSG",9122]]]],
+        DERIVINGCONVERSION["Pole rotation (GRIB convention)",
+            METHOD["Pole rotation (GRIB convention)"],
+            PARAMETER["Latitude of the southern pole (GRIB convention)",-33.443381,
+                ANGLEUNIT["degree",0.0174532925199433,
+                    ID["EPSG",9122]]],
+            PARAMETER["Longitude of the southern pole (GRIB convention)",-93.536426,
+                ANGLEUNIT["degree",0.0174532925199433,
+                    ID["EPSG",9122]]],
+            PARAMETER["Axis rotation (GRIB convention)",0,
+                ANGLEUNIT["degree",0.0174532925199433,
+                    ID["EPSG",9122]]]],
+        CS[ellipsoidal,2],
+            AXIS["latitude",north,
+                ORDER[1],
+                ANGLEUNIT["degree",0.0174532925199433,
+                    ID["EPSG",9122]]],
+            AXIS["longitude",east,
+                ORDER[2],
+                ANGLEUNIT["degree",0.0174532925199433,
+                    ID["EPSG",9122]]]]"""
+    crs = CRS(rotated_pole_wkt)
+    with pytest.warns(UserWarning):
+        cf_dict = crs.to_cf(errcheck=True)
+    assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
+    assert not cf_dict
+
+
 def test_cf_lambert_conformal_conic_1sp():
     crs = CRS.from_cf(
         dict(

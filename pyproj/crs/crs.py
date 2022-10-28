@@ -642,7 +642,7 @@ class CRS:
             CF-1.8 version of the projection.
 
         """
-        # pylint: disable=too-many-branches
+        # pylint: disable=too-many-branches,too-many-return-statements
         cf_dict: Dict[str, Any] = {"crs_wkt": self.to_wkt(wkt_version)}
 
         # handle bound CRS
@@ -696,6 +696,16 @@ class CRS:
 
         if self.is_geographic:
             if self.coordinate_operation:
+                if (
+                    self.coordinate_operation.method_name.lower()
+                    not in _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP
+                ):
+                    if errcheck:
+                        warnings.warn(
+                            "Unsupported coordinate operation: "
+                            f"{self.coordinate_operation.method_name}"
+                        )
+                    return {"crs_wkt": cf_dict["crs_wkt"]}
                 cf_dict.update(
                     _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP[
                         self.coordinate_operation.method_name.lower()
@@ -729,7 +739,7 @@ class CRS:
                 else:
                     warnings.warn("Coordinate operation not found.")
 
-            return {"crs_wkt": self.to_wkt(wkt_version)}
+            return {"crs_wkt": cf_dict["crs_wkt"]}
 
         cf_dict.update(
             _INVERSE_GRID_MAPPING_NAME_MAP[coordinate_operation_name](
