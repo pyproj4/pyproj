@@ -75,6 +75,11 @@ jobs:
           triplet: "x64-windows"
           vcpkg_cache: "c:\\vcpkg\\installed"
           vcpkg_logs: "c:\\vcpkg\\buildtrees\\**\\*.log"
+        - os: "windows-2019"
+          arch: "auto32"
+          triplet: "x86-windows"
+          vcpkg_cache: "c:\\vcpkg\\installed"
+          vcpkg_logs: "c:\\vcpkg\\buildtrees\\**\\*.log"
 
     steps:
       - uses: actions/checkout@v2
