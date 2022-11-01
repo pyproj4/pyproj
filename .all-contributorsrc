@@ -563,6 +563,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "molinav",
+      "name": "Víctor Molina García",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9979942?v=4",
+      "profile": "https://github.com/molinav",
+      "contributions": [
+        "platform"
+      ]
     }
   ],
   "contributorsPerLine": 7
