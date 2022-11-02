@@ -1,0 +1,39 @@
+build_and_store_wheels: &BUILD_AND_STORE_WHEELS
+  install_cibuildwheel_script:
+    - python -m pip install cibuildwheel==2.11.2
+  run_cibuildwheel_script:
+    - cibuildwheel
+  wheels_artifacts:
+    path: "wheelhouse/*"
+
+
+macos_task:
+  skip: $CIRRUS_BRANCH =~ 'pull/.*'
+  name: Build macOS arm64 wheels.
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-monterey-xcode
+  env:
+    PATH: /opt/homebrew/opt/python@3.10/bin:$PATH
+    CIBW_SKIP: "*musllinux*"
+    CIBW_ARCHS_MACOS: arm64
+    CIBW_ENVIRONMENT_MACOS:
+      PROJ_WHEEL=true
+      PROJ_NETWORK=ON
+      PROJ_VERSION=9.1.0
+      PROJ_DIR=${CIRRUS_WORKING_DIR}/pyproj/proj_dir
+      BUILD_PREFIX=${CIRRUS_WORKING_DIR}/build/
+      MACOSX_DEPLOYMENT_TARGET=10.9
+      CMAKE_OSX_ARCHITECTURES='arm64'
+      LDFLAGS="${LDFLAGS} -Wl,-rpath,${CIRRUS_WORKING_DIR}/pyproj/proj_dir/lib"
+    CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
+    CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy pandas xarray
+    CIBW_BEFORE_TEST: python -m pip install shapely || echo "Shapely install failed"
+    CIBW_TEST_COMMAND: >
+      pyproj -v &&
+      python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&
+      cp -r {package}/test . &&
+      python -m pytest test -v -s
+  install_pre_requirements_script:
+    - brew install python@3.10
+    - ln -s python3 /opt/homebrew/opt/python@3.10/bin/python
+  <<: *BUILD_AND_STORE_WHEELS
