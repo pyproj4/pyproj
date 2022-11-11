@@ -2883,9 +2883,13 @@ cdef class _CRS(Base):
                             out_confidence_list[iii]
                         )
                     )
+                # at this point, the auth name is copied and we can release the proj object
+                proj_destroy(proj)
+                proj = NULL
         finally:
-            for iii in range(num_proj_objects):
-                proj_destroy(proj_list_get(self.context, proj_list, iii))
+            # If there was an error we have to call proj_destroy
+            # If there was none, calling it on NULL does nothing
+            proj_destroy(proj)
             proj_list_destroy(proj_list)
             CRSError.clear()
         return authority_list
