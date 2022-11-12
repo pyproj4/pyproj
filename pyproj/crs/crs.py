@@ -180,7 +180,7 @@ class CRS:
 
     """
 
-    def __init__(self, projparams: Any = None, **kwargs) -> None:
+    def __init__(self, projparams: Optional[Any] = None, **kwargs) -> None:
         """
         Initialize a CRS class instance with:
           - PROJ string
@@ -751,9 +751,9 @@ class CRS:
     @staticmethod
     def from_cf(
         in_cf: dict,
-        ellipsoidal_cs: Any = None,
-        cartesian_cs: Any = None,
-        vertical_cs: Any = None,
+        ellipsoidal_cs: Optional[Any] = None,
+        cartesian_cs: Optional[Any] = None,
+        vertical_cs: Optional[Any] = None,
     ) -> "CRS":
         """
         .. versionadded:: 2.2.0
@@ -1772,7 +1772,7 @@ class GeographicCRS(CustomConstructorCRS):
         self,
         name: str = "undefined",
         datum: Any = "urn:ogc:def:datum:EPSG::6326",
-        ellipsoidal_cs: Any = None,
+        ellipsoidal_cs: Optional[Any] = None,
     ) -> None:
         """
         Parameters
@@ -1816,7 +1816,7 @@ class DerivedGeographicCRS(CustomConstructorCRS):
         self,
         base_crs: Any,
         conversion: Any,
-        ellipsoidal_cs: Any = None,
+        ellipsoidal_cs: Optional[Any] = None,
         name: str = "undefined",
     ) -> None:
         """
@@ -1918,8 +1918,8 @@ class ProjectedCRS(CustomConstructorCRS):
         self,
         conversion: Any,
         name: str = "undefined",
-        cartesian_cs: Any = None,
-        geodetic_crs: Any = None,
+        cartesian_cs: Optional[Any] = None,
+        geodetic_crs: Optional[Any] = None,
     ) -> None:
         """
         Parameters
@@ -1970,7 +1970,7 @@ class VerticalCRS(CustomConstructorCRS):
         self,
         name: str,
         datum: Any,
-        vertical_cs: Any = None,
+        vertical_cs: Optional[Any] = None,
         geoid_model: Optional[str] = None,
     ) -> None:
         """

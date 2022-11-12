@@ -213,11 +213,11 @@ def get_transform_grid_list(
     source_id: Optional[str] = None,
     area_of_use: Optional[str] = None,
     filename: Optional[str] = None,
-    bbox: BBox = None,
+    bbox: Optional[BBox] = None,
     spatial_test: str = "intersects",
     include_world_coverage: bool = True,
     include_already_downloaded: bool = False,
-    target_directory: str = None,
+    target_directory: Optional[str] = None,
 ) -> Tuple:
     """
     Get a list of transform grids that can be downloaded.

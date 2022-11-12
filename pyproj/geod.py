@@ -29,14 +29,14 @@ from pyproj.utils import DataType, _convertback, _copytobuffer
 pj_ellps = get_ellps_map()
 
 
-def _params_from_ellps_map(ellps):
+def _params_from_ellps_map(ellps: str) -> Tuple[float, float, float, float, bool]:
     """
     Build Geodesic parameters from PROJ ellips map
 
     Parameter
     ---------
     ellps: str
-        The name of the ellips in the map.
+        The name of the ellipse in the map.
 
     Returns
     -------
@@ -59,7 +59,7 @@ def _params_from_ellps_map(ellps):
     return semi_major_axis, semi_minor_axis, flattening, eccentricity_squared, sphere
 
 
-def _params_from_kwargs(kwargs):
+def _params_from_kwargs(kwargs: Dict) -> Tuple[float, float, float, float]:
     """
     Build Geodesic parameters from input kwargs:
 
@@ -75,8 +75,8 @@ def _params_from_kwargs(kwargs):
 
     Parameter
     ---------
-    ellps: str
-        The name of the ellips in the map.
+    kwargs: dict
+        The input kwargs for an ellipse.
 
     Returns
     -------
@@ -484,9 +484,9 @@ class Geod(_Geod):
         terminus_idx: int = 1,
         radians: bool = False,
         flags: GeodIntermediateFlag = GeodIntermediateFlag.DEFAULT,
-        out_lons: Any = None,
-        out_lats: Any = None,
-        out_azis: Any = None,
+        out_lons: Optional[Any] = None,
+        out_lats: Optional[Any] = None,
+        out_azis: Optional[Any] = None,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
@@ -631,9 +631,9 @@ class Geod(_Geod):
         terminus_idx: int = 1,
         radians: bool = False,
         flags: GeodIntermediateFlag = GeodIntermediateFlag.DEFAULT,
-        out_lons: Any = None,
-        out_lats: Any = None,
-        out_azis: Any = None,
+        out_lons: Optional[Any] = None,
+        out_lats: Optional[Any] = None,
+        out_azis: Optional[Any] = None,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
