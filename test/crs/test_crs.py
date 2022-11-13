@@ -20,7 +20,13 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import PROJ_GTE_91, PROJ_GTE_901, assert_can_pickle, grids_available
+from test.conftest import (
+    PROJ_GTE_91,
+    PROJ_GTE_901,
+    PROJ_GTE_911,
+    assert_can_pickle,
+    grids_available,
+)
 
 
 class CustomCRS(object):
@@ -604,19 +610,22 @@ def test_coordinate_operation_grids__alternative_grid_name():
     assert grid.direct_download is True
     assert grid.open_license is True
     assert grid.short_name == "ca_nrc_ntv1_can.tif"
+    assert grid.package_name == ""
+    assert grid.url == "https://cdn.proj.org/ca_nrc_ntv1_can.tif"
     if (PROJ_GTE_91 and grids_available(grid.short_name, check_network=False)) or (
         not PROJ_GTE_91 and grids_available(grid.short_name)
     ):
         assert grid.available is True
         assert grid.full_name.endswith(grid.short_name)
+    elif PROJ_GTE_911 and pyproj.network.is_network_enabled():
+        assert grid.available is True
+        assert grid.full_name == grid.url
     elif PROJ_GTE_91 and pyproj.network.is_network_enabled():
         assert grid.available is True
         assert grid.full_name == ""
     else:
         assert grid.available is False
         assert grid.full_name == ""
-    assert grid.package_name == ""
-    assert grid.url == "https://cdn.proj.org/ca_nrc_ntv1_can.tif"
 
 
 def test_coordinate_operation__missing():
