@@ -8,6 +8,7 @@ Latest
 -----
 - BUG: Changed so that the setup.cfg depends on the version code in the __init__.py instead of the other way around (issuue #1155)
 - BUG: Fix :meth:`.CRS.to_cf` for Pole rotation GRIB convention (pull #1167)
+- BUG: Fix :meth:`.CRS.to_authority` memory leak (pull #1178)
 - REF: Use upper case EPSG code when creating CRS (pull #1162)
 
 3.4.0
