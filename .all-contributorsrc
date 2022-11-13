@@ -572,6 +572,16 @@
       "contributions": [
         "platform"
       ]
+    },
+    {
+      "login": "skogler",
+      "name": "Samuel Kogler",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1032405?v=4",
+      "profile": "https://github.com/skogler",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7

@@ -6,7 +6,7 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 
 <p align="center">
 <a href="https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Join the chat at https://gitter.im/pyproj4-pyproj/community" src="https://badges.gitter.im/pyproj4-pyproj/community.svg"></a>
-<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-54-orange.svg?style=flat-square"></a>
+<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-55-orange.svg?style=flat-square"></a>
 <a href="https://ci.appveyor.com/project/snowman2/pyproj"><img alt="Appveyor Build Status" src="https://ci.appveyor.com/api/projects/status/v2ypts9j76doa9ey/branch/main?svg=true"></a>
 <a href="https://github.com/pyproj4/pyproj/actions?query=workflow%3ATests"><img alt="GitHub Actions Build Status" src="https://github.com/pyproj4/pyproj/workflows/Tests/badge.svg"></a>
 <a href="https://codecov.io/gh/pyproj4/pyproj"><img alt="Codecov Status" src="https://codecov.io/gh/pyproj4/pyproj/branch/main/graph/badge.svg"></a>
@@ -108,6 +108,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/vot4anto"><img src="https://avatars.githubusercontent.com/u/56338190?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Antonio Ettorre</b></sub></a><br /><a href="#platform-vot4anto" title="Packaging/porting to new platform">📦</a></td>
     <td align="center"><a href="https://github.com/DWesl"><img src="https://avatars.githubusercontent.com/u/22566757?v=4?s=100" width="100px;" alt=""/><br /><sub><b>DWesl</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=DWesl" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/molinav"><img src="https://avatars.githubusercontent.com/u/9979942?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Víctor Molina García</b></sub></a><br /><a href="#platform-molinav" title="Packaging/porting to new platform">📦</a></td>
+    <td align="center"><a href="https://github.com/skogler"><img src="https://avatars.githubusercontent.com/u/1032405?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Samuel Kogler</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/issues?q=author%3Askogler" title="Bug reports">🐛</a> <a href="https://github.com/pyproj4/pyproj/commits?author=skogler" title="Code">💻</a></td>
   </tr>
 </table>
 
