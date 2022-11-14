@@ -843,7 +843,7 @@ class HotineObliqueMercatorBConversion(CoordinateOperation):
         longitude_projection_centre: float
             Longitude of projection centre (lonc).
         azimuth_initial_line: float
-            Azimuth of initial line (azimuth).
+            Azimuth of initial line (alpha).
         angle_from_rectified_to_skew_grid: float
             Angle from Rectified to Skew Grid (gamma).
         scale_factor_on_initial_line: float, default=1.0
