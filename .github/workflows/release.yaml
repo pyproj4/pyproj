@@ -111,7 +111,7 @@ jobs:
           cp "$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}/share/proj/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.9.0
+        uses: pypa/cibuildwheel@v2.11.2
         env:
           CIBW_SKIP: "*musllinux* pp*-win*"
           CIBW_ARCHS: ${{ matrix.arch }}
