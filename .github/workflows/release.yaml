@@ -45,7 +45,7 @@ jobs:
           twine check --strict dist/*
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: ./dist/*.tar.gz
           retention-days: 5
