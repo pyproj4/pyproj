@@ -269,7 +269,7 @@ cdef PJ* proj_create_crs_to_crs(
         )
         return NULL
 
-    cdef const char* options[4]
+    cdef const char* options[5]
     cdef bytes b_authority
     cdef bytes b_accuracy
     cdef int options_index = 0
