@@ -32,7 +32,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -qq sqlite3 libsqlite3-dev libtiff-dev libcurl4-openssl-dev cmake
-          bash ci/proj-compile.sh git
+          bash ci/proj-compile.sh 9.1.1RC1
 
       - name: Install and Log Environment
         shell: bash
