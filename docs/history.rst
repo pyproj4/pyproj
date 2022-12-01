@@ -6,6 +6,7 @@ Latest
 
 3.4.1
 -----
+- WHL: Wheels contain PROJ 9.1.1 (pull #1189)
 - BUG: Changed so that the setup.cfg depends on the version code in the __init__.py instead of the other way around (issuue #1155)
 - BUG: Fix :meth:`.CRS.to_cf` for Pole rotation GRIB convention (pull #1167)
 - BUG: Fix :meth:`.CRS.to_authority` memory leak (pull #1178)

@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PROJ_VERSION: "9.1.0"
+  PROJ_VERSION: "9.1.1"
 
 jobs:
   make_sdist:
@@ -118,11 +118,13 @@ jobs:
           CIBW_ENVIRONMENT_LINUX:
             PROJ_WHEEL=true
             PROJ_NETWORK=ON
+            PYPROJ_GLOBAL_CONTEXT=ON
             PROJ_VERSION=${{ env.PROJ_VERSION }}
             PROJ_DIR=/project/pyproj/proj_dir
           CIBW_ENVIRONMENT_MACOS:
             PROJ_WHEEL=true
             PROJ_NETWORK=ON
+            PYPROJ_GLOBAL_CONTEXT=ON
             PROJ_VERSION=${{ env.PROJ_VERSION }}
             PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
             MACOSX_DEPLOYMENT_TARGET=10.9
@@ -131,6 +133,7 @@ jobs:
           CIBW_ENVIRONMENT_WINDOWS:
             PROJ_WHEEL=true
             PROJ_NETWORK=ON
+            PYPROJ_GLOBAL_CONTEXT=ON
             PROJ_VERSION=${{ env.PROJ_VERSION }}
             PROJ_DIR=$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}
           CIBW_BEFORE_BUILD_WINDOWS: "python -m pip install delvewheel"
