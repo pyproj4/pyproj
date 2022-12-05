@@ -210,6 +210,18 @@ cdef class _TransformerGroup:
                     context,
                     pj_transform,
                 )
+                if is_instantiable and \
+                    proj_context_is_network_enabled(self.context) == 0:
+                    # PROJ < 9.2 might be confused when querying first
+                    # transformations with networking enabled, and then with
+                    # networking disabled. It might return transformations
+                    # that used to be instantiable when networking was enabled,
+                    # but are no longer. One way of recognizing this is to
+                    # check proj_pj_info().id
+                    # Cf https://github.com/pyproj4/pyproj/issues/1192
+                    proj_info = proj_pj_info(pj_transform)
+                    if proj_info.id == NULL:
+                         is_instantiable = 0
                 if is_instantiable:
                     self._transformers.append(
                         _Transformer._from_pj(
