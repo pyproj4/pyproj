@@ -96,6 +96,15 @@ jobs:
           . testenv/bin/activate
           python -m pytest
 
+      - name: Test Network & Global Context
+        shell: bash
+        env:
+          PROJ_NETWORK: ON
+          PYPROJ_GLOBAL_CONTEXT: ON
+        run: |
+          . testenv/bin/activate
+          python -m pytest
+
       - name: Test Grids
         shell: bash
         run: |
@@ -175,6 +184,8 @@ jobs:
       - name: Test
         shell: bash
         if: matrix.python-implementation == 'pypy'
+        env:
+          PROJ_NETWORK: OFF
         run: |
           source activate test
           python -m pytest
@@ -190,6 +201,16 @@ jobs:
       - name: Test Global Context
         shell: bash
         env:
+          PROJ_NETWORK: OFF
+          PYPROJ_GLOBAL_CONTEXT: ON
+        run: |
+          source activate test
+          python -m pytest
+
+      - name: Test Network & Global Context
+        shell: bash
+        env:
+          PROJ_NETWORK: ON
           PYPROJ_GLOBAL_CONTEXT: ON
         run: |
           source activate test
@@ -197,6 +218,8 @@ jobs:
 
       - name: Test Grids
         shell: bash
+        env:
+          PROJ_NETWORK: OFF
         run: |
           source activate test
           projsync --quiet --bbox -175,0,-50,85
