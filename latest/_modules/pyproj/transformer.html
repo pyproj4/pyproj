@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
         <title>pyproj.transformer - pyproj 3.4.1.dev1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -151,7 +151,7 @@
   <span class="sidebar-brand-text">pyproj 3.4.1.dev1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -549,7 +549,7 @@
             <span class="n">ProjError</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
                 <span class="s2">&quot;Transformer must be initialized using: &quot;</span>
-                <span class="s2">&quot;&#39;from_crs&#39;, &#39;from_pipeline&#39;, or &#39;from_proj&#39;.&quot;</span>
+                <span class="s2">&quot;&#39;from_crs&#39; or &#39;from_pipeline&#39;.&quot;</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_local</span> <span class="o">=</span> <span class="n">TransformerLocal</span><span class="p">()</span>
@@ -729,6 +729,8 @@
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.</span>
+
+<span class="sd">        .. deprecated:: 3.4.1 :meth:`~Transformer.from_crs` is preferred.</span>
 
 <span class="sd">        .. versionadded:: 2.2.0 always_xy</span>
 <span class="sd">        .. versionadded:: 2.3.0 area_of_interest</span>
@@ -1011,7 +1013,7 @@
 <span class="sd">        &gt;&gt;&gt; xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)</span>
 <span class="sd">        &gt;&gt;&gt; f&quot;{xpjr:.3f} {ypjr:.3f} {zpjr:.3f}&quot;</span>
 <span class="sd">        &#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
-<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_proj(&quot;EPSG:4326&quot;, 4326)</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(&quot;EPSG:4326&quot;, 4326)</span>
 <span class="sd">        &gt;&gt;&gt; xeq, yeq = transformer.transform(33, 98)</span>
 <span class="sd">        &gt;&gt;&gt; f&quot;{xeq:.0f}  {yeq:.0f}&quot;</span>
 <span class="sd">        &#39;33  98&#39;</span>
@@ -1127,7 +1129,7 @@
 <span class="sd">        ... ):</span>
 <span class="sd">        ...     &#39;{:.3f} {:.3f} {:.3f}&#39;.format(*pt)</span>
 <span class="sd">        &#39;-2704214.394 -4254414.478 3894270.731&#39;</span>
-<span class="sd">        &gt;&gt;&gt; transproj_eq = Transformer.from_proj(</span>
+<span class="sd">        &gt;&gt;&gt; transproj_eq = Transformer.from_crs(</span>
 <span class="sd">        ...     &#39;EPSG:4326&#39;,</span>
 <span class="sd">        ...     &#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;,</span>
 <span class="sd">        ...     always_xy=True,</span>
@@ -1580,9 +1582,7 @@
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         

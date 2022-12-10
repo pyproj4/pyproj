@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Geod" href="geod.html" /><link rel="prev" title="Enumerations" href="crs/enums.html" />
 
-    <link rel="shortcut icon" href="../_static/icon.png"/><meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
+    <link rel="shortcut icon" href="../_static/icon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
         <title>Transformer - pyproj 3.4.1.dev1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -152,7 +152,7 @@
   <span class="sidebar-brand-text">pyproj 3.4.1.dev1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -402,6 +402,9 @@ coordinateOperation:EPSG::1618”)</p></li>
 <dt class="sig sig-object py" id="pyproj.transformer.Transformer.from_proj">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><span class="pre">AreaOfInterest</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_proj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_proj" title="Permalink to this definition">#</a></dt>
 <dd><p>Make a Transformer from a <a class="reference internal" href="proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.4.1: </span><a class="reference internal" href="#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_crs()</span></code></a> is preferred.</p>
+</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
 </div>
@@ -555,7 +558,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <span class="gp">... </span><span class="p">):</span>
 <span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
 <span class="go">&#39;-2704214.394 -4254414.478 3894270.731&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj_eq</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj_eq</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -841,7 +844,7 @@ is not an array in C order with the double data type.</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xpjr</span><span class="p">,</span> <span class="n">ypjr</span><span class="p">,</span> <span class="n">zpjr</span> <span class="o">=</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_proj</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xeq</span><span class="p">,</span> <span class="n">yeq</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="go">&#39;33  98&#39;</span>
@@ -1200,9 +1203,7 @@ for most projected CRS.</p>
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
