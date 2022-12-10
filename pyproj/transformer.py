@@ -319,7 +319,7 @@ class Transformer:
             ProjError.clear()
             raise ProjError(
                 "Transformer must be initialized using: "
-                "'from_crs', 'from_pipeline', or 'from_proj'."
+                "'from_crs' or 'from_pipeline'."
             )
 
         self._local = TransformerLocal()
@@ -499,6 +499,8 @@ class Transformer:
         area_of_interest: Optional[AreaOfInterest] = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.
+
+        .. deprecated:: 3.4.1 :meth:`~Transformer.from_crs` is preferred.
 
         .. versionadded:: 2.2.0 always_xy
         .. versionadded:: 2.3.0 area_of_interest
@@ -781,7 +783,7 @@ class Transformer:
         >>> xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)
         >>> f"{xpjr:.3f} {ypjr:.3f} {zpjr:.3f}"
         '-2704026.010 -4253051.810 3895878.820'
-        >>> transformer = Transformer.from_proj("EPSG:4326", 4326)
+        >>> transformer = Transformer.from_crs("EPSG:4326", 4326)
         >>> xeq, yeq = transformer.transform(33, 98)
         >>> f"{xeq:.0f}  {yeq:.0f}"
         '33  98'
@@ -897,7 +899,7 @@ class Transformer:
         ... ):
         ...     '{:.3f} {:.3f} {:.3f}'.format(*pt)
         '-2704214.394 -4254414.478 3894270.731'
-        >>> transproj_eq = Transformer.from_proj(
+        >>> transproj_eq = Transformer.from_crs(
         ...     'EPSG:4326',
         ...     '+proj=longlat +datum=WGS84 +no_defs +type=crs',
         ...     always_xy=True,
