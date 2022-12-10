@@ -1,0 +1,1293 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Geod" href="geod.html" /><link rel="prev" title="Enumerations" href="crs/enums.html" />
+
+    <link rel="shortcut icon" href="../_static/icon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
+        <title>Transformer - pyproj 3.4.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #263238;
+  --color-code-foreground: #EEFFFF;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">pyproj 3.4.1rc0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">pyproj 3.4.1rc0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API Documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="crs/index.html">CRS module API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="crs/crs.html">CRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crs/coordinate_system.html">Coordinate Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crs/coordinate_operation.html">Coordinate Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crs/datum.html">Datum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crs/enums.html">Enumerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geod.html">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">PROJ Network Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sync.html">Sync Transformation Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="global_context.html">Global Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aoi.html">Area of Interest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="transformer">
+<span id="id1"></span><h1>Transformer<a class="headerlink" href="#transformer" title="Permalink to this heading">#</a></h1>
+<p>The <cite>pyproj.Transformer</cite> has the capabilities of performing 2D, 3D, and 4D (time)
+transformations. It can do anything that the PROJ command line programs
+<a class="reference external" href="https://proj.org/apps/proj.html#proj" title="(in PROJ v9.1.1)"><span class="xref std std-ref">proj</span></a>, <a class="reference external" href="https://proj.org/apps/cs2cs.html#cs2cs" title="(in PROJ v9.1.1)"><span class="xref std std-ref">cs2cs</span></a>, and <a class="reference external" href="https://proj.org/apps/cct.html#cct" title="(in PROJ v9.1.1)"><span class="xref std std-ref">cct</span></a> can do.
+This means that it allows translation between any pair of definable coordinate systems,
+including support for datum transformation.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The axis order may be swapped if the source and destination
+CRS’s are defined as having the first coordinate component point in a
+northerly direction (See PROJ FAQ on
+<a class="reference external" href="https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">axis order</a>).
+You can check the axis order with the <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class. If you prefer to
+keep your axis order as always x,y, you can use the <cite>always_xy</cite> option when
+creating the <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a>.</p>
+</div>
+<section id="pyproj-transformer">
+<h2>pyproj.Transformer<a class="headerlink" href="#pyproj-transformer" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.transformer.</span></span><span class="sig-name descname"><span class="pre">Transformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transformer_maker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">TransformerMaker</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer" title="Permalink to this definition">#</a></dt>
+<dd><p>The Transformer class is for facilitating re-using
+transforms without needing to re-create them. The goal
+is to make repeated transforms faster.</p>
+<p>Additionally, it provides multiple methods for initialization.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.accuracy">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accuracy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.accuracy" title="Permalink to this definition">#</a></dt>
+<dd><p>Expected accuracy of the transformation. -1 if unknown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.area_of_use">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">area_of_use</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfUse" title="pyproj.aoi.AreaOfUse"><span class="pre">AreaOfUse</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.area_of_use" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The area of use object with associated attributes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfUse" title="pyproj.aoi.AreaOfUse">AreaOfUse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.definition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">definition</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.definition" title="Permalink to this definition">#</a></dt>
+<dd><p>Definition of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.description">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.description" title="Permalink to this definition">#</a></dt>
+<dd><p>Description of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.from_crs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_crs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crs_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">crs_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><span class="pre">AreaOfInterest</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accuracy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_ballpark</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_over</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_crs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_crs" title="Permalink to this definition">#</a></dt>
+<dd><p>Make a Transformer from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
+<p>See:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_create_crs_to_crs" title="(in PROJ v9.1.1)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_crs_to_crs()</span></code></a></p></li>
+<li><p><a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_create_crs_to_crs_from_pj" title="(in PROJ v9.1.1)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_crs_to_crs_from_pj()</span></code></a></p></li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0: </span>area_of_interest</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0: </span>authority, accuracy, allow_ballpark</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.0: </span>force_over</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
+<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
+<li><p><strong>always_xy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
+<li><p><strong>authority</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – When not specified, coordinate operations from any authority will be
+searched, with the restrictions set in the
+authority_to_authority_preference database table related to the
+authority of the source/target CRS themselves. If authority is set
+to “any”, then coordinate operations from any authority will be
+searched. If authority is a non-empty string different from “any”,
+then coordinate operations will be searched only in that authority
+namespace (e.g. EPSG).</p></li>
+<li><p><strong>accuracy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The minimum desired accuracy (in metres) of the candidate
+coordinate operations.</p></li>
+<li><p><strong>allow_ballpark</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Set to False to disallow the use of Ballpark transformation
+in the candidate coordinate operations. Default is to allow.</p></li>
+<li><p><strong>force_over</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, it will to force the +over flag on the transformation.
+Requires PROJ 9+.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.from_pipeline">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_pipeline" title="Permalink to this definition">#</a></dt>
+<dd><p>Make a Transformer from a PROJ pipeline string.</p>
+<p><a class="reference external" href="https://proj.org/operations/pipeline.html#pipeline" title="(in PROJ v9.1.1)"><span>The pipeline operator</span></a></p>
+<p>See:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_create" title="(in PROJ v9.1.1)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create()</span></code></a></p></li>
+<li><p><a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_create_from_database" title="(in PROJ v9.1.1)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_from_database()</span></code></a></p></li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0: </span>AUTH:CODE string support (e.g. EPSG:1671)</p>
+</div>
+<dl class="simple">
+<dt>Allowed input:</dt><dd><ul class="simple">
+<li><p>a PROJ string</p></li>
+<li><p>a WKT string</p></li>
+<li><p>a PROJJSON string</p></li>
+<li><p>an object code (e.g. “EPSG:1671”
+“urn:ogc:def:coordinateOperation:EPSG::1671”)</p></li>
+<li><p>an object name. e.g “ITRF2014 to ETRF2014 (1)”.
+In that case as uniqueness is not guaranteed,
+heuristics are applied to determine the appropriate best match.</p></li>
+<li><p>a OGC URN combining references for concatenated operations
+(e.g. “<a class="reference external" href="urn:ogc:def:coordinateOperation,coordinateOperation:EPSG::3895">urn:ogc:def:coordinateOperation,coordinateOperation:EPSG::3895</a>,
+coordinateOperation:EPSG::1618”)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>proj_pipeline</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Projection pipeline string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.from_proj">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><span class="pre">AreaOfInterest</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_proj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_proj" title="Permalink to this definition">#</a></dt>
+<dd><p>Make a Transformer from a <a class="reference internal" href="proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.4.1: </span><a class="reference internal" href="#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_crs()</span></code></a> is preferred.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0: </span>area_of_interest</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>proj_from</strong> (<a class="reference internal" href="proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one) – Projection of input data.</p></li>
+<li><p><strong>proj_to</strong> (<a class="reference internal" href="proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> or input used to create one) – Projection of output data.</p></li>
+<li><p><strong>always_xy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help select the transformation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.get_last_used_operation">
+<span class="sig-name descname"><span class="pre">get_last_used_operation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.get_last_used_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.get_last_used_operation" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.0.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires PROJ 9.1+</p>
+</div>
+<p>See: <a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_trans_get_last_used_operation" title="(in PROJ v9.1.1)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_get_last_used_operation()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The operation used in the transform call.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.has_inverse">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_inverse</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.has_inverse" title="Permalink to this definition">#</a></dt>
+<dd><p>True if an inverse mapping exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.is_exact_same">
+<span class="sig-name descname"><span class="pre">is_exact_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.is_exact_same"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.is_exact_same" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the Transformer objects are the exact same.
+If it is not a Transformer, then it returns False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Any</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.is_network_enabled">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_network_enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.is_network_enabled" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If the network is enabled.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.itransform">
+<span class="sig-name descname"><span class="pre">itransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">switch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_3rd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><span class="pre">TransformDirection</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TransformDirection.FORWARD</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.11)"><span class="pre">Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.11)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.itransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.itransform" title="Permalink to this definition">#</a></dt>
+<dd><p>Iterator/generator version of the function pyproj.Transformer.transform.</p>
+<p>See: <a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_trans_generic" title="(in PROJ v9.1.1)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_generic()</span></code></a></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>direction</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – List of point tuples.</p></li>
+<li><p><strong>switch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True x, y or lon,lat coordinates of points are switched to y, x
+or lat, lon. Default is False.</p></li>
+<li><p><strong>time_3rd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If the input coordinates are 3 dimensional and the 3rd dimension is time.</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Otherwise, it uses degrees.
+Ignored for pipeline transformations with pyproj 2,
+but will work in pyproj 3.</p></li>
+<li><p><strong>errcheck</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, an exception is raised if the errors are found in the process.
+If False, <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for errors.</p></li>
+<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">2100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">22.95</span><span class="p">,</span> <span class="mf">40.63</span><span class="p">),</span> <span class="p">(</span><span class="mf">22.81</span><span class="p">,</span> <span class="mf">40.53</span><span class="p">),</span> <span class="p">(</span><span class="mf">23.51</span><span class="p">,</span> <span class="mf">40.86</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transformer</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span><span class="n">points</span><span class="p">):</span> <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;2221638.801 2637034.372&#39;</span>
+<span class="go">&#39;2212924.125 2619851.898&#39;</span>
+<span class="go">&#39;2238294.779 2703763.736&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_str</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe_trans</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">pipeline_str</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">pipe_trans</span><span class="o">.</span><span class="n">itransform</span><span class="p">([(</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)]):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;2.100 0.001&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transproj</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="o">-</span><span class="mf">2704026.010</span><span class="p">,</span> <span class="o">-</span><span class="mf">4253051.810</span><span class="p">,</span> <span class="mf">3895878.820</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;-2.137 0.661 -20.531&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transprojr</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="o">-</span><span class="mf">2.137</span><span class="p">,</span> <span class="mf">0.661</span><span class="p">,</span> <span class="o">-</span><span class="mf">20.531</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span><span class="p">):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;-2704214.394 -4254414.478 3894270.731&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj_eq</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transproj_eq</span><span class="o">.</span><span class="n">itransform</span><span class="p">([(</span><span class="o">-</span><span class="mf">2.137</span><span class="p">,</span> <span class="mf">0.661</span><span class="p">)]):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;-2.137 0.661&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.name" title="Permalink to this definition">#</a></dt>
+<dd><p>Name of the projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.operations">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="crs/coordinate_operation.html#pyproj.crs.CoordinateOperation" title="pyproj._crs.CoordinateOperation"><span class="pre">CoordinateOperation</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyproj.transformer.Transformer.operations" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The operations in a concatenated operation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple[<a class="reference internal" href="crs/coordinate_operation.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation">CoordinateOperation</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.remarks">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remarks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.remarks" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Remarks about object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.scope">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scope</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyproj.transformer.Transformer.scope" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Scope of object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.source_crs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source_crs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.crs.CRS"><span class="pre">CRS</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyproj.transformer.Transformer.source_crs" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The source CRS of a CoordinateOperation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optional[<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.target_crs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">target_crs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.crs.CRS"><span class="pre">CRS</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyproj.transformer.Transformer.target_crs" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The target CRS of a CoordinateOperation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optional[<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.to_json">
+<span class="sig-name descname"><span class="pre">to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.to_json" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the projection to a JSON string.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretty</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+<li><p><strong>indentation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default=2</em>) – If pretty is True, it will set the width of the indentation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The JSON string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.to_json_dict">
+<span class="sig-name descname"><span class="pre">to_json_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.to_json_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.to_json_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the projection to a JSON dictionary.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The JSON dictionary.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.to_proj4">
+<span class="sig-name descname"><span class="pre">to_proj4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="enums.html#pyproj.enums.ProjVersion" title="pyproj.enums.ProjVersion"><span class="pre">ProjVersion</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ProjVersion.PROJ_5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pretty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.to_proj4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.to_proj4" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the projection to a PROJ string.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.ProjVersion" title="pyproj.enums.ProjVersion"><em>pyproj.enums.ProjVersion</em></a>) – The version of the PROJ string output.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.ProjVersion.PROJ_5" title="pyproj.enums.ProjVersion.PROJ_5"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.ProjVersion.PROJ_5</span></code></a>.</p></li>
+<li><p><strong>pretty</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The PROJ string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.to_wkt">
+<span class="sig-name descname"><span class="pre">to_wkt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><span class="pre">WktVersion</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">WktVersion.WKT2_2019</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pretty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.to_wkt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.to_wkt" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the projection to a WKT string.</p>
+<dl class="simple">
+<dt>Version options:</dt><dd><ul class="simple">
+<li><p>WKT2_2015</p></li>
+<li><p>WKT2_2015_SIMPLIFIED</p></li>
+<li><p>WKT2_2019</p></li>
+<li><p>WKT2_2019_SIMPLIFIED</p></li>
+<li><p>WKT1_GDAL</p></li>
+<li><p>WKT1_ESRI</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version</strong> (<a class="reference internal" href="enums.html#pyproj.enums.WktVersion" title="pyproj.enums.WktVersion"><em>pyproj.enums.WktVersion</em></a><em>, </em><em>optional</em>) – The version of the WKT output.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersion.WKT2_2019" title="pyproj.enums.WktVersion.WKT2_2019"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.WktVersion.WKT2_2019</span></code></a>.</p></li>
+<li><p><strong>pretty</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, it will set the output to be a multiline string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The WKT string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><span class="pre">TransformDirection</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TransformDirection.FORWARD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.transform" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">zz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><span class="pre">TransformDirection</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TransformDirection.FORWARD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">zz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><span class="pre">TransformDirection</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TransformDirection.FORWARD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
+<dd><p>Transform points between two coordinate systems.</p>
+<p>See: <a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_trans_generic" title="(in PROJ v9.1.1)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_generic()</span></code></a></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.1: </span>errcheck</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>direction</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2.0: </span>inplace</p>
+</div>
+<p>Accepted numeric scalar or array:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.floating" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.floating</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.integer" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.integer</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2022.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xx</strong> (<em>scalar</em><em> or </em><em>array</em>) – Input x coordinate(s).</p></li>
+<li><p><strong>yy</strong> (<em>scalar</em><em> or </em><em>array</em>) – Input y coordinate(s).</p></li>
+<li><p><strong>zz</strong> (<em>scalar</em><em> or </em><em>array</em><em>, </em><em>optional</em>) – Input z coordinate(s).</p></li>
+<li><p><strong>tt</strong> (<em>scalar</em><em> or </em><em>array</em><em>, </em><em>optional</em>) – Input time coordinate(s).</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Otherwise, it uses degrees.
+Ignored for pipeline transformations with pyproj 2,
+but will work in pyproj 3.</p></li>
+<li><p><strong>errcheck</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, an exception is raised if the errors are found in the process.
+If False, <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for errors.</p></li>
+<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
+<li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, will attempt to write the results to the input array
+instead of returning a new array. This will fail if the input
+is not an array in C order with the double data type.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">y3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;10909310.098  3895303.963&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_str</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe_trans</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">pipeline_str</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xt</span><span class="p">,</span> <span class="n">yt</span> <span class="o">=</span> <span class="n">pipe_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;2.100  0.001&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transproj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span> <span class="o">=</span> <span class="n">transproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="o">-</span><span class="mf">2704026.010</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="o">-</span><span class="mf">4253051.810</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="mf">3895878.820</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;-2.137 0.661 -20.531&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transprojr</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xpjr</span><span class="p">,</span> <span class="n">ypjr</span><span class="p">,</span> <span class="n">zpjr</span> <span class="o">=</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xeq</span><span class="p">,</span> <span class="n">yeq</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;33  98&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.Transformer.transform_bounds">
+<span class="sig-name descname"><span class="pre">transform_bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bottom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">densify_pts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">21</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><span class="pre">TransformDirection</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TransformDirection.FORWARD</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.transform_bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.transform_bounds" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0.</span></p>
+</div>
+<p>See: <a class="reference external" href="https://proj.org/development/reference/functions.html#c.proj_trans_bounds" title="(in PROJ v9.1.1)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_bounds()</span></code></a></p>
+<p>Transform boundary densifying the edges to account for nonlinear
+transformations along these edges and extracting the outermost bounds.</p>
+<p>If the destination CRS is geographic and right &lt; left then the bounds
+crossed the antimeridian. In this scenario there are two polygons,
+one on each side of the antimeridian. The first polygon should be
+constructed with (left, bottom, 180, top) and the second with
+(-180, bottom, top, right).</p>
+<p>To construct the bounding polygons with shapely:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bounding_polygon</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="n">left</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">MultiPolygon</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="n">top</span><span class="p">),</span>
+                <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Minimum bounding coordinate of the first axis in source CRS
+(or the target CRS if using the reverse direction).</p></li>
+<li><p><strong>bottom</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Minimum bounding coordinate of the second axis in source CRS.
+(or the target CRS if using the reverse direction).</p></li>
+<li><p><strong>right</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Maximum bounding coordinate of the first axis in source CRS.
+(or the target CRS if using the reverse direction).</p></li>
+<li><p><strong>top</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Maximum bounding coordinate of the second axis in source CRS.
+(or the target CRS if using the reverse direction).</p></li>
+<li><p><strong>densify_points</strong> (<em>uint</em><em>, </em><em>default=21</em>) – Number of points to add to each edge to account for nonlinear edges
+produced by the transform process. Large numbers will produce worse
+performance.</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, will expect input data to be in radians and will return radians
+if the projection is geographic. Otherwise, it uses degrees.</p></li>
+<li><p><strong>errcheck</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, an exception is raised if the errors are found in the process.
+If False, <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for errors.</p></li>
+<li><p><strong>direction</strong> (<a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><em>pyproj.enums.TransformDirection</em></a><em>, </em><em>optional</em>) – The direction of the transform.
+Default is <a class="reference internal" href="enums.html#pyproj.enums.TransformDirection.FORWARD" title="pyproj.enums.TransformDirection.FORWARD"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyproj.enums.TransformDirection.FORWARD</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>left, bottom, right, top</strong> – Outermost coordinates in target coordinate reference system.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="pyproj-transformer-transformergroup">
+<h2>pyproj.transformer.TransformerGroup<a class="headerlink" href="#pyproj-transformer-transformergroup" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyproj.transformer.TransformerGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.transformer.</span></span><span class="sig-name descname"><span class="pre">TransformerGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crs_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">crs_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><span class="pre">AreaOfInterest</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accuracy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_ballpark</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup" title="Permalink to this definition">#</a></dt>
+<dd><p>The TransformerGroup is a set of possible transformers from one CRS to another.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>CoordinateOperation and Transformer objects
+returned are not thread-safe.</p>
+</div>
+<p>From PROJ docs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">operations</span> <span class="n">are</span> <span class="nb">sorted</span> <span class="k">with</span> <span class="n">the</span> <span class="n">most</span> <span class="n">relevant</span> <span class="n">ones</span> <span class="n">first</span><span class="p">:</span> <span class="n">by</span>
+<span class="n">descending</span> <span class="n">area</span> <span class="p">(</span><span class="n">intersection</span> <span class="n">of</span> <span class="n">the</span> <span class="n">transformation</span> <span class="n">area</span> <span class="k">with</span> <span class="n">the</span>
+<span class="n">area</span> <span class="n">of</span> <span class="n">interest</span><span class="p">,</span> <span class="ow">or</span> <span class="n">intersection</span> <span class="n">of</span> <span class="n">the</span> <span class="n">transformation</span> <span class="k">with</span> <span class="n">the</span>
+<span class="n">area</span> <span class="n">of</span> <span class="n">use</span> <span class="n">of</span> <span class="n">the</span> <span class="n">CRS</span><span class="p">),</span> <span class="ow">and</span> <span class="n">by</span> <span class="n">increasing</span> <span class="n">accuracy</span><span class="o">.</span> <span class="n">Operations</span>
+<span class="k">with</span> <span class="n">unknown</span> <span class="n">accuracy</span> <span class="n">are</span> <span class="nb">sorted</span> <span class="n">last</span><span class="p">,</span> <span class="n">whatever</span> <span class="n">their</span> <span class="n">area</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.TransformerGroup.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crs_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">crs_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><span class="pre">AreaOfInterest</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accuracy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_ballpark</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all possible transformations from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>
+or input used to create one.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.0: </span>authority, accuracy, allow_ballpark</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crs_from</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of input data.</p></li>
+<li><p><strong>crs_to</strong> (<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><em>pyproj.crs.CRS</em></a><em> or </em><em>input used to create one</em>) – Projection of output data.</p></li>
+<li><p><strong>always_xy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.</p></li>
+<li><p><strong>area_of_interest</strong> (<a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><code class="xref py py-class docutils literal notranslate"><span class="pre">AreaOfInterest</span></code></a>, optional) – The area of interest to help order the transformations based on the
+best operation for the area.</p></li>
+<li><p><strong>authority</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – When not specified, coordinate operations from any authority will be
+searched, with the restrictions set in the
+authority_to_authority_preference database table related to the
+authority of the source/target CRS themselves. If authority is set
+to “any”, then coordinate operations from any authority will be
+searched. If authority is a non-empty string different from “any”,
+then coordinate operations will be searched only in that authority
+namespace (e.g. EPSG).</p></li>
+<li><p><strong>accuracy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The minimum desired accuracy (in metres) of the candidate
+coordinate operations.</p></li>
+<li><p><strong>allow_ballpark</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – Set to False to disallow the use of Ballpark transformation
+in the candidate coordinate operations. Default is to allow.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.TransformerGroup.best_available">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_available</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyproj.transformer.TransformerGroup.best_available" title="Permalink to this definition">#</a></dt>
+<dd><p>If True, the best possible transformer is available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.transformer.TransformerGroup.download_grids">
+<span class="sig-name descname"><span class="pre">download_grids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><span class="pre">Path</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_license</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#TransformerGroup.download_grids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.TransformerGroup.download_grids" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<p>Download missing grids that can be downloaded automatically.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There are cases where the URL to download the grid is missing.
+In those cases, you can enable enable
+<a class="reference internal" href="../advanced_examples.html#debugging-internal-proj"><span class="std std-ref">Debugging Internal PROJ</span></a> and perform a
+transformation. The logs will show the grids PROJ searches for.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>Path</em><em>, </em><em>optional</em>) – The directory to download the grids to.
+Defaults to <a class="reference internal" href="datadir.html#pyproj.datadir.get_user_data_dir" title="pyproj.datadir.get_user_data_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.datadir.get_user_data_dir()</span></code></a></p></li>
+<li><p><strong>open_license</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – If True, will only download grids with an open license.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, will print information about grids downloaded.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.TransformerGroup.transformers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transformers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyproj.transformer.TransformerGroup.transformers" title="Permalink to this definition">#</a></dt>
+<dd><p>list[<a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer</span></code></a>]:
+List of available <a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer</span></code></a>
+associated with the transformation.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.transformer.TransformerGroup.unavailable_operations">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unavailable_operations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="crs/coordinate_operation.html#pyproj.crs.CoordinateOperation" title="pyproj._crs.CoordinateOperation"><span class="pre">CoordinateOperation</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyproj.transformer.TransformerGroup.unavailable_operations" title="Permalink to this definition">#</a></dt>
+<dd><p>list[<a class="reference internal" href="crs/coordinate_operation.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a>]:
+List of <a class="reference internal" href="crs/coordinate_operation.html#pyproj.crs.CoordinateOperation" title="pyproj.crs.CoordinateOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CoordinateOperation</span></code></a> that are not
+available due to missing grids.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="pyproj-transform">
+<h2>pyproj.transform<a class="headerlink" href="#pyproj-transform" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyproj.transformer.transform">
+<span class="sig-prename descclassname"><span class="pre">pyproj.transformer.</span></span><span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.transform" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.6.1: </span>This function is deprecated. See: <a class="reference internal" href="../gotchas.html#upgrade-transformer"><span class="std std-ref">Upgrading to pyproj 2 from pyproj 1</span></a></p>
+</div>
+<p>x2, y2, z2 = transform(p1, p2, x1, y1, z1)</p>
+<p>Transform points between two coordinate systems defined by the
+Proj instances p1 and p2.</p>
+<p>The points x1,y1,z1 in the coordinate system defined by p1 are
+transformed to x2,y2,z2 in the coordinate system defined by p2.</p>
+<p>z1 is optional, if it is not set it is assumed to be zero (and
+only x2 and y2 are returned). If the optional keyword
+‘radians’ is True (default is False), then all input and
+output coordinates will be in radians instead of the default
+of degrees for geographic input/output projections.
+If the optional keyword ‘errcheck’ is set to True an
+exception is raised if the transformation is
+invalid. By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for an
+invalid transformation (and no exception is raised).
+If <cite>always_xy</cite> is toggled, the transform method will accept as
+input and return as output coordinates using the traditional GIS order,
+that is longitude, latitude for geographic CRS and easting,
+northing for most projected CRS.</p>
+<p>In addition to converting between cartographic and geographic
+projection coordinates, this function can take care of datum
+shifts (which cannot be done using the __call__ method of the
+Proj instances). It also allows for one of the coordinate
+systems to be geographic (proj = ‘latlong’).</p>
+<p>x,y and z can be numpy or regular python arrays, python
+lists/tuples or scalars. Arrays are fastest.  For projections in
+geocentric coordinates, values of x and y are given in meters.
+z is always meters.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">transform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: UTM zone 15, grs80 ellipse, NAD83 datum</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 26915)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:26915&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:26715&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># find x,y of Jefferson City, MO.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="o">-</span><span class="mf">92.199881</span><span class="p">,</span><span class="mf">38.56694</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># transform this point to projection 2 coordinates.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+<span class="go">&#39;569704.566 4269024.671&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">)</span>
+<span class="go">&#39;569722.342 4268814.028&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">p2</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39; -92.200 38.567&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># process 3 points at a time in a tuple</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">(</span><span class="mf">38.83</span><span class="p">,</span><span class="mf">39.32</span><span class="p">,</span><span class="mf">38.75</span><span class="p">)</span> <span class="c1"># Columbia, KC and StL Missouri</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">92.22</span><span class="p">,</span><span class="o">-</span><span class="mf">94.72</span><span class="p">,</span><span class="o">-</span><span class="mf">90.37</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span><span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">y1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
+<span class="go">&#39;567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">x2</span><span class="o">+</span><span class="n">y2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
+<span class="go">&#39;567721.149 351747.558 728569.133 4297989.112 4353489.645 4292106.305&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">p2</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">lons</span><span class="o">+</span><span class="n">lats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
+<span class="go">&#39; -92.220  -94.720  -90.370 38.830 39.320 38.750&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="pyproj-itransform">
+<h2>pyproj.itransform<a class="headerlink" href="#pyproj-itransform" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyproj.transformer.itransform">
+<span class="sig-prename descclassname"><span class="pre">pyproj.transformer.</span></span><span class="sig-name descname"><span class="pre">itransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.11)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.11)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">switch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_3rd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/transformer.html#itransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.itransform" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0: </span>always_xy</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.6.1: </span>This function is deprecated. See: <a class="reference internal" href="../gotchas.html#upgrade-transformer"><span class="std std-ref">Upgrading to pyproj 2 from pyproj 1</span></a></p>
+</div>
+<p>points2 = itransform(p1, p2, points1)
+Iterator/generator version of the function pyproj.transform.
+Transform points between two coordinate systems defined by the
+Proj instances p1 and p2. This function can be used as an alternative
+to pyproj.transform when there is a need to transform a big number of
+coordinates lazily, for example when reading and processing from a file.
+Points1 is an iterable/generator of coordinates x1,y1(,z1) or lon1,lat1(,z1)
+in the coordinate system defined by p1. Points2 is an iterator that returns tuples
+of x2,y2(,z2) or lon2,lat2(,z2) coordinates in the coordinate system defined by p2.
+z are provided optionally.</p>
+<dl class="simple">
+<dt>Points1 can be:</dt><dd><ul class="simple">
+<li><p>a tuple/list of tuples/lists i.e. for 2d points: [(xi,yi),(xj,yj),….(xn,yn)]</p></li>
+<li><p>a Nx3 or Nx2 2d numpy array where N is the point number</p></li>
+<li><p>a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d</p></li>
+</ul>
+</dd>
+</dl>
+<p>If optional keyword ‘switch’ is True (default is False) then x, y or lon,lat
+coordinates of points are switched to y, x or lat, lon.
+If the optional keyword ‘radians’ is True (default is False),
+then all input and output coordinates will be in radians instead
+of the default of degrees for geographic input/output projections.
+If the optional keyword ‘errcheck’ is set to True an
+exception is raised if the transformation is
+invalid. By default errcheck=False and <code class="docutils literal notranslate"><span class="pre">inf</span></code> is returned for an
+invalid transformation (and no exception is raised).
+If <cite>always_xy</cite> is toggled, the transform method will accept as
+input and return as output coordinates using the traditional GIS order,
+that is longitude, latitude for geographic CRS and easting, northing
+for most projected CRS.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">itransform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: WGS84</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 4326)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:4326&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 2: GGRS87 / Greek Grid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:2100&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Three points with coordinates lon, lat in p1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">22.95</span><span class="p">,</span> <span class="mf">40.63</span><span class="p">),</span> <span class="p">(</span><span class="mf">22.81</span><span class="p">,</span> <span class="mf">40.53</span><span class="p">),</span> <span class="p">(</span><span class="mf">23.51</span><span class="p">,</span> <span class="mf">40.86</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># transform this point to projection 2 coordinates.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">points</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> <span class="s1">&#39;</span><span class="si">%6.3f</span><span class="s1"> </span><span class="si">%7.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">pt</span>
+<span class="go">&#39;411050.470 4497928.574&#39;</span>
+<span class="go">&#39;399060.236 4486978.710&#39;</span>
+<span class="go">&#39;458553.243 4523045.485&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="p">[(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">)]):</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> </span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">&#39;30 60&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="geod.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Geod</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="crs/enums.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Enumerations</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2022, Open source contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Transformer</a><ul>
+<li><a class="reference internal" href="#pyproj-transformer">pyproj.Transformer</a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer"><code class="docutils literal notranslate"><span class="pre">Transformer</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.accuracy"><code class="docutils literal notranslate"><span class="pre">Transformer.accuracy</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.area_of_use"><code class="docutils literal notranslate"><span class="pre">Transformer.area_of_use</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.definition"><code class="docutils literal notranslate"><span class="pre">Transformer.definition</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.description"><code class="docutils literal notranslate"><span class="pre">Transformer.description</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.from_crs"><code class="docutils literal notranslate"><span class="pre">Transformer.from_crs()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.from_pipeline"><code class="docutils literal notranslate"><span class="pre">Transformer.from_pipeline()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.from_proj"><code class="docutils literal notranslate"><span class="pre">Transformer.from_proj()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.get_last_used_operation"><code class="docutils literal notranslate"><span class="pre">Transformer.get_last_used_operation()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.has_inverse"><code class="docutils literal notranslate"><span class="pre">Transformer.has_inverse</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.is_exact_same"><code class="docutils literal notranslate"><span class="pre">Transformer.is_exact_same()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.is_network_enabled"><code class="docutils literal notranslate"><span class="pre">Transformer.is_network_enabled</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.itransform"><code class="docutils literal notranslate"><span class="pre">Transformer.itransform()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.name"><code class="docutils literal notranslate"><span class="pre">Transformer.name</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.operations"><code class="docutils literal notranslate"><span class="pre">Transformer.operations</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.remarks"><code class="docutils literal notranslate"><span class="pre">Transformer.remarks</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.scope"><code class="docutils literal notranslate"><span class="pre">Transformer.scope</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.source_crs"><code class="docutils literal notranslate"><span class="pre">Transformer.source_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.target_crs"><code class="docutils literal notranslate"><span class="pre">Transformer.target_crs</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.to_json"><code class="docutils literal notranslate"><span class="pre">Transformer.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.to_json_dict"><code class="docutils literal notranslate"><span class="pre">Transformer.to_json_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.to_proj4"><code class="docutils literal notranslate"><span class="pre">Transformer.to_proj4()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.to_wkt"><code class="docutils literal notranslate"><span class="pre">Transformer.to_wkt()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.transform"><code class="docutils literal notranslate"><span class="pre">Transformer.transform()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.Transformer.transform_bounds"><code class="docutils literal notranslate"><span class="pre">Transformer.transform_bounds()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-transformer-transformergroup">pyproj.transformer.TransformerGroup</a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup"><code class="docutils literal notranslate"><span class="pre">TransformerGroup</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.__init__"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.best_available"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.best_available</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.download_grids"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.download_grids()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.transformers"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.transformers</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.transformer.TransformerGroup.unavailable_operations"><code class="docutils literal notranslate"><span class="pre">TransformerGroup.unavailable_operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-transform">pyproj.transform</a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.transform"><code class="docutils literal notranslate"><span class="pre">transform()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-itransform">pyproj.itransform</a><ul>
+<li><a class="reference internal" href="#pyproj.transformer.itransform"><code class="docutils literal notranslate"><span class="pre">itransform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    </body>
+</html>
