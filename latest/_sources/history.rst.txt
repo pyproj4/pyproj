@@ -1,9 +1,6 @@
 Change Log
 ==========
 
-Latest
--------
-
 3.4.1
 -----
 - BUG: Changed so that the setup.cfg depends on the version code in the __init__.py instead of the other way around (issuue #1155)
