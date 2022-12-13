@@ -1,0 +1,497 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="CRS Compatibility Guide for Geospatial Python" href="crs_compatibility.html" /><link rel="prev" title="Building a Coordinate Reference System" href="build_crs.html" />
+
+    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
+        <title>Managing CRS to and from CF - pyproj 3.4.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #263238;
+  --color-code-foreground: #EEFFFF;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">pyproj 3.4.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">pyproj 3.4.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/crs/index.html">CRS module API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/crs/crs.html">CRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/crs/coordinate_system.html">Coordinate Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/crs/coordinate_operation.html">Coordinate Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/crs/datum.html">Datum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/crs/enums.html">Enumerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/transformer.html">Transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/geod.html">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/database.html">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/network.html">PROJ Network Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/sync.html">Sync Transformation Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/global_context.html">Global Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/aoi.html">Area of Interest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/show_versions.html">Show Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="past_versions.html">Documentation Archive</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="managing-crs-to-and-from-cf">
+<span id="build-crs-cf"></span><h1>Managing CRS to and from CF<a class="headerlink" href="#managing-crs-to-and-from-cf" title="Permalink to this heading">#</a></h1>
+<p><a class="reference external" href="http://cfconventions.org/cf-conventions/cf-conventions.html">http://cfconventions.org/cf-conventions/cf-conventions.html</a></p>
+<section id="exporting-crs-to-cf">
+<h2>Exporting CRS to CF<a class="headerlink" href="#exporting-crs-to-cf" title="Permalink to this heading">#</a></h2>
+<p>When exporting a CRS to the Climate and Forecast (CF) conventions,
+you need both the grid mapping as well as the coordinate system.
+If you don’t use the coordinate system, then you will lose the units
+of your projection.</p>
+<p>In this example, this is the CRS we will use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+
+<span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To get the grid mapping you use <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_cf()</span></code></a>:</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cf_grid_mapping</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Contents of <cite>cf_grid_mapping</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;crs_wkt&#39;</span><span class="p">:</span> <span class="s1">&#39;GEOGCRS[&quot;WGS 84&quot;,DATUM[&quot;World Geodetic System &#39;</span>
+            <span class="o">....</span><span class="p">,</span><span class="n">ID</span><span class="p">[</span><span class="s2">&quot;EPSG&quot;</span><span class="p">,</span><span class="mi">4326</span><span class="p">]]</span><span class="s1">&#39;,</span>
+<span class="s1">&#39;geographic_crs_name&#39;</span><span class="p">:</span> <span class="s1">&#39;WGS 84&#39;</span><span class="p">,</span>
+<span class="s1">&#39;grid_mapping_name&#39;</span><span class="p">:</span> <span class="s1">&#39;latitude_longitude&#39;</span><span class="p">,</span>
+<span class="s1">&#39;inverse_flattening&#39;</span><span class="p">:</span> <span class="mf">298.257223563</span><span class="p">,</span>
+<span class="s1">&#39;longitude_of_prime_meridian&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="s1">&#39;prime_meridian_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Greenwich&#39;</span><span class="p">,</span>
+<span class="s1">&#39;reference_ellipsoid_name&#39;</span><span class="p">:</span> <span class="s1">&#39;WGS 84&#39;</span><span class="p">,</span>
+<span class="s1">&#39;semi_major_axis&#39;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span>
+<span class="s1">&#39;semi_minor_axis&#39;</span><span class="p">:</span> <span class="mf">6356752.314245179</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>To get the coordinate system, you use <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.cs_to_cf" title="pyproj.crs.CRS.cs_to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.cs_to_cf()</span></code></a>:</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cf_coordinate_system</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">cs_to_cf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Contents of <cite>cf_coordinate_system</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;geodetic latitude coordinate&#39;</span><span class="p">,</span>
+<span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span>
+<span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;degrees_north&#39;</span><span class="p">,</span>
+<span class="s1">&#39;axis&#39;</span><span class="p">:</span> <span class="s1">&#39;Y&#39;</span><span class="p">},</span>
+<span class="p">{</span><span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;geodetic longitude coordinate&#39;</span><span class="p">,</span>
+<span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span>
+<span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;degrees_east&#39;</span><span class="p">,</span>
+<span class="s1">&#39;axis&#39;</span><span class="p">:</span> <span class="s1">&#39;X&#39;</span><span class="p">}]</span>
+</pre></div>
+</div>
+</section>
+<section id="importing-crs-from-cf">
+<h2>Importing CRS from CF<a class="headerlink" href="#importing-crs-from-cf" title="Permalink to this heading">#</a></h2>
+<p>When importing a CRS from the Climate and Forecast (CF) conventions,
+you need both the grid mapping as well as the coordinate system.
+If you don’t use the coordinate system, then you will lose the units
+of your projection.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the CF <cite>crs_wkt</cite> attribute is available, the coordinate system is
+inside of the WKT and can be used to create the CRS in a single step.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If building from grid mapping, be mindful of the axis order. <a class="reference external" href="https://github.com/cf-convention/cf-conventions/pull/224">https://github.com/cf-convention/cf-conventions/pull/224</a></p>
+</div>
+<section id="build-the-crs-from-cf-grid-mapping">
+<h3>Build the CRS from CF grid mapping:<a class="headerlink" href="#build-the-crs-from-cf-grid-mapping" title="Permalink to this heading">#</a></h3>
+<p>In this example, this is the grid mapping and coordinate system we will use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variables</span><span class="p">:</span>
+  <span class="n">double</span> <span class="n">x</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">;</span>
+    <span class="n">x</span><span class="p">:</span><span class="n">standard_name</span> <span class="o">=</span> <span class="s2">&quot;projection_x_coordinate&quot;</span> <span class="p">;</span>
+    <span class="n">x</span><span class="p">:</span><span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Easting&quot;</span> <span class="p">;</span>
+    <span class="n">x</span><span class="p">:</span><span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span> <span class="p">;</span>
+  <span class="n">double</span> <span class="n">y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">;</span>
+    <span class="n">y</span><span class="p">:</span><span class="n">standard_name</span> <span class="o">=</span> <span class="s2">&quot;projection_y_coordinate&quot;</span> <span class="p">;</span>
+    <span class="n">y</span><span class="p">:</span><span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Northing&quot;</span> <span class="p">;</span>
+    <span class="n">y</span><span class="p">:</span><span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span> <span class="p">;</span>
+  <span class="nb">int</span> <span class="n">crsOSGB</span> <span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">grid_mapping_name</span> <span class="o">=</span> <span class="s2">&quot;transverse_mercator&quot;</span><span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">semi_major_axis</span> <span class="o">=</span> <span class="mf">6377563.396</span> <span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">inverse_flattening</span> <span class="o">=</span> <span class="mf">299.3249646</span> <span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">longitude_of_prime_meridian</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">latitude_of_projection_origin</span> <span class="o">=</span> <span class="mf">49.0</span> <span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">longitude_of_central_meridian</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">scale_factor_at_central_meridian</span> <span class="o">=</span> <span class="mf">0.9996012717</span> <span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">false_easting</span> <span class="o">=</span> <span class="mf">400000.0</span> <span class="p">;</span>
+    <span class="n">crsOSGB</span><span class="p">:</span><span class="n">false_northing</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100000.0</span> <span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the units are meters as in this example,
+then no further changes are necessary.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+
+<span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_cf</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;grid_mapping_name&quot;</span><span class="p">:</span> <span class="s2">&quot;transverse_mercator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;semi_major_axis&quot;</span><span class="p">:</span> <span class="mf">6377563.396</span><span class="p">,</span>
+        <span class="s2">&quot;inverse_flattening&quot;</span><span class="p">:</span> <span class="mf">299.3249646</span><span class="p">,</span>
+        <span class="s2">&quot;longitude_of_prime_meridian&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;latitude_of_projection_origin&quot;</span><span class="p">:</span> <span class="mf">49.0</span><span class="p">,</span>
+        <span class="s2">&quot;longitude_of_central_meridian&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span>
+        <span class="s2">&quot;scale_factor_at_central_meridian&quot;</span><span class="p">:</span> <span class="mf">0.9996012717</span><span class="p">,</span>
+        <span class="s2">&quot;false_easting&quot;</span><span class="p">:</span> <span class="mf">400000.0</span><span class="p">,</span>
+        <span class="s2">&quot;false_northing&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">100000.0</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="modify-the-crs-with-coordinate-system">
+<h3>Modify the CRS with coordinate system:<a class="headerlink" href="#modify-the-crs-with-coordinate-system" title="Permalink to this heading">#</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the CF <cite>crs_wkt</cite> attribute is available, the coordinate system is
+inside of the WKT and can be used to create the CRS in a single step.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Be mindful of the axis order. <a class="reference external" href="https://github.com/cf-convention/cf-conventions/pull/224">https://github.com/cf-convention/cf-conventions/pull/224</a></p>
+</div>
+<p>In this example, assume everything is the same as above.
+However, the units are instead <cite>US_Survey_Foot</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variables</span><span class="p">:</span>
+  <span class="n">double</span> <span class="n">x</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">;</span>
+    <span class="n">x</span><span class="p">:</span><span class="n">standard_name</span> <span class="o">=</span> <span class="s2">&quot;projection_x_coordinate&quot;</span> <span class="p">;</span>
+    <span class="n">x</span><span class="p">:</span><span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Easting&quot;</span> <span class="p">;</span>
+    <span class="n">x</span><span class="p">:</span><span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;US_Survey_Foot&quot;</span> <span class="p">;</span>
+  <span class="n">double</span> <span class="n">y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">;</span>
+    <span class="n">y</span><span class="p">:</span><span class="n">standard_name</span> <span class="o">=</span> <span class="s2">&quot;projection_y_coordinate&quot;</span> <span class="p">;</span>
+    <span class="n">y</span><span class="p">:</span><span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Northing&quot;</span> <span class="p">;</span>
+    <span class="n">y</span><span class="p">:</span><span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;US_Survey_Foot&quot;</span> <span class="p">;</span>
+  <span class="o">...</span>
+</pre></div>
+</div>
+<p>In this case, you will need to get the unit conversion factor:</p>
+<p><a class="reference external" href="https://github.com/SciTools/cf-units">https://github.com/SciTools/cf-units</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cf_units</span> <span class="kn">import</span> <span class="n">Unit</span>
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+
+<span class="n">cf_unit</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;US_Survey_Foot&quot;</span><span class="p">)</span>
+<span class="n">unit</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;LinearUnit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;US Survey Foot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;conversion_factor&quot;</span><span class="p">:</span> <span class="n">cf_unit</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">cartesian_cs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;CoordinateSystem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;subtype&quot;</span><span class="p">:</span> <span class="s2">&quot;Cartesian&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;axis&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Easting&quot;</span><span class="p">,</span> <span class="s2">&quot;abbreviation&quot;</span><span class="p">:</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;east&quot;</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Northing&quot;</span><span class="p">,</span> <span class="s2">&quot;abbreviation&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;north&quot;</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">},</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+<span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_cf</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;grid_mapping_name&quot;</span><span class="p">:</span> <span class="s2">&quot;transverse_mercator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;semi_major_axis&quot;</span><span class="p">:</span> <span class="mf">6377563.396</span><span class="p">,</span>
+        <span class="s2">&quot;inverse_flattening&quot;</span><span class="p">:</span> <span class="mf">299.3249646</span><span class="p">,</span>
+        <span class="s2">&quot;longitude_of_prime_meridian&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;latitude_of_projection_origin&quot;</span><span class="p">:</span> <span class="mf">49.0</span><span class="p">,</span>
+        <span class="s2">&quot;longitude_of_central_meridian&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span>
+        <span class="s2">&quot;scale_factor_at_central_meridian&quot;</span><span class="p">:</span> <span class="mf">0.9996012717</span><span class="p">,</span>
+        <span class="s2">&quot;false_easting&quot;</span><span class="p">:</span> <span class="mf">400000.0</span><span class="p">,</span>
+        <span class="s2">&quot;false_northing&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">100000.0</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">cartesian_cs</span><span class="o">=</span><span class="n">cartesian_cs</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="crs_compatibility.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">CRS Compatibility Guide for Geospatial Python</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="build_crs.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Building a Coordinate Reference System</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2022, Open source contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Managing CRS to and from CF</a><ul>
+<li><a class="reference internal" href="#exporting-crs-to-cf">Exporting CRS to CF</a></li>
+<li><a class="reference internal" href="#importing-crs-from-cf">Importing CRS from CF</a><ul>
+<li><a class="reference internal" href="#build-the-crs-from-cf-grid-mapping">Build the CRS from CF grid mapping:</a></li>
+<li><a class="reference internal" href="#modify-the-crs-with-coordinate-system">Modify the CRS with coordinate system:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>
