@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+Latest
+------
+
 3.4.1
 -----
 - WHL: Add win32 to build_wheels matrix (pull #1169)
