@@ -789,6 +789,22 @@ class Transformer:
         '33  98'
 
         """
+        if inplace and getattr(xx, "typecode", "") == "d":
+            self._transformer._transform(
+                xx,
+                yy,
+                inz=zz,
+                intime=tt,
+                direction=direction,
+                radians=radians,
+                errcheck=errcheck,
+            )
+            out = (xx, yy)
+            if zz is not None:
+                out += (zz,)
+            if tt is not None:
+                out += (tt,)
+            return out
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(xx, inplace=inplace)
         iny, y_data_type = _copytobuffer(yy, inplace=inplace)

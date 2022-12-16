@@ -298,6 +298,9 @@ class Geod(_Geod):
         scalar or array:
             Back azimuth(s)
         """
+        if inplace:
+            self._fwd(lons, lats, az, dist, radians=radians)
+            return lons, lats, az
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(lons, inplace=inplace)
         iny, y_data_type = _copytobuffer(lats, inplace=inplace)
@@ -368,6 +371,9 @@ class Geod(_Geod):
             Distance(s) between initial and terminus point(s)
             in meters
         """
+        if inplace:
+            self._inv(lons1, lats1, lons2, lats2, radians=radians)
+            return lons1, lats1, lons2
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(lons1, inplace=inplace)
         iny, y_data_type = _copytobuffer(lats1, inplace=inplace)
