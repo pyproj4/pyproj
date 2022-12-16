@@ -658,6 +658,24 @@ def test_geod_inv_honours_input_types(lons1, lats1, lons2):
     assert isinstance(outz, type(lons2))
 
 
+def test_geod_fwd_inv_inplace():
+    gg = Geod(ellps="clrk66")
+    lon1pt = np.array([0], dtype=np.float64)
+    lat1pt = np.array([0], dtype=np.float64)
+    lon2pt = np.array([1], dtype=np.float64)
+    lat2pt = np.array([1], dtype=np.float64)
+
+    az12, az21, dist = gg.inv(lon1pt, lat1pt, lon2pt, lat2pt, inplace=True)
+    assert az12 is lon1pt
+    assert az21 is lat1pt
+    assert dist is lon2pt
+
+    endlon, endlat, backaz = gg.fwd(lon1pt, lat1pt, az12, dist, inplace=True)
+    assert endlon is lon1pt
+    assert endlat is lat1pt
+    assert backaz is az12
+
+
 @pytest.mark.parametrize("kwarg", ["b", "f", "es", "rf", "e"])
 def test_geod__build_kwargs(kwarg):
     gg = Geod(ellps="clrk66")
