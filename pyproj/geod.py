@@ -240,7 +240,13 @@ class Geod(_Geod):
         )
 
     def fwd(  # pylint: disable=invalid-name
-        self, lons: Any, lats: Any, az: Any, dist: Any, radians: bool = False
+        self,
+        lons: Any,
+        lats: Any,
+        az: Any,
+        dist: Any,
+        radians: bool = False,
+        inplace: bool = False,
     ) -> Tuple[Any, Any, Any]:
         """
         Forward transformation
@@ -248,6 +254,8 @@ class Geod(_Geod):
         Determine longitudes, latitudes and back azimuths of terminus
         points given longitudes and latitudes of initial points,
         plus forward azimuths and distances.
+
+        .. versionadded:: 3.5.0 inplace
 
         Accepted numeric scalar or array:
 
@@ -276,6 +284,10 @@ class Geod(_Geod):
         radians: bool, default=False
             If True, the input data is assumed to be in radians.
             Otherwise, the data is assumed to be in degrees.
+        inplace: bool, default=False
+            If True, will attempt to write the results to the input array
+            instead of returning a new array. This will fail if the input
+            is not an array in C order with the double data type.
 
         Returns
         -------
@@ -287,10 +299,10 @@ class Geod(_Geod):
             Back azimuth(s)
         """
         # process inputs, making copies that support buffer API.
-        inx, x_data_type = _copytobuffer(lons)
-        iny, y_data_type = _copytobuffer(lats)
-        inz, z_data_type = _copytobuffer(az)
-        ind = _copytobuffer(dist)[0]
+        inx, x_data_type = _copytobuffer(lons, inplace=inplace)
+        iny, y_data_type = _copytobuffer(lats, inplace=inplace)
+        inz, z_data_type = _copytobuffer(az, inplace=inplace)
+        ind = _copytobuffer(dist, inplace=inplace)[0]
         self._fwd(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(x_data_type, inx)
@@ -305,12 +317,15 @@ class Geod(_Geod):
         lons2: Any,
         lats2: Any,
         radians: bool = False,
+        inplace: bool = False,
     ) -> Tuple[Any, Any, Any]:
         """
         Inverse transformation
 
         Determine forward and back azimuths, plus distances
         between initial points and terminus points.
+
+        .. versionadded:: 3.5.0 inplace
 
         Accepted numeric scalar or array:
 
@@ -338,6 +353,10 @@ class Geod(_Geod):
         radians: bool, default=False
             If True, the input data is assumed to be in radians.
             Otherwise, the data is assumed to be in degrees.
+        inplace: bool, default=False
+            If True, will attempt to write the results to the input array
+            instead of returning a new array. This will fail if the input
+            is not an array in C order with the double data type.
 
         Returns
         -------
@@ -350,10 +369,10 @@ class Geod(_Geod):
             in meters
         """
         # process inputs, making copies that support buffer API.
-        inx, x_data_type = _copytobuffer(lons1)
-        iny, y_data_type = _copytobuffer(lats1)
-        inz, z_data_type = _copytobuffer(lons2)
-        ind = _copytobuffer(lats2)[0]
+        inx, x_data_type = _copytobuffer(lons1, inplace=inplace)
+        iny, y_data_type = _copytobuffer(lats1, inplace=inplace)
+        inz, z_data_type = _copytobuffer(lons2, inplace=inplace)
+        ind = _copytobuffer(lats2, inplace=inplace)[0]
         self._inv(inx, iny, inz, ind, radians=radians)
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(x_data_type, inx)
