@@ -470,7 +470,13 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">az</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dist</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">az</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">dist</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Forward transformation</span>
@@ -478,6 +484,8 @@
 <span class="sd">        Determine longitudes, latitudes and back azimuths of terminus</span>
 <span class="sd">        points given longitudes and latitudes of initial points,</span>
 <span class="sd">        plus forward azimuths and distances.</span>
+
+<span class="sd">        .. versionadded:: 3.5.0 inplace</span>
 
 <span class="sd">        Accepted numeric scalar or array:</span>
 
@@ -506,6 +514,10 @@
 <span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
 <span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
+<span class="sd">        inplace: bool, default=False</span>
+<span class="sd">            If True, will attempt to write the results to the input array</span>
+<span class="sd">            instead of returning a new array. This will fail if the input</span>
+<span class="sd">            is not an array in C order with the double data type.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -517,10 +529,10 @@
 <span class="sd">            Back azimuth(s)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)</span>
-        <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
-        <span class="n">ind</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">dist</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+        <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">az</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
         <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
@@ -535,12 +547,15 @@
         <span class="n">lons2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">lats2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Inverse transformation</span>
 
 <span class="sd">        Determine forward and back azimuths, plus distances</span>
 <span class="sd">        between initial points and terminus points.</span>
+
+<span class="sd">        .. versionadded:: 3.5.0 inplace</span>
 
 <span class="sd">        Accepted numeric scalar or array:</span>
 
@@ -568,6 +583,10 @@
 <span class="sd">        radians: bool, default=False</span>
 <span class="sd">            If True, the input data is assumed to be in radians.</span>
 <span class="sd">            Otherwise, the data is assumed to be in degrees.</span>
+<span class="sd">        inplace: bool, default=False</span>
+<span class="sd">            If True, will attempt to write the results to the input array</span>
+<span class="sd">            instead of returning a new array. This will fail if the input</span>
+<span class="sd">            is not an array in C order with the double data type.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -580,10 +599,10 @@
 <span class="sd">            in meters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
-        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">)</span>
-        <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">)</span>
-        <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons2</span><span class="p">)</span>
-        <span class="n">ind</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+        <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+        <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
         <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
