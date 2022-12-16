@@ -17,6 +17,7 @@ __all__ = [
 ]
 
 import math
+from array import array
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pyproj._geod import Geod as _Geod
@@ -310,6 +311,61 @@ class Geod(_Geod):
         outz = _convertback(z_data_type, inz)
         return outx, outy, outz
 
+    def fwd_point(  # pylint: disable=invalid-name
+        self,
+        lon: float,
+        lat: float,
+        az: float,
+        dist: float,
+        radians: bool = False,
+    ) -> Tuple[float, float, float]:
+        """
+        Forward transformation
+
+        Determine longitude, latitude and back azimuth of terminus
+        point given longitude and latitude of initial point,
+        plus forward azimuth and distance.
+
+        Accepted numeric scalar:
+
+        - :class:`int`
+        - :class:`float`
+        - :class:`numpy.floating`
+        - :class:`numpy.integer`
+
+        Parameters
+        ----------
+        lon: scalar
+            Longitude of initial point
+        lat: scalar
+            Latitude of initial point
+        az: scalar
+            Forward azimuth
+        dist: scalar
+            Distance between initial and terminus point
+            in meters
+        radians: bool, default=False
+            If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
+
+        Returns
+        -------
+        scalar:
+            Longitude of terminus point
+        scalar:
+            Latitude of terminus point
+        scalar:
+            Back azimuth
+        """
+        # process inputs, making copies that support buffer API.
+        lons = array("d", (float(lon),))
+        lats = array("d", (float(lat),))
+        azs = array("d", (float(az),))
+        dists = array("d", (float(dist),))
+        self._fwd(lons, lats, azs, dists, radians=radians)
+        # Output was computed inplace
+        return lons[0], lats[0], azs[0]
+
     def inv(
         self,
         lons1: Any,
@@ -379,6 +435,59 @@ class Geod(_Geod):
         outy = _convertback(y_data_type, iny)
         outz = _convertback(z_data_type, inz)
         return outx, outy, outz
+
+    def inv_point(
+        self,
+        lon1: float,
+        lat1: float,
+        lon2: float,
+        lat2: float,
+        radians: bool = False,
+    ) -> Tuple[float, float, float]:
+        """
+        Inverse transformation
+
+        Determine forward and back azimuth, plus distance
+        between initial point and terminus point.
+
+        Accepted numeric scalar or array:
+
+        - :class:`int`
+        - :class:`float`
+        - :class:`numpy.floating`
+        - :class:`numpy.integer`
+
+        Parameters
+        ----------
+        lon1: scalar
+            Longitude of initial point
+        lat1: scalar
+            Latitude of initial point
+        lon2: scalar
+            Longitude of terminus point
+        lat2: scalar
+            Latitude of terminus point
+        radians: bool, default=False
+            If True, the input data is assumed to be in radians.
+            Otherwise, the data is assumed to be in degrees.
+
+        Returns
+        -------
+        scalar:
+            Forward azimuth
+        scalar:
+            Back azimuth
+        scalar:
+            Distance between initial and terminus point in meters
+        """
+        # process inputs, making copies that support buffer API.
+        lon1s = array("d", (float(lon1),))
+        lat1s = array("d", (float(lat1),))
+        lon2s = array("d", (float(lon2),))
+        lat2s = array("d", (float(lat2),))
+        self._inv(lon1s, lat1s, lon2s, lat2s, radians=radians)
+        # Output was computed inplace
+        return lon1s[0], lat1s[0], lon2s[0]
 
     def npts(
         self,

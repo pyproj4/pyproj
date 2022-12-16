@@ -1,6 +1,7 @@
 """
 The transformer module is for performing cartographic transformations.
 """
+# pylint: disable=too-many-lines
 __all__ = [
     "transform",
     "itransform",
@@ -819,6 +820,108 @@ class Transformer:
         if intime is not None:
             return_data += (_convertback(t_data_type, intime),)
         return return_data
+
+    @overload
+    def transform_point(  # pylint: disable=invalid-name
+        self,
+        x: float,
+        y: float,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Tuple[float, float]:
+        ...
+
+    @overload
+    def transform_point(  # pylint: disable=invalid-name
+        self,
+        x: float,
+        y: float,
+        z: float,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Tuple[float, float, float]:
+        ...
+
+    @overload
+    def transform_point(  # pylint: disable=invalid-name
+        self,
+        x: float,
+        y: float,
+        z: float,
+        t: float,
+        radians: bool = False,
+        errcheck: bool = False,
+        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+    ) -> Tuple[float, float, float, float]:
+        ...
+
+    def transform_point(  # pylint: disable=invalid-name
+        self,
+        x,
+        y,
+        z=None,
+        t=None,
+        radians=False,
+        errcheck=False,
+        direction=TransformDirection.FORWARD,
+    ):
+        """
+        Transform a single point between two coordinate systems.
+
+        See: :c:func:`proj_trans_generic`
+
+        Accepted numeric scalar or array:
+
+        - :class:`int`
+        - :class:`float`
+        - :class:`numpy.floating`
+        - :class:`numpy.integer`
+
+        Parameters
+        ----------
+        x: scalar
+            Input x coordinate.
+        y: scalar
+            Input y coordinate.
+        z: scalar, optional
+            Input z coordinate.
+        t: scalar, optional
+            Input time coordinate.
+        radians: bool, default=False
+            If True, will expect input data to be in radians and will return radians
+            if the projection is geographic. Otherwise, it uses degrees.
+        errcheck: bool, default=False
+            If True, an exception is raised if the errors are found in the process.
+            If False, ``inf`` is returned for errors.
+        direction: pyproj.enums.TransformDirection, optional
+            The direction of the transform.
+            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
+        """
+        # process inputs, making copies that support buffer API.
+        x = array("d", (float(x),))
+        y = array("d", (float(y),))
+        if z is not None:
+            z = array("d", (float(z),))
+        if t is not None:
+            t = array("d", (float(t),))
+        # call pj_transform.  xx, yy, zz buffers modified in place.
+        self._transformer._transform(
+            x,
+            y,
+            inz=z,
+            intime=t,
+            direction=direction,
+            radians=radians,
+            errcheck=errcheck,
+        )
+        out = (x[0], y[0])
+        if z is not None:
+            out += (z[0],)
+        if t is not None:
+            out += (t[0],)
+        return out
 
     def itransform(
         self,

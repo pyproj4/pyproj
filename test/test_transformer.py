@@ -1505,6 +1505,17 @@ def test_4d_transform__inplace__numpy__int():
     assert tarr[0] == 2019
 
 
+@pytest.mark.parametrize("z,t", [(None, None), (None, 0), (0, None)])
+def test_transform_single_point(z, t):
+    transformer = Transformer.from_crs(7789, 8401)
+    x = 0
+    y = 0
+    assert_almost_equal(
+        transformer.transform(xx=x, yy=y, zz=z, tt=t),
+        transformer.transform_point(x=x, y=y, z=z, t=t),
+    )
+
+
 def test_transformer_source_target_crs():
     transformer = Transformer.from_crs("EPSG:4326", "EPSG:4258")
     assert transformer.source_crs == "EPSG:4326"

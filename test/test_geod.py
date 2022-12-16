@@ -327,6 +327,23 @@ def test_geod_cities():
     assert_almost_equal((az12, az21, dist), (-66.531, 75.654, 4164192.708), decimal=3)
 
 
+@pytest.mark.parametrize("radians", [(True, False)])
+def test_geod_singlepoint(radians):
+    x1 = 0
+    y1 = 0
+    x2 = 1
+    y2 = 1
+    g1 = Geod(ellps="clrk66")
+    assert_almost_equal(
+        g1.fwd(x1, y1, x2, y2, radians=radians),
+        g1.fwd_point(x1, y1, x2, y2, radians=radians),
+    )
+    assert_almost_equal(
+        g1.inv(x1, y1, x2, y2, radians=radians),
+        g1.inv_point(x1, y1, x2, y2, radians=radians),
+    )
+
+
 def test_line_length__single_point():
     geod = Geod(ellps="WGS84")
     assert geod.line_length(1, 1) == 0
