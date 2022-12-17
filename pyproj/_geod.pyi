@@ -31,6 +31,15 @@ class Geod:
         radians: bool = False,
         return_back_azimuth: bool = True,
     ) -> None: ...
+    def _fwd_point(
+        self,
+        lons: float,
+        lats: float,
+        az: float,
+        dist: float,
+        radians: bool = False,
+        return_back_azimuth: bool = True,
+    ) -> Tuple[float, float, float]: ...
     def _inv(
         self,
         lons1: Any,
@@ -40,6 +49,15 @@ class Geod:
         radians: bool = False,
         return_back_azimuth: bool = False,
     ) -> None: ...
+    def _inv_point(
+        self,
+        lons1: float,
+        lats1: float,
+        lons2: float,
+        lats2: float,
+        radians: bool = False,
+        return_back_azimuth: bool = False,
+    ) -> Tuple[float, float, float]: ...
     def _inv_or_fwd_intermediate(
         self,
         lon1: float,

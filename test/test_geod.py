@@ -678,6 +678,51 @@ def test_geod_fwd_honours_input_types(lon, lat, az):
     assert isinstance(outz, type(az))
 
 
+def test_geod_fwd_radians():
+    g = Geod(ellps="clrk66")
+    lon1 = 1
+    lat1 = 1
+    az1 = 1
+    dist = 1
+    assert_almost_equal(
+        np.rad2deg(g.fwd(lon1, lat1, az1, dist, radians=True)),
+        g.fwd(lon1 * 180 / np.pi, lat1 * 180 / np.pi, az1 * 180 / np.pi, dist),
+    )
+
+
+def test_geod_inv_radians():
+    g = Geod(ellps="clrk66")
+    lon1 = 0
+    lat1 = 0
+    lon2 = 1
+    lat2 = 1
+    # the third output is in distance, so we don't want to change from deg-rad there
+    out_rad = list(g.inv(lon1, lat1, lon2, lat2, radians=True))
+    out_rad[0] *= 180 / np.pi
+    out_rad[1] *= 180 / np.pi
+    assert_almost_equal(
+        out_rad,
+        g.inv(
+            lon1 * 180 / np.pi,
+            lat1 * 180 / np.pi,
+            lon2 * 180 / np.pi,
+            lat2 * 180 / np.pi,
+        ),
+    )
+
+
+@pytest.mark.parametrize("func_name", ("fwd", "inv"))
+@pytest.mark.parametrize("radians", (True, False))
+def test_geod_scalar_array(func_name, radians):
+    # verify two singlepoint calculations match an array of length two
+    g = Geod(ellps="clrk66")
+    func = getattr(g, func_name)
+    assert_almost_equal(
+        np.transpose([func(0, 0, 1, 1, radians=radians) for i in range(2)]),
+        func([0, 0], [0, 0], [1, 1], [1, 1], radians=radians),
+    )
+
+
 @pytest.mark.parametrize(
     "lons1,lats1,lons2", permutations([10.0, [10.0], (10.0,)])
 )  # 6 test cases
