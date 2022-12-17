@@ -27,6 +27,19 @@ from test.conftest import (
 )
 
 
+@pytest.fixture(
+    params=[
+        "transform",
+        "transform_point",
+    ]
+)
+def transform_point_method(request):
+    """
+    Test both Transformer.transform and Transformer.transform_point
+    """
+    return request.param
+
+
 def test_tranform_wgs84_to_custom():
     custom_proj = pyproj.Proj(
         "+proj=geos +lon_0=0.000000 +lat_0=0 +h=35807.414063"
@@ -85,28 +98,30 @@ def test_lambert_conformal_transform():
     assert_almost_equal((Long1, Lat1, H1), (-4.6753456, 32.902199, 1341.467), decimal=5)
 
 
-def test_4d_transform():
+def test_4d_transform(transform_point_method):
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_almost_equal(
-        transformer.transform(
+        getattr(transformer, transform_point_method)(
             xx=3513638.19380, yy=778956.45250, zz=5248216.46900, tt=2008.75
         ),
         (3513638.1999428216, 778956.4532640711, 5248216.453456361, 2008.75),
     )
 
 
-def test_2d_with_time_transform():
+def test_2d_with_time_transform(transform_point_method):
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_almost_equal(
-        transformer.transform(xx=3513638.19380, yy=778956.45250, tt=2008.75),
+        getattr(transformer, transform_point_method)(
+            xx=3513638.19380, yy=778956.45250, tt=2008.75
+        ),
         (3513638.1999428216, 778956.4532640711, 2008.75),
     )
 
 
-def test_4d_transform_crs_obs1():
+def test_4d_transform_crs_obs1(transform_point_method):
     transformer = Transformer.from_proj(7789, 8401)
     assert_almost_equal(
-        transformer.transform(
+        getattr(transformer, transform_point_method)(
             xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0
         ),
         (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0),
@@ -123,20 +138,22 @@ def test_4d_transform_orginal_crs_obs1():
         )
 
 
-def test_4d_transform_crs_obs2():
+def test_4d_transform_crs_obs2(transform_point_method):
     transformer = Transformer.from_proj(4896, 7930)
     assert_almost_equal(
-        transformer.transform(
+        getattr(transformer, transform_point_method)(
             xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0
         ),
         (3496737.7857162016, 743254.0394113371, 5264462.643659916, 2019.0),
     )
 
 
-def test_2d_with_time_transform_crs_obs2():
+def test_2d_with_time_transform_crs_obs2(transform_point_method):
     transformer = Transformer.from_proj(4896, 7930)
     assert_almost_equal(
-        transformer.transform(xx=3496737.2679, yy=743254.4507, tt=2019.0),
+        getattr(transformer, transform_point_method)(
+            xx=3496737.2679, yy=743254.4507, tt=2019.0
+        ),
         (3496737.4105305015, 743254.1014318303, 2019.0),
     )
 
@@ -240,11 +257,11 @@ def test_transform_no_exception():
     transformer.itransform([(1.716073972, 52.658007833)], errcheck=True)
 
 
-def test_transform__out_of_bounds():
+def test_transform__out_of_bounds(transform_point_method):
     with pytest.warns(FutureWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
     with pytest.raises(pyproj.exceptions.ProjError):
-        transformer.transform(100000, 100000, errcheck=True)
+        getattr(transformer, transform_point_method)(100000, 100000, errcheck=True)
 
 
 def test_transform_radians():
@@ -302,10 +319,10 @@ def test_itransform_radians():
         )
 
 
-def test_4d_transform__inverse():
+def test_4d_transform__inverse(transform_point_method):
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_almost_equal(
-        transformer.transform(
+        getattr(transformer, transform_point_method)(
             xx=3513638.1999428216,
             yy=778956.4532640711,
             zz=5248216.453456361,
@@ -316,12 +333,12 @@ def test_4d_transform__inverse():
     )
 
 
-def test_transform_direction():
+def test_transform_direction(transform_point_method):
     forward_transformer = Transformer.from_crs(4326, 3857)
     inverse_transformer = Transformer.from_crs(3857, 4326)
-    assert inverse_transformer.transform(
+    assert getattr(inverse_transformer, transform_point_method)(
         -33, 24, direction=TransformDirection.INVERSE
-    ) == forward_transformer.transform(-33, 24)
+    ) == getattr(forward_transformer, transform_point_method)(-33, 24)
     ident_transformer = Transformer.from_crs(4326, 3857)
     ident_transformer.transform(-33, 24, direction=TransformDirection.IDENT) == (
         -33,
@@ -329,10 +346,10 @@ def test_transform_direction():
     )
 
 
-def test_always_xy__transformer():
+def test_always_xy__transformer(transform_point_method):
     transformer = Transformer.from_crs(2193, 4326, always_xy=True)
     assert_almost_equal(
-        transformer.transform(1625350, 5504853),
+        getattr(transformer, transform_point_method)(1625350, 5504853),
         (173.29964730317386, -40.60674802693758),
     )
 
@@ -370,30 +387,34 @@ def test_transform_empty_array_xyzt(empty_array):
     )
 
 
-def test_transform_direction__string():
+def test_transform_direction__string(transform_point_method):
     forward_transformer = Transformer.from_crs(4326, 3857)
     inverse_transformer = Transformer.from_crs(3857, 4326)
-    assert inverse_transformer.transform(
+    assert getattr(inverse_transformer, transform_point_method)(
         -33, 24, direction="INVERSE"
-    ) == forward_transformer.transform(-33, 24, direction="FORWARD")
+    ) == getattr(forward_transformer, transform_point_method)(
+        -33, 24, direction="FORWARD"
+    )
     ident_transformer = Transformer.from_crs(4326, 3857)
     ident_transformer.transform(-33, 24, direction="IDENT") == (-33, 24)
 
 
-def test_transform_direction__string_lowercase():
+def test_transform_direction__string_lowercase(transform_point_method):
     forward_transformer = Transformer.from_crs(4326, 3857)
     inverse_transformer = Transformer.from_crs(3857, 4326)
-    assert inverse_transformer.transform(
+    assert getattr(inverse_transformer, transform_point_method)(
         -33, 24, direction="inverse"
-    ) == forward_transformer.transform(-33, 24, direction="forward")
+    ) == getattr(forward_transformer, transform_point_method)(
+        -33, 24, direction="forward"
+    )
     ident_transformer = Transformer.from_crs(4326, 3857)
     ident_transformer.transform(-33, 24, direction="ident") == (-33, 24)
 
 
-def test_transform_direction__invalid():
+def test_transform_direction__invalid(transform_point_method):
     transformer = Transformer.from_crs(4326, 3857)
     with pytest.raises(ValueError, match="Invalid value"):
-        transformer.transform(-33, 24, direction="WHEREVER")
+        getattr(transformer, transform_point_method)(-33, 24, direction="WHEREVER")
 
 
 def test_from_pipeline__non_transform_input():

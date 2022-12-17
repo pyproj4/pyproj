@@ -720,6 +720,58 @@ cdef class _Transformer(Base):
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
+    def _transform_point(
+        self,
+        double inx,
+        double iny,
+        double inz,
+        double intime,
+        object direction,
+        bint radians,
+        bint errcheck,
+    ):
+        if self.id == "noop":
+            return inx, iny, inz, intime
+
+        cdef PJ_DIRECTION pj_direction = get_pj_direction(direction)
+        cdef PJ_COORD projxyout
+        cdef PJ_COORD projxyin = proj_coord(inx, iny, inz, intime)
+        with nogil:
+            # degrees to radians
+            if not radians and proj_angular_input(self.projobj, pj_direction):
+                projxyin.uv.u *= _DG2RAD
+                projxyin.uv.v *= _DG2RAD
+            # radians to degrees
+            elif radians and proj_degree_input(self.projobj, pj_direction):
+                projxyin.uv.u *= _RAD2DG
+                projxyin.uv.v *= _RAD2DG
+
+            proj_errno_reset(self.projobj)
+            projxyout = proj_trans(self.projobj, pj_direction, projxyin)
+            errno = proj_errno(self.projobj)
+            if errcheck and errno:
+                with gil:
+                    raise ProjError(
+                        f"transform error: {proj_context_errno_string(self.context, errno)}"
+                    )
+            elif errcheck:
+                with gil:
+                    if ProjError.internal_proj_error is not None:
+                        raise ProjError("transform error")
+
+            # radians to degrees
+            if not radians and proj_angular_output(self.projobj, pj_direction):
+                projxyout.xy.x *= _RAD2DG
+                projxyout.xy.y *= _RAD2DG
+            # degrees to radians
+            elif radians and proj_degree_output(self.projobj, pj_direction):
+                projxyout.xy.x *= _DG2RAD
+                projxyout.xy.y *= _DG2RAD
+        ProjError.clear()
+        return projxyout.xyzt.x, projxyout.xyzt.y, projxyout.xyzt.z, projxyout.xyzt.t
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
     def _transform_sequence(
         self,
         Py_ssize_t stride,

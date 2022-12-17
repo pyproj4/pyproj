@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- ENH: Added :meth:`.Transformer.transform_point` (pull #1204)
 
 3.5.0
 -----

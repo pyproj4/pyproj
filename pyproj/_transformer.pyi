@@ -1,3 +1,4 @@
+import numbers
 from array import array
 from typing import Any, List, NamedTuple, Optional, Tuple, Union
 
@@ -92,6 +93,16 @@ class _Transformer(Base):
         iny: Any,
         inz: Any,
         intime: Any,
+        direction: Union[TransformDirection, str],
+        radians: bool,
+        errcheck: bool,
+    ) -> None: ...
+    def _transform_point(
+        self,
+        inx: numbers.Real,
+        iny: numbers.Real,
+        inz: numbers.Real,
+        intime: numbers.Real,
         direction: Union[TransformDirection, str],
         radians: bool,
         errcheck: bool,
