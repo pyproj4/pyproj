@@ -104,6 +104,16 @@ dy_dphi: List[float]
     Partial derivative of coordinate.
 """
 
+cdef PJ_DIRECTION get_pj_direction(object direction) except *:
+    # optimized lookup to avoid creating a new instance every time
+    # gh-1205
+    try:
+         return _PJ_DIRECTION_MAP[direction]
+    except KeyError:
+        direction = TransformDirection.create(direction)
+        return _PJ_DIRECTION_MAP[direction]
+
+
 cdef class _TransformerGroup:
     def __cinit__(self):
         self.context = NULL
@@ -627,9 +637,7 @@ cdef class _Transformer(Base):
     ):
         if self.id == "noop":
             return
-
-        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
-        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
+        cdef PJ_DIRECTION pj_direction = get_pj_direction(direction)
         cdef PyBuffWriteManager xbuff = PyBuffWriteManager(inx)
         cdef PyBuffWriteManager ybuff = PyBuffWriteManager(iny)
 
@@ -718,8 +726,7 @@ cdef class _Transformer(Base):
     ):
         if self.id == "noop":
             return
-        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
-        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
+        cdef PJ_DIRECTION pj_direction = get_pj_direction(direction)
         # private function to itransform function
         cdef double *x
         cdef double *y
@@ -815,8 +822,7 @@ cdef class _Transformer(Base):
         bint errcheck,
         object direction,
     ):
-        tmp_pj_direction = _PJ_DIRECTION_MAP[TransformDirection.create(direction)]
-        cdef PJ_DIRECTION pj_direction = <PJ_DIRECTION>tmp_pj_direction
+        cdef PJ_DIRECTION pj_direction = get_pj_direction(direction)
 
         if self.id == "noop" or pj_direction == PJ_IDENT:
             return (left, bottom, right, top)
