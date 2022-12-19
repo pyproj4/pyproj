@@ -244,6 +244,7 @@ cdef class Geod:
         object out_lons,
         object out_lats,
         object out_azis,
+        bint return_back_azimuth,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
@@ -335,6 +336,11 @@ cdef class Geod:
                 lats_buff.data[iii] = plat2
                 lons_buff.data[iii] = plon2
                 if store_az:
+                    # by default (return_back_azimuth=True),
+                    # forward azimuth needs to be flipped 180 degrees
+                    # to match the (back azimuth) output of PROJ geod utilities.
+                    if return_back_azimuth:
+                        pazi2 =_reverse_azimuth(pazi2, factor=180)
                     azis_buff.data[iii] = pazi2
 
         return GeodIntermediateReturn(
