@@ -244,13 +244,16 @@
     <span class="s2">&quot;geodesic_version_str&quot;</span><span class="p">,</span>
     <span class="s2">&quot;GeodIntermediateFlag&quot;</span><span class="p">,</span>
     <span class="s2">&quot;GeodIntermediateReturn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;reverse_azimuth&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="kn">import</span> <span class="n">Geod</span> <span class="k">as</span> <span class="n">_Geod</span>
 <span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="kn">import</span> <span class="n">GeodIntermediateReturn</span><span class="p">,</span> <span class="n">geodesic_version_str</span>
+<span class="kn">from</span> <span class="nn">pyproj._geod</span> <span class="kn">import</span> <span class="n">reverse_azimuth</span> <span class="k">as</span> <span class="n">_reverse_azimuth</span>
 <span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">GeodIntermediateFlag</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">GeodError</span>
 <span class="kn">from</span> <span class="nn">pyproj.list</span> <span class="kn">import</span> <span class="n">get_ellps_map</span>
@@ -477,6 +480,7 @@
         <span class="n">dist</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">return_back_azimuth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Forward transformation</span>
@@ -486,6 +490,7 @@
 <span class="sd">        plus forward azimuths and distances.</span>
 
 <span class="sd">        .. versionadded:: 3.5.0 inplace</span>
+<span class="sd">        .. versionadded:: 3.5.0 return_back_azimuth</span>
 
 <span class="sd">        Accepted numeric scalar or array:</span>
 
@@ -518,6 +523,9 @@
 <span class="sd">            If True, will attempt to write the results to the input array</span>
 <span class="sd">            instead of returning a new array. This will fail if the input</span>
 <span class="sd">            is not an array in C order with the double data type.</span>
+<span class="sd">        return_back_azimuth: bool, default=True</span>
+<span class="sd">            if True, the third return value will be the back azimuth,</span>
+<span class="sd">            Otherwise, it will be the forward azimuth.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -526,14 +534,16 @@
 <span class="sd">        scalar or array:</span>
 <span class="sd">            Latitude(s) of terminus point(s)</span>
 <span class="sd">        scalar or array:</span>
-<span class="sd">            Back azimuth(s)</span>
+<span class="sd">            Back azimuth(s) or Forward azimuth(s)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
         <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
         <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">az</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
         <span class="n">ind</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fwd</span><span class="p">(</span>
+            <span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span>
+        <span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
         <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
         <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">y_data_type</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
@@ -548,14 +558,17 @@
         <span class="n">lats2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">return_back_azimuth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="sd">        Inverse transformation</span>
 
 <span class="sd">        Determine forward and back azimuths, plus distances</span>
 <span class="sd">        between initial points and terminus points.</span>
 
 <span class="sd">        .. versionadded:: 3.5.0 inplace</span>
+<span class="sd">        .. versionadded:: 3.5.0 return_back_azimuth</span>
 
 <span class="sd">        Accepted numeric scalar or array:</span>
 
@@ -587,13 +600,16 @@
 <span class="sd">            If True, will attempt to write the results to the input array</span>
 <span class="sd">            instead of returning a new array. This will fail if the input</span>
 <span class="sd">            is not an array in C order with the double data type.</span>
+<span class="sd">        return_back_azimuth: bool, default=True</span>
+<span class="sd">            if True, the second return value (azi21) will be the back azimuth</span>
+<span class="sd">            (flipped 180 degrees), Otherwise, it will be also a forward azimuth.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        scalar or array:</span>
-<span class="sd">            Forward azimuth(s)</span>
+<span class="sd">            Forward azimuth(s) (azi12)</span>
 <span class="sd">        scalar or array:</span>
-<span class="sd">            Back azimuth(s)</span>
+<span class="sd">            Back azimuth(s) or Forward azimuth(s) (azi21)</span>
 <span class="sd">        scalar or array:</span>
 <span class="sd">            Distance(s) between initial and terminus point(s)</span>
 <span class="sd">            in meters</span>
@@ -603,7 +619,9 @@
         <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
         <span class="n">inz</span><span class="p">,</span> <span class="n">z_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
         <span class="n">ind</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span>
+            <span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">inz</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span> <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span>
+        <span class="p">)</span>
         <span class="c1"># if inputs were lists, tuples or floats, convert back.</span>
         <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
         <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">y_data_type</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
@@ -718,6 +736,7 @@
             <span class="n">out_lons</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">out_lats</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">out_azis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">return_back_azimuth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">lats</span><span class="p">))</span></div>
 
@@ -736,9 +755,11 @@
         <span class="n">out_lons</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">out_lats</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">out_azis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_back_azimuth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeodIntermediateReturn</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.1.0</span>
+<span class="sd">        .. versionadded:: 3.5.0 return_back_azimuth</span>
 
 <span class="sd">        Given a single initial point and terminus point,</span>
 <span class="sd">        and the number of points, returns</span>
@@ -847,12 +868,24 @@
 <span class="sd">            az12(s) of the intermediate point(s)</span>
 <span class="sd">            If None then buffers would be allocated internnaly</span>
 <span class="sd">            unless requested otherwise by the flags</span>
+<span class="sd">        return_back_azimuth: bool, default=True</span>
+<span class="sd">            if True, out_azis will store the back azimuth,</span>
+<span class="sd">            Otherwise, out_azis will store the forward azimuth.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        GeodIntermediateReturn:</span>
 <span class="sd">            number of points, distance and output arrays (GeodIntermediateReturn docs)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">return_back_azimuth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">return_back_azimuth</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Back azimuth is being returned by default to be compatible with fwd()&quot;</span>
+                <span class="s2">&quot;This is a breaking change for pyproj 3.5+.&quot;</span>
+                <span class="s2">&quot;To avoid this warning, set return_back_azimuth=True.&quot;</span>
+                <span class="s2">&quot;Otherwise, to restore old behaviour, set return_back_azimuth=False.&quot;</span>
+                <span class="s2">&quot;This warning will be removed in future version.&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_inv_or_fwd_intermediate</span><span class="p">(</span>
             <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span><span class="p">,</span>
             <span class="n">lat1</span><span class="o">=</span><span class="n">lat1</span><span class="p">,</span>
@@ -867,6 +900,7 @@
             <span class="n">out_lons</span><span class="o">=</span><span class="n">out_lons</span><span class="p">,</span>
             <span class="n">out_lats</span><span class="o">=</span><span class="n">out_lats</span><span class="p">,</span>
             <span class="n">out_azis</span><span class="o">=</span><span class="n">out_azis</span><span class="p">,</span>
+            <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.fwd_intermediate"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd_intermediate">[docs]</a>    <span class="k">def</span> <span class="nf">fwd_intermediate</span><span class="p">(</span>
@@ -883,9 +917,11 @@
         <span class="n">out_lons</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">out_lats</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">out_azis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_back_azimuth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeodIntermediateReturn</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.1.0</span>
+<span class="sd">        .. versionadded:: 3.5.0 return_back_azimuth</span>
 
 <span class="sd">        Given a single initial point and azimuth, number of points (npts)</span>
 <span class="sd">        and delimiter distance between two successive points (del_s), returns</span>
@@ -979,12 +1015,24 @@
 <span class="sd">            az12(s) of the intermediate point(s)</span>
 <span class="sd">            If None then buffers would be allocated internnaly</span>
 <span class="sd">            unless requested otherwise by the flags</span>
+<span class="sd">        return_back_azimuth: bool, default=True</span>
+<span class="sd">            if True, out_azis will store the back azimuth,</span>
+<span class="sd">            Otherwise, out_azis will store the forward azimuth.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        GeodIntermediateReturn:</span>
 <span class="sd">            number of points, distance and output arrays (GeodIntermediateReturn docs)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">return_back_azimuth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">return_back_azimuth</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Back azimuth is being returned by default to be compatible with inv()&quot;</span>
+                <span class="s2">&quot;This is a breaking change for pyproj 3.5+.&quot;</span>
+                <span class="s2">&quot;To avoid this warning, set return_back_azimuth=True.&quot;</span>
+                <span class="s2">&quot;Otherwise, to restore old behaviour, set return_back_azimuth=False.&quot;</span>
+                <span class="s2">&quot;This warning will be removed in future version.&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_inv_or_fwd_intermediate</span><span class="p">(</span>
             <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span><span class="p">,</span>
             <span class="n">lat1</span><span class="o">=</span><span class="n">lat1</span><span class="p">,</span>
@@ -999,6 +1047,7 @@
             <span class="n">out_lons</span><span class="o">=</span><span class="n">out_lons</span><span class="p">,</span>
             <span class="n">out_lats</span><span class="o">=</span><span class="n">out_lats</span><span class="p">,</span>
             <span class="n">out_azis</span><span class="o">=</span><span class="n">out_azis</span><span class="p">,</span>
+            <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.line_length"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_length">[docs]</a>    <span class="k">def</span> <span class="nf">line_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -1297,6 +1346,43 @@
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">reverse_azimuth</span><span class="p">(</span><span class="n">azi</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reverses the given azimuth (forward &lt;-&gt; backwards)</span>
+
+<span class="sd">    .. versionadded:: 3.5.0</span>
+
+<span class="sd">    Accepted numeric scalar or array:</span>
+
+<span class="sd">    - :class:`int`</span>
+<span class="sd">    - :class:`float`</span>
+<span class="sd">    - :class:`numpy.floating`</span>
+<span class="sd">    - :class:`numpy.integer`</span>
+<span class="sd">    - :class:`list`</span>
+<span class="sd">    - :class:`tuple`</span>
+<span class="sd">    - :class:`array.array`</span>
+<span class="sd">    - :class:`numpy.ndarray`</span>
+<span class="sd">    - :class:`xarray.DataArray`</span>
+<span class="sd">    - :class:`pandas.Series`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    azi: scalar or array</span>
+<span class="sd">        The azimuth.</span>
+<span class="sd">    radians: bool, default=False</span>
+<span class="sd">        If True, the input data is assumed to be in radians.</span>
+<span class="sd">        Otherwise, the data is assumed to be in degrees.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    scalar or array:</span>
+<span class="sd">        The reversed azimuth (forward &lt;-&gt; backwards)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inazi</span><span class="p">,</span> <span class="n">azi_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">azi</span><span class="p">)</span>
+    <span class="n">_reverse_azimuth</span><span class="p">(</span><span class="n">inazi</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">azi_data_type</span><span class="p">,</span> <span class="n">inazi</span><span class="p">)</span>
 </pre></div>
         </article>
       </div>
