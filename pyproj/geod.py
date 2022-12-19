@@ -18,6 +18,7 @@ __all__ = [
 ]
 
 import math
+import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pyproj._geod import Geod as _Geod
@@ -505,6 +506,7 @@ class Geod(_Geod):
             out_lons=None,
             out_lats=None,
             out_azis=None,
+            return_back_azimuth=False,
         )
         return list(zip(res.lons, res.lats))
 
@@ -523,9 +525,11 @@ class Geod(_Geod):
         out_lons: Optional[Any] = None,
         out_lats: Optional[Any] = None,
         out_azis: Optional[Any] = None,
+        return_back_azimuth: Optional[bool] = None,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
+        .. versionadded:: 3.5.0 return_back_azimuth
 
         Given a single initial point and terminus point,
         and the number of points, returns
@@ -634,12 +638,24 @@ class Geod(_Geod):
             az12(s) of the intermediate point(s)
             If None then buffers would be allocated internnaly
             unless requested otherwise by the flags
+        return_back_azimuth: bool, default=True
+            if True, out_azis will store the back azimuth,
+            Otherwise, out_azis will store the forward azimuth.
 
         Returns
         -------
         GeodIntermediateReturn:
             number of points, distance and output arrays (GeodIntermediateReturn docs)
         """
+        if return_back_azimuth is None:
+            return_back_azimuth = True
+            warnings.warn(
+                "Back azimuth is being returned by default to be compatible with fwd()"
+                "This is a breaking change for pyproj 3.5+."
+                "To avoid this warning, set return_back_azimuth=True."
+                "Otherwise, to restore old behaviour, set return_back_azimuth=False."
+                "This warning will be removed in future version."
+            )
         return super()._inv_or_fwd_intermediate(
             lon1=lon1,
             lat1=lat1,
@@ -654,6 +670,7 @@ class Geod(_Geod):
             out_lons=out_lons,
             out_lats=out_lats,
             out_azis=out_azis,
+            return_back_azimuth=return_back_azimuth,
         )
 
     def fwd_intermediate(
@@ -670,9 +687,11 @@ class Geod(_Geod):
         out_lons: Optional[Any] = None,
         out_lats: Optional[Any] = None,
         out_azis: Optional[Any] = None,
+        return_back_azimuth: Optional[bool] = None,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
+        .. versionadded:: 3.5.0 return_back_azimuth
 
         Given a single initial point and azimuth, number of points (npts)
         and delimiter distance between two successive points (del_s), returns
@@ -766,12 +785,24 @@ class Geod(_Geod):
             az12(s) of the intermediate point(s)
             If None then buffers would be allocated internnaly
             unless requested otherwise by the flags
+        return_back_azimuth: bool, default=True
+            if True, out_azis will store the back azimuth,
+            Otherwise, out_azis will store the forward azimuth.
 
         Returns
         -------
         GeodIntermediateReturn:
             number of points, distance and output arrays (GeodIntermediateReturn docs)
         """
+        if return_back_azimuth is None:
+            return_back_azimuth = True
+            warnings.warn(
+                "Back azimuth is being returned by default to be compatible with inv()"
+                "This is a breaking change for pyproj 3.5+."
+                "To avoid this warning, set return_back_azimuth=True."
+                "Otherwise, to restore old behaviour, set return_back_azimuth=False."
+                "This warning will be removed in future version."
+            )
         return super()._inv_or_fwd_intermediate(
             lon1=lon1,
             lat1=lat1,
@@ -786,6 +817,7 @@ class Geod(_Geod):
             out_lons=out_lons,
             out_lats=out_lats,
             out_azis=out_azis,
+            return_back_azimuth=return_back_azimuth,
         )
 
     def line_length(self, lons: Any, lats: Any, radians: bool = False) -> float:

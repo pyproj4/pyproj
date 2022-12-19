@@ -4,7 +4,7 @@ import os
 import pickle
 import shutil
 import tempfile
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from itertools import permutations
 
 import numpy as np
@@ -160,32 +160,40 @@ def test_geod_inverse_transform():
             ).transpose()
 
     del_s = dist / (point_count - 1)
-    lons_a = np.empty(point_count)
-    lats_a = np.empty(point_count)
-    azis_a = np.empty(point_count)
+    for return_back_azimuth in [None, True, False]:
+        print(f"test inv_intermediate (by npts) with azi output {return_back_azimuth=}")
+        lons_a = np.empty(point_count)
+        lats_a = np.empty(point_count)
+        azis_a = np.empty(point_count)
 
-    print("test inv_intermediate (by npts) with azi output")
-    res = gg.inv_intermediate(
-        out_lons=lons_a,
-        out_lats=lats_a,
-        out_azis=azis_a,
-        lon1=lon1pt,
-        lat1=lat1pt,
-        lon2=lon2pt,
-        lat2=lat2pt,
-        npts=point_count,
-        initial_idx=0,
-        terminus_idx=0,
-    )
-    assert res.npts == point_count
-    assert_almost_equal(res.del_s, del_s)
-    assert_almost_equal(res.dist, dist)
-    assert_almost_equal(res.lons, lons)
-    assert_almost_equal(res.lats, lats)
-    assert_almost_equal(res.azis[:-1], azis12[1:])
-    assert res.lons is lons_a
-    assert res.lats is lats_a
-    assert res.azis is azis_a
+        with pytest.warns(
+            UserWarning
+        ) if return_back_azimuth is None else nullcontext():
+            res = gg.inv_intermediate(
+                out_lons=lons_a,
+                out_lats=lats_a,
+                out_azis=azis_a,
+                lon1=lon1pt,
+                lat1=lat1pt,
+                lon2=lon2pt,
+                lat2=lat2pt,
+                npts=point_count,
+                initial_idx=0,
+                terminus_idx=0,
+                return_back_azimuth=return_back_azimuth,
+            )
+        assert res.npts == point_count
+        assert_almost_equal(res.del_s, del_s)
+        assert_almost_equal(res.dist, dist)
+        assert_almost_equal(res.lons, lons)
+        assert_almost_equal(res.lats, lats)
+        out_azis = res.azis[:-1]
+        if return_back_azimuth in [True, None]:
+            out_azis = reverse_azimuth(out_azis)
+        assert_almost_equal(out_azis, azis12[1:])
+        assert res.lons is lons_a
+        assert res.lats is lats_a
+        assert res.azis is azis_a
 
     for flags in (GeodIntermediateFlag.AZIS_DISCARD, GeodIntermediateFlag.AZIS_KEEP):
         print("test inv_intermediate (by npts) without azi output, no buffers")
@@ -198,6 +206,7 @@ def test_geod_inverse_transform():
             initial_idx=0,
             terminus_idx=0,
             flags=flags,
+            return_back_azimuth=False,
         )
         assert res.npts == point_count
         assert_almost_equal(res.del_s, del_s)
@@ -226,41 +235,53 @@ def test_geod_inverse_transform():
             initial_idx=0,
             terminus_idx=0,
             flags=flags,
+            return_back_azimuth=False,
         )
         assert res.npts == point_count
-        assert_almost_equal(res.del_s, del_s)
-        assert_almost_equal(res.dist, dist)
-        assert_almost_equal(res.lons, lons_a)
-        assert_almost_equal(res.lats, lats_a)
         assert res.lons is lons_b
         assert res.lats is lats_b
         if flags == GeodIntermediateFlag.AZIS_DISCARD:
             assert res.azis is None
         else:
             assert_almost_equal(res.azis, azis_a)
+        assert_almost_equal(res.del_s, del_s)
+        assert_almost_equal(res.dist, dist)
+        assert_almost_equal(res.lons, lons_a)
+        assert_almost_equal(res.lats, lats_a)
 
-    print("test fwd_intermediate")
-    res = gg.fwd_intermediate(
-        out_lons=lons_b,
-        out_lats=lats_b,
-        out_azis=azis_b,
-        lon1=lon1pt,
-        lat1=lat1pt,
-        azi1=true_az12,
-        npts=point_count,
-        del_s=del_s,
-        initial_idx=0,
-        terminus_idx=0,
-    )
-    assert res.npts == point_count
-    assert_almost_equal(res.del_s, del_s)
-    assert_almost_equal(res.dist, dist)
-    assert_almost_equal(res.lons, lons_a)
-    assert_almost_equal(res.lats, lats_a)
-    assert_almost_equal(res.azis, azis_a)
-    assert res.lons is lons_b
-    assert res.lats is lats_b
-    assert res.azis is azis_b
+    for return_back_azimuth in [False, True, None]:
+        print(f"test fwd_intermediate with {return_back_azimuth=}")
+        lons_b = np.empty(point_count)
+        lats_b = np.empty(point_count)
+        azis_b = np.empty(point_count)
+
+        with pytest.warns(
+            UserWarning
+        ) if return_back_azimuth is None else nullcontext():
+            res = gg.fwd_intermediate(
+                out_lons=lons_b,
+                out_lats=lats_b,
+                out_azis=azis_b,
+                lon1=lon1pt,
+                lat1=lat1pt,
+                azi1=true_az12,
+                npts=point_count,
+                del_s=del_s,
+                initial_idx=0,
+                terminus_idx=0,
+                return_back_azimuth=return_back_azimuth,
+            )
+        assert res.npts == point_count
+        assert res.lons is lons_b
+        assert res.lats is lats_b
+        assert res.azis is azis_b
+        assert_almost_equal(res.del_s, del_s)
+        assert_almost_equal(res.dist, dist)
+        assert_almost_equal(res.lons, lons_a)
+        assert_almost_equal(res.lats, lats_a)
+        if return_back_azimuth in [True, None]:
+            azis_b = reverse_azimuth(azis_b)
+        assert_almost_equal(azis_b, azis_a)
 
     print("test inv_intermediate (by del_s)")
     for del_s_fact, flags in (
@@ -280,6 +301,7 @@ def test_geod_inverse_transform():
             initial_idx=0,
             terminus_idx=0,
             flags=flags,
+            return_back_azimuth=False,
         )
         assert res.npts == point_count
         assert_almost_equal(res.del_s, del_s)
