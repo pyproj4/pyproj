@@ -14,13 +14,16 @@ __all__ = [
     "geodesic_version_str",
     "GeodIntermediateFlag",
     "GeodIntermediateReturn",
+    "reverse_azimuth",
 ]
 
 import math
+import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pyproj._geod import Geod as _Geod
 from pyproj._geod import GeodIntermediateReturn, geodesic_version_str
+from pyproj._geod import reverse_azimuth as _reverse_azimuth
 from pyproj.enums import GeodIntermediateFlag
 from pyproj.exceptions import GeodError
 from pyproj.list import get_ellps_map
@@ -247,6 +250,7 @@ class Geod(_Geod):
         dist: Any,
         radians: bool = False,
         inplace: bool = False,
+        return_back_azimuth: bool = True,
     ) -> Tuple[Any, Any, Any]:
         """
         Forward transformation
@@ -256,6 +260,7 @@ class Geod(_Geod):
         plus forward azimuths and distances.
 
         .. versionadded:: 3.5.0 inplace
+        .. versionadded:: 3.5.0 return_back_azimuth
 
         Accepted numeric scalar or array:
 
@@ -288,6 +293,9 @@ class Geod(_Geod):
             If True, will attempt to write the results to the input array
             instead of returning a new array. This will fail if the input
             is not an array in C order with the double data type.
+        return_back_azimuth: bool, default=True
+            if True, the third return value will be the back azimuth,
+            Otherwise, it will be the forward azimuth.
 
         Returns
         -------
@@ -296,14 +304,16 @@ class Geod(_Geod):
         scalar or array:
             Latitude(s) of terminus point(s)
         scalar or array:
-            Back azimuth(s)
+            Back azimuth(s) or Forward azimuth(s)
         """
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(lons, inplace=inplace)
         iny, y_data_type = _copytobuffer(lats, inplace=inplace)
         inz, z_data_type = _copytobuffer(az, inplace=inplace)
         ind = _copytobuffer(dist, inplace=inplace)[0]
-        self._fwd(inx, iny, inz, ind, radians=radians)
+        self._fwd(
+            inx, iny, inz, ind, radians=radians, return_back_azimuth=return_back_azimuth
+        )
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(x_data_type, inx)
         outy = _convertback(y_data_type, iny)
@@ -318,14 +328,17 @@ class Geod(_Geod):
         lats2: Any,
         radians: bool = False,
         inplace: bool = False,
+        return_back_azimuth: bool = True,
     ) -> Tuple[Any, Any, Any]:
         """
+
         Inverse transformation
 
         Determine forward and back azimuths, plus distances
         between initial points and terminus points.
 
         .. versionadded:: 3.5.0 inplace
+        .. versionadded:: 3.5.0 return_back_azimuth
 
         Accepted numeric scalar or array:
 
@@ -357,13 +370,16 @@ class Geod(_Geod):
             If True, will attempt to write the results to the input array
             instead of returning a new array. This will fail if the input
             is not an array in C order with the double data type.
+        return_back_azimuth: bool, default=True
+            if True, the second return value (azi21) will be the back azimuth
+            (flipped 180 degrees), Otherwise, it will be also a forward azimuth.
 
         Returns
         -------
         scalar or array:
-            Forward azimuth(s)
+            Forward azimuth(s) (azi12)
         scalar or array:
-            Back azimuth(s)
+            Back azimuth(s) or Forward azimuth(s) (azi21)
         scalar or array:
             Distance(s) between initial and terminus point(s)
             in meters
@@ -373,7 +389,9 @@ class Geod(_Geod):
         iny, y_data_type = _copytobuffer(lats1, inplace=inplace)
         inz, z_data_type = _copytobuffer(lons2, inplace=inplace)
         ind = _copytobuffer(lats2, inplace=inplace)[0]
-        self._inv(inx, iny, inz, ind, radians=radians)
+        self._inv(
+            inx, iny, inz, ind, radians=radians, return_back_azimuth=return_back_azimuth
+        )
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(x_data_type, inx)
         outy = _convertback(y_data_type, iny)
@@ -488,6 +506,7 @@ class Geod(_Geod):
             out_lons=None,
             out_lats=None,
             out_azis=None,
+            return_back_azimuth=False,
         )
         return list(zip(res.lons, res.lats))
 
@@ -506,9 +525,11 @@ class Geod(_Geod):
         out_lons: Optional[Any] = None,
         out_lats: Optional[Any] = None,
         out_azis: Optional[Any] = None,
+        return_back_azimuth: Optional[bool] = None,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
+        .. versionadded:: 3.5.0 return_back_azimuth
 
         Given a single initial point and terminus point,
         and the number of points, returns
@@ -617,12 +638,24 @@ class Geod(_Geod):
             az12(s) of the intermediate point(s)
             If None then buffers would be allocated internnaly
             unless requested otherwise by the flags
+        return_back_azimuth: bool, default=True
+            if True, out_azis will store the back azimuth,
+            Otherwise, out_azis will store the forward azimuth.
 
         Returns
         -------
         GeodIntermediateReturn:
             number of points, distance and output arrays (GeodIntermediateReturn docs)
         """
+        if return_back_azimuth is None:
+            return_back_azimuth = True
+            warnings.warn(
+                "Back azimuth is being returned by default to be compatible with fwd()"
+                "This is a breaking change for pyproj 3.5+."
+                "To avoid this warning, set return_back_azimuth=True."
+                "Otherwise, to restore old behaviour, set return_back_azimuth=False."
+                "This warning will be removed in future version."
+            )
         return super()._inv_or_fwd_intermediate(
             lon1=lon1,
             lat1=lat1,
@@ -637,6 +670,7 @@ class Geod(_Geod):
             out_lons=out_lons,
             out_lats=out_lats,
             out_azis=out_azis,
+            return_back_azimuth=return_back_azimuth,
         )
 
     def fwd_intermediate(
@@ -653,9 +687,11 @@ class Geod(_Geod):
         out_lons: Optional[Any] = None,
         out_lats: Optional[Any] = None,
         out_azis: Optional[Any] = None,
+        return_back_azimuth: Optional[bool] = None,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
+        .. versionadded:: 3.5.0 return_back_azimuth
 
         Given a single initial point and azimuth, number of points (npts)
         and delimiter distance between two successive points (del_s), returns
@@ -749,12 +785,24 @@ class Geod(_Geod):
             az12(s) of the intermediate point(s)
             If None then buffers would be allocated internnaly
             unless requested otherwise by the flags
+        return_back_azimuth: bool, default=True
+            if True, out_azis will store the back azimuth,
+            Otherwise, out_azis will store the forward azimuth.
 
         Returns
         -------
         GeodIntermediateReturn:
             number of points, distance and output arrays (GeodIntermediateReturn docs)
         """
+        if return_back_azimuth is None:
+            return_back_azimuth = True
+            warnings.warn(
+                "Back azimuth is being returned by default to be compatible with inv()"
+                "This is a breaking change for pyproj 3.5+."
+                "To avoid this warning, set return_back_azimuth=True."
+                "Otherwise, to restore old behaviour, set return_back_azimuth=False."
+                "This warning will be removed in future version."
+            )
         return super()._inv_or_fwd_intermediate(
             lon1=lon1,
             lat1=lat1,
@@ -769,6 +817,7 @@ class Geod(_Geod):
             out_lons=out_lons,
             out_lats=out_lats,
             out_azis=out_azis,
+            return_back_azimuth=return_back_azimuth,
         )
 
     def line_length(self, lons: Any, lats: Any, radians: bool = False) -> float:
@@ -1067,3 +1116,40 @@ class Geod(_Geod):
             return False
 
         return self.__repr__() == other.__repr__()
+
+
+def reverse_azimuth(azi: Any, radians: bool = False) -> Any:
+    """
+    Reverses the given azimuth (forward <-> backwards)
+
+    .. versionadded:: 3.5.0
+
+    Accepted numeric scalar or array:
+
+    - :class:`int`
+    - :class:`float`
+    - :class:`numpy.floating`
+    - :class:`numpy.integer`
+    - :class:`list`
+    - :class:`tuple`
+    - :class:`array.array`
+    - :class:`numpy.ndarray`
+    - :class:`xarray.DataArray`
+    - :class:`pandas.Series`
+
+    Parameters
+    ----------
+    azi: scalar or array
+        The azimuth.
+    radians: bool, default=False
+        If True, the input data is assumed to be in radians.
+        Otherwise, the data is assumed to be in degrees.
+
+    Returns
+    -------
+    scalar or array:
+        The reversed azimuth (forward <-> backwards)
+    """
+    inazi, azi_data_type = _copytobuffer(azi)
+    _reverse_azimuth(inazi, radians=radians)
+    return _convertback(azi_data_type, inazi)
