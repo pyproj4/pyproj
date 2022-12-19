@@ -175,11 +175,14 @@ cdef class Geod:
         object lons2,
         object lats2,
         bint radians=False,
+        bint return_back_azimuth=True,
     ):
         """
-        inverse transformation - return forward and back azimuths, plus distance
+        inverse transformation - return forward azimuth (azi12) and back azimuths (azi21), plus distance
         between an initial and terminus lat/lon pair.
         if radians=True, lons/lats are radians instead of degree
+        if return_back_azimuth=True, azi21 is a back azimuth (180 degrees flipped),
+        otherwise azi21 is also a forward azimuth.
         """
         cdef PyBuffWriteManager lon1buff = PyBuffWriteManager(lons1)
         cdef PyBuffWriteManager lat1buff = PyBuffWriteManager(lats1)
@@ -209,12 +212,12 @@ cdef class Geod:
                     lat1, lon1, lat2, lon2,
                     &ps12, &pazi1, &pazi2,
                 )
-                # back azimuth needs to be flipped 180 degrees
-                # to match what proj4 geod utility produces.
-                if pazi2 > 0:
-                    pazi2 = pazi2-180.
-                elif pazi2 <= 0:
-                    pazi2 = pazi2+180.
+
+                # by default (return_back_azimuth=True),
+                # forward azimuth needs to be flipped 180 degrees
+                # to match the (back azimuth) output of PROJ geod utilities.
+                if return_back_azimuth:
+                    pazi2 = _reverse_azimuth(pazi2, factor=180)
                 if radians:
                     lon1buff.data[iii] = _DG2RAD * pazi1
                     lat1buff.data[iii] = _DG2RAD * pazi2

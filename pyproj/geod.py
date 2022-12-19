@@ -327,14 +327,17 @@ class Geod(_Geod):
         lats2: Any,
         radians: bool = False,
         inplace: bool = False,
+        return_back_azimuth: bool = True,
     ) -> Tuple[Any, Any, Any]:
         """
+
         Inverse transformation
 
         Determine forward and back azimuths, plus distances
         between initial points and terminus points.
 
         .. versionadded:: 3.5.0 inplace
+        .. versionadded:: 3.5.0 return_back_azimuth
 
         Accepted numeric scalar or array:
 
@@ -366,13 +369,16 @@ class Geod(_Geod):
             If True, will attempt to write the results to the input array
             instead of returning a new array. This will fail if the input
             is not an array in C order with the double data type.
+        return_back_azimuth: bool, default=True
+            if True, the second return value (azi21) will be the back azimuth
+            (flipped 180 degrees), Otherwise, it will be also a forward azimuth.
 
         Returns
         -------
         scalar or array:
-            Forward azimuth(s)
+            Forward azimuth(s) (azi12)
         scalar or array:
-            Back azimuth(s)
+            Back azimuth(s) or Forward azimuth(s) (azi21)
         scalar or array:
             Distance(s) between initial and terminus point(s)
             in meters
@@ -382,7 +388,9 @@ class Geod(_Geod):
         iny, y_data_type = _copytobuffer(lats1, inplace=inplace)
         inz, z_data_type = _copytobuffer(lons2, inplace=inplace)
         ind = _copytobuffer(lats2, inplace=inplace)[0]
-        self._inv(inx, iny, inz, ind, radians=radians)
+        self._inv(
+            inx, iny, inz, ind, radians=radians, return_back_azimuth=return_back_azimuth
+        )
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(x_data_type, inx)
         outy = _convertback(y_data_type, iny)

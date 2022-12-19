@@ -32,7 +32,13 @@ class Geod:
         return_back_azimuth: bool = True,
     ) -> None: ...
     def _inv(
-        self, lons1: Any, lats1: Any, lons2: Any, lats2: Any, radians: bool = False
+        self,
+        lons1: Any,
+        lats1: Any,
+        lons2: Any,
+        lats2: Any,
+        radians: bool = False,
+        return_back_azimuth: bool = False,
     ) -> None: ...
     def _inv_or_fwd_intermediate(
         self,

@@ -70,10 +70,15 @@ def test_geod_inverse_transform():
     true_az12 = -66.5305947876623
     true_az21 = 75.65363415556968
     print("from pyproj.Geod.inv:")
-    az12, az21, dist = gg.inv(lon1pt, lat1pt, lon2pt, lat2pt)
-    assert_almost_equal(
-        (az12, az21, dist), (true_az12, true_az21, 4164192.708), decimal=3
-    )
+    for return_back_azimuth in (True, False):
+        az12, az21, dist = gg.inv(
+            lon1pt, lat1pt, lon2pt, lat2pt, return_back_azimuth=return_back_azimuth
+        )
+        if not return_back_azimuth:
+            az21 = reverse_azimuth(az21)
+        assert_almost_equal(
+            (az12, az21, dist), (true_az12, true_az21, 4164192.708), decimal=3
+        )
 
     print("forward transform")
     print("from proj.4 geod:")
