@@ -4,6 +4,13 @@ Change Log
 Latest
 ------
 
+3.5.0
+-----
+- ENH: Add `return_back_azimuth: bool` to allow compatibility between the azimuth output of the following functions (issue #1163):
+    `fwd` and `fwd_intermediate`, `inv` and `inv_intermediate`,
+    Note: BREAKING CHANGE for the default value `return_back_azimuth=True` in the functions `fwd_intermediate` and `inv_intermediate`
+    to mach the default value in `fwd` and `inv`
+
 3.4.1
 -----
 - WHL: Add win32 to build_wheels matrix (pull #1169)
