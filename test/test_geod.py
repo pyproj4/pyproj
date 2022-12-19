@@ -77,10 +77,15 @@ def test_geod_inverse_transform():
 
     print("forward transform")
     print("from proj.4 geod:")
-    endlon, endlat, backaz = gg.fwd(lon1pt, lat1pt, az12, dist)
-    assert_almost_equal(
-        (endlon, endlat, backaz), (lon2pt, lat2pt, true_az21), decimal=3
-    )
+    for return_back_azimuth in (True, False):
+        endlon, endlat, backaz = gg.fwd(
+            lon1pt, lat1pt, az12, dist, return_back_azimuth=return_back_azimuth
+        )
+        if not return_back_azimuth:
+            backaz = reverse_azimuth(backaz)
+        assert_almost_equal(
+            (endlon, endlat, backaz), (lon2pt, lat2pt, true_az21), decimal=3
+        )
 
     inc_exc = ["excluding", "including"]
     res_az12_az21_dists_all = [

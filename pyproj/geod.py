@@ -249,6 +249,7 @@ class Geod(_Geod):
         dist: Any,
         radians: bool = False,
         inplace: bool = False,
+        return_back_azimuth: bool = True,
     ) -> Tuple[Any, Any, Any]:
         """
         Forward transformation
@@ -258,6 +259,7 @@ class Geod(_Geod):
         plus forward azimuths and distances.
 
         .. versionadded:: 3.5.0 inplace
+        .. versionadded:: 3.5.0 return_back_azimuth
 
         Accepted numeric scalar or array:
 
@@ -290,6 +292,9 @@ class Geod(_Geod):
             If True, will attempt to write the results to the input array
             instead of returning a new array. This will fail if the input
             is not an array in C order with the double data type.
+        return_back_azimuth: bool, default=True
+            if True, the third return value will be the back azimuth,
+            Otherwise, it will be the forward azimuth.
 
         Returns
         -------
@@ -298,14 +303,16 @@ class Geod(_Geod):
         scalar or array:
             Latitude(s) of terminus point(s)
         scalar or array:
-            Back azimuth(s)
+            Back azimuth(s) or Forward azimuth(s)
         """
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(lons, inplace=inplace)
         iny, y_data_type = _copytobuffer(lats, inplace=inplace)
         inz, z_data_type = _copytobuffer(az, inplace=inplace)
         ind = _copytobuffer(dist, inplace=inplace)[0]
-        self._fwd(inx, iny, inz, ind, radians=radians)
+        self._fwd(
+            inx, iny, inz, ind, radians=radians, return_back_azimuth=return_back_azimuth
+        )
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(x_data_type, inx)
         outy = _convertback(y_data_type, iny)

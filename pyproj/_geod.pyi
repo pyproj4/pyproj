@@ -23,7 +23,13 @@ class Geod:
     def __reduce__(self) -> Tuple[Type["Geod"], str]: ...
     def __repr__(self) -> str: ...
     def _fwd(
-        self, lons: Any, lats: Any, az: Any, dist: Any, radians: bool = False
+        self,
+        lons: Any,
+        lats: Any,
+        az: Any,
+        dist: Any,
+        radians: bool = False,
+        return_back_azimuth: bool = True,
     ) -> None: ...
     def _inv(
         self, lons1: Any, lats1: Any, lons2: Any, lats2: Any, radians: bool = False
