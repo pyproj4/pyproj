@@ -12,7 +12,7 @@ import pytest
 from numpy.testing import assert_almost_equal
 
 from pyproj import Geod
-from pyproj.geod import GeodIntermediateFlag
+from pyproj.geod import GeodIntermediateFlag, reverse_azimuth
 
 try:
     from shapely.geometry import (
@@ -690,3 +690,24 @@ def test_geod__build_kwargs(kwarg):
     assert_almost_equal(gg.b, gg2.b)
     assert_almost_equal(gg.f, gg2.f)
     assert_almost_equal(gg.es, gg2.es)
+
+
+@pytest.mark.parametrize("radians", [False, True])
+def test_geod__reverse_azimuth(radians):
+    f = math.pi / 180 if radians else 1
+    xy = np.array(
+        [
+            [0, 0 + 180],
+            [180, 180 - 180],
+            [-180, -180 + 180],
+            [10, 10 - 180],
+            [20, 20 - 180],
+            [-10, -10 + 180],
+        ]
+    )
+    for x, y in xy:
+        assert_almost_equal(reverse_azimuth(x * f, radians=radians), y * f)
+
+    xx = xy.T[0]
+    yy = xy.T[1]
+    assert_almost_equal(reverse_azimuth(xx * f, radians=radians), yy * f)

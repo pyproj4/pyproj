@@ -5,6 +5,7 @@ from libc.math cimport ceil, isnan, round
 
 from pyproj._compat cimport cstrencode, empty_array
 
+import math
 from collections import namedtuple
 
 from pyproj.enums import GeodIntermediateFlag
@@ -63,6 +64,24 @@ cdef int GEOD_INTER_FLAG_AZIS_MASK = (
 )
 cdef int GEOD_INTER_FLAG_AZIS_DISCARD = GeodIntermediateFlag.AZIS_DISCARD
 cdef int GEOD_INTER_FLAG_AZIS_KEEP = GeodIntermediateFlag.AZIS_KEEP
+
+
+cdef double _reverse_azimuth(double azi, double factor) nogil:
+    if azi > 0:
+        azi = azi - factor
+    else:
+        azi = azi + factor
+    return azi
+
+def reverse_azimuth(object azi, bint radians=False):
+    cdef PyBuffWriteManager azibuff = PyBuffWriteManager(azi)
+    cdef Py_ssize_t iii
+    cdef double factor = 180
+    if radians:
+        factor = math.pi
+    with nogil:
+        for iii in range(azibuff.len):
+            azibuff.data[iii] = _reverse_azimuth(azibuff.data[iii], factor=factor)
 
 
 cdef class Geod:
