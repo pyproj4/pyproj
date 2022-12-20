@@ -18,7 +18,12 @@ from pyproj._crs cimport (
     _to_wkt,
     create_area_of_use,
 )
-from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
+from pyproj._datadir cimport (
+    _clear_proj_error,
+    _get_proj_error,
+    pyproj_context_create,
+    pyproj_context_destroy,
+)
 
 from pyproj._datadir import _LOGGER
 from pyproj.aoi import AreaOfInterest
@@ -246,7 +251,7 @@ cdef class _TransformerGroup:
                 proj_operation_factory_context_destroy(operation_factory_context)
             if pj_operations != NULL:
                 proj_list_destroy(pj_operations)
-            ProjError.clear()
+            _clear_proj_error()
 
 
 cdef PJ* proj_create_crs_to_crs(
@@ -336,7 +341,7 @@ cdef class _Transformer(Base):
         cdef PJ_TYPE transformer_type = proj_get_type(self.projobj)
         self.type_name = _TRANSFORMER_TYPE_MAP[transformer_type]
         self._set_base_info()
-        ProjError.clear()
+        _clear_proj_error()
 
     @property
     def id(self):
@@ -384,7 +389,7 @@ cdef class _Transformer(Base):
         if self._source_crs is not None:
             return None if self._source_crs is False else self._source_crs
         cdef PJ * projobj = proj_get_source_crs(self.context, self.projobj)
-        ProjError.clear()
+        _clear_proj_error()
         if projobj == NULL:
             self._source_crs = False
             return None
@@ -412,7 +417,7 @@ cdef class _Transformer(Base):
         if self._target_crs is not None:
             return None if self._target_crs is False else self._target_crs
         cdef PJ * projobj = proj_get_target_crs(self.context, self.projobj)
-        ProjError.clear()
+        _clear_proj_error()
         if projobj == NULL:
             self._target_crs = False
             return None
@@ -698,7 +703,7 @@ cdef class _Transformer(Base):
                     )
             elif errcheck:
                 with gil:
-                    if ProjError.internal_proj_error is not None:
+                    if _get_proj_error() is not None:
                         raise ProjError("transform error")
 
             # radians to degrees
@@ -711,7 +716,7 @@ cdef class _Transformer(Base):
                 for iii in range(xbuff.len):
                     xbuff.data[iii] = xbuff.data[iii]*_DG2RAD
                     ybuff.data[iii] = ybuff.data[iii]*_DG2RAD
-        ProjError.clear()
+        _clear_proj_error()
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -792,7 +797,7 @@ cdef class _Transformer(Base):
                     )
             elif errcheck:
                 with gil:
-                    if ProjError.internal_proj_error is not None:
+                    if _get_proj_error() is not None:
                         raise ProjError("itransform error")
 
             # radians to degrees
@@ -808,7 +813,7 @@ cdef class _Transformer(Base):
                     coordbuff.data[jjj] *= _DG2RAD
                     coordbuff.data[jjj + 1] *= _DG2RAD
 
-        ProjError.clear()
+        _clear_proj_error()
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -875,7 +880,7 @@ cdef class _Transformer(Base):
                         )
                 else:
                     with gil:
-                        if ProjError.internal_proj_error is not None:
+                        if _get_proj_error() is not None:
                             raise ProjError("transform bounds error")
 
             # radians to degrees
@@ -891,7 +896,7 @@ cdef class _Transformer(Base):
                 out_right *= _DG2RAD
                 out_top *= _DG2RAD
 
-        ProjError.clear()
+        _clear_proj_error()
         return out_left, out_bottom, out_right, out_top
 
     @cython.boundscheck(False)
@@ -1008,7 +1013,7 @@ cdef class _Transformer(Base):
                     dy_dlam_buff.data[iii] = pj_factors.dy_dlam
                     dy_dphi_buff.data[iii] = pj_factors.dy_dphi
 
-        ProjError.clear()
+        _clear_proj_error()
 
         return Factors(
             meridional_scale=meridional_scale,
