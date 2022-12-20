@@ -35,12 +35,6 @@ IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (9, 1):
         PJ* proj_trans_get_last_used_operation(PJ *P)
 
 
-cdef dict _PJ_DIRECTION_MAP = {
-    TransformDirection.FORWARD: PJ_FWD,
-    TransformDirection.INVERSE: PJ_INV,
-    TransformDirection.IDENT: PJ_IDENT,
-}
-
 cdef dict _TRANSFORMER_TYPE_MAP = {
     PJ_TYPE_UNKNOWN: "Unknown Transformer",
     PJ_TYPE_CONVERSION: "Conversion Transformer",
@@ -109,7 +103,16 @@ cdef PJ_DIRECTION get_pj_direction(object direction) except *:
     # gh-1205
     if not isinstance(direction, TransformDirection):
         direction = TransformDirection.create(direction)
-    return _PJ_DIRECTION_MAP[direction]
+
+    # to avoid __hash__ calls from a dictionary lookup,
+    # we can inline the small number of options for performance
+    if direction is TransformDirection.FORWARD:
+        return PJ_FWD
+    if direction is TransformDirection.INVERSE:
+        return PJ_INV
+    if direction is TransformDirection.IDENT:
+        return PJ_IDENT
+    raise KeyError(f"{direction} is not a valid TransformDirection")
 
 
 cdef class _TransformerGroup:
