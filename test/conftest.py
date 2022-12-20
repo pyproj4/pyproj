@@ -3,6 +3,8 @@ import pickle
 from contextlib import contextmanager
 from pathlib import Path
 
+import numpy
+import pytest
 from packaging import version
 
 import pyproj
@@ -89,3 +91,27 @@ def assert_can_pickle(raw_obj, tmp_path):
         unpickled = pickle.load(f)
 
     assert raw_obj == unpickled
+
+
+def _make_longer_array(data: float):
+    """
+    Turn the float into a 2-element array
+    """
+    return numpy.array([data] * 2)
+
+
+@pytest.fixture(
+    params=[
+        float,
+        numpy.array,
+        _make_longer_array,
+    ]
+)
+def scalar_and_array(request):
+    """
+    Ensure cython methods are tested
+    with scalar and arrays to trigger
+    point optimized functions as well
+    as the main functions supporting arrays.
+    """
+    return request.param

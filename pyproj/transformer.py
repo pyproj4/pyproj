@@ -8,8 +8,6 @@ __all__ = [
     "TransformerGroup",
     "AreaOfInterest",
 ]
-import math
-import numbers
 import threading
 import warnings
 from abc import ABC, abstractmethod
@@ -791,6 +789,19 @@ class Transformer:
         '33  98'
 
         """
+        try:
+            # function optimized for point data
+            return self._transformer._transform_point(
+                inx=xx,
+                iny=yy,
+                inz=zz,
+                intime=tt,
+                direction=direction,
+                radians=radians,
+                errcheck=errcheck,
+            )
+        except TypeError:
+            pass
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(xx, inplace=inplace)
         iny, y_data_type = _copytobuffer(yy, inplace=inplace)
@@ -804,8 +815,8 @@ class Transformer:
             intime = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
         self._transformer._transform(
-            inx,
-            iny,
+            inx=inx,
+            iny=iny,
             inz=inz,
             intime=intime,
             direction=direction,
@@ -820,105 +831,6 @@ class Transformer:
             return_data += (_convertback(z_data_type, inz),)
         if intime is not None:
             return_data += (_convertback(t_data_type, intime),)
-        return return_data
-
-    @overload
-    def transform_point(  # pylint: disable=invalid-name
-        self,
-        xx: numbers.Real,
-        yy: numbers.Real,
-        radians: bool = False,
-        errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
-    ) -> Tuple[float, float]:
-        ...
-
-    @overload
-    def transform_point(  # pylint: disable=invalid-name
-        self,
-        xx: numbers.Real,
-        yy: numbers.Real,
-        zz: numbers.Real,
-        radians: bool = False,
-        errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
-    ) -> Tuple[float, float, float]:
-        ...
-
-    @overload
-    def transform_point(  # pylint: disable=invalid-name
-        self,
-        xx: numbers.Real,
-        yy: numbers.Real,
-        zz: numbers.Real,
-        tt: numbers.Real,
-        radians: bool = False,
-        errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
-    ) -> Tuple[float, float, float, float]:
-        ...
-
-    def transform_point(  # pylint: disable=invalid-name
-        self,
-        xx,
-        yy,
-        zz=None,
-        tt=None,
-        radians=False,
-        errcheck=False,
-        direction=TransformDirection.FORWARD,
-    ):
-        """
-        Optimized to transform a single point between two coordinate systems.
-
-        See: :c:func:`proj_trans`
-
-        .. versionadded:: 3.5.0
-
-        Examples of accepted numeric scalar:
-
-        - :class:`int`
-        - :class:`float`
-        - :class:`numpy.floating`
-        - :class:`numpy.integer`
-
-        Parameters
-        ----------
-        xx: numbers.Real
-            Input x coordinate.
-        yy: numbers.Real
-            Input y coordinate.
-        zz: numbers.Real, optional
-            Input z coordinate.
-        tt: numbers.Real, optional
-            Input time coordinate.
-        radians: bool, default=False
-            If True, will expect input data to be in radians and will return radians
-            if the projection is geographic. Otherwise, it uses degrees.
-            Ignored for pipeline transformations with pyproj 2,
-            but will work in pyproj 3.
-        errcheck: bool, default=False
-            If True, an exception is raised if the errors are found in the process.
-            If False, ``inf`` is returned for errors.
-        direction: pyproj.enums.TransformDirection, optional
-            The direction of the transform.
-            Default is :attr:`pyproj.enums.TransformDirection.FORWARD`.
-
-        """
-        outx, outy, outz, outt = self._transformer._transform_point(
-            xx,
-            yy,
-            inz=0 if zz is None else zz,
-            intime=math.inf if tt is None else tt,
-            direction=direction,
-            radians=radians,
-            errcheck=errcheck,
-        )
-        return_data: Tuple[float, ...] = (outx, outy)
-        if zz is not None:
-            return_data += (outz,)
-        if tt is not None:
-            return_data += (outt,)
         return return_data
 
     def itransform(
