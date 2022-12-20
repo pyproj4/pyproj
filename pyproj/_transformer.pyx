@@ -107,11 +107,9 @@ dy_dphi: List[float]
 cdef PJ_DIRECTION get_pj_direction(object direction) except *:
     # optimized lookup to avoid creating a new instance every time
     # gh-1205
-    try:
-         return _PJ_DIRECTION_MAP[direction]
-    except KeyError:
+    if not isinstance(direction, TransformDirection):
         direction = TransformDirection.create(direction)
-        return _PJ_DIRECTION_MAP[direction]
+    return _PJ_DIRECTION_MAP[direction]
 
 
 cdef class _TransformerGroup:
