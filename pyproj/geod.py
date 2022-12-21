@@ -294,7 +294,7 @@ class Geod(_Geod):
             instead of returning a new array. This will fail if the input
             is not an array in C order with the double data type.
         return_back_azimuth: bool, default=True
-            if True, the third return value will be the back azimuth,
+            If True, the third return value will be the back azimuth,
             Otherwise, it will be the forward azimuth.
 
         Returns
@@ -306,6 +306,20 @@ class Geod(_Geod):
         scalar or array:
             Back azimuth(s) or Forward azimuth(s)
         """
+        try:
+            # Fast-path for scalar input, will raise if invalid types are input
+            # and we can fallback below
+            return self._fwd_point(
+                lons,
+                lats,
+                az,
+                dist,
+                radians=radians,
+                return_back_azimuth=return_back_azimuth,
+            )
+        except TypeError:
+            pass
+
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(lons, inplace=inplace)
         iny, y_data_type = _copytobuffer(lats, inplace=inplace)
@@ -371,8 +385,8 @@ class Geod(_Geod):
             instead of returning a new array. This will fail if the input
             is not an array in C order with the double data type.
         return_back_azimuth: bool, default=True
-            if True, the second return value (azi21) will be the back azimuth
-            (flipped 180 degrees), Otherwise, it will be also a forward azimuth.
+            If True, the second return value (azi21) will be the back azimuth
+            (flipped 180 degrees), Otherwise, it will also be a forward azimuth.
 
         Returns
         -------
@@ -384,6 +398,20 @@ class Geod(_Geod):
             Distance(s) between initial and terminus point(s)
             in meters
         """
+        try:
+            # Fast-path for scalar input, will raise if invalid types are input
+            # and we can fallback below
+            return self._inv_point(
+                lons1,
+                lats1,
+                lons2,
+                lats2,
+                radians=radians,
+                return_back_azimuth=return_back_azimuth,
+            )
+        except TypeError:
+            pass
+
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(lons1, inplace=inplace)
         iny, y_data_type = _copytobuffer(lats1, inplace=inplace)

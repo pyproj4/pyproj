@@ -168,6 +168,63 @@ cdef class Geod:
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
+    def _fwd_point(
+        self,
+        object lon1in,
+        object lat1in,
+        object az1in,
+        object s12in,
+        bint radians=False,
+        bint return_back_azimuth=True,
+    ):
+        """
+        Scalar optimized function
+        forward transformation - determine longitude, latitude and back azimuth
+        of a terminus point given an initial point longitude and latitude, plus
+        forward azimuth and distance.
+        if radians=True, lons/lats are radians instead of degrees.
+        """
+        cdef double plon2, plat2, pazi2
+
+        # We do the type-checking internally here rather than declaring double as the
+        # type into the function due to automatically casting length-1 arrays to float
+        # that we don't want to return scalar for.
+        # Ex: float(np.array([0])) works and we don't want to accept numpy arrays
+        cdef double lon1 = lon1in
+        cdef double lat1 = lat1in
+        cdef double az1 = az1in
+        cdef double s12 = s12in
+        for x in (lon1in, lat1in, az1in, s12in):
+            if not isinstance(x, (float, int)):
+                raise TypeError("Scalar input is required for point based functions")
+
+        with nogil:
+            if radians:
+                lon1 = _RAD2DG * lon1
+                lat1 = _RAD2DG * lat1
+                az1 = _RAD2DG * az1
+            geod_direct(
+                &self._geod_geodesic,
+                lat1,
+                lon1,
+                az1,
+                s12,
+                &plat2,
+                &plon2,
+                &pazi2,
+            )
+            # back azimuth needs to be flipped 180 degrees
+            # to match what PROJ geod utility produces.
+            if return_back_azimuth:
+                pazi2 =_reverse_azimuth(pazi2, factor=180)
+            if radians:
+                plon2 = _DG2RAD * plon2
+                plat2 = _DG2RAD * plat2
+                pazi2 = _DG2RAD * pazi2
+        return plon2, plat2, pazi2
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
     def _inv(
         self,
         object lons1,
@@ -226,6 +283,56 @@ cdef class Geod:
                     lat1buff.data[iii] = pazi2
                 # write azimuth data into lon2 buffer
                 lon2buff.data[iii] = ps12
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    def _inv_point(
+        self,
+        object lon1in,
+        object lat1in,
+        object lon2in,
+        object lat2in,
+        bint radians=False,
+        bint return_back_azimuth=True,
+    ):
+        """
+        Scalar optimized function
+        inverse transformation - return forward and back azimuth, plus distance
+        between an initial and terminus lat/lon pair.
+        if radians=True, lons/lats are radians instead of degree
+        """
+        cdef double pazi1, pazi2, ps12
+        # We do the type-checking internally here rather than declaring double as the
+        # type into the function due to automatically casting length-1 arrays to float
+        # that we don't want to return scalar for.
+        # Ex: float(np.array([0])) works and we don't want to accept numpy arrays
+        cdef double lon1 = lon1in
+        cdef double lat1 = lat1in
+        cdef double lon2 = lon2in
+        cdef double lat2 = lat2in
+        for x in (lon1in, lat1in, lon2in, lat2in):
+            if not isinstance(x, (float, int)):
+                raise TypeError("Scalar input is required for point based functions")
+
+        with nogil:
+            if radians:
+                lon1 = _RAD2DG * lon1
+                lat1 = _RAD2DG * lat1
+                lon2 = _RAD2DG * lon2
+                lat2 = _RAD2DG * lat2
+            geod_inverse(
+                &self._geod_geodesic,
+                lat1, lon1, lat2, lon2,
+                &ps12, &pazi1, &pazi2,
+            )
+            # back azimuth needs to be flipped 180 degrees
+            # to match what proj4 geod utility produces.
+            if return_back_azimuth:
+                pazi2 =_reverse_azimuth(pazi2, factor=180)
+            if radians:
+                pazi1 = _DG2RAD * pazi1
+                pazi2 = _DG2RAD * pazi2
+        return pazi1, pazi2, ps12
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
