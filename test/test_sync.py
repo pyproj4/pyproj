@@ -31,7 +31,6 @@ def test_get_transform_grid_list__bbox__antimeridian():
     assert sorted(source_ids) == [
         "au_ga",
         "nc_dittt",
-        "no_kv",
         "nz_linz",
         "us_nga",
         "us_noaa",
@@ -50,7 +49,6 @@ def test_get_transform_grid_list__bbox__out_of_bounds():
     assert sorted(source_ids) == [
         "au_ga",
         "nc_dittt",
-        "no_kv",
         "nz_linz",
         "us_nga",
         "us_noaa",
