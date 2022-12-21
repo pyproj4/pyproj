@@ -789,6 +789,19 @@ class Transformer:
         '33  98'
 
         """
+        try:
+            # function optimized for point data
+            return self._transformer._transform_point(
+                inx=xx,
+                iny=yy,
+                inz=zz,
+                intime=tt,
+                direction=direction,
+                radians=radians,
+                errcheck=errcheck,
+            )
+        except TypeError:
+            pass
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(xx, inplace=inplace)
         iny, y_data_type = _copytobuffer(yy, inplace=inplace)
@@ -802,8 +815,8 @@ class Transformer:
             intime = None
         # call pj_transform.  inx,iny,inz buffers modified in place.
         self._transformer._transform(
-            inx,
-            iny,
+            inx=inx,
+            iny=iny,
             inz=inz,
             intime=intime,
             direction=direction,

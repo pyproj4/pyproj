@@ -85,31 +85,55 @@ def test_lambert_conformal_transform():
     assert_almost_equal((Long1, Lat1, H1), (-4.6753456, 32.902199, 1341.467), decimal=5)
 
 
-def test_4d_transform():
+def test_4d_transform(scalar_and_array):
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_almost_equal(
         transformer.transform(
-            xx=3513638.19380, yy=778956.45250, zz=5248216.46900, tt=2008.75
+            xx=scalar_and_array(3513638.19380),
+            yy=scalar_and_array(778956.45250),
+            zz=scalar_and_array(5248216.46900),
+            tt=scalar_and_array(2008.75),
         ),
-        (3513638.1999428216, 778956.4532640711, 5248216.453456361, 2008.75),
+        (
+            scalar_and_array(3513638.1999428216),
+            scalar_and_array(778956.4532640711),
+            scalar_and_array(5248216.453456361),
+            scalar_and_array(2008.75),
+        ),
     )
 
 
-def test_2d_with_time_transform():
+def test_2d_with_time_transform(scalar_and_array):
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_almost_equal(
-        transformer.transform(xx=3513638.19380, yy=778956.45250, tt=2008.75),
-        (3513638.1999428216, 778956.4532640711, 2008.75),
+        transformer.transform(
+            xx=scalar_and_array(3513638.19380),
+            yy=scalar_and_array(778956.45250),
+            tt=scalar_and_array(2008.75),
+        ),
+        (
+            scalar_and_array(3513638.1999428216),
+            scalar_and_array(778956.4532640711),
+            scalar_and_array(2008.75),
+        ),
     )
 
 
-def test_4d_transform_crs_obs1():
+def test_4d_transform_crs_obs1(scalar_and_array):
     transformer = Transformer.from_proj(7789, 8401)
     assert_almost_equal(
         transformer.transform(
-            xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0
+            xx=scalar_and_array(3496737.2679),
+            yy=scalar_and_array(743254.4507),
+            zz=scalar_and_array(5264462.9620),
+            tt=scalar_and_array(2019.0),
         ),
-        (3496737.757717311, 743253.9940103051, 5264462.701132784, 2019.0),
+        (
+            scalar_and_array(3496737.757717311),
+            scalar_and_array(743253.9940103051),
+            scalar_and_array(5264462.701132784),
+            scalar_and_array(2019.0),
+        ),
     )
 
 
@@ -123,21 +147,37 @@ def test_4d_transform_orginal_crs_obs1():
         )
 
 
-def test_4d_transform_crs_obs2():
+def test_4d_transform_crs_obs2(scalar_and_array):
     transformer = Transformer.from_proj(4896, 7930)
     assert_almost_equal(
         transformer.transform(
-            xx=3496737.2679, yy=743254.4507, zz=5264462.9620, tt=2019.0
+            xx=scalar_and_array(3496737.2679),
+            yy=scalar_and_array(743254.4507),
+            zz=scalar_and_array(5264462.9620),
+            tt=scalar_and_array(2019.0),
         ),
-        (3496737.7857162016, 743254.0394113371, 5264462.643659916, 2019.0),
+        (
+            scalar_and_array(3496737.7857162016),
+            scalar_and_array(743254.0394113371),
+            scalar_and_array(5264462.643659916),
+            scalar_and_array(2019.0),
+        ),
     )
 
 
-def test_2d_with_time_transform_crs_obs2():
+def test_2d_with_time_transform_crs_obs2(scalar_and_array):
     transformer = Transformer.from_proj(4896, 7930)
     assert_almost_equal(
-        transformer.transform(xx=3496737.2679, yy=743254.4507, tt=2019.0),
-        (3496737.4105305015, 743254.1014318303, 2019.0),
+        transformer.transform(
+            xx=scalar_and_array(3496737.2679),
+            yy=scalar_and_array(743254.4507),
+            tt=scalar_and_array(2019.0),
+        ),
+        (
+            scalar_and_array(3496737.4105305015),
+            scalar_and_array(743254.1014318303),
+            scalar_and_array(2019.0),
+        ),
     )
 
 
@@ -240,11 +280,13 @@ def test_transform_no_exception():
     transformer.itransform([(1.716073972, 52.658007833)], errcheck=True)
 
 
-def test_transform__out_of_bounds():
+def test_transform__out_of_bounds(scalar_and_array):
     with pytest.warns(FutureWarning):
         transformer = Transformer.from_proj("+init=epsg:4326", "+init=epsg:27700")
     with pytest.raises(pyproj.exceptions.ProjError):
-        transformer.transform(100000, 100000, errcheck=True)
+        transformer.transform(
+            scalar_and_array(100000), scalar_and_array(100000), errcheck=True
+        )
 
 
 def test_transform_radians():
@@ -302,38 +344,55 @@ def test_itransform_radians():
         )
 
 
-def test_4d_transform__inverse():
+def test_4d_transform__inverse(scalar_and_array):
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_almost_equal(
         transformer.transform(
-            xx=3513638.1999428216,
-            yy=778956.4532640711,
-            zz=5248216.453456361,
-            tt=2008.75,
+            xx=scalar_and_array(3513638.1999428216),
+            yy=scalar_and_array(778956.4532640711),
+            zz=scalar_and_array(5248216.453456361),
+            tt=scalar_and_array(2008.75),
             direction=TransformDirection.INVERSE,
         ),
-        (3513638.19380, 778956.45250, 5248216.46900, 2008.75),
+        (
+            scalar_and_array(3513638.19380),
+            scalar_and_array(778956.45250),
+            scalar_and_array(5248216.46900),
+            scalar_and_array(2008.75),
+        ),
     )
 
 
-def test_transform_direction():
+def test_transform_direction(scalar_and_array):
     forward_transformer = Transformer.from_crs(4326, 3857)
     inverse_transformer = Transformer.from_crs(3857, 4326)
-    assert inverse_transformer.transform(
-        -33, 24, direction=TransformDirection.INVERSE
-    ) == forward_transformer.transform(-33, 24)
+    assert_array_equal(
+        inverse_transformer.transform(
+            scalar_and_array(-33),
+            scalar_and_array(24),
+            direction=TransformDirection.INVERSE,
+        ),
+        forward_transformer.transform(scalar_and_array(-33), scalar_and_array(24)),
+    )
     ident_transformer = Transformer.from_crs(4326, 3857)
-    ident_transformer.transform(-33, 24, direction=TransformDirection.IDENT) == (
-        -33,
-        24,
+    assert_array_equal(
+        ident_transformer.transform(
+            scalar_and_array(-33),
+            scalar_and_array(24),
+            direction=TransformDirection.IDENT,
+        ),
+        (scalar_and_array(-33), scalar_and_array(24)),
     )
 
 
-def test_always_xy__transformer():
+def test_always_xy__transformer(scalar_and_array):
     transformer = Transformer.from_crs(2193, 4326, always_xy=True)
     assert_almost_equal(
-        transformer.transform(1625350, 5504853),
-        (173.29964730317386, -40.60674802693758),
+        transformer.transform(scalar_and_array(1625350), scalar_and_array(5504853)),
+        (
+            scalar_and_array(173.29964730317386),
+            scalar_and_array(-40.60674802693758),
+        ),
     )
 
 
@@ -370,30 +429,52 @@ def test_transform_empty_array_xyzt(empty_array):
     )
 
 
-def test_transform_direction__string():
+def test_transform_direction__string(scalar_and_array):
     forward_transformer = Transformer.from_crs(4326, 3857)
     inverse_transformer = Transformer.from_crs(3857, 4326)
-    assert inverse_transformer.transform(
-        -33, 24, direction="INVERSE"
-    ) == forward_transformer.transform(-33, 24, direction="FORWARD")
+    assert_array_equal(
+        inverse_transformer.transform(
+            scalar_and_array(-33), scalar_and_array(24), direction="INVERSE"
+        ),
+        forward_transformer.transform(
+            scalar_and_array(-33), scalar_and_array(24), direction="FORWARD"
+        ),
+    )
     ident_transformer = Transformer.from_crs(4326, 3857)
-    ident_transformer.transform(-33, 24, direction="IDENT") == (-33, 24)
+    assert_array_equal(
+        ident_transformer.transform(
+            scalar_and_array(-33), scalar_and_array(24), direction="IDENT"
+        ),
+        (scalar_and_array(-33), scalar_and_array(24)),
+    )
 
 
-def test_transform_direction__string_lowercase():
+def test_transform_direction__string_lowercase(scalar_and_array):
     forward_transformer = Transformer.from_crs(4326, 3857)
     inverse_transformer = Transformer.from_crs(3857, 4326)
-    assert inverse_transformer.transform(
-        -33, 24, direction="inverse"
-    ) == forward_transformer.transform(-33, 24, direction="forward")
+    assert_array_equal(
+        inverse_transformer.transform(
+            scalar_and_array(-33), scalar_and_array(24), direction="inverse"
+        ),
+        forward_transformer.transform(
+            scalar_and_array(-33), scalar_and_array(24), direction="forward"
+        ),
+    )
     ident_transformer = Transformer.from_crs(4326, 3857)
-    ident_transformer.transform(-33, 24, direction="ident") == (-33, 24)
+    assert_array_equal(
+        ident_transformer.transform(
+            scalar_and_array(-33), scalar_and_array(24), direction="ident"
+        ),
+        (scalar_and_array(-33), scalar_and_array(24)),
+    )
 
 
-def test_transform_direction__invalid():
+def test_transform_direction__invalid(scalar_and_array):
     transformer = Transformer.from_crs(4326, 3857)
     with pytest.raises(ValueError, match="Invalid value"):
-        transformer.transform(-33, 24, direction="WHEREVER")
+        transformer.transform(
+            scalar_and_array(-33), scalar_and_array(24), direction="WHEREVER"
+        )
 
 
 def test_from_pipeline__non_transform_input():

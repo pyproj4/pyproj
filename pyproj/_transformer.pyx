@@ -720,6 +720,91 @@ cdef class _Transformer(Base):
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
+    def _transform_point(
+        self,
+        object inx,
+        object iny,
+        object inz,
+        object intime,
+        object direction,
+        bint radians,
+        bint errcheck,
+    ):
+        """
+        Optimized to transform a single point between two coordinate systems.
+        """
+        cdef double coord_x = inx
+        cdef double coord_y = iny
+        cdef double coord_z = 0
+        cdef double coord_t = HUGE_VAL
+        cdef tuple expected_numeric_types = (int, float)
+        if not isinstance(inx, expected_numeric_types):
+            raise TypeError("Scalar input expected for x")
+        if not isinstance(iny, expected_numeric_types):
+            raise TypeError("Scalar input expected for y")
+        if inz is not None:
+            if not isinstance(inz, expected_numeric_types):
+                raise TypeError("Scalar input expected for z")
+            coord_z = inz
+        if intime is not None:
+            if not isinstance(intime, expected_numeric_types):
+                raise TypeError("Scalar input expected for t")
+            coord_t = intime
+
+        cdef tuple return_data
+        if self.id == "noop":
+            return_data = (inx, iny)
+            if inz is not None:
+                return_data += (inz,)
+            if intime is not None:
+                return_data += (intime,)
+            return return_data
+
+        cdef PJ_DIRECTION pj_direction = get_pj_direction(direction)
+        cdef PJ_COORD projxyout
+        cdef PJ_COORD projxyin = proj_coord(coord_x, coord_y, coord_z, coord_t)
+        with nogil:
+            # degrees to radians
+            if not radians and proj_angular_input(self.projobj, pj_direction):
+                projxyin.uv.u *= _DG2RAD
+                projxyin.uv.v *= _DG2RAD
+            # radians to degrees
+            elif radians and proj_degree_input(self.projobj, pj_direction):
+                projxyin.uv.u *= _RAD2DG
+                projxyin.uv.v *= _RAD2DG
+
+            proj_errno_reset(self.projobj)
+            projxyout = proj_trans(self.projobj, pj_direction, projxyin)
+            errno = proj_errno(self.projobj)
+            if errcheck and errno:
+                with gil:
+                    raise ProjError(
+                        f"transform error: {proj_context_errno_string(self.context, errno)}"
+                    )
+            elif errcheck:
+                with gil:
+                    if _clear_proj_error() is not None:
+                        raise ProjError("transform error")
+
+            # radians to degrees
+            if not radians and proj_angular_output(self.projobj, pj_direction):
+                projxyout.xy.x *= _RAD2DG
+                projxyout.xy.y *= _RAD2DG
+            # degrees to radians
+            elif radians and proj_degree_output(self.projobj, pj_direction):
+                projxyout.xy.x *= _DG2RAD
+                projxyout.xy.y *= _DG2RAD
+        _clear_proj_error()
+
+        return_data = (projxyout.xyzt.x, projxyout.xyzt.y)
+        if inz is not None:
+            return_data += (projxyout.xyzt.z,)
+        if intime is not None:
+            return_data += (projxyout.xyzt.t,)
+        return return_data
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
     def _transform_sequence(
         self,
         Py_ssize_t stride,
