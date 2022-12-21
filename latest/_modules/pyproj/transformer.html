@@ -1019,6 +1019,19 @@
 <span class="sd">        &#39;33  98&#39;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># function optimized for point data</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_transform_point</span><span class="p">(</span>
+                <span class="n">inx</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span>
+                <span class="n">iny</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span>
+                <span class="n">inz</span><span class="o">=</span><span class="n">zz</span><span class="p">,</span>
+                <span class="n">intime</span><span class="o">=</span><span class="n">tt</span><span class="p">,</span>
+                <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span>
+                <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+                <span class="n">errcheck</span><span class="o">=</span><span class="n">errcheck</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
         <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">yy</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
@@ -1032,8 +1045,8 @@
             <span class="n">intime</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># call pj_transform.  inx,iny,inz buffers modified in place.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_transform</span><span class="p">(</span>
-            <span class="n">inx</span><span class="p">,</span>
-            <span class="n">iny</span><span class="p">,</span>
+            <span class="n">inx</span><span class="o">=</span><span class="n">inx</span><span class="p">,</span>
+            <span class="n">iny</span><span class="o">=</span><span class="n">iny</span><span class="p">,</span>
             <span class="n">inz</span><span class="o">=</span><span class="n">inz</span><span class="p">,</span>
             <span class="n">intime</span><span class="o">=</span><span class="n">intime</span><span class="p">,</span>
             <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span>
