@@ -1063,40 +1063,6 @@ systems to be geographic (proj = ‘latlong’).</p>
 lists/tuples or scalars. Arrays are fastest.  For projections in
 geocentric coordinates, values of x and y are given in meters.
 z is always meters.</p>
-<p>Example usage:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">transform</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: UTM zone 15, grs80 ellipse, NAD83 datum</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 26915)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:26915&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:26715&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># find x,y of Jefferson City, MO.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="o">-</span><span class="mf">92.199881</span><span class="p">,</span><span class="mf">38.56694</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># transform this point to projection 2 coordinates.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
-<span class="go">&#39;569704.566 4269024.671&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">)</span>
-<span class="go">&#39;569722.342 4268814.028&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">p2</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">&#39; -92.200 38.567&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># process 3 points at a time in a tuple</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">(</span><span class="mf">38.83</span><span class="p">,</span><span class="mf">39.32</span><span class="p">,</span><span class="mf">38.75</span><span class="p">)</span> <span class="c1"># Columbia, KC and StL Missouri</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">92.22</span><span class="p">,</span><span class="o">-</span><span class="mf">94.72</span><span class="p">,</span><span class="o">-</span><span class="mf">90.37</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span><span class="n">lats</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">y1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
-<span class="go">&#39;567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">x2</span><span class="o">+</span><span class="n">y2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%9.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1"> </span><span class="si">%11.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
-<span class="go">&#39;567721.149 351747.558 728569.133 4297989.112 4353489.645 4292106.305&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">p2</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xy</span> <span class="o">=</span> <span class="n">lons</span><span class="o">+</span><span class="n">lats</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;</span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%8.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1"> </span><span class="si">%5.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">xy</span>
-<span class="go">&#39; -92.220  -94.720  -90.370 38.830 39.320 38.750&#39;</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
