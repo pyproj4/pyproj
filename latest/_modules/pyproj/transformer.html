@@ -1435,39 +1435,6 @@
 <span class="sd">    geocentric coordinates, values of x and y are given in meters.</span>
 <span class="sd">    z is always meters.</span>
 
-<span class="sd">    Example usage:</span>
-
-<span class="sd">    &gt;&gt;&gt; from pyproj import Proj, transform</span>
-<span class="sd">    &gt;&gt;&gt; # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum</span>
-<span class="sd">    &gt;&gt;&gt; # (defined by epsg code 26915)</span>
-<span class="sd">    &gt;&gt;&gt; p1 = Proj(&#39;epsg:26915&#39;, preserve_units=False)</span>
-<span class="sd">    &gt;&gt;&gt; # projection 2: UTM zone 15, clrk66 ellipse, NAD27 datum</span>
-<span class="sd">    &gt;&gt;&gt; p2 = Proj(&#39;epsg:26715&#39;, preserve_units=False)</span>
-<span class="sd">    &gt;&gt;&gt; # find x,y of Jefferson City, MO.</span>
-<span class="sd">    &gt;&gt;&gt; x1, y1 = p1(-92.199881,38.56694)</span>
-<span class="sd">    &gt;&gt;&gt; # transform this point to projection 2 coordinates.</span>
-<span class="sd">    &gt;&gt;&gt; x2, y2 = transform(p1,p2,x1,y1)</span>
-<span class="sd">    &gt;&gt;&gt; &#39;%9.3f %11.3f&#39; % (x1,y1)</span>
-<span class="sd">    &#39;569704.566 4269024.671&#39;</span>
-<span class="sd">    &gt;&gt;&gt; &#39;%9.3f %11.3f&#39; % (x2,y2)</span>
-<span class="sd">    &#39;569722.342 4268814.028&#39;</span>
-<span class="sd">    &gt;&gt;&gt; &#39;%8.3f %5.3f&#39; % p2(x2,y2,inverse=True)</span>
-<span class="sd">    &#39; -92.200 38.567&#39;</span>
-<span class="sd">    &gt;&gt;&gt; # process 3 points at a time in a tuple</span>
-<span class="sd">    &gt;&gt;&gt; lats = (38.83,39.32,38.75) # Columbia, KC and StL Missouri</span>
-<span class="sd">    &gt;&gt;&gt; lons = (-92.22,-94.72,-90.37)</span>
-<span class="sd">    &gt;&gt;&gt; x1, y1 = p1(lons,lats)</span>
-<span class="sd">    &gt;&gt;&gt; x2, y2 = transform(p1,p2,x1,y1)</span>
-<span class="sd">    &gt;&gt;&gt; xy = x1+y1</span>
-<span class="sd">    &gt;&gt;&gt; &#39;%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f&#39; % xy</span>
-<span class="sd">    &#39;567703.344 351730.944 728553.093 4298200.739 4353698.725 4292319.005&#39;</span>
-<span class="sd">    &gt;&gt;&gt; xy = x2+y2</span>
-<span class="sd">    &gt;&gt;&gt; &#39;%9.3f %9.3f %9.3f %11.3f %11.3f %11.3f&#39; % xy</span>
-<span class="sd">    &#39;567721.149 351747.558 728569.133 4297989.112 4353489.645 4292106.305&#39;</span>
-<span class="sd">    &gt;&gt;&gt; lons, lats = p2(x2,y2,inverse=True)</span>
-<span class="sd">    &gt;&gt;&gt; xy = lons+lats</span>
-<span class="sd">    &gt;&gt;&gt; &#39;%8.3f %8.3f %8.3f %5.3f %5.3f %5.3f&#39; % xy</span>
-<span class="sd">    &#39; -92.220  -94.720  -90.370 38.830 39.320 38.750&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
         <span class="p">(</span>
