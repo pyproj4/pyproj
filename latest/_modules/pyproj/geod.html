@@ -524,7 +524,7 @@
 <span class="sd">            instead of returning a new array. This will fail if the input</span>
 <span class="sd">            is not an array in C order with the double data type.</span>
 <span class="sd">        return_back_azimuth: bool, default=True</span>
-<span class="sd">            if True, the third return value will be the back azimuth,</span>
+<span class="sd">            If True, the third return value will be the back azimuth,</span>
 <span class="sd">            Otherwise, it will be the forward azimuth.</span>
 
 <span class="sd">        Returns</span>
@@ -536,6 +536,20 @@
 <span class="sd">        scalar or array:</span>
 <span class="sd">            Back azimuth(s) or Forward azimuth(s)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Fast-path for scalar input, will raise if invalid types are input</span>
+            <span class="c1"># and we can fallback below</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fwd_point</span><span class="p">(</span>
+                <span class="n">lons</span><span class="p">,</span>
+                <span class="n">lats</span><span class="p">,</span>
+                <span class="n">az</span><span class="p">,</span>
+                <span class="n">dist</span><span class="p">,</span>
+                <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+                <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
         <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
@@ -601,8 +615,8 @@
 <span class="sd">            instead of returning a new array. This will fail if the input</span>
 <span class="sd">            is not an array in C order with the double data type.</span>
 <span class="sd">        return_back_azimuth: bool, default=True</span>
-<span class="sd">            if True, the second return value (azi21) will be the back azimuth</span>
-<span class="sd">            (flipped 180 degrees), Otherwise, it will be also a forward azimuth.</span>
+<span class="sd">            If True, the second return value (azi21) will be the back azimuth</span>
+<span class="sd">            (flipped 180 degrees), Otherwise, it will also be a forward azimuth.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -614,6 +628,20 @@
 <span class="sd">            Distance(s) between initial and terminus point(s)</span>
 <span class="sd">            in meters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Fast-path for scalar input, will raise if invalid types are input</span>
+            <span class="c1"># and we can fallback below</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_point</span><span class="p">(</span>
+                <span class="n">lons1</span><span class="p">,</span>
+                <span class="n">lats1</span><span class="p">,</span>
+                <span class="n">lons2</span><span class="p">,</span>
+                <span class="n">lats2</span><span class="p">,</span>
+                <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+                <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
         <span class="n">iny</span><span class="p">,</span> <span class="n">y_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
