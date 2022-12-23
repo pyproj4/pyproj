@@ -250,6 +250,7 @@
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="kn">from</span> <span class="nn">pyproj._compat</span> <span class="kn">import</span> <span class="n">cstrencode</span>
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">AreaOfUse</span><span class="p">,</span> <span class="n">CoordinateOperation</span>
+<span class="kn">from</span> <span class="nn">pyproj._datadir</span> <span class="kn">import</span> <span class="n">_clear_proj_error</span>
 <span class="kn">from</span> <span class="nn">pyproj._transformer</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401 pylint: disable=unused-import</span>
     <span class="n">AreaOfInterest</span><span class="p">,</span>
     <span class="n">_Transformer</span><span class="p">,</span>
@@ -546,7 +547,7 @@
         <span class="n">transformer_maker</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransformerMaker</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformer_maker</span><span class="p">,</span> <span class="n">TransformerMaker</span><span class="p">):</span>
-            <span class="n">ProjError</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">_clear_proj_error</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
                 <span class="s2">&quot;Transformer must be initialized using: &quot;</span>
                 <span class="s2">&quot;&#39;from_crs&#39; or &#39;from_pipeline&#39;.&quot;</span>
