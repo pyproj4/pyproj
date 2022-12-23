@@ -20,6 +20,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union, 
 from pyproj import CRS
 from pyproj._compat import cstrencode
 from pyproj._crs import AreaOfUse, CoordinateOperation
+from pyproj._datadir import _clear_proj_error
 from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     AreaOfInterest,
     _Transformer,
@@ -316,7 +317,7 @@ class Transformer:
         transformer_maker: Union[TransformerMaker, None] = None,
     ) -> None:
         if not isinstance(transformer_maker, TransformerMaker):
-            ProjError.clear()
+            _clear_proj_error()
             raise ProjError(
                 "Transformer must be initialized using: "
                 "'from_crs' or 'from_pipeline'."
