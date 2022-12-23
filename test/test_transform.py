@@ -3,7 +3,7 @@ import pytest
 from numpy.testing import assert_allclose, assert_almost_equal
 
 from pyproj import Proj, __proj_version__, transform
-from test.conftest import PROJ_GTE_92
+from test.conftest import PROJ_GTE_92, grids_available
 
 
 def test_transform():
@@ -67,9 +67,21 @@ def test_transform_single_point_nad83_to_nad27():
         (569704.566, 4269024.671),
         decimal=3,
     )
+    expected_xy2 = (569722.342, 4268814.028)
+    if PROJ_GTE_92:
+        expected_xy2 = (569720.46, 4268813.88)
+        if grids_available(
+            "ca_nrc_ntv2_0.tif", "us_noaa_nadcon5_nad27_nad83_1986_conus.tif"
+        ):
+            expected_xy2 = (569722.394, 4268814.27)
+        elif grids_available("ca_nrc_ntv2_0.tif", "ca_nrc_ntv1_can.tif"):
+            expected_xy2 = (569706.333, 4268817.68)
+        elif grids_available("us_noaa_conus.tif"):
+            expected_xy2 = (569722.342, 4268814.028)
+
     assert_almost_equal(
         (x2, y2),
-        (569722.394, 4268814.27) if PROJ_GTE_92 else (569722.342, 4268814.028),
+        expected_xy2,
         decimal=3,
     )
     assert_almost_equal(
@@ -100,18 +112,29 @@ def test_transform_tuple_nad83_to_nad27():
         (4298200.739, 4353698.725, 4292319.005),
         decimal=3,
     )
+    expected_x2 = (567721.149, 351747.558, 728569.133)
+    expected_y2 = (4297989.112, 4353489.645, 4292106.305)
+    if PROJ_GTE_92:
+        expected_x2 = (567719.249, 351748.119, 728568.053)
+        expected_y2 = (4297989.776, 4353487.434, 4292108.075)
+        if grids_available("us_noaa_nadcon5_nad27_nad83_1986_conus.tif"):
+            expected_x2 = (567721.401, 351747.526, 728569.212)
+            expected_y2 = (4297989.733, 4353489.752, 4292106.351)
+        elif grids_available("ca_nrc_ntv2_0.tif", "ca_nrc_ntv1_can.tif"):
+            expected_x2 = (567705.072, 351727.113, 728558.917)
+            expected_y2 = (4297993.157, 4353490.111, 4292111.678)
+        elif grids_available("us_noaa_conus.tif"):
+            expected_x2 = (567721.149, 351747.558, 728569.133)
+            expected_y2 = (4297989.112, 4353489.645, 4292106.305)
+
     assert_almost_equal(
         x2,
-        (567721.401, 351747.526, 728569.212)
-        if PROJ_GTE_92
-        else (567721.149, 351747.558, 728569.133),
+        expected_x2,
         decimal=3,
     )
     assert_almost_equal(
         y2,
-        (4297989.733, 4353489.752, 4292106.351)
-        if PROJ_GTE_92
-        else (4297989.112, 4353489.645, 4292106.305),
+        expected_y2,
         decimal=3,
     )
     lons2, lats2 = p2(x2, y2, inverse=True)
