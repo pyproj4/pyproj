@@ -14,13 +14,6 @@ class ProjError(RuntimeError):
             _clear_proj_error()
         super().__init__(error_message)
 
-    @staticmethod
-    def clear() -> None:
-        """
-        This will clear the internal PROJ error message.
-        """
-        _clear_proj_error()
-
 
 class CRSError(ProjError):
     """Raised when a CRS error occurs."""
