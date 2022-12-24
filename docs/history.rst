@@ -9,6 +9,7 @@ Latest
     to mach the default value in `fwd` and `inv`
 - PERF: Optimize point transformations (pull #1204)
 - REF: Raise error when :meth:`.CRS.to_wkt`, :meth:`.CRS.to_json`, or :meth:`.CRS.to_proj4` returns None (issue #1036)
+- CLN: Remove `AzumuthalEquidistantConversion` & :class:`LambertAzumuthalEqualAreaConversion`. :class:`AzimuthalEquidistantConversion` & :class:`LambertAzimuthalEqualAreaConversion` should be used instead (pull #1219)
 
 
 3.4.1
