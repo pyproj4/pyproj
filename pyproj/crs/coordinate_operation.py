@@ -173,36 +173,6 @@ class AzimuthalEquidistantConversion(CoordinateOperation):
         return cls.from_json_dict(aeqd_json)
 
 
-class AzumuthalEquidistantConversion(AzimuthalEquidistantConversion):
-    """
-    For backwards compatibility.
-
-    .. versionadded:: 2.5.0
-    .. deprecated:: 3.2.0
-    """
-
-    def __new__(
-        cls,
-        latitude_natural_origin: float = 0.0,
-        longitude_natural_origin: float = 0.0,
-        false_easting: float = 0.0,
-        false_northing: float = 0.0,
-    ):
-        warnings.warn(
-            "AzumuthalEquidistantConversion is deprecated. "
-            "Please use AzimuthalEquidistantConversion.",
-            FutureWarning,
-            stacklevel=2,
-        )
-        return AzimuthalEquidistantConversion.__new__(
-            AzimuthalEquidistantConversion,
-            latitude_natural_origin=latitude_natural_origin,
-            longitude_natural_origin=longitude_natural_origin,
-            false_easting=false_easting,
-            false_northing=false_northing,
-        )
-
-
 class GeostationarySatelliteConversion(CoordinateOperation):
     """
     .. versionadded:: 2.5.0
@@ -356,36 +326,6 @@ class LambertAzimuthalEqualAreaConversion(CoordinateOperation):
             ],
         }
         return cls.from_json_dict(laea_json)
-
-
-class LambertAzumuthalEqualAreaConversion(LambertAzimuthalEqualAreaConversion):
-    """
-    For backwards compatibility.
-
-    .. versionadded:: 2.5.0
-    .. deprecated:: 3.2.0
-    """
-
-    def __new__(
-        cls,
-        latitude_natural_origin: float = 0.0,
-        longitude_natural_origin: float = 0.0,
-        false_easting: float = 0.0,
-        false_northing: float = 0.0,
-    ):
-        warnings.warn(
-            "LambertAzumuthalEqualAreaConversion is deprecated. "
-            "Please use LambertAzimuthalEqualAreaConversion.",
-            FutureWarning,
-            stacklevel=2,
-        )
-        return LambertAzimuthalEqualAreaConversion.__new__(
-            LambertAzimuthalEqualAreaConversion,
-            latitude_natural_origin=latitude_natural_origin,
-            longitude_natural_origin=longitude_natural_origin,
-            false_easting=false_easting,
-            false_northing=false_northing,
-        )
 
 
 class LambertConformalConic2SPConversion(CoordinateOperation):

@@ -5,12 +5,10 @@ from pyproj.crs import GeographicCRS
 from pyproj.crs.coordinate_operation import (
     AlbersEqualAreaConversion,
     AzimuthalEquidistantConversion,
-    AzumuthalEquidistantConversion,
     EquidistantCylindricalConversion,
     GeostationarySatelliteConversion,
     HotineObliqueMercatorBConversion,
     LambertAzimuthalEqualAreaConversion,
-    LambertAzumuthalEqualAreaConversion,
     LambertConformalConic1SPConversion,
     LambertConformalConic2SPConversion,
     LambertCylindricalEqualAreaConversion,
@@ -74,19 +72,6 @@ def test_albers_equal_area_operation():
         "Latitude of false origin": 3.0,
         "Longitude of false origin": 4.0,
         "Northing at false origin": 6.0,
-    }
-
-
-def test_azumuthal_equidistant_operation__defaults():
-    with pytest.warns(FutureWarning, match="deprecated"):
-        aeop = AzumuthalEquidistantConversion()
-    assert aeop.name == "unknown"
-    assert aeop.method_name == "Modified Azimuthal Equidistant"
-    assert _to_dict(aeop) == {
-        "Latitude of natural origin": 0.0,
-        "Longitude of natural origin": 0.0,
-        "False easting": 0.0,
-        "False northing": 0.0,
     }
 
 
@@ -156,19 +141,6 @@ def test_geostationary_operation():
 def test_geostationary_operation__invalid_sweep():
     with pytest.raises(CRSError):
         GeostationarySatelliteConversion(sweep_angle_axis="P", satellite_height=10)
-
-
-def test_lambert_azumuthal_equal_area_operation__defaults():
-    with pytest.warns(FutureWarning, match="deprecated"):
-        aeop = LambertAzumuthalEqualAreaConversion()
-    assert aeop.name == "unknown"
-    assert aeop.method_name == "Lambert Azimuthal Equal Area"
-    assert _to_dict(aeop) == {
-        "Latitude of natural origin": 0.0,
-        "Longitude of natural origin": 0.0,
-        "False easting": 0.0,
-        "False northing": 0.0,
-    }
 
 
 def test_lambert_azimuthal_equal_area_operation__defaults():
