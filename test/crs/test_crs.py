@@ -939,14 +939,14 @@ def test_to_wkt_none_warning(wkt_version):
         'ORDER[3],LENGTHUNIT["metre",1,ID["EPSG",9001]]]]'
     )
     crs = CRS.from_wkt(wkt_string)
-    with pytest.warns(FutureWarning, match="CRS cannot be converted to a WKT string"):
+    with pytest.raises(CRSError, match="CRS cannot be converted to a WKT string"):
         assert crs.to_wkt(version=wkt_version) is None
 
 
 def test_to_proj4_none_warning():
     crs = CRS("EPSG:4326")
-    with patch("pyproj.crs.crs.CRS._crs") as crs_mock, pytest.warns(
-        FutureWarning, match="CRS cannot be converted to a PROJ string"
+    with patch("pyproj.crs.crs.CRS._crs") as crs_mock, pytest.raises(
+        CRSError, match="CRS cannot be converted to a PROJ string"
     ):
         crs_mock.to_proj4.return_value = None
         assert crs.to_proj4() is None
@@ -954,8 +954,8 @@ def test_to_proj4_none_warning():
 
 def test_to_json_none_warning():
     crs = CRS("EPSG:4326")
-    with patch("pyproj.crs.crs.CRS._crs") as crs_mock, pytest.warns(
-        FutureWarning, match="CRS cannot be converted to a PROJ JSON string"
+    with patch("pyproj.crs.crs.CRS._crs") as crs_mock, pytest.raises(
+        CRSError, match="CRS cannot be converted to a PROJ JSON string"
     ):
         crs_mock.to_json.return_value = None
         assert crs.to_json() is None
