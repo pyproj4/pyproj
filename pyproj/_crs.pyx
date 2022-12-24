@@ -289,13 +289,15 @@ cdef class Axis:
 
     @staticmethod
     cdef Axis create(PJ_CONTEXT* context, PJ* projobj, int index):
-        cdef Axis axis_info = Axis()
-        cdef const char * name = NULL
-        cdef const char * abbrev = NULL
-        cdef const char * direction = NULL
-        cdef const char * unit_name = NULL
-        cdef const char * unit_auth_code = NULL
-        cdef const char * unit_code = NULL
+        cdef:
+            Axis axis_info = Axis()
+            const char * name = NULL
+            const char * abbrev = NULL
+            const char * direction = NULL
+            const char * unit_name = NULL
+            const char * unit_auth_code = NULL
+            const char * unit_code = NULL
+
         if not proj_cs_get_axis_info(
                 context,
                 projobj,
@@ -318,11 +320,13 @@ cdef class Axis:
 
 
 cdef create_area_of_use(PJ_CONTEXT* context, PJ* projobj):
-    cdef double west = float("nan")
-    cdef double south = float("nan")
-    cdef double east = float("nan")
-    cdef double north = float("nan")
-    cdef const char * area_name = NULL
+    cdef:
+        double west = float("nan")
+        double south = float("nan")
+        double east = float("nan")
+        double north = float("nan")
+        const char * area_name = NULL
+
     if not proj_get_area_of_use(
             context,
             projobj,
@@ -1703,17 +1707,19 @@ cdef class Param:
 
     @staticmethod
     cdef Param create(PJ_CONTEXT* context, PJ* projobj, int param_idx):
-        cdef Param param = Param()
-        cdef const char *out_name
-        cdef const char *out_auth_name
-        cdef const char *out_code
-        cdef const char *out_value
-        cdef const char *out_value_string
-        cdef const char *out_unit_name
-        cdef const char *out_unit_auth_name
-        cdef const char *out_unit_code
-        cdef const char *out_unit_category
-        cdef double value_double
+        cdef:
+            Param param = Param()
+            const char *out_name
+            const char *out_auth_name
+            const char *out_code
+            const char *out_value
+            const char *out_value_string
+            const char *out_unit_name
+            const char *out_unit_auth_name
+            const char *out_unit_code
+            const char *out_unit_category
+            double value_double
+
         proj_coordoperation_get_param(
             context,
             projobj,
@@ -1787,14 +1793,16 @@ cdef class Grid:
 
     @staticmethod
     cdef Grid create(PJ_CONTEXT* context, PJ* projobj, int grid_idx):
-        cdef Grid grid = Grid()
-        cdef const char *out_short_name
-        cdef const char *out_full_name
-        cdef const char *out_package_name
-        cdef const char *out_url
-        cdef int direct_download = 0
-        cdef int open_license = 0
-        cdef int available = 0
+        cdef:
+            Grid grid = Grid()
+            const char *out_short_name
+            const char *out_full_name
+            const char *out_package_name
+            const char *out_url
+            int direct_download = 0
+            int open_license = 0
+            int available = 0
+
         proj_coordoperation_get_grid_used(
             context,
             projobj,
