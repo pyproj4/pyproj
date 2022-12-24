@@ -47,20 +47,31 @@ _PORTLAND_LON = -123.0 - (41.0 / 60.0)
     ],
 )
 def test_geodesic_inv(
-    ellipsoid, true_az12, true_az21, expected_distance, return_back_azimuth
+    ellipsoid,
+    true_az12,
+    true_az21,
+    expected_distance,
+    return_back_azimuth,
+    scalar_and_array,
 ):
     geod = Geod(ellps=ellipsoid)
     az12, az21, dist = geod.inv(
-        _BOSTON_LON,
-        _BOSTON_LAT,
-        _PORTLAND_LON,
-        _PORTLAND_LAT,
+        scalar_and_array(_BOSTON_LON),
+        scalar_and_array(_BOSTON_LAT),
+        scalar_and_array(_PORTLAND_LON),
+        scalar_and_array(_PORTLAND_LAT),
         return_back_azimuth=return_back_azimuth,
     )
     if not return_back_azimuth:
         az21 = reverse_azimuth(az21)
     assert_almost_equal(
-        (az12, az21, dist), (true_az12, true_az21, expected_distance), decimal=3
+        (az12, az21, dist),
+        (
+            scalar_and_array(true_az12),
+            scalar_and_array(true_az21),
+            scalar_and_array(expected_distance),
+        ),
+        decimal=3,
     )
 
 
@@ -116,11 +127,19 @@ def test_geodesic_inv(
     ],
 )
 def test_geodesic_inv__multiple_points(
-    lon_start, lat_start, lon_end, lat_end, res12, res21, resdist
+    lon_start, lat_start, lon_end, lat_end, res12, res21, resdist, scalar_and_array
 ):
     geod = Geod(ellps="clrk66")
-    o_az12, o_az21, o_dist = geod.inv(lon_start, lat_start, lon_end, lat_end)
-    assert_almost_equal((o_az12, o_az21, o_dist), (res12, res21, resdist))
+    o_az12, o_az21, o_dist = geod.inv(
+        scalar_and_array(lon_start),
+        scalar_and_array(lat_start),
+        scalar_and_array(lon_end),
+        scalar_and_array(lat_end),
+    )
+    assert_almost_equal(
+        (o_az12, o_az21, o_dist),
+        (scalar_and_array(res12), scalar_and_array(res21), scalar_and_array(resdist)),
+    )
 
 
 @pytest.mark.parametrize(
@@ -368,20 +387,31 @@ def test_geodesic_fwd_intermediate__numpy(return_back_azimuth):
     ],
 )
 def test_geodesic_fwd(
-    ellipsoid, true_az12, true_az21, expected_distance, return_back_azimuth
+    ellipsoid,
+    true_az12,
+    true_az21,
+    expected_distance,
+    return_back_azimuth,
+    scalar_and_array,
 ):
     geod = Geod(ellps=ellipsoid)
     endlon, endlat, backaz = geod.fwd(
-        _BOSTON_LON,
-        _BOSTON_LAT,
-        true_az12,
-        expected_distance,
+        scalar_and_array(_BOSTON_LON),
+        scalar_and_array(_BOSTON_LAT),
+        scalar_and_array(true_az12),
+        scalar_and_array(expected_distance),
         return_back_azimuth=return_back_azimuth,
     )
     if not return_back_azimuth:
         backaz = reverse_azimuth(backaz)
     assert_almost_equal(
-        (endlon, endlat, backaz), (_PORTLAND_LON, _PORTLAND_LAT, true_az21), decimal=3
+        (endlon, endlat, backaz),
+        (
+            scalar_and_array(_PORTLAND_LON),
+            scalar_and_array(_PORTLAND_LAT),
+            scalar_and_array(true_az21),
+        ),
+        decimal=3,
     )
 
 
@@ -418,12 +448,23 @@ def test_geodesic_npts(include_initial, include_terminus):
     [("clrk66", -66.531, 75.654, 4164192.708), ("WGS84", -66.530, 75.654, 4164074.239)],
 )
 def test_geodesic_inv__pickle(
-    ellipsoid, expected_azi12, expected_az21, expected_dist, tmp_path
+    ellipsoid, expected_azi12, expected_az21, expected_dist, tmp_path, scalar_and_array
 ):
     geod = Geod(ellps=ellipsoid)
-    az12, az21, dist = geod.inv(_BOSTON_LON, _BOSTON_LAT, _PORTLAND_LON, _PORTLAND_LAT)
+    az12, az21, dist = geod.inv(
+        scalar_and_array(_BOSTON_LON),
+        scalar_and_array(_BOSTON_LAT),
+        scalar_and_array(_PORTLAND_LON),
+        scalar_and_array(_PORTLAND_LAT),
+    )
     assert_almost_equal(
-        (az12, az21, dist), (expected_azi12, expected_az21, expected_dist), decimal=3
+        (az12, az21, dist),
+        (
+            scalar_and_array(expected_azi12),
+            scalar_and_array(expected_az21),
+            scalar_and_array(expected_dist),
+        ),
+        decimal=3,
     )
     pickle_file = tmp_path / "geod1.pickle"
     with open(pickle_file, "wb") as gp1w:
@@ -431,19 +472,39 @@ def test_geodesic_inv__pickle(
     with open(pickle_file, "rb") as gp1:
         geod_pickle = pickle.load(gp1)
     pickle_az12, pickle_az21, pickle_dist = geod_pickle.inv(
-        _BOSTON_LON, _BOSTON_LAT, _PORTLAND_LON, _PORTLAND_LAT
+        scalar_and_array(_BOSTON_LON),
+        scalar_and_array(_BOSTON_LAT),
+        scalar_and_array(_PORTLAND_LON),
+        scalar_and_array(_PORTLAND_LAT),
     )
     assert_almost_equal(
         (pickle_az12, pickle_az21, pickle_dist),
-        (expected_azi12, expected_az21, expected_dist),
+        (
+            scalar_and_array(expected_azi12),
+            scalar_and_array(expected_az21),
+            scalar_and_array(expected_dist),
+        ),
         decimal=3,
     )
 
 
-def test_geodesic_inv__string_init():
+def test_geodesic_inv__string_init(scalar_and_array):
     geod = Geod("+ellps=clrk66")
-    az12, az21, dist = geod.inv(_BOSTON_LON, _BOSTON_LAT, _PORTLAND_LON, _PORTLAND_LAT)
-    assert_almost_equal((az12, az21, dist), (-66.531, 75.654, 4164192.708), decimal=3)
+    az12, az21, dist = geod.inv(
+        scalar_and_array(_BOSTON_LON),
+        scalar_and_array(_BOSTON_LAT),
+        scalar_and_array(_PORTLAND_LON),
+        scalar_and_array(_PORTLAND_LAT),
+    )
+    assert_almost_equal(
+        (az12, az21, dist),
+        (
+            scalar_and_array(-66.531),
+            scalar_and_array(75.654),
+            scalar_and_array(4164192.708),
+        ),
+        decimal=3,
+    )
 
 
 def test_line_length__single_point():
@@ -811,7 +872,7 @@ def test_geod_scalar_array(func_name, radians):
 
 
 @pytest.mark.parametrize(
-    "lons1,lats1,lons2", permutations([10.0, [10.0], (10.0,)])
+    "lons1,lats1,lons2", permutations([10.0, [10.0], (10.0,), numpy.array([10.0])], 3)
 )  # 6 test cases
 def test_geod_inv_honours_input_types(lons1, lats1, lons2):
     # 622

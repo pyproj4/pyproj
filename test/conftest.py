@@ -94,7 +94,14 @@ def assert_can_pickle(raw_obj, tmp_path):
     assert raw_obj == unpickled
 
 
-def _make_longer_array(data: float):
+def _make_1_element_array(data: float):
+    """
+    Turn the float into a 1-element array
+    """
+    return numpy.array([data])
+
+
+def _make_2_element_array(data: float):
     """
     Turn the float into a 2-element array
     """
@@ -105,7 +112,8 @@ def _make_longer_array(data: float):
     params=[
         float,
         numpy.array,
-        _make_longer_array,
+        _make_1_element_array,
+        _make_2_element_array,
     ]
 )
 def scalar_and_array(request):
