@@ -152,14 +152,18 @@ cdef class _TransformerGroup:
         with unknown accuracy are sorted last, whatever their area.
         """
         self.context = pyproj_context_create()
-        cdef PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
-        cdef PJ_OBJ_LIST * pj_operations = NULL
-        cdef PJ* pj_transform = NULL
-        cdef PJ_CONTEXT* context = NULL
-        cdef const char* c_authority = NULL
-        cdef int num_operations = 0
-        cdef int is_instantiable = 0
-        cdef double west_lon_degree, south_lat_degree, east_lon_degree, north_lat_degree
+        cdef:
+            PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
+            PJ_OBJ_LIST * pj_operations = NULL
+            PJ* pj_transform = NULL
+            PJ_CONTEXT* context = NULL
+            const char* c_authority = NULL
+            int num_operations = 0
+            int is_instantiable = 0
+            double west_lon_degree
+            double south_lat_degree
+            double east_lon_degree
+            double north_lat_degree
 
         if authority is not None:
             c_authority = authority
@@ -285,10 +289,12 @@ cdef PJ* proj_create_crs_to_crs(
         )
         return NULL
 
-    cdef const char* options[5]
-    cdef bytes b_authority
-    cdef bytes b_accuracy
-    cdef int options_index = 0
+    cdef:
+        const char* options[5]
+        bytes b_authority
+        bytes b_accuracy
+        int options_index = 0
+
     options[0] = NULL
     options[1] = NULL
     options[2] = NULL
@@ -517,12 +523,14 @@ cdef class _Transformer(Base):
         """
         Create a transformer from CRS objects
         """
-        cdef PJ_AREA *pj_area_of_interest = NULL
-        cdef double west_lon_degree
-        cdef double south_lat_degree
-        cdef double east_lon_degree
-        cdef double north_lat_degree
-        cdef _Transformer transformer = _Transformer()
+        cdef:
+            PJ_AREA *pj_area_of_interest = NULL
+            double west_lon_degree
+            double south_lat_degree
+            double east_lon_degree
+            double north_lat_degree
+            _Transformer transformer = _Transformer()
+
         try:
             if area_of_interest is not None:
                 if not isinstance(area_of_interest, AreaOfInterest):
@@ -643,13 +651,18 @@ cdef class _Transformer(Base):
     ):
         if self.id == "noop":
             return
-        cdef PJ_DIRECTION pj_direction = get_pj_direction(direction)
-        cdef PyBuffWriteManager xbuff = PyBuffWriteManager(inx)
-        cdef PyBuffWriteManager ybuff = PyBuffWriteManager(iny)
 
-        cdef PyBuffWriteManager zbuff
-        cdef Py_ssize_t buflenz
-        cdef double* zz
+        cdef:
+            PJ_DIRECTION pj_direction = get_pj_direction(direction)
+            PyBuffWriteManager xbuff = PyBuffWriteManager(inx)
+            PyBuffWriteManager ybuff = PyBuffWriteManager(iny)
+            PyBuffWriteManager zbuff
+            PyBuffWriteManager tbuff
+            Py_ssize_t buflenz
+            Py_ssize_t buflent
+            double* zz
+            double* tt
+
         if inz is not None:
             zbuff = PyBuffWriteManager(inz)
             buflenz = zbuff.len
@@ -658,9 +671,6 @@ cdef class _Transformer(Base):
             buflenz = xbuff.len
             zz = NULL
 
-        cdef PyBuffWriteManager tbuff
-        cdef Py_ssize_t buflent
-        cdef double* tt
         if intime is not None:
             tbuff = PyBuffWriteManager(intime)
             buflent = tbuff.len
@@ -733,11 +743,16 @@ cdef class _Transformer(Base):
         """
         Optimized to transform a single point between two coordinate systems.
         """
-        cdef double coord_x = inx
-        cdef double coord_y = iny
-        cdef double coord_z = 0
-        cdef double coord_t = HUGE_VAL
-        cdef tuple expected_numeric_types = (int, float)
+        cdef:
+            double coord_x = inx
+            double coord_y = iny
+            double coord_z = 0
+            double coord_t = HUGE_VAL
+            tuple expected_numeric_types = (int, float)
+
+        # We do the type-checking internally here due to automatically
+        # casting length-1 arrays to float that we don't want to return scalar for.
+        # Ex: float(np.array([0])) works and we don't want to accept numpy arrays
         if not isinstance(inx, expected_numeric_types):
             raise TypeError("Scalar input expected for x")
         if not isinstance(iny, expected_numeric_types):
@@ -760,9 +775,11 @@ cdef class _Transformer(Base):
                 return_data += (intime,)
             return return_data
 
-        cdef PJ_DIRECTION pj_direction = get_pj_direction(direction)
-        cdef PJ_COORD projxyout
-        cdef PJ_COORD projxyin = proj_coord(coord_x, coord_y, coord_z, coord_t)
+        cdef:
+            PJ_DIRECTION pj_direction = get_pj_direction(direction)
+            PJ_COORD projxyout
+            PJ_COORD projxyin = proj_coord(coord_x, coord_y, coord_z, coord_t)
+
         with nogil:
             # degrees to radians
             if not radians and proj_angular_input(self.projobj, pj_direction):
@@ -815,21 +832,27 @@ cdef class _Transformer(Base):
         bint radians,
         bint errcheck,
     ):
+        # private function to itransform function
         if self.id == "noop":
             return
-        cdef PJ_DIRECTION pj_direction = get_pj_direction(direction)
-        # private function to itransform function
-        cdef double *x
-        cdef double *y
-        cdef double *z
-        cdef double *tt
+
+        cdef:
+            PJ_DIRECTION pj_direction = get_pj_direction(direction)
+            double *x
+            double *y
+            double *z
+            double *tt
 
         if stride < 2:
             raise ProjError("coordinates must contain at least 2 values")
 
-        cdef PyBuffWriteManager coordbuff = PyBuffWriteManager(inseq)
-        cdef Py_ssize_t npts, iii, jjj
-        cdef int errno = 0
+        cdef:
+            PyBuffWriteManager coordbuff = PyBuffWriteManager(inseq)
+            Py_ssize_t npts
+            Py_ssize_t iii
+            Py_ssize_t jjj
+            int errno = 0
+
         npts = coordbuff.len // stride
         with nogil:
             # degrees to radians
@@ -918,12 +941,13 @@ cdef class _Transformer(Base):
         if self.id == "noop" or pj_direction == PJ_IDENT:
             return (left, bottom, right, top)
 
-        cdef int errno = 0
-        cdef bint success = True
-        cdef double out_left = left
-        cdef double out_bottom = bottom
-        cdef double out_right = right
-        cdef double out_top = top
+        cdef:
+            int errno = 0
+            bint success = True
+            double out_left = left
+            double out_bottom = bottom
+            double out_right = right
+            double out_top = top
 
         with nogil:
             # degrees to radians
@@ -1013,32 +1037,42 @@ cdef class _Transformer(Base):
         dx_dphi = copy.copy(longitude)
         dy_dlam = copy.copy(longitude)
         dy_dphi = copy.copy(longitude)
-        cdef PyBuffWriteManager meridional_scale_buff = PyBuffWriteManager(
-            meridional_scale)
-        cdef PyBuffWriteManager parallel_scale_buff = PyBuffWriteManager(
-            parallel_scale)
-        cdef PyBuffWriteManager areal_scale_buff = PyBuffWriteManager(areal_scale)
-        cdef PyBuffWriteManager angular_distortion_buff = PyBuffWriteManager(
-            angular_distortion)
-        cdef PyBuffWriteManager meridian_parallel_angle_buff = PyBuffWriteManager(
-            meridian_parallel_angle)
-        cdef PyBuffWriteManager meridian_convergence_buff = PyBuffWriteManager(
-            meridian_convergence)
-        cdef PyBuffWriteManager tissot_semimajor_buff = PyBuffWriteManager(
-            tissot_semimajor)
-        cdef PyBuffWriteManager tissot_semiminor_buff = PyBuffWriteManager(
-            tissot_semiminor)
-        cdef PyBuffWriteManager dx_dlam_buff = PyBuffWriteManager(dx_dlam)
-        cdef PyBuffWriteManager dx_dphi_buff = PyBuffWriteManager(dx_dphi)
-        cdef PyBuffWriteManager dy_dlam_buff = PyBuffWriteManager(dy_dlam)
-        cdef PyBuffWriteManager dy_dphi_buff = PyBuffWriteManager(dy_dphi)
 
-        # calculate the factors
-        cdef PJ_COORD pj_coord = proj_coord(0, 0, 0, HUGE_VAL)
-        cdef PJ_FACTORS pj_factors
-        cdef int errno = 0
-        cdef bint invalid_coord = 0
-        cdef Py_ssize_t iii
+        cdef:
+            PyBuffWriteManager meridional_scale_buff = PyBuffWriteManager(
+                meridional_scale
+            )
+            PyBuffWriteManager parallel_scale_buff = PyBuffWriteManager(
+                parallel_scale
+            )
+            PyBuffWriteManager areal_scale_buff = PyBuffWriteManager(areal_scale)
+            PyBuffWriteManager angular_distortion_buff = PyBuffWriteManager(
+                angular_distortion
+            )
+            PyBuffWriteManager meridian_parallel_angle_buff = PyBuffWriteManager(
+                meridian_parallel_angle
+            )
+            PyBuffWriteManager meridian_convergence_buff = PyBuffWriteManager(
+                meridian_convergence
+            )
+            PyBuffWriteManager tissot_semimajor_buff = PyBuffWriteManager(
+                tissot_semimajor
+            )
+            PyBuffWriteManager tissot_semiminor_buff = PyBuffWriteManager(
+                tissot_semiminor
+            )
+            PyBuffWriteManager dx_dlam_buff = PyBuffWriteManager(dx_dlam)
+            PyBuffWriteManager dx_dphi_buff = PyBuffWriteManager(dx_dphi)
+            PyBuffWriteManager dy_dlam_buff = PyBuffWriteManager(dy_dlam)
+            PyBuffWriteManager dy_dphi_buff = PyBuffWriteManager(dy_dphi)
+
+            # calculate the factors
+            PJ_COORD pj_coord = proj_coord(0, 0, 0, HUGE_VAL)
+            PJ_FACTORS pj_factors
+            int errno = 0
+            bint invalid_coord = 0
+            Py_ssize_t iii
+
         with nogil:
             for iii in range(lonbuff.len):
                 pj_coord.uv.u = lonbuff.data[iii]

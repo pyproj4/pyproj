@@ -42,28 +42,29 @@ out_azis: Any
 """
 
 
-cdef int GEOD_INTER_FLAG_DEFAULT = GeodIntermediateFlag.DEFAULT
+cdef:
+    int GEOD_INTER_FLAG_DEFAULT = GeodIntermediateFlag.DEFAULT
 
-cdef int GEOD_INTER_FLAG_NPTS_MASK = (
-    GeodIntermediateFlag.NPTS_ROUND
-    | GeodIntermediateFlag.NPTS_CEIL
-    | GeodIntermediateFlag.NPTS_TRUNC
-)
-cdef int GEOD_INTER_FLAG_NPTS_ROUND = GeodIntermediateFlag.NPTS_ROUND
-cdef int GEOD_INTER_FLAG_NPTS_CEIL = GeodIntermediateFlag.NPTS_CEIL
-cdef int GEOD_INTER_FLAG_NPTS_TRUNC = GeodIntermediateFlag.NPTS_TRUNC
+    int GEOD_INTER_FLAG_NPTS_MASK = (
+        GeodIntermediateFlag.NPTS_ROUND
+        | GeodIntermediateFlag.NPTS_CEIL
+        | GeodIntermediateFlag.NPTS_TRUNC
+    )
+    int GEOD_INTER_FLAG_NPTS_ROUND = GeodIntermediateFlag.NPTS_ROUND
+    int GEOD_INTER_FLAG_NPTS_CEIL = GeodIntermediateFlag.NPTS_CEIL
+    int GEOD_INTER_FLAG_NPTS_TRUNC = GeodIntermediateFlag.NPTS_TRUNC
 
-cdef int GEOD_INTER_FLAG_DEL_S_MASK = (
-    GeodIntermediateFlag.DEL_S_RECALC | GeodIntermediateFlag.DEL_S_NO_RECALC
-)
-cdef int GEOD_INTER_FLAG_DEL_S_RECALC = GeodIntermediateFlag.DEL_S_RECALC
-cdef int GEOD_INTER_FLAG_DEL_S_NO_RECALC = GeodIntermediateFlag.DEL_S_NO_RECALC
+    int GEOD_INTER_FLAG_DEL_S_MASK = (
+        GeodIntermediateFlag.DEL_S_RECALC | GeodIntermediateFlag.DEL_S_NO_RECALC
+    )
+    int GEOD_INTER_FLAG_DEL_S_RECALC = GeodIntermediateFlag.DEL_S_RECALC
+    int GEOD_INTER_FLAG_DEL_S_NO_RECALC = GeodIntermediateFlag.DEL_S_NO_RECALC
 
-cdef int GEOD_INTER_FLAG_AZIS_MASK = (
-    GeodIntermediateFlag.AZIS_DISCARD | GeodIntermediateFlag.AZIS_KEEP
-)
-cdef int GEOD_INTER_FLAG_AZIS_DISCARD = GeodIntermediateFlag.AZIS_DISCARD
-cdef int GEOD_INTER_FLAG_AZIS_KEEP = GeodIntermediateFlag.AZIS_KEEP
+    int GEOD_INTER_FLAG_AZIS_MASK = (
+        GeodIntermediateFlag.AZIS_DISCARD | GeodIntermediateFlag.AZIS_KEEP
+    )
+    int GEOD_INTER_FLAG_AZIS_DISCARD = GeodIntermediateFlag.AZIS_DISCARD
+    int GEOD_INTER_FLAG_AZIS_KEEP = GeodIntermediateFlag.AZIS_KEEP
 
 
 cdef double _reverse_azimuth(double azi, double factor) nogil:
@@ -119,17 +120,26 @@ cdef class Geod:
         if radians=True, lons/lats are radians instead of degrees.
         if return_back_azimuth=True, the return azimuth will be the forward azimuth instead of the forward azimuth.
         """
-        cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
-        cdef PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
-        cdef PyBuffWriteManager azbuff = PyBuffWriteManager(az)
-        cdef PyBuffWriteManager distbuff = PyBuffWriteManager(dist)
+        cdef:
+            PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
+            PyBuffWriteManager latbuff = PyBuffWriteManager(lats)
+            PyBuffWriteManager azbuff = PyBuffWriteManager(az)
+            PyBuffWriteManager distbuff = PyBuffWriteManager(dist)
 
         # process data in buffer
         if not lonbuff.len == latbuff.len == azbuff.len == distbuff.len:
             raise GeodError("Array lengths are not the same.")
 
-        cdef double lat1, lon1, az1, s12, plon2, plat2, pazi2
-        cdef Py_ssize_t iii
+        cdef:
+            double lat1
+            double lon1
+            double az1
+            double s12
+            double plon2
+            double plat2
+            double pazi2
+            Py_ssize_t iii
+
         with nogil:
             for iii in range(lonbuff.len):
                 if not radians:
@@ -184,18 +194,20 @@ cdef class Geod:
         forward azimuth and distance.
         if radians=True, lons/lats are radians instead of degrees.
         """
-        cdef double plon2, plat2, pazi2
+        cdef:
+            double plon2
+            double plat2
+            double pazi2
+            double lon1 = lon1in
+            double lat1 = lat1in
+            double az1 = az1in
+            double s12 = s12in
 
-        # We do the type-checking internally here rather than declaring double as the
-        # type into the function due to automatically casting length-1 arrays to float
-        # that we don't want to return scalar for.
+        # We do the type-checking internally here due to automatically
+        # casting length-1 arrays to float that we don't want to return scalar for.
         # Ex: float(np.array([0])) works and we don't want to accept numpy arrays
-        cdef double lon1 = lon1in
-        cdef double lat1 = lat1in
-        cdef double az1 = az1in
-        cdef double s12 = s12in
-        for x in (lon1in, lat1in, az1in, s12in):
-            if not isinstance(x, (float, int)):
+        for x_in in (lon1in, lat1in, az1in, s12in):
+            if not isinstance(x_in, (float, int)):
                 raise TypeError("Scalar input is required for point based functions")
 
         with nogil:
@@ -241,17 +253,26 @@ cdef class Geod:
         if return_back_azimuth=True, azi21 is a back azimuth (180 degrees flipped),
         otherwise azi21 is also a forward azimuth.
         """
-        cdef PyBuffWriteManager lon1buff = PyBuffWriteManager(lons1)
-        cdef PyBuffWriteManager lat1buff = PyBuffWriteManager(lats1)
-        cdef PyBuffWriteManager lon2buff = PyBuffWriteManager(lons2)
-        cdef PyBuffWriteManager lat2buff = PyBuffWriteManager(lats2)
+        cdef:
+            PyBuffWriteManager lon1buff = PyBuffWriteManager(lons1)
+            PyBuffWriteManager lat1buff = PyBuffWriteManager(lats1)
+            PyBuffWriteManager lon2buff = PyBuffWriteManager(lons2)
+            PyBuffWriteManager lat2buff = PyBuffWriteManager(lats2)
 
         # process data in buffer
         if not lon1buff.len == lat1buff.len == lon2buff.len == lat2buff.len:
             raise GeodError("Array lengths are not the same.")
 
-        cdef double lat1, lon1, lat2, lon2, pazi1, pazi2, ps12
-        cdef Py_ssize_t iii
+        cdef:
+            double lat1
+            double lon1
+            double lat2
+            double lon2
+            double pazi1
+            double pazi2
+            double ps12
+            Py_ssize_t iii
+
         with nogil:
             for iii in range(lon1buff.len):
                 if radians:
@@ -301,17 +322,20 @@ cdef class Geod:
         between an initial and terminus lat/lon pair.
         if radians=True, lons/lats are radians instead of degree
         """
-        cdef double pazi1, pazi2, ps12
-        # We do the type-checking internally here rather than declaring double as the
-        # type into the function due to automatically casting length-1 arrays to float
-        # that we don't want to return scalar for.
+        cdef:
+            double pazi1
+            double pazi2
+            double ps12
+            double lon1 = lon1in
+            double lat1 = lat1in
+            double lon2 = lon2in
+            double lat2 = lat2in
+
+        # We do the type-checking internally here due to automatically
+        # casting length-1 arrays to float that we don't want to return scalar for.
         # Ex: float(np.array([0])) works and we don't want to accept numpy arrays
-        cdef double lon1 = lon1in
-        cdef double lat1 = lat1in
-        cdef double lon2 = lon2in
-        cdef double lat2 = lat2in
-        for x in (lon1in, lat1in, lon2in, lat2in):
-            if not isinstance(x, (float, int)):
+        for x_in in (lon1in, lat1in, lon2in, lat2in):
+            if not isinstance(x_in, (float, int)):
                 raise TypeError("Scalar input is required for point based functions")
 
         with nogil:
@@ -359,22 +383,21 @@ cdef class Geod:
         given initial and terminus lat/lon, find npts intermediate points.
         using given lons, lats buffers
         """
-        cdef Py_ssize_t iii
-        cdef double pazi2
-        cdef double s12
-        cdef double plon2
-        cdef double plat2
-        cdef geod_geodesicline line
-
-        cdef bint store_az = \
-            out_azis is not None \
-            or (flags & GEOD_INTER_FLAG_AZIS_MASK) == GEOD_INTER_FLAG_AZIS_KEEP
-
-        cdef PyBuffWriteManager lons_buff
-        cdef PyBuffWriteManager lats_buff
-        cdef PyBuffWriteManager azis_buff
-
-        cdef bint is_fwd = isnan(lat2_or_nan)
+        cdef:
+            Py_ssize_t iii
+            double pazi2
+            double s12
+            double plon2
+            double plat2
+            geod_geodesicline line
+            bint store_az = (
+                out_azis is not None or
+                (flags & GEOD_INTER_FLAG_AZIS_MASK) == GEOD_INTER_FLAG_AZIS_KEEP
+            )
+            PyBuffWriteManager lons_buff
+            PyBuffWriteManager lats_buff
+            PyBuffWriteManager azis_buff
+            bint is_fwd = isnan(lat2_or_nan)
 
         if not is_fwd and (del_s == 0) == (npts == 0):
             raise GeodError("inv_intermediate: "
@@ -486,9 +509,17 @@ cdef class Geod:
             lonbuff.data[0] = 0
             return 0.0
 
-        cdef double lat1, lon1, lat2, lon2, pazi1, pazi2, ps12
-        cdef double total_distance = 0.0
-        cdef Py_ssize_t iii
+        cdef:
+            double lat1
+            double lon1
+            double lat2
+            double lon2
+            double pazi1
+            double pazi2
+            double ps12
+            double total_distance = 0.0
+            Py_ssize_t iii
+
         with nogil:
             for iii in range(lonbuff.len - 1):
                 if radians:
