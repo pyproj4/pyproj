@@ -1226,12 +1226,9 @@ class CRS:
         """
         wkt = self._crs.to_wkt(version=version, pretty=pretty)
         if wkt is None:
-            warnings.warn(
+            raise CRSError(
                 f"CRS cannot be converted to a WKT string of a '{version}' version. "
-                "Select a different version of a WKT string or edit your CRS. Future"
-                "versions of pyproj will raise a CRSError in this case.",
-                FutureWarning,
-                stacklevel=2,
+                "Select a different version of a WKT string or edit your CRS."
             )
         return wkt
 
@@ -1254,12 +1251,7 @@ class CRS:
         """
         proj_json = self._crs.to_json(pretty=pretty, indentation=indentation)
         if proj_json is None:
-            warnings.warn(
-                "CRS cannot be converted to a PROJ JSON string. "
-                "Future versions of pyproj will raise a CRSError in this case.",
-                FutureWarning,
-                stacklevel=2,
-            )
+            raise CRSError("CRS cannot be converted to a PROJ JSON string.")
         return proj_json
 
     def to_json_dict(self) -> dict:
@@ -1295,12 +1287,7 @@ class CRS:
         """
         proj = self._crs.to_proj4(version=version)
         if proj is None:
-            warnings.warn(
-                "CRS cannot be converted to a PROJ string. "
-                "Future versions of pyproj will raise a CRSError in this case.",
-                FutureWarning,
-                stacklevel=2,
-            )
+            raise CRSError("CRS cannot be converted to a PROJ string.")
         return proj
 
     def to_epsg(self, min_confidence: int = 70) -> Optional[int]:
