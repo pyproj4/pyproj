@@ -1235,7 +1235,7 @@ def test_from_authority__ignf():
 
 def test_ignf_authority_repr():
     assert repr(CRS.from_authority("IGNF", "ETRS89UTM28")).startswith(
-        "<Derived Projected CRS: IGNF:ETRS89UTM28>"
+        "<Projected CRS: IGNF:ETRS89UTM28>"
     )
 
 
@@ -1268,6 +1268,52 @@ def test_crs_is_exact_same__non_crs_input():
     assert CRS(4326).is_exact_same("epsg:4326")
     with pytest.warns(FutureWarning):
         assert not CRS(4326).is_exact_same("+init=epsg:4326")
+
+
+def test_derived_projected_crs():
+    wkt = (
+        'DERIVEDPROJCRS["derived projectedCRS",\n'
+        '    BASEPROJCRS["WGS 84 / UTM zone 31N",\n'
+        '        BASEGEOGCRS["WGS 84",\n'
+        '            DATUM["World Geodetic System 1984",\n'
+        '                ELLIPSOID["WGS 84",6378137,298.257223563,\n'
+        '                    LENGTHUNIT["metre",1]]],\n'
+        '            PRIMEM["Greenwich",0,\n'
+        '                ANGLEUNIT["degree",0.0174532925199433]]],\n'
+        '        CONVERSION["UTM zone 31N",\n'
+        '            METHOD["Transverse Mercator",\n'
+        '                ID["EPSG",9807]],\n'
+        '            PARAMETER["Latitude of natural origin",0,\n'
+        '                ANGLEUNIT["degree",0.0174532925199433],\n'
+        '                ID["EPSG",8801]],\n'
+        '            PARAMETER["Longitude of natural origin",3,\n'
+        '                ANGLEUNIT["degree",0.0174532925199433],\n'
+        '                ID["EPSG",8802]],\n'
+        '            PARAMETER["Scale factor at natural origin",0.9996,\n'
+        '                SCALEUNIT["unity",1],\n'
+        '                ID["EPSG",8805]],\n'
+        '            PARAMETER["False easting",500000,\n'
+        '                LENGTHUNIT["metre",1],\n'
+        '                ID["EPSG",8806]],\n'
+        '            PARAMETER["False northing",0,\n'
+        '                LENGTHUNIT["metre",1],\n'
+        '                ID["EPSG",8807]]]],\n'
+        '    DERIVINGCONVERSION["unnamed",\n'
+        '        METHOD["PROJ unimplemented"],\n'
+        '        PARAMETER["foo",1.0,UNIT["metre",1]]],\n'
+        "    CS[Cartesian,2],\n"
+        '        AXIS["(E)",east,\n'
+        "            ORDER[1],\n"
+        '            LENGTHUNIT["metre",1,\n'
+        '                ID["EPSG",9001]]],\n'
+        '        AXIS["(N)",north,\n'
+        "            ORDER[2],\n"
+        '            LENGTHUNIT["metre",1,\n'
+        '                ID["EPSG",9001]]]]'
+    )
+    crs = CRS(wkt)
+    assert crs.is_derived
+    assert crs.type_name == "Derived Projected CRS"
 
 
 def test_to_string__no_auth():

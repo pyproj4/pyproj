@@ -2332,6 +2332,8 @@ cdef dict _CRS_TYPE_MAP = {
     PJ_TYPE_OTHER_CRS: "Other CRS",
 }
 
+IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (9, 2):
+    _CRS_TYPE_MAP[PJ_TYPE_DERIVED_PROJECTED_CRS] = "Derived Projected CRS"
 
 cdef class _CRS(Base):
     """
@@ -2382,8 +2384,22 @@ cdef class _CRS(Base):
         if self._type_name is not None:
             return self._type_name
         self._type_name = _CRS_TYPE_MAP[self._type]
-        if self.is_derived:
-            self._type_name = f"Derived {self._type_name}"
+        if not self.is_derived or self._type == PJ_TYPE_PROJECTED_CRS:
+            # Projected CRS are derived by definition
+            # https://github.com/OSGeo/PROJ/issues/3525#issuecomment-1365790999
+            return self._type_name
+
+        # Handle Derived Projected CRS
+        # https://github.com/OSGeo/PROJ/issues/3525#issuecomment-1366002289
+        IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) < (9, 2):
+            if self._type == PJ_TYPE_OTHER_CRS:
+                self._type_name = "Derived Projected CRS"
+                return self._type_name
+        ELSE:
+            if self._type == PJ_TYPE_DERIVED_PROJECTED_CRS:
+                return self._type_name
+
+        self._type_name = f"Derived {self._type_name}"
         return self._type_name
 
     @property
