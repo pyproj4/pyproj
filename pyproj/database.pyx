@@ -40,7 +40,21 @@ cdef dict _PJ_TYPE_MAP = {
     PJType.CONCATENATED_OPERATION: PJ_TYPE_CONCATENATED_OPERATION,
     PJType.OTHER_COORDINATE_OPERATION: PJ_TYPE_OTHER_COORDINATE_OPERATION,
 }
+IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (9, 2):
+    _PJ_TYPE_MAP[PJType.DERIVED_PROJECTED_CRS] = PJ_TYPE_DERIVED_PROJECTED_CRS
+
 cdef dict _INV_PJ_TYPE_MAP = {value: key for key, value in _PJ_TYPE_MAP.items()}
+
+
+cdef PJ_TYPE get_pj_type(pj_type) except *:
+    if not isinstance(pj_type, PJType):
+        pj_type = PJType.create(pj_type)
+    IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) < (9, 2):
+        if pj_type is PJType.DERIVED_PROJECTED_CRS:
+            raise NotImplementedError(
+                "DERIVED_PROJECTED_CRS requires PROJ 9.2+"
+            )
+    return _PJ_TYPE_MAP[pj_type]
 
 
 def get_authorities():
@@ -92,7 +106,7 @@ def get_codes(str auth_name not None, pj_type not None, bint allow_deprecated=Fa
         Codes associated with authorities in PROJ database.
     """
     cdef PJ_CONTEXT* context = NULL
-    cdef PJ_TYPE cpj_type = _PJ_TYPE_MAP[PJType.create(pj_type)]
+    cdef PJ_TYPE cpj_type = get_pj_type(pj_type)
     cdef PROJ_STRING_LIST proj_code_list = NULL
     try:
         context = pyproj_context_create()
@@ -210,7 +224,7 @@ def query_crs_info(
                 pj_type_count * sizeof(PJ_TYPE)
             )
             for iii in range(pj_type_count):
-                pj_type_list[iii] = _PJ_TYPE_MAP[PJType.create(pj_types[iii])]
+                pj_type_list[iii] = get_pj_type(pj_types[iii])
 
         context = pyproj_context_create()
         query_params = proj_get_crs_list_parameters_create()

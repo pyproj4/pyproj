@@ -213,6 +213,7 @@ cdef extern from "proj.h" nogil:
         PJ_TYPE_TEMPORAL_DATUM
         PJ_TYPE_ENGINEERING_DATUM
         PJ_TYPE_PARAMETRIC_DATUM
+        PJ_TYPE_DERIVED_PROJECTED_CRS
 
     PJ_TYPE proj_get_type(const PJ *obj)
     const char* proj_get_name(const PJ *obj)

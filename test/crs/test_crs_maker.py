@@ -40,7 +40,7 @@ def test_make_projected_crs(tmp_path):
     aeaop = AlbersEqualAreaConversion(0, 0)
     pc = ProjectedCRS(conversion=aeaop, name="Albers")
     assert pc.name == "Albers"
-    assert pc.type_name == "Derived Projected CRS"
+    assert pc.type_name == "Projected CRS"
     assert pc.coordinate_operation == aeaop
     assert_can_pickle(pc, tmp_path)
 
@@ -243,7 +243,7 @@ def test_compund_crs(tmp_path):
     )
     assert compcrs.name == "NAD83 / Pennsylvania South + NAVD88 height"
     assert compcrs.type_name == "Compound CRS"
-    assert compcrs.sub_crs_list[0].type_name == "Derived Projected CRS"
+    assert compcrs.sub_crs_list[0].type_name == "Projected CRS"
     assert compcrs.sub_crs_list[1].type_name == "Vertical CRS"
     assert_can_pickle(compcrs, tmp_path)
 
