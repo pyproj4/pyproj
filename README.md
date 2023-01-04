@@ -112,7 +112,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/shadchin"><img src="https://avatars.githubusercontent.com/u/61256?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexander Shadchin</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/issues?q=author%3Ashadchin" title="Bug reports">🐛</a> <a href="https://github.com/pyproj4/pyproj/commits?author=shadchin" title="Code">💻</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/greglucas"><img src="https://avatars.githubusercontent.com/u/12417828?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Greg Lucas</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=greglucas" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/greglucas"><img src="https://avatars.githubusercontent.com/u/12417828?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Greg Lucas</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=greglucas" title="Code">💻</a> <a href="#ideas-greglucas" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
