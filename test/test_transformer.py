@@ -21,6 +21,7 @@ from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import (
     PROJ_GTE_9,
     PROJ_GTE_91,
+    PROJ_GTE_92,
     grids_available,
     proj_env,
     proj_network_env,
@@ -1367,17 +1368,21 @@ def test_transform_bounds__beyond_global_bounds():
 
 
 @pytest.mark.parametrize(
-    "input_crs,expected_bounds",
+    "input_crs,input_bounds,expected_bounds",
     [
-        ("ESRI:102036", (0, -89178008, 0, 0)),
-        ("ESRI:54026", (0, -179545824, 0, 179545824)),
+        (
+            "ESRI:102036",
+            (-180.0, -90.0, 180.0, 1.3 if PROJ_GTE_92 else 0),
+            (0, -116576599 if PROJ_GTE_92 else -89178008, 0, 0),
+        ),
+        ("ESRI:54026", (-180.0, -90.0, 180.0, 90.0), (0, -179545824, 0, 179545824)),
     ],
 )
-def test_transform_bounds__ignore_inf(input_crs, expected_bounds):
+def test_transform_bounds__ignore_inf(input_crs, input_bounds, expected_bounds):
     crs = CRS(input_crs)
     transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True)
     assert_almost_equal(
-        transformer.transform_bounds(*crs.area_of_use.bounds),
+        transformer.transform_bounds(*input_bounds),
         expected_bounds,
         decimal=0,
     )
