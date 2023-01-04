@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Getting Started" href="examples.html" /><link rel="prev" title="pyproj Documentation" href="index.html" />
 
-    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
+    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 6.0.0 and Furo 2022.12.07 -->
         <title>Installation - pyproj 3.5.0.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
@@ -143,7 +143,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
@@ -236,7 +236,7 @@
 <li><p>Use pip to install the binary wheels on <a class="reference external" href="https://pypi.org/project/pyproj/">PyPI</a>:</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pyproj
 </pre></div>
 </div>
 <div class="admonition note">
@@ -259,10 +259,10 @@ For migration assistance see: <a class="reference internal" href="transformation
 <li><p>Use <a class="reference external" href="https://conda.io/en/latest/">conda</a> with the <a class="reference external" href="https://conda-forge.org/">conda-forge</a> channel:</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda config --prepend channels conda-forge
-conda config --set channel_priority strict
-conda create -n pyproj_env pyproj
-conda activate pyproj_env
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>config<span class="w"> </span>--prepend<span class="w"> </span>channels<span class="w"> </span>conda-forge
+conda<span class="w"> </span>config<span class="w"> </span>--set<span class="w"> </span>channel_priority<span class="w"> </span>strict
+conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>pyproj_env<span class="w"> </span>pyproj
+conda<span class="w"> </span>activate<span class="w"> </span>pyproj_env
 </pre></div>
 </div>
 <div class="admonition note">
@@ -358,11 +358,11 @@ present but the header files exist.</p>
 <dd><p>This is the path to the base directory for PROJ.
 Examples of how to set the PROJ_DIR environment variable:</p>
 <p>Windows:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="nv">PROJ_DIR</span><span class="o">=</span>C:<span class="se">\O</span>SGeo4W<span class="se">\</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span><span class="nv">PROJ_DIR</span><span class="o">=</span>C:<span class="se">\O</span>SGeo4W<span class="se">\</span>
 </pre></div>
 </div>
 <p>Linux:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PROJ_DIR</span><span class="o">=</span>/usr/local
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PROJ_DIR</span><span class="o">=</span>/usr/local
 </pre></div>
 </div>
 </dd></dl>
@@ -435,19 +435,19 @@ perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
 </div>
 <section id="from-pypi">
 <h5>From pypi:<a class="headerlink" href="#from-pypi" title="Permalink to this heading">#</a></h5>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pyproj --no-binary pyproj
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pyproj<span class="w"> </span>--no-binary<span class="w"> </span>pyproj
 </pre></div>
 </div>
 </section>
 <section id="from-github-with-pip">
 <h5>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Permalink to this heading">#</a></h5>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/pyproj4/pyproj.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/pyproj4/pyproj.git
 </pre></div>
 </div>
 </section>
 <section id="from-cloned-github-repo-for-development">
 <h5>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Permalink to this heading">#</a></h5>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -e .
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
 </section>
@@ -485,7 +485,7 @@ perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2022, Open source contributors
+                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2023, Open source contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -539,9 +539,6 @@ perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
     </aside>
   </div>
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/scripts/furo.js"></script>

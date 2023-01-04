@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
+    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 6.0.0 and Furo 2022.12.07 -->
         <title>pyproj.proj - pyproj 3.5.0.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
@@ -142,7 +142,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="../../_static/logo.png" alt="Logo"/>
@@ -260,7 +260,7 @@
 
 
 <div class="viewcode-block" id="Proj"><a class="viewcode-back" href="../../api/proj.html#pyproj.Proj">[docs]</a><span class="k">class</span> <span class="nc">Proj</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs cartographic transformations. Converts from</span>
 <span class="sd">    longitude, latitude to native map projection x,y coordinates and</span>
 <span class="sd">    vice versa using PROJ (https://proj.org).</span>
@@ -277,7 +277,7 @@
 <div class="viewcode-block" id="Proj.__init__"><a class="viewcode-back" href="../../api/proj.html#pyproj.Proj.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">preserve_units</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A Proj class instance is initialized with proj map projection</span>
 <span class="sd">        control parameter key/value pairs. The key/value pairs can</span>
 <span class="sd">        either be passed in a dictionary, or as keyword arguments,</span>
@@ -371,7 +371,7 @@
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calling a Proj class instance with the arguments lon, lat will</span>
 <span class="sd">        convert lon/lat (in degrees) to x/y native map projection</span>
 <span class="sd">        coordinates (in meters).</span>
@@ -437,7 +437,7 @@
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Factors</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.6.0</span>
 
 <span class="sd">        Calculate various cartographic properties, such as scale factors, angular</span>
@@ -507,7 +507,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Proj.definition_string"><a class="viewcode-back" href="../../api/proj.html#pyproj.Proj.definition_string">[docs]</a>    <span class="k">def</span> <span class="nf">definition_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns formal definition string for projection</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns formal definition string for projection</span>
 
 <span class="sd">        &gt;&gt;&gt; Proj(&quot;EPSG:4326&quot;).definition_string()</span>
 <span class="sd">        &#39;proj=longlat datum=WGS84 no_defs ellps=WGS84 towgs84=0,0,0&#39;</span>
@@ -515,17 +515,17 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span></div>
 
 <div class="viewcode-block" id="Proj.to_latlong_def"><a class="viewcode-back" href="../../api/proj.html#pyproj.Proj.to_latlong_def">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong_def</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;return the definition string of the geographic (lat/lon)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;return the definition string of the geographic (lat/lon)</span>
 <span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Proj.to_latlong"><a class="viewcode-back" href="../../api/proj.html#pyproj.Proj.to_latlong">[docs]</a>    <span class="k">def</span> <span class="nf">to_latlong</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Proj&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;return a new Proj instance which is the geographic (lat/lon)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;return a new Proj instance which is the geographic (lat/lon)</span>
 <span class="sd">        coordinate version of the current projection&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Proj&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;special method that allows pyproj.Proj instance to be pickled&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;special method that allows pyproj.Proj instance to be pickled&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">srs</span><span class="p">,)</span></div>
 </pre></div>
         </article>
@@ -539,7 +539,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2022, Open source contributors
+                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2023, Open source contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -560,9 +560,6 @@
     </aside>
   </div>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
