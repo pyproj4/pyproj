@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
+    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 6.0.0 and Furo 2022.12.07 -->
         <title>pyproj.enums - pyproj 3.5.0.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
@@ -142,7 +142,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="../../_static/logo.png" alt="Logo"/>
@@ -235,14 +235,14 @@
 
 
 <span class="k">class</span> <span class="nc">BaseEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base enumeration class that handles</span>
 <span class="sd">    input as strings ignoring case.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles finding the enumeration</span>
 <span class="sd">        ignoring case if provided as a string.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -257,12 +257,12 @@
                 <span class="k">return</span> <span class="n">member</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Invalid value supplied &#39;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Only </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">version</span> <span class="ow">in</span> <span class="bp">cls</span><span class="p">)</span><span class="si">}</span><span class="s2"> are supported.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Only </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">cls</span><span class="p">)</span><span class="si">}</span><span class="s2"> are supported.&quot;</span>
         <span class="p">)</span>
 
 
 <div class="viewcode-block" id="WktVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.WktVersion">[docs]</a><span class="k">class</span> <span class="nc">WktVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">     .. versionadded:: 2.2.0</span>
 
 <span class="sd">    Supported CRS WKT string versions</span>
@@ -289,7 +289,7 @@
 
 
 <div class="viewcode-block" id="ProjVersion"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.ProjVersion">[docs]</a><span class="k">class</span> <span class="nc">ProjVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.2.0</span>
 
 <span class="sd">    Supported CRS PROJ string versions</span>
@@ -302,7 +302,7 @@
 
 
 <div class="viewcode-block" id="TransformDirection"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.TransformDirection">[docs]</a><span class="k">class</span> <span class="nc">TransformDirection</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.2.0</span>
 
 <span class="sd">    Supported transform directions</span>
@@ -317,7 +317,7 @@
 
 
 <div class="viewcode-block" id="PJType"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.PJType">[docs]</a><span class="k">class</span> <span class="nc">PJType</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.4.0</span>
 
 <span class="sd">    PJ Types for listing codes with :func:`pyproj.get_codes`</span>
@@ -383,7 +383,7 @@
 
 
 <div class="viewcode-block" id="GeodIntermediateFlag"><a class="viewcode-back" href="../../api/enums.html#pyproj.enums.GeodIntermediateFlag">[docs]</a><span class="k">class</span> <span class="nc">GeodIntermediateFlag</span><span class="p">(</span><span class="n">IntFlag</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    Flags to be used in Geod.[inv|fwd]_intermediate()</span>
@@ -412,7 +412,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2022, Open source contributors
+                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2023, Open source contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -433,9 +433,6 @@
     </aside>
   </div>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>

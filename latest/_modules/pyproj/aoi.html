@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
+    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 6.0.0 and Furo 2022.12.07 -->
         <title>pyproj.aoi - pyproj 3.5.0.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
@@ -142,7 +142,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="../../_static/logo.png" alt="Logo"/>
@@ -239,7 +239,7 @@
 
 <div class="viewcode-block" id="AreaOfInterest"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.AreaOfInterest">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">AreaOfInterest</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.3.0</span>
 
 <span class="sd">    This is the area of interest for:</span>
@@ -268,7 +268,7 @@
 
 
 <div class="viewcode-block" id="AreaOfUse"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.AreaOfUse">[docs]</a><span class="k">class</span> <span class="nc">AreaOfUse</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.0.0</span>
 
 <span class="sd">    Area of Use for CRS, CoordinateOperation, or a Transformer.</span>
@@ -287,7 +287,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The bounds of the area of use.</span>
 
 <span class="sd">        Returns</span>
@@ -303,7 +303,7 @@
 
 <div class="viewcode-block" id="BBox"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">BBox</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Bounding box to check if data intersects/contains other</span>
 <span class="sd">    bounding boxes.</span>
 
@@ -330,7 +330,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN or None values are not allowed.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BBox.intersects"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox.intersects">[docs]</a>    <span class="k">def</span> <span class="nf">intersects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;BBox&quot;</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        other: BBox</span>
@@ -349,7 +349,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="BBox.contains"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox.contains">[docs]</a>    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;BBox&quot;</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        other: Union[&quot;BBox&quot;, AreaOfUse]</span>
@@ -378,7 +378,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2022, Open source contributors
+                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2023, Open source contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -399,9 +399,6 @@
     </aside>
   </div>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
