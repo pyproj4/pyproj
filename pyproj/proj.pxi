@@ -21,11 +21,11 @@ cdef extern from "proj.h" nogil:
     void proj_assign_context(PJ* pj, PJ_CONTEXT* ctx)
 
     ctypedef enum PJ_LOG_LEVEL:
-        PJ_LOG_NONE  = 0
-        PJ_LOG_ERROR = 1
-        PJ_LOG_DEBUG = 2
-        PJ_LOG_TRACE = 3
-        PJ_LOG_TELL  = 4
+        PJ_LOG_NONE
+        PJ_LOG_ERROR
+        PJ_LOG_DEBUG
+        PJ_LOG_TRACE
+        PJ_LOG_TELL
     ctypedef void (*PJ_LOG_FUNCTION)(void *, int, const char *)
     void proj_log_func (PJ_CONTEXT *ctx, void *app_data, PJ_LOG_FUNCTION logf)
 
@@ -90,9 +90,9 @@ cdef extern from "proj.h" nogil:
     PJ_COORD proj_coord (double x, double y, double z, double t)
 
     ctypedef enum PJ_DIRECTION:
-        PJ_FWD   =  1 # Forward
-        PJ_IDENT =  0 # Do nothing
-        PJ_INV   = -1 # Inverse
+        PJ_FWD        # Forward
+        PJ_IDENT      # Do nothing
+        PJ_INV        # Inverse
 
     int proj_angular_input (PJ *P, PJ_DIRECTION dir)
     int proj_angular_output (PJ *P, PJ_DIRECTION dir)
