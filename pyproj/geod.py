@@ -19,7 +19,7 @@ __all__ = [
 
 import math
 import warnings
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
 from pyproj._geod import Geod as _Geod
 from pyproj._geod import GeodIntermediateReturn, geodesic_version_str
@@ -343,6 +343,7 @@ class Geod(_Geod):
         radians: bool = False,
         inplace: bool = False,
         return_back_azimuth: bool = True,
+        output_map: Optional[Sequence[Union[bool, int]]] = None,
     ) -> Tuple[Any, Any, Any]:
         """
 
@@ -387,6 +388,10 @@ class Geod(_Geod):
         return_back_azimuth: bool, default=True
             If True, the second return value (azi21) will be the back azimuth
             (flipped 180 degrees), Otherwise, it will also be a forward azimuth.
+        output_map: Sequence[Union[bool, int]], optional, default=None
+            Which outputs to return,
+            For example, output_map=[True, False, True] would yield
+            (azi12, None, dist) as the function output
 
         Returns
         -------
@@ -413,18 +418,50 @@ class Geod(_Geod):
             pass
 
         # process inputs, making copies that support buffer API.
-        inx, x_data_type = _copytobuffer(lons1, inplace=inplace)
-        iny, y_data_type = _copytobuffer(lats1, inplace=inplace)
-        inz, z_data_type = _copytobuffer(lons2, inplace=inplace)
-        ind = _copytobuffer(lats2, inplace=inplace)[0]
+        input_and_dt = [
+            _copytobuffer(x, inplace=inplace) for x in [lons1, lats1, lons2, lats2]
+        ]
+
+        count = max(len(x) for x in input_and_dt)
+        outputs = [idx + 1 for idx, x in enumerate(input_and_dt) if len(x) == count]
+        if output_map is None:
+            output_map = [True, True, True]
+        else:
+            output_map = list(output_map)
+        idx = 1
+        for k in range(len(output_map)):
+            v = output_map[k]
+            if not v:
+                output_map[k] = 0
+            elif v is True:
+                if idx < len(outputs):
+                    output_map[k] = outputs[idx]
+                    idx += 1
+                else:
+                    raise Exception("Not enough output arrays")
+
         self._inv(
-            inx, iny, inz, ind, radians=radians, return_back_azimuth=return_back_azimuth
+            input_and_dt[0][0],
+            input_and_dt[1][0],
+            input_and_dt[2][0],
+            input_and_dt[3][0],
+            pazi1_out=output_map[0],
+            pazi2_out=output_map[1],
+            ps12_out=output_map[2],
+            radians=radians,
+            return_back_azimuth=return_back_azimuth,
         )
-        # if inputs were lists, tuples or floats, convert back.
-        outx = _convertback(x_data_type, inx)
-        outy = _convertback(y_data_type, iny)
-        outz = _convertback(z_data_type, inz)
-        return outx, outy, outz
+
+        res: List[Any] = []
+        for k in range(3):
+            v = output_map[k]
+            if not v:
+                res.append(None)
+            else:
+                # if inputs were lists, tuples or floats, convert back.
+                inx, x_data_type = input_and_dt[v - 1]
+                res.append(_convertback(x_data_type, inx))
+        return res[0], res[1], res[2]
 
     def npts(
         self,

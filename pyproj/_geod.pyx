@@ -243,6 +243,9 @@ cdef class Geod:
         object lats1,
         object lons2,
         object lats2,
+        int pazi1_out,
+        int pazi2_out,
+        int ps12_out,
         bint radians=False,
         bint return_back_azimuth=True,
     ):
@@ -259,9 +262,50 @@ cdef class Geod:
             PyBuffWriteManager lon2buff = PyBuffWriteManager(lons2)
             PyBuffWriteManager lat2buff = PyBuffWriteManager(lats2)
 
+            count = max(lon1buff.len, max(lat1buff.len, max(lon2buff.len, lat2buff.len)))
+            bint lon1c = lon1buff.len == count
+            bint lat1c = lat1buff.len == count
+            bint lon2c = lon2buff.len == count
+            bint lat2c = lat2buff.len == count
+
         # process data in buffer
-        if not lon1buff.len == lat1buff.len == lon2buff.len == lat2buff.len:
+        if not ((lon1c or (lon1buff.len == 1)) and \
+                (lat1c or (lat1buff.len == 1)) and \
+                (lon2c or (lon2buff.len == 1)) and \
+                (lat2c or (lat2buff.len == 1))):
             raise GeodError("Array lengths are not the same.")
+
+        cdef:
+            PyBuffWriteManager pazi1buff
+            PyBuffWriteManager pazi2buff
+            PyBuffWriteManager ps12buff
+
+        if pazi1_out == 1:
+            pazi1buff = lon1buff
+        elif pazi1_out == 2:
+            pazi1buff = lat1buff
+        elif pazi1_out == 3:
+            pazi1buff = lon2buff
+        elif pazi1_out == 4:
+            pazi1buff = lat2buff
+
+        if pazi2_out == 1:
+            pazi2buff = lon1buff
+        elif pazi2_out == 2:
+            pazi2buff = lat1buff
+        elif pazi2_out == 3:
+            pazi2buff = lon2buff
+        elif pazi2_out == 4:
+            pazi2buff = lat2buff
+
+        if ps12_out == 1:
+            ps12buff = lon1buff
+        elif ps12_out == 2:
+            ps12buff = lat1buff
+        elif ps12_out == 3:
+            ps12buff = lon2buff
+        elif ps12_out == 4:
+            ps12buff = lat2buff
 
         cdef:
             double lat1
@@ -274,36 +318,41 @@ cdef class Geod:
             Py_ssize_t iii
 
         with nogil:
-            for iii in range(lon1buff.len):
+            for iii in range(count):
                 if radians:
-                    lon1 = _RAD2DG * lon1buff.data[iii]
-                    lat1 = _RAD2DG * lat1buff.data[iii]
-                    lon2 = _RAD2DG * lon2buff.data[iii]
-                    lat2 = _RAD2DG * lat2buff.data[iii]
+                    lon1 = _RAD2DG * lon1buff.data[iii and lon1c]
+                    lat1 = _RAD2DG * lat1buff.data[iii and lat1c]
+                    lon2 = _RAD2DG * lon2buff.data[iii and lon2c]
+                    lat2 = _RAD2DG * lat2buff.data[iii and lat2c]
                 else:
-                    lon1 = lon1buff.data[iii]
-                    lat1 = lat1buff.data[iii]
-                    lon2 = lon2buff.data[iii]
-                    lat2 = lat2buff.data[iii]
+                    lon1 = lon1buff.data[iii and lon1c]
+                    lat1 = lat1buff.data[iii and lat1c]
+                    lon2 = lon2buff.data[iii and lon2c]
+                    lat2 = lat2buff.data[iii and lat2c]
                 geod_inverse(
                     &self._geod_geodesic,
                     lat1, lon1, lat2, lon2,
                     &ps12, &pazi1, &pazi2,
                 )
 
-                # by default (return_back_azimuth=True),
-                # forward azimuth needs to be flipped 180 degrees
-                # to match the (back azimuth) output of PROJ geod utilities.
-                if return_back_azimuth:
-                    pazi2 = _reverse_azimuth(pazi2, factor=180)
-                if radians:
-                    lon1buff.data[iii] = _DG2RAD * pazi1
-                    lat1buff.data[iii] = _DG2RAD * pazi2
-                else:
-                    lon1buff.data[iii] = pazi1
-                    lat1buff.data[iii] = pazi2
+                if pazi1_out:
+                    if radians:
+                        pazi1 = _DG2RAD * pazi1
+                    pazi1buff.data[iii] = pazi1
+
+                if pazi2_out:
+                    # by default (return_back_azimuth=True),
+                    # forward azimuth needs to be flipped 180 degrees
+                    # to match the (back azimuth) output of PROJ geod utilities.
+                    if return_back_azimuth:
+                        pazi2 = _reverse_azimuth(pazi2, factor=180)
+                    if radians:
+                        pazi2 = _DG2RAD * pazi2
+                    pazi2buff.data[iii] = pazi2
+
                 # write azimuth data into lon2 buffer
-                lon2buff.data[iii] = ps12
+                if ps12_out:
+                    ps12buff.data[iii] = ps12
 
     @cython.boundscheck(False)
     @cython.wraparound(False)

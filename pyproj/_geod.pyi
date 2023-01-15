@@ -46,6 +46,9 @@ class Geod:
         lats1: Any,
         lons2: Any,
         lats2: Any,
+        pazi1_out: int,
+        pazi2_out: int,
+        ps12_out: int,
         radians: bool = False,
         return_back_azimuth: bool = False,
     ) -> None: ...

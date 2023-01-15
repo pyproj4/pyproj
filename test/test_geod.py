@@ -39,6 +39,7 @@ _PORTLAND_LON = -123.0 - (41.0 / 60.0)
 
 
 @pytest.mark.parametrize("return_back_azimuth", [True, False])
+@pytest.mark.parametrize("return_az2", [True, False])
 @pytest.mark.parametrize(
     "ellipsoid,true_az12,true_az21,expected_distance",
     [
@@ -52,18 +53,24 @@ def test_geodesic_inv(
     true_az21,
     expected_distance,
     return_back_azimuth,
+    return_az2,
     scalar_and_array,
 ):
     geod = Geod(ellps=ellipsoid)
+    output_map = None if return_az2 else [True, False, True]
     az12, az21, dist = geod.inv(
         scalar_and_array(_BOSTON_LON),
         scalar_and_array(_BOSTON_LAT),
         scalar_and_array(_PORTLAND_LON),
         scalar_and_array(_PORTLAND_LAT),
         return_back_azimuth=return_back_azimuth,
+        output_map=output_map,
     )
-    if not return_back_azimuth:
-        az21 = reverse_azimuth(az21)
+    if return_az2:
+        if not return_back_azimuth:
+            az21 = reverse_azimuth(az21)
+    else:
+        true_az21 = None
     assert_almost_equal(
         (az12, az21, dist),
         (
