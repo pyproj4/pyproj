@@ -122,12 +122,12 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ['3.8', '3.9', '3.10', '3.11']
         python-implementation: [python]
-        proj-version: ['9.1.0']
+        proj-version: ['*']
         include:
           - os: ubuntu-latest
             python-version: '*'
             python-implementation: pypy
-            proj-version: '9.1.0'
+            proj-version: '*'
     steps:
       - uses: actions/checkout@v3
 
