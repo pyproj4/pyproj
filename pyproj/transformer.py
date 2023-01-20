@@ -93,6 +93,7 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
     accuracy: Optional[str]
     allow_ballpark: Optional[bool]
     force_over: bool = False
+    only_best: Optional[bool] = None
 
     def __call__(self) -> _Transformer:
         """
@@ -109,6 +110,7 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
             accuracy=self.accuracy,
             allow_ballpark=self.allow_ballpark,
             force_over=self.force_over,
+            only_best=self.only_best,
         )
 
 
@@ -549,6 +551,7 @@ class Transformer:
         accuracy: Optional[float] = None,
         allow_ballpark: Optional[bool] = None,
         force_over: bool = False,
+        only_best: Optional[bool] = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
@@ -561,6 +564,7 @@ class Transformer:
         .. versionadded:: 2.3.0 area_of_interest
         .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.4.0 force_over
+        .. versionadded:: 3.5.0 only_best
 
         Parameters
         ----------
@@ -592,6 +596,18 @@ class Transformer:
         force_over: bool, default=False
             If True, it will to force the +over flag on the transformation.
             Requires PROJ 9+.
+        only_best: bool, optional
+            Can be set to True to cause PROJ to error out if the best
+            transformation known to PROJ and usable by PROJ if all grids known and
+            usable by PROJ were accessible, cannot be used. Best transformation should
+            be understood as the transformation returned by
+            :c:func:`proj_get_suggested_operation` if all known grids were
+            accessible (either locally or through network).
+            Note that the default value for this option can be also set with the
+            :envvar:`PROJ_ONLY_BEST_DEFAULT` environment variable, or with the
+            ``only_best_default`` setting of :ref:`proj-ini`.
+            The only_best kwarg overrides the default value if set.
+            Requires PROJ 9.2+.
 
         Returns
         -------
@@ -608,6 +624,7 @@ class Transformer:
                 accuracy=accuracy if accuracy is None else str(accuracy),
                 allow_ballpark=allow_ballpark,
                 force_over=force_over,
+                only_best=only_best,
             )
         )
 
