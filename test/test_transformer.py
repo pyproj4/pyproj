@@ -2,6 +2,7 @@ import concurrent.futures
 import os
 import pickle
 from array import array
+from contextlib import nullcontext
 from functools import partial
 from glob import glob
 from itertools import permutations
@@ -664,6 +665,20 @@ def test_transformer__operations__scope_remarks():
         "Scale",
         "Grid",
     ]
+
+
+@pytest.mark.grid
+def test_transformer__only_best():
+    with nullcontext() if PROJ_GTE_92 else pytest.raises(
+        NotImplementedError, match="only_best requires PROJ 9.2"
+    ):
+        transformer = Transformer.from_crs(4326, 2964, only_best=True)
+        if not grids_available("ca_nrc_ntv2_0.tif"):
+            with pytest.raises(
+                ProjError,
+                match="Grid ca_nrc_ntv2_0.tif is not available.",
+            ):
+                transformer.transform(60, -100, errcheck=True)
 
 
 def test_transformer_group():

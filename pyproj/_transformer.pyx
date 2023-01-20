@@ -267,6 +267,7 @@ cdef PJ* proj_create_crs_to_crs(
     str accuracy,
     allow_ballpark,
     bint force_over,
+    only_best,
 ) except NULL:
     """
     This is the same as proj_create_crs_to_crs in proj.h
@@ -290,16 +291,15 @@ cdef PJ* proj_create_crs_to_crs(
         return NULL
 
     cdef:
-        const char* options[5]
+        const char* options[6]
         bytes b_authority
         bytes b_accuracy
         int options_index = 0
+        int options_init_iii = 0
 
-    options[0] = NULL
-    options[1] = NULL
-    options[2] = NULL
-    options[3] = NULL
-    options[4] = NULL
+    for options_init_iii in range(6):
+        options[options_init_iii] = NULL
+
     if authority is not None:
         b_authority = cstrencode(f"AUTHORITY={authority}")
         options[options_index] = b_authority
@@ -317,6 +317,16 @@ cdef PJ* proj_create_crs_to_crs(
             options[options_index] = b"FORCE_OVER=YES"
         ELSE:
             raise NotImplementedError("force_over requires PROJ 9+.")
+        options_index += 1
+    if only_best is not None:
+        IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (9, 2):
+            if only_best:
+                options[options_index] = b"ONLY_BEST=YES"
+            else:
+                options[options_index] = b"ONLY_BEST=NO"
+        ELSE:
+            raise NotImplementedError("only_best requires PROJ 9.2+.")
+
 
     cdef PJ* transform = proj_create_crs_to_crs_from_pj(
         ctx,
@@ -519,6 +529,7 @@ cdef class _Transformer(Base):
         str accuracy=None,
         allow_ballpark=None,
         bint force_over=False,
+        only_best=None,
     ):
         """
         Create a transformer from CRS objects
@@ -560,6 +571,7 @@ cdef class _Transformer(Base):
                 accuracy=accuracy,
                 allow_ballpark=allow_ballpark,
                 force_over=force_over,
+                only_best=only_best,
             )
         finally:
             if pj_area_of_interest != NULL:
