@@ -7,6 +7,7 @@ Latest
     `fwd` and `fwd_intermediate`, `inv` and `inv_intermediate`,
     Note: BREAKING CHANGE for the default value `return_back_azimuth=True` in the functions `fwd_intermediate` and `inv_intermediate`
     to mach the default value in `fwd` and `inv`
+- ENH: Added only_best kwarg to :meth:`.Transformer.from_crs` (issue #1228)
 - PERF: Optimize point transformations (pull #1204)
 - REF: Raise error when :meth:`.CRS.to_wkt`, :meth:`.CRS.to_json`, or :meth:`.CRS.to_proj4` returns None (issue #1036)
 - CLN: Remove `AzumuthalEquidistantConversion` & :class:`LambertAzumuthalEqualAreaConversion`. :class:`AzimuthalEquidistantConversion` & :class:`LambertAzimuthalEqualAreaConversion` should be used instead (pull #1219)
