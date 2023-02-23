@@ -261,7 +261,6 @@ class TestRadians(unittest.TestCase):
         )
 
     def test_inv_radians(self):
-
         # Get bearings and distance from Boston to Portland in degrees
         az12_d, az21_d, dist_d = self.g.inv(
             self.boston_d[0],
