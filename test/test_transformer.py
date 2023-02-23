@@ -565,48 +565,30 @@ def test_repr(from_crs, to_crs, expected_repr):
 
 @pytest.mark.grid
 def test_repr__conditional():
-    trans_repr = repr(Transformer.from_crs(4326, 26917))
-    if grids_available(
-        "ca_nrc_NA83SCRS.tif",
-        "us_noaa_FL.tif",
-        "us_noaa_MD.tif",
-        "us_noaa_TN.tif",
-        "us_noaa_gahpgn.tif",
-        "us_noaa_kyhpgn.tif",
-        "us_noaa_mihpgn.tif",
-        "us_noaa_nchpgn.tif",
-        "us_noaa_nyhpgn.tif",
-        "us_noaa_ohhpgn.tif",
-        "us_noaa_pahpgn.tif",
-        "us_noaa_schpgn.tif",
-        "us_noaa_vahpgn.tif",
-        "us_noaa_wvhpgn.tif",
-    ):
+    trans_repr = repr(Transformer.from_crs("EPSG:4326+3855", "EPSG:4979"))
+    if grids_available("us_nga_egm08_25.tif"):
         assert trans_repr == (
             "<Unknown Transformer: unknown>\n"
             "Description: unavailable until proj_trans is called\n"
             "Area of Use:\n- undefined"
         )
+    elif PROJ_GTE_92:
+        assert trans_repr == (
+            "<Unknown Transformer: noop>\n"
+            "Description: Transformation from EGM2008 height to WGS 84 "
+            "(ballpark vertical transformation, without ellipsoid height "
+            "to vertical height correction)\n"
+            "Area of Use:\n- undefined"
+        )
     else:
         assert trans_repr == (
-            "<Concatenated Operation Transformer: pipeline>\n"
-            "Description: Inverse of NAD83 to WGS 84 (1) + UTM zone 17N\n"
+            "<Other Coordinate Operation Transformer: noop>\n"
+            "Description: Transformation from EGM2008 height to WGS 84 "
+            "(ballpark vertical transformation, without ellipsoid height "
+            "to vertical height correction)\n"
             "Area of Use:\n"
-            "- name: North America - onshore and offshore: Canada - Alberta;"
-            " British Columbia; Manitoba; New Brunswick; "
-            "Newfoundland and Labrador; Northwest Territories; "
-            "Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; "
-            "Saskatchewan; Yukon. United States (USA) - Alabama; "
-            "Alaska (mainland); Arizona; Arkansas; California; Colorado; "
-            "Connecticut; Delaware; Florida; Georgia; Idaho; Illinois; "
-            "Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; "
-            "Massachusetts; Michigan; Minnesota; Mississippi; Missouri; "
-            "Montana; Nebraska; Nevada; New Hampshire; New Jersey; "
-            "New Mexico; New York; North Carolina; North Dakota; Ohio; "
-            "Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; "
-            "South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; "
-            "Washington; West Virginia; Wisconsin; Wyoming.\n"
-            "- bounds: (-172.54, 23.81, -47.74, 86.46)"
+            "- name: World\n"
+            "- bounds: (-180.0, -90.0, 180.0, 90.0)"
         )
 
 
