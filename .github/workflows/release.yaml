@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PROJ_VERSION: "9.1.0"
+  PROJ_VERSION: "9.2.0"
 
 jobs:
   make_sdist:
