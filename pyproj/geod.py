@@ -1105,7 +1105,7 @@ class Geod(_Geod):
 
     def __repr__(self) -> str:
         # search for ellipse name
-        for (ellps, vals) in pj_ellps.items():
+        for ellps, vals in pj_ellps.items():
             if self.a == vals["a"]:
                 # self.sphere is True when self.f is zero or very close to
                 # zero (0), so prevent divide by zero.
