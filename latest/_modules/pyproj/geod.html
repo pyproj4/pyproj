@@ -1335,7 +1335,7 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="c1"># search for ellipse name</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">ellps</span><span class="p">,</span> <span class="n">vals</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pj_ellps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">ellps</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">pj_ellps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="n">vals</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]:</span>
                 <span class="c1"># self.sphere is True when self.f is zero or very close to</span>
                 <span class="c1"># zero (0), so prevent divide by zero.</span>
