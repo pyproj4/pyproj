@@ -20,7 +20,6 @@ from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import (
-    PROJ_GTE_9,
     PROJ_GTE_91,
     PROJ_GTE_92,
     grids_available,
@@ -1663,30 +1662,26 @@ def test_transformer_group_authority_filter():
 
 
 def test_transformer_force_over():
-    if PROJ_GTE_9:
-        transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857", force_over=True)
-        # Test a point along the equator.
-        # The same point, but in two different representations.
-        xxx, yyy = transformer.transform(0, 140)
-        xxx_over, yyy_over = transformer.transform(0, -220)
-        # Web Mercator x's between 0 and 180 longitude come out positive.
-        # But when forcing the over flag, the -220 calculation makes it flip.
-        assert xxx > 0
-        assert xxx_over < 0
-        # check it works in both directions
-        xxx_inverse, yyy_inverse = transformer.transform(
-            xxx, yyy, direction=TransformDirection.INVERSE
-        )
-        xxx_over_inverse, yyy_over_inverse = transformer.transform(
-            xxx_over, yyy_over, direction=TransformDirection.INVERSE
-        )
-        assert_almost_equal(xxx_inverse, 0)
-        assert_almost_equal(xxx_over_inverse, 0)
-        assert_almost_equal(yyy_inverse, 140)
-        assert_almost_equal(yyy_over_inverse, -220)
-    else:
-        with pytest.raises(NotImplementedError, match="force_over requires PROJ 9"):
-            Transformer.from_crs("EPSG:4326", "EPSG:3857", force_over=True)
+    transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857", force_over=True)
+    # Test a point along the equator.
+    # The same point, but in two different representations.
+    xxx, yyy = transformer.transform(0, 140)
+    xxx_over, yyy_over = transformer.transform(0, -220)
+    # Web Mercator x's between 0 and 180 longitude come out positive.
+    # But when forcing the over flag, the -220 calculation makes it flip.
+    assert xxx > 0
+    assert xxx_over < 0
+    # check it works in both directions
+    xxx_inverse, yyy_inverse = transformer.transform(
+        xxx, yyy, direction=TransformDirection.INVERSE
+    )
+    xxx_over_inverse, yyy_over_inverse = transformer.transform(
+        xxx_over, yyy_over, direction=TransformDirection.INVERSE
+    )
+    assert_almost_equal(xxx_inverse, 0)
+    assert_almost_equal(xxx_over_inverse, 0)
+    assert_almost_equal(yyy_inverse, 140)
+    assert_almost_equal(yyy_over_inverse, -220)
 
 
 def test_transformer__get_last_used_operation():

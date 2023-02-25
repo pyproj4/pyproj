@@ -313,10 +313,7 @@ cdef PJ* proj_create_crs_to_crs(
             options[options_index] = b"ALLOW_BALLPARK=NO"
         options_index += 1
     if force_over:
-        IF CTE_PROJ_VERSION_MAJOR >= 9:
-            options[options_index] = b"FORCE_OVER=YES"
-        ELSE:
-            raise NotImplementedError("force_over requires PROJ 9+.")
+        options[options_index] = b"FORCE_OVER=YES"
         options_index += 1
     if only_best is not None:
         IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (9, 2):
