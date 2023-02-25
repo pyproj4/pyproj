@@ -9,7 +9,6 @@ import warnings
 from typing import Any
 
 from pyproj._crs import CoordinateOperation
-from pyproj._transformer import PROJ_VERSION
 from pyproj.exceptions import CRSError
 
 
@@ -1437,13 +1436,6 @@ class PoleRotationNetCDFCFConversion(CoordinateOperation):
             Longitude of the North pole of the unrotated source CRS,
             expressed in the rotated geographic CRS (o_lon_p).
         """
-        if PROJ_VERSION < (8, 2, 0):
-            # https://github.com/pyproj4/pyproj/issues/927
-            return RotatedLatitudeLongitudeConversion(
-                o_lat_p=grid_north_pole_latitude,
-                o_lon_p=north_pole_grid_longitude,
-                lon_0=grid_north_pole_longitude + 180,
-            )
         rot_latlon_json = {
             "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
             "type": "Conversion",
