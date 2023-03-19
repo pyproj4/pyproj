@@ -221,6 +221,7 @@ def test_cf_from_latlon():
         "grid_mapping_name": "latitude_longitude",
         "geographic_crs_name": "undefined",
         "reference_ellipsoid_name": "undefined",
+        "horizontal_datum_name": "undefined",
     }
     cf_dict = crs.to_cf()
     assert cf_dict.pop("crs_wkt").startswith("GEOGCRS[")
@@ -253,6 +254,7 @@ def test_cf_from_latlon__named():
         "reference_ellipsoid_name": "WGS 84",
         "longitude_of_prime_meridian": 0.0,
         "prime_meridian_name": "Greenwich",
+        "horizontal_datum_name": "World Geodetic System 1984 ensemble",
         "geographic_crs_name": "WGS 84",
         "grid_mapping_name": "latitude_longitude",
     }

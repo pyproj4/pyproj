@@ -13,6 +13,7 @@ Latest
 - REF: Raise error when :meth:`.CRS.to_wkt`, :meth:`.CRS.to_json`, or :meth:`.CRS.to_proj4` returns None (issue #1036)
 - CLN: Remove `AzumuthalEquidistantConversion` & :class:`LambertAzumuthalEqualAreaConversion`. :class:`AzimuthalEquidistantConversion` & :class:`LambertAzimuthalEqualAreaConversion` should be used instead (pull #1219)
 - BUG: Fix Derived Projected CRS support (issue #1182)
+- BUG: Add horizontal_datum_name for geographic CRS in :meth:`.CRS.to_cf`` (issue #1251)
 
 3.4.1
 -----

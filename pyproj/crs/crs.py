@@ -693,6 +693,8 @@ class CRS:
         # handle geographic CRS
         if self.geodetic_crs:
             cf_dict["geographic_crs_name"] = self.geodetic_crs.name
+            if self.geodetic_crs.datum:
+                cf_dict["horizontal_datum_name"] = self.geodetic_crs.datum.name
 
         if self.is_geographic:
             if self.coordinate_operation:
@@ -711,8 +713,6 @@ class CRS:
                         self.coordinate_operation.method_name.lower()
                     ](self.coordinate_operation)
                 )
-                if self.datum:
-                    cf_dict["horizontal_datum_name"] = self.datum.name
             else:
                 cf_dict["grid_mapping_name"] = "latitude_longitude"
             return cf_dict
