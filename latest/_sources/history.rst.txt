@@ -4,6 +4,7 @@ Change Log
 Latest
 ------
 - DEP: Minimum PROJ version 9.0 (issue #1223)
+- WHL: PROJ 9.2 in wheels (pull #1243)
 - ENH: Add `return_back_azimuth: bool` to allow compatibility between the azimuth output of the following functions (issue #1163):
     `fwd` and `fwd_intermediate`, `inv` and `inv_intermediate`,
     Note: BREAKING CHANGE for the default value `return_back_azimuth=True` in the functions `fwd_intermediate` and `inv_intermediate`
