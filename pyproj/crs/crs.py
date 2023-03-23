@@ -718,8 +718,6 @@ class CRS:
             return cf_dict
 
         # handle projected CRS
-        if self.is_projected and self.datum:
-            cf_dict["horizontal_datum_name"] = self.datum.name
         coordinate_operation = None
         if not self.is_bound and self.is_projected:
             coordinate_operation = self.coordinate_operation
@@ -1758,7 +1756,7 @@ class GeographicCRS(CustomConstructorCRS):
     def __init__(
         self,
         name: str = "undefined",
-        datum: Any = "urn:ogc:def:datum:EPSG::6326",
+        datum: Any = "urn:ogc:def:ensemble:EPSG::6326",
         ellipsoidal_cs: Optional[Any] = None,
     ) -> None:
         """
@@ -1766,7 +1764,7 @@ class GeographicCRS(CustomConstructorCRS):
         ----------
         name: str, default="undefined"
             Name of the CRS.
-        datum: Any, default="urn:ogc:def:datum:EPSG::6326"
+        datum: Any, default="urn:ogc:def:ensemble:EPSG::6326"
             Anything accepted by :meth:`pyproj.crs.Datum.from_user_input` or
             a :class:`pyproj.crs.datum.CustomDatum`.
         ellipsoidal_cs: Any, optional
@@ -1774,15 +1772,19 @@ class GeographicCRS(CustomConstructorCRS):
             Anything accepted by :meth:`pyproj.crs.CoordinateSystem.from_user_input`
             or an Ellipsoidal Coordinate System created from :ref:`coordinate_system`.
         """
+        datum = Datum.from_user_input(datum).to_json_dict()
         geographic_crs_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "GeographicCRS",
             "name": name,
-            "datum": Datum.from_user_input(datum).to_json_dict(),
             "coordinate_system": CoordinateSystem.from_user_input(
                 ellipsoidal_cs or Ellipsoidal2DCS()
             ).to_json_dict(),
         }
+        if datum["type"] == "DatumEnsemble":
+            geographic_crs_json["datum_ensemble"] = datum
+        else:
+            geographic_crs_json["datum"] = datum
         super().__init__(geographic_crs_json)
 
 
