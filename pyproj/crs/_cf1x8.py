@@ -34,6 +34,12 @@ from pyproj.exceptions import CRSError
 
 
 def _horizontal_datum_from_params(cf_params):
+    datum_name = cf_params.get("horizontal_datum_name")
+    if datum_name and datum_name not in ("undefined", "unknown"):
+        try:
+            return Datum.from_name(datum_name)
+        except CRSError:
+            pass
     # step 1: build ellipsoid
     ellipsoid = None
     ellipsoid_name = cf_params.get("reference_ellipsoid_name")
@@ -46,7 +52,7 @@ def _horizontal_datum_from_params(cf_params):
             radius=cf_params.get("earth_radius"),
         )
     except CRSError:
-        if ellipsoid_name:
+        if ellipsoid_name and ellipsoid_name not in ("undefined", "unknown"):
             ellipsoid = Ellipsoid.from_name(ellipsoid_name)
 
     # step 2: build prime meridian
@@ -58,19 +64,16 @@ def _horizontal_datum_from_params(cf_params):
             longitude=cf_params["longitude_of_prime_meridian"],
         )
     except KeyError:
-        if prime_meridian_name:
+        if prime_meridian_name and prime_meridian_name not in ("undefined", "unknown"):
             prime_meridian = PrimeMeridian.from_name(prime_meridian_name)
 
     # step 3: build datum
-    datum_name = cf_params.get("horizontal_datum_name")
     if ellipsoid or prime_meridian:
         return CustomDatum(
             name=datum_name or "undefined",
             ellipsoid=ellipsoid or "WGS 84",
             prime_meridian=prime_meridian or "Greenwich",
         )
-    if datum_name:
-        return Datum.from_name(datum_name)
     return None
 
 
