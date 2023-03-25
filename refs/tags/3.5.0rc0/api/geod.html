@@ -1,0 +1,1173 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Proj" href="proj.html" /><link rel="prev" title="Transformer" href="transformer.html" />
+
+    <link rel="shortcut icon" href="../_static/icon.png"/><!-- Generated with Sphinx 6.1.3 and Furo 2023.03.23 -->
+        <title>Geod - pyproj 3.5.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #263238;
+  --color-code-foreground: #EEFFFF;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">pyproj 3.5.0rc0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">pyproj 3.5.0rc0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_grids.html">Transformation Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API Documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="crs/index.html">CRS module API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="crs/crs.html">CRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crs/coordinate_system.html">Coordinate Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crs/coordinate_operation.html">Coordinate Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crs/datum.html">Datum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crs/enums.html">Enumerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="transformer.html">Transformer</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Geod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proj.html">Proj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="list.html">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datadir.html">Data Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">PROJ Network Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sync.html">Sync Transformation Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="global_context.html">Global Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enums.html">Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aoi.html">Area of Interest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="show_versions.html">Show Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_examples.html">Advanced Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_crs.html">Building a Coordinate Reference System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_crs_cf.html">Managing CRS to and from CF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crs_compatibility.html">CRS Compatibility Guide for Geospatial Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_transformations.html">Optimize Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../past_versions.html">Documentation Archive</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="geod">
+<h1>Geod<a class="headerlink" href="#geod" title="Permalink to this heading">#</a></h1>
+<section id="pyproj-geod">
+<h2>pyproj.Geod<a class="headerlink" href="#pyproj-geod" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyproj.Geod">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.</span></span><span class="sig-name descname"><span class="pre">Geod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Geod</span></code></p>
+<p>performs forward and inverse geodetic, or Great Circle,
+computations.  The forward computation (using the ‘fwd’ method)
+involves determining latitude, longitude and back azimuth of a
+terminus point given the latitude and longitude of an initial
+point, plus azimuth and distance. The inverse computation (using
+the ‘inv’ method) involves determining the forward and back
+azimuths and distance given the latitudes and longitudes of an
+initial and terminus point.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.Geod.initstring">
+<span class="sig-name descname"><span class="pre">initstring</span></span><a class="headerlink" href="#pyproj.Geod.initstring" title="Permalink to this definition">#</a></dt>
+<dd><p>The string form of the user input used to create the Geod.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.Geod.sphere">
+<span class="sig-name descname"><span class="pre">sphere</span></span><a class="headerlink" href="#pyproj.Geod.sphere" title="Permalink to this definition">#</a></dt>
+<dd><p>If True, it is a sphere.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.Geod.a">
+<span class="sig-name descname"><span class="pre">a</span></span><a class="headerlink" href="#pyproj.Geod.a" title="Permalink to this definition">#</a></dt>
+<dd><p>The ellipsoid equatorial radius, or semi-major axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.Geod.b">
+<span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#pyproj.Geod.b" title="Permalink to this definition">#</a></dt>
+<dd><p>The ellipsoid polar radius, or semi-minor axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.Geod.es">
+<span class="sig-name descname"><span class="pre">es</span></span><a class="headerlink" href="#pyproj.Geod.es" title="Permalink to this definition">#</a></dt>
+<dd><p>The ‘eccentricity’ of the ellipse, squared (1-b2/a2).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.Geod.f">
+<span class="sig-name descname"><span class="pre">f</span></span><a class="headerlink" href="#pyproj.Geod.f" title="Permalink to this definition">#</a></dt>
+<dd><p>The ellipsoid ‘flattening’ parameter ( (a-b)/a ).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>initialize a Geod class instance.</p>
+<p>Geodetic parameters for specifying the ellipsoid
+can be given in a dictionary ‘initparams’, as keyword arguments,
+or as as proj geod initialization string.</p>
+<p>You can get a dictionary of ellipsoids using <code class="xref py py-func docutils literal notranslate"><span class="pre">pyproj.get_ellps_map()</span></code>
+or with the variable <cite>pyproj.pj_ellps</cite>.</p>
+<p>The parameters of the ellipsoid may also be set directly using
+the ‘a’ (semi-major or equatorial axis radius) keyword, and
+any one of the following keywords: ‘b’ (semi-minor,
+or polar axis radius), ‘e’ (eccentricity), ‘es’ (eccentricity
+squared), ‘f’ (flattening), or ‘rf’ (reciprocal flattening).</p>
+<p>See the proj documentation (<a class="reference external" href="https://proj.org">https://proj.org</a>) for more
+information about specifying ellipsoid parameters.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># specify the lat/lons of some cities.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boston_lat</span> <span class="o">=</span> <span class="mf">42.</span><span class="o">+</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">boston_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">71.</span><span class="o">-</span><span class="p">(</span><span class="mf">7.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">portland_lat</span> <span class="o">=</span> <span class="mf">45.</span><span class="o">+</span><span class="p">(</span><span class="mf">31.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">portland_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">123.</span><span class="o">-</span><span class="p">(</span><span class="mf">41.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newyork_lat</span> <span class="o">=</span> <span class="mf">40.</span><span class="o">+</span><span class="p">(</span><span class="mf">47.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">newyork_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">73.</span><span class="o">-</span><span class="p">(</span><span class="mf">58.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">london_lat</span> <span class="o">=</span> <span class="mf">51.</span><span class="o">+</span><span class="p">(</span><span class="mf">32.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">london_lon</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mf">5.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute forward and back azimuths, plus distance</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># between Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">az12</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">az21</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dist</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;-66.531 75.654 4164192.708&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute latitude, longitude and back azimuth of Portland,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># given Boston lat/lon, forward azimuth and distance to Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">endlon</span><span class="p">,</span> <span class="n">endlat</span><span class="p">,</span> <span class="n">backaz</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">fwd</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span> <span class="n">boston_lat</span><span class="p">,</span> <span class="n">az12</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">endlat</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">endlon</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">backaz</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;45.517 -123.683 75.654&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute the azimuths, distances from New York to several</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># cities (pass a list)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons1</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">[</span><span class="n">newyork_lon</span><span class="p">];</span> <span class="n">lats1</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">[</span><span class="n">newyork_lat</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons2</span> <span class="o">=</span> <span class="p">[</span><span class="n">boston_lon</span><span class="p">,</span> <span class="n">portland_lon</span><span class="p">,</span> <span class="n">london_lon</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats2</span> <span class="o">=</span> <span class="p">[</span><span class="n">boston_lat</span><span class="p">,</span> <span class="n">portland_lat</span><span class="p">,</span> <span class="n">london_lat</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">lons1</span><span class="p">,</span><span class="n">lats1</span><span class="p">,</span><span class="n">lons2</span><span class="p">,</span><span class="n">lats2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">faz</span><span class="p">,</span> <span class="n">baz</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">faz</span><span class="si">:</span><span class="s2">7.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">baz</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">12.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39; 54.663 -123.448   288303.720&#39;</span>
+<span class="go">&#39;-65.463   79.342  4013037.318&#39;</span>
+<span class="go">&#39; 51.254  -71.576  5579916.651&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g2</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+ellps=clrk66&#39;</span><span class="p">)</span> <span class="c1"># use proj4 style initialization string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g2</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">az12</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">az21</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dist</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;-66.531 75.654 4164192.708&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.fwd">
+<span class="sig-name descname"><span class="pre">fwd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_back_azimuth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.fwd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.fwd" title="Permalink to this definition">#</a></dt>
+<dd><p>Forward transformation</p>
+<p>Determine longitudes, latitudes and back azimuths of terminus
+points given longitudes and latitudes of initial points,
+plus forward azimuths and distances.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.0: </span>inplace</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.0: </span>return_back_azimuth</p>
+</div>
+<p>Accepted numeric scalar or array:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.floating" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.floating</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.integer" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.integer</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.3.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.5.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (<em>scalar</em><em> or </em><em>array</em>) – Longitude(s) of initial point(s)</p></li>
+<li><p><strong>lats</strong> (<em>scalar</em><em> or </em><em>array</em>) – Latitude(s) of initial point(s)</p></li>
+<li><p><strong>az</strong> (<em>scalar</em><em> or </em><em>array</em>) – Forward azimuth(s)</p></li>
+<li><p><strong>dist</strong> (<em>scalar</em><em> or </em><em>array</em>) – Distance(s) between initial and terminus point(s)
+in meters</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+<li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, will attempt to write the results to the input array
+instead of returning a new array. This will fail if the input
+is not an array in C order with the double data type.</p></li>
+<li><p><strong>return_back_azimuth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – If True, the third return value will be the back azimuth,
+Otherwise, it will be the forward azimuth.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>scalar or array</em> – Longitude(s) of terminus point(s)</p></li>
+<li><p><em>scalar or array</em> – Latitude(s) of terminus point(s)</p></li>
+<li><p><em>scalar or array</em> – Back azimuth(s) or Forward azimuth(s)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.fwd_intermediate">
+<span class="sig-name descname"><span class="pre">fwd_intermediate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">azi1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">del_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminus_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><span class="pre">GeodIntermediateFlag</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">GeodIntermediateFlag.DEFAULT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_lons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_lats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_azis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_back_azimuth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn" title="importlib._bootstrap.GeodIntermediateReturn"><span class="pre">GeodIntermediateReturn</span></a></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.fwd_intermediate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.fwd_intermediate" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0.</span></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.0: </span>return_back_azimuth</p>
+</div>
+<p>Given a single initial point and azimuth, number of points (npts)
+and delimiter distance between two successive points (del_s), returns
+a list of longitude/latitude pairs describing npts equally
+spaced intermediate points along the geodesic between the
+initial and terminus points.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># specify the lat/lons of Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boston_lat</span> <span class="o">=</span> <span class="mf">42.</span><span class="o">+</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">boston_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">71.</span><span class="o">-</span><span class="p">(</span><span class="mf">7.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">portland_lat</span> <span class="o">=</span> <span class="mf">45.</span><span class="o">+</span><span class="p">(</span><span class="mf">31.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">portland_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">123.</span><span class="o">-</span><span class="p">(</span><span class="mf">41.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">az12</span><span class="p">,</span><span class="n">az21</span><span class="p">,</span><span class="n">dist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># find ten equally spaced points between Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">npts</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">del_s</span> <span class="o">=</span> <span class="n">dist</span><span class="o">/</span><span class="p">(</span><span class="n">npts</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">fwd_intermediate</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">az12</span><span class="p">,</span><span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">,</span><span class="n">del_s</span><span class="o">=</span><span class="n">del_s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">lats</span><span class="p">):</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">lat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">lon</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;43.528 -75.414&#39;</span>
+<span class="go">&#39;44.637 -79.883&#39;</span>
+<span class="go">&#39;45.565 -84.512&#39;</span>
+<span class="go">&#39;46.299 -89.279&#39;</span>
+<span class="go">&#39;46.830 -94.156&#39;</span>
+<span class="go">&#39;47.149 -99.112&#39;</span>
+<span class="go">&#39;47.251 -104.106&#39;</span>
+<span class="go">&#39;47.136 -109.100&#39;</span>
+<span class="go">&#39;46.805 -114.051&#39;</span>
+<span class="go">&#39;46.262 -118.924&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># test with radians=True (inputs/outputs in radians, not degrees)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dg2rad</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rad2dg</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">fwd_intermediate</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">boston_lon</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">boston_lat</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">az12</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">del_s</span><span class="o">=</span><span class="n">del_s</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">radians</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">lats</span><span class="p">):</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lon</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;43.528 -75.414&#39;</span>
+<span class="go">&#39;44.637 -79.883&#39;</span>
+<span class="go">&#39;45.565 -84.512&#39;</span>
+<span class="go">&#39;46.299 -89.279&#39;</span>
+<span class="go">&#39;46.830 -94.156&#39;</span>
+<span class="go">&#39;47.149 -99.112&#39;</span>
+<span class="go">&#39;47.251 -104.106&#39;</span>
+<span class="go">&#39;47.136 -109.100&#39;</span>
+<span class="go">&#39;46.805 -114.051&#39;</span>
+<span class="go">&#39;46.262 -118.924&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lon1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Longitude of the initial point</p></li>
+<li><p><strong>lat1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Latitude of the initial point</p></li>
+<li><p><strong>azi1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Azimuth from the initial point towards the terminus point</p></li>
+<li><p><strong>npts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of points to be returned
+(including initial and/or terminus points, if required)</p></li>
+<li><p><strong>del_s</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – delimiter distance between two successive points</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+<li><p><strong>initial_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default=1</em>) – if initial_idx==0 then the initial point would be included in the output
+(as the first point)</p></li>
+<li><p><strong>terminus_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default=1</em>) – if terminus_idx==0 then the terminus point would be included in the output
+(as the last point)</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><em>GeodIntermediateFlag</em></a><em>, </em><em>default=GeodIntermediateFlag.DEFAULT</em>) – <ul>
+<li><p>1st - round/ceil/trunc (see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.NPTS_*</span></code>)</p></li>
+<li><dl class="simple">
+<dt>2nd - update del_s to the new npts or not</dt><dd><p>(see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.DEL_S_*</span></code>)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>3rd - if out_azis=None, indicates if to save or discard the azimuths</dt><dd><p>(see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.AZIS_*</span></code>)</p>
+</dd>
+</dl>
+</li>
+<li><p>default - round npts, update del_s accordingly, discard azis</p></li>
+</ul>
+</p></li>
+<li><p><strong>out_lons</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional) – Longitude(s) of the intermediate point(s)
+If None then buffers would be allocated internnaly</p></li>
+<li><p><strong>out_lats</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional) – Latitudes(s) of the intermediate point(s)
+If None then buffers would be allocated internnaly</p></li>
+<li><p><strong>out_azis</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional) – az12(s) of the intermediate point(s)
+If None then buffers would be allocated internnaly
+unless requested otherwise by the flags</p></li>
+<li><p><strong>return_back_azimuth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – if True, out_azis will store the back azimuth,
+Otherwise, out_azis will store the forward azimuth.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>number of points, distance and output arrays (GeodIntermediateReturn docs)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn" title="pyproj.geod.GeodIntermediateReturn">GeodIntermediateReturn</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.geometry_area_perimeter">
+<span class="sig-name descname"><span class="pre">geometry_area_perimeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_area_perimeter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.geometry_area_perimeter" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>A simple interface for computing the area (meters^2) and perimeter (meters)
+of a geodesic polygon as a shapely geometry.</p>
+<p>Arbitrarily complex polygons are allowed.  In the case self-intersecting
+of polygons the area is accumulated “algebraically”, e.g., the areas of
+the 2 loops in a figure-8 polygon will partially cancel.  There’s no need
+to “close” the polygon by repeating the first vertex.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>lats should be in the range [-90 deg, 90 deg].</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The area returned is signed with counter-clockwise (CCW) traversal
+being treated as positive. For polygons, holes should use the
+opposite traversal to the exterior (if the exterior is CCW, the
+holes/interiors should be CW). You can use <cite>shapely.ops.orient</cite> to
+modify the orientation.</p>
+</div>
+<p>If it is a Polygon, it will return the area and exterior perimeter.
+It will subtract the area of the interior holes.
+If it is a MultiPolygon or MultiLine, it will return
+the sum of the areas and perimeters of all geometries.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Polygon</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">geometry_area_perimeter</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Polygon</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">LineString</span><span class="p">([</span>
+<span class="gp">... </span>            <span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="p">]),</span>
+<span class="gp">... </span>        <span class="n">holes</span><span class="o">=</span><span class="p">[</span><span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])],</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">poly_area</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">poly_perimeter</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;944373881400 3979008&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.BaseGeometry</span></code>) – The geometry to calculate the area and perimeter from.</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The geodesic area (meters^2) and permimeter (meters) of the polygon.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.geometry_length">
+<span class="sig-name descname"><span class="pre">geometry_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.geometry_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.geometry_length" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>Returns the geodesic length (meters) of the shapely geometry.</p>
+<p>If it is a Polygon, it will return the sum of the
+lengths along the perimeter.
+If it is a MultiPolygon or MultiLine, it will return
+the sum of the lengths.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">line_string</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">geod</span><span class="o">.</span><span class="n">geometry_length</span><span class="p">(</span><span class="n">line_string</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;313588.397&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">shapely.geometry.BaseGeometry</span></code>) – The geometry to calculate the length from.</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total geodesic length of the geometry (meters).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.inv">
+<span class="sig-name descname"><span class="pre">inv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_back_azimuth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.inv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.inv" title="Permalink to this definition">#</a></dt>
+<dd><p>Inverse transformation</p>
+<p>Determine forward and back azimuths, plus distances
+between initial points and terminus points.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.0: </span>inplace</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.0: </span>return_back_azimuth</p>
+</div>
+<p>Accepted numeric scalar or array:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.floating" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.floating</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.integer" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.integer</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.3.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.5.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons1</strong> (<em>scalar</em><em> or </em><em>array</em>) – Longitude(s) of initial point(s)</p></li>
+<li><p><strong>lats1</strong> (<em>scalar</em><em> or </em><em>array</em>) – Latitude(s) of initial point(s)</p></li>
+<li><p><strong>lons2</strong> (<em>scalar</em><em> or </em><em>array</em>) – Longitude(s) of terminus point(s)</p></li>
+<li><p><strong>lats2</strong> (<em>scalar</em><em> or </em><em>array</em>) – Latitude(s) of terminus point(s)</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+<li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, will attempt to write the results to the input array
+instead of returning a new array. This will fail if the input
+is not an array in C order with the double data type.</p></li>
+<li><p><strong>return_back_azimuth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – If True, the second return value (azi21) will be the back azimuth
+(flipped 180 degrees), Otherwise, it will also be a forward azimuth.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>scalar or array</em> – Forward azimuth(s) (azi12)</p></li>
+<li><p><em>scalar or array</em> – Back azimuth(s) or Forward azimuth(s) (azi21)</p></li>
+<li><p><em>scalar or array</em> – Distance(s) between initial and terminus point(s)
+in meters</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.inv_intermediate">
+<span class="sig-name descname"><span class="pre">inv_intermediate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">del_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminus_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><span class="pre">GeodIntermediateFlag</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">GeodIntermediateFlag.DEFAULT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_lons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_lats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_azis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_back_azimuth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn" title="importlib._bootstrap.GeodIntermediateReturn"><span class="pre">GeodIntermediateReturn</span></a></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.inv_intermediate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.inv_intermediate" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0.</span></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.0: </span>return_back_azimuth</p>
+</div>
+<p>Given a single initial point and terminus point,
+and the number of points, returns
+a list of longitude/latitude pairs describing npts equally
+spaced intermediate points along the geodesic between the
+initial and terminus points.</p>
+<p>npts and del_s parameters are mutually exclusive:</p>
+<dl class="simple">
+<dt>if npts != 0:</dt><dd><p>it calculates the distance between the points by
+the distance between the initial point and the
+terminus point divided by npts
+(the number of intermediate points)</p>
+</dd>
+<dt>else:</dt><dd><p>it calculates the number of intermediate points by
+dividing the distance between the initial and
+terminus points by del_s
+(delimiter distance between two successive points)</p>
+</dd>
+</dl>
+<p>Similar to npts(), but with more options.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># specify the lat/lons of Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boston_lat</span> <span class="o">=</span> <span class="mf">42.</span><span class="o">+</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">boston_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">71.</span><span class="o">-</span><span class="p">(</span><span class="mf">7.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">portland_lat</span> <span class="o">=</span> <span class="mf">45.</span><span class="o">+</span><span class="p">(</span><span class="mf">31.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">portland_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">123.</span><span class="o">-</span><span class="p">(</span><span class="mf">41.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># find ten equally spaced points between Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv_intermediate</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">lats</span><span class="p">):</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">lat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">lon</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;43.528 -75.414&#39;</span>
+<span class="go">&#39;44.637 -79.883&#39;</span>
+<span class="go">&#39;45.565 -84.512&#39;</span>
+<span class="go">&#39;46.299 -89.279&#39;</span>
+<span class="go">&#39;46.830 -94.156&#39;</span>
+<span class="go">&#39;47.149 -99.112&#39;</span>
+<span class="go">&#39;47.251 -104.106&#39;</span>
+<span class="go">&#39;47.136 -109.100&#39;</span>
+<span class="go">&#39;46.805 -114.051&#39;</span>
+<span class="go">&#39;46.262 -118.924&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># test with radians=True (inputs/outputs in radians, not degrees)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dg2rad</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rad2dg</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">inv_intermediate</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">boston_lon</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">boston_lat</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">portland_lon</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">portland_lat</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">radians</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">lats</span><span class="p">):</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lon</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;43.528 -75.414&#39;</span>
+<span class="go">&#39;44.637 -79.883&#39;</span>
+<span class="go">&#39;45.565 -84.512&#39;</span>
+<span class="go">&#39;46.299 -89.279&#39;</span>
+<span class="go">&#39;46.830 -94.156&#39;</span>
+<span class="go">&#39;47.149 -99.112&#39;</span>
+<span class="go">&#39;47.251 -104.106&#39;</span>
+<span class="go">&#39;47.136 -109.100&#39;</span>
+<span class="go">&#39;46.805 -114.051&#39;</span>
+<span class="go">&#39;46.262 -118.924&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lon1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Longitude of the initial point</p></li>
+<li><p><strong>lat1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Latitude of the initial point</p></li>
+<li><p><strong>lon2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Longitude of the terminus point</p></li>
+<li><p><strong>lat2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Latitude of the terminus point</p></li>
+<li><p><strong>npts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default=0</em>) – Number of points to be returned
+npts == 0 if del_s != 0</p></li>
+<li><p><strong>del_s</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>default=0</em>) – delimiter distance between two successive points
+del_s == 0 if npts != 0</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+<li><p><strong>initial_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default=1</em>) – if initial_idx==0 then the initial point would be included in the output
+(as the first point)</p></li>
+<li><p><strong>terminus_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default=1</em>) – if terminus_idx==0 then the terminus point would be included in the output
+(as the last point)</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="enums.html#pyproj.enums.GeodIntermediateFlag" title="pyproj.enums.GeodIntermediateFlag"><em>GeodIntermediateFlag</em></a><em>, </em><em>default=GeodIntermediateFlag.DEFAULT</em>) – <ul>
+<li><p>1st - round/ceil/trunc (see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.NPTS_*</span></code>)</p></li>
+<li><dl class="simple">
+<dt>2nd - update del_s to the new npts or not</dt><dd><p>(see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.DEL_S_*</span></code>)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>3rd - if out_azis=None, indicates if to save or discard the azimuths</dt><dd><p>(see <code class="docutils literal notranslate"><span class="pre">GeodIntermediateFlag.AZIS_*</span></code>)</p>
+</dd>
+</dl>
+</li>
+<li><p>default - round npts, update del_s accordingly, discard azis</p></li>
+</ul>
+</p></li>
+<li><p><strong>out_lons</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional) – Longitude(s) of the intermediate point(s)
+If None then buffers would be allocated internnaly</p></li>
+<li><p><strong>out_lats</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional) – Latitudes(s) of the intermediate point(s)
+If None then buffers would be allocated internnaly</p></li>
+<li><p><strong>out_azis</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional) – az12(s) of the intermediate point(s)
+If None then buffers would be allocated internnaly
+unless requested otherwise by the flags</p></li>
+<li><p><strong>return_back_azimuth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – if True, out_azis will store the back azimuth,
+Otherwise, out_azis will store the forward azimuth.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>number of points, distance and output arrays (GeodIntermediateReturn docs)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn" title="pyproj.geod.GeodIntermediateReturn">GeodIntermediateReturn</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.line_length">
+<span class="sig-name descname"><span class="pre">line_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.line_length" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>Calculate the total distance between points along a line (meters).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_length</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">line_length</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">total_length</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;14259605.611&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, list, tuple, or scalar) – The longitude points along a line.</p></li>
+<li><p><strong>lats</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, list, tuple, or scalar) – The latitude points along a line.</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total length of the line (meters).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.line_lengths">
+<span class="sig-name descname"><span class="pre">line_lengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.line_lengths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.line_lengths" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>Calculate the distances between points along a line (meters).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line_length</span> <span class="ow">in</span> <span class="n">geod</span><span class="o">.</span><span class="n">line_lengths</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">line_length</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;943065.744&#39;</span>
+<span class="go">&#39;334805.010&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, list, tuple, or scalar) – The longitude points along a line.</p></li>
+<li><p><strong>lats</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, list, tuple, or scalar) – The latitude points along a line.</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total length of the line (meters).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, list, tuple, or scalar</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.npts">
+<span class="sig-name descname"><span class="pre">npts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminus_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.npts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.npts" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0: </span>initial_idx, terminus_idx</p>
+</div>
+<p>Given a single initial point and terminus point, returns
+a list of longitude/latitude pairs describing npts equally
+spaced intermediate points along the geodesic between the
+initial and terminus points.</p>
+<p>Similar to inv_intermediate(), but with less options.</p>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;clrk66&#39;</span><span class="p">)</span> <span class="c1"># Use Clarke 1866 ellipsoid.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># specify the lat/lons of Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boston_lat</span> <span class="o">=</span> <span class="mf">42.</span><span class="o">+</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">boston_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">71.</span><span class="o">-</span><span class="p">(</span><span class="mf">7.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">portland_lat</span> <span class="o">=</span> <span class="mf">45.</span><span class="o">+</span><span class="p">(</span><span class="mf">31.</span><span class="o">/</span><span class="mf">60.</span><span class="p">);</span> <span class="n">portland_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">123.</span><span class="o">-</span><span class="p">(</span><span class="mf">41.</span><span class="o">/</span><span class="mf">60.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># find ten equally spaced points between Boston and Portland.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lonlats</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">npts</span><span class="p">(</span><span class="n">boston_lon</span><span class="p">,</span><span class="n">boston_lat</span><span class="p">,</span><span class="n">portland_lon</span><span class="p">,</span><span class="n">portland_lat</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="n">lonlats</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">lat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">lon</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;43.528 -75.414&#39;</span>
+<span class="go">&#39;44.637 -79.883&#39;</span>
+<span class="go">&#39;45.565 -84.512&#39;</span>
+<span class="go">&#39;46.299 -89.279&#39;</span>
+<span class="go">&#39;46.830 -94.156&#39;</span>
+<span class="go">&#39;47.149 -99.112&#39;</span>
+<span class="go">&#39;47.251 -104.106&#39;</span>
+<span class="go">&#39;47.136 -109.100&#39;</span>
+<span class="go">&#39;46.805 -114.051&#39;</span>
+<span class="go">&#39;46.262 -118.924&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># test with radians=True (inputs/outputs in radians, not degrees)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dg2rad</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rad2dg</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lonlats</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">npts</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">boston_lon</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">boston_lat</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">portland_lon</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">dg2rad</span><span class="o">*</span><span class="n">portland_lat</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">radians</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span><span class="n">lat</span> <span class="ow">in</span> <span class="n">lonlats</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">rad2dg</span><span class="o">*</span><span class="n">lon</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;43.528 -75.414&#39;</span>
+<span class="go">&#39;44.637 -79.883&#39;</span>
+<span class="go">&#39;45.565 -84.512&#39;</span>
+<span class="go">&#39;46.299 -89.279&#39;</span>
+<span class="go">&#39;46.830 -94.156&#39;</span>
+<span class="go">&#39;47.149 -99.112&#39;</span>
+<span class="go">&#39;47.251 -104.106&#39;</span>
+<span class="go">&#39;47.136 -109.100&#39;</span>
+<span class="go">&#39;46.805 -114.051&#39;</span>
+<span class="go">&#39;46.262 -118.924&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lon1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Longitude of the initial point</p></li>
+<li><p><strong>lat1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Latitude of the initial point</p></li>
+<li><p><strong>lon2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Longitude of the terminus point</p></li>
+<li><p><strong>lat2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Latitude of the terminus point</p></li>
+<li><p><strong>npts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of points to be returned
+(including initial and/or terminus points, if required)</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+<li><p><strong>initial_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default=1</em>) – if initial_idx==0 then the initial point would be included in the output
+(as the first point)</p></li>
+<li><p><strong>terminus_idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default=1</em>) – if terminus_idx==0 then the terminus point would be included in the output
+(as the last point)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of (lon, lat) points along the geodesic
+between the initial and terminus points.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a> of tuples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.Geod.polygon_area_perimeter">
+<span class="sig-name descname"><span class="pre">polygon_area_perimeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pyproj/geod.html#Geod.polygon_area_perimeter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.Geod.polygon_area_perimeter" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p>A simple interface for computing the area (meters^2) and perimeter (meters)
+of a geodesic polygon.</p>
+<p>Arbitrarily complex polygons are allowed. In the case self-intersecting
+of polygons the area is accumulated “algebraically”, e.g., the areas of
+the 2 loops in a figure-8 polygon will partially cancel. There’s no need
+to “close” the polygon by repeating the first vertex. The area returned
+is signed with counter-clockwise traversal being treated as positive.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>lats should be in the range [-90 deg, 90 deg].</p>
+</div>
+<p>Example usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="o">-</span><span class="mf">66.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">66.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">69.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">74</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">102</span><span class="p">,</span> <span class="o">-</span><span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mi">88</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">33</span><span class="p">,</span> <span class="o">-</span><span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">61</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poly_area</span><span class="p">,</span> <span class="n">poly_perimeter</span> <span class="o">=</span> <span class="n">geod</span><span class="o">.</span><span class="n">polygon_area_perimeter</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">poly_area</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">poly_perimeter</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;13376856682207.4 14710425.4&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, list, tuple, or scalar) – An array of longitude values.</p></li>
+<li><p><strong>lats</strong> (array, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, list, tuple, or scalar) – An array of latitude values.</p></li>
+<li><p><strong>radians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, the input data is assumed to be in radians.
+Otherwise, the data is assumed to be in degrees.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The geodesic area (meters^2) and permimeter (meters) of the polygon.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyproj.geod.GeodIntermediateReturn">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.geod.</span></span><span class="sig-name descname"><span class="pre">GeodIntermediateReturn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">npts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">del_s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.geod.GeodIntermediateReturn" title="Permalink to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.0.</span></p>
+</div>
+<p>Geod Intermediate Return value (Named Tuple)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>npts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – number of points</p></li>
+<li><p><strong>del_s</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – delimiter distance between two successive points</p></li>
+<li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – distance between the initial and terminus points</p></li>
+<li><p><strong>out_lons</strong> (<em>Any</em>) – array of the output lons</p></li>
+<li><p><strong>out_lats</strong> (<em>Any</em>) – array of the output lats</p></li>
+<li><p><strong>out_azis</strong> (<em>Any</em>) – array of the output azis</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.geod.GeodIntermediateReturn.azis">
+<span class="sig-name descname"><span class="pre">azis</span></span><a class="headerlink" href="#pyproj.geod.GeodIntermediateReturn.azis" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.geod.GeodIntermediateReturn.del_s">
+<span class="sig-name descname"><span class="pre">del_s</span></span><a class="headerlink" href="#pyproj.geod.GeodIntermediateReturn.del_s" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.geod.GeodIntermediateReturn.dist">
+<span class="sig-name descname"><span class="pre">dist</span></span><a class="headerlink" href="#pyproj.geod.GeodIntermediateReturn.dist" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.geod.GeodIntermediateReturn.lats">
+<span class="sig-name descname"><span class="pre">lats</span></span><a class="headerlink" href="#pyproj.geod.GeodIntermediateReturn.lats" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.geod.GeodIntermediateReturn.lons">
+<span class="sig-name descname"><span class="pre">lons</span></span><a class="headerlink" href="#pyproj.geod.GeodIntermediateReturn.lons" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyproj.geod.GeodIntermediateReturn.npts">
+<span class="sig-name descname"><span class="pre">npts</span></span><a class="headerlink" href="#pyproj.geod.GeodIntermediateReturn.npts" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="proj.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Proj</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="transformer.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Transformer</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2023, Open source contributors
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Geod</a><ul>
+<li><a class="reference internal" href="#pyproj-geod">pyproj.Geod</a><ul>
+<li><a class="reference internal" href="#pyproj.Geod"><code class="docutils literal notranslate"><span class="pre">Geod</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.Geod.initstring"><code class="docutils literal notranslate"><span class="pre">Geod.initstring</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.sphere"><code class="docutils literal notranslate"><span class="pre">Geod.sphere</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.a"><code class="docutils literal notranslate"><span class="pre">Geod.a</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.b"><code class="docutils literal notranslate"><span class="pre">Geod.b</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.es"><code class="docutils literal notranslate"><span class="pre">Geod.es</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.f"><code class="docutils literal notranslate"><span class="pre">Geod.f</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.__init__"><code class="docutils literal notranslate"><span class="pre">Geod.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.fwd"><code class="docutils literal notranslate"><span class="pre">Geod.fwd()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.fwd_intermediate"><code class="docutils literal notranslate"><span class="pre">Geod.fwd_intermediate()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.geometry_area_perimeter"><code class="docutils literal notranslate"><span class="pre">Geod.geometry_area_perimeter()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.geometry_length"><code class="docutils literal notranslate"><span class="pre">Geod.geometry_length()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.inv"><code class="docutils literal notranslate"><span class="pre">Geod.inv()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.inv_intermediate"><code class="docutils literal notranslate"><span class="pre">Geod.inv_intermediate()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.line_length"><code class="docutils literal notranslate"><span class="pre">Geod.line_length()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.line_lengths"><code class="docutils literal notranslate"><span class="pre">Geod.line_lengths()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.npts"><code class="docutils literal notranslate"><span class="pre">Geod.npts()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.Geod.polygon_area_perimeter"><code class="docutils literal notranslate"><span class="pre">Geod.polygon_area_perimeter()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn"><code class="docutils literal notranslate"><span class="pre">GeodIntermediateReturn</span></code></a><ul>
+<li><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn.azis"><code class="docutils literal notranslate"><span class="pre">GeodIntermediateReturn.azis</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn.del_s"><code class="docutils literal notranslate"><span class="pre">GeodIntermediateReturn.del_s</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn.dist"><code class="docutils literal notranslate"><span class="pre">GeodIntermediateReturn.dist</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn.lats"><code class="docutils literal notranslate"><span class="pre">GeodIntermediateReturn.lats</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn.lons"><code class="docutils literal notranslate"><span class="pre">GeodIntermediateReturn.lons</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.geod.GeodIntermediateReturn.npts"><code class="docutils literal notranslate"><span class="pre">GeodIntermediateReturn.npts</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    </body>
+</html>
