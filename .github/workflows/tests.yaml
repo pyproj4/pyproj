@@ -40,8 +40,12 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11']
-        proj-version: ['9.1.0']
+        proj-version: ['9.2.0']
         include:
+          - python-version: '3.9'
+            proj-version: '9.1.1'
+          - python-version: '3.9'
+            proj-version: '9.1.0'
           - python-version: '3.9'
             proj-version: '9.0.1'
     steps:
@@ -126,6 +130,10 @@ jobs:
             python-version: '*'
             python-implementation: pypy
             proj-version: '*'
+          - os: ubuntu-latest
+            python-version: '*'
+            python-implementation: python
+            proj-version: '9.1.1'
     steps:
       - uses: actions/checkout@v3
 
