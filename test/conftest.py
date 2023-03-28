@@ -12,6 +12,7 @@ from pyproj.datadir import get_data_dir, get_user_data_dir, set_data_dir
 
 _NETWORK_ENABLED = pyproj.network.is_network_enabled()
 PROJ_LOOSE_VERSION = version.parse(pyproj.__proj_version__)
+PROJ_911 = PROJ_LOOSE_VERSION == version.parse("9.1.1")
 PROJ_GTE_901 = PROJ_LOOSE_VERSION >= version.parse("9.0.1")
 PROJ_GTE_91 = PROJ_LOOSE_VERSION >= version.parse("9.1")
 PROJ_GTE_911 = PROJ_LOOSE_VERSION >= version.parse("9.1.1")
