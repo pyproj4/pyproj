@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+Latest
+------
+
 3.5.0
 ------
 - DEP: Minimum PROJ version 9.0 (issue #1223)
