@@ -1607,12 +1607,13 @@ def test_to_3d__name():
     crs_3d = CRS("EPSG:2056").to_3d(name="TEST")
     assert crs_3d.name == "TEST"
 
+
 @pytest.mark.parametrize(
     "crs_input",
     [
-        CRS("EPSG:4979"), # native 3D
-        CRS("EPSG:2056").to_3d(), # a 2D CRS converted to 3D
-        CRS("EPSG:4326+5773"), # a 3D CRS based on a compound
+        CRS("EPSG:4979"),  # native 3D
+        CRS("EPSG:2056").to_3d(),  # a 2D CRS converted to 3D
+        CRS("EPSG:4326+5773"),  # a 3D CRS based on a compound
     ],
 )
 def test_to_2d(crs_input):
@@ -1631,9 +1632,11 @@ def test_to_2d(crs_input):
     else:
         assert crs_2d.name == crs_input.name
 
+
 def test_to_2d__name():
     crs_2d = CRS("EPSG:2056").to_3d().to_2d(name="TEST")
     assert crs_2d.name == "TEST"
+
 
 def test_crs__pickle(tmp_path):
     assert_can_pickle(CRS("epsg:4326"), tmp_path)
