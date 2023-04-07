@@ -9,6 +9,10 @@ cdef extern from "proj_experimental.h":
                                const char* crs_3D_name,
                                const PJ* crs_2D)
 
+cdef extern from "proj_experimental.h":
+    PJ *proj_crs_demote_to_2D(PJ_CONTEXT *ctx,
+                              const char *crs_2D_name,
+                              const PJ *crs_3D)
 
 cdef tuple _get_concatenated_operations(PJ_CONTEXT*context, PJ*concatenated_operation)
 cdef _to_proj4(
