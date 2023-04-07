@@ -155,6 +155,27 @@ In PROJ 6+ you need to explicitly change your CRS to 3D if you have
     >>> transformer_3d.transform(8.37909, 47.01987, 1000)
     (2671499.8913080636, 1208075.1135782297, 951.4265527743846)
 
+
+Demote CRS to 2D
+----------------
+
+.. versionadded:: 3.6
+
+
+If you need to retrieve the 2D version of a 3D CRS, for example to create another 3D CRS compound between a 2D CRS and a vertical CRS.
+
+.. code-block:: python
+
+    >>> from pyproj import CRS, Transformer
+    >>> from pyproj.crs import CompoundCRS
+    >>> src_crs = CRS("EPSG:4979") # Any 3D input CRS, here the 3D WGS84 ellipsoid
+    >>> vert_crs = CRS("EPSG:5773") # Any vertical CRS, here the EGM96 geoid
+    >>> dst_crs = CompoundCRS(src_crs.name + vert_crs.name, components=[src_crs.to_2d(), vert_crs])
+    >>> transformer_3d = Transformer.from_crs(src_crs, dst_crs, always_xy=True)
+    >>> transformer_3d.transform(8.37909, 47.01987, 1000)
+    (8.37909, 47.01987, 951.7851086745321)
+
+
 Projected CRS Bounds
 ----------------------
 
