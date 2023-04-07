@@ -1607,6 +1607,27 @@ def test_to_3d__name():
     crs_3d = CRS("EPSG:2056").to_3d(name="TEST")
     assert crs_3d.name == "TEST"
 
+@pytest.mark.parametrize(
+    "crs_input",
+    [
+        CRS("EPSG:4979"), # native 3D
+        CRS("EPSG:2056").to_3d(), # a 2D CRS converted to 3D
+    ],
+)
+def test_to_2d(crs_input):
+    assert len(crs_input.axis_info) == 3
+    horizon_axis_crs_3d = crs_input.axis_info[:-1]
+    crs_2d = crs_input.to_2d()
+    horizon_axis_crs_2d = crs_input.axis_info
+    assert len(crs_2d.axis_info) == 2
+    assert horizon_axis_crs_2d[0] == horizon_axis_crs_3d[0]
+    assert horizon_axis_crs_2d[1] == horizon_axis_crs_3d[1]
+    assert crs_2d.to_2d() == crs_2d
+    assert crs_2d.name == crs_input.name
+
+def test_to_2d__name():
+    crs_2d = CRS("EPSG:2056").to_3d().to_2d(name="TEST")
+    assert crs_2d.name == "TEST"
 
 def test_crs__pickle(tmp_path):
     assert_can_pickle(CRS("epsg:4326"), tmp_path)
