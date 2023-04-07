@@ -1612,6 +1612,7 @@ def test_to_3d__name():
     [
         CRS("EPSG:4979"), # native 3D
         CRS("EPSG:2056").to_3d(), # a 2D CRS converted to 3D
+        CRS("EPSG:4326+5773"), # a 3D CRS based on a compound
     ],
 )
 def test_to_2d(crs_input):
@@ -1623,7 +1624,12 @@ def test_to_2d(crs_input):
     assert horizon_axis_crs_2d[0] == horizon_axis_crs_3d[0]
     assert horizon_axis_crs_2d[1] == horizon_axis_crs_3d[1]
     assert crs_2d.to_2d() == crs_2d
-    assert crs_2d.name == crs_input.name
+    # For CompoundCRS, the 3D name is initialized different from 2D
+    if crs_input.name == "WGS 84 + EGM96 height":
+        assert crs_2d.name == "WGS 84"
+    # Otherwise, no change
+    else:
+        assert crs_2d.name == crs_input.name
 
 def test_to_2d__name():
     crs_2d = CRS("EPSG:2056").to_3d().to_2d(name="TEST")
