@@ -162,13 +162,14 @@ Demote CRS to 2D
 .. versionadded:: 3.6
 
 
-If you need to retrieve the 2D version of a 3D CRS, for example to create another 3D CRS compound between a 2D CRS and a vertical CRS.
+With the need for explicit 3D CRS since PROJ 6+, one might need to retrieve their 2D version,
+for example to create another 3D CRS compound between a 2D CRS and a vertical CRS.
 
 .. code-block:: python
 
     >>> from pyproj import CRS, Transformer
     >>> from pyproj.crs import CompoundCRS
-    >>> src_crs = CRS("EPSG:4979") # Any 3D input CRS, here the 3D WGS84 ellipsoid
+    >>> src_crs = CRS("EPSG:4979") # Any 3D CRS, here the 3D WGS 84
     >>> vert_crs = CRS("EPSG:5773") # Any vertical CRS, here the EGM96 geoid
     >>> dst_crs = CompoundCRS(src_crs.name + vert_crs.name, components=[src_crs.to_2d(), vert_crs])
     >>> transformer_3d = Transformer.from_crs(src_crs, dst_crs, always_xy=True)
