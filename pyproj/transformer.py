@@ -94,6 +94,7 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
     allow_ballpark: Optional[bool]
     force_over: bool = False
     only_best: Optional[bool] = None
+    allow_superseded: bool = False
 
     def __call__(self) -> _Transformer:
         """
@@ -111,6 +112,7 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
             allow_ballpark=self.allow_ballpark,
             force_over=self.force_over,
             only_best=self.only_best,
+            allow_superseded=self.allow_superseded,
         )
 
 
@@ -161,11 +163,13 @@ class TransformerGroup(_TransformerGroup):
         authority: Optional[str] = None,
         accuracy: Optional[float] = None,
         allow_ballpark: bool = True,
+        allow_superseded: bool = False,
     ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
 
         .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
+        .. versionadded:: 3.6.0 allow_superseded
 
         Parameters
         ----------
@@ -195,6 +199,10 @@ class TransformerGroup(_TransformerGroup):
         allow_ballpark: bool, default=True
             Set to False to disallow the use of Ballpark transformation
             in the candidate coordinate operations. Default is to allow.
+        allow_superseded: bool, default=False
+            Set to True to allow the use of superseded (but not deprecated)
+            transformations in the candidate coordinate operations. Default is
+            to disallow.
 
         """
         super().__init__(
@@ -205,6 +213,7 @@ class TransformerGroup(_TransformerGroup):
             authority=authority,
             accuracy=-1 if accuracy is None else accuracy,
             allow_ballpark=allow_ballpark,
+            allow_superseded=allow_superseded,
         )
         for iii, transformer in enumerate(self._transformers):
             # pylint: disable=unsupported-assignment-operation
@@ -552,6 +561,7 @@ class Transformer:
         allow_ballpark: Optional[bool] = None,
         force_over: bool = False,
         only_best: Optional[bool] = None,
+        allow_superseded: bool = False,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
@@ -565,6 +575,7 @@ class Transformer:
         .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.4.0 force_over
         .. versionadded:: 3.5.0 only_best
+        .. versionadded:: 3.6.0 allow_superseded
 
         Parameters
         ----------
@@ -608,6 +619,10 @@ class Transformer:
             ``only_best_default`` setting of :ref:`proj-ini`.
             The only_best kwarg overrides the default value if set.
             Requires PROJ 9.2+.
+        allow_superseded: bool, default=False
+            Set to True to allow the use of superseded (but not deprecated)
+            transformations in the candidate coordinate operations. Default is
+            to disallow.
 
         Returns
         -------
@@ -625,6 +640,7 @@ class Transformer:
                 allow_ballpark=allow_ballpark,
                 force_over=force_over,
                 only_best=only_best,
+                allow_superseded=allow_superseded,
             )
         )
 

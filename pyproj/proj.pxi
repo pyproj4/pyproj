@@ -478,6 +478,11 @@ cdef extern from "proj.h" nogil:
         PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
         int allow
     )
+    void proj_operation_factory_context_set_discard_superseded(
+        PJ_CONTEXT *ctx,
+        PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
+        int discard
+    )
     void proj_operation_factory_context_set_desired_accuracy(
         PJ_CONTEXT *ctx,
         PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,

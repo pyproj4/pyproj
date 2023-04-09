@@ -41,6 +41,7 @@ class _TransformerGroup:
         authority: Optional[str],
         accuracy: Optional[float],
         allow_ballpark: bool,
+        allow_superseded: bool,
     ) -> None: ...
 
 class _Transformer(Base):
@@ -85,6 +86,7 @@ class _Transformer(Base):
         allow_ballpark: Optional[bool] = None,
         force_over: bool = False,
         only_best: Optional[bool] = None,
+        allow_superseded: bool = False,
     ) -> "_Transformer": ...
     @staticmethod
     def from_pipeline(proj_pipeline: bytes) -> "_Transformer": ...

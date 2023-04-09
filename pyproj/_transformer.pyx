@@ -141,6 +141,7 @@ cdef class _TransformerGroup:
         bint allow_ballpark,
         str authority,
         double accuracy,
+        bint allow_superseded,
     ):
         """
         From PROJ docs:
@@ -201,6 +202,11 @@ cdef class _TransformerGroup:
                 self.context,
                 operation_factory_context,
                 allow_ballpark,
+            )
+            proj_operation_factory_context_set_discard_superseded(
+                self.context,
+                operation_factory_context,
+                not allow_superseded,
             )
             proj_operation_factory_context_set_grid_availability_use(
                 self.context,
@@ -268,6 +274,7 @@ cdef PJ* proj_create_crs_to_crs(
     allow_ballpark,
     bint force_over,
     only_best,
+    allow_superseded,
 ) except NULL:
     """
     This is the same as proj_create_crs_to_crs in proj.h
@@ -527,6 +534,7 @@ cdef class _Transformer(Base):
         allow_ballpark=None,
         bint force_over=False,
         only_best=None,
+        allow_superseded=False,
     ):
         """
         Create a transformer from CRS objects
@@ -569,6 +577,7 @@ cdef class _Transformer(Base):
                 allow_ballpark=allow_ballpark,
                 force_over=force_over,
                 only_best=only_best,
+                allow_superseded=allow_superseded,
             )
         finally:
             if pj_area_of_interest != NULL:
