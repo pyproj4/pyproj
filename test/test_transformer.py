@@ -1191,13 +1191,6 @@ def test_transformer_authority_filter():
 
 
 @pytest.mark.parametrize(
-    "allow_superseded", [(True,), (False,), (123456789,), ("blah",)]
-)
-def test_transformer_allow_superseded(allow_superseded):
-    Transformer.from_crs(6319, "EPSG:4326+5703", allow_superseded=allow_superseded)
-
-
-@pytest.mark.parametrize(
     "input_string",
     [
         "EPSG:1671",

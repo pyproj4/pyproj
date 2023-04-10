@@ -3,7 +3,7 @@ Change Log
 
 Latest
 ------
-- ENH: Added allow_superseded kwargs to :class:`pyproj.transformer.Transformer` and :class:`pyproj.transformer.TransformerGroup` (pull #1269)
+- ENH: Added allow_superseded kwargs to :class:`pyproj.transformer.TransformerGroup` (pull #1269)
 
 3.5.0
 ------
