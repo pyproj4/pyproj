@@ -362,6 +362,24 @@ which transformation operation is selected in the transformation.</p>
 </pre></div>
 </div>
 </section>
+<section id="demote-crs-to-2d">
+<h2>Demote CRS to 2D<a class="headerlink" href="#demote-crs-to-2d" title="Permalink to this heading">#</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>With the need for explicit 3D CRS since PROJ 6+, one might need to retrieve their 2D version,
+for example to create another 3D CRS compound between a 2D CRS and a vertical CRS.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Transformer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CompoundCRS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">src_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4979&quot;</span><span class="p">)</span> <span class="c1"># Any 3D CRS, here the 3D WGS 84</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vert_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:5773&quot;</span><span class="p">)</span> <span class="c1"># Any vertical CRS, here the EGM96 geoid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dst_crs</span> <span class="o">=</span> <span class="n">CompoundCRS</span><span class="p">(</span><span class="n">src_crs</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="n">vert_crs</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">src_crs</span><span class="o">.</span><span class="n">to_2d</span><span class="p">(),</span> <span class="n">vert_crs</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">src_crs</span><span class="p">,</span> <span class="n">dst_crs</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">8.37909</span><span class="p">,</span> <span class="mf">47.01987</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="go">(8.37909, 47.01987, 951.7851086745321)</span>
+</pre></div>
+</div>
+</section>
 <section id="projected-crs-bounds">
 <h2>Projected CRS Bounds<a class="headerlink" href="#projected-crs-bounds" title="Permalink to this heading">#</a></h2>
 <div class="versionadded">
@@ -592,6 +610,7 @@ environment variable to the desired level.</p></li>
 <li><a class="reference internal" href="#transformation-group">Transformation Group</a></li>
 <li><a class="reference internal" href="#area-of-interest">Area of Interest</a></li>
 <li><a class="reference internal" href="#promote-crs-to-3d">Promote CRS to 3D</a></li>
+<li><a class="reference internal" href="#demote-crs-to-2d">Demote CRS to 2D</a></li>
 <li><a class="reference internal" href="#projected-crs-bounds">Projected CRS Bounds</a></li>
 <li><a class="reference internal" href="#multithreading">Multithreading</a></li>
 <li><a class="reference internal" href="#optimizing-single-threaded-applications">Optimizing Single-Threaded Applications</a></li>
