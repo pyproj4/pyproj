@@ -4,7 +4,7 @@ Utility functions used within pyproj
 import json
 from array import array
 from enum import Enum, auto
-from typing import Any, Tuple
+from typing import Any
 
 
 def is_null(value: Any) -> bool:
@@ -63,7 +63,7 @@ class DataType(Enum):
     ARRAY = auto()
 
 
-def _copytobuffer_return_scalar(xxx: Any) -> Tuple[array, DataType]:
+def _copytobuffer_return_scalar(xxx: Any) -> tuple[array, DataType]:
     """
     Prepares scalar for PROJ C-API:
     - Makes a copy because PROJ modifies buffer in place
@@ -76,7 +76,7 @@ def _copytobuffer_return_scalar(xxx: Any) -> Tuple[array, DataType]:
 
     Returns
     -------
-    Tuple[Any, DataType]
+    tuple[Any, DataType]
         The copy of the data prepared for the PROJ API & Python Buffer API.
     """
     try:
@@ -85,7 +85,7 @@ def _copytobuffer_return_scalar(xxx: Any) -> Tuple[array, DataType]:
         raise TypeError("input must be a scalar") from None
 
 
-def _copytobuffer(xxx: Any, inplace: bool = False) -> Tuple[Any, DataType]:
+def _copytobuffer(xxx: Any, inplace: bool = False) -> tuple[Any, DataType]:
     """
     Prepares data for PROJ C-API:
     - Makes a copy because PROJ modifies buffer in place
@@ -105,7 +105,7 @@ def _copytobuffer(xxx: Any, inplace: bool = False) -> Tuple[Any, DataType]:
 
     Returns
     -------
-    Tuple[Any, DataType]
+    tuple[Any, DataType]
         The copy of the data prepared for the PROJ API & Python Buffer API.
     """
     # check for pandas.Series, xarray.DataArray or dask.array.Array

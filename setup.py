@@ -5,7 +5,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from pkg_resources import parse_version
 from setuptools import Extension, setup
@@ -73,7 +73,7 @@ def get_proj_dir() -> Path:
     return proj_dir
 
 
-def get_proj_libdirs(proj_dir: Path) -> List[str]:
+def get_proj_libdirs(proj_dir: Path) -> list[str]:
     """
     This function finds the library directories
     """
@@ -93,7 +93,7 @@ def get_proj_libdirs(proj_dir: Path) -> List[str]:
     return libdirs
 
 
-def get_proj_incdirs(proj_dir: Path) -> List[str]:
+def get_proj_incdirs(proj_dir: Path) -> list[str]:
     """
     This function finds the include directories
     """
@@ -130,7 +130,7 @@ def get_cythonize_options():
     return cythonize_options
 
 
-def get_libraries(libdirs: List[str]) -> List[str]:
+def get_libraries(libdirs: list[str]) -> list[str]:
     """
     This function gets the libraries to cythonize with
     """
@@ -206,7 +206,7 @@ def get_extension_modules():
     )
 
 
-def get_package_data() -> Dict[str, List[str]]:
+def get_package_data() -> dict[str, list[str]]:
     """
     This function retrieves the package data
     """

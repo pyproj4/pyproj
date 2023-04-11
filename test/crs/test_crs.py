@@ -29,7 +29,7 @@ from test.conftest import (
 )
 
 
-class CustomCRS(object):
+class CustomCRS:
     def to_wkt(self):
         return CRS.from_epsg(4326).to_wkt()
 

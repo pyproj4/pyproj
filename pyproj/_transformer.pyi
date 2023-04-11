@@ -1,12 +1,12 @@
 import numbers
 from array import array
-from typing import Any, List, NamedTuple, Optional, Tuple, Union
+from typing import Any, NamedTuple, Optional, Union
 
 from pyproj._crs import _CRS, AreaOfUse, Base, CoordinateOperation
 from pyproj.enums import ProjVersion, TransformDirection
 
 proj_version_str: str
-PROJ_VERSION: Tuple[int, int, int]
+PROJ_VERSION: tuple[int, int, int]
 
 class AreaOfInterest(NamedTuple):
     west_lon_degree: float
@@ -30,7 +30,7 @@ class Factors(NamedTuple):
 
 class _TransformerGroup:
     _transformers: Any
-    _unavailable_operations: List[CoordinateOperation]
+    _unavailable_operations: list[CoordinateOperation]
     _best_available: bool
     def __init__(
         self,
@@ -66,7 +66,7 @@ class _Transformer(Base):
     @property
     def target_crs(self) -> Optional[_CRS]: ...
     @property
-    def operations(self) -> Union[Tuple[CoordinateOperation], None]: ...
+    def operations(self) -> Union[tuple[CoordinateOperation], None]: ...
     def get_last_used_operation(self) -> _Transformer: ...
     @property
     def is_network_enabled(self) -> bool: ...
@@ -129,7 +129,7 @@ class _Transformer(Base):
         radians: bool = False,
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
-    ) -> Tuple[float, float, float, float]: ...
+    ) -> tuple[float, float, float, float]: ...
     def _get_factors(
         self, longitude: Any, latitude: Any, radians: bool, errcheck: bool
     ) -> Factors: ...

@@ -19,7 +19,7 @@ __all__ = [
 
 import math
 import warnings
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 from pyproj._geod import Geod as _Geod
 from pyproj._geod import GeodIntermediateReturn, geodesic_version_str
@@ -32,7 +32,7 @@ from pyproj.utils import DataType, _convertback, _copytobuffer
 pj_ellps = get_ellps_map()
 
 
-def _params_from_ellps_map(ellps: str) -> Tuple[float, float, float, float, bool]:
+def _params_from_ellps_map(ellps: str) -> tuple[float, float, float, float, bool]:
     """
     Build Geodesic parameters from PROJ ellips map
 
@@ -43,7 +43,7 @@ def _params_from_ellps_map(ellps: str) -> Tuple[float, float, float, float, bool
 
     Returns
     -------
-    Tuple[float, float, float, float, bool]
+    tuple[float, float, float, float, bool]
 
     """
     ellps_dict = pj_ellps[ellps]
@@ -62,7 +62,7 @@ def _params_from_ellps_map(ellps: str) -> Tuple[float, float, float, float, bool
     return semi_major_axis, semi_minor_axis, flattening, eccentricity_squared, sphere
 
 
-def _params_from_kwargs(kwargs: Dict) -> Tuple[float, float, float, float]:
+def _params_from_kwargs(kwargs: dict) -> tuple[float, float, float, float]:
     """
     Build Geodesic parameters from input kwargs:
 
@@ -83,7 +83,7 @@ def _params_from_kwargs(kwargs: Dict) -> Tuple[float, float, float, float]:
 
     Returns
     -------
-    Tuple[float, float, float, float]
+    tuple[float, float, float, float]
 
     """
     semi_major_axis = kwargs["a"]
@@ -203,7 +203,7 @@ class Geod(_Geod):
         """
         # if initparams is a proj-type init string,
         # convert to dict.
-        ellpsd: Dict[str, Union[str, float]] = {}
+        ellpsd: dict[str, Union[str, float]] = {}
         if initstring is not None:
             for kvpair in initstring.split():
                 # Actually only +a and +b are needed
@@ -251,7 +251,7 @@ class Geod(_Geod):
         radians: bool = False,
         inplace: bool = False,
         return_back_azimuth: bool = True,
-    ) -> Tuple[Any, Any, Any]:
+    ) -> tuple[Any, Any, Any]:
         """
         Forward transformation
 
@@ -343,7 +343,7 @@ class Geod(_Geod):
         radians: bool = False,
         inplace: bool = False,
         return_back_azimuth: bool = True,
-    ) -> Tuple[Any, Any, Any]:
+    ) -> tuple[Any, Any, Any]:
         """
 
         Inverse transformation
@@ -436,7 +436,7 @@ class Geod(_Geod):
         radians: bool = False,
         initial_idx: int = 1,
         terminus_idx: int = 1,
-    ) -> List:
+    ) -> list:
         """
         .. versionadded:: 3.1.0 initial_idx, terminus_idx
 
@@ -924,7 +924,7 @@ class Geod(_Geod):
 
     def polygon_area_perimeter(
         self, lons: Any, lats: Any, radians: bool = False
-    ) -> Tuple[float, float]:
+    ) -> tuple[float, float]:
         """
         .. versionadded:: 2.3.0
 
@@ -1020,7 +1020,7 @@ class Geod(_Geod):
 
     def geometry_area_perimeter(
         self, geometry, radians: bool = False
-    ) -> Tuple[float, float]:
+    ) -> tuple[float, float]:
         """
         .. versionadded:: 2.3.0
 
