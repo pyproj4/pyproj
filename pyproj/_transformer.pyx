@@ -141,6 +141,7 @@ cdef class _TransformerGroup:
         bint allow_ballpark,
         str authority,
         double accuracy,
+        bint allow_superseded,
     ):
         """
         From PROJ docs:
@@ -201,6 +202,11 @@ cdef class _TransformerGroup:
                 self.context,
                 operation_factory_context,
                 allow_ballpark,
+            )
+            proj_operation_factory_context_set_discard_superseded(
+                self.context,
+                operation_factory_context,
+                not allow_superseded,
             )
             proj_operation_factory_context_set_grid_availability_use(
                 self.context,

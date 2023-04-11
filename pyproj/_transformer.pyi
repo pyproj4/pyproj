@@ -41,6 +41,7 @@ class _TransformerGroup:
         authority: Optional[str],
         accuracy: Optional[float],
         allow_ballpark: bool,
+        allow_superseded: bool,
     ) -> None: ...
 
 class _Transformer(Base):

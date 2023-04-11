@@ -1651,6 +1651,23 @@ def test_transformer_group_allow_ballpark_filter():
     assert not group.unavailable_operations
 
 
+@pytest.mark.parametrize(
+    "from_crs, to_crs, allow_superseded, expected_num_transformers",
+    [
+        (6319, 5703, 0, 2),
+        (6319, 5703, False, 2),
+        (6319, 5703, True, 3),
+        (6319, 5703, 123456789, 3),
+        (6319, 5703, "blah", 3),
+    ],
+)
+def test_transformer_group_allow_superseded_filter(
+    from_crs, to_crs, allow_superseded, expected_num_transformers
+):
+    group = TransformerGroup(from_crs, to_crs, allow_superseded=allow_superseded)
+    assert len(group.transformers) == expected_num_transformers
+
+
 def test_transformer_group_authority_filter():
     group = TransformerGroup("EPSG:4326", "EPSG:4258", authority="PROJ")
     assert len(group.transformers) == 1

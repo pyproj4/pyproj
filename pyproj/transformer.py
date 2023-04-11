@@ -161,11 +161,13 @@ class TransformerGroup(_TransformerGroup):
         authority: Optional[str] = None,
         accuracy: Optional[float] = None,
         allow_ballpark: bool = True,
+        allow_superseded: bool = False,
     ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
 
         .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
+        .. versionadded:: 3.6.0 allow_superseded
 
         Parameters
         ----------
@@ -195,6 +197,10 @@ class TransformerGroup(_TransformerGroup):
         allow_ballpark: bool, default=True
             Set to False to disallow the use of Ballpark transformation
             in the candidate coordinate operations. Default is to allow.
+        allow_superseded: bool, default=False
+            Set to True to allow the use of superseded (but not deprecated)
+            transformations in the candidate coordinate operations. Default is
+            to disallow.
 
         """
         super().__init__(
@@ -205,6 +211,7 @@ class TransformerGroup(_TransformerGroup):
             authority=authority,
             accuracy=-1 if accuracy is None else accuracy,
             allow_ballpark=allow_ballpark,
+            allow_superseded=allow_superseded,
         )
         for iii, transformer in enumerate(self._transformers):
             # pylint: disable=unsupported-assignment-operation
