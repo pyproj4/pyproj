@@ -4,6 +4,8 @@ Change Log
 Latest
 ------
 
+- ENH: Added :meth:`CRS.to_2d` to demote 3D CRS to 2D (issue #1266)
+
 3.5.0
 ------
 - DEP: Minimum PROJ version 9.0 (issue #1223)

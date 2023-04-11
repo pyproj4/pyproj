@@ -2965,6 +2965,44 @@ cdef class _CRS(Base):
             proj_destroy(projobj)
         return crs_3d
 
+    def to_2d(self, str name=None):
+        """
+        .. versionadded:: 3.6.0
+
+        Convert the current CRS to the 2D version if it makes sense.
+
+        Parameters
+        ----------
+        name: str, optional
+            CRS name. If None, it will use the name of the original CRS.
+
+        Returns
+        -------
+        _CRS
+        """
+        cdef char* c_name = NULL
+        cdef bytes b_name
+        if name is not None:
+            b_name = cstrencode(name)
+            c_name = b_name
+
+        cdef PJ * projobj = proj_crs_demote_to_2D(
+            self.context, c_name, self.projobj
+        )
+        _clear_proj_error()
+        if projobj == NULL:
+            return self
+        try:
+            crs_2d = _CRS(_to_wkt(
+                self.context,
+                projobj,
+                version=WktVersion.WKT2_2019,
+                pretty=False,
+            ))
+        finally:
+            proj_destroy(projobj)
+        return crs_2d
+
     def _is_crs_property(
         self, str property_name, tuple property_types, int sub_crs_index=0
     ):
