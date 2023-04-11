@@ -259,7 +259,7 @@
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference internal" href="#pyproj.database.Unit" title="pyproj.database.Unit">Unit</a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference internal" href="#pyproj.database.Unit" title="pyproj.database.Unit">Unit</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -307,7 +307,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dd class="field-odd"><p>Authorities in PROJ database.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -338,7 +338,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dd class="field-even"><p>Codes associated with authorities in PROJ database.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -358,7 +358,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>auth_name</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – The name of the authority. Default is all authorities.</p></li>
-<li><p><strong>pj_types</strong> (<em>Union</em><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em>, </em><em>List</em><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The type(s) of CRS to get the information (i.e. the types with CRS in the name).
+<li><p><strong>pj_types</strong> (<em>Union</em><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The type(s) of CRS to get the information (i.e. the types with CRS in the name).
 If None is provided, it will use all of types (i.e. PJType.CRS).</p></li>
 <li><p><strong>area_of_interest</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><em>AreaOfInterest</em></a><em>]</em><em>, </em><em>optional</em>) – Filter returned CRS by the area of interest. Default method is intersection.</p></li>
 <li><p><strong>contains</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Only works if the area of interest is passed in.
@@ -372,7 +372,7 @@ intersects the specified bounding box will be returned.</p></li>
 <dd class="field-even"><p>CRS information from the PROJ database.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -425,7 +425,7 @@ intersects the specified bounding box will be returned.</p></li>
 <dd class="field-even"><p>UTM CRS information from the PROJ database.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
 </dd>
 </dl>
 </dd></dl>
