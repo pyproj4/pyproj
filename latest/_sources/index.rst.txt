@@ -7,7 +7,7 @@ GitHub Repository: https://github.com/pyproj4/pyproj
 
 .. note:: Minimum supported PROJ version is 9.0
 
-.. note:: Minimum supported Python version is 3.8
+.. note:: Minimum supported Python version is 3.9
 
 .. note:: Linux (manylinux2014) wheels require pip 19.3+
 
