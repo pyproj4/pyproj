@@ -706,7 +706,7 @@ cdef class CoordinateSystem(_CRSParts):
 
         Returns
         -------
-        List[dict]:
+        list[dict]:
             CF-1.8 version of the CoordinateSystem.
         """
         axis_list = self.to_json_dict()["axis"]
@@ -2155,7 +2155,7 @@ cdef class CoordinateOperation(_CRSParts):
         """
         Returns
         -------
-        List[Param]:
+        list[Param]:
             The coordinate operation parameters.
         """
         if self._params is not None:
@@ -2182,7 +2182,7 @@ cdef class CoordinateOperation(_CRSParts):
         """
         Returns
         -------
-        List[Grid]:
+        list[Grid]:
             The coordinate operation grids.
         """
         if self._grids is not None:
@@ -2243,7 +2243,7 @@ cdef class CoordinateOperation(_CRSParts):
         """
         Returns
         -------
-        List[float]:
+        list[float]:
             A list of 3 or 7 towgs84 values if they exist.
 
         """
@@ -2273,7 +2273,7 @@ cdef class CoordinateOperation(_CRSParts):
 
         Returns
         -------
-        Tuple[CoordinateOperation]:
+        tuple[CoordinateOperation]:
             The operations in a concatenated operation.
 
         """
@@ -2411,7 +2411,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        List[Axis]:
+        list[Axis]:
             The list of axis information.
         """
         axis_info_list = []
@@ -2643,7 +2643,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        List[_CRS]
+        list[_CRS]
         """
         if self._sub_crs_list is not None:
             return self._sub_crs_list
@@ -2856,7 +2856,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        List[AuthorityMatchInfo]:
+        list[AuthorityMatchInfo]:
             List of authority matches for the CRS.
         """
         # get list of possible matching projections

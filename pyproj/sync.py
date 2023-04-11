@@ -9,7 +9,7 @@ import os
 from datetime import datetime
 from functools import partial
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from urllib.request import urlretrieve
 
 from pyproj._sync import get_proj_endpoint
@@ -17,7 +17,7 @@ from pyproj.aoi import BBox
 from pyproj.datadir import get_data_dir, get_user_data_dir
 
 
-def _bbox_from_coords(coords: List) -> Optional[BBox]:
+def _bbox_from_coords(coords: list) -> Optional[BBox]:
     """
     Get the bounding box from coordinates
     """
@@ -39,7 +39,7 @@ def _bbox_from_coords(coords: List) -> Optional[BBox]:
     return coord_bbox
 
 
-def _bbox_from_geom(geom: Dict[str, Any]) -> Optional[BBox]:
+def _bbox_from_geom(geom: dict[str, Any]) -> Optional[BBox]:
     """
     Get the bounding box from geojson geometry
     """
@@ -76,7 +76,7 @@ def _bbox_from_geom(geom: Dict[str, Any]) -> Optional[BBox]:
 
 
 def _filter_bbox(
-    feature: Dict[str, Any], bbox: BBox, spatial_test: str, include_world_coverage: bool
+    feature: dict[str, Any], bbox: BBox, spatial_test: str, include_world_coverage: bool
 ) -> bool:
     """
     Filter by the bounding box. Designed to use with 'filter'
@@ -102,7 +102,7 @@ def _filter_bbox(
 
 
 def _filter_properties(
-    feature: Dict[str, Any],
+    feature: dict[str, Any],
     source_id: Optional[str] = None,
     area_of_use: Optional[str] = None,
     filename: Optional[str] = None,
@@ -140,7 +140,7 @@ def _is_download_needed(grid_name: str) -> bool:
     return True
 
 
-def _filter_download_needed(feature: Dict[str, Any]) -> bool:
+def _filter_download_needed(feature: dict[str, Any]) -> bool:
     """
     Filter grids so only those that need to be downloaded are included.
     """
@@ -187,11 +187,11 @@ def _download_resource_file(
             pass
 
 
-def _load_grid_geojson(target_directory=None) -> Dict[str, Any]:
+def _load_grid_geojson(target_directory=None) -> dict[str, Any]:
     """
     Returns
     -------
-    Dict[str, Any]:
+    dict[str, Any]:
         The PROJ grid data list.
     """
     if target_directory is None:
@@ -218,7 +218,7 @@ def get_transform_grid_list(
     include_world_coverage: bool = True,
     include_already_downloaded: bool = False,
     target_directory: Optional[str] = None,
-) -> Tuple:
+) -> tuple:
     """
     Get a list of transform grids that can be downloaded.
 
@@ -240,7 +240,7 @@ def get_transform_grid_list(
 
     Returns
     -------
-    List[Dict[str, Any]]:
+    list[dict[str, Any]]:
         A list of geojson data of containing information about features
         that can be downloaded.
     """

@@ -52,7 +52,7 @@ def test_pickle():
     t1 = perf_counter()
     lons, lats = awips221(x, y, inverse=True)
     t2 = perf_counter()
-    print("compute lats/lons for all points on AWIPS 221 grid (%sx%s)" % (nx, ny))
+    print("compute lats/lons for all points on AWIPS 221 grid ({}x{})".format(nx, ny))
     print("max/min lons in radians")
     print(
         numpy.minimum.reduce(numpy.ravel(lons)), numpy.maximum.reduce(numpy.ravel(lons))

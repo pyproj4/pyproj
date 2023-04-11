@@ -2,7 +2,7 @@
 This module is for building datums to be used when
 building a CRS.
 """
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 from pyproj._crs import Datum, Ellipsoid, PrimeMeridian
 
@@ -75,7 +75,7 @@ class CustomEllipsoid(Ellipsoid):
             The radius in meters. Can only be used alone.
             Cannot be mixed with other parameters.
         """
-        ellipsoid_json: Dict[str, Union[float, str]] = {
+        ellipsoid_json: dict[str, Union[float, str]] = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "Ellipsoid",
             "name": name,

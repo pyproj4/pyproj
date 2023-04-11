@@ -7,7 +7,7 @@ import json
 import re
 import threading
 import warnings
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Union
 
 from pyproj._crs import (
     _CRS,
@@ -89,7 +89,7 @@ def _prepare_from_proj_string(in_crs_string: str) -> str:
     # make sure the projection starts with +proj or +init
     starting_params = ("+init", "+proj", "init", "proj")
     if not in_crs_string.startswith(starting_params):
-        kvpairs: List[str] = []
+        kvpairs: list[str] = []
         first_item_inserted = False
         for kvpair in in_crs_string.split():
             if not first_item_inserted and (kvpair.startswith(starting_params)):
@@ -643,7 +643,7 @@ class CRS:
 
         """
         # pylint: disable=too-many-branches,too-many-return-statements
-        cf_dict: Dict[str, Any] = {"crs_wkt": self.to_wkt(wkt_version)}
+        cf_dict: dict[str, Any] = {"crs_wkt": self.to_wkt(wkt_version)}
 
         # handle bound CRS
         if (
@@ -652,7 +652,7 @@ class CRS:
             and self.coordinate_operation.towgs84
             and self.source_crs
         ):
-            sub_cf: Dict[str, Any] = self.source_crs.to_cf(
+            sub_cf: dict[str, Any] = self.source_crs.to_cf(
                 wkt_version=wkt_version,
                 errcheck=errcheck,
             )
@@ -873,7 +873,7 @@ class CRS:
             name="undefined", components=[bound_crs or projected_crs, vertical_crs]
         )
 
-    def cs_to_cf(self) -> List[dict]:
+    def cs_to_cf(self) -> list[dict]:
         """
         .. versionadded:: 3.0.0
 
@@ -884,7 +884,7 @@ class CRS:
 
         Returns
         -------
-        List[dict]:
+        list[dict]:
             CF-1.8 version of the coordinate systems.
         """
         cf_axis_list = []
@@ -1033,13 +1033,13 @@ class CRS:
         )
 
     @property
-    def sub_crs_list(self) -> List["CRS"]:
+    def sub_crs_list(self) -> list["CRS"]:
         """
         If the CRS is a compound CRS, it will return a list of sub CRS objects.
 
         Returns
         -------
-        List[CRS]
+        list[CRS]
         """
         return [self.__class__(sub_crs) for sub_crs in self._crs.sub_crs_list]
 
@@ -1089,7 +1089,7 @@ class CRS:
         return self._crs.type_name
 
     @property
-    def axis_info(self) -> List[Axis]:
+    def axis_info(self) -> list[Axis]:
         """
         Retrieves all relevant axis information in the CRS.
         If it is a Bound CRS, it gets the axis list from the Source CRS.
@@ -1097,7 +1097,7 @@ class CRS:
 
         Returns
         -------
-        List[Axis]:
+        list[Axis]:
             The list of axis information.
         """
         return self._crs.axis_info
@@ -1369,7 +1369,7 @@ class CRS:
 
     def list_authority(
         self, auth_name: Optional[str] = None, min_confidence: int = 70
-    ) -> List[AuthorityMatchInfo]:
+    ) -> list[AuthorityMatchInfo]:
         """
         .. versionadded:: 3.2.0
 
@@ -1404,7 +1404,7 @@ class CRS:
 
         Returns
         -------
-        List[AuthorityMatchInfo]:
+        list[AuthorityMatchInfo]:
             List of authority matches for the CRS.
         """
         return self._crs.list_authority(
@@ -1559,10 +1559,10 @@ class CRS:
     def __eq__(self, other: Any) -> bool:
         return self.equals(other)
 
-    def __getstate__(self) -> Dict[str, str]:
+    def __getstate__(self) -> dict[str, str]:
         return {"srs": self.srs}
 
-    def __setstate__(self, state: Dict[str, Any]):
+    def __setstate__(self, state: dict[str, Any]):
         self.__dict__.update(state)
         self._local = CRSLocal()
 
@@ -1574,7 +1574,7 @@ class CRS:
 
     def __repr__(self) -> str:
         # get axis information
-        axis_info_list: List[str] = []
+        axis_info_list: list[str] = []
         for axis in self.axis_info:
             axis_info_list.extend(["- ", str(axis), "\n"])
         axis_info_str = "".join(axis_info_list)
@@ -1641,7 +1641,7 @@ class CustomConstructorCRS(CRS):
     """
 
     @property
-    def _expected_types(self) -> Tuple[str, ...]:
+    def _expected_types(self) -> tuple[str, ...]:
         """
         These are the type names of the CRS class
         that are expected when using the from_* methods.
@@ -1728,13 +1728,13 @@ class CustomConstructorCRS(CRS):
         return None if self._crs.target_crs is None else CRS(self._crs.target_crs)
 
     @property
-    def sub_crs_list(self) -> List["CRS"]:
+    def sub_crs_list(self) -> list["CRS"]:
         """
         If the CRS is a compound CRS, it will return a list of sub CRS objects.
 
         Returns
         -------
-        List[CRS]
+        list[CRS]
         """
         return [CRS(sub_crs) for sub_crs in self._crs.sub_crs_list]
 
@@ -2017,13 +2017,13 @@ class CompoundCRS(CustomConstructorCRS):
 
     _expected_types = ("Compound CRS",)
 
-    def __init__(self, name: str, components: List[Any]) -> None:
+    def __init__(self, name: str, components: list[Any]) -> None:
         """
         Parameters
         ----------
         name: str
             The name of the Compound CRS.
-        components: List[Any], optional
+        components: list[Any], optional
             List of CRS to create a Compound Coordinate System.
             List of anything accepted by :meth:`pyproj.crs.CRS.from_user_input`
         """

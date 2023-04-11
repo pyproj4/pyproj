@@ -12,10 +12,11 @@ import threading
 import warnings
 from abc import ABC, abstractmethod
 from array import array
+from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from itertools import chain, islice
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union, overload
+from typing import Any, Optional, Union, overload
 
 from pyproj import CRS
 from pyproj._compat import cstrencode
@@ -218,7 +219,7 @@ class TransformerGroup(_TransformerGroup):
             self._transformers[iii] = Transformer(TransformerUnsafe(transformer))
 
     @property
-    def transformers(self) -> List["Transformer"]:
+    def transformers(self) -> list["Transformer"]:
         """
         list[:obj:`Transformer`]:
             List of available :obj:`Transformer`
@@ -227,7 +228,7 @@ class TransformerGroup(_TransformerGroup):
         return self._transformers
 
     @property
-    def unavailable_operations(self) -> List[CoordinateOperation]:
+    def unavailable_operations(self) -> list[CoordinateOperation]:
         """
         list[:obj:`pyproj.crs.CoordinateOperation`]:
             List of :obj:`pyproj.crs.CoordinateOperation` that are not
@@ -336,10 +337,10 @@ class Transformer:
         self._local.transformer = transformer_maker()
         self._transformer_maker = transformer_maker
 
-    def __getstate__(self) -> Dict[str, Any]:
+    def __getstate__(self) -> dict[str, Any]:
         return {"_transformer_maker": self._transformer_maker}
 
-    def __setstate__(self, state: Dict[str, Any]):
+    def __setstate__(self, state: dict[str, Any]):
         self.__dict__.update(state)
         self._local = TransformerLocal()
         self._local.transformer = self._transformer_maker()
@@ -429,13 +430,13 @@ class Transformer:
         return self._transformer.scope
 
     @property
-    def operations(self) -> Optional[Tuple[CoordinateOperation]]:
+    def operations(self) -> Optional[tuple[CoordinateOperation]]:
         """
         .. versionadded:: 2.4.0
 
         Returns
         -------
-        Tuple[CoordinateOperation]:
+        tuple[CoordinateOperation]:
             The operations in a concatenated operation.
         """
         return self._transformer.operations
@@ -682,7 +683,7 @@ class Transformer:
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
         inplace: bool = False,
-    ) -> Tuple[Any, Any]:
+    ) -> tuple[Any, Any]:
         ...
 
     @overload
@@ -695,7 +696,7 @@ class Transformer:
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
         inplace: bool = False,
-    ) -> Tuple[Any, Any, Any]:
+    ) -> tuple[Any, Any, Any]:
         ...
 
     @overload
@@ -709,7 +710,7 @@ class Transformer:
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
         inplace: bool = False,
-    ) -> Tuple[Any, Any, Any, Any]:
+    ) -> tuple[Any, Any, Any, Any]:
         ...
 
     def transform(  # pylint: disable=invalid-name
@@ -851,7 +852,7 @@ class Transformer:
         # if inputs were lists, tuples or floats, convert back.
         outx = _convertback(x_data_type, inx)
         outy = _convertback(y_data_type, iny)
-        return_data: Tuple[Any, ...] = (outx, outy)
+        return_data: tuple[Any, ...] = (outx, outy)
         if inz is not None:
             return_data += (_convertback(z_data_type, inz),)
         if intime is not None:
@@ -984,8 +985,7 @@ class Transformer:
                 errcheck=errcheck,
             )
 
-            for point in zip(*([iter(buff)] * stride)):
-                yield point
+            yield from zip(*([iter(buff)] * stride))
 
     def transform_bounds(
         self,
@@ -997,7 +997,7 @@ class Transformer:
         radians: bool = False,
         errcheck: bool = False,
         direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
-    ) -> Tuple[float, float, float, float]:
+    ) -> tuple[float, float, float, float]:
         """
         .. versionadded:: 3.1.0
 

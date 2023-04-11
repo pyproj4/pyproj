@@ -65,7 +65,7 @@ def get_authorities():
 
     Returns
     -------
-    List[str]:
+    list[str]:
         Authorities in PROJ database.
     """
     cdef PJ_CONTEXT* context = pyproj_context_create()
@@ -102,7 +102,7 @@ def get_codes(str auth_name not None, pj_type not None, bint allow_deprecated=Fa
 
     Returns
     -------
-    List[str]:
+    list[str]:
         Codes associated with authorities in PROJ database.
     """
     cdef PJ_CONTEXT* context = NULL
@@ -185,7 +185,7 @@ def query_crs_info(
     ----------
     auth_name: Optional[str], optional
         The name of the authority. Default is all authorities.
-    pj_types: Union[pyproj.enums.PJType, List[pyproj.enums.PJType], None], optional
+    pj_types: Union[pyproj.enums.PJType, list[pyproj.enums.PJType], None], optional
         The type(s) of CRS to get the information (i.e. the types with CRS in the name).
         If None is provided, it will use all of types (i.e. PJType.CRS).
     area_of_interest: Optional[AreaOfInterest], optional
@@ -200,7 +200,7 @@ def query_crs_info(
 
     Returns
     -------
-    List[CRSInfo]:
+    list[CRSInfo]:
         CRS information from the PROJ database.
     """
     cdef PJ_CONTEXT* context = NULL
@@ -308,7 +308,7 @@ def query_utm_crs_info(
 
     Returns
     -------
-    List[CRSInfo]:
+    list[CRSInfo]:
         UTM CRS information from the PROJ database.
     """
     projected_crs = query_crs_info(
@@ -385,7 +385,7 @@ def get_units_map(str auth_name=None, str category=None, bint allow_deprecated=F
 
     Returns
     -------
-    Dict[str, Unit]
+    dict[str, Unit]
     """
     cdef const char* c_auth_name = NULL
     cdef const char* c_category = NULL

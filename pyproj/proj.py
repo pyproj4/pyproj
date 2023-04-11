@@ -16,7 +16,7 @@ coordinates (in meters).
 """
 import re
 import warnings
-from typing import Any, Optional, Tuple, Type
+from typing import Any, Optional
 
 from pyproj._compat import cstrencode
 from pyproj._transformer import Factors
@@ -140,7 +140,7 @@ class Proj(Transformer):
         inverse: bool = False,
         errcheck: bool = False,
         radians: bool = False,
-    ) -> Tuple[Any, Any]:
+    ) -> tuple[Any, Any]:
         """
         Calling a Proj class instance with the arguments lon, lat will
         convert lon/lat (in degrees) to x/y native map projection
@@ -185,7 +185,7 @@ class Proj(Transformer):
 
         Returns
         -------
-        Tuple[Any, Any]:
+        tuple[Any, Any]:
             The transformed coordinates.
         """
         if inverse:
@@ -294,6 +294,6 @@ class Proj(Transformer):
         coordinate version of the current projection"""
         return Proj(self.crs.geodetic_crs)
 
-    def __reduce__(self) -> Tuple[Type["Proj"], Tuple[str]]:
+    def __reduce__(self) -> tuple[type["Proj"], tuple[str]]:
         """special method that allows pyproj.Proj instance to be pickled"""
         return self.__class__, (self.crs.srs,)

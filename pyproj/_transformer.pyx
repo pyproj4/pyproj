@@ -77,29 +77,29 @@ See PROJ :c:type:`PJ_FACTORS` documentation.
 
 Parameters
 ----------
-meridional_scale: List[float]
+meridional_scale: list[float]
      Meridional scale at coordinate.
-parallel_scale: List[float]
+parallel_scale: list[float]
     Parallel scale at coordinate.
-areal_scale: List[float]
+areal_scale: list[float]
     Areal scale factor at coordinate.
-angular_distortion: List[float]
+angular_distortion: list[float]
     Angular distortion at coordinate.
-meridian_parallel_angle: List[float]
+meridian_parallel_angle: list[float]
     Meridian/parallel angle at coordinate.
-meridian_convergence: List[float]
+meridian_convergence: list[float]
     Meridian convergence at coordinate. Sometimes also described as *grid declination*.
-tissot_semimajor: List[float]
+tissot_semimajor: list[float]
     Maximum scale factor.
-tissot_semiminor: List[float]
+tissot_semiminor: list[float]
     Minimum scale factor.
-dx_dlam: List[float]
+dx_dlam: list[float]
     Partial derivative of coordinate.
-dx_dphi: List[float]
+dx_dphi: list[float]
     Partial derivative of coordinate.
-dy_dlam: List[float]
+dy_dlam: list[float]
     Partial derivative of coordinate.
-dy_dphi: List[float]
+dy_dphi: list[float]
     Partial derivative of coordinate.
 """
 
@@ -458,7 +458,7 @@ cdef class _Transformer(Base):
 
         Returns
         -------
-        Tuple[CoordinateOperation]:
+        tuple[CoordinateOperation]:
             The operations in a concatenated operation.
         """
         if self._operations is not None:
