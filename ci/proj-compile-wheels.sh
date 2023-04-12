@@ -1,9 +1,9 @@
 # INSTALL PROJ & DEPENDENCIES FOR WHEELS
 # Test for macOS with [ -n "$IS_MACOS" ]
-SQLITE_VERSION=3350500
-LIBTIFF_VERSION=4.4.0
-CURL_VERSION=7.76.1
-NGHTTP2_VERSION=1.43.0
+SQLITE_VERSION=3410200
+LIBTIFF_VERSION=4.5.0
+CURL_VERSION=8.0.1
+NGHTTP2_VERSION=1.52.0
 
 
 # ------------------------------------------
@@ -265,7 +265,7 @@ function build_sqlite {
         CFLAGS="$CFLAGS -DHAVE_PREAD64 -DHAVE_PWRITE64"
     fi
     if [ -e sqlite-stamp ]; then return; fi
-    build_simple sqlite-autoconf $SQLITE_VERSION https://www.sqlite.org/2021
+    build_simple sqlite-autoconf $SQLITE_VERSION https://www.sqlite.org/2023
     touch sqlite-stamp
 }
 
