@@ -224,8 +224,10 @@ def get_package_data() -> dict[str, list[str]]:
     return package_data
 
 
-# static items in setup.cfg
+# static items in pyproject.toml
 setup(
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
+    # temptorary hack to add in metadata
+    url="https://github.com/pyproj4/pyproj",
 )
