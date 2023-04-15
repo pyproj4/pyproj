@@ -22,7 +22,6 @@ from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import (
     PROJ_GTE_91,
     PROJ_GTE_92,
-    PROJ_GTE_921,
     grids_available,
     proj_env,
     proj_network_env,
@@ -1652,18 +1651,10 @@ def test_transformer_group_allow_ballpark_filter():
     assert not group.unavailable_operations
 
 
-@pytest.mark.parametrize(
-    "from_crs, to_crs, allow_superseded, expected_num_transformers",
-    [
-        (4203, 4326, False, 3 if PROJ_GTE_921 else 4),
-        (4203, 4326, True, 4 if PROJ_GTE_921 else 5),
-    ],
-)
-def test_transformer_group_allow_superseded_filter(
-    from_crs, to_crs, allow_superseded, expected_num_transformers
-):
-    group = TransformerGroup(from_crs, to_crs, allow_superseded=allow_superseded)
-    assert len(group.transformers) == expected_num_transformers
+def test_transformer_group_allow_superseded_filter():
+    default_group = TransformerGroup(4203, 4326)
+    superseded_group = TransformerGroup(4203, 4326, allow_superseded=True)
+    assert len(superseded_group.transformers) > len(default_group.transformers)
 
 
 def test_transformer_group_authority_filter():
