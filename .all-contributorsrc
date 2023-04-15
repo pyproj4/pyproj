@@ -602,6 +602,17 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "dmahr1",
+      "name": "Dan Mahr",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8354515?v=4",
+      "profile": "https://github.com/dmahr1",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
