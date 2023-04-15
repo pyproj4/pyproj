@@ -613,6 +613,17 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "rhugonnet",
+      "name": "Romain Hugonnet",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28896516?v=4",
+      "profile": "https://github.com/rhugonnet",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7

@@ -6,7 +6,7 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 
 <p align="center">
 <a href="https://gitter.im/pyproj4-pyproj/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Join the chat at https://gitter.im/pyproj4-pyproj/community" src="https://badges.gitter.im/pyproj4-pyproj/community.svg"></a>
-<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-58-orange.svg?style=flat-square"></a>
+<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-59-orange.svg?style=flat-square"></a>
 <a href="https://ci.appveyor.com/project/snowman2/pyproj"><img alt="Appveyor Build Status" src="https://ci.appveyor.com/api/projects/status/v2ypts9j76doa9ey/branch/main?svg=true"></a>
 <a href="https://github.com/pyproj4/pyproj/actions?query=workflow%3ATests"><img alt="GitHub Actions Build Status" src="https://github.com/pyproj4/pyproj/workflows/Tests/badge.svg"></a>
 <a href="https://codecov.io/gh/pyproj4/pyproj"><img alt="Codecov Status" src="https://codecov.io/gh/pyproj4/pyproj/branch/main/graph/badge.svg"></a>
@@ -114,6 +114,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/greglucas"><img src="https://avatars.githubusercontent.com/u/12417828?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Greg Lucas</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=greglucas" title="Code">💻</a> <a href="#ideas-greglucas" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/dmahr1"><img src="https://avatars.githubusercontent.com/u/8354515?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dan Mahr</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=dmahr1" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=dmahr1" title="Documentation">📖</a> <a href="https://github.com/pyproj4/pyproj/commits?author=dmahr1" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/rhugonnet"><img src="https://avatars.githubusercontent.com/u/28896516?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Romain Hugonnet</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=rhugonnet" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=rhugonnet" title="Documentation">📖</a> <a href="https://github.com/pyproj4/pyproj/commits?author=rhugonnet" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
