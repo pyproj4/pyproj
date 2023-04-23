@@ -2,5 +2,65 @@
 requires = ["setuptools>=61.0.0", "wheel", "cython>=0.28.4"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "pyproj"
+dynamic = ["version"]
+description = "Python interface to PROJ (cartographic projections and coordinate transformations library)"
+readme = "README.md"
+authors = [
+    {name = "Jeff Whitaker", email = "jeffrey.s.whitaker@noaa.gov"},
+]
+maintainers = [
+    {name = "pyproj contributors"},
+]
+license = {text = "MIT"}
+keywords = [
+    "GIS",
+    "map",
+    "geospatial",
+    "coordinate-systems",
+    "coordinate-transformation",
+    "cartographic-projection",
+    "geodesic",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "certifi",
+]
+
+[project.urls]
+homepage = "https://pyproj4.github.io/pyproj/"
+documentation = "https://pyproj4.github.io/pyproj/"
+repository = "https://github.com/pyproj4/pyproj"
+changelog = "https://pyproj4.github.io/pyproj/stable/history.html"
+
+[project.scripts]
+pyproj = "pyproj.__main__:main"
+
+[tool.setuptools]
+zip-safe = false # https://mypy.readthedocs.io/en/stable/installed_packages.html
+
+[tool.setuptools.packages.find]
+include = ["pyproj", "pyproj.*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "pyproj.__version__"}
+
 [tool.black]
-target_version = ["py38"]
+target_version = ["py39"]
