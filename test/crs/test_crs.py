@@ -230,6 +230,31 @@ def test_to_wkt_pretty():
     assert "\n" in crs.to_wkt(pretty=True)
     assert "\n" not in crs.to_wkt()
 
+def test_to_wkt_with_axes_4326():
+    crs = CRS.from_epsg(4326)
+    axis = "AXIS"
+    assert axis in crs.to_wkt("WKT1_GDAL", output_axis_rule=True)
+    assert axis not in crs.to_wkt("WKT1_GDAL", output_axis_rule=False)
+    assert axis not in crs.to_wkt("WKT1_GDAL", output_axis_rule=None)
+
+    assert axis in crs.to_wkt("WKT2_2019", output_axis_rule=True)
+    assert axis not in crs.to_wkt("WKT2_2019", output_axis_rule=False)
+    assert axis in crs.to_wkt("WKT2_2019", output_axis_rule=None)
+
+def test_to_wkt_with_axes_32630():
+    crs = CRS.from_epsg(32630)
+    axis = "AXIS"
+    assert axis in crs.to_wkt("WKT1_GDAL", output_axis_rule=True)
+    assert axis not in crs.to_wkt("WKT1_GDAL", output_axis_rule=False)
+    assert axis in crs.to_wkt("WKT1_GDAL", output_axis_rule=None)
+
+    assert axis in crs.to_wkt("WKT1_ESRI", output_axis_rule=True)
+    assert axis not in crs.to_wkt("WKT1_ESRI", output_axis_rule=False)
+    assert axis not in crs.to_wkt("WKT1_ESRI", output_axis_rule=None)
+
+    assert axis in crs.to_wkt("WKT2_2019", output_axis_rule=True)
+    assert axis not in crs.to_wkt("WKT2_2019", output_axis_rule=False)
+    assert axis in crs.to_wkt("WKT2_2019", output_axis_rule=None)
 
 def test_repr():
     with pytest.warns(FutureWarning):

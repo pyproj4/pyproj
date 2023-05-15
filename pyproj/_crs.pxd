@@ -25,6 +25,7 @@ cdef _to_wkt(
     PJ* projobj,
     object version,
     bint pretty,
+    object output_axis_rule=*,
 )
 
 cdef class Axis:

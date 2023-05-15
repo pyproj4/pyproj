@@ -418,6 +418,7 @@ cdef class _Transformer(Base):
                 projobj,
                 version=WktVersion.WKT2_2019,
                 pretty=False,
+                output_axis_rule=None,
             ))
         finally:
             proj_destroy(projobj)
@@ -446,6 +447,7 @@ cdef class _Transformer(Base):
                 projobj,
                 version=WktVersion.WKT2_2019,
                 pretty=False,
+                output_axis_rule=None,
             ))
         finally:
             proj_destroy(projobj)

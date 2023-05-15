@@ -75,6 +75,7 @@ cdef _to_wkt(
     PJ* projobj,
     object version,
     bint pretty,
+    object output_axis_rule=None,
 ):
     """
     Convert a PJ object to a wkt string.
@@ -85,6 +86,7 @@ cdef _to_wkt(
     projobj: PJ*
     wkt_out_type: PJ_WKT_TYPE
     pretty: bool
+    output_axis_rule: bool or None
 
     Return
     ------
@@ -104,12 +106,18 @@ cdef _to_wkt(
     cdef PJ_WKT_TYPE wkt_out_type
     wkt_out_type = supported_wkt_types[WktVersion.create(version)]
 
-    cdef const char* options_wkt[2]
+    cdef const char* options_wkt[3]
     cdef bytes multiline = b"MULTILINE=NO"
     if pretty:
         multiline = b"MULTILINE=YES"
+    cdef bytes output_axis = b"OUTPUT_AXIS=AUTO"
+    if output_axis_rule is False:
+        output_axis = b"OUTPUT_AXIS=NO"
+    elif output_axis_rule is True:
+        output_axis = b"OUTPUT_AXIS=YES"
     options_wkt[0] = multiline
-    options_wkt[1] = NULL
+    options_wkt[1] = output_axis
+    options_wkt[2] = NULL
     cdef const char* proj_string
     proj_string = proj_as_wkt(
         context,
@@ -398,7 +406,7 @@ cdef class Base:
         """
         return self._scope
 
-    def to_wkt(self, version=WktVersion.WKT2_2019, pretty=False):
+    def to_wkt(self, version=WktVersion.WKT2_2019, pretty=False, output_axis_rule=None):
         """
         Convert the projection to a WKT string.
 
@@ -417,12 +425,17 @@ cdef class Base:
             The version of the WKT output.
         pretty: bool, default=False
             If True, it will set the output to be a multiline string.
+        output_axis_rule: bool, optional, default=None
+            If True, it will set the axis rule on any case. If false, never.
+            None for AUTO, that depends on the CRS and version.
+            .. versionadded:: 3.5.1
+
 
         Returns
         -------
         str
         """
-        return _to_wkt(self.context, self.projobj, version, pretty=pretty)
+        return _to_wkt(self.context, self.projobj, version, pretty=pretty, output_axis_rule=output_axis_rule)
 
     def to_json(self, bint pretty=False, int indentation=2):
         """
@@ -2603,6 +2616,7 @@ cdef class _CRS(Base):
                 projobj,
                 version=WktVersion.WKT2_2019,
                 pretty=False,
+                output_axis_rule=None,
             ))
         finally:
             proj_destroy(projobj)
@@ -2631,6 +2645,7 @@ cdef class _CRS(Base):
                 projobj,
                 version=WktVersion.WKT2_2019,
                 pretty=False,
+                output_axis_rule=None,
             ))
         finally:
             proj_destroy(projobj)
@@ -2665,6 +2680,7 @@ cdef class _CRS(Base):
                     projobj,
                     version=WktVersion.WKT2_2019,
                     pretty=False,
+                    output_axis_rule=None,
                 )))
             finally:
                 proj_destroy(projobj)  # deallocate temp proj
@@ -2701,6 +2717,7 @@ cdef class _CRS(Base):
                 projobj,
                 version=WktVersion.WKT2_2019,
                 pretty=False,
+                output_axis_rule=None,
             ))
         finally:
             proj_destroy(projobj)  # deallocate temp proj
@@ -2960,6 +2977,7 @@ cdef class _CRS(Base):
                 projobj,
                 version=WktVersion.WKT2_2019,
                 pretty=False,
+                output_axis_rule=None,
             ))
         finally:
             proj_destroy(projobj)
@@ -2998,6 +3016,7 @@ cdef class _CRS(Base):
                 projobj,
                 version=WktVersion.WKT2_2019,
                 pretty=False,
+                output_axis_rule=None,
             ))
         finally:
             proj_destroy(projobj)

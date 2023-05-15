@@ -1197,6 +1197,7 @@ class CRS:
         self,
         version: Union[WktVersion, str] = WktVersion.WKT2_2019,
         pretty: bool = False,
+        output_axis_rule: Optional[bool] = None,
     ) -> str:
         """
         Convert the projection to a WKT string.
@@ -1217,12 +1218,16 @@ class CRS:
             Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.
         pretty: bool, default=False
             If True, it will set the output to be a multiline string.
+        output_axis_rule: bool, optional, default=None
+            If True, it will set the axis rule on any case. If false, never.
+            None for AUTO, that depends on the CRS and version.
+            .. versionadded:: 3.5.1
 
         Returns
         -------
         str
         """
-        wkt = self._crs.to_wkt(version=version, pretty=pretty)
+        wkt = self._crs.to_wkt(version=version, pretty=pretty, output_axis_rule=output_axis_rule)
         if wkt is None:
             raise CRSError(
                 f"CRS cannot be converted to a WKT string of a '{version}' version. "
