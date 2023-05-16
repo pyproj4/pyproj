@@ -3,6 +3,8 @@ include "proj.pxi"
 
 from pyproj.enums import WktVersion
 
+from cpython cimport bool
+
 
 cdef extern from "proj_experimental.h":
     PJ *proj_crs_promote_to_3D(PJ_CONTEXT *ctx,
@@ -25,7 +27,7 @@ cdef _to_wkt(
     PJ* projobj,
     object version,
     bint pretty,
-    object output_axis_rule=*,
+    bool output_axis_rule=*,
 )
 
 cdef class Axis:

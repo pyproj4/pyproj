@@ -75,7 +75,7 @@ cdef _to_wkt(
     PJ* projobj,
     object version,
     bint pretty,
-    object output_axis_rule=None,
+    bool output_axis_rule=None,
 ):
     """
     Convert a PJ object to a wkt string.
