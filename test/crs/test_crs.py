@@ -230,31 +230,29 @@ def test_to_wkt_pretty():
     assert "\n" in crs.to_wkt(pretty=True)
     assert "\n" not in crs.to_wkt()
 
-def test_to_wkt_with_axes_4326():
+@pytest.mark.parametrize("version, expected", [
+    ("WKT1_GDAL", False),
+    ("WKT1_ESRI", False),
+    ("WKT2_2019", True),])
+def test_to_wkt_with_axis_rule_4326(version, expected):
     crs = CRS.from_epsg(4326)
     axis = "AXIS"
-    assert axis in crs.to_wkt("WKT1_GDAL", output_axis_rule=True)
-    assert axis not in crs.to_wkt("WKT1_GDAL", output_axis_rule=False)
-    assert axis not in crs.to_wkt("WKT1_GDAL", output_axis_rule=None)
+    assert (axis in crs.to_wkt(version)) == expected
+    assert (axis in crs.to_wkt(version, output_axis_rule=None)) == expected
+    assert (axis in crs.to_wkt(version, output_axis_rule=True)) == True
+    assert (axis in crs.to_wkt(version, output_axis_rule=False)) == False
 
-    assert axis in crs.to_wkt("WKT2_2019", output_axis_rule=True)
-    assert axis not in crs.to_wkt("WKT2_2019", output_axis_rule=False)
-    assert axis in crs.to_wkt("WKT2_2019", output_axis_rule=None)
-
-def test_to_wkt_with_axes_32630():
+@pytest.mark.parametrize("version, expected", [
+    ("WKT1_GDAL", True),
+    ("WKT1_ESRI", False),
+    ("WKT2_2019", True),])
+def test_to_wkt_with_axis_rule_32630(version, expected):
     crs = CRS.from_epsg(32630)
     axis = "AXIS"
-    assert axis in crs.to_wkt("WKT1_GDAL", output_axis_rule=True)
-    assert axis not in crs.to_wkt("WKT1_GDAL", output_axis_rule=False)
-    assert axis in crs.to_wkt("WKT1_GDAL", output_axis_rule=None)
-
-    assert axis in crs.to_wkt("WKT1_ESRI", output_axis_rule=True)
-    assert axis not in crs.to_wkt("WKT1_ESRI", output_axis_rule=False)
-    assert axis not in crs.to_wkt("WKT1_ESRI", output_axis_rule=None)
-
-    assert axis in crs.to_wkt("WKT2_2019", output_axis_rule=True)
-    assert axis not in crs.to_wkt("WKT2_2019", output_axis_rule=False)
-    assert axis in crs.to_wkt("WKT2_2019", output_axis_rule=None)
+    assert (axis in crs.to_wkt(version)) == expected
+    assert (axis in crs.to_wkt(version, output_axis_rule=None)) == expected
+    assert (axis in crs.to_wkt(version, output_axis_rule=True)) == True
+    assert (axis in crs.to_wkt(version, output_axis_rule=False)) == False
 
 def test_repr():
     with pytest.warns(FutureWarning):
