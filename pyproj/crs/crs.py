@@ -1227,7 +1227,9 @@ class CRS:
         -------
         str
         """
-        wkt = self._crs.to_wkt(version=version, pretty=pretty, output_axis_rule=output_axis_rule)
+        wkt = self._crs.to_wkt(
+            version=version, pretty=pretty, output_axis_rule=output_axis_rule
+        )
         if wkt is None:
             raise CRSError(
                 f"CRS cannot be converted to a WKT string of a '{version}' version. "
