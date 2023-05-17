@@ -63,7 +63,7 @@ class Geod:
         lon1: float,
         lat1: float,
         lon2_or_azi1: float,
-        lat2_or_nan: float,
+        lat2: float,
         npts: int,
         del_s: float,
         radians: bool,
@@ -74,6 +74,7 @@ class Geod:
         out_lats: Any,
         out_azis: Any,
         return_back_azimuth: bool,
+        is_fwd: bool,
     ) -> GeodIntermediateReturn: ...
     def _line_length(self, lons: Any, lats: Any, radians: bool = False) -> float: ...
     def _polygon_area_perimeter(

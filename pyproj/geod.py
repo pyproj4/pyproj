@@ -524,7 +524,7 @@ class Geod(_Geod):
             lon1=lon1,
             lat1=lat1,
             lon2_or_azi1=lon2,
-            lat2_or_nan=lat2,
+            lat2=lat2,
             npts=npts,
             del_s=0,
             radians=radians,
@@ -535,6 +535,7 @@ class Geod(_Geod):
             out_lats=None,
             out_azis=None,
             return_back_azimuth=False,
+            is_fwd=False,
         )
         return list(zip(res.lons, res.lats))
 
@@ -688,7 +689,7 @@ class Geod(_Geod):
             lon1=lon1,
             lat1=lat1,
             lon2_or_azi1=lon2,
-            lat2_or_nan=lat2,
+            lat2=lat2,
             npts=npts,
             del_s=del_s,
             radians=radians,
@@ -699,6 +700,7 @@ class Geod(_Geod):
             out_lats=out_lats,
             out_azis=out_azis,
             return_back_azimuth=return_back_azimuth,
+            is_fwd=False,
         )
 
     def fwd_intermediate(
@@ -835,7 +837,7 @@ class Geod(_Geod):
             lon1=lon1,
             lat1=lat1,
             lon2_or_azi1=azi1,
-            lat2_or_nan=math.nan,
+            lat2=math.nan,
             npts=npts,
             del_s=del_s,
             radians=radians,
@@ -846,6 +848,7 @@ class Geod(_Geod):
             out_lats=out_lats,
             out_azis=out_azis,
             return_back_azimuth=return_back_azimuth,
+            is_fwd=True,
         )
 
     def line_length(self, lons: Any, lats: Any, radians: bool = False) -> float:
