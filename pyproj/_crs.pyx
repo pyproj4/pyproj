@@ -418,6 +418,7 @@ cdef class Base:
           - WKT1_GDAL
           - WKT1_ESRI
 
+        .. versionadded:: 3.6.0 output_axis_rule
 
         Parameters
         ----------
@@ -428,8 +429,6 @@ cdef class Base:
         output_axis_rule: bool, optional, default=None
             If True, it will set the axis rule on any case. If false, never.
             None for AUTO, that depends on the CRS and version.
-            .. versionadded:: 3.5.1
-
 
         Returns
         -------
