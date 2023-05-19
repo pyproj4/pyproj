@@ -5,7 +5,7 @@ from itertools import permutations
 
 import numpy
 import pytest
-from numpy.testing import assert_almost_equal
+from numpy.testing import assert_almost_equal, assert_array_equal
 
 from pyproj import Geod
 from pyproj.geod import GeodIntermediateFlag, reverse_azimuth
@@ -441,6 +441,21 @@ def test_geodesic_npts(include_initial, include_terminus):
     if include_terminus:
         expected_lonlats.append((_PORTLAND_LON, _PORTLAND_LAT))
     assert_almost_equal(lonlats, expected_lonlats, decimal=3)
+
+
+@pytest.mark.parametrize(
+    "input_data",
+    [
+        [1.0, 2.0, 3.0, math.nan],
+        [1.0, 2.0, math.nan, 4.0],
+        [1.0, math.nan, 3.0, 4.0],
+        [math.nan, 2.0, 3.0, 4.0],
+        [math.nan, math.nan, math.nan, math.nan],
+    ],
+)
+def test_geodesic_npts__nan(input_data):
+    geod = Geod(ellps="WGS84")
+    assert_array_equal(geod.npts(*input_data, npts=1), [(math.nan, math.nan)])
 
 
 @pytest.mark.parametrize(

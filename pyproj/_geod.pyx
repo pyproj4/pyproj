@@ -365,7 +365,7 @@ cdef class Geod:
         double lon1,
         double lat1,
         double lon2_or_azi1,
-        double lat2_or_nan,
+        double lat2,
         int npts,
         double del_s,
         bint radians,
@@ -376,6 +376,7 @@ cdef class Geod:
         object out_lats,
         object out_azis,
         bint return_back_azimuth,
+        bint is_fwd,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
@@ -397,7 +398,6 @@ cdef class Geod:
             PyBuffWriteManager lons_buff
             PyBuffWriteManager lats_buff
             PyBuffWriteManager azis_buff
-            bint is_fwd = isnan(lat2_or_nan)
 
         if not is_fwd and (del_s == 0) == (npts == 0):
             raise GeodError("inv_intermediate: "
@@ -409,7 +409,7 @@ cdef class Geod:
                 lat1 *= _RAD2DG
                 lon2_or_azi1 *= _RAD2DG
                 if not is_fwd:
-                    lat2_or_nan *= _RAD2DG
+                    lat2 *= _RAD2DG
 
             if is_fwd:
                 # do fwd computation to set azimuths, distance.
@@ -418,7 +418,7 @@ cdef class Geod:
             else:
                 # do inverse computation to set azimuths, distance.
                 geod_inverseline(&line, &self._geod_geodesic, lat1, lon1,
-                                 lat2_or_nan, lon2_or_azi1, 0u)
+                                 lat2, lon2_or_azi1, 0u)
 
                 if npts == 0:
                     # calc the number of required points by the distance increment
