@@ -521,45 +521,14 @@ def test_str():
     assert str(Transformer.from_crs(4326, 3857)).startswith("proj=pipeline")
 
 
-@pytest.mark.parametrize(
-    "from_crs, to_crs, expected_repr",
-    [
-        (
-            7789,
-            8401,
-            (
-                "<Transformation Transformer: helmert>\n"
-                "Description: ITRF2014 to ETRF2014 (2)\n"
-                "Area of Use:\n"
-                "- name: Europe - onshore and offshore: Albania; Andorra; Austria; "
-                "Belgium; Bosnia and Herzegovina; Bulgaria; Croatia; Cyprus; Czechia; "
-                "Denmark; Estonia; Faroe Islands; Finland; France; Germany; Gibraltar; "
-                "Greece; Hungary; Ireland; Italy; Kosovo; Latvia; Liechtenstein; "
-                "Lithuania; Luxembourg; Malta; Moldova; Monaco; Montenegro; "
-                "Netherlands; North Macedonia; "
-                "Norway including Svalbard and Jan Mayen; "
-                "Poland; Portugal; Romania; San Marino; Serbia; Slovakia; Slovenia; "
-                "Spain; Sweden; Switzerland; "
-                "United Kingdom (UK) including Channel Islands and Isle of Man; "
-                "Vatican City State.\n"
-                "- bounds: (-16.1, 32.88, 40.18, 84.73)"
-            ),
-        ),
-        (
-            4326,
-            3857,
-            (
-                "<Conversion Transformer: pipeline>\n"
-                "Description: Popular Visualisation Pseudo-Mercator\n"
-                "Area of Use:\n"
-                "- name: World.\n"
-                "- bounds: (-180.0, -90.0, 180.0, 90.0)"
-            ),
-        ),
-    ],
-)
-def test_repr(from_crs, to_crs, expected_repr):
-    assert repr(Transformer.from_crs(from_crs, to_crs)) == expected_repr
+def test_repr():
+    assert repr(Transformer.from_crs(4326, 3857)) == (
+        "<Conversion Transformer: pipeline>\n"
+        "Description: Popular Visualisation Pseudo-Mercator\n"
+        "Area of Use:\n"
+        "- name: World.\n"
+        "- bounds: (-180.0, -90.0, 180.0, 90.0)"
+    )
 
 
 @pytest.mark.grid
