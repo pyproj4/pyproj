@@ -7,6 +7,7 @@ Latest
 - ENH: Added allow_superseded kwargs to :class:`pyproj.transformer.TransformerGroup` (pull #1269)
 - ENH: Added :meth:`CRS.to_2d` to demote 3D CRS to 2D (issue #1266)
 - ENH: Added parameter `output_axis_rule` to :meth:`CRS.to_wkt` (pull #1287)
+- BUG: fix Geod.npts NaN handling (issue #1282)
 
 3.5.0
 ------
