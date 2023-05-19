@@ -24,6 +24,7 @@ from test.conftest import (
     PROJ_GTE_91,
     PROJ_GTE_901,
     PROJ_GTE_911,
+    PROJ_GTE_921,
     assert_can_pickle,
     grids_available,
 )
@@ -407,6 +408,8 @@ def test_datum_unknown():
         "+towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
     )
     datum_name = "Unknown based on WGS84 ellipsoid"
+    if PROJ_GTE_921:
+        datum_name = "Unknown based on WGS 84 ellipsoid"
     if PROJ_GTE_901:
         datum_name = f"{datum_name} using towgs84=0,0,0,0,0,0,0"
     assert crs.datum.name == datum_name
