@@ -754,7 +754,7 @@
             <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span><span class="p">,</span>
             <span class="n">lat1</span><span class="o">=</span><span class="n">lat1</span><span class="p">,</span>
             <span class="n">lon2_or_azi1</span><span class="o">=</span><span class="n">lon2</span><span class="p">,</span>
-            <span class="n">lat2_or_nan</span><span class="o">=</span><span class="n">lat2</span><span class="p">,</span>
+            <span class="n">lat2</span><span class="o">=</span><span class="n">lat2</span><span class="p">,</span>
             <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">,</span>
             <span class="n">del_s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
@@ -765,6 +765,7 @@
             <span class="n">out_lats</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">out_azis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">return_back_azimuth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">is_fwd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">lats</span><span class="p">))</span></div>
 
@@ -918,7 +919,7 @@
             <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span><span class="p">,</span>
             <span class="n">lat1</span><span class="o">=</span><span class="n">lat1</span><span class="p">,</span>
             <span class="n">lon2_or_azi1</span><span class="o">=</span><span class="n">lon2</span><span class="p">,</span>
-            <span class="n">lat2_or_nan</span><span class="o">=</span><span class="n">lat2</span><span class="p">,</span>
+            <span class="n">lat2</span><span class="o">=</span><span class="n">lat2</span><span class="p">,</span>
             <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">,</span>
             <span class="n">del_s</span><span class="o">=</span><span class="n">del_s</span><span class="p">,</span>
             <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
@@ -929,6 +930,7 @@
             <span class="n">out_lats</span><span class="o">=</span><span class="n">out_lats</span><span class="p">,</span>
             <span class="n">out_azis</span><span class="o">=</span><span class="n">out_azis</span><span class="p">,</span>
             <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
+            <span class="n">is_fwd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.fwd_intermediate"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd_intermediate">[docs]</a>    <span class="k">def</span> <span class="nf">fwd_intermediate</span><span class="p">(</span>
@@ -1065,7 +1067,7 @@
             <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span><span class="p">,</span>
             <span class="n">lat1</span><span class="o">=</span><span class="n">lat1</span><span class="p">,</span>
             <span class="n">lon2_or_azi1</span><span class="o">=</span><span class="n">azi1</span><span class="p">,</span>
-            <span class="n">lat2_or_nan</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+            <span class="n">lat2</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
             <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">,</span>
             <span class="n">del_s</span><span class="o">=</span><span class="n">del_s</span><span class="p">,</span>
             <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
@@ -1076,6 +1078,7 @@
             <span class="n">out_lats</span><span class="o">=</span><span class="n">out_lats</span><span class="p">,</span>
             <span class="n">out_azis</span><span class="o">=</span><span class="n">out_azis</span><span class="p">,</span>
             <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
+            <span class="n">is_fwd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Geod.line_length"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_length">[docs]</a>    <span class="k">def</span> <span class="nf">line_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
