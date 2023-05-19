@@ -1427,6 +1427,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WktVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">output_axis_rule</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a WKT string.</span>
@@ -1439,6 +1440,7 @@
 <span class="sd">          - WKT1_GDAL</span>
 <span class="sd">          - WKT1_ESRI</span>
 
+<span class="sd">        .. versionadded:: 3.6.0 output_axis_rule</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1447,12 +1449,17 @@
 <span class="sd">            Default is :attr:`pyproj.enums.WktVersion.WKT2_2019`.</span>
 <span class="sd">        pretty: bool, default=False</span>
 <span class="sd">            If True, it will set the output to be a multiline string.</span>
+<span class="sd">        output_axis_rule: bool, optional, default=None</span>
+<span class="sd">            If True, it will set the axis rule on any case. If false, never.</span>
+<span class="sd">            None for AUTO, that depends on the CRS and version.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">wkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">)</span>
+        <span class="n">wkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span>
+            <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">,</span> <span class="n">output_axis_rule</span><span class="o">=</span><span class="n">output_axis_rule</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">wkt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;CRS cannot be converted to a WKT string of a &#39;</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">&#39; version. &quot;</span>
