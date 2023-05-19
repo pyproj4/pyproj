@@ -624,6 +624,17 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "jjimenezshaw",
+      "name": "Javier Jimenez Shaw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15678366?v=4",
+      "profile": "https://javier.jimenezshaw.com/",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
