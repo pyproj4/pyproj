@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+Latest
+------
+
 3.6.0
 ------
 - DEP: Minimum supported Python version 3.9 (issue #1111)
