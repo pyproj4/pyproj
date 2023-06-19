@@ -202,7 +202,7 @@ As of version 3.1, these objects are thread-safe:
 - :class:`pyproj.crs.CRS`
 - :class:`pyproj.transformer.Transformer`
 
-If you have pyproj<3.1, you will need to create create the object
+If you have pyproj<3.1, you will need to create the object
 within the thread that uses it.
 
 Here is a simple demonstration:
