@@ -51,13 +51,13 @@ def test_shift_utm33_to_wgs84():
     assert_almost_equal((back_lon, back_lat, back_z), (WGS84_lon, WGS84_lat, WGS84_z))
 
 
-def test_shift_wgs84_to_gaussb_no_ellisoidal_height():
+def test_shift_wgs84_to_gaussb_no_ellipsoidal_height():
     with pytest.warns(FutureWarning):
         xgb, ygb, zgb = transform(WGS84_PROJ, GAUSSSB_PROJ, WGS84_lon, WGS84_lat, 0)
     assert_almost_equal((xgb, ygb, zgb), (GB_x, 5055619.899, 0), decimal=2)
 
 
-def test_shift_gaussb_to_wgs84_no_ellisoidal_height():
+def test_shift_gaussb_to_wgs84_no_ellipsoidal_height():
     with pytest.warns(FutureWarning):
         back_lon, back_lat, back_z = transform(GAUSSSB_PROJ, WGS84_PROJ, GB_x, GB_y, 0)
     assert_almost_equal(

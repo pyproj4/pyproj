@@ -82,7 +82,7 @@ class Ellipsoidal2DCSAxis(BaseEnum):
     """
     .. versionadded:: 2.5.0
 
-    Ellisoidal 2D Coordinate System Axis for creating axis with
+    Ellipsoidal 2D Coordinate System Axis for creating axis with
     with :class:`pyproj.crs.coordinate_system.Ellipsoidal2DCS`
 
     Attributes
@@ -99,7 +99,7 @@ class Ellipsoidal3DCSAxis(BaseEnum):
     """
     .. versionadded:: 2.5.0
 
-    Ellisoidal 3D Coordinate System Axis for creating axis with
+    Ellipsoidal 3D Coordinate System Axis for creating axis with
     with :class:`pyproj.crs.coordinate_system.Ellipsoidal3DCS`
 
     Attributes
