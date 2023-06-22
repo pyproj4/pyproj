@@ -1,4 +1,4 @@
-![Pyproj logo](docs/media/logo.png)
+![Pyproj logo](https://raw.githubusercontent.com/pyproj4/pyproj/main/docs/media/logo.png)
 
 # pyproj
 
