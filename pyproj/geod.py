@@ -969,7 +969,7 @@ class Geod(_Geod):
         Returns
         -------
         (float, float):
-            The geodesic area (meters^2) and permimeter (meters) of the polygon.
+            The geodesic area (meters^2) and perimeter (meters) of the polygon.
         """
         return self._polygon_area_perimeter(
             _copytobuffer(lons)[0], _copytobuffer(lats)[0], radians=radians
@@ -1077,7 +1077,7 @@ class Geod(_Geod):
         Returns
         -------
         (float, float):
-            The geodesic area (meters^2) and permimeter (meters) of the polygon.
+            The geodesic area (meters^2) and perimeter (meters) of the polygon.
         """
         try:
             return self.polygon_area_perimeter(  # type: ignore

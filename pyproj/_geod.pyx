@@ -566,7 +566,7 @@ cdef class Geod:
         Returns
         -------
         (float, float):
-            The area (meter^2) and permimeter (meters) of the polygon.
+            The area (meter^2) and perimeter (meters) of the polygon.
 
         """
         cdef PyBuffWriteManager lonbuff = PyBuffWriteManager(lons)
