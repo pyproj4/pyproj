@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- BUG: Remove pkg_resources from setup.py (issue #1313)
 
 3.6.0
 ------

@@ -7,20 +7,39 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-from pkg_resources import parse_version
 from setuptools import Extension, setup
 
-PROJ_MIN_VERSION = parse_version("9.0.0")
+PROJ_MIN_VERSION = (9, 0, 0)
 CURRENT_FILE_PATH = Path(__file__).absolute().parent
 BASE_INTERNAL_PROJ_DIR = Path("proj_dir")
 INTERNAL_PROJ_DIR = CURRENT_FILE_PATH / "pyproj" / BASE_INTERNAL_PROJ_DIR
 PROJ_VERSION_SEARCH = re.compile(r".*Rel\.\s+(?P<version>\d+\.\d+\.\d+).*")
+VERSION_SEARCH = re.compile(r".*(?P<version>\d+\.\d+\.\d+).*")
 
 
-def get_proj_version(proj_dir: Path) -> str:
+def _parse_version(version: str) -> tuple[int, int, int]:
+    """Convert a version string to a tuple of integers."""
+    match = VERSION_SEARCH.search(version)
+    if not match:
+        raise SystemExit(
+            f"PROJ version unable to be determined from {version}. "
+            "Please set the PROJ_VERSION environment variable."
+        )
+    return tuple(
+        int(ver) for ver in match.groupdict()["version"].split(".", maxsplit=2)
+    )
+
+
+def get_proj_version(proj_dir: Path) -> tuple[int, int, int]:
+    """
+    Determine PROJ version.
+
+    Prefer PROJ_VERSION environment variable.
+    If PROJ_VERSION is not set, try to determine the version from the PROJ executable.
+    """
     proj_version = os.environ.get("PROJ_VERSION")
     if proj_version:
-        return proj_version
+        return _parse_version(proj_version)
     proj = proj_dir / "bin" / "proj"
     proj_ver = subprocess.check_output(str(proj), stderr=subprocess.STDOUT).decode(
         "ascii"
@@ -31,15 +50,17 @@ def get_proj_version(proj_dir: Path) -> str:
             "PROJ version unable to be determined. "
             "Please set the PROJ_VERSION environment variable."
         )
-    return match.groupdict()["version"]
+    return _parse_version(match.groupdict()["version"])
 
 
-def check_proj_version(proj_version: str) -> None:
+def check_proj_version(proj_version: tuple[int, int, int]) -> None:
     """checks that the PROJ library meets the minimum version"""
-    if parse_version(proj_version) < PROJ_MIN_VERSION:
+    if proj_version < PROJ_MIN_VERSION:
+        proj_version_str = ".".join(str(ver) for ver in proj_version)
+        min_proj_version_str = ".".join(str(ver) for ver in PROJ_MIN_VERSION)
         raise SystemExit(
-            f"ERROR: Minimum supported PROJ version is {PROJ_MIN_VERSION}, installed "
-            f"version is {proj_version}. For more information see: "
+            f"ERROR: Minimum supported PROJ version is {min_proj_version_str}, "
+            f"installed version is {proj_version_str}. For more information see: "
             "https://pyproj4.github.io/pyproj/stable/installation.html"
         )
 
@@ -154,11 +175,11 @@ def get_extension_modules():
     # make sure cython is available
     try:
         from Cython.Build import cythonize
-    except ImportError:
+    except ImportError as error:
         raise SystemExit(
             "ERROR: Cython.Build.cythonize not found. "
             "Cython is required to build pyproj."
-        )
+        ) from error
 
     # By default we'll try to get options PROJ_DIR or the local version of proj
     proj_dir = get_proj_dir()
@@ -167,9 +188,7 @@ def get_extension_modules():
 
     proj_version = get_proj_version(proj_dir)
     check_proj_version(proj_version)
-    proj_version_major, proj_version_minor, proj_version_patch = parse_version(
-        proj_version
-    ).base_version.split(".")
+    proj_version_major, proj_version_minor, proj_version_patch = proj_version
 
     # setup extension options
     ext_options = {
@@ -197,9 +216,9 @@ def get_extension_modules():
         ],
         quiet=True,
         compile_time_env={
-            "CTE_PROJ_VERSION_MAJOR": int(proj_version_major),
-            "CTE_PROJ_VERSION_MINOR": int(proj_version_minor),
-            "CTE_PROJ_VERSION_PATCH": int(proj_version_patch),
+            "CTE_PROJ_VERSION_MAJOR": proj_version_major,
+            "CTE_PROJ_VERSION_MINOR": proj_version_minor,
+            "CTE_PROJ_VERSION_PATCH": proj_version_patch,
             "CTE_PYTHON_IMPLEMENTATION": platform.python_implementation(),
         },
         **get_cythonize_options(),
