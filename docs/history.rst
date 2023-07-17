@@ -4,6 +4,7 @@ Change Log
 Latest
 ------
 - BUG: Remove pkg_resources from setup.py (issue #1313)
+- BUG: Cython 3 compatibility fixes (issue #1321)
 
 3.6.0
 ------
