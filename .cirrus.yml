@@ -1,6 +1,6 @@
 build_and_store_wheels: &BUILD_AND_STORE_WHEELS
   install_cibuildwheel_script:
-    - python -m pip install cibuildwheel==2.11.2
+    - python -m pip install cibuildwheel==2.16
   run_cibuildwheel_script:
     - cibuildwheel
   wheels_artifacts:
@@ -14,7 +14,7 @@ macos_task:
     image: ghcr.io/cirruslabs/macos-monterey-xcode
   env:
     PATH: /opt/homebrew/opt/python@3.10/bin:$PATH
-    CIBW_SKIP: "*musllinux*"
+    CIBW_SKIP: "*musllinux* pp*"
     CIBW_ARCHS_MACOS: arm64
     CIBW_ENVIRONMENT_MACOS:
       PROJ_WHEEL=true
@@ -26,7 +26,7 @@ macos_task:
       CMAKE_OSX_ARCHITECTURES='arm64'
       LDFLAGS="${LDFLAGS} -Wl,-rpath,${CIRRUS_WORKING_DIR}/pyproj/proj_dir/lib"
     CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
-    CIBW_TEST_REQUIRES: cython pytest numpy
+    CIBW_TEST_REQUIRES: cython pytest numpy --config-settings=setup-args="-Dallow-noblas=true"
     CIBW_BEFORE_TEST: python -m pip install shapely pandas xarray || echo "Optional requirements install failed"
     CIBW_TEST_COMMAND: >
       pyproj -v &&

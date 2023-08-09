@@ -57,10 +57,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - os: ubuntu-20.04
+        - os: ubuntu-22.04
           arch: x86_64
-        - os: ubuntu-20.04
-          arch: i686
+        # - os: ubuntu-22.04
+        #   arch: i686
         - os: macos-11
           arch: x86_64
           cmake_osx_architectures: x86_64
@@ -70,12 +70,12 @@ jobs:
         # - os: macos-11
         #   arch: universal2
         #   cmake_osx_architectures: "x86_64;arm64"
-        - os: "windows-2019"
+        - os: "windows-2022"
           arch: "auto64"
           triplet: "x64-windows"
           vcpkg_cache: "c:\\vcpkg\\installed"
           vcpkg_logs: "c:\\vcpkg\\buildtrees\\**\\*.log"
-        - os: "windows-2019"
+        - os: "windows-2022"
           arch: "auto32"
           triplet: "x86-windows"
           vcpkg_cache: "c:\\vcpkg\\installed"
@@ -86,6 +86,11 @@ jobs:
 
       - uses: actions/setup-python@v4
 
+      - name: Setup MSVC (32-bit)
+        if: ${{ matrix.triplet == 'x86-windows' }}
+        uses: bus1/cabuild/action/msdevshell@e22aba57d6e74891d059d66501b6b5aed8123c4d  # v1
+        with:
+          architecture: 'x86'
 
       - name: Cache vcpkg
         if: contains(matrix.os, 'windows')
@@ -111,9 +116,9 @@ jobs:
           cp "$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}/share/proj/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.14.1
+        uses: pypa/cibuildwheel@v2.16
         env:
-          CIBW_SKIP: "*musllinux* pp*-win*"
+          CIBW_SKIP: "*musllinux* pp*-win* pp31*"
           CIBW_ARCHS: ${{ matrix.arch }}
           CIBW_ENVIRONMENT_LINUX:
             PROJ_WHEEL=true
@@ -137,7 +142,7 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path C:/vcpkg/installed/${{ matrix.triplet }}/bin -w {dest_dir} {wheel}"
           CIBW_BEFORE_ALL_LINUX: bash ./ci/proj-compile-wheels.sh
           CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
-          CIBW_TEST_REQUIRES: cython pytest numpy
+          CIBW_TEST_REQUIRES: cython pytest numpy --config-settings=setup-args="-Dallow-noblas=true"
           CIBW_BEFORE_TEST: python -m pip install shapely pandas xarray || echo "Optional requirements install failed"
           CIBW_TEST_COMMAND: >
             pyproj -v &&
