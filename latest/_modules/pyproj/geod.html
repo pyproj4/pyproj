@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
+    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 7.2.4 and Furo 2023.08.19 -->
         <title>pyproj.geod - pyproj 3.6.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d623d863" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -348,7 +348,9 @@
     <span class="k">return</span> <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="p">,</span> <span class="n">flattening</span><span class="p">,</span> <span class="n">eccentricity_squared</span>
 
 
-<div class="viewcode-block" id="Geod"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod">[docs]</a><span class="k">class</span> <span class="nc">Geod</span><span class="p">(</span><span class="n">_Geod</span><span class="p">):</span>
+<div class="viewcode-block" id="Geod">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod">[docs]</a>
+<span class="k">class</span> <span class="nc">Geod</span><span class="p">(</span><span class="n">_Geod</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    performs forward and inverse geodetic, or Great Circle,</span>
 <span class="sd">    computations.  The forward computation (using the &#39;fwd&#39; method)</span>
@@ -376,7 +378,9 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Geod.__init__"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initstring</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Geod.__init__">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initstring</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        initialize a Geod class instance.</span>
 
@@ -472,7 +476,10 @@
             <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">flattening</span><span class="p">,</span> <span class="n">sphere</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="p">,</span> <span class="n">eccentricity_squared</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Geod.fwd"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
+
+<div class="viewcode-block" id="Geod.fwd">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd">[docs]</a>
+    <span class="k">def</span> <span class="nf">fwd</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -564,7 +571,10 @@
         <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">z_data_type</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
 
-<div class="viewcode-block" id="Geod.inv"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Geod.inv">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv">[docs]</a>
+    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">lons1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">lats1</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -656,7 +666,10 @@
         <span class="n">outz</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">z_data_type</span><span class="p">,</span> <span class="n">inz</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">,</span> <span class="n">outz</span></div>
 
-<div class="viewcode-block" id="Geod.npts"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.npts">[docs]</a>    <span class="k">def</span> <span class="nf">npts</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Geod.npts">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.npts">[docs]</a>
+    <span class="k">def</span> <span class="nf">npts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">lon1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">lat1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -769,7 +782,10 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">lats</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Geod.inv_intermediate"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv_intermediate">[docs]</a>    <span class="k">def</span> <span class="nf">inv_intermediate</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Geod.inv_intermediate">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.inv_intermediate">[docs]</a>
+    <span class="k">def</span> <span class="nf">inv_intermediate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">lon1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">lat1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -933,7 +949,10 @@
             <span class="n">is_fwd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Geod.fwd_intermediate"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd_intermediate">[docs]</a>    <span class="k">def</span> <span class="nf">fwd_intermediate</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Geod.fwd_intermediate">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.fwd_intermediate">[docs]</a>
+    <span class="k">def</span> <span class="nf">fwd_intermediate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">lon1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">lat1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1081,7 +1100,10 @@
             <span class="n">is_fwd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Geod.line_length"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_length">[docs]</a>    <span class="k">def</span> <span class="nf">line_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Geod.line_length">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_length">[docs]</a>
+    <span class="k">def</span> <span class="nf">line_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.3.0</span>
 
@@ -1118,7 +1140,10 @@
         <span class="n">iny</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line_length</span><span class="p">(</span><span class="n">inx</span><span class="p">,</span> <span class="n">iny</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Geod.line_lengths"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_lengths">[docs]</a>    <span class="k">def</span> <span class="nf">line_lengths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Geod.line_lengths">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.line_lengths">[docs]</a>
+    <span class="k">def</span> <span class="nf">line_lengths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.3.0</span>
 
@@ -1155,7 +1180,10 @@
         <span class="n">line_lengths</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">line_lengths</span> <span class="k">if</span> <span class="n">x_data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span> <span class="k">else</span> <span class="n">line_lengths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Geod.polygon_area_perimeter"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.polygon_area_perimeter">[docs]</a>    <span class="k">def</span> <span class="nf">polygon_area_perimeter</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Geod.polygon_area_perimeter">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.polygon_area_perimeter">[docs]</a>
+    <span class="k">def</span> <span class="nf">polygon_area_perimeter</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">lats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1205,7 +1233,10 @@
             <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lats</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">radians</span><span class="o">=</span><span class="n">radians</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Geod.geometry_length"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.geometry_length">[docs]</a>    <span class="k">def</span> <span class="nf">geometry_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Geod.geometry_length">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.geometry_length">[docs]</a>
+    <span class="k">def</span> <span class="nf">geometry_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.3.0</span>
 
@@ -1251,7 +1282,10 @@
             <span class="k">return</span> <span class="n">total_length</span>
         <span class="k">raise</span> <span class="n">GeodError</span><span class="p">(</span><span class="s2">&quot;Invalid geometry provided.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Geod.geometry_area_perimeter"><a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.geometry_area_perimeter">[docs]</a>    <span class="k">def</span> <span class="nf">geometry_area_perimeter</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Geod.geometry_area_perimeter">
+<a class="viewcode-back" href="../../api/geod.html#pyproj.Geod.geometry_area_perimeter">[docs]</a>
+    <span class="k">def</span> <span class="nf">geometry_area_perimeter</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1336,6 +1370,7 @@
             <span class="k">return</span> <span class="n">total_area</span><span class="p">,</span> <span class="n">total_perimeter</span>
         <span class="k">raise</span> <span class="n">GeodError</span><span class="p">(</span><span class="s2">&quot;Invalid geometry provided.&quot;</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="c1"># search for ellipse name</span>
         <span class="k">for</span> <span class="n">ellps</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">pj_ellps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1377,6 +1412,7 @@
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">reverse_azimuth</span><span class="p">(</span><span class="n">azi</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -1446,9 +1482,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/furo.js"></script>
+</div><script src="../../_static/documentation_options.js?v=e153bac5"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/icon.png"/><!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
+    <link rel="shortcut icon" href="../../../_static/icon.png"/><!-- Generated with Sphinx 7.2.4 and Furo 2023.08.19 -->
         <title>pyproj.crs.datum - pyproj 3.6.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d623d863" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -237,14 +237,18 @@
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">Datum</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">PrimeMeridian</span>
 
 
-<div class="viewcode-block" id="CustomDatum"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum">[docs]</a><span class="k">class</span> <span class="nc">CustomDatum</span><span class="p">(</span><span class="n">Datum</span><span class="p">):</span>
+<div class="viewcode-block" id="CustomDatum">
+<a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum">[docs]</a>
+<span class="k">class</span> <span class="nc">CustomDatum</span><span class="p">(</span><span class="n">Datum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Class to build a datum based on an ellipsoid and prime meridian.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CustomDatum.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<div class="viewcode-block" id="CustomDatum.__new__">
+<a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomDatum.__new__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
         <span class="n">ellipsoid</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;WGS 84&quot;</span><span class="p">,</span>
@@ -270,17 +274,23 @@
                 <span class="n">prime_meridian</span>
             <span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">(),</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">datum_json</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">datum_json</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="CustomEllipsoid"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomEllipsoid">[docs]</a><span class="k">class</span> <span class="nc">CustomEllipsoid</span><span class="p">(</span><span class="n">Ellipsoid</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CustomEllipsoid">
+<a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomEllipsoid">[docs]</a>
+<span class="k">class</span> <span class="nc">CustomEllipsoid</span><span class="p">(</span><span class="n">Ellipsoid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Class to build a custom ellipsoid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CustomEllipsoid.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomEllipsoid.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<div class="viewcode-block" id="CustomEllipsoid.__new__">
+<a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomEllipsoid.__new__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
         <span class="n">semi_major_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -318,17 +328,23 @@
             <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;semi_minor_axis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">semi_minor_axis</span>
         <span class="k">if</span> <span class="n">radius</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ellipsoid_json</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">radius</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">ellipsoid_json</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">ellipsoid_json</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="CustomPrimeMeridian"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomPrimeMeridian">[docs]</a><span class="k">class</span> <span class="nc">CustomPrimeMeridian</span><span class="p">(</span><span class="n">PrimeMeridian</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CustomPrimeMeridian">
+<a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomPrimeMeridian">[docs]</a>
+<span class="k">class</span> <span class="nc">CustomPrimeMeridian</span><span class="p">(</span><span class="n">PrimeMeridian</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Class to build a prime meridian based on a longitude.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CustomPrimeMeridian.__new__"><a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomPrimeMeridian.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="CustomPrimeMeridian.__new__">
+<a class="viewcode-back" href="../../../api/crs/datum.html#pyproj.crs.datum.CustomPrimeMeridian.__new__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -343,7 +359,9 @@
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">datum_json</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json_dict</span><span class="p">(</span><span class="n">datum_json</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
         </article>
       </div>
@@ -376,9 +394,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/scripts/furo.js"></script>
+</div><script src="../../../_static/documentation_options.js?v=e153bac5"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

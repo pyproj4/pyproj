@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Transformation Grids" href="transformation_grids.html" /><link rel="prev" title="Installation" href="installation.html" />
 
-    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
+    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 7.2.4 and Furo 2023.08.19 -->
         <title>Getting Started - pyproj 3.6.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d623d863" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -230,15 +230,15 @@
         </div>
         <article role="main">
           <section id="getting-started">
-<span id="examples"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">#</a></h1>
+<span id="examples"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
 <p>There are examples of usage within the API documentation and tests. This
 section is to demonstrate recommended usage.</p>
 <p>Also see: <a class="reference internal" href="gotchas.html#gotchas"><span class="std std-ref">Gotchas/FAQ</span></a></p>
 <section id="using-crs">
-<h2>Using CRS<a class="headerlink" href="#using-crs" title="Permalink to this heading">#</a></h2>
+<h2>Using CRS<a class="headerlink" href="#using-crs" title="Link to this heading">#</a></h2>
 <p>For more usage examples and documentation see <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
 <section id="initializing-crs">
-<h3>Initializing CRS<a class="headerlink" href="#initializing-crs" title="Permalink to this heading">#</a></h3>
+<h3>Initializing CRS<a class="headerlink" href="#initializing-crs" title="Link to this heading">#</a></h3>
 <p>The <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class can be initialized in many different ways.
 Here are some examples of initialization.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
@@ -250,7 +250,7 @@ Here are some examples of initialization.</p>
 </div>
 </section>
 <section id="converting-crs-to-a-different-format">
-<h3>Converting CRS to a different format<a class="headerlink" href="#converting-crs-to-a-different-format" title="Permalink to this heading">#</a></h3>
+<h3>Converting CRS to a different format<a class="headerlink" href="#converting-crs-to-a-different-format" title="Link to this heading">#</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>You will likely lose important projection
@@ -344,7 +344,7 @@ another format. See: <a class="reference external" href="https://proj4.org/faq.h
 </div>
 </section>
 <section id="extracting-attributes-from-crs">
-<h3>Extracting attributes from CRS<a class="headerlink" href="#extracting-attributes-from-crs" title="Permalink to this heading">#</a></h3>
+<h3>Extracting attributes from CRS<a class="headerlink" href="#extracting-attributes-from-crs" title="Link to this heading">#</a></h3>
 <p>There are many attributes you can pull from the <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.
 This is just a small subset of what is available.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717&quot;</span><span class="p">)</span>
@@ -422,7 +422,7 @@ This is just a small subset of what is available.</p>
 </section>
 </section>
 <section id="find-utm-crs-by-latitude-and-longitude">
-<h2>Find UTM CRS by Latitude and Longitude<a class="headerlink" href="#find-utm-crs-by-latitude-and-longitude" title="Permalink to this heading">#</a></h2>
+<h2>Find UTM CRS by Latitude and Longitude<a class="headerlink" href="#find-utm-crs-by-latitude-and-longitude" title="Link to this heading">#</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For more database methods see: <a class="reference internal" href="api/database.html#database"><span class="std std-ref">Database</span></a>.</p>
@@ -445,9 +445,9 @@ This is just a small subset of what is available.</p>
 </div>
 </section>
 <section id="transformations-from-crs-to-crs">
-<h2>Transformations from CRS to CRS<a class="headerlink" href="#transformations-from-crs-to-crs" title="Permalink to this heading">#</a></h2>
+<h2>Transformations from CRS to CRS<a class="headerlink" href="#transformations-from-crs-to-crs" title="Link to this heading">#</a></h2>
 <section id="step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order">
-<h3>Step 1: Inspect CRS definition to ensure proper area of use and axis order<a class="headerlink" href="#step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order" title="Permalink to this heading">#</a></h3>
+<h3>Step 1: Inspect CRS definition to ensure proper area of use and axis order<a class="headerlink" href="#step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order" title="Link to this heading">#</a></h3>
 <p>For more options available for inspection, usage examples,
 and documentation see <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
@@ -491,7 +491,7 @@ are in the form (min_x, min_y, max_x, max_y), so the transformation input/output
 be within those bounds for best results.</p>
 </section>
 <section id="step-2-create-transformer-to-convert-from-crs-to-crs">
-<h3>Step 2: Create Transformer to convert from CRS to CRS<a class="headerlink" href="#step-2-create-transformer-to-convert-from-crs-to-crs" title="Permalink to this heading">#</a></h3>
+<h3>Step 2: Create Transformer to convert from CRS to CRS<a class="headerlink" href="#step-2-create-transformer-to-convert-from-crs-to-crs" title="Link to this heading">#</a></h3>
 <p>The <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> can be initialized with anything supported
 by <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_user_input()</span></code></a>. There are a couple of examples added
 here for demonstration. For more usage examples and documentation,
@@ -518,9 +518,9 @@ you can use the <cite>always_xy</cite> option when creating the transformer.</p>
 </section>
 </section>
 <section id="converting-between-geographic-and-projection-coordinates-within-one-datum">
-<h2>Converting between geographic and projection coordinates within one datum<a class="headerlink" href="#converting-between-geographic-and-projection-coordinates-within-one-datum" title="Permalink to this heading">#</a></h2>
+<h2>Converting between geographic and projection coordinates within one datum<a class="headerlink" href="#converting-between-geographic-and-projection-coordinates-within-one-datum" title="Link to this heading">#</a></h2>
 <section id="step-1-retrieve-the-geodetic-crs-based-on-original-crs">
-<h3>Step 1: Retrieve the geodetic CRS based on original CRS<a class="headerlink" href="#step-1-retrieve-the-geodetic-crs-based-on-original-crs" title="Permalink to this heading">#</a></h3>
+<h3>Step 1: Retrieve the geodetic CRS based on original CRS<a class="headerlink" href="#step-1-retrieve-the-geodetic-crs-based-on-original-crs" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3857</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
@@ -555,7 +555,7 @@ you can use the <cite>always_xy</cite> option when creating the transformer.</p>
 </div>
 </section>
 <section id="step-2-create-transformer-to-convert-from-geodetic-crs-to-crs">
-<h3>Step 2: Create Transformer to convert from geodetic CRS to CRS<a class="headerlink" href="#step-2-create-transformer-to-convert-from-geodetic-crs-to-crs" title="Permalink to this heading">#</a></h3>
+<h3>Step 2: Create Transformer to convert from geodetic CRS to CRS<a class="headerlink" href="#step-2-create-transformer-to-convert-from-geodetic-crs-to-crs" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">,</span> <span class="n">crs</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span>
 <span class="go">&lt;Conversion Transformer: pipeline&gt;</span>
@@ -570,7 +570,7 @@ you can use the <cite>always_xy</cite> option when creating the transformer.</p>
 </section>
 </section>
 <section id="d-transformations-with-time">
-<h2>4D Transformations with Time<a class="headerlink" href="#d-transformations-with-time" title="Permalink to this heading">#</a></h2>
+<h2>4D Transformations with Time<a class="headerlink" href="#d-transformations-with-time" title="Link to this heading">#</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you are doing a transformation with a CRS that is time based,
@@ -586,12 +586,12 @@ it is recommended to include the time in the transformation operation.</p>
 </div>
 </section>
 <section id="geodesic-calculations">
-<h2>Geodesic calculations<a class="headerlink" href="#geodesic-calculations" title="Permalink to this heading">#</a></h2>
+<h2>Geodesic calculations<a class="headerlink" href="#geodesic-calculations" title="Link to this heading">#</a></h2>
 <p>This is useful if you need to calculate the distance between two
 points or the area of a geometry on Earth’s surface.</p>
 <p>For more examples of usage and documentation, see <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Geod</span></code></a>.</p>
 <section id="creating-geod-class">
-<h3>Creating Geod class<a class="headerlink" href="#creating-geod-class" title="Permalink to this heading">#</a></h3>
+<h3>Creating Geod class<a class="headerlink" href="#creating-geod-class" title="Link to this heading">#</a></h3>
 <p>This example demonstrates creating a <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Geod</span></code></a> using an
 ellipsoid name as well as deriving one using a <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Geod</span>
@@ -605,7 +605,7 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
 </div>
 </section>
 <section id="geodesic-line-length">
-<h3>Geodesic line length<a class="headerlink" href="#geodesic-line-length" title="Permalink to this heading">#</a></h3>
+<h3>Geodesic line length<a class="headerlink" href="#geodesic-line-length" title="Link to this heading">#</a></h3>
 <p>Calculate the geodesic length of a line (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.line_length" title="pyproj.Geod.line_length"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.line_length()</span></code></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">72.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">74.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">71.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.7</span><span class="p">,</span>
@@ -630,7 +630,7 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
 </div>
 </section>
 <section id="geodesic-area">
-<h3>Geodesic area<a class="headerlink" href="#geodesic-area" title="Permalink to this heading">#</a></h3>
+<h3>Geodesic area<a class="headerlink" href="#geodesic-area" title="Link to this heading">#</a></h3>
 <p>Calculate the geodesic area and perimeter of a polygon (See: <a class="reference internal" href="api/geod.html#pyproj.Geod.polygon_area_perimeter" title="pyproj.Geod.polygon_area_perimeter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.Geod.polygon_area_perimeter()</span></code></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Geod</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">Geod</span><span class="p">(</span><span class="s1">&#39;+a=6378137 +f=0.0033528106647475126&#39;</span><span class="p">)</span>
@@ -752,9 +752,9 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
+</div><script src="_static/documentation_options.js?v=e153bac5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
