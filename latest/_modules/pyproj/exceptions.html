@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
+    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 7.2.4 and Furo 2023.08.19 -->
         <title>pyproj.exceptions - pyproj 3.6.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d623d863" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -234,7 +234,9 @@
 <span class="kn">from</span> <span class="nn">pyproj._datadir</span> <span class="kn">import</span> <span class="n">_clear_proj_error</span><span class="p">,</span> <span class="n">_get_proj_error</span>
 
 
-<div class="viewcode-block" id="ProjError"><a class="viewcode-back" href="../../api/exceptions.html#pyproj.exceptions.ProjError">[docs]</a><span class="k">class</span> <span class="nc">ProjError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+<div class="viewcode-block" id="ProjError">
+<a class="viewcode-back" href="../../api/exceptions.html#pyproj.exceptions.ProjError">[docs]</a>
+<span class="k">class</span> <span class="nc">ProjError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a Proj error occurs.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -245,16 +247,26 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CRSError"><a class="viewcode-back" href="../../api/exceptions.html#pyproj.exceptions.CRSError">[docs]</a><span class="k">class</span> <span class="nc">CRSError</span><span class="p">(</span><span class="n">ProjError</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CRSError">
+<a class="viewcode-back" href="../../api/exceptions.html#pyproj.exceptions.CRSError">[docs]</a>
+<span class="k">class</span> <span class="nc">CRSError</span><span class="p">(</span><span class="n">ProjError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a CRS error occurs.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="GeodError"><a class="viewcode-back" href="../../api/exceptions.html#pyproj.exceptions.GeodError">[docs]</a><span class="k">class</span> <span class="nc">GeodError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GeodError">
+<a class="viewcode-back" href="../../api/exceptions.html#pyproj.exceptions.GeodError">[docs]</a>
+<span class="k">class</span> <span class="nc">GeodError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a Geod error occurs.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="DataDirError"><a class="viewcode-back" href="../../api/exceptions.html#pyproj.exceptions.DataDirError">[docs]</a><span class="k">class</span> <span class="nc">DataDirError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataDirError">
+<a class="viewcode-back" href="../../api/exceptions.html#pyproj.exceptions.DataDirError">[docs]</a>
+<span class="k">class</span> <span class="nc">DataDirError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a the data directory was not found.&quot;&quot;&quot;</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -287,9 +299,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/furo.js"></script>
+</div><script src="../../_static/documentation_options.js?v=e153bac5"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
+    <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 7.2.4 and Furo 2023.08.19 -->
         <title>pyproj.aoi - pyproj 3.6.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d623d863" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -237,7 +237,9 @@
 <span class="kn">from</span> <span class="nn">pyproj.utils</span> <span class="kn">import</span> <span class="n">is_null</span>
 
 
-<div class="viewcode-block" id="AreaOfInterest"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.AreaOfInterest">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="AreaOfInterest">
+<a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.AreaOfInterest">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">AreaOfInterest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.3.0</span>
@@ -267,7 +269,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN or None values are not allowed.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="AreaOfUse"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.AreaOfUse">[docs]</a><span class="k">class</span> <span class="nc">AreaOfUse</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AreaOfUse">
+<a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.AreaOfUse">[docs]</a>
+<span class="k">class</span> <span class="nc">AreaOfUse</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.0.0</span>
 
@@ -301,7 +306,10 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;- name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="sa">f</span><span class="s2">&quot;- bounds: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
 
-<div class="viewcode-block" id="BBox"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox">[docs]</a><span class="nd">@dataclass</span>
+
+<div class="viewcode-block" id="BBox">
+<a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">BBox</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Bounding box to check if data intersects/contains other</span>
@@ -329,7 +337,9 @@
         <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN or None values are not allowed.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BBox.intersects"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox.intersects">[docs]</a>    <span class="k">def</span> <span class="nf">intersects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;BBox&quot;</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="BBox.intersects">
+<a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox.intersects">[docs]</a>
+    <span class="k">def</span> <span class="nf">intersects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;BBox&quot;</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -348,7 +358,10 @@
             <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">south</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">north</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="BBox.contains"><a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox.contains">[docs]</a>    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;BBox&quot;</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BBox.contains">
+<a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox.contains">[docs]</a>
+    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;BBox&quot;</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -365,7 +378,9 @@
             <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">east</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">east</span>
             <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">south</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">south</span>
             <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">north</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">north</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
+
 </pre></div>
         </article>
       </div>
@@ -398,9 +413,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/furo.js"></script>
+</div><script src="../../_static/documentation_options.js?v=e153bac5"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
