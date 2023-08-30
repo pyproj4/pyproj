@@ -556,7 +556,7 @@ def test_repr__conditional():
             "(ballpark vertical transformation, without ellipsoid height "
             "to vertical height correction)\n"
             "Area of Use:\n"
-            "- name: World\n"
+            f"- name: World{'.' if PROJ_GTE_93 else ''}\n"
             "- bounds: (-180.0, -90.0, 180.0, 90.0)"
         )
 
