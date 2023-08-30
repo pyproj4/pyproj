@@ -9,7 +9,7 @@ from itertools import permutations
 from pathlib import Path
 from unittest.mock import call, patch
 
-import numpy as np
+import numpy
 import pytest
 from numpy.testing import assert_almost_equal, assert_array_equal
 
@@ -65,8 +65,8 @@ def test_illegal_transformation():
         xx, yy = pyproj.transform(
             p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90)
         )
-    assert np.all(np.isinf(xx))
-    assert np.all(np.isinf(yy))
+    assert numpy.all(numpy.isinf(xx))
+    assert numpy.all(numpy.isinf(yy))
     with pytest.warns(FutureWarning), pytest.raises(ProjError):
         pyproj.transform(
             p1, p2, (-180, -180, 180, 180, -180), (-90, 90, 90, -90, -90), errcheck=True
@@ -413,7 +413,7 @@ def test_always_xy__itransform():
         )
 
 
-@pytest.mark.parametrize("empty_array", [(), [], np.array([])])
+@pytest.mark.parametrize("empty_array", [(), [], numpy.array([])])
 def test_transform_empty_array_xy(empty_array):
     transformer = Transformer.from_crs(2193, 4326)
     assert_array_equal(
@@ -421,7 +421,7 @@ def test_transform_empty_array_xy(empty_array):
     )
 
 
-@pytest.mark.parametrize("empty_array", [(), [], np.array([])])
+@pytest.mark.parametrize("empty_array", [(), [], numpy.array([])])
 def test_transform_empty_array_xyzt(empty_array):
     transformer = Transformer.from_pipeline("+init=ITRF2008:ITRF2000")
     assert_array_equal(
@@ -1206,7 +1206,7 @@ def test_transform_bounds_densify(density, expected):
         "+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 "
         "+a=6370997 +b=6370997 +units=m +no_defs",
     )
-    assert np.allclose(
+    assert numpy.allclose(
         transformer.transform_bounds(40, -120, 64, -80, densify_pts=density),
         expected,
     )
@@ -1223,7 +1223,15 @@ def test_transform_bounds_densify(density, expected):
     "input_bounds, radians",
     [
         ((-120, 40, -80, 64), False),
-        ((np.radians(-120), np.radians(40), np.radians(-80), np.radians(64)), True),
+        (
+            (
+                numpy.radians(-120),
+                numpy.radians(40),
+                numpy.radians(-80),
+                numpy.radians(64),
+            ),
+            True,
+        ),
     ],
 )
 def test_transform_bounds_densify__xy(density, expected, input_bounds, radians):
@@ -1233,7 +1241,7 @@ def test_transform_bounds_densify__xy(density, expected, input_bounds, radians):
         "+a=6370997 +b=6370997 +units=m +no_defs",
         always_xy=True,
     )
-    assert np.allclose(
+    assert numpy.allclose(
         transformer.transform_bounds(
             *input_bounds, densify_pts=density, radians=radians
         ),
@@ -1460,8 +1468,8 @@ def test_transform_bounds__south_pole__xy():
 
 @pytest.mark.parametrize("inplace", [True, False])
 def test_transform__fortran_order(inplace):
-    lons, lats = np.arange(-180, 180, 20), np.arange(-90, 90, 10)
-    lats, lons = np.meshgrid(lats, lons)
+    lons, lats = numpy.arange(-180, 180, 20), numpy.arange(-90, 90, 10)
+    lats, lons = numpy.meshgrid(lats, lons)
     f_lons, f_lats = lons.copy(order="F"), lats.copy(order="F")
     transformer = Transformer.from_crs(
         "EPSG:4326",
@@ -1520,10 +1528,10 @@ def test_4d_transform__inplace__array__int():
 
 def test_4d_transform__inplace__numpy():
     transformer = Transformer.from_crs(7789, 8401)
-    xarr = np.array([3496737.2679], dtype=np.float64)
-    yarr = np.array([743254.4507], dtype=np.float64)
-    zarr = np.array([5264462.9620], dtype=np.float64)
-    tarr = np.array([2019.0], dtype=np.float64)
+    xarr = numpy.array([3496737.2679], dtype=numpy.float64)
+    yarr = numpy.array([743254.4507], dtype=numpy.float64)
+    zarr = numpy.array([5264462.9620], dtype=numpy.float64)
+    tarr = numpy.array([2019.0], dtype=numpy.float64)
     t_xarr, t_yarr, t_zarr, t_tarr = transformer.transform(
         xx=xarr, yy=yarr, zz=zarr, tt=tarr, inplace=True
     )
@@ -1539,10 +1547,10 @@ def test_4d_transform__inplace__numpy():
 
 def test_4d_transform__inplace__numpy__int():
     transformer = Transformer.from_crs(7789, 8401)
-    xarr = np.array([3496737], dtype=np.int32)
-    yarr = np.array([743254], dtype=np.int32)
-    zarr = np.array([5264462], dtype=np.int32)
-    tarr = np.array([2019], dtype=np.int32)
+    xarr = numpy.array([3496737], dtype=numpy.int32)
+    yarr = numpy.array([743254], dtype=numpy.int32)
+    zarr = numpy.array([5264462], dtype=numpy.int32)
+    tarr = numpy.array([2019], dtype=numpy.int32)
     t_xarr, t_yarr, t_zarr, t_tarr = transformer.transform(
         xx=xarr, yy=yarr, zz=zarr, tt=tarr, inplace=True
     )
