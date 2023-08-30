@@ -18,6 +18,7 @@ PROJ_GTE_91 = PROJ_LOOSE_VERSION >= version.parse("9.1")
 PROJ_GTE_911 = PROJ_LOOSE_VERSION >= version.parse("9.1.1")
 PROJ_GTE_92 = PROJ_LOOSE_VERSION >= version.parse("9.2.0")
 PROJ_GTE_921 = PROJ_LOOSE_VERSION >= version.parse("9.2.1")
+PROJ_GTE_93 = PROJ_LOOSE_VERSION >= version.parse("9.3.0")
 
 
 def unset_data_dir():

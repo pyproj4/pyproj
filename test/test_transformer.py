@@ -22,6 +22,7 @@ from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import (
     PROJ_GTE_91,
     PROJ_GTE_92,
+    PROJ_GTE_93,
     grids_available,
     proj_env,
     proj_network_env,
@@ -540,7 +541,7 @@ def test_repr__conditional():
             "Description: unavailable until proj_trans is called\n"
             "Area of Use:\n- undefined"
         )
-    elif PROJ_GTE_92:
+    elif PROJ_GTE_92 and not PROJ_GTE_93:
         assert trans_repr == (
             "<Unknown Transformer: noop>\n"
             "Description: Transformation from EGM2008 height to WGS 84 "
