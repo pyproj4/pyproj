@@ -137,8 +137,8 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path C:/vcpkg/installed/${{ matrix.triplet }}/bin -w {dest_dir} {wheel}"
           CIBW_BEFORE_ALL_LINUX: bash ./ci/proj-compile-wheels.sh
           CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
-          CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy pandas xarray
-          CIBW_BEFORE_TEST: python -m pip install shapely || echo "Shapely install failed"
+          CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy
+          CIBW_BEFORE_TEST: python -m pip install shapely pandas xarray || echo "Optional requirements install failed"
           CIBW_TEST_COMMAND: >
             pyproj -v &&
             python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&
