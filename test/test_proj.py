@@ -5,7 +5,7 @@ import sys
 import unittest
 from unittest.mock import patch
 
-import numpy as np
+import numpy
 import pytest
 from numpy.testing import assert_almost_equal
 
@@ -441,11 +441,11 @@ def test_reset_errno():
 @pytest.mark.parametrize("radians", [False, True])
 def test_get_factors__2d_input(radians):
     transformer = Proj(3857)
-    longitude = np.array([[0, 1], [2, 3]])
-    latitude = np.array([[1, 2], [3, 4]])
+    longitude = numpy.array([[0, 1], [2, 3]])
+    latitude = numpy.array([[1, 2], [3, 4]])
     if radians:
-        longitude = np.radians(longitude)
-        latitude = np.radians(latitude)
+        longitude = numpy.radians(longitude)
+        latitude = numpy.radians(latitude)
     factors = transformer.get_factors(
         longitude=longitude, latitude=latitude, radians=radians
     )
@@ -497,22 +497,36 @@ def test_get_factors():
 def test_get_factors__nan_inf():
     transformer = Proj(3857)
     factors = transformer.get_factors(
-        longitude=[0, np.nan, np.inf, 0], latitude=[np.nan, 2, 2, np.inf]
+        longitude=[0, numpy.nan, numpy.inf, 0], latitude=[numpy.nan, 2, 2, numpy.inf]
     )
-    assert_almost_equal(factors.meridional_scale, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.parallel_scale, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.areal_scale, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.angular_distortion, [np.inf, np.inf, np.inf, np.inf])
     assert_almost_equal(
-        factors.meridian_parallel_angle, [np.inf, np.inf, np.inf, np.inf]
+        factors.meridional_scale, [numpy.inf, numpy.inf, numpy.inf, numpy.inf]
     )
-    assert_almost_equal(factors.meridian_convergence, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.tissot_semimajor, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.tissot_semiminor, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.dx_dlam, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.dx_dphi, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.dy_dlam, [np.inf, np.inf, np.inf, np.inf])
-    assert_almost_equal(factors.dy_dphi, [np.inf, np.inf, np.inf, np.inf])
+    assert_almost_equal(
+        factors.parallel_scale, [numpy.inf, numpy.inf, numpy.inf, numpy.inf]
+    )
+    assert_almost_equal(
+        factors.areal_scale, [numpy.inf, numpy.inf, numpy.inf, numpy.inf]
+    )
+    assert_almost_equal(
+        factors.angular_distortion, [numpy.inf, numpy.inf, numpy.inf, numpy.inf]
+    )
+    assert_almost_equal(
+        factors.meridian_parallel_angle, [numpy.inf, numpy.inf, numpy.inf, numpy.inf]
+    )
+    assert_almost_equal(
+        factors.meridian_convergence, [numpy.inf, numpy.inf, numpy.inf, numpy.inf]
+    )
+    assert_almost_equal(
+        factors.tissot_semimajor, [numpy.inf, numpy.inf, numpy.inf, numpy.inf]
+    )
+    assert_almost_equal(
+        factors.tissot_semiminor, [numpy.inf, numpy.inf, numpy.inf, numpy.inf]
+    )
+    assert_almost_equal(factors.dx_dlam, [numpy.inf, numpy.inf, numpy.inf, numpy.inf])
+    assert_almost_equal(factors.dx_dphi, [numpy.inf, numpy.inf, numpy.inf, numpy.inf])
+    assert_almost_equal(factors.dy_dlam, [numpy.inf, numpy.inf, numpy.inf, numpy.inf])
+    assert_almost_equal(factors.dy_dphi, [numpy.inf, numpy.inf, numpy.inf, numpy.inf])
 
 
 def test_get_factors__errcheck():
@@ -523,7 +537,7 @@ def test_get_factors__errcheck():
 
 def test_numpy_bool_kwarg_false():
     # Issue 564
-    south = np.array(50) < 0
+    south = numpy.array(50) < 0
     proj = Proj(
         proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
     )
@@ -532,7 +546,7 @@ def test_numpy_bool_kwarg_false():
 
 def test_numpy_bool_kwarg_true():
     # Issue 564
-    south = np.array(50) > 0
+    south = numpy.array(50) > 0
     proj = Proj(
         proj="utm", zone=32, ellipsis="WGS84", datum="WGS84", units="m", south=south
     )
