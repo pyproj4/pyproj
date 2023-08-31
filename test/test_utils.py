@@ -2,8 +2,6 @@ from array import array
 
 import numpy
 import pytest
-from pandas import Series
-from xarray import DataArray
 
 from pyproj.utils import DataType, _copytobuffer, _copytobuffer_return_scalar
 
@@ -22,7 +20,6 @@ def test__copytobuffer_return_scalar__invalid():
     "in_data, data_type",
     [
         (numpy.array(1), DataType.FLOAT),
-        (DataArray(numpy.array(1)), DataType.FLOAT),
         (1, DataType.FLOAT),
         ([1], DataType.LIST),
         ((1,), DataType.TUPLE),
@@ -32,10 +29,23 @@ def test__copytobuffer(in_data, data_type):
     assert _copytobuffer(in_data) == (array("d", [1]), data_type)
 
 
-@pytest.mark.parametrize(
-    "in_arr", [numpy.array([1]), DataArray(numpy.array([1])), Series(numpy.array([1]))]
-)
-def test__copytobuffer__numpy_array(in_arr):
+def test__copytobuffer__xarray_scalar():
+    xarray = pytest.importorskip("xarray")
+    assert _copytobuffer(xarray.DataArray(numpy.array(1))) == (
+        array("d", [1]),
+        DataType.FLOAT,
+    )
+
+
+@pytest.mark.parametrize("arr_type", ["numpy", "xarray", "pandas"])
+def test__copytobuffer__array(arr_type):
+    in_arr = numpy.array([1])
+    if arr_type == "xarray":
+        xarray = pytest.importorskip("xarray")
+        in_arr = xarray.DataArray(in_arr)
+    elif arr_type == "pandas":
+        pandas = pytest.importorskip("pandas")
+        in_arr = pandas.Series(in_arr)
     assert _copytobuffer(in_arr) == (
         in_arr.astype("d").__array__(),
         DataType.ARRAY,
