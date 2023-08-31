@@ -147,11 +147,17 @@ jobs:
         run: |
           conda config --prepend channels conda-forge
           conda config --set channel_priority strict
-          export INSTALL_DEPS='${{ matrix.python-implementation }}=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy xarray pandas'
+          export INSTALL_DEPS='${{ matrix.python-implementation }}=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy'
           if [ "${{ matrix.os }}" = "macos-latest" -a "${{ matrix.python-version }}" = "3.10" ]; then
             sed -i.bak '/shapely/d' requirements-test.txt;
           else
             export INSTALL_DEPS="${INSTALL_DEPS} shapely";
+          fi;
+          if [ "${{ matrix.python-implementation }}" = "pypy" ]; then
+            sed -i.bak '/xarray/d' requirements-test.txt;
+            sed -i.bak '/pandas/d' requirements-test.txt;
+          else
+            export INSTALL_DEPS="${INSTALL_DEPS} xarray pandas";
           fi;
           conda create -n test $INSTALL_DEPS
           source activate test
