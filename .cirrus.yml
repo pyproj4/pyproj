@@ -26,7 +26,7 @@ macos_task:
       CMAKE_OSX_ARCHITECTURES='arm64'
       LDFLAGS="${LDFLAGS} -Wl,-rpath,${CIRRUS_WORKING_DIR}/pyproj/proj_dir/lib"
     CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
-    CIBW_TEST_REQUIRES: cython pytest oldest-supported-numpy
+    CIBW_TEST_REQUIRES: cython pytest numpy
     CIBW_BEFORE_TEST: python -m pip install shapely pandas xarray || echo "Optional requirements install failed"
     CIBW_TEST_COMMAND: >
       pyproj -v &&
