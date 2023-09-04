@@ -19,7 +19,7 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
             python-version: 3.9
@@ -49,7 +49,7 @@ jobs:
           - python-version: '3.9'
             proj-version: '9.0.1'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Update
         run: |
@@ -135,7 +135,7 @@ jobs:
             python-implementation: python
             proj-version: '9.1.1'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Conda
         uses: s-weigand/setup-conda@v1

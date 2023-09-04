@@ -22,7 +22,7 @@ jobs:
     name: Make sdist
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Conda
         uses: s-weigand/setup-conda@v1
@@ -82,7 +82,7 @@ jobs:
           vcpkg_logs: "c:\\vcpkg\\buildtrees\\**\\*.log"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v4
 
