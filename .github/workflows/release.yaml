@@ -16,6 +16,7 @@ concurrency:
 
 env:
   PROJ_VERSION: "9.3.0"
+  DEBIAN_FRONTEND: noninteractive
 
 jobs:
   make_sdist:
