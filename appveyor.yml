@@ -15,7 +15,7 @@ environment:
     # with caching build takes less than 1 minute
     - PYTHON: "C:\\Python39-x64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      PROJSOURCE: 9.2.1
+      PROJSOURCE: 9.3.0
       BUILD_SHARED_LIBS: ON
     # - PYTHON: "C:\\Python39-x64"
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
