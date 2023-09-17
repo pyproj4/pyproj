@@ -2,6 +2,6 @@ packaging
 pytest>3.6
 pytest-cov
 numpy
-pandas
-shapely
-xarray
+pandas; python_version<'3.12'
+shapely; python_version<'3.12'
+xarray; python_version<'3.12'
