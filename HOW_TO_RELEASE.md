@@ -22,6 +22,7 @@ The next step is to create a tag with the same name as the version just added. T
 2. Create a draft PR at https://github.com/conda-forge/pyproj-feedstock and verify tests pass.
 3. Check the wheels built at https://github.com/pyproj4/pyproj using GitHub Actions.
 4. Verify Debian builds were successful.
+4. Verify Fedora builds were successful.
 5. Verify the docs build successfully.
 
 ## Phase 2: Make the release
@@ -40,19 +41,10 @@ Next, go through the history and add release notes (see: [automatically generate
 
 ### The wheels
 
-The wheels are tested with each merge to main. However, the arm64 wheels on linux are still
-built separately. This provides instructions for those wheels:
+Most of the wheels are tested with each merge to main and uploaded to pypi on release in GitHub Actions. However, the arm64 wheels are built separately. This provides instructions for those wheels:
 
-1. Update the PR at https://github.com/pyproj4/pyproj-wheels with the release tag, merge, and download wheels.
-
-### Create the release sdist
-
-1. `python -m pip install build`
-2. `python -m build --sdist`
-
-### Upload to pypi
-
-Upload the wheels and the sdist `tar.gz` for the release to pypi.
+1. linux arm64: Update the PR at https://github.com/pyproj4/pyproj-wheels with the release tag & merge. The wheels will automatically upload to pypi when the CI runs suceed.
+2. macos arm64: Download the release wheel artifacts from the Cirrus CI build and upload manually to pypi.
 
 ### Verify conda-forge build is correct
 
