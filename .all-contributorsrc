@@ -635,6 +635,15 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "djm93dev",
+      "name": "Daniel McDonald",
+      "avatar_url": "https://avatars.githubusercontent.com/u/101536185?v=4",
+      "profile": "https://github.com/djm93dev",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
