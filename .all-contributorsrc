@@ -644,6 +644,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "cyschneck",
+      "name": "Cora Schneck",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22159116?v=4",
+      "profile": "https://cyschneck.com/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
