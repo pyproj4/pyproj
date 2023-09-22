@@ -290,7 +290,7 @@ function build_proj {
 }
 
 function copy_cached_proj {
-    if [ -d $PROJ_CACHE ]; then
+    if [ ! -d $PROJ_CACHE ]; then
         exit 1
     fi
 
