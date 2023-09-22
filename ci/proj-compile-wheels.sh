@@ -291,7 +291,7 @@ function build_proj {
 
 function copy_cached_proj {
     if [ ! -d $PROJ_CACHE ]; then
-        exit 1
+        return 1
     fi
 
     cp ${PROJ_CACHE}/* ${PROJ_DIR}/
