@@ -304,13 +304,14 @@ function copy_build_proj_to_cache {
 }
 
 
+update_env_for_build_prefix
+
 if copy_cached_proj_to_build ; then
     echo "Using cached PROJ build"
     exit 0
 fi
 
 # Run installation process
-update_env_for_build_prefix
 suppress build_zlib
 suppress build_sqlite
 suppress build_libtiff
