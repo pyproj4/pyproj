@@ -294,6 +294,7 @@ function copy_cached_proj_to_build {
         return 1
     fi
 
+    mkdir -p ${PROJ_DIR}/
     cp -Rv ${PROJ_CACHE}/* ${PROJ_DIR}/
 }
 
