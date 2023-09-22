@@ -289,7 +289,7 @@ function build_proj {
     touch proj-stamp
 }
 
-function copy_cached_proj {
+function copy_cached_proj_to_build {
     if [ ! -d $PROJ_CACHE ]; then
         return 1
     fi
@@ -297,8 +297,13 @@ function copy_cached_proj {
     cp ${PROJ_CACHE}/* ${PROJ_DIR}/
 }
 
+function copy_build_proj_to_cache {
+    mkdir -p ${PROJ_CACHE}
+    cp ${PROJ_DIR}/* ${PROJ_CACHE}/
+}
 
-if copy_cached_proj ; then
+
+if copy_cached_proj_to_build ; then
     echo "Using cached PROJ build"
     exit 0
 fi
@@ -309,3 +314,4 @@ suppress build_zlib
 suppress build_sqlite
 suppress build_libtiff
 build_proj
+copy_build_proj_to_cache
