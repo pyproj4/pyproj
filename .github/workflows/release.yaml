@@ -152,6 +152,8 @@ jobs:
             PROJ_DIR=$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}
           CIBW_BEFORE_BUILD_WINDOWS: "python -m pip install delvewheel"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path C:/vcpkg/installed/${{ matrix.triplet }}/bin -w {dest_dir} {wheel}"
+          # debug:
+          CIBW_REPAIR_WHEEL_COMMAND_LINUX: "bash -c \"echo $LD_LIBRARY_PATH; auditwheel repair -w {dest_dir} {wheel}\""
           CIBW_BEFORE_ALL_LINUX: bash ./ci/proj-compile-wheels.sh
           CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
           CIBW_TEST_REQUIRES: cython pytest numpy --config-settings=setup-args="-Dallow-noblas=true"
