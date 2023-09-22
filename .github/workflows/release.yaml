@@ -121,7 +121,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ runner.temp }}/proj-${{ env.PROJ_VERSION }}
-          key: ${{ matrix.os }}-${{ matrix.arch }}-${{ env.PROJ_VERSION }}-${{ hashFiles('ci/proj-compile-wheels.sh') }}
+          key: ${{ matrix.os }}-${{ matrix.arch }}-${{ env.PROJ_VERSION }}-${{ hashFiles('ci/proj-compile-wheels.sh') }}-cache0
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16
