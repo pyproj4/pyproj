@@ -294,12 +294,12 @@ function copy_cached_proj_to_build {
         return 1
     fi
 
-    cp ${PROJ_CACHE}/* ${PROJ_DIR}/
+    cp -r ${PROJ_CACHE}/* ${PROJ_DIR}/
 }
 
 function copy_build_proj_to_cache {
     mkdir -p ${PROJ_CACHE}
-    cp ${PROJ_DIR}/* ${PROJ_CACHE}/
+    cp -r ${PROJ_DIR}/* ${PROJ_CACHE}/
 }
 
 
