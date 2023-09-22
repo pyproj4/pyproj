@@ -116,6 +116,12 @@ jobs:
           mkdir -p ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj
           cp "$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}/share/proj/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
 
+      - name: Cache PROJ build
+        uses: actions/cache@v3
+        with:
+          path: ${{ runner.temp }}/proj-${{ env.PROJ_VERSION }}
+          key: ${{ matrix.os }}-${{ matrix.arch }}-${{ env.PROJ_VERSION }}-${{ hashFiles('ci/proj-compile-wheels.sh') }}
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16
         env:
@@ -125,11 +131,13 @@ jobs:
             PROJ_WHEEL=true
             PROJ_NETWORK=ON
             PROJ_VERSION=${{ env.PROJ_VERSION }}
+            PROJ_CACHE=/host${{ runner.temp }}/proj=${{ env.PROJ_VERSION }}/
             PROJ_DIR=/project/pyproj/proj_dir
           CIBW_ENVIRONMENT_MACOS:
             PROJ_WHEEL=true
             PROJ_NETWORK=ON
             PROJ_VERSION=${{ env.PROJ_VERSION }}
+            PROJ_CACHE=/host${{ runner.temp }}/proj=${{ env.PROJ_VERSION }}/
             PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
             MACOSX_DEPLOYMENT_TARGET=10.9
             CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
@@ -138,6 +146,7 @@ jobs:
             PROJ_WHEEL=true
             PROJ_NETWORK=ON
             PROJ_VERSION=${{ env.PROJ_VERSION }}
+            PROJ_CACHE=/host${{ runner.temp }}/proj=${{ env.PROJ_VERSION }}/
             PROJ_DIR=$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}
           CIBW_BEFORE_BUILD_WINDOWS: "python -m pip install delvewheel"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path C:/vcpkg/installed/${{ matrix.triplet }}/bin -w {dest_dir} {wheel}"

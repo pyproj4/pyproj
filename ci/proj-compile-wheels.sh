@@ -289,6 +289,20 @@ function build_proj {
     touch proj-stamp
 }
 
+function copy_cached_proj {
+    if [ -d $PROJ_CACHE ] {
+        exit 1
+    }
+
+    cp ${PROJ_CACHE}/* ${PROJ_DIR}/
+}
+
+
+if copy_cached_proj ; then
+    echo "Using cached PROJ build"
+    exit 0
+fi
+
 # Run installation process
 update_env_for_build_prefix
 suppress build_zlib
