@@ -300,6 +300,8 @@ function copy_cached_proj_to_build {
 
 function copy_build_proj_to_cache {
     mkdir -p ${PROJ_CACHE}
+    ls -l ${BUILD_PREFIX}
+    ls -l ${BUILD_PREFIX}/lib
     cp -Rv ${PROJ_DIR}/* ${PROJ_CACHE}/
 }
 
