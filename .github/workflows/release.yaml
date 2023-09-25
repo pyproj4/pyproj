@@ -135,6 +135,7 @@ jobs:
             PROJ_CACHE=/host${{ runner.temp }}/proj-${{ env.PROJ_VERSION }}/proj
             BUILD_PREFIX=/host${{ runner.temp }}/proj-${{ env.PROJ_VERSION }}/proj-deps
             PROJ_DIR=/project/pyproj/proj_dir
+            LDFLAGS="${LDFLAGS} -Wl,-rpath,/host${{ runner.temp }}/proj-${{ env.PROJ_VERSION }}/proj-deps/lib"
           CIBW_ENVIRONMENT_MACOS:
             PROJ_WHEEL=true
             PROJ_NETWORK=ON

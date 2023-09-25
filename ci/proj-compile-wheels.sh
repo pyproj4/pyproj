@@ -36,7 +36,6 @@ function update_env_for_build_prefix {
   # Promote BUILD_PREFIX on search path to any newly built libs
   export CPPFLAGS="-I$BUILD_PREFIX/include $CPPFLAGS_BACKUP"
   export LIBRARY_PATH="$BUILD_PREFIX/lib:$LIBRARY_PATH_BACKUP"
-  export LD_RUN_PATH="${BUILD_PREFI}/lib"
   export PKG_CONFIG_PATH="$BUILD_PREFIX/lib/pkgconfig/:$PKG_CONFIG_PATH_BACKUP"
   # Add binary path for configure utils etc
   export PATH="$BUILD_PREFIX/bin:$PATH"
@@ -301,8 +300,6 @@ function copy_cached_proj_to_build {
 
 function copy_build_proj_to_cache {
     mkdir -p ${PROJ_CACHE}
-    ls -l ${BUILD_PREFIX}
-    ls -l ${BUILD_PREFIX}/lib
     cp -Rv ${PROJ_DIR}/* ${PROJ_CACHE}/
 }
 
