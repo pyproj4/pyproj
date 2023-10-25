@@ -330,14 +330,15 @@ cdef PJ* proj_create_crs_to_crs(
         ELSE:
             raise NotImplementedError("only_best requires PROJ 9.2+.")
 
-
-    cdef PJ* transform = proj_create_crs_to_crs_from_pj(
-        ctx,
-        source_crs,
-        target_crs,
-        area,
-        options,
-    )
+    cdef PJ* transform = NULL
+    with nogil:
+        transform = proj_create_crs_to_crs_from_pj(
+            ctx,
+            source_crs,
+            target_crs,
+            area,
+            options,
+        )
     proj_destroy(source_crs)
     proj_destroy(target_crs)
     if transform == NULL:
