@@ -69,7 +69,9 @@ def get_authorities():
         Authorities in PROJ database.
     """
     cdef PJ_CONTEXT* context = pyproj_context_create()
-    cdef PROJ_STRING_LIST proj_auth_list = proj_get_authorities_from_database(context)
+    cdef PROJ_STRING_LIST proj_auth_list = NULL
+    with nogil:
+        proj_auth_list = proj_get_authorities_from_database(context)
     if proj_auth_list == NULL:
         pyproj_context_destroy(context)
         return []
@@ -108,14 +110,19 @@ def get_codes(str auth_name not None, pj_type not None, bint allow_deprecated=Fa
     cdef PJ_CONTEXT* context = NULL
     cdef PJ_TYPE cpj_type = get_pj_type(pj_type)
     cdef PROJ_STRING_LIST proj_code_list = NULL
+    cdef const char* c_auth_name = NULL
+    cdef bytes b_auth_name
     try:
         context = pyproj_context_create()
-        proj_code_list = proj_get_codes_from_database(
-            context,
-            cstrencode(auth_name),
-            cpj_type,
-            allow_deprecated,
-        )
+        b_auth_name = cstrencode(auth_name)
+        c_auth_name = b_auth_name
+        with nogil:
+            proj_code_list = proj_get_codes_from_database(
+                context,
+                c_auth_name,
+                cpj_type,
+                allow_deprecated,
+            )
     finally:
         pyproj_context_destroy(context)
     if proj_code_list == NULL:
@@ -239,11 +246,12 @@ def query_crs_info(
             query_params.east_lon_degree = area_of_interest.east_lon_degree
             query_params.north_lat_degree = area_of_interest.north_lat_degree
 
-        crs_info_list = proj_get_crs_info_list_from_database(
-            context,
-            c_auth_name,
-            query_params,
-            &result_count)
+        with nogil:
+            crs_info_list = proj_get_crs_info_list_from_database(
+                context,
+                c_auth_name,
+                query_params,
+                &result_count)
     finally:
         if query_params != NULL:
             proj_get_crs_list_parameters_destroy(query_params)
@@ -400,13 +408,15 @@ def get_units_map(str auth_name=None, str category=None, bint allow_deprecated=F
 
     cdef int num_units = 0
     cdef PJ_CONTEXT* context = pyproj_context_create()
-    cdef PROJ_UNIT_INFO** db_unit_list = proj_get_units_from_database(
-        context,
-        c_auth_name,
-        c_category,
-        bool(allow_deprecated),
-        &num_units,
-    )
+    cdef PROJ_UNIT_INFO** db_unit_list = NULL
+    with nogil:
+        db_unit_list = proj_get_units_from_database(
+            context,
+            c_auth_name,
+            c_category,
+            bool(allow_deprecated),
+            &num_units,
+        )
     units_map = {}
     try:
         for iii in range(num_units):
