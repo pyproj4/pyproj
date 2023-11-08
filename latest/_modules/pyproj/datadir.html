@@ -236,7 +236,6 @@
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._datadir</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401  pylint: disable=unused-import</span>
     <span class="n">_global_context_set_data_dir</span><span class="p">,</span>
@@ -250,13 +249,13 @@
 
 <div class="viewcode-block" id="set_data_dir">
 <a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.set_data_dir">[docs]</a>
-<span class="k">def</span> <span class="nf">set_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">set_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the data directory for PROJ to use.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    proj_data_dir: Union[str, Path]</span>
+<span class="sd">    proj_data_dir: str | Path</span>
 <span class="sd">        The path to the PROJ data directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">_USER_PROJ_DATA</span>
@@ -273,13 +272,13 @@
 
 <div class="viewcode-block" id="append_data_dir">
 <a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.append_data_dir">[docs]</a>
-<span class="k">def</span> <span class="nf">append_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">append_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add an additional data directory for PROJ to use.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    proj_data_dir: Union[str, Path]</span>
+<span class="sd">    proj_data_dir: str | Path</span>
 <span class="sd">        The path to the PROJ data directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">set_data_dir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">get_data_dir</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">)]))</span></div>
