@@ -13,17 +13,17 @@ environment:
     # See: http://www.appveyor.com/docs/installed-software#python
     # build is limited to 60 minutes, without caching each build takes 10-30 minutes
     # with caching build takes less than 1 minute
-    - PYTHON: "C:\\Python39-x64"
+    - PYTHON: "C:\\Python310-x64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       PROJSOURCE: 9.3.0
       BUILD_SHARED_LIBS: ON
-    # - PYTHON: "C:\\Python39-x64"
+    # - PYTHON: "C:\\Python310-x64"
     #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     #   PROJSOURCE: git
     #   BUILD_SHARED_LIBS: ON
 # matrix:
 #   allow_failures:
-#     - PYTHON: "C:\\Python39-x64"
+#     - PYTHON: "C:\\Python310-x64"
 #       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 #       PROJSOURCE: git
 #       BUILD_SHARED_LIBS: ON
