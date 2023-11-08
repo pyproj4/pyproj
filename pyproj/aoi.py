@@ -2,7 +2,7 @@
 This module contains the structures related to areas of interest.
 """
 from dataclasses import dataclass
-from typing import NamedTuple, Optional, Union
+from typing import NamedTuple, Union
 
 from pyproj.utils import is_null
 
@@ -53,7 +53,7 @@ class AreaOfUse(NamedTuple):
     #: North bound of area of use.
     north: float
     #: Name of area of use.
-    name: Optional[str] = None
+    name: str | None = None
 
     @property
     def bounds(self) -> tuple[float, float, float, float]:

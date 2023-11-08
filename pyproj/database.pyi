@@ -1,4 +1,4 @@
-from typing import NamedTuple, Optional, Union
+from typing import NamedTuple
 
 from pyproj.aoi import AreaOfInterest, AreaOfUse
 from pyproj.enums import PJType
@@ -9,17 +9,17 @@ class Unit(NamedTuple):
     name: str
     category: str
     conv_factor: float
-    proj_short_name: Optional[str]
+    proj_short_name: str | None
     deprecated: bool
 
 def get_units_map(
-    auth_name: Optional[str] = None,
-    category: Optional[str] = None,
+    auth_name: str | None = None,
+    category: str | None = None,
     allow_deprecated: bool = False,
 ) -> dict[str, Unit]: ...
 def get_authorities() -> list[str]: ...
 def get_codes(
-    auth_name: str, pj_type: Union[PJType, str], allow_deprecated: bool = False
+    auth_name: str, pj_type: PJType | str, allow_deprecated: bool = False
 ) -> list[str]: ...
 
 class CRSInfo(NamedTuple):
@@ -28,19 +28,19 @@ class CRSInfo(NamedTuple):
     name: str
     type: PJType
     deprecated: bool
-    area_of_use: Optional[AreaOfUse]
-    projection_method_name: Optional[str]
+    area_of_use: AreaOfUse | None
+    projection_method_name: str | None
 
 def query_crs_info(
-    auth_name: Optional[str] = None,
-    pj_types: Union[PJType, list[PJType], None] = None,
-    area_of_interest: Optional[AreaOfInterest] = None,
+    auth_name: str | None = None,
+    pj_types: PJType | list[PJType] | None = None,
+    area_of_interest: AreaOfInterest | None = None,
     contains: bool = False,
     allow_deprecated: bool = False,
 ) -> list[CRSInfo]: ...
 def query_utm_crs_info(
-    datum_name: Optional[str] = None,
-    area_of_interest: Optional[AreaOfInterest] = None,
+    datum_name: str | None = None,
+    area_of_interest: AreaOfInterest | None = None,
     contains: bool = False,
 ) -> list[CRSInfo]: ...
-def get_database_metadata(key: str) -> Optional[str]: ...
+def get_database_metadata(key: str) -> str | None: ...

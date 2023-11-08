@@ -5,7 +5,6 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Optional
 
 from setuptools import Extension, setup
 
@@ -70,7 +69,7 @@ def get_proj_dir() -> Path:
     This function finds the base PROJ directory.
     """
     proj_dir_environ = os.environ.get("PROJ_DIR")
-    proj_dir: Optional[Path] = None
+    proj_dir: Path | None = None
     if proj_dir_environ is not None:
         proj_dir = Path(proj_dir_environ)
     if proj_dir is None and INTERNAL_PROJ_DIR.exists():

@@ -7,7 +7,8 @@ import json
 import re
 import threading
 import warnings
-from typing import Any, Callable, Optional, Union
+from collections.abc import Callable
+from typing import Any, Optional
 
 from pyproj._crs import (
     _CRS,
@@ -142,11 +143,11 @@ def _prepare_from_string(in_crs_string: str) -> str:
     return in_crs_string
 
 
-def _prepare_from_authority(auth_name: str, auth_code: Union[str, int]):
+def _prepare_from_authority(auth_name: str, auth_code: str | int):
     return f"{auth_name}:{auth_code}"
 
 
-def _prepare_from_epsg(auth_code: Union[str, int]):
+def _prepare_from_epsg(auth_code: str | int):
     return _prepare_from_authority("EPSG", auth_code)
 
 
@@ -180,7 +181,7 @@ class CRS:
 
     """
 
-    def __init__(self, projparams: Optional[Any] = None, **kwargs) -> None:
+    def __init__(self, projparams: Any | None = None, **kwargs) -> None:
         """
         Initialize a CRS class instance with:
           - PROJ string
@@ -357,7 +358,7 @@ class CRS:
         return self._local.crs
 
     @classmethod
-    def from_authority(cls, auth_name: str, code: Union[str, int]) -> "CRS":
+    def from_authority(cls, auth_name: str, code: str | int) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
@@ -377,7 +378,7 @@ class CRS:
         return cls.from_user_input(_prepare_from_authority(auth_name, code))
 
     @classmethod
-    def from_epsg(cls, code: Union[str, int]) -> "CRS":
+    def from_epsg(cls, code: str | int) -> "CRS":
         """Make a CRS from an EPSG code
 
         Parameters
@@ -500,7 +501,7 @@ class CRS:
             return value
         return cls(value, **kwargs)
 
-    def get_geod(self) -> Optional[Geod]:
+    def get_geod(self) -> Geod | None:
         """
         Returns
         -------
@@ -617,7 +618,7 @@ class CRS:
 
     def to_cf(
         self,
-        wkt_version: Union[WktVersion, str] = WktVersion.WKT2_2019,
+        wkt_version: WktVersion | str = WktVersion.WKT2_2019,
         errcheck: bool = False,
     ) -> dict:
         """
@@ -749,9 +750,9 @@ class CRS:
     @staticmethod
     def from_cf(
         in_cf: dict,
-        ellipsoidal_cs: Optional[Any] = None,
-        cartesian_cs: Optional[Any] = None,
-        vertical_cs: Optional[Any] = None,
+        ellipsoidal_cs: Any | None = None,
+        cartesian_cs: Any | None = None,
+        vertical_cs: Any | None = None,
     ) -> "CRS":
         """
         .. versionadded:: 2.2.0
@@ -801,9 +802,9 @@ class CRS:
 
         # build geographic CRS
         try:
-            geographic_conversion_method: Optional[
+            geographic_conversion_method: None | (
                 Callable
-            ] = _GEOGRAPHIC_GRID_MAPPING_NAME_MAP[grid_mapping_name]
+            ) = _GEOGRAPHIC_GRID_MAPPING_NAME_MAP[grid_mapping_name]
         except KeyError:
             geographic_conversion_method = None
 
@@ -1044,7 +1045,7 @@ class CRS:
         return [self.__class__(sub_crs) for sub_crs in self._crs.sub_crs_list]
 
     @property
-    def utm_zone(self) -> Optional[str]:
+    def utm_zone(self) -> str | None:
         """
         .. versionadded:: 2.6.0
 
@@ -1052,7 +1053,7 @@ class CRS:
 
         Returns
         -------
-        Optional[str]:
+        str | None:
             The UTM zone number and letter if applicable.
         """
         if self.is_bound and self.source_crs:
@@ -1103,7 +1104,7 @@ class CRS:
         return self._crs.axis_info
 
     @property
-    def area_of_use(self) -> Optional[AreaOfUse]:
+    def area_of_use(self) -> AreaOfUse | None:
         """
         Returns
         -------
@@ -1113,7 +1114,7 @@ class CRS:
         return self._crs.area_of_use
 
     @property
-    def ellipsoid(self) -> Optional[Ellipsoid]:
+    def ellipsoid(self) -> Ellipsoid | None:
         """
         .. versionadded:: 2.2.0
 
@@ -1125,7 +1126,7 @@ class CRS:
         return self._crs.ellipsoid
 
     @property
-    def prime_meridian(self) -> Optional[PrimeMeridian]:
+    def prime_meridian(self) -> PrimeMeridian | None:
         """
         .. versionadded:: 2.2.0
 
@@ -1137,7 +1138,7 @@ class CRS:
         return self._crs.prime_meridian
 
     @property
-    def datum(self) -> Optional[Datum]:
+    def datum(self) -> Datum | None:
         """
         .. versionadded:: 2.2.0
 
@@ -1148,7 +1149,7 @@ class CRS:
         return self._crs.datum
 
     @property
-    def coordinate_system(self) -> Optional[CoordinateSystem]:
+    def coordinate_system(self) -> CoordinateSystem | None:
         """
         .. versionadded:: 2.2.0
 
@@ -1159,7 +1160,7 @@ class CRS:
         return self._crs.coordinate_system
 
     @property
-    def coordinate_operation(self) -> Optional[CoordinateOperation]:
+    def coordinate_operation(self) -> CoordinateOperation | None:
         """
         .. versionadded:: 2.2.0
 
@@ -1195,9 +1196,9 @@ class CRS:
 
     def to_wkt(
         self,
-        version: Union[WktVersion, str] = WktVersion.WKT2_2019,
+        version: WktVersion | str = WktVersion.WKT2_2019,
         pretty: bool = False,
-        output_axis_rule: Optional[bool] = None,
+        output_axis_rule: bool | None = None,
     ) -> str:
         """
         Convert the projection to a WKT string.
@@ -1271,7 +1272,7 @@ class CRS:
         """
         return self._crs.to_json_dict()
 
-    def to_proj4(self, version: Union[ProjVersion, int] = ProjVersion.PROJ_5) -> str:
+    def to_proj4(self, version: ProjVersion | int = ProjVersion.PROJ_5) -> str:
         """
         Convert the projection to a PROJ string.
 
@@ -1295,7 +1296,7 @@ class CRS:
             raise CRSError("CRS cannot be converted to a PROJ string.")
         return proj
 
-    def to_epsg(self, min_confidence: int = 70) -> Optional[int]:
+    def to_epsg(self, min_confidence: int = 70) -> int | None:
         """
         Return the EPSG code best matching the CRS
         or None if it a match is not found.
@@ -1327,12 +1328,12 @@ class CRS:
 
         Returns
         -------
-        Optional[int]:
+        int | None:
             The best matching EPSG code matching the confidence level.
         """
         return self._crs.to_epsg(min_confidence=min_confidence)
 
-    def to_authority(self, auth_name: Optional[str] = None, min_confidence: int = 70):
+    def to_authority(self, auth_name: str | None = None, min_confidence: int = 70):
         """
         .. versionadded:: 2.2.0
 
@@ -1375,7 +1376,7 @@ class CRS:
         )
 
     def list_authority(
-        self, auth_name: Optional[str] = None, min_confidence: int = 70
+        self, auth_name: str | None = None, min_confidence: int = 70
     ) -> list[AuthorityMatchInfo]:
         """
         .. versionadded:: 3.2.0
@@ -1418,7 +1419,7 @@ class CRS:
             auth_name=auth_name, min_confidence=min_confidence
         )
 
-    def to_3d(self, name: Optional[str] = None) -> "CRS":
+    def to_3d(self, name: str | None = None) -> "CRS":
         """
         .. versionadded:: 3.1.0
 
@@ -1440,7 +1441,7 @@ class CRS:
         """
         return self.__class__(self._crs.to_3d(name=name))
 
-    def to_2d(self, name: Optional[str] = None) -> "CRS":
+    def to_2d(self, name: str | None = None) -> "CRS":
         """
         .. versionadded:: 3.6.0
 
@@ -1745,7 +1746,7 @@ class CustomConstructorCRS(CRS):
         """
         return [CRS(sub_crs) for sub_crs in self._crs.sub_crs_list]
 
-    def to_3d(self, name: Optional[str] = None) -> "CRS":
+    def to_3d(self, name: str | None = None) -> "CRS":
         """
         .. versionadded:: 3.1.0
 
@@ -1781,7 +1782,7 @@ class GeographicCRS(CustomConstructorCRS):
         self,
         name: str = "undefined",
         datum: Any = "urn:ogc:def:ensemble:EPSG::6326",
-        ellipsoidal_cs: Optional[Any] = None,
+        ellipsoidal_cs: Any | None = None,
     ) -> None:
         """
         Parameters
@@ -1829,7 +1830,7 @@ class DerivedGeographicCRS(CustomConstructorCRS):
         self,
         base_crs: Any,
         conversion: Any,
-        ellipsoidal_cs: Optional[Any] = None,
+        ellipsoidal_cs: Any | None = None,
         name: str = "undefined",
     ) -> None:
         """
@@ -1931,8 +1932,8 @@ class ProjectedCRS(CustomConstructorCRS):
         self,
         conversion: Any,
         name: str = "undefined",
-        cartesian_cs: Optional[Any] = None,
-        geodetic_crs: Optional[Any] = None,
+        cartesian_cs: Any | None = None,
+        geodetic_crs: Any | None = None,
     ) -> None:
         """
         Parameters
@@ -1983,8 +1984,8 @@ class VerticalCRS(CustomConstructorCRS):
         self,
         name: str,
         datum: Any,
-        vertical_cs: Optional[Any] = None,
-        geoid_model: Optional[str] = None,
+        vertical_cs: Any | None = None,
+        geoid_model: str | None = None,
     ) -> None:
         """
         Parameters
