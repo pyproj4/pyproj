@@ -237,7 +237,8 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">_CRS</span><span class="p">,</span>
@@ -372,11 +373,11 @@
     <span class="k">return</span> <span class="n">in_crs_string</span>
 
 
-<span class="k">def</span> <span class="nf">_prepare_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_authority</span><span class="p">(</span><span class="n">auth_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">auth_name</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">auth_code</span><span class="si">}</span><span class="s2">&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">_prepare_from_epsg</span><span class="p">(</span><span class="n">auth_code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+<span class="k">def</span> <span class="nf">_prepare_from_epsg</span><span class="p">(</span><span class="n">auth_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">_prepare_from_authority</span><span class="p">(</span><span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="n">auth_code</span><span class="p">)</span>
 
 
@@ -414,7 +415,7 @@
 
 <div class="viewcode-block" id="CRS.__init__">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projparams</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CRS class instance with:</span>
 <span class="sd">          - PROJ string</span>
@@ -594,7 +595,7 @@
 <div class="viewcode-block" id="CRS.from_authority">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_authority">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_authority</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_authority</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -617,7 +618,7 @@
 <div class="viewcode-block" id="CRS.from_epsg">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.from_epsg">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_epsg</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_epsg</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a CRS from an EPSG code</span>
 
 <span class="sd">        Parameters</span>
@@ -758,7 +759,7 @@
 
 <div class="viewcode-block" id="CRS.get_geod">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.get_geod">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_geod</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Geod</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">get_geod</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Geod</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -890,7 +891,7 @@
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_cf">[docs]</a>
     <span class="k">def</span> <span class="nf">to_cf</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">wkt_version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WktVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
+        <span class="n">wkt_version</span><span class="p">:</span> <span class="n">WktVersion</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1025,9 +1026,9 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_cf</span><span class="p">(</span>
         <span class="n">in_cf</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
@@ -1077,9 +1078,9 @@
 
         <span class="c1"># build geographic CRS</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">geographic_conversion_method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">geographic_conversion_method</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="p">(</span>
                 <span class="n">Callable</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="n">_GEOGRAPHIC_GRID_MAPPING_NAME_MAP</span><span class="p">[</span><span class="n">grid_mapping_name</span><span class="p">]</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="n">_GEOGRAPHIC_GRID_MAPPING_NAME_MAP</span><span class="p">[</span><span class="n">grid_mapping_name</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">geographic_conversion_method</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -1330,7 +1331,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">sub_crs</span><span class="p">)</span> <span class="k">for</span> <span class="n">sub_crs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">sub_crs_list</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">utm_zone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">utm_zone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.6.0</span>
 
@@ -1338,7 +1339,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Optional[str]:</span>
+<span class="sd">        str | None:</span>
 <span class="sd">            The UTM zone number and letter if applicable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_crs</span><span class="p">:</span>
@@ -1389,7 +1390,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">axis_info</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">area_of_use</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfUse</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">area_of_use</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AreaOfUse</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1399,7 +1400,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">area_of_use</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Ellipsoid</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Ellipsoid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1411,7 +1412,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">ellipsoid</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">prime_meridian</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PrimeMeridian</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">prime_meridian</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PrimeMeridian</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1423,7 +1424,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">prime_meridian</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">datum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Datum</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">datum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Datum</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1434,7 +1435,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">datum</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">coordinate_system</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CoordinateSystem</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">coordinate_system</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CoordinateSystem</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1445,7 +1446,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">coordinate_system</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">coordinate_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CoordinateOperation</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">coordinate_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CoordinateOperation</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1483,9 +1484,9 @@
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_wkt">[docs]</a>
     <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WktVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="n">WktVersion</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">output_axis_rule</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">output_axis_rule</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a WKT string.</span>
@@ -1568,7 +1569,7 @@
 
 <div class="viewcode-block" id="CRS.to_proj4">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_proj4">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_proj4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ProjVersion</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">to_proj4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="n">ProjVersion</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the projection to a PROJ string.</span>
 
@@ -1595,7 +1596,7 @@
 
 <div class="viewcode-block" id="CRS.to_epsg">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_epsg">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_epsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">to_epsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the EPSG code best matching the CRS</span>
 <span class="sd">        or None if it a match is not found.</span>
@@ -1627,7 +1628,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Optional[int]:</span>
+<span class="sd">        int | None:</span>
 <span class="sd">            The best matching EPSG code matching the confidence level.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="n">min_confidence</span><span class="o">=</span><span class="n">min_confidence</span><span class="p">)</span></div>
@@ -1635,7 +1636,7 @@
 
 <div class="viewcode-block" id="CRS.to_authority">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_authority">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_authority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_authority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.2.0</span>
 
@@ -1681,7 +1682,7 @@
 <div class="viewcode-block" id="CRS.list_authority">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.list_authority">[docs]</a>
     <span class="k">def</span> <span class="nf">list_authority</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">auth_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_confidence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">AuthorityMatchInfo</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.2.0</span>
@@ -1727,7 +1728,7 @@
 
 <div class="viewcode-block" id="CRS.to_3d">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_3d">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">to_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.1.0</span>
 
@@ -1752,7 +1753,7 @@
 
 <div class="viewcode-block" id="CRS.to_2d">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.to_2d">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">to_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.6.0</span>
 
@@ -2066,7 +2067,7 @@
 
 <div class="viewcode-block" id="CustomConstructorCRS.to_3d">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CustomConstructorCRS.to_3d">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">to_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CRS&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.1.0</span>
 
@@ -2108,7 +2109,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
         <span class="n">datum</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;urn:ogc:def:ensemble:EPSG::6326&quot;</span><span class="p">,</span>
-        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -2162,7 +2163,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">base_crs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ellipsoidal_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2276,8 +2277,8 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">conversion</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span><span class="p">,</span>
-        <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">geodetic_crs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cartesian_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">geodetic_crs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -2334,8 +2335,8 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">datum</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-        <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">geoid_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vertical_cs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">geoid_model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>

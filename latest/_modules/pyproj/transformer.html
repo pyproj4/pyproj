@@ -246,7 +246,7 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">overload</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">overload</span>
 
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
 <span class="kn">from</span> <span class="nn">pyproj._compat</span> <span class="kn">import</span> <span class="n">cstrencode</span>
@@ -319,12 +319,12 @@
     <span class="n">crs_from</span><span class="p">:</span> <span class="nb">bytes</span>
     <span class="n">crs_to</span><span class="p">:</span> <span class="nb">bytes</span>
     <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span>
-    <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="n">accuracy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="n">allow_ballpark</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">AreaOfInterest</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">authority</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">accuracy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">allow_ballpark</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="n">force_over</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">only_best</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">only_best</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Transformer</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -392,9 +392,9 @@
         <span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">accuracy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">AreaOfInterest</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">authority</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">accuracy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">allow_ballpark</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">allow_superseded</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -482,7 +482,7 @@
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup.download_grids">[docs]</a>
     <span class="k">def</span> <span class="nf">download_grids</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">open_license</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -565,7 +565,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">transformer_maker</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransformerMaker</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">transformer_maker</span><span class="p">:</span> <span class="n">TransformerMaker</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformer_maker</span><span class="p">,</span> <span class="n">TransformerMaker</span><span class="p">):</span>
             <span class="n">_clear_proj_error</span><span class="p">()</span>
@@ -671,7 +671,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">scope</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">operations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">CoordinateOperation</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">operations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CoordinateOperation</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
@@ -715,13 +715,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">is_network_enabled</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">source_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CRS</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">source_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CRS</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.3.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Optional[CRS]:</span>
+<span class="sd">        CRS | None:</span>
 <span class="sd">            The source CRS of a CoordinateOperation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -731,13 +731,13 @@
         <span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">target_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CRS</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">target_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CRS</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.3.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Optional[CRS]:</span>
+<span class="sd">        CRS | None:</span>
 <span class="sd">            The target CRS of a CoordinateOperation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -753,7 +753,7 @@
         <span class="n">proj_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">AreaOfInterest</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.</span>
 
@@ -803,12 +803,12 @@
         <span class="n">crs_from</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">crs_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AreaOfInterest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">accuracy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">allow_ballpark</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">AreaOfInterest</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">authority</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">accuracy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">allow_ballpark</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">force_over</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">only_best</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">only_best</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.</span>
 
@@ -934,7 +934,7 @@
         <span class="n">yy</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">direction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransformDirection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
         <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="o">...</span>
@@ -947,7 +947,7 @@
         <span class="n">zz</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">direction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransformDirection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
         <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="o">...</span>
@@ -961,7 +961,7 @@
         <span class="n">tt</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">direction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransformDirection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
         <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="o">...</span>
@@ -1124,7 +1124,7 @@
         <span class="n">time_3rd</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">direction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransformDirection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Iterator/generator version of the function pyproj.Transformer.transform.</span>
@@ -1257,7 +1257,7 @@
         <span class="n">densify_pts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">21</span><span class="p">,</span>
         <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">direction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransformDirection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. versionadded:: 3.1.0</span>
@@ -1335,7 +1335,7 @@
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_proj4">[docs]</a>
     <span class="k">def</span> <span class="nf">to_proj4</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ProjVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_5</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="n">ProjVersion</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_5</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1364,7 +1364,7 @@
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_wkt">[docs]</a>
     <span class="k">def</span> <span class="nf">to_wkt</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WktVersion</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="n">WktVersion</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1478,8 +1478,8 @@
     <span class="n">p2</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="n">z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">tt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">z</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">radians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>

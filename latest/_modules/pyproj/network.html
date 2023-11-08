@@ -233,7 +233,6 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">certifi</span>
 
@@ -246,7 +245,7 @@
 
 <div class="viewcode-block" id="set_ca_bundle_path">
 <a class="viewcode-back" href="../../api/network.html#pyproj.network.set_ca_bundle_path">[docs]</a>
-<span class="k">def</span> <span class="nf">set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 3.0.0</span>
 
@@ -263,7 +262,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ca_bundle_path: Union[Path, str, bool, None], optional</span>
+<span class="sd">    ca_bundle_path: Path | str | bool | None, optional</span>
 <span class="sd">        Default is None, which only uses the `certifi` package path as a fallback if</span>
 <span class="sd">        the environment variables are not set. If a path is passed in, then</span>
 <span class="sd">        that will be the path used. If it is set to True, then it will default</span>
