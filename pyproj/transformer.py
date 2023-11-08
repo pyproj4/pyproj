@@ -16,7 +16,7 @@ from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from itertools import chain, islice
 from pathlib import Path
-from typing import Any, Optional, Union, overload
+from typing import Any, overload
 
 from pyproj import CRS
 from pyproj._compat import cstrencode
@@ -89,12 +89,12 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
     crs_from: bytes
     crs_to: bytes
     always_xy: bool
-    area_of_interest: Optional[AreaOfInterest]
-    authority: Optional[str]
-    accuracy: Optional[str]
-    allow_ballpark: Optional[bool]
+    area_of_interest: AreaOfInterest | None
+    authority: str | None
+    accuracy: str | None
+    allow_ballpark: bool | None
     force_over: bool = False
-    only_best: Optional[bool] = None
+    only_best: bool | None = None
 
     def __call__(self) -> _Transformer:
         """
@@ -158,9 +158,9 @@ class TransformerGroup(_TransformerGroup):
         crs_from: Any,
         crs_to: Any,
         always_xy: bool = False,
-        area_of_interest: Optional[AreaOfInterest] = None,
-        authority: Optional[str] = None,
-        accuracy: Optional[float] = None,
+        area_of_interest: AreaOfInterest | None = None,
+        authority: str | None = None,
+        accuracy: float | None = None,
         allow_ballpark: bool = True,
         allow_superseded: bool = False,
     ) -> None:
@@ -245,7 +245,7 @@ class TransformerGroup(_TransformerGroup):
 
     def download_grids(
         self,
-        directory: Optional[Union[str, Path]] = None,
+        directory: str | Path | None = None,
         open_license: bool = True,
         verbose: bool = False,
     ) -> None:
@@ -324,7 +324,7 @@ class Transformer:
 
     def __init__(
         self,
-        transformer_maker: Union[TransformerMaker, None] = None,
+        transformer_maker: TransformerMaker | None = None,
     ) -> None:
         if not isinstance(transformer_maker, TransformerMaker):
             _clear_proj_error()
@@ -430,7 +430,7 @@ class Transformer:
         return self._transformer.scope
 
     @property
-    def operations(self) -> Optional[tuple[CoordinateOperation]]:
+    def operations(self) -> tuple[CoordinateOperation] | None:
         """
         .. versionadded:: 2.4.0
 
@@ -471,13 +471,13 @@ class Transformer:
         return self._transformer.is_network_enabled
 
     @property
-    def source_crs(self) -> Optional[CRS]:
+    def source_crs(self) -> CRS | None:
         """
         .. versionadded:: 3.3.0
 
         Returns
         -------
-        Optional[CRS]:
+        CRS | None:
             The source CRS of a CoordinateOperation.
         """
         return (
@@ -487,13 +487,13 @@ class Transformer:
         )
 
     @property
-    def target_crs(self) -> Optional[CRS]:
+    def target_crs(self) -> CRS | None:
         """
         .. versionadded:: 3.3.0
 
         Returns
         -------
-        Optional[CRS]:
+        CRS | None:
             The target CRS of a CoordinateOperation.
         """
         return (
@@ -507,7 +507,7 @@ class Transformer:
         proj_from: Any,
         proj_to: Any,
         always_xy: bool = False,
-        area_of_interest: Optional[AreaOfInterest] = None,
+        area_of_interest: AreaOfInterest | None = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.
 
@@ -554,12 +554,12 @@ class Transformer:
         crs_from: Any,
         crs_to: Any,
         always_xy: bool = False,
-        area_of_interest: Optional[AreaOfInterest] = None,
-        authority: Optional[str] = None,
-        accuracy: Optional[float] = None,
-        allow_ballpark: Optional[bool] = None,
+        area_of_interest: AreaOfInterest | None = None,
+        authority: str | None = None,
+        accuracy: float | None = None,
+        allow_ballpark: bool | None = None,
         force_over: bool = False,
-        only_best: Optional[bool] = None,
+        only_best: bool | None = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
@@ -681,7 +681,7 @@ class Transformer:
         yy: Any,
         radians: bool = False,
         errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        direction: TransformDirection | str = TransformDirection.FORWARD,
         inplace: bool = False,
     ) -> tuple[Any, Any]:
         ...
@@ -694,7 +694,7 @@ class Transformer:
         zz: Any,
         radians: bool = False,
         errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        direction: TransformDirection | str = TransformDirection.FORWARD,
         inplace: bool = False,
     ) -> tuple[Any, Any, Any]:
         ...
@@ -708,7 +708,7 @@ class Transformer:
         tt: Any,
         radians: bool = False,
         errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        direction: TransformDirection | str = TransformDirection.FORWARD,
         inplace: bool = False,
     ) -> tuple[Any, Any, Any, Any]:
         ...
@@ -866,7 +866,7 @@ class Transformer:
         time_3rd: bool = False,
         radians: bool = False,
         errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        direction: TransformDirection | str = TransformDirection.FORWARD,
     ) -> Iterator[Iterable]:
         """
         Iterator/generator version of the function pyproj.Transformer.transform.
@@ -996,7 +996,7 @@ class Transformer:
         densify_pts: int = 21,
         radians: bool = False,
         errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        direction: TransformDirection | str = TransformDirection.FORWARD,
     ) -> tuple[float, float, float, float]:
         """
         .. versionadded:: 3.1.0
@@ -1071,7 +1071,7 @@ class Transformer:
 
     def to_proj4(
         self,
-        version: Union[ProjVersion, str] = ProjVersion.PROJ_5,
+        version: ProjVersion | str = ProjVersion.PROJ_5,
         pretty: bool = False,
     ) -> str:
         """
@@ -1097,7 +1097,7 @@ class Transformer:
 
     def to_wkt(
         self,
-        version: Union[WktVersion, str] = WktVersion.WKT2_2019,
+        version: WktVersion | str = WktVersion.WKT2_2019,
         pretty: bool = False,
     ) -> str:
         """
@@ -1198,8 +1198,8 @@ def transform(  # pylint: disable=invalid-name
     p2: Any,
     x: Any,
     y: Any,
-    z: Optional[Any] = None,
-    tt: Optional[Any] = None,
+    z: Any | None = None,
+    tt: Any | None = None,
     radians: bool = False,
     errcheck: bool = False,
     always_xy: bool = False,

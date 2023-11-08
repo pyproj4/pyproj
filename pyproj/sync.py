@@ -9,7 +9,7 @@ import os
 from datetime import datetime
 from functools import partial
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 from urllib.request import urlretrieve
 
 from pyproj._sync import get_proj_endpoint
@@ -17,7 +17,7 @@ from pyproj.aoi import BBox
 from pyproj.datadir import get_data_dir, get_user_data_dir
 
 
-def _bbox_from_coords(coords: list) -> Optional[BBox]:
+def _bbox_from_coords(coords: list) -> BBox | None:
     """
     Get the bounding box from coordinates
     """
@@ -39,7 +39,7 @@ def _bbox_from_coords(coords: list) -> Optional[BBox]:
     return coord_bbox
 
 
-def _bbox_from_geom(geom: dict[str, Any]) -> Optional[BBox]:
+def _bbox_from_geom(geom: dict[str, Any]) -> BBox | None:
     """
     Get the bounding box from geojson geometry
     """
@@ -103,9 +103,9 @@ def _filter_bbox(
 
 def _filter_properties(
     feature: dict[str, Any],
-    source_id: Optional[str] = None,
-    area_of_use: Optional[str] = None,
-    filename: Optional[str] = None,
+    source_id: str | None = None,
+    area_of_use: str | None = None,
+    filename: str | None = None,
 ) -> bool:
     """
     Filter by the properties. Designed to use with 'filter'
@@ -187,7 +187,7 @@ def _download_resource_file(
             pass
 
 
-def _load_grid_geojson(target_directory=None) -> dict[str, Any]:
+def _load_grid_geojson(target_directory: str | Path | None = None) -> dict[str, Any]:
     """
     Returns
     -------
@@ -210,14 +210,14 @@ def _load_grid_geojson(target_directory=None) -> dict[str, Any]:
 
 
 def get_transform_grid_list(
-    source_id: Optional[str] = None,
-    area_of_use: Optional[str] = None,
-    filename: Optional[str] = None,
-    bbox: Optional[BBox] = None,
+    source_id: str | None = None,
+    area_of_use: str | None = None,
+    filename: str | None = None,
+    bbox: BBox | None = None,
     spatial_test: str = "intersects",
     include_world_coverage: bool = True,
     include_already_downloaded: bool = False,
-    target_directory: Optional[str] = None,
+    target_directory: str | Path | None = None,
 ) -> tuple:
     """
     Get a list of transform grids that can be downloaded.
@@ -234,7 +234,7 @@ def get_transform_grid_list(
         If True, it will include grids with a global extent.
     include_already_downloaded: bool, default=False
         If True, it will list grids regardless of if they are downloaded.
-    target_directory: Union[str, Path, None], optional
+    target_directory: str | Path, optional
         The directory to download the geojson file to.
         Default is the user writable directory.
 

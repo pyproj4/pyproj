@@ -3,7 +3,6 @@ Module for managing the PROJ network settings.
 """
 import os
 from pathlib import Path
-from typing import Union
 
 import certifi
 
@@ -14,7 +13,7 @@ from pyproj._network import (  # noqa: F401 pylint: disable=unused-import
 )
 
 
-def set_ca_bundle_path(ca_bundle_path: Union[Path, str, bool, None] = None) -> None:
+def set_ca_bundle_path(ca_bundle_path: Path | str | bool | None = None) -> None:
     """
     .. versionadded:: 3.0.0
 
@@ -31,7 +30,7 @@ def set_ca_bundle_path(ca_bundle_path: Union[Path, str, bool, None] = None) -> N
 
     Parameters
     ----------
-    ca_bundle_path: Union[Path, str, bool, None], optional
+    ca_bundle_path: Path | str | bool | None, optional
         Default is None, which only uses the `certifi` package path as a fallback if
         the environment variables are not set. If a path is passed in, then
         that will be the path used. If it is set to True, then it will default

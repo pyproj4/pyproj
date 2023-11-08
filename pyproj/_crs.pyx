@@ -2776,7 +2776,7 @@ cdef class _CRS(Base):
 
         Returns
         -------
-        Optional[int]:
+        int | None:
             The best matching EPSG code matching the confidence level.
         """
         auth_info = self.to_authority(

@@ -19,7 +19,7 @@ __all__ = [
 
 import math
 import warnings
-from typing import Any, Optional, Union
+from typing import Any
 
 from pyproj._geod import Geod as _Geod
 from pyproj._geod import GeodIntermediateReturn, geodesic_version_str
@@ -146,7 +146,7 @@ class Geod(_Geod):
 
     """
 
-    def __init__(self, initstring: Optional[str] = None, **kwargs) -> None:
+    def __init__(self, initstring: str | None = None, **kwargs) -> None:
         """
         initialize a Geod class instance.
 
@@ -203,7 +203,7 @@ class Geod(_Geod):
         """
         # if initparams is a proj-type init string,
         # convert to dict.
-        ellpsd: dict[str, Union[str, float]] = {}
+        ellpsd: dict[str, str | float] = {}
         if initstring is not None:
             for kvpair in initstring.split():
                 # Actually only +a and +b are needed
@@ -551,10 +551,10 @@ class Geod(_Geod):
         terminus_idx: int = 1,
         radians: bool = False,
         flags: GeodIntermediateFlag = GeodIntermediateFlag.DEFAULT,
-        out_lons: Optional[Any] = None,
-        out_lats: Optional[Any] = None,
-        out_azis: Optional[Any] = None,
-        return_back_azimuth: Optional[bool] = None,
+        out_lons: Any | None = None,
+        out_lats: Any | None = None,
+        out_azis: Any | None = None,
+        return_back_azimuth: bool | None = None,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0
@@ -714,10 +714,10 @@ class Geod(_Geod):
         terminus_idx: int = 1,
         radians: bool = False,
         flags: GeodIntermediateFlag = GeodIntermediateFlag.DEFAULT,
-        out_lons: Optional[Any] = None,
-        out_lats: Optional[Any] = None,
-        out_azis: Optional[Any] = None,
-        return_back_azimuth: Optional[bool] = None,
+        out_lons: Any | None = None,
+        out_lats: Any | None = None,
+        out_azis: Any | None = None,
+        return_back_azimuth: bool | None = None,
     ) -> GeodIntermediateReturn:
         """
         .. versionadded:: 3.1.0

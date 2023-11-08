@@ -2,7 +2,6 @@ include "proj.pxi"
 
 import warnings
 from collections import namedtuple
-from typing import Optional
 
 from libc.stdlib cimport free, malloc
 
@@ -167,9 +166,9 @@ type: PJType
     The type of CRS
 deprecated: bool
     Whether the object is deprecated.
-area_of_use: Optional[AreaOfUse]
+area_of_use: AreaOfUse | None
     The area of use for the CRS if valid.
-projection_method_name: Optional[str]
+projection_method_name: str | None
     Name of the projection method for a projected CRS.
 """
 
@@ -190,12 +189,12 @@ def query_crs_info(
 
     Parameters
     ----------
-    auth_name: Optional[str], optional
+    auth_name: str, optional
         The name of the authority. Default is all authorities.
-    pj_types: Union[pyproj.enums.PJType, list[pyproj.enums.PJType], None], optional
+    pj_types: pyproj.enums.PJType | list[pyproj.enums.PJType | None, optional
         The type(s) of CRS to get the information (i.e. the types with CRS in the name).
         If None is provided, it will use all of types (i.e. PJType.CRS).
-    area_of_interest: Optional[AreaOfInterest], optional
+    area_of_interest: AreaOfInterest, optional
         Filter returned CRS by the area of interest. Default method is intersection.
     contains: bool, default=False
         Only works if the area of interest is passed in.
@@ -304,9 +303,9 @@ def query_utm_crs_info(
 
     Parameters
     ----------
-    datum_name: Optional[str], optional
+    datum_name: str, optional
         The name of the datum in the CRS name ('NAD27', 'NAD83', 'WGS 84', ...).
-    area_of_interest: Optional[AreaOfInterest], optional
+    area_of_interest: AreaOfInterest, optional
         Filter returned CRS by the area of interest. Default method is intersection.
     contains: bool, default=False
         Only works if the area of interest is passed in.
@@ -365,7 +364,7 @@ conv_factor: float
     Conversion factor to apply to transform from that unit to the
     corresponding SI unit (metre for "linear", radian for "angular", etc.).
     It might be 0 in some cases to indicate no known conversion factor.
-proj_short_name: Optional[str]
+proj_short_name: str, optional
     PROJ short name, like "m", "ft", "us-ft", etc... Might be None.
 deprecated: bool
     Whether the object is deprecated.
@@ -469,7 +468,7 @@ def get_database_metadata(str key not None):
 
     Returns
     -------
-    Optional[str]:
+    str | None:
         The metatada information if available.
     """
     cdef PJ_CONTEXT* context = pyproj_context_create()

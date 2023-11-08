@@ -403,7 +403,7 @@ cdef class _Transformer(Base):
 
         Returns
         -------
-        Optional[_CRS]:
+        _CRS | None:
             The source CRS of a CoordinateOperation.
         """
         if self._source_crs is not None:
@@ -431,7 +431,7 @@ cdef class _Transformer(Base):
 
         Returns
         -------
-        Optional[_CRS]:
+        _CRS | None:
             The target CRS of a CoordinateOperation.
         """
         if self._target_crs is not None:

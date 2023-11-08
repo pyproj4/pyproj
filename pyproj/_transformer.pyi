@@ -1,6 +1,6 @@
 import numbers
 from array import array
-from typing import Any, NamedTuple, Optional, Union
+from typing import Any, NamedTuple
 
 from pyproj._crs import _CRS, AreaOfUse, Base, CoordinateOperation
 from pyproj.enums import ProjVersion, TransformDirection
@@ -37,9 +37,9 @@ class _TransformerGroup:
         crs_from: str,
         crs_to: str,
         always_xy: bool,
-        area_of_interest: Optional[AreaOfInterest],
-        authority: Optional[str],
-        accuracy: Optional[float],
+        area_of_interest: AreaOfInterest | None,
+        authority: str | None,
+        accuracy: float | None,
         allow_ballpark: bool,
         allow_superseded: bool,
     ) -> None: ...
@@ -62,17 +62,17 @@ class _Transformer(Base):
     @property
     def area_of_use(self) -> AreaOfUse: ...
     @property
-    def source_crs(self) -> Optional[_CRS]: ...
+    def source_crs(self) -> _CRS | None: ...
     @property
-    def target_crs(self) -> Optional[_CRS]: ...
+    def target_crs(self) -> _CRS | None: ...
     @property
-    def operations(self) -> Union[tuple[CoordinateOperation], None]: ...
+    def operations(self) -> tuple[CoordinateOperation] | None: ...
     def get_last_used_operation(self) -> _Transformer: ...
     @property
     def is_network_enabled(self) -> bool: ...
     def to_proj4(
         self,
-        version: Union[ProjVersion, str] = ProjVersion.PROJ_5,
+        version: ProjVersion | str = ProjVersion.PROJ_5,
         pretty: bool = False,
     ) -> str: ...
     @staticmethod
@@ -80,12 +80,12 @@ class _Transformer(Base):
         crs_from: bytes,
         crs_to: bytes,
         always_xy: bool = False,
-        area_of_interest: Optional[AreaOfInterest] = None,
-        authority: Optional[str] = None,
-        accuracy: Optional[str] = None,
-        allow_ballpark: Optional[bool] = None,
+        area_of_interest: AreaOfInterest | None = None,
+        authority: str | None = None,
+        accuracy: str | None = None,
+        allow_ballpark: bool | None = None,
         force_over: bool = False,
-        only_best: Optional[bool] = None,
+        only_best: bool | None = None,
     ) -> "_Transformer": ...
     @staticmethod
     def from_pipeline(proj_pipeline: bytes) -> "_Transformer": ...
@@ -95,7 +95,7 @@ class _Transformer(Base):
         iny: Any,
         inz: Any,
         intime: Any,
-        direction: Union[TransformDirection, str],
+        direction: TransformDirection | str,
         radians: bool,
         errcheck: bool,
     ) -> None: ...
@@ -105,7 +105,7 @@ class _Transformer(Base):
         iny: numbers.Real,
         inz: numbers.Real,
         intime: numbers.Real,
-        direction: Union[TransformDirection, str],
+        direction: TransformDirection | str,
         radians: bool,
         errcheck: bool,
     ) -> None: ...
@@ -114,7 +114,7 @@ class _Transformer(Base):
         stride: int,
         inseq: array[float],
         switch: bool,
-        direction: Union[TransformDirection, str],
+        direction: TransformDirection | str,
         time_3rd: bool,
         radians: bool,
         errcheck: bool,
@@ -128,7 +128,7 @@ class _Transformer(Base):
         densify_pts: int = 21,
         radians: bool = False,
         errcheck: bool = False,
-        direction: Union[TransformDirection, str] = TransformDirection.FORWARD,
+        direction: TransformDirection | str = TransformDirection.FORWARD,
     ) -> tuple[float, float, float, float]: ...
     def _get_factors(
         self, longitude: Any, latitude: Any, radians: bool, errcheck: bool
