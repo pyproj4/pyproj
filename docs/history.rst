@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- DEP: Minimum supported Python version 3.10 (pull #1357)
 
 3.6.1
 ------

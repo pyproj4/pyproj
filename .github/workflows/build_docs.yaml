@@ -23,7 +23,7 @@ jobs:
       - name: Setup Conda
         uses: s-weigand/setup-conda@v1
         with:
-          python-version: 3.9
+          python-version: '3.11'
           conda-channels: conda-forge
 
       - name: Install and Build
@@ -31,7 +31,7 @@ jobs:
         run: |
           conda config --prepend channels conda-forge
           conda config --set channel_priority strict
-          conda create -n docs python=3.9 cython proj
+          conda create -n docs python=3.11 cython proj
           source activate docs
           python -m pip install -e .
           python -m pip install -r requirements-docs.txt
