@@ -46,7 +46,7 @@ jobs:
           twine check --strict dist/*
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: ./dist/*.tar.gz
           retention-days: 5
@@ -152,7 +152,7 @@ jobs:
             python -m pytest test -v -s
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
           retention-days: 5
