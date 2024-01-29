@@ -95,7 +95,7 @@ jobs:
 
       - name: Cache vcpkg
         if: contains(matrix.os, 'windows')
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: vcpkgcache
         with:
           path: |
