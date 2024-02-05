@@ -245,4 +245,4 @@ jobs:
           sphinx-build -b html docs/ docs/_build/
           sphinx-build -b man docs/ docs/_build/
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
