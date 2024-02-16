@@ -231,6 +231,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The transformer module is for performing cartographic transformations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;transform&quot;</span><span class="p">,</span>
     <span class="s2">&quot;itransform&quot;</span><span class="p">,</span>
@@ -928,7 +929,7 @@
 
 
     <span class="nd">@overload</span>
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># noqa: E704 pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">yy</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -936,11 +937,10 @@
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
         <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="o">...</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
 
     <span class="nd">@overload</span>
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># noqa: E704 pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">yy</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -949,11 +949,10 @@
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
         <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="o">...</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
 
     <span class="nd">@overload</span>
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># pylint: disable=invalid-name</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>  <span class="c1"># noqa: E704 pylint: disable=invalid-name</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">yy</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -963,8 +962,7 @@
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
         <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="o">...</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
 
 <div class="viewcode-block" id="Transformer.transform">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.transform">[docs]</a>

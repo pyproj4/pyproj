@@ -232,6 +232,7 @@
 <span class="sd">This module interfaces with PROJ to produce a pythonic interface</span>
 <span class="sd">to the coordinate reference system (CRS) information.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="c1"># pylint: disable=too-many-lines</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">re</span>
@@ -1078,9 +1079,9 @@
 
         <span class="c1"># build geographic CRS</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">geographic_conversion_method</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="p">(</span>
-                <span class="n">Callable</span>
-            <span class="p">)</span> <span class="o">=</span> <span class="n">_GEOGRAPHIC_GRID_MAPPING_NAME_MAP</span><span class="p">[</span><span class="n">grid_mapping_name</span><span class="p">]</span>
+            <span class="n">geographic_conversion_method</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">Callable</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">_GEOGRAPHIC_GRID_MAPPING_NAME_MAP</span><span class="p">[</span><span class="n">grid_mapping_name</span><span class="p">]</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">geographic_conversion_method</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -1095,9 +1096,9 @@
             <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">geographic_crs_name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">ellipsoidal_cs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">geographic_crs_json</span> <span class="o">=</span> <span class="n">geographic_crs</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span>
-                <span class="n">geographic_crs_json</span><span class="p">[</span>
-                    <span class="s2">&quot;coordinate_system&quot;</span>
-                <span class="p">]</span> <span class="o">=</span> <span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">ellipsoidal_cs</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span>
+                <span class="n">geographic_crs_json</span><span class="p">[</span><span class="s2">&quot;coordinate_system&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">ellipsoidal_cs</span><span class="p">)</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span>
+                <span class="p">)</span>
                 <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">geographic_crs_json</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">geographic_crs</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(</span><span class="n">ellipsoidal_cs</span><span class="o">=</span><span class="n">ellipsoidal_cs</span><span class="p">)</span>
