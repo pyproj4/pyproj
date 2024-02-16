@@ -1,6 +1,7 @@
 """
 This module contains the structures related to areas of interest.
 """
+
 from dataclasses import dataclass
 from typing import NamedTuple, Union
 

@@ -2,6 +2,7 @@
 This module interfaces with PROJ to produce a pythonic interface
 to the coordinate reference system (CRS) information.
 """
+
 # pylint: disable=too-many-lines
 import json
 import re
@@ -802,9 +803,9 @@ class CRS:
 
         # build geographic CRS
         try:
-            geographic_conversion_method: None | (
-                Callable
-            ) = _GEOGRAPHIC_GRID_MAPPING_NAME_MAP[grid_mapping_name]
+            geographic_conversion_method: None | Callable = (
+                _GEOGRAPHIC_GRID_MAPPING_NAME_MAP[grid_mapping_name]
+            )
         except KeyError:
             geographic_conversion_method = None
 
@@ -819,9 +820,9 @@ class CRS:
             geographic_crs = CRS(geographic_crs_name)
             if ellipsoidal_cs is not None:
                 geographic_crs_json = geographic_crs.to_json_dict()
-                geographic_crs_json[
-                    "coordinate_system"
-                ] = CoordinateSystem.from_user_input(ellipsoidal_cs).to_json_dict()
+                geographic_crs_json["coordinate_system"] = (
+                    CoordinateSystem.from_user_input(ellipsoidal_cs).to_json_dict()
+                )
                 geographic_crs = CRS(geographic_crs_json)
         else:
             geographic_crs = GeographicCRS(ellipsoidal_cs=ellipsoidal_cs)

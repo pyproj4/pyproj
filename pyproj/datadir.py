@@ -1,6 +1,7 @@
 """
 Module for managing the PROJ data directory.
 """
+
 # pylint: disable=global-statement
 import os
 import shutil

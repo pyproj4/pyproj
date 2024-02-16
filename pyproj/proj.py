@@ -14,6 +14,7 @@ Calling a Proj class instance with the arguments lon, lat will
 convert lon/lat (in degrees) to x/y native map projection
 coordinates (in meters).
 """
+
 import re
 import warnings
 from typing import Any

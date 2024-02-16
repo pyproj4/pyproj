@@ -3,6 +3,7 @@ Based on the logic in the PROJ projsync CLI program
 
 https://github.com/OSGeo/PROJ/blob/9ff543c4ffd86152bc58d0a0164b2ce9ebbb8bec/src/apps/projsync.cpp
 """
+
 import hashlib
 import json
 import os

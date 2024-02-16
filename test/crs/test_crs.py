@@ -982,8 +982,9 @@ def test_to_wkt_none_warning(wkt_version):
 
 def test_to_proj4_none_warning():
     crs = CRS("EPSG:4326")
-    with patch("pyproj.crs.crs.CRS._crs") as crs_mock, pytest.raises(
-        CRSError, match="CRS cannot be converted to a PROJ string"
+    with (
+        patch("pyproj.crs.crs.CRS._crs") as crs_mock,
+        pytest.raises(CRSError, match="CRS cannot be converted to a PROJ string"),
     ):
         crs_mock.to_proj4.return_value = None
         assert crs.to_proj4() is None
@@ -991,8 +992,9 @@ def test_to_proj4_none_warning():
 
 def test_to_json_none_warning():
     crs = CRS("EPSG:4326")
-    with patch("pyproj.crs.crs.CRS._crs") as crs_mock, pytest.raises(
-        CRSError, match="CRS cannot be converted to a PROJ JSON string"
+    with (
+        patch("pyproj.crs.crs.CRS._crs") as crs_mock,
+        pytest.raises(CRSError, match="CRS cannot be converted to a PROJ JSON string"),
     ):
         crs_mock.to_json.return_value = None
         assert crs.to_json() is None

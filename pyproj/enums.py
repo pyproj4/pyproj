@@ -1,6 +1,7 @@
 """
 This module contains enumerations used in pyproj.
 """
+
 from enum import Enum, IntFlag
 
 
