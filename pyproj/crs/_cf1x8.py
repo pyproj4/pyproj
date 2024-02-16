@@ -659,6 +659,7 @@ def _pole_rotation_netcdf__to_cf(conversion):
 _INVERSE_GRID_MAPPING_NAME_MAP = {
     "albers_equal_area": _albers_conical_equal_area__to_cf,
     "modified_azimuthal_equidistant": _azimuthal_equidistant__to_cf,
+    "azimuthal_equidistant": _azimuthal_equidistant__to_cf,
     "geostationary_satellite_(sweep_x)": _geostationary__to_cf,
     "geostationary_satellite_(sweep_y)": _geostationary__to_cf,
     "lambert_azimuthal_equal_area": _lambert_azimuthal_equal_area__to_cf,
