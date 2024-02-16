@@ -232,6 +232,7 @@
 <span class="sd">This module is for building coordinate systems to be used when</span>
 <span class="sd">building a CRS.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">CoordinateSystem</span>
 <span class="kn">from</span> <span class="nn">pyproj.crs.enums</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Cartesian2DCSAxis</span><span class="p">,</span>
@@ -372,9 +373,7 @@
 <a class="viewcode-back" href="../../../api/crs/coordinate_system.html#pyproj.crs.coordinate_system.Ellipsoidal3DCS.__new__">[docs]</a>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">axis</span><span class="p">:</span> <span class="p">(</span>
-            <span class="n">Ellipsoidal3DCSAxis</span> <span class="o">|</span> <span class="nb">str</span>
-        <span class="p">)</span> <span class="o">=</span> <span class="n">Ellipsoidal3DCSAxis</span><span class="o">.</span><span class="n">LONGITUDE_LATITUDE_HEIGHT</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">Ellipsoidal3DCSAxis</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Ellipsoidal3DCSAxis</span><span class="o">.</span><span class="n">LONGITUDE_LATITUDE_HEIGHT</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
