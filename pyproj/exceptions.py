@@ -1,6 +1,7 @@
 """
 Exceptions for pyproj
 """
+
 from pyproj._datadir import _clear_proj_error, _get_proj_error
 
 

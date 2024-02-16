@@ -1,6 +1,7 @@
 """
 Utility functions used within pyproj
 """
+
 import json
 from array import array
 from enum import Enum, auto

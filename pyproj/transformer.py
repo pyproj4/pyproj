@@ -1,6 +1,7 @@
 """
 The transformer module is for performing cartographic transformations.
 """
+
 __all__ = [
     "transform",
     "itransform",
@@ -675,7 +676,7 @@ class Transformer:
         return Transformer(TransformerFromPipeline(cstrencode(proj_pipeline)))
 
     @overload
-    def transform(  # pylint: disable=invalid-name
+    def transform(  # noqa: E704 pylint: disable=invalid-name
         self,
         xx: Any,
         yy: Any,
@@ -683,11 +684,10 @@ class Transformer:
         errcheck: bool = False,
         direction: TransformDirection | str = TransformDirection.FORWARD,
         inplace: bool = False,
-    ) -> tuple[Any, Any]:
-        ...
+    ) -> tuple[Any, Any]: ...
 
     @overload
-    def transform(  # pylint: disable=invalid-name
+    def transform(  # noqa: E704 pylint: disable=invalid-name
         self,
         xx: Any,
         yy: Any,
@@ -696,11 +696,10 @@ class Transformer:
         errcheck: bool = False,
         direction: TransformDirection | str = TransformDirection.FORWARD,
         inplace: bool = False,
-    ) -> tuple[Any, Any, Any]:
-        ...
+    ) -> tuple[Any, Any, Any]: ...
 
     @overload
-    def transform(  # pylint: disable=invalid-name
+    def transform(  # noqa: E704 pylint: disable=invalid-name
         self,
         xx: Any,
         yy: Any,
@@ -710,8 +709,7 @@ class Transformer:
         errcheck: bool = False,
         direction: TransformDirection | str = TransformDirection.FORWARD,
         inplace: bool = False,
-    ) -> tuple[Any, Any, Any, Any]:
-        ...
+    ) -> tuple[Any, Any, Any, Any]: ...
 
     def transform(  # pylint: disable=invalid-name
         self,

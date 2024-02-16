@@ -1,6 +1,7 @@
 """
 Module for managing the PROJ network settings.
 """
+
 import os
 from pathlib import Path
 

@@ -2,6 +2,7 @@
 This module is for building datums to be used when
 building a CRS.
 """
+
 from typing import Any
 
 from pyproj._crs import Datum, Ellipsoid, PrimeMeridian

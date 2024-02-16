@@ -2,6 +2,7 @@
 This module is for building coordinate systems to be used when
 building a CRS.
 """
+
 from pyproj._crs import CoordinateSystem
 from pyproj.crs.enums import (
     Cartesian2DCSAxis,
@@ -132,9 +133,7 @@ class Ellipsoidal3DCS(CoordinateSystem):
 
     def __new__(
         cls,
-        axis: (
-            Ellipsoidal3DCSAxis | str
-        ) = Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT,
+        axis: Ellipsoidal3DCSAxis | str = Ellipsoidal3DCSAxis.LONGITUDE_LATITUDE_HEIGHT,
     ):
         """
         Parameters

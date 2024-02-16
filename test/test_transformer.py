@@ -240,8 +240,9 @@ def test_2d_with_time_itransform_original_crs_obs2():
 
 
 def test_itransform_time_3rd_invalid():
-    with pytest.warns(FutureWarning), pytest.raises(
-        ValueError, match="'time_3rd' is only valid for 3 coordinates."
+    with (
+        pytest.warns(FutureWarning),
+        pytest.raises(ValueError, match="'time_3rd' is only valid for 3 coordinates."),
     ):
         list(
             itransform(
@@ -251,8 +252,9 @@ def test_itransform_time_3rd_invalid():
                 time_3rd=True,
             )
         )
-    with pytest.warns(FutureWarning), pytest.raises(
-        ValueError, match="'time_3rd' is only valid for 3 coordinates."
+    with (
+        pytest.warns(FutureWarning),
+        pytest.raises(ValueError, match="'time_3rd' is only valid for 3 coordinates."),
     ):
         list(itransform(7789, 8401, [(3496737.2679, 743254.4507)], time_3rd=True))
 
@@ -619,8 +621,10 @@ def test_transformer__operations__scope_remarks():
 
 @pytest.mark.grid
 def test_transformer__only_best():
-    with nullcontext() if PROJ_GTE_92 else pytest.raises(
-        NotImplementedError, match="only_best requires PROJ 9.2"
+    with (
+        nullcontext()
+        if PROJ_GTE_92
+        else pytest.raises(NotImplementedError, match="only_best requires PROJ 9.2")
     ):
         transformer = Transformer.from_crs(4326, 2964, only_best=True)
         if not grids_available("ca_nrc_ntv2_0.tif"):
@@ -1046,9 +1050,10 @@ def test_transformer_group__download_grids(get_user_data_dir_mock, tmp_path, cap
                 "Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif\n"
             )
         # make sure not downloaded again
-        with proj_env(), patch(
-            "pyproj.transformer._download_resource_file"
-        ) as download_mock:
+        with (
+            proj_env(),
+            patch("pyproj.transformer._download_resource_file") as download_mock,
+        ):
             append_data_dir(str(tmp_path))
             trans_group = TransformerGroup(4326, 2964)
             trans_group.download_grids()

@@ -1,6 +1,7 @@
 """
 This module contains enumerations used in pyproj.crs.
 """
+
 from pyproj.enums import BaseEnum
 
 
