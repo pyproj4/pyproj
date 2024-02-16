@@ -65,12 +65,9 @@ jobs:
         - os: macos-11
           arch: x86_64
           cmake_osx_architectures: x86_64
-        # - os: macos-11
-        #   arch: arm64
-        #   cmake_osx_architectures: arm64
-        # - os: macos-11
-        #   arch: universal2
-        #   cmake_osx_architectures: "x86_64;arm64"
+        - os: macos-14
+          arch: arm64
+          cmake_osx_architectures: arm64
         - os: "windows-2022"
           arch: "auto64"
           triplet: "x64-windows"
