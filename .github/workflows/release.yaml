@@ -26,24 +26,26 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Conda
-        uses: s-weigand/setup-conda@v1
+        uses: mamba-org/setup-micromamba@v1
         with:
-          conda-channels: conda-forge
+          init-shell: bash
+          environment-name: sdist_env
+          create-args: >-
+            build
+            twine
+            cython
+            proj=${{ matrix.proj-version }}
+
 
       - name: Make sdist
         shell: bash
         run: |
-          conda config --prepend channels conda-forge
-          conda config --set channel_priority strict
-          conda create -n sdist_env build twine cython proj=${{ env.PROJ_VERSION }}
-          source activate sdist_env
-          python -m build --sdist
+          micromamba run -n sdist_env python -m build --sdist
 
       - name: Check packages
         shell: bash
         run: |
-          source activate sdist_env
-          twine check --strict dist/*
+          micromamba run -n sdist_env twine check --strict dist/*
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
