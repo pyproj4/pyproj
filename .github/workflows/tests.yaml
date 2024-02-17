@@ -158,38 +158,37 @@ jobs:
       - name: Install Env
         shell: bash
         run: |
-          micromamba activate test
           if [ "${{ matrix.python-implementation }}" = "pypy" ]; then
             sed -i.bak '/xarray/d' requirements-test.txt;
             sed -i.bak '/pandas/d' requirements-test.txt;
           fi;
-          python -m pip install -e .
-          python -m pip install -r requirements-test.txt
+          micromamba run -n test python -m pip install -e .
+          micromamba run -n test python -m pip install -r requirements-test.txt
 
       - name: Check and Log Environment
         shell: bash
         run: |
-          python -V
-          pyproj -v
-          conda info
+          micromamba run -n test python -V
+          micromamba run -n test pyproj -v
+          micromamba info
 
       - name: Install pylint
         shell: bash
         if: matrix.python-implementation == 'python'
         run: |
-          python -m pip install pylint
+          micromamba run -n test python -m pip install pylint
 
       - name: pylint
         shell: bash
         if: matrix.python-implementation == 'python'
         run: |
-          pylint pyproj
+          micromamba run -n test pylint pyproj
 
       - name: Test with Coverage
         shell: bash
         if: matrix.python-implementation == 'python'
         run: |
-          python -m pytest --cov-report term-missing --cov=pyproj --cov-report xml
+          micromamba run -n test python -m pytest --cov-report term-missing --cov=pyproj --cov-report xml
 
       - name: Test
         shell: bash
@@ -197,14 +196,14 @@ jobs:
         env:
           PROJ_NETWORK: OFF
         run: |
-          python -m pytest
+          micromamba run -n test python -m pytest
 
       - name: Test Network
         shell: bash
         env:
           PROJ_NETWORK: ON
         run: |
-          python -m pytest
+          micromamba run -n test python -m pytest
 
       - name: Test Global Context
         shell: bash
@@ -212,7 +211,7 @@ jobs:
           PROJ_NETWORK: OFF
           PYPROJ_GLOBAL_CONTEXT: ON
         run: |
-          python -m pytest
+          micromamba run -n test python -m pytest
 
       - name: Test Network & Global Context
         shell: bash
@@ -220,22 +219,22 @@ jobs:
           PROJ_NETWORK: ON
           PYPROJ_GLOBAL_CONTEXT: ON
         run: |
-          python -m pytest
+          micromamba run -n test python -m pytest
 
       - name: Test Grids
         shell: bash
         env:
           PROJ_NETWORK: OFF
         run: |
-          projsync --quiet --bbox -175,0,-50,85
-          python -m pytest
+          micromamba run -n test projsync --quiet --bbox -175,0,-50,85
+          micromamba run -n test python -m pytest
 
       - name: Test Build docs
         shell: bash
         if: contains(matrix.os, 'ubuntu') && matrix.python-implementation == 'python'
         run: |
-          python -m pip install -r requirements-docs.txt
-          sphinx-build -b html docs/ docs/_build/
-          sphinx-build -b man docs/ docs/_build/
+          micromamba run -n test python -m pip install -r requirements-docs.txt
+          micromamba run -n test sphinx-build -b html docs/ docs/_build/
+          micromamba run -n test sphinx-build -b man docs/ docs/_build/
 
       - uses: codecov/codecov-action@v4
