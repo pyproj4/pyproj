@@ -1565,6 +1565,31 @@ class CRS:
         """
         return self._crs.is_derived
 
+    @property
+    def is_deprecated(self) -> bool:
+        """
+        .. versionadded:: 3.6.2
+
+        Check if the CRS is deprecated
+
+        Returns
+        -------
+        bool
+        """
+        return self._crs.is_deprecated
+
+    def get_non_deprecated(self) -> list["CRS"]:
+        """
+        .. versionadded:: 3.6.2
+
+        Return a list of non-deprecated objects related to this.
+
+        Returns
+        -------
+        list[CRS]
+        """
+        return self._crs.get_non_deprecated()
+
     def __eq__(self, other: Any) -> bool:
         return self.equals(other)
 

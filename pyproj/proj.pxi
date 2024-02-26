@@ -546,3 +546,6 @@ cdef extern from "proj.h" nogil:
     )
     void proj_unit_list_destroy(PROJ_UNIT_INFO** list)
     const char *proj_context_get_url_endpoint(PJ_CONTEXT* ctx)
+
+    int proj_is_deprecated(const PJ *obj)
+    PJ_OBJ_LIST *proj_get_non_deprecated(PJ_CONTEXT *ctx, const PJ *obj)

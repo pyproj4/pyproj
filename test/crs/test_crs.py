@@ -232,6 +232,36 @@ def test_to_wkt_pretty():
     assert "\n" not in crs.to_wkt()
 
 
+def test_no_non_deprecated():
+    crs = CRS.from_epsg(4326)
+    assert not crs.is_deprecated
+    non_dep = crs.get_non_deprecated()
+    assert len(non_dep) == 0
+
+
+def test_non_deprecated():
+    crs = CRS.from_epsg(28473)
+    assert crs.is_deprecated
+    non_dep = crs.get_non_deprecated()
+    assert len(non_dep) == 1
+    assert "EPSG:2503" == ":".join(non_dep[0].to_authority())
+
+
+def test_non_deprecated_empty():
+    crs = CRS.from_epsg(3151)
+    assert crs.is_deprecated
+    assert len(crs.get_non_deprecated()) == 0
+
+
+def test_non_deprecated_multiple():
+    crs = CRS.from_epsg(3315)
+    assert crs.is_deprecated
+    non_dep = [":".join(el.to_authority()) for el in crs.get_non_deprecated()]
+    assert len(non_dep) == 4
+    for elem in ["EPSG:3989", "EPSG:3988", "EPSG:3987", "EPSG:3986"]:
+        assert elem in non_dep
+
+
 @pytest.mark.parametrize(
     "version, expected",
     [
