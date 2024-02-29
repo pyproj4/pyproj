@@ -4,6 +4,7 @@ Change Log
 Latest
 ------
 - DEP: Minimum supported Python version 3.10 (pull #1357)
+- ENH: Add :meth:`CRS.is_deprecated` and :meth:`CRS.get_non_deprecated` (pull #1383)
 
 3.6.1
 ------

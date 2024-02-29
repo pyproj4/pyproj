@@ -3203,3 +3203,60 @@ cdef class _CRS(Base):
         if not isinstance(other, _CRS):
             return False
         return self._equals(other, ignore_axis_order=ignore_axis_order)
+
+    @property
+    def is_deprecated(self):
+        """
+        .. versionadded:: 3.7.0
+
+        Check if the CRS is deprecated
+
+        Returns
+        -------
+        bool
+        """
+        return bool(proj_is_deprecated(self.projobj))
+
+    def get_non_deprecated(self):
+        """
+        .. versionadded:: 3.7.0
+
+        Return a list of non-deprecated objects related to this.
+
+        Returns
+        -------
+        list[_CRS]
+        """
+
+        non_deprecated = []
+
+        cdef PJ_OBJ_LIST *proj_list = NULL
+        cdef int num_proj_objects = 0
+
+        proj_list = proj_get_non_deprecated(
+            self.context,
+            self.projobj
+        )
+        if proj_list != NULL:
+            num_proj_objects = proj_list_get_count(proj_list)
+
+        cdef PJ* proj = NULL
+        try:
+            for iii in range(num_proj_objects):
+                proj = proj_list_get(self.context, proj_list, iii)
+                non_deprecated.append(_CRS(_to_wkt(
+                    self.context,
+                    proj,
+                    version=WktVersion.WKT2_2019,
+                    pretty=False,
+                )))
+                proj_destroy(proj)
+                proj = NULL
+        finally:
+            # If there was an error we have to call proj_destroy
+            # If there was none, calling it on NULL does nothing
+            proj_destroy(proj)
+            proj_list_destroy(proj_list)
+            _clear_proj_error()
+
+        return non_deprecated
