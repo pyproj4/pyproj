@@ -3207,7 +3207,7 @@ cdef class _CRS(Base):
     @property
     def is_deprecated(self):
         """
-        .. versionadded:: 3.6.2
+        .. versionadded:: 3.7.0
 
         Check if the CRS is deprecated
 
