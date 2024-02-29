@@ -752,6 +752,20 @@ or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordin
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyproj.crs.CRS.get_non_deprecated">
+<span class="sig-name descname"><span class="pre">get_non_deprecated</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.crs.CRS"><span class="pre">CRS</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/pyproj/crs/crs.html#CRS.get_non_deprecated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.crs.CRS.get_non_deprecated" title="Link to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.0.</span></p>
+</div>
+<p>Return a list of non-deprecated objects related to this.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference internal" href="#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="pyproj.crs.CRS.is_bound">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_bound</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyproj.crs.CRS.is_bound" title="Link to this definition">#</a></dt>
@@ -771,6 +785,20 @@ or <a class="reference internal" href="coordinate_system.html#pyproj.crs.coordin
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyproj.crs.CRS.is_deprecated">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_deprecated</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyproj.crs.CRS.is_deprecated" title="Link to this definition">#</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.0.</span></p>
+</div>
+<p>Check if the CRS is deprecated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1794,8 +1822,10 @@ or the source CRS of a CoordinateOperation.</p>
 <li><a class="reference internal" href="#pyproj.crs.CRS.from_wkt"><code class="docutils literal notranslate"><span class="pre">CRS.from_wkt()</span></code></a></li>
 <li><a class="reference internal" href="#pyproj.crs.CRS.geodetic_crs"><code class="docutils literal notranslate"><span class="pre">CRS.geodetic_crs</span></code></a></li>
 <li><a class="reference internal" href="#pyproj.crs.CRS.get_geod"><code class="docutils literal notranslate"><span class="pre">CRS.get_geod()</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.get_non_deprecated"><code class="docutils literal notranslate"><span class="pre">CRS.get_non_deprecated()</span></code></a></li>
 <li><a class="reference internal" href="#pyproj.crs.CRS.is_bound"><code class="docutils literal notranslate"><span class="pre">CRS.is_bound</span></code></a></li>
 <li><a class="reference internal" href="#pyproj.crs.CRS.is_compound"><code class="docutils literal notranslate"><span class="pre">CRS.is_compound</span></code></a></li>
+<li><a class="reference internal" href="#pyproj.crs.CRS.is_deprecated"><code class="docutils literal notranslate"><span class="pre">CRS.is_deprecated</span></code></a></li>
 <li><a class="reference internal" href="#pyproj.crs.CRS.is_derived"><code class="docutils literal notranslate"><span class="pre">CRS.is_derived</span></code></a></li>
 <li><a class="reference internal" href="#pyproj.crs.CRS.is_engineering"><code class="docutils literal notranslate"><span class="pre">CRS.is_engineering</span></code></a></li>
 <li><a class="reference internal" href="#pyproj.crs.CRS.is_exact_same"><code class="docutils literal notranslate"><span class="pre">CRS.is_exact_same()</span></code></a></li>
