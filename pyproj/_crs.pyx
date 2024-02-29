@@ -3219,7 +3219,7 @@ cdef class _CRS(Base):
 
     def get_non_deprecated(self):
         """
-        .. versionadded:: 3.6.2
+        .. versionadded:: 3.7.0
 
         Return a list of non-deprecated objects related to this.
 
