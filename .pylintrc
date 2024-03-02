@@ -1,3 +1,6 @@
+[MAIN]
+ignore-patterns=.*\.pyi$
+
 [MASTER]
 extension-pkg-whitelist=pyproj._crs,
                         pyproj._transformer,
