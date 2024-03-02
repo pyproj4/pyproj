@@ -273,7 +273,7 @@ function build_proj {
     if [ -e proj-stamp ]; then return; fi
     get_modern_cmake
     fetch_unpack https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz
-    suppress build_curl_ssl
+    build_curl_ssl
     (cd proj-${PROJ_VERSION:0:5} \
         && cmake . \
         -DCMAKE_INSTALL_PREFIX=$PROJ_DIR \
