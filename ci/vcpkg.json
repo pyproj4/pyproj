@@ -1,11 +1,11 @@
 {
     "name": "pyproj",
-    "version": "3.6.0",
+    "version": "3.7.0",
     "dependencies": [
         {
             "name": "proj",
-            "version>=": "9.3.0"
+            "version>=": "9.4.0"
         }
     ],
-    "builtin-baseline": "7b5ca09708ae42dba9517d4e0a0c975d087f1061"
+    "builtin-baseline": "46542ddc124d692945b66cf6dda9876b9eef1dc3"
 }
