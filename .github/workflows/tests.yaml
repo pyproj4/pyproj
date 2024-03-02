@@ -183,7 +183,7 @@ jobs:
         if: matrix.python-implementation == 'python'
         run: |
           source activate test
-          pylint pyproj
+          python -m pylint pyproj
 
       - name: Test with Coverage
         shell: bash
