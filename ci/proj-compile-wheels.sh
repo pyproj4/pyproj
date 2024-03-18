@@ -1,18 +1,18 @@
 # INSTALL PROJ & DEPENDENCIES FOR WHEELS
 # Test for macOS with [ -n "$IS_MACOS" ]
-SQLITE_VERSION=3420000
-LIBTIFF_VERSION=4.5.0
-CURL_VERSION=8.1.2
-NGHTTP2_VERSION=1.54.0
+SQLITE_VERSION=450100
+LIBTIFF_VERSION=4.6.0
+CURL_VERSION=8.6.0
+NGHTTP2_VERSION=1.60.0
 
 
 # ------------------------------------------
 # From: https://github.com/multi-build/multibuild/
 # ------------------------------------------
 BUILD_PREFIX="${BUILD_PREFIX:-/usr/local}"
-OPENSSL_ROOT=${OPENSSL_ROOT:-openssl-1.1.1l}
-# Hash from https://www.openssl.org/source/openssl-1.1.1?.tar.gz.sha256
-OPENSSL_HASH=${OPENSSL_HASH:-0b7a3e5e59c34827fe0c3a74b7ec8baef302b98fa80088d7f9153aa16fa76bd1}
+OPENSSL_ROOT=${OPENSSL_ROOT:-openssl-3.2.1l}
+# Hash from https://www.openssl.org/source/openssl-3.2.1?.tar.gz.sha256
+OPENSSL_HASH=${OPENSSL_HASH:-6ae015467dabf0469b139ada93319327be24b98251ffaeceda0221848dc09262}
 OPENSSL_DOWNLOAD_URL=${OPENSSL_DOWNLOAD_URL:-https://www.openssl.org/source}
 
 if [ $(uname) == "Darwin" ]; then
@@ -239,7 +239,7 @@ function build_curl_ssl {
     if [ -n "$IS_MACOS" ]; then
         flags="$flags --with-darwinssl"
     else  # manylinux
-        suppress build_openssl
+        build_openssl
         flags="$flags --with-ssl"
         LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_PREFIX/lib
     fi
@@ -265,7 +265,7 @@ function build_sqlite {
         CFLAGS="$CFLAGS -DHAVE_PREAD64 -DHAVE_PWRITE64"
     fi
     if [ -e sqlite-stamp ]; then return; fi
-    build_simple sqlite-autoconf $SQLITE_VERSION https://www.sqlite.org/2023
+    build_simple sqlite-autoconf $SQLITE_VERSION https://www.sqlite.org/2024
     touch sqlite-stamp
 }
 
@@ -273,7 +273,7 @@ function build_proj {
     if [ -e proj-stamp ]; then return; fi
     get_modern_cmake
     fetch_unpack https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz
-    suppress build_curl_ssl
+    build_curl_ssl
     (cd proj-${PROJ_VERSION:0:5} \
         && cmake . \
         -DCMAKE_INSTALL_PREFIX=$PROJ_DIR \
