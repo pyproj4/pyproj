@@ -289,9 +289,31 @@ function build_proj {
     touch proj-stamp
 }
 
-# Run installation process
+function copy_cached_proj_to_build {
+    if [ ! -d $PROJ_CACHE ]; then
+        return 1
+    fi
+
+    mkdir -p ${PROJ_DIR}/
+    cp -Rv ${PROJ_CACHE}/* ${PROJ_DIR}/
+}
+
+function copy_build_proj_to_cache {
+    mkdir -p ${PROJ_CACHE}
+    cp -Rv ${PROJ_DIR}/* ${PROJ_CACHE}/
+}
+
+
 update_env_for_build_prefix
+
+if copy_cached_proj_to_build ; then
+    echo "Using cached PROJ build"
+    exit 0
+fi
+
+# Run installation process
 suppress build_zlib
 suppress build_sqlite
 suppress build_libtiff
 build_proj
+copy_build_proj_to_cache
