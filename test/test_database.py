@@ -8,6 +8,7 @@ from pyproj.database import (
     get_database_metadata,
     get_units_map,
     query_crs_info,
+    query_geodetic_crs_from_datum,
     query_utm_crs_info,
 )
 from pyproj.enums import PJType
@@ -268,3 +269,43 @@ def test_get_database_metadata():
 
 def test_get_database_metadata__invalid():
     assert get_database_metadata("doesnotexist") is None
+
+
+def test_query_geodetic_crs_from_datum():
+    crss = query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", PJType.GEOCENTRIC_CRS)
+    assert len(crss) == 1
+    assert crss[0].to_authority()[1] == "6317"
+
+    crss = query_geodetic_crs_from_datum(None, "EPSG", "1116")
+    assert len(crss) == 3
+    codes = [x.to_authority()[1] for x in crss]
+    assert "6317" in codes
+    assert "6318" in codes
+    assert "6319" in codes
+
+    crss = query_geodetic_crs_from_datum("EPSG", "EPSG", "6269", None)
+    assert len(crss) == 1
+    assert crss[0].to_authority()[1] == "4269"
+
+    crss = query_geodetic_crs_from_datum(None, "EPSG", "6269")
+    assert len(crss) == 3  # EPSG, ESRI, OGC
+
+
+def test_query_geodetic_crs_from_datum_invalid():
+    crss = query_geodetic_crs_from_datum(None, "EPSG", "11")
+    assert len(crss) == 0
+
+    crss = query_geodetic_crs_from_datum(None, "EPSG", "32632")
+    assert len(crss) == 0
+
+    crss = query_geodetic_crs_from_datum("foo-bar", "EPSG", "6269", None)
+    assert len(crss) == 0
+
+    with pytest.raises(ValueError):
+        query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", PJType.PROJECTED_CRS)
+
+    with pytest.raises(TypeError):
+        query_geodetic_crs_from_datum("EPSG", "EPSG", None)
+
+    with pytest.raises(TypeError):
+        query_geodetic_crs_from_datum("EPSG", None, "1116")
