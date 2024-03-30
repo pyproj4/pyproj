@@ -6,9 +6,10 @@ from collections import namedtuple
 from libc.stdlib cimport free, malloc
 
 from pyproj._compat cimport cstrdecode, cstrencode
-from pyproj._context cimport pyproj_context_create
+from pyproj._context cimport _clear_proj_error, pyproj_context_create
 
 from pyproj.aoi import AreaOfUse
+from pyproj.crs import CRS
 from pyproj.enums import PJType
 
 
@@ -465,3 +466,98 @@ def get_database_metadata(str key not None):
     if metadata == NULL:
         return None
     return metadata
+
+
+def query_geodetic_crs_from_datum(
+    str crs_auth_name,
+    str datum_auth_name not None,
+    str datum_code not None,
+    pj_type=None
+):
+    """
+    .. versionadded:: 3.8.0
+
+    Return GeodeticCRS that use the specified datum
+
+    See: :c:func:`proj_query_geodetic_crs_from_datum`
+
+    Parameters
+    ----------
+    crs_auth_name: str | None
+        The authority name to filter by (e.g. EPSG, ESRI). None is all.
+    datum_auth_name: str
+        The authority of the datum
+    datum_code: str
+        Datum code
+    pj_type: pyproj.enums.PJType | None, optional
+        The type of object to get the CRSs. Can be PJType.GEOCENTRIC_CRS,
+        PJType.GEOGRAPHIC_3D_CRS, PJType.GEOGRAPHIC_2D_CRS or None for all.
+
+    Returns
+    -------
+    list[CRS]
+    """
+
+    cdef const char* c_crs_type = NULL
+    if pj_type is None:
+        pass
+    elif pj_type is PJType.GEOCENTRIC_CRS:
+        c_crs_type = b"geocentric"
+    elif pj_type is PJType.GEOGRAPHIC_2D_CRS:
+        c_crs_type = b"geographic 2D"
+    elif pj_type is PJType.GEOGRAPHIC_3D_CRS:
+        c_crs_type = b"geographic 3D"
+    else:
+        raise ValueError("type must be GEOCENTRIC_CRS, GEOGRAPHIC_2D_CRS, GEOGRAPHIC_3D_CRS or None")
+
+    cdef const char* c_crs_auth_name = NULL
+    cdef const char* c_datum_auth_name = NULL
+    cdef const char* c_datum_code = NULL
+    cdef bytes b_crs_auth_name
+    cdef bytes b_datum_auth_name
+    cdef bytes b_datum_code
+
+    if crs_auth_name is not None:
+        b_crs_auth_name = cstrencode(crs_auth_name)
+        c_crs_auth_name = b_crs_auth_name
+
+    if datum_auth_name is not None:
+        b_datum_auth_name = cstrencode(datum_auth_name)
+        c_datum_auth_name = b_datum_auth_name
+
+    if datum_code is not None:
+        b_datum_code = cstrencode(datum_code)
+        c_datum_code = b_datum_code
+
+    ret_list = []
+
+    cdef PJ_OBJ_LIST *proj_list = NULL
+    cdef int num_proj_objects = 0
+
+    cdef PJ_CONTEXT* context = pyproj_context_create()
+    proj_list = proj_query_geodetic_crs_from_datum(
+        context,
+        c_crs_auth_name,
+        c_datum_auth_name,
+        c_datum_code,
+        c_crs_type
+    )
+
+    if proj_list != NULL:
+        num_proj_objects = proj_list_get_count(proj_list)
+
+    cdef PJ* proj = NULL
+    try:
+        for iii in range(num_proj_objects):
+            proj = proj_list_get(context, proj_list, iii)
+            ret_list.append(CRS(proj_as_wkt(context, proj, PJ_WKT2_2019, NULL)))
+            proj_destroy(proj)
+            proj = NULL
+    finally:
+        # If there was an error we have to call proj_destroy
+        # If there was none, calling it on NULL does nothing
+        proj_destroy(proj)
+        proj_list_destroy(proj_list)
+        _clear_proj_error()
+
+    return ret_list
