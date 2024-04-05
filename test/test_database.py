@@ -272,6 +272,10 @@ def test_get_database_metadata__invalid():
 
 
 def test_query_geodetic_crs_from_datum():
+    crss = query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", "GEOCENTRIC_CRS")
+    assert len(crss) == 1
+    assert crss[0].to_authority()[1] == "6317"
+
     crss = query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", PJType.GEOCENTRIC_CRS)
     assert len(crss) == 1
     assert crss[0].to_authority()[1] == "6317"
@@ -303,6 +307,9 @@ def test_query_geodetic_crs_from_datum_invalid():
 
     with pytest.raises(ValueError):
         query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", PJType.PROJECTED_CRS)
+
+    with pytest.raises(ValueError):
+        query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", "invalid string")
 
     with pytest.raises(TypeError):
         query_geodetic_crs_from_datum("EPSG", "EPSG", None)
