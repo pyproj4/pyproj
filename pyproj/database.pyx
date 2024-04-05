@@ -498,6 +498,9 @@ def query_geodetic_crs_from_datum(
     list[CRS]
     """
 
+    if pj_type is not None and not isinstance(pj_type, PJType):
+        pj_type = PJType.create(pj_type)
+
     cdef const char* c_crs_type = NULL
     if pj_type is None:
         pass
