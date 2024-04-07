@@ -1998,7 +1998,7 @@ class VerticalCRS(CustomConstructorCRS):
     """
     .. versionadded:: 2.5.0
 
-    This class is for building a Vetical CRS.
+    This class is for building a Vertical CRS.
 
     .. warning:: geoid_model support only exists in PROJ >= 6.3.0
 

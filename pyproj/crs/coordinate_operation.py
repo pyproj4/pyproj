@@ -1290,7 +1290,7 @@ class VerticalPerspectiveConversion(CoordinateOperation):
     """
     .. versionadded:: 2.5.0
 
-    Class for constructing the Vetical Perspective conversion.
+    Class for constructing the Vertical Perspective conversion.
 
     :ref:`PROJ docs <nsper>`
     """
