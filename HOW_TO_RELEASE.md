@@ -43,7 +43,7 @@ Next, go through the history and add release notes (see: [automatically generate
 
 Most of the wheels are tested with each merge to main and uploaded to pypi on release in GitHub Actions. However, the arm64 wheels are built separately. This provides instructions for those wheels:
 
-1. linux arm64: Update the PR at https://github.com/pyproj4/pyproj-wheels with the release tag & merge. The wheels will automatically upload to pypi when the CI runs suceed.
+1. linux arm64: Update the PR at https://github.com/pyproj4/pyproj-wheels with the release tag & merge. The wheels will automatically upload to pypi when the CI runs succeed.
 2. macos arm64: Download the release wheel artifacts from the Cirrus CI build and upload manually to pypi.
 
 ### Verify conda-forge build is correct

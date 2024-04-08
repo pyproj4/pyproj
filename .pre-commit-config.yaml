@@ -33,3 +33,7 @@ repos:
             types:
             - file
             args: [--append-config=flake8/cython.cfg]
+    -   repo: https://github.com/codespell-project/codespell
+        rev: v2.2.6
+        hooks:
+        -   id: codespell
