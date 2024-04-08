@@ -155,7 +155,7 @@ Latest
 * ENH: Added :ref:`network_api` (#675, #691, #695)
 * ENH: Added ability to use global context (issue #661)
 * ENH: Added transformation grid sync API/CLI (issue #572)
-* ENH: Support obects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
+* ENH: Support objects with '__array__' method (pandas.Series, xarray.DataArray, dask.array.Array) (issue #573)
 * ENH: Added :func:`pyproj.datadir.get_user_data_dir` (pull #636)
 * ENH: Added :attr:`pyproj.transformer.Transformer.is_network_enabled` (issue #629)
 * ENH: Added :meth:`pyproj.transformer.TransformerGroup.download_grids` (pull #643)
