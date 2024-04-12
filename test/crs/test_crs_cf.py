@@ -18,7 +18,7 @@ from pyproj.crs.coordinate_operation import (
     VerticalPerspectiveConversion,
 )
 from pyproj.exceptions import CRSError
-from test.conftest import PROJ_GTE_901, PROJ_LOOSE_VERSION
+from test.conftest import PROJ_LOOSE_VERSION
 
 
 def _to_dict(operation):
@@ -82,13 +82,9 @@ def test_to_cf_transverse_mercator():
     )
     towgs84_test = [-122.74, -34.27, -22.83, -1.884, -3.4, -3.03, -15.62]
     horizontal_datum_name = (
-        "Unknown based on International 1924 (Hayford 1909, 1910) ellipsoid"
+        "Unknown based on International 1924 (Hayford 1909, 1910) ellipsoid using "
+        "towgs84=-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
     )
-    if PROJ_GTE_901:
-        horizontal_datum_name = (
-            f"{horizontal_datum_name} using "
-            "towgs84=-122.74,-34.27,-22.83,-1.884,-3.400,-3.030,-15.62"
-        )
     expected_cf = {
         "semi_major_axis": 6378388.0,
         "semi_minor_axis": crs.ellipsoid.semi_minor_metre,

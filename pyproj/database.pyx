@@ -38,9 +38,8 @@ cdef dict _PJ_TYPE_MAP = {
     PJType.TRANSFORMATION: PJ_TYPE_TRANSFORMATION,
     PJType.CONCATENATED_OPERATION: PJ_TYPE_CONCATENATED_OPERATION,
     PJType.OTHER_COORDINATE_OPERATION: PJ_TYPE_OTHER_COORDINATE_OPERATION,
+    PJType.DERIVED_PROJECTED_CRS: PJ_TYPE_DERIVED_PROJECTED_CRS,
 }
-IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) >= (9, 2):
-    _PJ_TYPE_MAP[PJType.DERIVED_PROJECTED_CRS] = PJ_TYPE_DERIVED_PROJECTED_CRS
 
 cdef dict _INV_PJ_TYPE_MAP = {value: key for key, value in _PJ_TYPE_MAP.items()}
 
@@ -48,11 +47,6 @@ cdef dict _INV_PJ_TYPE_MAP = {value: key for key, value in _PJ_TYPE_MAP.items()}
 cdef PJ_TYPE get_pj_type(pj_type) except *:
     if not isinstance(pj_type, PJType):
         pj_type = PJType.create(pj_type)
-    IF (CTE_PROJ_VERSION_MAJOR, CTE_PROJ_VERSION_MINOR) < (9, 2):
-        if pj_type is PJType.DERIVED_PROJECTED_CRS:
-            raise NotImplementedError(
-                "DERIVED_PROJECTED_CRS requires PROJ 9.2+"
-            )
     return _PJ_TYPE_MAP[pj_type]
 
 

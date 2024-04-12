@@ -20,14 +20,7 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import (
-    PROJ_GTE_91,
-    PROJ_GTE_901,
-    PROJ_GTE_911,
-    PROJ_GTE_921,
-    assert_can_pickle,
-    grids_available,
-)
+from test.conftest import PROJ_GTE_921, assert_can_pickle, grids_available
 
 
 class CustomCRS:
@@ -348,9 +341,6 @@ def test_repr_epsg():
 
 
 def test_repr__undefined():
-    datum_name = "unknown"
-    if PROJ_GTE_901:
-        datum_name = f"{datum_name} using nadgrids=@null"
     assert repr(
         CRS(
             "+proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@null"
@@ -367,7 +357,7 @@ def test_repr__undefined():
         "Coordinate Operation:\n"
         "- name: unknown to WGS84\n"
         "- method: NTv2\n"
-        f"Datum: {datum_name}\n"
+        "Datum: unknown using nadgrids=@null\n"
         "- Ellipsoid: unknown\n"
         "- Prime Meridian: Greenwich\n"
         "Source CRS: unknown\n"
@@ -440,9 +430,7 @@ def test_datum_unknown():
     datum_name = "Unknown based on WGS84 ellipsoid"
     if PROJ_GTE_921:
         datum_name = "Unknown based on WGS 84 ellipsoid"
-    if PROJ_GTE_901:
-        datum_name = f"{datum_name} using towgs84=0,0,0,0,0,0,0"
-    assert crs.datum.name == datum_name
+    assert crs.datum.name == f"{datum_name} using towgs84=0,0,0,0,0,0,0"
 
 
 def test_epsg__not_found():
@@ -679,17 +667,12 @@ def test_coordinate_operation_grids__alternative_grid_name():
     assert grid.short_name == "ca_nrc_ntv1_can.tif"
     assert grid.package_name == ""
     assert grid.url == "https://cdn.proj.org/ca_nrc_ntv1_can.tif"
-    if (PROJ_GTE_91 and grids_available(grid.short_name, check_network=False)) or (
-        not PROJ_GTE_91 and grids_available(grid.short_name)
-    ):
+    if grids_available(grid.short_name, check_network=False):
         assert grid.available is True
         assert grid.full_name.endswith(grid.short_name)
-    elif PROJ_GTE_911 and pyproj.network.is_network_enabled():
+    elif pyproj.network.is_network_enabled():
         assert grid.available is True
         assert grid.full_name == grid.url
-    elif PROJ_GTE_91 and pyproj.network.is_network_enabled():
-        assert grid.available is True
-        assert grid.full_name == ""
     else:
         assert grid.available is False
         assert grid.full_name == ""
