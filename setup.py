@@ -8,7 +8,7 @@ from pathlib import Path
 
 from setuptools import Extension, setup
 
-PROJ_MIN_VERSION = (9, 0, 0)
+PROJ_MIN_VERSION = (9, 2, 0)
 CURRENT_FILE_PATH = Path(__file__).absolute().parent
 BASE_INTERNAL_PROJ_DIR = Path("proj_dir")
 INTERNAL_PROJ_DIR = CURRENT_FILE_PATH / "pyproj" / BASE_INTERNAL_PROJ_DIR

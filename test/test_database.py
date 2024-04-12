@@ -11,7 +11,6 @@ from pyproj.database import (
     query_utm_crs_info,
 )
 from pyproj.enums import PJType
-from test.conftest import PROJ_GTE_92
 
 
 def test_backwards_compatible_import_paths():
@@ -111,13 +110,7 @@ def test_get_codes__empty(auth, pj_type):
 
 
 def test_get_codes__derived_projected_crs():
-    if PROJ_GTE_92:
-        assert not get_codes("EPSG", PJType.DERIVED_PROJECTED_CRS)
-    else:
-        with pytest.raises(
-            NotImplementedError, match="DERIVED_PROJECTED_CRS requires PROJ 9.2+"
-        ):
-            get_codes("EPSG", PJType.DERIVED_PROJECTED_CRS)
+    assert not get_codes("EPSG", PJType.DERIVED_PROJECTED_CRS)
 
 
 def test_get_codes__invalid_auth():
@@ -152,13 +145,7 @@ def test_query_crs_info(auth, pj_type, deprecated):
 
 
 def test_query_crs_info__derived_projected_crs():
-    if PROJ_GTE_92:
-        assert not query_crs_info(pj_types=PJType.DERIVED_PROJECTED_CRS)
-    else:
-        with pytest.raises(
-            NotImplementedError, match="DERIVED_PROJECTED_CRS requires PROJ 9.2+"
-        ):
-            query_crs_info(pj_types=PJType.DERIVED_PROJECTED_CRS)
+    assert not query_crs_info(pj_types=PJType.DERIVED_PROJECTED_CRS)
 
 
 @pytest.mark.parametrize(

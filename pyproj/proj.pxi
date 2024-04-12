@@ -122,6 +122,7 @@ cdef extern from "proj.h" nogil:
         double* out_ymax,
         int densify_pts
     )
+    PJ* proj_trans_get_last_used_operation(PJ *P)
     ctypedef struct PJ_AREA
     PJ *proj_create_crs_to_crs_from_pj(
         PJ_CONTEXT *ctx,

@@ -3,7 +3,7 @@ import pytest
 from numpy.testing import assert_allclose, assert_almost_equal
 
 from pyproj import Proj, __proj_version__, transform
-from test.conftest import PROJ_911, PROJ_GTE_92, PROJ_GTE_911, grids_available
+from test.conftest import grids_available
 
 
 def test_transform():
@@ -52,7 +52,6 @@ def test_transform():
     assert_allclose(numpy.maximum.reduce(numpy.ravel(y3 - y1)), 0, atol=1e-4)
 
 
-@pytest.mark.xfail(PROJ_911, reason="Patch applied in conda-forge changes behavior")
 def test_transform_single_point_nad83_to_nad27():
     # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum
     # (defined by epsg code 26915)
@@ -68,22 +67,20 @@ def test_transform_single_point_nad83_to_nad27():
         (569704.566, 4269024.671),
         decimal=3,
     )
-    expected_xy2 = (569722, 4268814)
-    if PROJ_GTE_911:
-        expected_xy2 = (569720, 4268813)
-        if (
-            PROJ_GTE_92
-            and grids_available(
-                "us_noaa_nadcon5_nad27_nad83_1986_conus.tif", check_network=False
-            )
-        ) or grids_available():
-            expected_xy2 = (569722, 4268814)
-        elif grids_available(
-            "ca_nrc_ntv2_0.tif", "ca_nrc_ntv1_can.tif", check_network=False
-        ):
-            expected_xy2 = (569706, 4268817)
-        elif grids_available("us_noaa_conus.tif", check_network=False):
-            expected_xy2 = (569722, 4268814)
+    expected_xy2 = (569720, 4268813)
+    if (
+        grids_available(
+            "us_noaa_nadcon5_nad27_nad83_1986_conus.tif", check_network=False
+        )
+        or grids_available()
+    ):
+        expected_xy2 = (569722, 4268814)
+    elif grids_available(
+        "ca_nrc_ntv2_0.tif", "ca_nrc_ntv1_can.tif", check_network=False
+    ):
+        expected_xy2 = (569706, 4268817)
+    elif grids_available("us_noaa_conus.tif", check_network=False):
+        expected_xy2 = (569722, 4268814)
 
     assert_almost_equal(
         (x2, y2),
@@ -97,7 +94,6 @@ def test_transform_single_point_nad83_to_nad27():
     )
 
 
-@pytest.mark.xfail(PROJ_911, reason="Patch applied in conda-forge changes behavior")
 def test_transform_tuple_nad83_to_nad27():
     # projection 1: UTM zone 15, grs80 ellipse, NAD83 datum
     # (defined by epsg code 26915)
@@ -119,27 +115,24 @@ def test_transform_tuple_nad83_to_nad27():
         (4298200.739, 4353698.725, 4292319.005),
         decimal=3,
     )
-    expected_x2 = (567721, 351747, 728569)
-    expected_y2 = (4297989, 4353489, 4292106)
-    if PROJ_GTE_911:
-        expected_x2 = (567719, 351748, 728568)
-        expected_y2 = (4297989, 4353487, 4292108)
-        if (
-            PROJ_GTE_92
-            and grids_available(
-                "us_noaa_nadcon5_nad27_nad83_1986_conus.tif", check_network=False
-            )
-        ) or grids_available():
-            expected_x2 = (567721, 351747, 728569)
-            expected_y2 = (4297989, 4353489, 4292106)
-        elif grids_available(
-            "ca_nrc_ntv2_0.tif", "ca_nrc_ntv1_can.tif", check_network=False
-        ):
-            expected_x2 = (567705, 351727, 728558)
-            expected_y2 = (4297993, 4353490, 4292111)
-        elif grids_available("us_noaa_conus.tif", check_network=False):
-            expected_x2 = (567721, 351747, 728569.133)
-            expected_y2 = (4297989, 4353489, 4292106)
+    expected_x2 = (567719, 351748, 728568)
+    expected_y2 = (4297989, 4353487, 4292108)
+    if (
+        grids_available(
+            "us_noaa_nadcon5_nad27_nad83_1986_conus.tif", check_network=False
+        )
+        or grids_available()
+    ):
+        expected_x2 = (567721, 351747, 728569)
+        expected_y2 = (4297989, 4353489, 4292106)
+    elif grids_available(
+        "ca_nrc_ntv2_0.tif", "ca_nrc_ntv1_can.tif", check_network=False
+    ):
+        expected_x2 = (567705, 351727, 728558)
+        expected_y2 = (4297993, 4353490, 4292111)
+    elif grids_available("us_noaa_conus.tif", check_network=False):
+        expected_x2 = (567721, 351747, 728569.133)
+        expected_y2 = (4297989, 4353489, 4292106)
 
     assert_almost_equal(
         x2,
