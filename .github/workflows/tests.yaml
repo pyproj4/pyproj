@@ -124,8 +124,8 @@ jobs:
         python-version: ['3.10', '3.11', '3.12']
         python-implementation: [python]
         proj-version: ['*']
-        include:
-          # DISABLED UNTIL CONDA-FORGE PYPY SUPPORTS PYTHON 3.10+
+        # DISABLED UNTIL CONDA-FORGE PYPY SUPPORTS PYTHON 3.10+
+        # include:
           # - os: ubuntu-latest
           #   python-version: '*'
           #   python-implementation: pypy
