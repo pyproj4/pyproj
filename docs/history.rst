@@ -7,6 +7,7 @@ Latest
 - DEP: Minimum supported Python version 3.10 (pull #1357)
 - DEP: Minimum PROJ version 9.2 (pull #1394)
 - ENH: Add :meth:`CRS.is_deprecated` and :meth:`CRS.get_non_deprecated` (pull #1383)
+- ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
 
 3.6.1
 ------
