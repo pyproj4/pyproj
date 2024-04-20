@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Getting Started" href="examples.html" /><link rel="prev" title="pyproj Documentation" href="index.html" />
 
-    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.01.29 -->
         <title>Installation - pyproj 3.6.2.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d623d863" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -230,7 +230,7 @@
         </div>
         <article role="main">
           <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <p>The easiest methods for installing pyproj are:</p>
 <ol class="arabic simple">
 <li><p>Use pip to install the binary wheels on <a class="reference external" href="https://pypi.org/project/pyproj/">PyPI</a>:</p></li>
@@ -288,11 +288,11 @@ recipe: <a class="reference external" href="https://github.com/conda-forge/stage
 <p>If these installation methods do not meet your needs, the section below provides further instructions
 for getting setup.</p>
 <section id="transformation-grids">
-<h2>Transformation Grids<a class="headerlink" href="#transformation-grids" title="Link to this heading">#</a></h2>
+<h2>Transformation Grids<a class="headerlink" href="#transformation-grids" title="Link to this heading">¶</a></h2>
 <p>See: <a class="reference internal" href="transformation_grids.html#transformation-grids"><span class="std std-ref">Transformation Grids</span></a></p>
 </section>
 <section id="installing-from-source">
-<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Link to this heading">#</a></h2>
+<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Link to this heading">¶</a></h2>
 <p>Version compatibility matrix:</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
@@ -336,7 +336,7 @@ for getting setup.</p>
 </table>
 </div>
 <section id="setup-proj">
-<h3>Setup PROJ<a class="headerlink" href="#setup-proj" title="Link to this heading">#</a></h3>
+<h3>Setup PROJ<a class="headerlink" href="#setup-proj" title="Link to this heading">¶</a></h3>
 <p>PROJ is required when building from source.</p>
 <p><a class="reference external" href="https://proj.org/en/9.4/install.html#install" title="(in PROJ v9.4)"><span class="xref std std-ref">PROJ Installation Instructions</span></a></p>
 <p>You can also download PROJ from:</p>
@@ -346,12 +346,12 @@ for getting setup.</p>
 </ul>
 </section>
 <section id="pyproj-build-environment-variables">
-<h3>pyproj Build Environment Variables<a class="headerlink" href="#pyproj-build-environment-variables" title="Link to this heading">#</a></h3>
+<h3>pyproj Build Environment Variables<a class="headerlink" href="#pyproj-build-environment-variables" title="Link to this heading">¶</a></h3>
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-PROJ_VERSION">
-<span class="sig-name descname"><span class="pre">PROJ_VERSION</span></span><a class="headerlink" href="#envvar-PROJ_VERSION" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">PROJ_VERSION</span></span><a class="headerlink" href="#envvar-PROJ_VERSION" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
+<p><span class="versionmodified added">Added in version 3.0.</span></p>
 </div>
 <p>This sets the version of PROJ when building pyproj. This
 enables installing pyproj when the PROJ executables are not
@@ -360,7 +360,7 @@ present but the header files exist.</p>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-PROJ_DIR">
-<span class="sig-name descname"><span class="pre">PROJ_DIR</span></span><a class="headerlink" href="#envvar-PROJ_DIR" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">PROJ_DIR</span></span><a class="headerlink" href="#envvar-PROJ_DIR" title="Link to this definition">¶</a></dt>
 <dd><p>This is the path to the base directory for PROJ.
 Examples of how to set the PROJ_DIR environment variable:</p>
 <p>Windows:</p>
@@ -375,7 +375,7 @@ Examples of how to set the PROJ_DIR environment variable:</p>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-PROJ_LIBDIR">
-<span class="sig-name descname"><span class="pre">PROJ_LIBDIR</span></span><a class="headerlink" href="#envvar-PROJ_LIBDIR" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">PROJ_LIBDIR</span></span><a class="headerlink" href="#envvar-PROJ_LIBDIR" title="Link to this definition">¶</a></dt>
 <dd><p>This is the path to the directory containing the PROJ libraries.
 If not set, it searches the <cite>lib</cite> and <cite>lib64</cite> directories inside
 the PROJ directory.</p>
@@ -383,14 +383,14 @@ the PROJ directory.</p>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-PROJ_INCDIR">
-<span class="sig-name descname"><span class="pre">PROJ_INCDIR</span></span><a class="headerlink" href="#envvar-PROJ_INCDIR" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">PROJ_INCDIR</span></span><a class="headerlink" href="#envvar-PROJ_INCDIR" title="Link to this definition">¶</a></dt>
 <dd><p>This is the path to the PROJ include directory. If not set, it assumes
 it is the <cite>includes</cite> directory inside the PROJ directory.</p>
 </dd></dl>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-PROJ_WHEEL">
-<span class="sig-name descname"><span class="pre">PROJ_WHEEL</span></span><a class="headerlink" href="#envvar-PROJ_WHEEL" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">PROJ_WHEEL</span></span><a class="headerlink" href="#envvar-PROJ_WHEEL" title="Link to this definition">¶</a></dt>
 <dd><p>This is a boolean value used when building a wheel. When true
 it includes the contents of the <cite>pyproj/proj_dir/proj/share</cite>
 directory if present.</p>
@@ -398,14 +398,14 @@ directory if present.</p>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-PYPROJ_FULL_COVERAGE">
-<span class="sig-name descname"><span class="pre">PYPROJ_FULL_COVERAGE</span></span><a class="headerlink" href="#envvar-PYPROJ_FULL_COVERAGE" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">PYPROJ_FULL_COVERAGE</span></span><a class="headerlink" href="#envvar-PYPROJ_FULL_COVERAGE" title="Link to this definition">¶</a></dt>
 <dd><p>Boolean that sets the compiler directive for cython to include
 the test coverage.</p>
 </dd></dl>
 
 </section>
 <section id="setup-pyproj">
-<h3>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Link to this heading">#</a></h3>
+<h3>Setup pyproj<a class="headerlink" href="#setup-pyproj" title="Link to this heading">¶</a></h3>
 <p>In the setup.py, the order for searching for PROJ is:</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -429,7 +429,7 @@ version of PROJ, the best way to avoid conflicts is to:</p>
 </ol>
 </div></blockquote>
 <section id="install-pyproj">
-<h4>Install pyproj<a class="headerlink" href="#install-pyproj" title="Link to this heading">#</a></h4>
+<h4>Install pyproj<a class="headerlink" href="#install-pyproj" title="Link to this heading">¶</a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference external" href="http://cython.org/">Cython</a> or pip&gt;=10.0.1 is required for the installation.</p>
@@ -440,19 +440,19 @@ version of PROJ, the best way to avoid conflicts is to:</p>
 perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
 </div>
 <section id="from-pypi">
-<h5>From pypi:<a class="headerlink" href="#from-pypi" title="Link to this heading">#</a></h5>
+<h5>From pypi:<a class="headerlink" href="#from-pypi" title="Link to this heading">¶</a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pyproj<span class="w"> </span>--no-binary<span class="w"> </span>pyproj
 </pre></div>
 </div>
 </section>
 <section id="from-github-with-pip">
-<h5>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Link to this heading">#</a></h5>
+<h5>From GitHub with <cite>pip</cite>:<a class="headerlink" href="#from-github-with-pip" title="Link to this heading">¶</a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/pyproj4/pyproj.git
 </pre></div>
 </div>
 </section>
 <section id="from-cloned-github-repo-for-development">
-<h5>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Link to this heading">#</a></h5>
+<h5>From cloned GitHub repo for development:<a class="headerlink" href="#from-cloned-github-repo-for-development" title="Link to this heading">¶</a></h5>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
@@ -545,7 +545,7 @@ perform a user only installation (e.g. <cite>pip install –user</cite>).</p>
     </aside>
   </div>
 </div><script src="_static/documentation_options.js?v=9be5012a"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>

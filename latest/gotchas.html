@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Documentation" href="api/index.html" /><link rel="prev" title="Transformation Grids" href="transformation_grids.html" />
 
-    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.01.29 -->
         <title>Gotchas/FAQ - pyproj 3.6.2.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d623d863" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -230,7 +230,7 @@
         </div>
         <article role="main">
           <section id="gotchas-faq">
-<span id="gotchas"></span><h1>Gotchas/FAQ<a class="headerlink" href="#gotchas-faq" title="Link to this heading">#</a></h1>
+<span id="gotchas"></span><h1>Gotchas/FAQ<a class="headerlink" href="#gotchas-faq" title="Link to this heading">¶</a></h1>
 <p>This is a page for some suggestions, gotchas, and FAQs.</p>
 <dl class="simple">
 <dt>Also see:</dt><dd><ul class="simple">
@@ -240,7 +240,7 @@
 </dd>
 </dl>
 <section id="what-are-the-best-formats-to-store-the-crs-information">
-<h2>What are the best formats to store the CRS information?<a class="headerlink" href="#what-are-the-best-formats-to-store-the-crs-information" title="Link to this heading">#</a></h2>
+<h2>What are the best formats to store the CRS information?<a class="headerlink" href="#what-are-the-best-formats-to-store-the-crs-information" title="Link to this heading">¶</a></h2>
 <p>In general, <a class="reference external" href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems">Well-Known Text (WKT)</a>
 or <a class="reference external" href="https://en.wikipedia.org/wiki/Spatial_reference_system">Spatial Reference ID
 (SRID)</a>, such as EPSG
@@ -256,7 +256,7 @@ in future major version of PROJ for storing CRS information.</p>
 <p>More info: <a class="reference external" href="https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
 </section>
 <section id="axis-order-changes-in-proj-6">
-<h2>Axis order changes in PROJ 6+<a class="headerlink" href="#axis-order-changes-in-proj-6" title="Link to this heading">#</a></h2>
+<h2>Axis order changes in PROJ 6+<a class="headerlink" href="#axis-order-changes-in-proj-6" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent">https://proj.org/faq.html#why-is-the-axis-ordering-in-proj-not-consistent</a></p></li>
 <li><p>See warning at the top of <a class="reference internal" href="api/transformer.html#transformer"><span class="std std-ref">Transformer</span></a></p></li>
@@ -265,7 +265,7 @@ in future major version of PROJ for storing CRS information.</p>
 </ul>
 </section>
 <section id="init-auth-auth-code-should-be-replaced-with-auth-auth-code">
-<h2><cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> should be replaced with <cite>&lt;auth&gt;:&lt;auth_code&gt;</cite><a class="headerlink" href="#init-auth-auth-code-should-be-replaced-with-auth-auth-code" title="Link to this heading">#</a></h2>
+<h2><cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> should be replaced with <cite>&lt;auth&gt;:&lt;auth_code&gt;</cite><a class="headerlink" href="#init-auth-auth-code-should-be-replaced-with-auth-auth-code" title="Link to this heading">¶</a></h2>
 <p>The <cite>+init=&lt;auth&gt;:&lt;auth_code&gt;</cite> syntax is deprecated and will be removed
 in future versions of PROJ. Also, if you use the <cite>+init</cite> syntax,
 you may have problems initializing projections when the other syntax works.</p>
@@ -293,7 +293,7 @@ you may have problems initializing projections when the other syntax works.</p>
 </div>
 </section>
 <section id="proj-not-a-generic-latitude-longitude-to-projection-converter">
-<h2>Proj (Not a generic latitude/longitude to projection converter)<a class="headerlink" href="#proj-not-a-generic-latitude-longitude-to-projection-converter" title="Link to this heading">#</a></h2>
+<h2>Proj (Not a generic latitude/longitude to projection converter)<a class="headerlink" href="#proj-not-a-generic-latitude-longitude-to-projection-converter" title="Link to this heading">¶</a></h2>
 <p><a class="reference internal" href="api/proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> is limited to converting between geographic and
 projection coordinates within one datum. If you have coordinates in latitude
 and longitude, and you want to convert it to your projection, it is recommended
@@ -357,7 +357,7 @@ which may not be what you want.</p>
 </div>
 </section>
 <section id="why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx">
-<span id="min-confidence"></span><h2>Why does the EPSG code return when using <cite>EPSG:xxxx</cite> and not with <cite>+init=EPSG:xxxx</cite>?<a class="headerlink" href="#why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx" title="Link to this heading">#</a></h2>
+<span id="min-confidence"></span><h2>Why does the EPSG code return when using <cite>EPSG:xxxx</cite> and not with <cite>+init=EPSG:xxxx</cite>?<a class="headerlink" href="#why-does-the-epsg-code-return-when-using-epsg-xxxx-and-not-with-init-epsg-xxxx" title="Link to this heading">¶</a></h2>
 <p>From: <a class="reference external" href="https://gis.stackexchange.com/a/326919/144357">https://gis.stackexchange.com/a/326919/144357</a></p>
 <p>The reason that the EPSG code does not appear with the CRS initialized with
 the <cite>init=</cite> syntax is that the CRS are different.</p>
@@ -444,7 +444,7 @@ threshold you are comfortable with.</p>
 </div>
 </section>
 <section id="internal-proj-error-sqlite-error-on-select">
-<h2>Internal PROJ Error … SQLite error on SELECT<a class="headerlink" href="#internal-proj-error-sqlite-error-on-select" title="Link to this heading">#</a></h2>
+<h2>Internal PROJ Error … SQLite error on SELECT<a class="headerlink" href="#internal-proj-error-sqlite-error-on-select" title="Link to this heading">¶</a></h2>
 <p>The PROJ database is based on the EPSG database. With each release,
 there is a good chance that there are database updates. If you have multiple
 versions of PROJ installed on your systems and the search path for
@@ -460,7 +460,7 @@ the docstrings of <a class="reference internal" href="api/datadir.html#pyproj.da
 </ul>
 </section>
 <section id="upgrading-to-pyproj-2-from-pyproj-1">
-<span id="upgrade-transformer"></span><h2>Upgrading to pyproj 2 from pyproj 1<a class="headerlink" href="#upgrading-to-pyproj-2-from-pyproj-1" title="Link to this heading">#</a></h2>
+<span id="upgrade-transformer"></span><h2>Upgrading to pyproj 2 from pyproj 1<a class="headerlink" href="#upgrading-to-pyproj-2-from-pyproj-1" title="Link to this heading">¶</a></h2>
 <p>We recommended using the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> and
 <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> in place of the <a class="reference internal" href="api/proj.html#pyproj.Proj" title="pyproj.Proj"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Proj</span></code></a> and
 <a class="reference internal" href="api/transformer.html#pyproj.transformer.transform" title="pyproj.transformer.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.transform()</span></code></a>.</p>
@@ -569,7 +569,7 @@ are deprecated.</p>
     </aside>
   </div>
 </div><script src="_static/documentation_options.js?v=9be5012a"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
