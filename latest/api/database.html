@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Lists" href="list.html" /><link rel="prev" title="Proj" href="proj.html" />
 
-    <link rel="shortcut icon" href="../_static/icon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <link rel="shortcut icon" href="../_static/icon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.01.29 -->
         <title>Database - pyproj 3.6.2.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d623d863" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -230,22 +230,22 @@
         </div>
         <article role="main">
           <section id="database">
-<span id="id1"></span><h1>Database<a class="headerlink" href="#database" title="Link to this heading">#</a></h1>
+<span id="id1"></span><h1>Database<a class="headerlink" href="#database" title="Link to this heading">¶</a></h1>
 <p>Methods that query the PROJ database for information.</p>
 <section id="pyproj-database-get-units-map">
-<h2>pyproj.database.get_units_map<a class="headerlink" href="#pyproj-database-get-units-map" title="Link to this heading">#</a></h2>
+<h2>pyproj.database.get_units_map<a class="headerlink" href="#pyproj-database-get-units-map" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The backwards compatible import is <cite>pyproj.get_units_map</cite></p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.get_units_map">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_units_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">category=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_units_map" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_units_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">category=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_units_map" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+<p><span class="versionmodified added">Added in version 2.2.0.</span></p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0: </span>query PROJ database.</p>
+<p><span class="versionmodified added">Added in version 3.0.0: </span>query PROJ database.</p>
 </div>
 <p>Get the units available in the PROJ database.</p>
 <p>See: <a class="reference external" href="https://proj.org/en/9.4/development/reference/functions.html#c.proj_get_units_from_database" title="(in PROJ v9.4)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_get_units_from_database()</span></code></a></p>
@@ -266,9 +266,9 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pyproj.database.Unit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">Unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj_short_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deprecated</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.Unit" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">Unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj_short_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deprecated</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.Unit" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+<p><span class="versionmodified added">Added in version 3.0.0.</span></p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -290,16 +290,16 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 
 </section>
 <section id="pyproj-database-get-authorities">
-<h2>pyproj.database.get_authorities<a class="headerlink" href="#pyproj-database-get-authorities" title="Link to this heading">#</a></h2>
+<h2>pyproj.database.get_authorities<a class="headerlink" href="#pyproj-database-get-authorities" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The backwards compatible import is <cite>pyproj.get_authorities</cite></p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.get_authorities">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_authorities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_authorities" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_authorities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_authorities" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+<p><span class="versionmodified added">Added in version 2.4.0.</span></p>
 </div>
 <p>See: <a class="reference external" href="https://proj.org/en/9.4/development/reference/functions.html#c.proj_get_authorities_from_database" title="(in PROJ v9.4)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_get_authorities_from_database()</span></code></a></p>
 <dl class="field-list simple">
@@ -314,16 +314,16 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 
 </section>
 <section id="pyproj-database-get-codes">
-<h2>pyproj.database.get_codes<a class="headerlink" href="#pyproj-database-get-codes" title="Link to this heading">#</a></h2>
+<h2>pyproj.database.get_codes<a class="headerlink" href="#pyproj-database-get-codes" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The backwards compatible import is <cite>pyproj.get_codes</cite></p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.get_codes">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_codes" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_codes" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+<p><span class="versionmodified added">Added in version 2.4.0.</span></p>
 </div>
 <p>See: <a class="reference external" href="https://proj.org/en/9.4/development/reference/functions.html#c.proj_get_codes_from_database" title="(in PROJ v9.4)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_get_codes_from_database()</span></code></a></p>
 <dl class="field-list simple">
@@ -345,12 +345,12 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 
 </section>
 <section id="pyproj-database-query-crs-info">
-<h2>pyproj.database.query_crs_info<a class="headerlink" href="#pyproj-database-query-crs-info" title="Link to this heading">#</a></h2>
+<h2>pyproj.database.query_crs_info<a class="headerlink" href="#pyproj-database-query-crs-info" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.query_crs_info">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_types=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_crs_info" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_types=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_crs_info" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+<p><span class="versionmodified added">Added in version 3.0.0.</span></p>
 </div>
 <p>Query for CRS information from the PROJ database.</p>
 <p>See: <a class="reference external" href="https://proj.org/en/9.4/development/reference/functions.html#c.proj_get_crs_info_list_from_database" title="(in PROJ v9.4)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_get_crs_info_list_from_database()</span></code></a></p>
@@ -379,9 +379,9 @@ intersects the specified bounding box will be returned.</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pyproj.database.CRSInfo">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">CRSInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deprecated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_method_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.CRSInfo" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">CRSInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deprecated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_method_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.CRSInfo" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+<p><span class="versionmodified added">Added in version 3.0.0.</span></p>
 </div>
 <p>CRS Information</p>
 <dl class="field-list simple">
@@ -401,12 +401,12 @@ intersects the specified bounding box will be returned.</p></li>
 
 </section>
 <section id="pyproj-database-query-utm-crs-info">
-<h2>pyproj.database.query_utm_crs_info<a class="headerlink" href="#pyproj-database-query-utm-crs-info" title="Link to this heading">#</a></h2>
+<h2>pyproj.database.query_utm_crs_info<a class="headerlink" href="#pyproj-database-query-utm-crs-info" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.query_utm_crs_info">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_utm_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">datum_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_utm_crs_info" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_utm_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">datum_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_utm_crs_info" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+<p><span class="versionmodified added">Added in version 3.0.0.</span></p>
 </div>
 <p>Query for EPSG UTM CRS information from the PROJ database.</p>
 <p>See: <a class="reference external" href="https://proj.org/en/9.4/development/reference/functions.html#c.proj_get_crs_info_list_from_database" title="(in PROJ v9.4)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_get_crs_info_list_from_database()</span></code></a></p>
@@ -432,10 +432,10 @@ intersects the specified bounding box will be returned.</p></li>
 
 </section>
 <section id="pyproj-database-get-database-metadata">
-<h2>pyproj.database.get_database_metadata<a class="headerlink" href="#pyproj-database-get-database-metadata" title="Link to this heading">#</a></h2>
+<h2>pyproj.database.get_database_metadata<a class="headerlink" href="#pyproj-database-get-database-metadata" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.get_database_metadata">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_database_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_database_metadata" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_database_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_database_metadata" title="Link to this definition">¶</a></dt>
 <dd><p>Return metadata from the database.</p>
 <p>See: <a class="reference external" href="https://proj.org/en/9.4/development/reference/functions.html#c.proj_context_get_database_metadata" title="(in PROJ v9.4)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_context_get_database_metadata()</span></code></a></p>
 <p>Available keys:</p>
@@ -565,7 +565,7 @@ intersects the specified bounding box will be returned.</p></li>
     </aside>
   </div>
 </div><script src="../_static/documentation_options.js?v=9be5012a"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>

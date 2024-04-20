@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="CRS Compatibility Guide for Geospatial Python" href="crs_compatibility.html" /><link rel="prev" title="Building a Coordinate Reference System" href="build_crs.html" />
 
-    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.01.29 -->
         <title>Managing CRS to and from CF - pyproj 3.6.2.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d623d863" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -230,10 +230,10 @@
         </div>
         <article role="main">
           <section id="managing-crs-to-and-from-cf">
-<span id="build-crs-cf"></span><h1>Managing CRS to and from CF<a class="headerlink" href="#managing-crs-to-and-from-cf" title="Link to this heading">#</a></h1>
+<span id="build-crs-cf"></span><h1>Managing CRS to and from CF<a class="headerlink" href="#managing-crs-to-and-from-cf" title="Link to this heading">¶</a></h1>
 <p><a class="reference external" href="http://cfconventions.org/cf-conventions/cf-conventions.html">http://cfconventions.org/cf-conventions/cf-conventions.html</a></p>
 <section id="exporting-crs-to-cf">
-<h2>Exporting CRS to CF<a class="headerlink" href="#exporting-crs-to-cf" title="Link to this heading">#</a></h2>
+<h2>Exporting CRS to CF<a class="headerlink" href="#exporting-crs-to-cf" title="Link to this heading">¶</a></h2>
 <p>When exporting a CRS to the Climate and Forecast (CF) conventions,
 you need both the grid mapping as well as the coordinate system.
 If you don’t use the coordinate system, then you will lose the units
@@ -246,7 +246,7 @@ of your projection.</p>
 </div>
 <p>To get the grid mapping you use <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.to_cf" title="pyproj.crs.CRS.to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.to_cf()</span></code></a>:</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+<p><span class="versionmodified added">Added in version 2.2.0.</span></p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cf_grid_mapping</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">to_cf</span><span class="p">()</span>
 </pre></div>
@@ -266,7 +266,7 @@ of your projection.</p>
 </div>
 <p>To get the coordinate system, you use <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.cs_to_cf" title="pyproj.crs.CRS.cs_to_cf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.cs_to_cf()</span></code></a>:</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+<p><span class="versionmodified added">Added in version 3.0.0.</span></p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cf_coordinate_system</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">cs_to_cf</span><span class="p">()</span>
 </pre></div>
@@ -284,7 +284,7 @@ of your projection.</p>
 </div>
 </section>
 <section id="importing-crs-from-cf">
-<h2>Importing CRS from CF<a class="headerlink" href="#importing-crs-from-cf" title="Link to this heading">#</a></h2>
+<h2>Importing CRS from CF<a class="headerlink" href="#importing-crs-from-cf" title="Link to this heading">¶</a></h2>
 <p>When importing a CRS from the Climate and Forecast (CF) conventions,
 you need both the grid mapping as well as the coordinate system.
 If you don’t use the coordinate system, then you will lose the units
@@ -299,7 +299,7 @@ inside of the WKT and can be used to create the CRS in a single step.</p>
 <p>If building from grid mapping, be mindful of the axis order. <a class="reference external" href="https://github.com/cf-convention/cf-conventions/pull/224">https://github.com/cf-convention/cf-conventions/pull/224</a></p>
 </div>
 <section id="build-the-crs-from-cf-grid-mapping">
-<h3>Build the CRS from CF grid mapping:<a class="headerlink" href="#build-the-crs-from-cf-grid-mapping" title="Link to this heading">#</a></h3>
+<h3>Build the CRS from CF grid mapping:<a class="headerlink" href="#build-the-crs-from-cf-grid-mapping" title="Link to this heading">¶</a></h3>
 <p>In this example, this is the grid mapping and coordinate system we will use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variables</span><span class="p">:</span>
   <span class="n">double</span> <span class="n">x</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">;</span>
@@ -346,9 +346,9 @@ then no further changes are necessary.</p>
 </div>
 </section>
 <section id="modify-the-crs-with-coordinate-system">
-<h3>Modify the CRS with coordinate system:<a class="headerlink" href="#modify-the-crs-with-coordinate-system" title="Link to this heading">#</a></h3>
+<h3>Modify the CRS with coordinate system:<a class="headerlink" href="#modify-the-crs-with-coordinate-system" title="Link to this heading">¶</a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+<p><span class="versionmodified added">Added in version 3.0.0.</span></p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -487,7 +487,7 @@ However, the units are instead <cite>US_Survey_Foot</cite>:</p>
     </aside>
   </div>
 </div><script src="_static/documentation_options.js?v=9be5012a"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
