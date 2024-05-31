@@ -134,55 +134,53 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Conda
-        uses: s-weigand/setup-conda@v1
+        uses: mamba-org/setup-micromamba@v1
         with:
-          conda-channels: conda-forge
+          init-shell: bash
+          environment-name: test
+          create-args: >-
+            ${{ matrix.python-implementation }}=${{ matrix.python-version }}
+            cython
+            proj=${{ matrix.proj-version }}
+            numpy
+            shapely
+            xarray
+            pandas
 
       - name: Install Env
         shell: bash
         run: |
-          conda config --prepend channels conda-forge
-          conda config --set channel_priority strict
-          export INSTALL_DEPS='${{ matrix.python-implementation }}=${{ matrix.python-version }} cython proj=${{ matrix.proj-version }} numpy shapely'
           if [ "${{ matrix.python-implementation }}" = "pypy" ]; then
             sed -i.bak '/xarray/d' requirements-test.txt;
             sed -i.bak '/pandas/d' requirements-test.txt;
-          else
-            export INSTALL_DEPS="${INSTALL_DEPS} xarray pandas";
           fi;
-          conda create -n test $INSTALL_DEPS
-          source activate test
-          python -m pip install -e .
-          python -m pip install -r requirements-test.txt
+          micromamba run -n test python -m pip install -e .
+          micromamba run -n test python -m pip install -r requirements-test.txt
 
       - name: Check and Log Environment
         shell: bash
         run: |
-          source activate test
-          python -V
-          pyproj -v
-          conda info
+          micromamba run -n test python -V
+          micromamba run -n test pyproj -v
+          micromamba info
 
       - name: Install pylint
         shell: bash
         if: matrix.python-implementation == 'python'
         run: |
-          source activate test
-          python -m pip install pylint
+          micromamba run -n test python -m pip install pylint
 
       - name: pylint
         shell: bash
         if: matrix.python-implementation == 'python'
         run: |
-          source activate test
-          python -m pylint pyproj
+          micromamba run -n test python -m pylint pyproj
 
       - name: Test with Coverage
         shell: bash
         if: matrix.python-implementation == 'python'
         run: |
-          source activate test
-          python -m pytest --cov-report term-missing --cov=pyproj --cov-report xml
+          micromamba run -n test python -m pytest --cov-report term-missing --cov=pyproj --cov-report xml
 
       - name: Test
         shell: bash
@@ -190,16 +188,14 @@ jobs:
         env:
           PROJ_NETWORK: OFF
         run: |
-          source activate test
-          python -m pytest
+          micromamba run -n test python -m pytest
 
       - name: Test Network
         shell: bash
         env:
           PROJ_NETWORK: ON
         run: |
-          source activate test
-          python -m pytest
+          micromamba run -n test python -m pytest
 
       - name: Test Global Context
         shell: bash
@@ -207,8 +203,7 @@ jobs:
           PROJ_NETWORK: OFF
           PYPROJ_GLOBAL_CONTEXT: ON
         run: |
-          source activate test
-          python -m pytest
+          micromamba run -n test python -m pytest
 
       - name: Test Network & Global Context
         shell: bash
@@ -216,25 +211,22 @@ jobs:
           PROJ_NETWORK: ON
           PYPROJ_GLOBAL_CONTEXT: ON
         run: |
-          source activate test
-          python -m pytest
+          micromamba run -n test python -m pytest
 
       - name: Test Grids
         shell: bash
         env:
           PROJ_NETWORK: OFF
         run: |
-          source activate test
-          projsync --quiet --bbox -175,0,-50,85
-          python -m pytest
+          micromamba run -n test projsync --quiet --bbox -175,0,-50,85
+          micromamba run -n test python -m pytest
 
       - name: Test Build docs
         shell: bash
         if: contains(matrix.os, 'ubuntu') && matrix.python-implementation == 'python'
         run: |
-          source activate test
-          python -m pip install -r requirements-docs.txt
-          sphinx-build -b html docs/ docs/_build/
-          sphinx-build -b man docs/ docs/_build/
+          micromamba run -n test python -m pip install -r requirements-docs.txt
+          micromamba run -n test sphinx-build -b html docs/ docs/_build/
+          micromamba run -n test sphinx-build -b man docs/ docs/_build/
 
       - uses: codecov/codecov-action@v4
