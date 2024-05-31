@@ -78,7 +78,7 @@ def get_user_data_dir(create=False):
     )
 
 
-cpdef str _get_proj_error() noexcept:
+cpdef str _get_proj_error():
     """
     Get the internal PROJ error message. Returns None if no error was set.
     """
