@@ -851,9 +851,9 @@ class Transformer:
         outx = _convertback(x_data_type, inx)
         outy = _convertback(y_data_type, iny)
         return_data: tuple[Any, ...] = (outx, outy)
-        if inz is not None:
+        if zz is not None:
             return_data += (_convertback(z_data_type, inz),)
-        if intime is not None:
+        if tt is not None:
             return_data += (_convertback(t_data_type, intime),)
         return return_data
 
