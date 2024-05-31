@@ -1164,9 +1164,9 @@
         <span class="n">outx</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">x_data_type</span><span class="p">,</span> <span class="n">inx</span><span class="p">)</span>
         <span class="n">outy</span> <span class="o">=</span> <span class="n">_convertback</span><span class="p">(</span><span class="n">y_data_type</span><span class="p">,</span> <span class="n">iny</span><span class="p">)</span>
         <span class="n">return_data</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">outx</span><span class="p">,</span> <span class="n">outy</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">inz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">zz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">return_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">_convertback</span><span class="p">(</span><span class="n">z_data_type</span><span class="p">,</span> <span class="n">inz</span><span class="p">),)</span>
-        <span class="k">if</span> <span class="n">intime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">return_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">_convertback</span><span class="p">(</span><span class="n">t_data_type</span><span class="p">,</span> <span class="n">intime</span><span class="p">),)</span>
         <span class="k">return</span> <span class="n">return_data</span></div>
 
