@@ -47,18 +47,12 @@ def _params_from_ellps_map(ellps: str) -> tuple[float, float, float, float, bool
 
     """
     ellps_dict = pj_ellps[ellps]
-    semi_major_axis: float = ellps_dict["a"]
+    semi_major_axis, semi_minor_axis, flattening, eccentricity_squared = (
+        _params_from_kwargs(ellps_dict)
+    )
     sphere = False
     if ellps_dict["description"] == "Normal Sphere":
         sphere = True
-    if "b" in ellps_dict:
-        semi_minor_axis: float = ellps_dict["b"]
-        eccentricity_squared: float = 1.0 - semi_minor_axis**2 / semi_major_axis**2
-        flattening: float = (semi_major_axis - semi_minor_axis) / semi_major_axis
-    elif "rf" in ellps_dict:
-        flattening = 1.0 / ellps_dict["rf"]
-        semi_minor_axis = semi_major_axis * (1.0 - flattening)
-        eccentricity_squared = 1.0 - semi_minor_axis**2 / semi_major_axis**2
     return semi_major_axis, semi_minor_axis, flattening, eccentricity_squared, sphere
 
 
