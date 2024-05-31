@@ -335,18 +335,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ellps_dict</span> <span class="o">=</span> <span class="n">pj_ellps</span><span class="p">[</span><span class="n">ellps</span><span class="p">]</span>
-    <span class="n">semi_major_axis</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+    <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="p">,</span> <span class="n">flattening</span><span class="p">,</span> <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">_params_from_kwargs</span><span class="p">(</span><span class="n">ellps_dict</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">sphere</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Normal Sphere&quot;</span><span class="p">:</span>
         <span class="n">sphere</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
-        <span class="n">semi_minor_axis</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
-        <span class="n">eccentricity_squared</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">semi_minor_axis</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">semi_major_axis</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">flattening</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">semi_major_axis</span> <span class="o">-</span> <span class="n">semi_minor_axis</span><span class="p">)</span> <span class="o">/</span> <span class="n">semi_major_axis</span>
-    <span class="k">elif</span> <span class="s2">&quot;rf&quot;</span> <span class="ow">in</span> <span class="n">ellps_dict</span><span class="p">:</span>
-        <span class="n">flattening</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ellps_dict</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]</span>
-        <span class="n">semi_minor_axis</span> <span class="o">=</span> <span class="n">semi_major_axis</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">flattening</span><span class="p">)</span>
-        <span class="n">eccentricity_squared</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">semi_minor_axis</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">semi_major_axis</span><span class="o">**</span><span class="mi">2</span>
     <span class="k">return</span> <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="p">,</span> <span class="n">flattening</span><span class="p">,</span> <span class="n">eccentricity_squared</span><span class="p">,</span> <span class="n">sphere</span>
 
 
