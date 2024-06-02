@@ -728,7 +728,7 @@ def test_coordinate_operation__from_authority__empty():
 
 
 def test_datum__from_epsg():
-    datum_wkt = (
+    datum_wkt_prefix = (
         'ENSEMBLE["World Geodetic System 1984 ensemble",'
         'MEMBER["World Geodetic System 1984 (Transit)",ID["EPSG",1166]],'
         'MEMBER["World Geodetic System 1984 (G730)",ID["EPSG",1152]],'
@@ -737,10 +737,14 @@ def test_datum__from_epsg():
         'MEMBER["World Geodetic System 1984 (G1674)",ID["EPSG",1155]],'
         'MEMBER["World Geodetic System 1984 (G1762)",ID["EPSG",1156]],'
         'MEMBER["World Geodetic System 1984 (G2139)",ID["EPSG",1309]],'
+    )
+    datum_wkt_suffix = (
         'ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1],'
         'ID["EPSG",7030]],ENSEMBLEACCURACY[2.0],ID["EPSG",6326]]'
     )
-    assert Datum.from_epsg("6326").to_wkt() == datum_wkt
+    # Testing this way avoids problems when new members are added to the datum ensemble
+    assert Datum.from_epsg("6326").to_wkt().startswith(datum_wkt_prefix)
+    assert Datum.from_epsg("6326").to_wkt().endswith(datum_wkt_suffix)
 
 
 def test_datum__from_authority():
