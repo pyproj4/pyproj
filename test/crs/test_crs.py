@@ -20,7 +20,7 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import PROJ_GTE_921, assert_can_pickle, grids_available
+from test.conftest import PROJ_GTE_921, PROJ_GTE_941, assert_can_pickle, grids_available
 
 
 class CustomCRS:
@@ -672,7 +672,10 @@ def test_coordinate_operation_grids__alternative_grid_name():
         assert grid.full_name.endswith(grid.short_name)
     elif pyproj.network.is_network_enabled():
         assert grid.available is True
-        assert grid.full_name == grid.url
+        if PROJ_GTE_941:
+            assert grid.full_name == ""
+        else:
+            assert grid.full_name == grid.url
     else:
         assert grid.available is False
         assert grid.full_name == ""
