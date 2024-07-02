@@ -132,6 +132,7 @@ jobs:
             PROJ_VERSION=${{ env.PROJ_VERSION }}
             PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
             CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
+            MACOSX_DEPLOYMENT_TARGET='12.0'
             LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"
           CIBW_ENVIRONMENT_WINDOWS:
             PROJ_WHEEL=true
