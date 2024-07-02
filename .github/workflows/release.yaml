@@ -68,9 +68,11 @@ jobs:
         - os: macos-12
           arch: x86_64
           cmake_osx_architectures: x86_64
+          macos_deployment_target: "12.0"
         - os: macos-14
           arch: arm64
           cmake_osx_architectures: arm64
+          macos_deployment_target: "14.0"
         - os: "windows-2022"
           arch: "auto64"
           triplet: "x64-windows"
@@ -132,7 +134,7 @@ jobs:
             PROJ_VERSION=${{ env.PROJ_VERSION }}
             PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
             CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
-            MACOSX_DEPLOYMENT_TARGET='12.0'
+            MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_deployment_target }}
             LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"
           CIBW_ENVIRONMENT_WINDOWS:
             PROJ_WHEEL=true
