@@ -6,7 +6,7 @@ from collections import namedtuple
 from libc.stdlib cimport free, malloc
 
 from pyproj._compat cimport cstrdecode, cstrencode
-from pyproj._datadir cimport pyproj_context_create, pyproj_context_destroy
+from pyproj._context cimport pyproj_context_create
 
 from pyproj.aoi import AreaOfUse
 from pyproj.enums import PJType
@@ -66,7 +66,6 @@ def get_authorities():
     with nogil:
         proj_auth_list = proj_get_authorities_from_database(context)
     if proj_auth_list == NULL:
-        pyproj_context_destroy(context)
         return []
     cdef int iii = 0
     try:
@@ -75,7 +74,6 @@ def get_authorities():
             auth_list.append(proj_auth_list[iii])
             iii += 1
     finally:
-        pyproj_context_destroy(context)
         proj_string_list_destroy(proj_auth_list)
     return auth_list
 
@@ -100,24 +98,20 @@ def get_codes(str auth_name not None, pj_type not None, bint allow_deprecated=Fa
     list[str]:
         Codes associated with authorities in PROJ database.
     """
-    cdef PJ_CONTEXT* context = NULL
     cdef PJ_TYPE cpj_type = get_pj_type(pj_type)
     cdef PROJ_STRING_LIST proj_code_list = NULL
+    cdef PJ_CONTEXT* context = pyproj_context_create()
     cdef const char* c_auth_name = NULL
-    cdef bytes b_auth_name
-    try:
-        context = pyproj_context_create()
-        b_auth_name = cstrencode(auth_name)
-        c_auth_name = b_auth_name
-        with nogil:
-            proj_code_list = proj_get_codes_from_database(
-                context,
-                c_auth_name,
-                cpj_type,
-                allow_deprecated,
-            )
-    finally:
-        pyproj_context_destroy(context)
+
+    b_auth_name = cstrencode(auth_name)
+    c_auth_name = b_auth_name
+    with nogil:
+        proj_code_list = proj_get_codes_from_database(
+            context,
+            c_auth_name,
+            cpj_type,
+            allow_deprecated,
+        )
     if proj_code_list == NULL:
         return []
     cdef int iii = 0
@@ -203,7 +197,6 @@ def query_crs_info(
     list[CRSInfo]:
         CRS information from the PROJ database.
     """
-    cdef PJ_CONTEXT* context = NULL
     cdef PJ_TYPE *pj_type_list = NULL
     cdef PROJ_CRS_LIST_PARAMETERS *query_params = NULL
     cdef PROJ_CRS_INFO **crs_info_list = NULL
@@ -212,6 +205,8 @@ def query_crs_info(
     cdef int pj_type_count = 0
     cdef int iii = 0
     cdef bytes b_auth_name
+    cdef PJ_CONTEXT* context = pyproj_context_create()
+
     if auth_name is not None:
         b_auth_name = cstrencode(auth_name)
         c_auth_name = b_auth_name
@@ -226,7 +221,6 @@ def query_crs_info(
             for iii in range(pj_type_count):
                 pj_type_list[iii] = get_pj_type(pj_types[iii])
 
-        context = pyproj_context_create()
         query_params = proj_get_crs_list_parameters_create()
         query_params.types = pj_type_list
         query_params.typesCount = pj_type_count
@@ -250,7 +244,6 @@ def query_crs_info(
             proj_get_crs_list_parameters_destroy(query_params)
         if pj_type_list != NULL:
             free(pj_type_list)
-        pyproj_context_destroy(context)
     if crs_info_list == NULL:
         return []
     try:
@@ -428,7 +421,6 @@ def get_units_map(str auth_name=None, str category=None, bint allow_deprecated=F
             )
     finally:
         proj_unit_list_destroy(db_unit_list)
-        pyproj_context_destroy(context)
     return units_map
 
 
@@ -465,15 +457,11 @@ def get_database_metadata(str key not None):
     str | None:
         The metatada information if available.
     """
-    cdef PJ_CONTEXT* context = pyproj_context_create()
     cdef const char* metadata = NULL
-    try:
-        metadata = proj_context_get_database_metadata(
-            context,
-            cstrdecode(key),
-        )
-        if metadata == NULL:
-            return None
-        return metadata
-    finally:
-        pyproj_context_destroy(context)
+    metadata = proj_context_get_database_metadata(
+        pyproj_context_create(),
+        cstrdecode(key),
+    )
+    if metadata == NULL:
+        return None
+    return metadata

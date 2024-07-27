@@ -1595,9 +1595,6 @@ def test_numpy_bool_kwarg_true():
     assert "+south " in crs.srs
 
 
-@pytest.mark.skipif(
-    pyproj._datadir._USE_GLOBAL_CONTEXT, reason="Global Context not Threadsafe."
-)
 def test_crs_multithread():
     # https://github.com/pyproj4/pyproj/issues/782
     crs = CRS(4326)

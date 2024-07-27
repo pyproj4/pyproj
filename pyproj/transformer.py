@@ -21,8 +21,8 @@ from typing import Any, overload
 
 from pyproj import CRS
 from pyproj._compat import cstrencode
+from pyproj._context import _clear_proj_error
 from pyproj._crs import AreaOfUse, CoordinateOperation
-from pyproj._datadir import _clear_proj_error
 from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     AreaOfInterest,
     _Transformer,

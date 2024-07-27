@@ -1095,9 +1095,6 @@ def test_transformer_group__download_grids__directory(
             )
 
 
-@pytest.mark.skipif(
-    pyproj._datadir._USE_GLOBAL_CONTEXT, reason="Global Context not Threadsafe."
-)
 def test_transformer_multithread__pipeline():
     # https://github.com/pyproj4/pyproj/issues/782
     trans = Transformer.from_pipeline(
@@ -1113,9 +1110,6 @@ def test_transformer_multithread__pipeline():
             pass
 
 
-@pytest.mark.skipif(
-    pyproj._datadir._USE_GLOBAL_CONTEXT, reason="Global Context not Threadsafe."
-)
 def test_transformer_multithread__crs():
     # https://github.com/pyproj4/pyproj/issues/782
     trans = Transformer.from_crs(4326, 3857)
