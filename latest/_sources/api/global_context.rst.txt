@@ -3,6 +3,8 @@
 Global Context
 ==============
 
+.. deprecated:: 3.7.0 No longer necessary as there is only one context per thread now.
+
 If you have a single-threaded application that generates many objects,
 enabling the use of the global context can provide performance enhancements.
 
