@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   release:
-    types: [ created ]
+    types: [ released, prereleased ]
   pull_request:  # also build on PRs touching this file
     paths:
       - ".github/workflows/release.yaml"
@@ -57,6 +57,7 @@ jobs:
   build_wheels:
     name: Build ${{ matrix.arch }} wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
     strategy:
       fail-fast: false
       matrix:
@@ -163,6 +164,7 @@ jobs:
   publish:
     name: Publish on PyPI
     needs: [make_sdist,build_wheels]
+    if: ${{ github.repository_owner == 'pyproj4' && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -170,29 +172,34 @@ jobs:
           name: sdist
           path: dist
       - uses: actions/download-artifact@v4
+        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
         with:
           name: wheels-ubuntu-22.04-x86_64
           path: dist
       - uses: actions/download-artifact@v4
+        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
         with:
-          name: wheels-macos-11-x86_64
+          name: wheels-macos-12-x86_64
           path: dist
       - uses: actions/download-artifact@v4
+        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
         with:
           name: wheels-macos-14-arm64
           path: dist
       - uses: actions/download-artifact@v4
+        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
         with:
           name: wheels-windows-2022-auto64
           path: dist
       - uses: actions/download-artifact@v4
+        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
         with:
           name: wheels-windows-2022-auto32
           path: dist
 
       - name: Upload Wheels to PyPI
         # release on every tag
-        if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags/')
+        if: ${{ github.event_name == 'release' && github.ref_type == 'tag' }}
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
@@ -201,7 +208,8 @@ jobs:
           # repository_url: https://test.pypi.org/legacy/  # To test
 
 
-      - name: Upload Nightly Wheels
+      - name: Upload Nightly Wheelsref
+        if : ${{ github.ref_type == 'branch' && github.ref_name == 'main' }}
         uses: scientific-python/upload-nightly-action@b67d7fcc0396e1128a474d1ab2b48aa94680f9fc
         with:
           artifacts_path: dist
