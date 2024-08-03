@@ -283,10 +283,10 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <p>The easiest methods for installing pyproj are:</p>
 <ol class="arabic simple">
-<li><p>Use pip to install the binary wheels on <a class="reference external" href="https://pypi.org/project/pyproj/">PyPI</a>:</p></li>
+<li><p>Use pip to install the binary wheels from <a class="reference external" href="https://pypi.org/project/pyproj/">PyPI</a>:</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pyproj
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyproj
 </pre></div>
 </div>
 <div class="admonition note">
@@ -337,6 +337,12 @@ recipe: <a class="reference external" href="https://github.com/conda-forge/stage
 </div></blockquote>
 <p>If these installation methods do not meet your needs, the section below provides further instructions
 for getting setup.</p>
+<ol class="arabic simple" start="3">
+<li><p>Install nightly wheels from anaconda:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyproj</span> <span class="o">--</span><span class="n">pre</span> <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pypi</span><span class="o">.</span><span class="n">anaconda</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">scientific</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">nightly</span><span class="o">-</span><span class="n">wheels</span><span class="o">/</span><span class="n">simple</span>
+</pre></div>
+</div>
 <section id="transformation-grids">
 <h2>Transformation Grids<a class="headerlink" href="#transformation-grids" title="Link to this heading">¶</a></h2>
 <p>See: <a class="reference internal" href="transformation_grids.html#transformation-grids"><span class="std std-ref">Transformation Grids</span></a></p>
