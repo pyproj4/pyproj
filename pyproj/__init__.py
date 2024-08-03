@@ -38,6 +38,12 @@ from pyproj._context import (  # noqa: F401 pylint: disable=unused-import
 from pyproj._show_versions import (  # noqa: F401 pylint: disable=unused-import
     show_versions,
 )
+from pyproj._version import (  # noqa: F401 pylint: disable=unused-import
+    PROJ_COMPILED_VERSION,
+    PROJ_COMPILED_VERSION_STR,
+    PROJ_VERSION,
+    PROJ_VERSION_STR,
+)
 from pyproj.crs import CRS  # noqa: F401 pylint: disable=unused-import
 from pyproj.database import (  # noqa: F401 pylint: disable=unused-import
     get_authorities,
@@ -62,7 +68,6 @@ from pyproj.proj import Proj, pj_list  # noqa: F401 pylint: disable=unused-impor
 from pyproj.transformer import (  # noqa: F401 pylint: disable=unused-import
     Transformer,
     itransform,
-    proj_version_str,
     transform,
 )
 
@@ -82,8 +87,9 @@ __all__ = [
     "get_units_map",
     "show_versions",
 ]
-__proj_version__ = proj_version_str
-
+__proj_version__ = PROJ_VERSION_STR
+proj_version_str = PROJ_VERSION_STR  # pylint: disable=invalid-name
+__proj_compiled_version__ = PROJ_COMPILED_VERSION_STR
 try:
     pyproj.network.set_ca_bundle_path()
 except DataDirError as err:

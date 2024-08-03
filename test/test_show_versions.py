@@ -9,7 +9,8 @@ from pyproj._show_versions import (
 def test_get_proj_info():
     pyproj_info = _get_proj_info()
     assert "pyproj" in pyproj_info
-    assert "PROJ" in pyproj_info
+    assert "PROJ (runtime)" in pyproj_info
+    assert "PROJ (compiled)" in pyproj_info
     assert "data dir" in pyproj_info
     assert "user_data_dir" in pyproj_info
     assert "PROJ DATA (recommended version)" in pyproj_info
@@ -41,6 +42,7 @@ def test_show_versions_with_proj(capsys):
     out, err = capsys.readouterr()
     assert "System" in out
     assert "python" in out
-    assert "PROJ" in out
+    assert "PROJ (runtime)" in out
+    assert "PROJ (compiled)" in out
     assert "data dir" in out
     assert "Python deps" in out

@@ -27,7 +27,6 @@ from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     AreaOfInterest,
     _Transformer,
     _TransformerGroup,
-    proj_version_str,
 )
 from pyproj.datadir import get_user_data_dir
 from pyproj.enums import ProjVersion, TransformDirection, WktVersion

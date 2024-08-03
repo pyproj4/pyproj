@@ -212,6 +212,7 @@ def get_extension_modules():
             Extension("pyproj.list", ["pyproj/list.pyx"], **ext_options),
             Extension("pyproj._network", ["pyproj/_network.pyx"], **ext_options),
             Extension("pyproj._sync", ["pyproj/_sync.pyx"], **ext_options),
+            Extension("pyproj._version", ["pyproj/_version.pyx"], **ext_options),
         ],
         quiet=True,
         compile_time_env={

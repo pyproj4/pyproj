@@ -46,7 +46,8 @@ def _get_proj_info():
 
     blob = [
         ("pyproj", pyproj.__version__),
-        ("PROJ", pyproj.__proj_version__),
+        ("PROJ (runtime)", pyproj.__proj_version__),
+        ("PROJ (compiled)", pyproj.__proj_compiled_version__),
         ("data dir", data_dir),
         ("user_data_dir", pyproj.datadir.get_user_data_dir()),
         ("PROJ DATA (recommended version)", get_database_metadata("PROJ_DATA.VERSION")),
