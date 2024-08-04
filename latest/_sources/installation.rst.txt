@@ -57,7 +57,7 @@ for getting setup.
 
 .. code-block:: python
 
-    python -m pip install pyproj --pre --extra-index-url https://pypi.anaconda.org/scientific-python-nightly-wheels/simple 
+    python -m pip install pyproj --pre --extra-index-url https://pypi.anaconda.org/scientific-python-nightly-wheels/simple
 
 Transformation Grids
 =====================
