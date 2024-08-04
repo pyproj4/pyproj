@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   release:
-    types: [ created ]
+    types: [ released ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
@@ -45,7 +45,7 @@ jobs:
           branch: gh-pages
           folder: docs/_build/
           clean: false
-          target-folder: ${{ github.ref }}
+          target-folder: ${{ github.ref_name }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
