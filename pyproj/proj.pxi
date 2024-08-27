@@ -35,6 +35,20 @@ cdef extern from "proj.h" nogil:
     PJ *proj_create (PJ_CONTEXT *ctx, const char *definition)
     PJ *proj_normalize_for_visualization(PJ_CONTEXT *ctx, const PJ* obj)
 
+    ctypedef struct PJ_INFO:
+        int major               # Major release number
+        int minor               # Minor release number
+        int patch               # Patch level
+        const char *release     # Release info. Version + date
+        const char *version     # Full version number
+        const char *searchpath  # Paths where init and grid files are
+                                # looked for. Paths are separated by
+                                # semi-colons on Windows, and colons
+                                # on non-Windows platforms.
+        const char *const *paths
+        size_t path_count
+    PJ_INFO proj_info()
+
     ctypedef struct PJ_PROJ_INFO:
         const char  *id
         const char  *description

@@ -39,7 +39,8 @@ def test_main__verbose(input_command, option, tmpdir):
             input_command + [option], stderr=subprocess.STDOUT
         ).decode("utf-8")
     assert "pyproj:" in output
-    assert "PROJ:" in output
+    assert "PROJ (compiled):" in output
+    assert "PROJ (runtime):" in output
     assert "data dir" in output
     assert "user_data_dir" in output
     assert "System" in output

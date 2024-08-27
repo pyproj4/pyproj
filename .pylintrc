@@ -9,6 +9,7 @@ extension-pkg-whitelist=pyproj._crs,
                         pyproj._geod,
                         pyproj._context,
                         pyproj._compat,
+                        pyproj._version,
                         pyproj.database,
                         pyproj.list
 
