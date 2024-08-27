@@ -10,7 +10,9 @@ labels: bug
 #### Code Sample, a copy-pastable example if possible
 
 A "Minimal, Complete and Verifiable Example" will make it much easier for maintainers to help you:
-http://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports
+
+- http://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports
+- https://stackoverflow.com/help/minimal-reproducible-example
 
 ```python
 # Your code here
