@@ -107,7 +107,7 @@ cpdef void _clear_proj_error() noexcept:
     _INTERNAL_PROJ_ERROR = None
 
 
-cdef void pyproj_log_function(void *user_data, int level, const char *error_msg) nogil noexcept:
+cdef void pyproj_log_function(void *user_data, int level, const char *error_msg) noexcept nogil:
     """
     Log function for catching PROJ errors.
     """
