@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/icon.png"/><!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
-        <title>pyproj.crs.coordinate_operation - pyproj 3.6.2.dev0 documentation</title>
+        <title>pyproj.crs.coordinate_operation - pyproj 3.7.0.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d623d863" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">pyproj 3.6.2.dev0 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">pyproj 3.7.0.dev0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -192,7 +192,7 @@
     <img class="sidebar-logo" src="../../../_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">pyproj 3.6.2.dev0 documentation</span>
+  <span class="sidebar-brand-text">pyproj 3.7.0.dev0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -282,9 +282,10 @@
 
 <span class="c1"># pylint: disable=too-many-lines</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">pyproj._crs</span> <span class="kn">import</span> <span class="n">CoordinateOperation</span>
+<span class="kn">from</span> <span class="nn">pyproj._version</span> <span class="kn">import</span> <span class="n">PROJ_VERSION</span>
 <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">CRSError</span>
 
 
@@ -1093,6 +1094,7 @@
 <span class="k">class</span> <span class="nc">HotineObliqueMercatorBConversion</span><span class="p">(</span><span class="n">CoordinateOperation</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
+<span class="sd">    .. versionadded:: 3.7.0 azimuth_projection_centre, scale_factor_projection_centre</span>
 
 <span class="sd">    Class for constructing the Hotine Oblique Mercator (variant B) conversion.</span>
 
@@ -1105,11 +1107,13 @@
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">latitude_projection_centre</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">longitude_projection_centre</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">azimuth_initial_line</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">angle_from_rectified_to_skew_grid</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">scale_factor_on_initial_line</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
         <span class="n">easting_projection_centre</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">northing_projection_centre</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">azimuth_projection_centre</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">scale_factor_projection_centre</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">azimuth_initial_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">scale_factor_on_initial_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -1118,17 +1122,55 @@
 <span class="sd">            Latitude of projection centre (lat_0).</span>
 <span class="sd">        longitude_projection_centre: float</span>
 <span class="sd">            Longitude of projection centre (lonc).</span>
-<span class="sd">        azimuth_initial_line: float</span>
+<span class="sd">        azimuth_projection_centre: float</span>
 <span class="sd">            Azimuth of initial line (alpha).</span>
 <span class="sd">        angle_from_rectified_to_skew_grid: float</span>
 <span class="sd">            Angle from Rectified to Skew Grid (gamma).</span>
-<span class="sd">        scale_factor_on_initial_line: float, default=1.0</span>
+<span class="sd">        scale_factor_projection_centre: float, default=1.0</span>
 <span class="sd">            Scale factor on initial line (k or k_0).</span>
 <span class="sd">        easting_projection_centre: float, default=0.0</span>
 <span class="sd">            Easting at projection centre (x_0).</span>
 <span class="sd">        northing_projection_centre: float, default=0.0</span>
 <span class="sd">            Northing at projection centre (y_0).</span>
+<span class="sd">        azimuth_initial_line: float</span>
+<span class="sd">            Deprecated alias for azimuth_projection_centre,</span>
+<span class="sd">        scale_factor_on_initial_line: float</span>
+<span class="sd">            Deprecated alias for scale_factor_projection_centre.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">scale_factor_on_initial_line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">scale_factor_projection_centre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;scale_factor_projection_centre and scale_factor_on_initial_line &quot;</span>
+                    <span class="s2">&quot;cannot be provided together.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;scale_factor_on_initial_line is deprecated. &quot;</span>
+                <span class="s2">&quot;Use scale_factor_projection_centre instead.&quot;</span><span class="p">,</span>
+                <span class="ne">FutureWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">scale_factor_projection_centre</span> <span class="o">=</span> <span class="n">scale_factor_on_initial_line</span>
+        <span class="k">elif</span> <span class="n">scale_factor_projection_centre</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scale_factor_projection_centre</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+        <span class="k">if</span> <span class="n">azimuth_projection_centre</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">azimuth_initial_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;azimuth_projection_centre or azimuth_initial_line must be provided.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">azimuth_initial_line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">azimuth_projection_centre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;azimuth_projection_centre and azimuth_initial_line cannot be &quot;</span>
+                    <span class="s2">&quot;provided together.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;azimuth_initial_line is deprecated. &quot;</span>
+                <span class="s2">&quot;Use azimuth_projection_centre instead.&quot;</span><span class="p">,</span>
+                <span class="ne">FutureWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">azimuth_projection_centre</span> <span class="o">=</span> <span class="n">azimuth_initial_line</span>
+
         <span class="n">omerc_json</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;https://proj.org/schemas/v0.2/projjson.schema.json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Conversion&quot;</span><span class="p">,</span>
@@ -1151,8 +1193,12 @@
                     <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8812</span><span class="p">},</span>
                 <span class="p">},</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Azimuth of initial line&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">azimuth_initial_line</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">(</span>
+                        <span class="s2">&quot;Azimuth at projection centre&quot;</span>
+                        <span class="k">if</span> <span class="n">PROJ_VERSION</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                        <span class="k">else</span> <span class="s2">&quot;Azimuth of initial line&quot;</span>
+                    <span class="p">),</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">azimuth_projection_centre</span><span class="p">,</span>
                     <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8813</span><span class="p">},</span>
                 <span class="p">},</span>
@@ -1163,8 +1209,12 @@
                     <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8814</span><span class="p">},</span>
                 <span class="p">},</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Scale factor on initial line&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">scale_factor_on_initial_line</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">(</span>
+                        <span class="s2">&quot;Scale factor at projection centre&quot;</span>
+                        <span class="k">if</span> <span class="n">PROJ_VERSION</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                        <span class="k">else</span> <span class="s2">&quot;Scale factor on initial line&quot;</span>
+                    <span class="p">),</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">scale_factor_projection_centre</span><span class="p">,</span>
                     <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;unity&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="mi">8815</span><span class="p">},</span>
                 <span class="p">},</span>
@@ -2108,7 +2158,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2023, Open source contributors
+                Copyright &#169; 2006-2018, Jeffrey Whitaker; 2019-2024, Open source contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -2128,7 +2178,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=9be5012a"></script>
+</div><script src="../../../_static/documentation_options.js?v=02dd84d0"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
