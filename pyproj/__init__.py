@@ -9,7 +9,7 @@ Requirements: Python 10+.
 Contact:  Jeffrey Whitaker <jeffrey.s.whitaker@noaa.gov>
 
 Copyright (c) 2006-2018, Jeffrey Whitaker.
-Copyright (c) 2019-2023, Open source contributors.
+Copyright (c) 2019-2024, Open source contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

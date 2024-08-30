@@ -33,7 +33,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "pyproj"
-copyright = "2006-2018, Jeffrey Whitaker; 2019-2023, Open source contributors"
+copyright = "2006-2018, Jeffrey Whitaker; 2019-2024, Open source contributors"
 author = "Jeffrey Whitaker"
 
 version = release = importlib.metadata.version("pyproj")
