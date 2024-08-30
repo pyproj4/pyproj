@@ -745,7 +745,7 @@ def test_transformer__area_of_interest():
     transformer = Transformer.from_crs(
         "EPSG:7789",
         "EPSG:4936",
-        area_of_interest=AreaOfInterest(-177.25, -44.64, -43.3, -175.54),
+        area_of_interest=AreaOfInterest(-177.25, -44.64, -175.54, -43.3),
     )
     assert (
         transformer.description
@@ -757,7 +757,7 @@ def test_transformer_proj__area_of_interest():
     transformer = Transformer.from_proj(
         "EPSG:7789",
         "EPSG:4936",
-        area_of_interest=AreaOfInterest(-177.25, -44.64, -43.3, -175.54),
+        area_of_interest=AreaOfInterest(-177.25, -44.64, -175.54, -43.3),
     )
     assert (
         transformer.description
