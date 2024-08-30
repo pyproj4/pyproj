@@ -29,6 +29,7 @@ from pyproj.crs.coordinate_operation import (
     VerticalPerspectiveConversion,
 )
 from pyproj.exceptions import CRSError
+from test.conftest import PROJ_GTE_95
 
 
 def _to_dict(operation):
@@ -340,7 +341,7 @@ def test_hotline_oblique_mercator_b_operation__defaults():
     hop = HotineObliqueMercatorBConversion(
         latitude_projection_centre=0,
         longitude_projection_centre=0,
-        azimuth_initial_line=0,
+        azimuth_projection_centre=0,
         angle_from_rectified_to_skew_grid=0,
     )
     assert hop.name == "unknown"
@@ -348,9 +349,15 @@ def test_hotline_oblique_mercator_b_operation__defaults():
     assert _to_dict(hop) == {
         "Latitude of projection centre": 0.0,
         "Longitude of projection centre": 0.0,
-        "Azimuth of initial line": 0.0,
+        (
+            "Azimuth at projection centre" if PROJ_GTE_95 else "Azimuth of initial line"
+        ): 0.0,
         "Angle from Rectified to Skew Grid": 0.0,
-        "Scale factor on initial line": 1.0,
+        (
+            "Scale factor at projection centre"
+            if PROJ_GTE_95
+            else "Scale factor on initial line"
+        ): 1.0,
         "Easting at projection centre": 0.0,
         "Northing at projection centre": 0.0,
     }
@@ -360,9 +367,9 @@ def test_hotline_oblique_mercator_b_operation():
     hop = HotineObliqueMercatorBConversion(
         latitude_projection_centre=1,
         longitude_projection_centre=2,
-        azimuth_initial_line=3,
+        azimuth_projection_centre=3,
         angle_from_rectified_to_skew_grid=4,
-        scale_factor_on_initial_line=0.5,
+        scale_factor_projection_centre=0.5,
         easting_projection_centre=6,
         northing_projection_centre=7,
     )
@@ -371,12 +378,80 @@ def test_hotline_oblique_mercator_b_operation():
     assert _to_dict(hop) == {
         "Latitude of projection centre": 1.0,
         "Longitude of projection centre": 2.0,
-        "Azimuth of initial line": 3.0,
+        (
+            "Azimuth at projection centre" if PROJ_GTE_95 else "Azimuth of initial line"
+        ): 3.0,
         "Angle from Rectified to Skew Grid": 4.0,
-        "Scale factor on initial line": 0.5,
+        (
+            "Scale factor at projection centre"
+            if PROJ_GTE_95
+            else "Scale factor on initial line"
+        ): 0.5,
         "Easting at projection centre": 6.0,
         "Northing at projection centre": 7.0,
     }
+
+
+def test_hotline_oblique_mercator_b_operation__deprecated_kwargs():
+    with pytest.warns(FutureWarning):
+        hop = HotineObliqueMercatorBConversion(
+            latitude_projection_centre=1,
+            longitude_projection_centre=2,
+            azimuth_initial_line=3,
+            angle_from_rectified_to_skew_grid=4,
+            scale_factor_on_initial_line=0.5,
+            easting_projection_centre=6,
+            northing_projection_centre=7,
+        )
+    assert hop.name == "unknown"
+    assert hop.method_name == "Hotine Oblique Mercator (variant B)"
+    assert _to_dict(hop) == {
+        "Latitude of projection centre": 1.0,
+        "Longitude of projection centre": 2.0,
+        (
+            "Azimuth at projection centre" if PROJ_GTE_95 else "Azimuth of initial line"
+        ): 3.0,
+        "Angle from Rectified to Skew Grid": 4.0,
+        (
+            "Scale factor at projection centre"
+            if PROJ_GTE_95
+            else "Scale factor on initial line"
+        ): 0.5,
+        "Easting at projection centre": 6.0,
+        "Northing at projection centre": 7.0,
+    }
+
+
+def test_hotline_oblique_mercator_b_operation__missing_azimuth():
+    with pytest.raises(ValueError):
+        HotineObliqueMercatorBConversion(
+            latitude_projection_centre=1,
+            longitude_projection_centre=2,
+            angle_from_rectified_to_skew_grid=4,
+        )
+
+
+def test_hotline_oblique_mercator_b_operation__duplicate_azimuth():
+    with pytest.raises(ValueError):
+        HotineObliqueMercatorBConversion(
+            latitude_projection_centre=1,
+            longitude_projection_centre=2,
+            angle_from_rectified_to_skew_grid=4,
+            azimuth_initial_line=3,
+            azimuth_projection_centre=3,
+        )
+
+
+def test_hotline_oblique_mercator_b_operation__duplicate_scale_factor():
+    with pytest.raises(ValueError):
+        HotineObliqueMercatorBConversion(
+            latitude_projection_centre=1,
+            longitude_projection_centre=2,
+            angle_from_rectified_to_skew_grid=4,
+            azimuth_projection_centre=3,
+            scale_factor_on_initial_line=0.5,
+            scale_factor_projection_centre=0.5,
+        )
 
 
 def test_orthographic_operation__defaults():

@@ -7,9 +7,10 @@ building a CRS.
 
 # pylint: disable=too-many-lines
 import warnings
-from typing import Any
+from typing import Any, Optional
 
 from pyproj._crs import CoordinateOperation
+from pyproj._version import PROJ_VERSION
 from pyproj.exceptions import CRSError
 
 
@@ -759,6 +760,7 @@ class MercatorBConversion(CoordinateOperation):
 class HotineObliqueMercatorBConversion(CoordinateOperation):
     """
     .. versionadded:: 2.5.0
+    .. versionadded:: 3.7.0 azimuth_projection_centre, scale_factor_projection_centre
 
     Class for constructing the Hotine Oblique Mercator (variant B) conversion.
 
@@ -769,11 +771,13 @@ class HotineObliqueMercatorBConversion(CoordinateOperation):
         cls,
         latitude_projection_centre: float,
         longitude_projection_centre: float,
-        azimuth_initial_line: float,
         angle_from_rectified_to_skew_grid: float,
-        scale_factor_on_initial_line: float = 1.0,
         easting_projection_centre: float = 0.0,
         northing_projection_centre: float = 0.0,
+        azimuth_projection_centre: Optional[float] = None,
+        scale_factor_projection_centre: Optional[float] = None,
+        azimuth_initial_line: Optional[float] = None,
+        scale_factor_on_initial_line: Optional[float] = None,
     ):
         """
         Parameters
@@ -782,17 +786,55 @@ class HotineObliqueMercatorBConversion(CoordinateOperation):
             Latitude of projection centre (lat_0).
         longitude_projection_centre: float
             Longitude of projection centre (lonc).
-        azimuth_initial_line: float
+        azimuth_projection_centre: float
             Azimuth of initial line (alpha).
         angle_from_rectified_to_skew_grid: float
             Angle from Rectified to Skew Grid (gamma).
-        scale_factor_on_initial_line: float, default=1.0
+        scale_factor_projection_centre: float, default=1.0
             Scale factor on initial line (k or k_0).
         easting_projection_centre: float, default=0.0
             Easting at projection centre (x_0).
         northing_projection_centre: float, default=0.0
             Northing at projection centre (y_0).
+        azimuth_initial_line: float
+            Deprecated alias for azimuth_projection_centre,
+        scale_factor_on_initial_line: float
+            Deprecated alias for scale_factor_projection_centre.
         """
+        if scale_factor_on_initial_line is not None:
+            if scale_factor_projection_centre is not None:
+                raise ValueError(
+                    "scale_factor_projection_centre and scale_factor_on_initial_line "
+                    "cannot be provided together."
+                )
+            warnings.warn(
+                "scale_factor_on_initial_line is deprecated. "
+                "Use scale_factor_projection_centre instead.",
+                FutureWarning,
+                stacklevel=2,
+            )
+            scale_factor_projection_centre = scale_factor_on_initial_line
+        elif scale_factor_projection_centre is None:
+            scale_factor_projection_centre = 1.0
+
+        if azimuth_projection_centre is None and azimuth_initial_line is None:
+            raise ValueError(
+                "azimuth_projection_centre or azimuth_initial_line must be provided."
+            )
+        if azimuth_initial_line is not None:
+            if azimuth_projection_centre is not None:
+                raise ValueError(
+                    "azimuth_projection_centre and azimuth_initial_line cannot be "
+                    "provided together."
+                )
+            warnings.warn(
+                "azimuth_initial_line is deprecated. "
+                "Use azimuth_projection_centre instead.",
+                FutureWarning,
+                stacklevel=2,
+            )
+            azimuth_projection_centre = azimuth_initial_line
+
         omerc_json = {
             "$schema": "https://proj.org/schemas/v0.2/projjson.schema.json",
             "type": "Conversion",
@@ -815,8 +857,12 @@ class HotineObliqueMercatorBConversion(CoordinateOperation):
                     "id": {"authority": "EPSG", "code": 8812},
                 },
                 {
-                    "name": "Azimuth of initial line",
-                    "value": azimuth_initial_line,
+                    "name": (
+                        "Azimuth at projection centre"
+                        if PROJ_VERSION >= (9, 5, 0)
+                        else "Azimuth of initial line"
+                    ),
+                    "value": azimuth_projection_centre,
                     "unit": "degree",
                     "id": {"authority": "EPSG", "code": 8813},
                 },
@@ -827,8 +873,12 @@ class HotineObliqueMercatorBConversion(CoordinateOperation):
                     "id": {"authority": "EPSG", "code": 8814},
                 },
                 {
-                    "name": "Scale factor on initial line",
-                    "value": scale_factor_on_initial_line,
+                    "name": (
+                        "Scale factor at projection centre"
+                        if PROJ_VERSION >= (9, 5, 0)
+                        else "Scale factor on initial line"
+                    ),
+                    "value": scale_factor_projection_centre,
                     "unit": "unity",
                     "id": {"authority": "EPSG", "code": 8815},
                 },
