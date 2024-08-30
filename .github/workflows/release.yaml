@@ -31,7 +31,7 @@ jobs:
           init-shell: bash
           environment-name: sdist_env
           create-args: >-
-            build
+            python-build
             twine
             cython
             proj=${{ matrix.proj-version }}
