@@ -267,7 +267,7 @@ Preparing `pyproj.crs.CRS` for `pycrs`
     py_crs = pycrs.parse.from_ogc_wkt(proj_crs.to_wkt("WKT1_GDAL"))
 
 
-Preparing `cartopy.crs.CRS` for `pyproj.crs.CRS`
+Preparing `pycrs` for `pyproj.crs.CRS`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: python
 
