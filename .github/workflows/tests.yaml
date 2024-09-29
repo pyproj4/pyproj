@@ -119,6 +119,8 @@ jobs:
       - name: Setup Conda
         uses: mamba-org/setup-micromamba@v1
         with:
+          # https://github.com/mamba-org/setup-micromamba/issues/225
+          micromamba-version: 1.5.10-0
           init-shell: bash
           environment-name: test
           create-args: >-
