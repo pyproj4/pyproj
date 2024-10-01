@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Latest
+------
+
+
 3.7.0
 ------
 - WHL: Wheels contain PROJ 9.4.1 (pull #1423)
