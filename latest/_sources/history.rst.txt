@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Latest
+3.7.0
 ------
 - WHL: Wheels contain PROJ 9.4.1 (pull #1423)
 - DEP: Minimum supported Python version 3.10 (pull #1357)
