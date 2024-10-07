@@ -302,14 +302,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The authority name to filter by (e.g. EPSG, PROJ). Default is all.</p></li>
-<li><p><strong>category</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – Category of the unit: one of “linear”, “linear_per_time”, “angular”,
+<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – The authority name to filter by (e.g. EPSG, PROJ). Default is all.</p></li>
+<li><p><strong>category</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Category of the unit: one of “linear”, “linear_per_time”, “angular”,
 “angular_per_time”, “scale”, “scale_per_time” or “time”. Default is all.</p></li>
-<li><p><strong>allow_deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>default=False</em>) – Whether or not to allow deprecated units.</p></li>
+<li><p><strong>allow_deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=False</em>) – Whether or not to allow deprecated units.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, <a class="reference internal" href="#pyproj.database.Unit" title="pyproj.database.Unit">Unit</a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference internal" href="#pyproj.database.Unit" title="pyproj.database.Unit">Unit</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -323,16 +323,16 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Authority name.</p></li>
-<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Object code.</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Object name. For example “metre”, “US survey foot”, etc.</p></li>
-<li><p><strong>category</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Category of the unit: one of “linear”, “linear_per_time”, “angular”,
+<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Authority name.</p></li>
+<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Object code.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Object name. For example “metre”, “US survey foot”, etc.</p></li>
+<li><p><strong>category</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Category of the unit: one of “linear”, “linear_per_time”, “angular”,
 “angular_per_time”, “scale”, “scale_per_time” or “time”.</p></li>
-<li><p><strong>conv_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Conversion factor to apply to transform from that unit to the
+<li><p><strong>conv_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Conversion factor to apply to transform from that unit to the
 corresponding SI unit (metre for “linear”, radian for “angular”, etc.).
 It might be 0 in some cases to indicate no known conversion factor.</p></li>
-<li><p><strong>proj_short_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – PROJ short name, like “m”, “ft”, “us-ft”, etc… Might be None.</p></li>
-<li><p><strong>deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Whether the object is deprecated.</p></li>
+<li><p><strong>proj_short_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – PROJ short name, like “m”, “ft”, “us-ft”, etc… Might be None.</p></li>
+<li><p><strong>deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether the object is deprecated.</p></li>
 </ul>
 </dd>
 </dl>
@@ -357,7 +357,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dd class="field-odd"><p>Authorities in PROJ database.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -379,16 +379,16 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the authority.</p></li>
+<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The name of the authority.</p></li>
 <li><p><strong>pj_type</strong> (<a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a>) – The type of object to get the authorities.</p></li>
-<li><p><strong>allow_deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>default=False</em>) – Allow a deprecated code in the return.</p></li>
+<li><p><strong>allow_deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=False</em>) – Allow a deprecated code in the return.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Codes associated with authorities in PROJ database.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -407,22 +407,22 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The name of the authority. Default is all authorities.</p></li>
-<li><p><strong>pj_types</strong> (<a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – The type(s) of CRS to get the information (i.e. the types with CRS in the name).
+<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – The name of the authority. Default is all authorities.</p></li>
+<li><p><strong>pj_types</strong> (<a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – The type(s) of CRS to get the information (i.e. the types with CRS in the name).
 If None is provided, it will use all of types (i.e. PJType.CRS).</p></li>
 <li><p><strong>area_of_interest</strong> (<a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><em>AreaOfInterest</em></a><em>, </em><em>optional</em>) – Filter returned CRS by the area of interest. Default method is intersection.</p></li>
-<li><p><strong>contains</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>default=False</em>) – Only works if the area of interest is passed in.
+<li><p><strong>contains</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=False</em>) – Only works if the area of interest is passed in.
 If True, then only CRS whose area of use entirely contains the specified
 bounding box will be returned. If False, then only CRS whose area of use
 intersects the specified bounding box will be returned.</p></li>
-<li><p><strong>allow_deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>default=False</em>) – Allow a deprecated code in the return.</p></li>
+<li><p><strong>allow_deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=False</em>) – Allow a deprecated code in the return.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>CRS information from the PROJ database.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -437,13 +437,13 @@ intersects the specified bounding box will be returned.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Authority name.</p></li>
-<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Object code.</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Object name.</p></li>
+<li><p><strong>auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Authority name.</p></li>
+<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Object code.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Object name.</p></li>
 <li><p><strong>type</strong> (<a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>PJType</em></a>) – The type of CRS</p></li>
-<li><p><strong>deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Whether the object is deprecated.</p></li>
+<li><p><strong>deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether the object is deprecated.</p></li>
 <li><p><strong>area_of_use</strong> (<a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfUse" title="pyproj.aoi.AreaOfUse"><em>AreaOfUse</em></a><em> | </em><em>None</em>) – The area of use for the CRS if valid.</p></li>
-<li><p><strong>projection_method_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>None</em>) – Name of the projection method for a projected CRS.</p></li>
+<li><p><strong>projection_method_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – Name of the projection method for a projected CRS.</p></li>
 </ul>
 </dd>
 </dl>
@@ -463,9 +463,9 @@ intersects the specified bounding box will be returned.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>datum_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The name of the datum in the CRS name (‘NAD27’, ‘NAD83’, ‘WGS 84’, …).</p></li>
+<li><p><strong>datum_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – The name of the datum in the CRS name (‘NAD27’, ‘NAD83’, ‘WGS 84’, …).</p></li>
 <li><p><strong>area_of_interest</strong> (<a class="reference internal" href="aoi.html#pyproj.aoi.AreaOfInterest" title="pyproj.aoi.AreaOfInterest"><em>AreaOfInterest</em></a><em>, </em><em>optional</em>) – Filter returned CRS by the area of interest. Default method is intersection.</p></li>
-<li><p><strong>contains</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>default=False</em>) – Only works if the area of interest is passed in.
+<li><p><strong>contains</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=False</em>) – Only works if the area of interest is passed in.
 If True, then only CRS whose area of use entirely contains the specified
 bounding box will be returned. If False, then only CRS whose area of use
 intersects the specified bounding box will be returned.</p></li>
@@ -475,7 +475,7 @@ intersects the specified bounding box will be returned.</p></li>
 <dd class="field-even"><p>UTM CRS information from the PROJ database.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="#pyproj.database.CRSInfo" title="pyproj.database.CRSInfo">CRSInfo</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -507,13 +507,13 @@ intersects the specified bounding box will be returned.</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the metadata item to get data for.</p>
+<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The name of the metadata item to get data for.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The metatada information if available.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a> | None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> | None</p>
 </dd>
 </dl>
 </dd></dl>
