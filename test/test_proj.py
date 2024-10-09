@@ -232,7 +232,7 @@ class ReprTests(unittest.TestCase):
     def test_sphere(self):
         # ellipse is Venus 2000 (IAU2000:29900), which is a sphere
         g = Geod("+a=6051800 +b=6051800")
-        self.assertEqual(repr(g), "Geod('+a=6051800 +f=0')")
+        self.assertEqual(repr(g), "Geod('+a=6051800.0 +f=0.0')")
 
     # test __repr__ for Geod object
     def test_ellps_name_round_trip(self):
