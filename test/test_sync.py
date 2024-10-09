@@ -195,7 +195,7 @@ def test_download_resource_file__bad_sha256sum(urlretrieve_mock, tmp_path):
 @patch("pyproj.sync.Path.stat")
 def test__load_grid_geojson_old_file(stat_mock, tmp_path):
     return_timestamp = MagicMock()
-    return_timestamp.st_mtime = (datetime.utcnow() - timedelta(days=2)).timestamp()
+    return_timestamp.st_mtime = (datetime.now() - timedelta(days=2)).timestamp()
     stat_mock.return_value = return_timestamp
     tmp_path.joinpath("files.geojson").touch()
     grids = _load_grid_geojson(target_directory=tmp_path)

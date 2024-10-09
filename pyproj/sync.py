@@ -199,8 +199,7 @@ def _load_grid_geojson(target_directory: str | Path | None = None) -> dict[str, 
         target_directory = get_user_data_dir(True)
     local_path = Path(target_directory, "files.geojson")
     if not local_path.exists() or (
-        (datetime.utcnow() - datetime.fromtimestamp(local_path.stat().st_mtime)).days
-        > 0
+        (datetime.now() - datetime.fromtimestamp(local_path.stat().st_mtime)).days > 0
     ):
         _download_resource_file(
             file_url=f"{get_proj_endpoint()}/files.geojson",
