@@ -1,4 +1,4 @@
-name: Test PROJ Latest
+name: Test PROJ and Cython Latest
 
 on:
   push:
@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           python -V
-          python -m pip install cython
+          python -m pip install --upgrade --pre --only-binary :all: -i https://pypi.anaconda.org/scientific-python-nightly-wheels/simple cython
           python -m pip install -e .
           python -m pip install -r requirements-test.txt
           pyproj -v
