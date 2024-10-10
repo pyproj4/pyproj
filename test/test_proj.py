@@ -159,9 +159,6 @@ class ProjLatLongTypeErrorTest(unittest.TestCase):
             lon, lat = transform(p, p.to_latlong(), 200000, 400000)
 
 
-@unittest.skipIf(
-    sys.version_info < (3, 4), "Python 3.4 or newer required for subTest()"
-)
 class ForwardInverseTest(unittest.TestCase):
     def test_fwd_inv(self):
         for pj in pj_list.keys():
