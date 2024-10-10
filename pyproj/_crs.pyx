@@ -2352,13 +2352,13 @@ cdef class _CRS(Base):
         self._coordinate_operation = None
         self._type_name = None
 
-    def __init__(self, const char *proj_string):
+    def __init__(self, str proj_string):
         self.context = pyproj_context_create()
         self._context_manager = get_context_manager()
         # initialize projection
         self.projobj = proj_create(
             self.context,
-            proj_string,
+            cstrencode(proj_string),
         )
         if self.projobj == NULL:
             raise CRSError(f"Invalid projection: {proj_string}")

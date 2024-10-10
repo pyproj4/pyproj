@@ -460,7 +460,7 @@ def get_database_metadata(str key not None):
     cdef const char* metadata = NULL
     metadata = proj_context_get_database_metadata(
         pyproj_context_create(),
-        cstrdecode(key),
+        cstrencode(key),
     )
     if metadata == NULL:
         return None

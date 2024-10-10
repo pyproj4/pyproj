@@ -90,10 +90,7 @@ cdef class Geod:
         geod_init(&self._geod_geodesic, <double> a, <double> f)
         self.a = a
         self.f = f
-        # convert 'a' only for initstring
-        a_str = int(a) if a.is_integer() else a
-        f_str = int(f) if f.is_integer() else f
-        self.initstring = f"+a={a_str} +f={f_str}"
+        self.initstring = f"+{a=} +{f=}"
         self.sphere = sphere
         self.b = b
         self.es = es

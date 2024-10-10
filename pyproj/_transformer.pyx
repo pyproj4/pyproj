@@ -151,7 +151,8 @@ cdef class _TransformerGroup:
             double north_lat_degree
 
         if authority is not None:
-            c_authority = authority
+            tmp = cstrencode(authority)
+            c_authority = tmp
 
         try:
             operation_factory_context = proj_create_operation_factory_context(
