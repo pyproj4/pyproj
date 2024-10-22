@@ -1,7 +1,6 @@
 import concurrent.futures
 import math
 import os
-import sys
 import unittest
 from unittest.mock import patch
 
