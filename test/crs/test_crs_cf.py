@@ -1867,13 +1867,13 @@ def test_ellipsoidal_cs__geodetic():
     assert crs.cs_to_cf() == [
         {
             "standard_name": "latitude",
-            "long_name": "geodetic latitude coordinate",
+            "long_name": "latitude coordinate",
             "units": "degrees_north",
             "axis": "Y",
         },
         {
             "standard_name": "longitude",
-            "long_name": "geodetic longitude coordinate",
+            "long_name": "longitude coordinate",
             "units": "degrees_east",
             "axis": "X",
         },
@@ -1938,13 +1938,13 @@ def test_3d_ellipsoidal_cs_depth():
     assert crs.cs_to_cf() == [
         {
             "standard_name": "latitude",
-            "long_name": "geodetic latitude coordinate",
+            "long_name": "latitude coordinate",
             "units": "degrees_north",
             "axis": "Y",
         },
         {
             "standard_name": "longitude",
-            "long_name": "geodetic longitude coordinate",
+            "long_name": "longitude coordinate",
             "units": "degrees_east",
             "axis": "X",
         },

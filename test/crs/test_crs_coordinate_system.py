@@ -230,16 +230,16 @@ def test_cartesian2dcs_to_cf():
     csm = Cartesian2DCS(axis=Cartesian2DCSAxis.EASTING_NORTHING_FT)
     assert csm.to_cf() == [
         {
-            "axis": "Y",
-            "long_name": "Northing",
-            "standard_name": "projection_y_coordinate",
-            "units": "metre",
-        },
-        {
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "units": "metre",
+            "units": "0.3048 metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "units": "0.3048 metre",
         },
     ]
 
