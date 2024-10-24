@@ -1864,16 +1864,16 @@ def test_export_compound_crs_cs():
 
 def test_ellipsoidal_cs__geodetic():
     crs = CRS.from_epsg(4326)
-    crs.cs_to_cf() == [
+    assert crs.cs_to_cf() == [
         {
             "standard_name": "latitude",
-            "long_name": "geodetic latitude coordinate",
+            "long_name": "latitude coordinate",
             "units": "degrees_north",
             "axis": "Y",
         },
         {
             "standard_name": "longitude",
-            "long_name": "geodetic longitude coordinate",
+            "long_name": "longitude coordinate",
             "units": "degrees_east",
             "axis": "X",
         },
@@ -1935,16 +1935,16 @@ def test_3d_ellipsoidal_cs_depth():
             },
         }
     )
-    crs.cs_to_cf() == [
+    assert crs.cs_to_cf() == [
         {
             "standard_name": "latitude",
-            "long_name": "geodetic latitude coordinate",
+            "long_name": "latitude coordinate",
             "units": "degrees_north",
             "axis": "Y",
         },
         {
             "standard_name": "longitude",
-            "long_name": "geodetic longitude coordinate",
+            "long_name": "longitude coordinate",
             "units": "degrees_east",
             "axis": "X",
         },

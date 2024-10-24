@@ -210,7 +210,7 @@ def test_ellipsoidal3dcs_to_cf():
 
 def test_cartesian2dcs_ft_to_cf():
     csft = Cartesian2DCS(axis=Cartesian2DCSAxis.NORTHING_EASTING_FT)
-    csft.to_cf() == [
+    assert csft.to_cf() == [
         {
             "axis": "Y",
             "long_name": "Northing",
@@ -228,25 +228,25 @@ def test_cartesian2dcs_ft_to_cf():
 
 def test_cartesian2dcs_to_cf():
     csm = Cartesian2DCS(axis=Cartesian2DCSAxis.EASTING_NORTHING_FT)
-    csm.to_cf() == [
-        {
-            "axis": "Y",
-            "long_name": "Northing",
-            "standard_name": "projection_y_coordinate",
-            "units": "metre",
-        },
+    assert csm.to_cf() == [
         {
             "axis": "X",
             "long_name": "Easting",
             "standard_name": "projection_x_coordinate",
-            "units": "metre",
+            "units": "0.3048 metre",
+        },
+        {
+            "axis": "Y",
+            "long_name": "Northing",
+            "standard_name": "projection_y_coordinate",
+            "units": "0.3048 metre",
         },
     ]
 
 
 def test_verticalcs_depth_to_cf():
     vcs = VerticalCS(axis=VerticalCSAxis.DEPTH)
-    vcs.to_cf() == [
+    assert vcs.to_cf() == [
         {
             "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Depth",
@@ -259,7 +259,7 @@ def test_verticalcs_depth_to_cf():
 
 def test_verticalcs_height_to_cf():
     vcs = VerticalCS(axis=VerticalCSAxis.GRAVITY_HEIGHT_US_FT)
-    vcs.to_cf() == [
+    assert vcs.to_cf() == [
         {
             "standard_name": "height_above_reference_ellipsoid",
             "long_name": "Gravity-related height",
