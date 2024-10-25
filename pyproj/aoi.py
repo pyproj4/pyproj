@@ -69,7 +69,7 @@ class AreaOfUse(NamedTuple):
         return self.west, self.south, self.east, self.north
 
     def __str__(self) -> str:
-        return f"- name: {self.name}\n" f"- bounds: {self.bounds}"
+        return f"- name: {self.name}\n- bounds: {self.bounds}"
 
 
 @dataclass

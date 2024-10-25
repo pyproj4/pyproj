@@ -1590,7 +1590,7 @@ class CRS:
         """
         return self._crs.get_non_deprecated()
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         return self.equals(other)
 
     def __getstate__(self) -> dict[str, str]:
