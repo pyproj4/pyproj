@@ -1114,7 +1114,7 @@ class Geod(_Geod):
         # no ellipse name found, call super class
         return super().__repr__()
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         equality operator == for Geod objects
 

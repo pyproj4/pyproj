@@ -64,3 +64,97 @@ version = {attr = "pyproj.__version__"}
 
 [tool.black]
 target_version = ["py310"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+fix = true
+
+[tool.ruff.lint]
+unfixable = []
+
+select = [
+  # pyflakes
+  "F",
+  # pycodestyle
+  "E", "W",
+  # flake8-2020
+  "YTT",
+  # flake8-bugbear
+  "B",
+  # flake8-quotes
+  "Q",
+  # flake8-debugger
+  "T10",
+  # flake8-gettext
+  "INT",
+  # pylint
+#   "PL",
+  # flake8-pytest-style
+#   "PT",
+  # misc lints
+  "PIE",
+  # flake8-pyi
+  "PYI",
+  # tidy imports
+  "TID",
+  # implicit string concatenation
+  "ISC",
+  # type-checking imports
+  "TCH",
+  # comprehensions
+  "C4",
+  # pygrep-hooks
+  "PGH",
+  # Ruff-specific rules
+  "RUF",
+  # flake8-bandit: exec-builtin
+  "S102",
+  # numpy-legacy-random
+  "NPY002",
+  # Perflint
+  "PERF",
+  # flynt
+  "FLY",
+  # flake8-logging-format
+  "G",
+  # flake8-future-annotations
+  "FA",
+  # flake8-slots
+  "SLOT",
+  # flake8-raise
+  "RSE"
+]
+
+ignore = [
+    ### Intentionally disabled
+    # Line too long
+    "E501",
+    # Unnecessary `dict` call (rewrite as a literal)
+    "C408",
+    # Consider iterable unpacking instead of concatenation
+    "RUF005",
+    # No explicit `stacklevel` keyword argument found
+    "B028",
+    # Unused `noqa` directive # Only work if ruff is the solve linter/formatter
+    "RUF100",
+    # `zip()` without an explicit `strict=` parameter
+    "B905",
+    # Only simple default values allowed for typed arguments
+    "PYI011",
+
+    ### TODO: Enable gradually
+    # Rename unused
+    "B007",
+    # Use specific rule codes when ignoring type issues
+    "PGH003",
+    # unconventional-import-alias
+    "ICN001",
+    # Move standard library import into a type-checking block
+    "TCH003",
+    # Consider f-string instead of string join
+    "FLY002",
+    # Use a list comprehension to create a transformed list
+    "PERF401"
+
+]

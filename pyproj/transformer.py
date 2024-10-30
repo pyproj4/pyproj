@@ -1167,7 +1167,7 @@ class Transformer:
             f"Area of Use:\n{self.area_of_use or '- undefined'}"
         )
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, Transformer):
             return False
         return self._transformer.__eq__(other._transformer)
