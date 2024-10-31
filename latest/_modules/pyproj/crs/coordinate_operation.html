@@ -923,7 +923,7 @@
             <span class="sa">f</span><span class="s2">&quot;+k_0=</span><span class="si">{</span><span class="n">scale_factor_natural_origin</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span>
-            <span class="n">CRS</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+            <span class="n">CRS</span><span class="p">(</span><span class="n">proj_string</span><span class="p">)</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
         <span class="p">)</span></div>
 
 
