@@ -604,7 +604,7 @@ class LambertCylindricalEqualAreaScaleConversion(CoordinateOperation):
             f"+k_0={scale_factor_natural_origin}"
         )
         return cls.from_json(
-            CRS(proj_string).coordinate_operation.to_json()  # type: ignore
+            CRS(proj_string).coordinate_operation.to_json()  # type: ignore[union-attr]
         )
 
 
