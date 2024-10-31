@@ -1003,7 +1003,7 @@ class Geod(_Geod):
             The total geodesic length of the geometry (meters).
         """
         try:
-            return self.line_length(*geometry.xy, radians=radians)  # type: ignore
+            return self.line_length(*geometry.xy, radians=radians)  # type: ignore[misc]
         except (AttributeError, NotImplementedError):
             pass
         if hasattr(geometry, "exterior"):
@@ -1074,7 +1074,7 @@ class Geod(_Geod):
             The geodesic area (meters^2) and perimeter (meters) of the polygon.
         """
         try:
-            return self.polygon_area_perimeter(  # type: ignore
+            return self.polygon_area_perimeter(  # type: ignore[misc]
                 *geometry.xy, radians=radians
             )
         except (AttributeError, NotImplementedError):

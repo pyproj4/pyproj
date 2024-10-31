@@ -334,7 +334,7 @@ class CRS:
             elif isinstance(projparams, (list, tuple)) and len(projparams) == 2:
                 projstring = _prepare_from_authority(*projparams)
             elif hasattr(projparams, "to_wkt"):
-                projstring = projparams.to_wkt()  # type: ignore
+                projstring = projparams.to_wkt()
             else:
                 raise CRSError(f"Invalid CRS input: {projparams!r}")
 
