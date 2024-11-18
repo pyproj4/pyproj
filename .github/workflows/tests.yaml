@@ -198,4 +198,4 @@ jobs:
           micromamba run -n test sphinx-build -b html docs/ docs/_build/
           micromamba run -n test sphinx-build -b man docs/ docs/_build/
 
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
