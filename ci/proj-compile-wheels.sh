@@ -19,6 +19,10 @@ if [ $(uname) == "Darwin" ]; then
   IS_MACOS=1;
 fi
 
+if [ -f /etc/alpine-release ]; then
+  IS_ALPINE=1
+fi
+
 if [ -z "$IS_MACOS" ]; then
     # Strip all binaries after compilation.
     STRIP_FLAGS=${STRIP_FLAGS:-"-Wl,-strip-all"}
@@ -100,6 +104,8 @@ function install_rsync {
     if [ -n "$IS_MACOS" ]; then
         # macOS. The colon in the next line is the null command
         :
+    elif [ -n "$IS_ALPINE" ]; then
+        [[ $(type -P rsync) ]] || apk add rsync
     elif [[ $MB_ML_VER == "_2_24" ]]; then
         # debian:9 based distro
         [[ $(type -P rsync) ]] || apt-get install -y rsync
@@ -177,6 +183,7 @@ function build_simple {
 
 function get_modern_cmake {
     # Install cmake >= 2.8
+    if [ -n "$IS_ALPINE" ]; then return; fi  # alpine has modern cmake already
     local cmake=cmake
     if [ -n "$IS_MACOS" ]; then
         brew install cmake > /dev/null
@@ -196,6 +203,7 @@ function get_modern_cmake {
 function build_zlib {
     # Gives an old but safe version
     if [ -n "$IS_MACOS" ]; then return; fi  # OSX has zlib already
+    if [ -n "$IS_ALPINE" ]; then return; fi  # alpine has zlib already
     if [ -e zlib-stamp ]; then return; fi
     if [[ $MB_ML_VER == "_2_24" ]]; then
         # debian:9 based distro
@@ -209,6 +217,7 @@ function build_zlib {
 
 function build_perl {
     if [ -n "$IS_MACOS" ]; then return; fi  # OSX has perl already
+    if [ -n "$IS_ALPINE" ]; then return; fi  # alpine has perl already
     if [ -e perl-stamp ]; then return; fi
     if [[ $MB_ML_VER == "_2_24" ]]; then
         # debian:9 based distro
