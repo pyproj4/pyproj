@@ -4,6 +4,7 @@ Change Log
 Latest
 ------
 
+- DEP: Make shapely a mandatory dependency (pull #1471)
 
 3.7.0
 ------

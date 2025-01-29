@@ -6,29 +6,19 @@ from itertools import permutations
 import numpy
 import pytest
 from numpy.testing import assert_almost_equal, assert_array_equal
+from shapely.geometry import (
+    LinearRing,
+    LineString,
+    MultiLineString,
+    MultiPoint,
+    MultiPolygon,
+    Point,
+    Polygon,
+)
+from shapely.geometry.polygon import orient
 
 from pyproj import Geod
 from pyproj.geod import GeodIntermediateFlag, reverse_azimuth
-
-try:
-    from shapely.geometry import (
-        LinearRing,
-        LineString,
-        MultiLineString,
-        MultiPoint,
-        MultiPolygon,
-        Point,
-        Polygon,
-    )
-    from shapely.geometry.polygon import orient
-
-    SHAPELY_LOADED = True
-except (ImportError, OSError):
-    SHAPELY_LOADED = False
-
-
-skip_shapely = pytest.mark.skipif(not SHAPELY_LOADED, reason="Missing shapely")
-
 
 # BOSTON
 _BOSTON_LAT = 42.0 + (15.0 / 60.0)
@@ -551,13 +541,11 @@ def test_polygon_area_perimeter__single_point():
     assert perimeter == 0
 
 
-@skip_shapely
 def test_geometry_length__point():
     geod = Geod(ellps="WGS84")
     assert geod.geometry_length(Point(1, 2)) == 0
 
 
-@skip_shapely
 def test_geometry_length__linestring():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -567,7 +555,6 @@ def test_geometry_length__linestring():
     )
 
 
-@skip_shapely
 def test_geometry_length__linestring__radians():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -585,7 +572,6 @@ def test_geometry_length__linestring__radians():
     )
 
 
-@skip_shapely
 def test_geometry_length__linearring():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -597,7 +583,6 @@ def test_geometry_length__linearring():
     )
 
 
-@skip_shapely
 def test_geometry_length__polygon():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -609,7 +594,6 @@ def test_geometry_length__polygon():
     )
 
 
-@skip_shapely
 def test_geometry_length__polygon__radians():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -630,7 +614,6 @@ def test_geometry_length__polygon__radians():
     )
 
 
-@skip_shapely
 def test_geometry_length__multipolygon():
     geod = Geod(ellps="WGS84")
     polygon = Polygon(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
@@ -641,7 +624,6 @@ def test_geometry_length__multipolygon():
     )
 
 
-@skip_shapely
 def test_geometry_length__multipolygon__radians():
     geod = Geod(ellps="WGS84")
     polygon = Polygon(
@@ -660,7 +642,6 @@ def test_geometry_length__multipolygon__radians():
     )
 
 
-@skip_shapely
 def test_geometry_length__multilinestring():
     geod = Geod(ellps="WGS84")
     line_string = LineString([Point(1, 2), Point(3, 4), Point(5, 2)])
@@ -671,7 +652,6 @@ def test_geometry_length__multilinestring():
     )
 
 
-@skip_shapely
 def test_geometry_length__multipoint():
     geod = Geod(ellps="WGS84")
     assert (
@@ -679,13 +659,11 @@ def test_geometry_length__multipoint():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__point():
     geod = Geod(ellps="WGS84")
     assert geod.geometry_area_perimeter(Point(1, 2)) == (0, 0)
 
 
-@skip_shapely
 def test_geometry_area_perimeter__linestring():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -695,7 +673,6 @@ def test_geometry_area_perimeter__linestring():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__linestring__radians():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -713,7 +690,6 @@ def test_geometry_area_perimeter__linestring__radians():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__linearring():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -725,7 +701,6 @@ def test_geometry_area_perimeter__linearring():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__polygon():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -737,7 +712,6 @@ def test_geometry_area_perimeter__polygon():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__polygon__radians():
     geod = Geod(ellps="WGS84")
     assert_almost_equal(
@@ -758,7 +732,6 @@ def test_geometry_area_perimeter__polygon__radians():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__polygon__holes():
     geod = Geod(ellps="WGS84")
 
@@ -780,7 +753,6 @@ def test_geometry_area_perimeter__polygon__holes():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__multipolygon():
     geod = Geod(ellps="WGS84")
     polygon = Polygon(LineString([Point(1, 2), Point(3, 4), Point(5, 2)]))
@@ -791,7 +763,6 @@ def test_geometry_area_perimeter__multipolygon():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__multipolygon__radians():
     geod = Geod(ellps="WGS84")
     polygon = Polygon(
@@ -810,7 +781,6 @@ def test_geometry_area_perimeter__multipolygon__radians():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__multilinestring():
     geod = Geod(ellps="WGS84")
     line_string = LineString([Point(1, 2), Point(3, 4), Point(5, 2)])
@@ -821,7 +791,6 @@ def test_geometry_area_perimeter__multilinestring():
     )
 
 
-@skip_shapely
 def test_geometry_area_perimeter__multipoint():
     geod = Geod(ellps="WGS84")
     assert geod.geometry_area_perimeter(
