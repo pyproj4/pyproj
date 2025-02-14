@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>pyproj.datadir - pyproj 3.7.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d623d863" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=20074c1a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -278,16 +278,16 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># pylint: disable=global-statement</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">pyproj._context</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401  pylint: disable=unused-import</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj._context</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401  pylint: disable=unused-import</span>
     <span class="n">_set_context_data_dir</span><span class="p">,</span>
     <span class="n">get_user_data_dir</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">DataDirError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataDirError</span>
 
 <span class="n">_USER_PROJ_DATA</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">_VALIDATED_PROJ_DATA</span> <span class="o">=</span> <span class="kc">None</span>
@@ -295,7 +295,7 @@
 
 <div class="viewcode-block" id="set_data_dir">
 <a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.set_data_dir">[docs]</a>
-<span class="k">def</span> <span class="nf">set_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the data directory for PROJ to use.</span>
 
@@ -318,7 +318,7 @@
 
 <div class="viewcode-block" id="append_data_dir">
 <a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.append_data_dir">[docs]</a>
-<span class="k">def</span> <span class="nf">append_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">append_data_dir</span><span class="p">(</span><span class="n">proj_data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add an additional data directory for PROJ to use.</span>
 
@@ -333,7 +333,7 @@
 
 <div class="viewcode-block" id="get_data_dir">
 <a class="viewcode-back" href="../../api/datadir.html#pyproj.datadir.get_data_dir">[docs]</a>
-<span class="k">def</span> <span class="nf">get_data_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_data_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The order of preference for the data directory is:</span>
 
@@ -358,7 +358,7 @@
     <span class="n">prefix_datadir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
     <span class="n">conda_windows_prefix_datadir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;Library&quot;</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;proj&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">valid_data_dir</span><span class="p">(</span><span class="n">potential_data_dir</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">valid_data_dir</span><span class="p">(</span><span class="n">potential_data_dir</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">potential_data_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">potential_data_dir</span><span class="p">,</span> <span class="s2">&quot;proj.db&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
@@ -366,7 +366,7 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">valid_data_dirs</span><span class="p">(</span><span class="n">potential_data_dirs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">valid_data_dirs</span><span class="p">(</span><span class="n">potential_data_dirs</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">potential_data_dirs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">proj_data_dir</span> <span class="ow">in</span> <span class="n">potential_data_dirs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">):</span>

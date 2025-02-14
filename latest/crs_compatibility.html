@@ -7,7 +7,7 @@
 
     <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>CRS Compatibility Guide for Geospatial Python - pyproj 3.7.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d623d863" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=20074c1a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -293,8 +293,8 @@ with other Python Geospatial libraries.</p>
 <p><a class="reference external" href="https://github.com/osgeo/gdal">https://github.com/osgeo/gdal</a></p>
 <section id="converting-from-osgeo-osr-spatialreference-to-pyproj-crs-crs">
 <h3>Converting from <cite>osgeo.osr.SpatialReference</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-osgeo-osr-spatialreference-to-pyproj-crs-crs" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">osgeo.osr</span> <span class="kn">import</span> <span class="n">SpatialReference</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">osgeo.osr</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpatialReference</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">osr_crs</span> <span class="o">=</span> <span class="n">SpatialReference</span><span class="p">()</span>
 <span class="n">osr_crs</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
@@ -311,10 +311,10 @@ with other Python Geospatial libraries.</p>
 <p class="admonition-title">Warning</p>
 <p>WKT2 is only supported in GDAL 3+</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">osgeo</span>
-<span class="kn">from</span> <span class="nn">osgeo.osr</span> <span class="kn">import</span> <span class="n">SpatialReference</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
-<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">WktVersion</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">osgeo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">osgeo.osr</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpatialReference</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">WktVersion</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 
@@ -334,9 +334,9 @@ with other Python Geospatial libraries.</p>
 <h3>Converting from <cite>rasterio.crs.CRS</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#converting-from-rasterio-crs-crs-to-pyproj-crs-crs" title="Link to this heading">¶</a></h3>
 <p>If you have <cite>rasterio &gt;= 1.0.14</cite>, then you can pass in the <cite>rasterio.crs.CRS</cite>
 directly:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rasterio</span>
-<span class="kn">import</span> <span class="nn">rasterio.crs</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rasterio.crs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">&quot;WKT2_2018&quot;</span><span class="p">):</span>
     <span class="n">rio_crs</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
@@ -344,8 +344,8 @@ directly:</p>
 </pre></div>
 </div>
 <p>Otherwise, you should use the <cite>wkt</cite> property:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rasterio.crs</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rasterio.crs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">&quot;WKT2_2018&quot;</span><span class="p">):</span>
     <span class="n">rio_crs</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
@@ -361,20 +361,20 @@ directly:</p>
 </div>
 <p>If you have rasterio &gt;= 1.0.26 and GDAL 3+, then you can pass in the <cite>pyproj.crs.CRS</cite>
 directly:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rasterio.crs</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rasterio.crs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 <span class="n">rio_crs</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">proj_crs</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If you want to be compatible across GDAL/rasterio versions, you can do:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">packaging</span> <span class="kn">import</span> <span class="n">version</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">packaging</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span>
 
-<span class="kn">import</span> <span class="nn">rasterio</span>
-<span class="kn">import</span> <span class="nn">rasterio.crs</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
-<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">WktVersion</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rasterio.crs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">WktVersion</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">rasterio</span><span class="o">.</span><span class="n">__gdal_version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;3.0.0&quot;</span><span class="p">)</span>
@@ -395,8 +395,8 @@ attribute. As such, it is best to use the <cite>crs_wkt</cite> attribute.</p>
 <p>It is also useful to know that plans exist to add CRS class.
 Related GitHub issue <a class="reference external" href="https://github.com/Toblerity/Fiona/issues/714">here</a>.</p>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fiona</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">fiona</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="k">with</span> <span class="n">fiona</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">&quot;WKT2_2018&quot;</span><span class="p">),</span> <span class="n">fiona</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="k">as</span> <span class="n">fds</span><span class="p">:</span>
     <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">fds</span><span class="o">.</span><span class="n">crs_wkt</span><span class="p">)</span>
@@ -410,10 +410,10 @@ Related GitHub issue <a class="reference external" href="https://github.com/Tobl
 <p>WKT2 is only supported in GDAL 3+</p>
 </div>
 <p>If you want to be compatible across GDAL versions, you can do:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">packaging</span> <span class="kn">import</span> <span class="n">version</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">packaging</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span>
 
-<span class="kn">import</span> <span class="nn">fiona</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">fiona</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 
@@ -435,10 +435,10 @@ Related GitHub issue <a class="reference external" href="https://github.com/Tobl
 <p>Also see the <a class="reference external" href="https://geopandas.readthedocs.io/en/latest/projections.html#upgrading-to-geopandas-0-7-with-pyproj-2-2-and-proj-6">geopandas guide for upgrading to use pyproj CRS class</a></p>
 <section id="preparing-pyproj-crs-crs-for-geopandas">
 <h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>geopandas</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-geopandas" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fiona</span>
-<span class="kn">import</span> <span class="nn">geopandas</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
-<span class="kn">from</span> <span class="nn">pyproj.enums</span> <span class="kn">import</span> <span class="n">WktVersion</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">fiona</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">WktVersion</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 
@@ -461,8 +461,8 @@ Related GitHub issue <a class="reference external" href="https://github.com/Tobl
 <h3><cite>geopandas</cite> to <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#geopandas-to-pyproj-crs-crs" title="Link to this heading">¶</a></h3>
 <p><a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_user_input()</span></code></a> can handle anything across the <cite>geopandas</cite>
 versions. The only gotcha would be if it is <cite>None</cite>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">geopandas</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">crs</span><span class="p">)</span>
@@ -486,8 +486,8 @@ PROJ JSON, or a spatial reference ID (i.e. EPSG)
 with the area of use defined. Otherwise,
 the x_limits and y_limits will not work.</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="c1"># geographic</span>
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
@@ -506,8 +506,8 @@ the x_limits and y_limits will not work.</p>
 <p><cite>cartopy.crs.CRS</cite> inherits from <cite>pyproj.crs.CRS</cite>,
 so it should behave like a <cite>pyproj.crs.CRS</cite>.</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cartopy.crs</span> <span class="kn">import</span> <span class="n">PlateCarree</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlateCarree</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">cart_crs</span> <span class="o">=</span> <span class="n">PlateCarree</span><span class="p">()</span>
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">cart_crs</span><span class="p">)</span>
@@ -524,8 +524,8 @@ so it should behave like a <cite>pyproj.crs.CRS</cite>.</p>
 </div>
 <section id="preparing-pyproj-crs-crs-for-pycrs">
 <h3>Preparing <cite>pyproj.crs.CRS</cite> for <cite>pycrs</cite><a class="headerlink" href="#preparing-pyproj-crs-crs-for-pycrs" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pycrs</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycrs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 <span class="n">py_crs</span> <span class="o">=</span> <span class="n">pycrs</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">from_ogc_wkt</span><span class="p">(</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="s2">&quot;WKT1_GDAL&quot;</span><span class="p">))</span>
@@ -534,8 +534,8 @@ so it should behave like a <cite>pyproj.crs.CRS</cite>.</p>
 </section>
 <section id="preparing-pycrs-for-pyproj-crs-crs">
 <h3>Preparing <cite>pycrs</cite> for <cite>pyproj.crs.CRS</cite><a class="headerlink" href="#preparing-pycrs-for-pyproj-crs-crs" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pycrs</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycrs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">py_crs</span> <span class="o">=</span> <span class="n">pycrs</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">from_epsg_code</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">py_crs</span><span class="o">.</span><span class="n">to_ogc_wkt</span><span class="p">())</span>
