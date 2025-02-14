@@ -3,7 +3,7 @@ Change Log
 
 Latest
 ------
-
+- WHL: MacOS minimum deployment target moved to 13 (pull #1475)
 
 3.7.0
 ------
