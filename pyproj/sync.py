@@ -30,6 +30,8 @@ def _bbox_from_coords(coords: list) -> BBox | None:
     coord_bbox = None
     for coord_set in coords:
         bbox = _bbox_from_coords(coord_set)
+        if bbox is None:
+            continue
         if coord_bbox is None:
             coord_bbox = bbox
         else:
