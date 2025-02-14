@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>pyproj.sync - pyproj 3.7.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d623d863" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=20074c1a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -279,21 +279,21 @@
 <span class="sd">https://github.com/OSGeo/PROJ/blob/9ff543c4ffd86152bc58d0a0164b2ce9ebbb8bec/src/apps/projsync.cpp</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">hashlib</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
 
-<span class="kn">from</span> <span class="nn">pyproj._sync</span> <span class="kn">import</span> <span class="n">get_proj_endpoint</span>
-<span class="kn">from</span> <span class="nn">pyproj.aoi</span> <span class="kn">import</span> <span class="n">BBox</span>
-<span class="kn">from</span> <span class="nn">pyproj.datadir</span> <span class="kn">import</span> <span class="n">get_data_dir</span><span class="p">,</span> <span class="n">get_user_data_dir</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj._sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_proj_endpoint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.aoi</span><span class="w"> </span><span class="kn">import</span> <span class="n">BBox</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.datadir</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data_dir</span><span class="p">,</span> <span class="n">get_user_data_dir</span>
 
 
-<span class="k">def</span> <span class="nf">_bbox_from_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BBox</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_bbox_from_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BBox</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the bounding box from coordinates</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -305,6 +305,8 @@
     <span class="n">coord_bbox</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">coord_set</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">:</span>
         <span class="n">bbox</span> <span class="o">=</span> <span class="n">_bbox_from_coords</span><span class="p">(</span><span class="n">coord_set</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bbox</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
         <span class="k">if</span> <span class="n">coord_bbox</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coord_bbox</span> <span class="o">=</span> <span class="n">bbox</span>
         <span class="k">else</span><span class="p">:</span>
@@ -315,7 +317,7 @@
     <span class="k">return</span> <span class="n">coord_bbox</span>
 
 
-<span class="k">def</span> <span class="nf">_bbox_from_geom</span><span class="p">(</span><span class="n">geom</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BBox</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_bbox_from_geom</span><span class="p">(</span><span class="n">geom</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BBox</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the bounding box from geojson geometry</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -351,7 +353,7 @@
     <span class="k">return</span> <span class="n">grid_bbox</span>
 
 
-<span class="k">def</span> <span class="nf">_filter_bbox</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_filter_bbox</span><span class="p">(</span>
     <span class="n">feature</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">bbox</span><span class="p">:</span> <span class="n">BBox</span><span class="p">,</span> <span class="n">spatial_test</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_world_coverage</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -377,7 +379,7 @@
     <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="k">def</span> <span class="nf">_filter_properties</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_filter_properties</span><span class="p">(</span>
     <span class="n">feature</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">area_of_use</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -403,7 +405,7 @@
     <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="k">def</span> <span class="nf">_is_download_needed</span><span class="p">(</span><span class="n">grid_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_download_needed</span><span class="p">(</span><span class="n">grid_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run through all of the PROJ directories to see if the</span>
 <span class="sd">    file already exists.</span>
@@ -416,7 +418,7 @@
     <span class="k">return</span> <span class="kc">True</span>
 
 
-<span class="k">def</span> <span class="nf">_filter_download_needed</span><span class="p">(</span><span class="n">feature</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_filter_download_needed</span><span class="p">(</span><span class="n">feature</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filter grids so only those that need to be downloaded are included.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -429,7 +431,7 @@
     <span class="k">return</span> <span class="n">_is_download_needed</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_sha256sum</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_sha256sum</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return sha256 checksum of file given by path.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -442,7 +444,7 @@
     <span class="k">return</span> <span class="n">hasher</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">_download_resource_file</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_download_resource_file</span><span class="p">(</span>
     <span class="n">file_url</span><span class="p">,</span> <span class="n">short_name</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sha256</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -463,7 +465,7 @@
             <span class="k">pass</span>
 
 
-<span class="k">def</span> <span class="nf">_load_grid_geojson</span><span class="p">(</span><span class="n">target_directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_load_grid_geojson</span><span class="p">(</span><span class="n">target_directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -486,7 +488,7 @@
 
 <div class="viewcode-block" id="get_transform_grid_list">
 <a class="viewcode-back" href="../../api/sync.html#pyproj.sync.get_transform_grid_list">[docs]</a>
-<span class="k">def</span> <span class="nf">get_transform_grid_list</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_transform_grid_list</span><span class="p">(</span>
     <span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">area_of_use</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

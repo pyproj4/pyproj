@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>pyproj.network - pyproj 3.7.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d623d863" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=20074c1a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -277,13 +277,13 @@
 <span class="sd">Module for managing the PROJ network settings.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">certifi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">certifi</span>
 
-<span class="kn">from</span> <span class="nn">pyproj._context</span> <span class="kn">import</span> <span class="n">_set_context_ca_bundle_path</span>
-<span class="kn">from</span> <span class="nn">pyproj._network</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401 pylint: disable=unused-import</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj._context</span><span class="w"> </span><span class="kn">import</span> <span class="n">_set_context_ca_bundle_path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj._network</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401 pylint: disable=unused-import</span>
     <span class="n">is_network_enabled</span><span class="p">,</span>
     <span class="n">set_network_enabled</span><span class="p">,</span>
 <span class="p">)</span>
@@ -291,7 +291,7 @@
 
 <div class="viewcode-block" id="set_ca_bundle_path">
 <a class="viewcode-back" href="../../api/network.html#pyproj.network.set_ca_bundle_path">[docs]</a>
-<span class="k">def</span> <span class="nf">set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 3.0.0</span>
 

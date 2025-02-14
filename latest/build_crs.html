@@ -7,7 +7,7 @@
 
     <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>Building a Coordinate Reference System - pyproj 3.7.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d623d863" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=20074c1a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -309,7 +309,7 @@ If you notice something is missing that you need, feel free to open an issue on 
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+</span><span class="n">proj</span><span class="o">=</span><span class="n">longlat</span> <span class="o">+</span><span class="n">datum</span><span class="o">=</span><span class="n">WGS84</span> <span class="o">+</span><span class="n">no_defs</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">GeographicCRS</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeographicCRS</span>
 
 <span class="n">geog_crs</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">()</span>
 <span class="n">geog_wkt</span> <span class="o">=</span> <span class="n">geog_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
@@ -321,8 +321,8 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+</span><span class="n">proj</span><span class="o">=</span><span class="n">longlat</span> <span class="o">+</span><span class="n">ellps</span><span class="o">=</span><span class="n">airy</span> <span class="o">+</span><span class="n">pm</span><span class="o">=</span><span class="n">lisbon</span> <span class="o">+</span><span class="n">no_defs</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">PrimeMeridian</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.datum</span> <span class="kn">import</span> <span class="n">CustomDatum</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">PrimeMeridian</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.datum</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomDatum</span>
 
 <span class="n">cd</span> <span class="o">=</span> <span class="n">CustomDatum</span><span class="p">(</span>
     <span class="n">ellipsoid</span><span class="o">=</span><span class="n">Ellipsoid</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">7001</span><span class="p">),</span>
@@ -340,8 +340,8 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+</span><span class="n">proj</span><span class="o">=</span><span class="n">aea</span> <span class="o">+</span><span class="n">lat_0</span><span class="o">=</span><span class="mi">0</span> <span class="o">+</span><span class="n">lon_0</span><span class="o">=</span><span class="mi">0</span> <span class="o">+</span><span class="n">lat_1</span><span class="o">=</span><span class="mi">0</span> <span class="o">+</span><span class="n">lat_2</span><span class="o">=</span><span class="mi">0</span> <span class="o">+</span><span class="n">x_0</span><span class="o">=</span><span class="mi">0</span> <span class="o">+</span><span class="n">y_0</span><span class="o">=</span><span class="mi">0</span> <span class="o">+</span><span class="n">datum</span><span class="o">=</span><span class="n">WGS84</span> <span class="o">+</span><span class="n">units</span><span class="o">=</span><span class="n">m</span> <span class="o">+</span><span class="n">no_defs</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">ProjectedCRS</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_operation</span> <span class="kn">import</span> <span class="n">AlbersEqualAreaConversion</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectedCRS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.coordinate_operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">AlbersEqualAreaConversion</span>
 
 <span class="n">aeaop</span> <span class="o">=</span> <span class="n">AlbersEqualAreaConversion</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">ProjectedCRS</span><span class="p">(</span><span class="n">conversion</span><span class="o">=</span><span class="n">aeaop</span><span class="p">)</span>
@@ -353,9 +353,9 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+</span><span class="n">proj</span><span class="o">=</span><span class="n">utm</span> <span class="o">+</span><span class="n">zone</span><span class="o">=</span><span class="mi">14</span> <span class="o">+</span><span class="n">a</span><span class="o">=</span><span class="mi">6378137</span> <span class="o">+</span><span class="n">b</span><span class="o">=</span><span class="mi">6356752</span> <span class="o">+</span><span class="n">pm</span><span class="o">=</span><span class="n">lisbon</span> <span class="o">+</span><span class="n">units</span><span class="o">=</span><span class="n">m</span> <span class="o">+</span><span class="n">no_defs</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_operation</span> <span class="kn">import</span> <span class="n">UTMConversion</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.datum</span> <span class="kn">import</span> <span class="n">CustomDatum</span><span class="p">,</span> <span class="n">CustomEllipsoid</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.coordinate_operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTMConversion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.datum</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomDatum</span><span class="p">,</span> <span class="n">CustomEllipsoid</span>
 
 <span class="n">ell</span> <span class="o">=</span> <span class="n">CustomEllipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mi">6378137</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mi">6356752</span><span class="p">)</span>
 <span class="n">cd</span> <span class="o">=</span> <span class="n">CustomDatum</span><span class="p">(</span><span class="n">ellipsoid</span><span class="o">=</span><span class="n">ell</span><span class="p">,</span> <span class="n">prime_meridian</span><span class="o">=</span><span class="s2">&quot;Lisbon&quot;</span><span class="p">)</span>
@@ -373,13 +373,13 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+</span><span class="n">proj</span><span class="o">=</span><span class="n">tmerc</span> <span class="o">+</span><span class="n">lat_0</span><span class="o">=</span><span class="mi">0</span> <span class="o">+</span><span class="n">lon_0</span><span class="o">=</span><span class="mi">15</span> <span class="o">+</span><span class="n">k</span><span class="o">=</span><span class="mf">0.9996</span> <span class="o">+</span><span class="n">x_0</span><span class="o">=</span><span class="mi">2520000</span> <span class="o">+</span><span class="n">y_0</span><span class="o">=</span><span class="mi">0</span> <span class="o">+</span><span class="n">ellps</span><span class="o">=</span><span class="n">intl</span> <span class="o">+</span><span class="n">towgs84</span><span class="o">=-</span><span class="mf">122.74</span><span class="p">,</span><span class="o">-</span><span class="mf">34.27</span><span class="p">,</span><span class="o">-</span><span class="mf">22.83</span><span class="p">,</span><span class="o">-</span><span class="mf">1.884</span><span class="p">,</span><span class="o">-</span><span class="mf">3.4</span><span class="p">,</span><span class="o">-</span><span class="mf">3.03</span><span class="p">,</span><span class="o">-</span><span class="mf">15.62</span> <span class="o">+</span><span class="n">units</span><span class="o">=</span><span class="n">m</span> <span class="o">+</span><span class="n">no_defs</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">BoundCRS</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_operation</span> <span class="kn">import</span> <span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoundCRS</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.coordinate_operation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">TransverseMercatorConversion</span><span class="p">,</span>
     <span class="n">ToWGS84Transformation</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.datum</span> <span class="kn">import</span> <span class="n">CustomDatum</span>
-<span class="kn">import</span> <span class="nn">pyproj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.datum</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomDatum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyproj</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">ProjectedCRS</span><span class="p">(</span>
     <span class="n">conversion</span><span class="o">=</span><span class="n">TransverseMercatorConversion</span><span class="p">(</span>
@@ -407,9 +407,9 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <section id="compound-crs">
 <h2>Compound CRS<a class="headerlink" href="#compound-crs" title="Link to this heading">¶</a></h2>
 <p>The PROJ string is quite lossy in this example, so it is not provided.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyproj.crs</span> <span class="kn">import</span> <span class="n">CompoundCRS</span><span class="p">,</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span><span class="p">,</span> <span class="n">VerticalCRS</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_system</span> <span class="kn">import</span> <span class="n">Cartesian2DCS</span><span class="p">,</span> <span class="n">VerticalCS</span>
-<span class="kn">from</span> <span class="nn">pyproj.crs.coordinate_operation</span> <span class="kn">import</span> <span class="n">LambertConformalConic2SPConversion</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompoundCRS</span><span class="p">,</span> <span class="n">GeographicCRS</span><span class="p">,</span> <span class="n">ProjectedCRS</span><span class="p">,</span> <span class="n">VerticalCRS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.coordinate_system</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cartesian2DCS</span><span class="p">,</span> <span class="n">VerticalCS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.coordinate_operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">LambertConformalConic2SPConversion</span>
 
 
 <span class="n">vertcrs</span> <span class="o">=</span> <span class="n">VerticalCRS</span><span class="p">(</span>

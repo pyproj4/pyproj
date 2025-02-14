@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/icon.png"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>pyproj._show_versions - pyproj 3.7.1.dev0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d623d863" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=20074c1a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -280,12 +280,12 @@
 <span class="sd">which was adapted from :func:`pandas.show_versions`</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">importlib.metadata</span>
-<span class="kn">import</span> <span class="nn">platform</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
 
-<span class="k">def</span> <span class="nf">_get_sys_info</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_sys_info</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;System information</span>
 <span class="sd">    Return</span>
 <span class="sd">    ------</span>
@@ -301,7 +301,7 @@
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_proj_info</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_proj_info</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Information on system PROJ</span>
 
 <span class="sd">    Returns</span>
@@ -310,9 +310,9 @@
 <span class="sd">        system PROJ information</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># pylint: disable=import-outside-toplevel</span>
-    <span class="kn">import</span> <span class="nn">pyproj</span>
-    <span class="kn">from</span> <span class="nn">pyproj.database</span> <span class="kn">import</span> <span class="n">get_database_metadata</span>
-    <span class="kn">from</span> <span class="nn">pyproj.exceptions</span> <span class="kn">import</span> <span class="n">DataDirError</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pyproj</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_database_metadata</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataDirError</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">data_dir</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">datadir</span><span class="o">.</span><span class="n">get_data_dir</span><span class="p">()</span>
@@ -351,7 +351,7 @@
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_deps_info</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_deps_info</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Overview of the installed version of main dependencies</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -360,7 +360,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;certifi&quot;</span><span class="p">,</span> <span class="s2">&quot;Cython&quot;</span><span class="p">,</span> <span class="s2">&quot;setuptools&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_version</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
@@ -369,7 +369,7 @@
     <span class="k">return</span> <span class="p">{</span><span class="n">dep</span><span class="p">:</span> <span class="n">get_version</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">_print_info_dict</span><span class="p">(</span><span class="n">info_dict</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_print_info_dict</span><span class="p">(</span><span class="n">info_dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the information dictionary&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">info_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -377,7 +377,7 @@
 
 <div class="viewcode-block" id="show_versions">
 <a class="viewcode-back" href="../../api/show_versions.html#pyproj.show_versions">[docs]</a>
-<span class="k">def</span> <span class="nf">show_versions</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_versions</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 2.2.1</span>
 
