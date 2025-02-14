@@ -4,6 +4,7 @@ Change Log
 Latest
 ------
 - WHL: MacOS minimum deployment target moved to 13 (pull #1475)
+- WHL: Wheels contain PROJ 9.5.1 (pull #1476)
 
 3.7.0
 ------
