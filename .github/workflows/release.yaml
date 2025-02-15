@@ -185,7 +185,12 @@ jobs:
       - uses: actions/download-artifact@v4
         continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
         with:
-          name: wheels-macos-12-x86_64
+          name: wheels-ubuntu-22.04-arm-aarch64
+          path: dist
+      - uses: actions/download-artifact@v4
+        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
+        with:
+          name: wheels-macos-13-x86_64
           path: dist
       - uses: actions/download-artifact@v4
         continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
