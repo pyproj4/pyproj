@@ -664,6 +664,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "kloczek",
+      "name": "Tomasz Kłoczko",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31284574?v=4",
+      "profile": "https://github.com/kloczek",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7

@@ -120,6 +120,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://cyschneck.com/"><img src="https://avatars.githubusercontent.com/u/22159116?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Cora Schneck</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=cyschneck" title="Documentation">📖</a> <a href="https://github.com/pyproj4/pyproj/commits?author=cyschneck" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/zanejgr"><img src="https://avatars.githubusercontent.com/u/14795919?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zanejgr</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=zanejgr" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/kloczek"><img src="https://avatars.githubusercontent.com/u/31284574?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tomasz Kłoczko</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=kloczek" title="Tests">⚠️</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
