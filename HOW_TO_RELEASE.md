@@ -18,10 +18,9 @@ The next step is to create a tag with the same name as the version just added. T
 
 ### Test the release builds
 
-1. Create a draft PR at https://github.com/pyproj4/pyproj-wheels and verify tests pass.
+1. Check the wheels built at https://github.com/pyproj4/pyproj using GitHub Actions.
 2. Create a draft PR at https://github.com/conda-forge/pyproj-feedstock and verify tests pass.
-3. Check the wheels built at https://github.com/pyproj4/pyproj using GitHub Actions.
-4. Verify Debian builds were successful.
+3. Verify Debian builds were successful.
 4. Verify Fedora builds were successful.
 5. Verify the docs build successfully.
 
@@ -41,10 +40,7 @@ Next, go through the history and add release notes (see: [automatically generate
 
 ### The wheels
 
-Most of the wheels are tested with each merge to main and uploaded to pypi on release in GitHub Actions. However, the arm64 wheels are built separately. This provides instructions for those wheels:
-
-1. linux arm64: Update the PR at https://github.com/pyproj4/pyproj-wheels with the release tag & merge. The wheels will automatically upload to pypi when the CI runs succeed.
-2. macos arm64: Download the release wheel artifacts from the Cirrus CI build and upload manually to pypi.
+The wheels are tested with each merge to main and uploaded to https://pypi.anaconda.org/scientific-python-nightly-wheels/simple in GitHub Actions. They are uploaded to pypi on pre-release and release in GitHub Actions.
 
 ### Verify conda-forge build is correct
 
