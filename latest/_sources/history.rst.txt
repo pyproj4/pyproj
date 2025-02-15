@@ -1,10 +1,15 @@
 Change Log
 ==========
 
-Latest
+3.7.1
 ------
+- WHL: Add wheels for musllinux (pull #1461)
 - WHL: MacOS minimum deployment target moved to 13 (pull #1475)
-- WHL: Wheels contain PROJ 9.5.1 (pull #1476)
+- WHL: Wheels contain PROJ 9.5.1 (pull #1477)
+- Cython 3.1+ fixes (pull #1452)
+- TST: remove checking is python >= 3.4 (pull #1446)
+- TST: Add assert statements at the end of tests (pull #1453)
+- LNT: Setup ruff & lint fixes (pull #1455 #1456)
 
 3.7.0
 ------
