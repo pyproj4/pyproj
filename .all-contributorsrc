@@ -682,6 +682,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "necabo",
+      "name": "necabo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23185845?v=4",
+      "profile": "https://github.com/necabo",
+      "contributions": [
+        "platform"
+      ]
     }
   ],
   "contributorsPerLine": 7
