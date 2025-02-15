@@ -122,6 +122,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/kloczek"><img src="https://avatars.githubusercontent.com/u/31284574?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tomasz Kłoczko</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=kloczek" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/tqa236"><img src="https://avatars.githubusercontent.com/u/25203655?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Trinh Quoc Anh</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=tqa236" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
