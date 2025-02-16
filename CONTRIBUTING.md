@@ -210,7 +210,7 @@ We do our best to recognize contributions, but we may miss some. If we did, plea
 ## More Questions?
 If you're stuck somewhere or are interested in being a part of the community in
 other ways, feel free to contact us:
-* [pyproj's Gitter Channel](https://gitter.im/pyproj4-pyproj/community)
+* [GitHub Discussions](https://github.com/pyproj4/pyproj/discussions)
 * ["pyproj" tag on GIS Stack Exchange](https://gis.stackexchange.com/questions/tagged/pyproj)
 
 ## Further Reading
