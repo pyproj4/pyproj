@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+Latest
+------
+
 3.7.1
 ------
 - WHL: Add wheels for musllinux (pull #1461)
