@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- DEP: Minimum PROJ version 9.4 (pull #1481)
 
 3.7.1
 ------
