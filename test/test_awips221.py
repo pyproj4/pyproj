@@ -1,14 +1,10 @@
 import array
+from time import perf_counter
 
 import numpy
 from numpy.testing import assert_allclose
 
 from pyproj import Proj, __proj_version__
-
-try:
-    from time import perf_counter
-except ImportError:
-    from time import clock as perf_counter
 
 
 def test_awips221():
