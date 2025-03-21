@@ -1,6 +1,7 @@
 from typing import NamedTuple
 
 from pyproj.aoi import AreaOfInterest, AreaOfUse
+from pyproj.crs import CRS
 from pyproj.enums import PJType
 
 class Unit(NamedTuple):
@@ -44,3 +45,9 @@ def query_utm_crs_info(
     contains: bool = False,
 ) -> list[CRSInfo]: ...
 def get_database_metadata(key: str) -> str | None: ...
+def query_geodetic_crs_from_datum(
+    crs_auth_name: str | None,
+    datum_auth_name: str,
+    datum_code: str,
+    pj_type: PJType | None = None,
+) -> list[CRS]: ...
