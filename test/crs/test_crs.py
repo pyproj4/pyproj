@@ -20,7 +20,7 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import PROJ_GTE_921, PROJ_GTE_941, assert_can_pickle, grids_available
+from test.conftest import PROJ_GTE_941, assert_can_pickle, grids_available
 
 
 class CustomCRS:
@@ -427,10 +427,10 @@ def test_datum_unknown():
         "+k=1 +x_0=0 +y_0=0 +gamma=0 +ellps=WGS84 "
         "+towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
     )
-    datum_name = "Unknown based on WGS84 ellipsoid"
-    if PROJ_GTE_921:
-        datum_name = "Unknown based on WGS 84 ellipsoid"
-    assert crs.datum.name == f"{datum_name} using towgs84=0,0,0,0,0,0,0"
+    assert (
+        crs.datum.name
+        == "Unknown based on WGS 84 ellipsoid using towgs84=0,0,0,0,0,0,0"
+    )
 
 
 def test_epsg__not_found():
