@@ -18,7 +18,7 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import PROJ_GTE_93, grids_available, proj_env, proj_network_env
+from test.conftest import grids_available, proj_env, proj_network_env
 
 
 def test_tranform_wgs84_to_custom():
@@ -533,14 +533,6 @@ def test_repr__conditional():
         assert trans_repr == (
             "<Unknown Transformer: unknown>\n"
             "Description: unavailable until proj_trans is called\n"
-            "Area of Use:\n- undefined"
-        )
-    elif not PROJ_GTE_93:
-        assert trans_repr == (
-            "<Unknown Transformer: noop>\n"
-            "Description: Transformation from EGM2008 height to WGS 84 "
-            "(ballpark vertical transformation, without ellipsoid height "
-            "to vertical height correction)\n"
             "Area of Use:\n- undefined"
         )
     else:
