@@ -4,6 +4,7 @@ Change Log
 Latest
 ------
 - DEP: Minimum PROJ version 9.4 (pull #1481)
+- DEP: Minimum supported Python version 3.11 (pull #1483)
 
 3.7.1
 ------
