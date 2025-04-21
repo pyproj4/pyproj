@@ -1029,7 +1029,10 @@ class Geod(_Geod):
         the 2 loops in a figure-8 polygon will partially cancel.  There's no need
         to "close" the polygon by repeating the first vertex.
 
-        .. note:: lats should be in the range [-90 deg, 90 deg].
+        .. note:: | There are a few limitations :
+                  | - lats should be in the range [-90 deg, 90 deg] ;
+                  | - only works with areas up to half the size of the globe ;
+                  | - certain large polygons may return negative values.
 
         .. warning:: The area returned is signed with counter-clockwise (CCW) traversal
                      being treated as positive. For polygons, holes should use the
