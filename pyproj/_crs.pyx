@@ -569,7 +569,10 @@ cdef class CoordinateSystem(_CRSParts):
     """
     .. versionadded:: 2.2.0
 
-    Coordinate System for CRS
+    Coordinate System for CRS.
+
+    .. note:: | WKT and CRS are not compatible as standalone element (see `OSGeo/PROJ#1819 <https://github.com/OSGeo/PROJ/issues/1819>`_ for more details).
+              | We recommend using `to_json`/`from_json` for the import.
 
     Attributes
     ----------
