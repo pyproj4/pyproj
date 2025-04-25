@@ -2699,7 +2699,7 @@ cdef class _CRS(Base):
         .. warning:: You will likely lose important projection
           information when converting to a PROJ string from
           another format. See:
-          https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501
+          https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
 
         Parameters
         ----------
@@ -2709,7 +2709,7 @@ cdef class _CRS(Base):
         Returns
         -------
         str
-        """
+        """  # noqa: E501
         warnings.warn(
             "You will likely lose important projection information when "
             "converting to a PROJ string from another format. See: "
