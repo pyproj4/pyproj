@@ -449,15 +449,15 @@
 
 <span class="sd">    The functionality is based on other fantastic projects:</span>
 
-<span class="sd">    * `rasterio &lt;https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx&gt;`_  # noqa: E501</span>
-<span class="sd">    * `opendatacube &lt;https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py&gt;`_  # noqa: E501</span>
+<span class="sd">    * `rasterio &lt;https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx&gt;`_</span>
+<span class="sd">    * `opendatacube &lt;https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py&gt;`_</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    srs: str</span>
 <span class="sd">        The string form of the user input used to create the CRS.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
 <div class="viewcode-block" id="CRS.__init__">
 <a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CRS.__init__">[docs]</a>
@@ -894,14 +894,14 @@
 
 <span class="sd">        .. warning:: You will likely lose important projection</span>
 <span class="sd">          information when converting to a PROJ string from</span>
-<span class="sd">          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501</span>
+<span class="sd">          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dict:</span>
 <span class="sd">            PROJ params in dict format.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
         <span class="n">proj_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">proj_string</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1622,7 +1622,7 @@
 <span class="sd">        .. warning:: You will likely lose important projection</span>
 <span class="sd">          information when converting to a PROJ string from</span>
 <span class="sd">          another format. See:</span>
-<span class="sd">          https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501</span>
+<span class="sd">          https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1633,7 +1633,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
         <span class="n">proj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">proj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CRSError</span><span class="p">(</span><span class="s2">&quot;CRS cannot be converted to a PROJ string.&quot;</span><span class="p">)</span>
