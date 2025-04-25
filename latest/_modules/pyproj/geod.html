@@ -1340,6 +1340,10 @@
 
 <span class="sd">        .. note:: lats should be in the range [-90 deg, 90 deg].</span>
 
+<span class="sd">        .. note:: | There are a few limitations :</span>
+<span class="sd">                  | - only works with areas up to half the size of the globe ;</span>
+<span class="sd">                  | - certain large polygons may return negative values.</span>
+
 <span class="sd">        .. warning:: The area returned is signed with counter-clockwise (CCW) traversal</span>
 <span class="sd">                     being treated as positive. For polygons, holes should use the</span>
 <span class="sd">                     opposite traversal to the exterior (if the exterior is CCW, the</span>
