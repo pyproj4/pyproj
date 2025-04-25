@@ -1031,6 +1031,10 @@ class Geod(_Geod):
 
         .. note:: lats should be in the range [-90 deg, 90 deg].
 
+        .. note:: | There are a few limitations :
+                  | - only works with areas up to half the size of the globe ;
+                  | - certain large polygons may return negative values.
+
         .. warning:: The area returned is signed with counter-clockwise (CCW) traversal
                      being treated as positive. For polygons, holes should use the
                      opposite traversal to the exterior (if the exterior is CCW, the
