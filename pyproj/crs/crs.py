@@ -172,15 +172,15 @@ class CRS:
 
     The functionality is based on other fantastic projects:
 
-    * `rasterio <https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx>`_  # noqa: E501
-    * `opendatacube <https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py>`_  # noqa: E501
+    * `rasterio <https://github.com/mapbox/rasterio/blob/c13f0943b95c0eaa36ff3f620bd91107aa67b381/rasterio/_crs.pyx>`_
+    * `opendatacube <https://github.com/opendatacube/datacube-core/blob/83bae20d2a2469a6417097168fd4ede37fd2abe5/datacube/utils/geometry/_base.py>`_
 
     Attributes
     ----------
     srs: str
         The string form of the user input used to create the CRS.
 
-    """
+    """  # noqa: E501
 
     def __init__(self, projparams: Any | None = None, **kwargs) -> None:
         """
@@ -579,14 +579,14 @@ class CRS:
 
         .. warning:: You will likely lose important projection
           information when converting to a PROJ string from
-          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501
+          another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
 
         Returns
         -------
         dict:
             PROJ params in dict format.
 
-        """
+        """  # noqa: E501
 
         proj_string = self.to_proj4()
         if proj_string is None:
@@ -1280,7 +1280,7 @@ class CRS:
         .. warning:: You will likely lose important projection
           information when converting to a PROJ string from
           another format. See:
-          https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems  # noqa: E501
+          https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
 
         Parameters
         ----------
@@ -1291,7 +1291,7 @@ class CRS:
         Returns
         -------
         str
-        """
+        """  # noqa: E501
         proj = self._crs.to_proj4(version=version)
         if proj is None:
             raise CRSError("CRS cannot be converted to a PROJ string.")
