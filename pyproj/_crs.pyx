@@ -574,6 +574,9 @@ cdef class CoordinateSystem(_CRSParts):
     .. note:: | WKT and CRS are not compatible as standalone element (see `OSGeo/PROJ#1819 <https://github.com/OSGeo/PROJ/issues/1819>`_ for more details).
               | We recommend using `to_json`/`from_json` for the import.
 
+    .. note:: | WKT does not work on import for CoordinateSystem.
+              | PROJ JSON is preferred.
+
     Attributes
     ----------
     name: str
