@@ -4,7 +4,7 @@ to the coordinate reference system (CRS) information through the CRS
 class.
 """
 
-from pyproj._crs import (  # noqa: F401  pylint: disable=unused-import
+from pyproj._crs import (
     CoordinateOperation,
     CoordinateSystem,
     Datum,
@@ -13,7 +13,7 @@ from pyproj._crs import (  # noqa: F401  pylint: disable=unused-import
     is_proj,
     is_wkt,
 )
-from pyproj.crs.crs import (  # noqa: F401  pylint: disable=unused-import
+from pyproj.crs.crs import (
     CRS,
     BoundCRS,
     CompoundCRS,
@@ -24,4 +24,25 @@ from pyproj.crs.crs import (  # noqa: F401  pylint: disable=unused-import
     ProjectedCRS,
     VerticalCRS,
 )
-from pyproj.exceptions import CRSError  # noqa: F401  pylint: disable=unused-import
+from pyproj.exceptions import CRSError
+
+
+__all__ = [
+    "CoordinateOperation",
+    "CoordinateSystem",
+    "Datum",
+    "Ellipsoid",
+    "PrimeMeridian",
+    "is_proj",
+    "is_wkt",
+    "CRS",
+    "BoundCRS",
+    "CompoundCRS",
+    "CustomConstructorCRS",
+    "DerivedGeographicCRS",
+    "GeocentricCRS",
+    "GeographicCRS",
+    "ProjectedCRS",
+    "VerticalCRS",
+    "CRSError",
+]
