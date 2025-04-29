@@ -26,7 +26,6 @@ from pyproj.crs.crs import (
 )
 from pyproj.exceptions import CRSError
 
-
 __all__ = [
     "CoordinateOperation",
     "CoordinateSystem",
