@@ -13,7 +13,7 @@ from pyproj._crs import (  # noqa: F401  pylint: disable=unused-import
     is_proj,
     is_wkt,
 )
-from pyproj.crs.crs import (  # noqa: F401  pylint: disable=unused-import
+from pyproj.crs.crs import (
     CRS,
     BoundCRS,
     CompoundCRS,
@@ -25,3 +25,17 @@ from pyproj.crs.crs import (  # noqa: F401  pylint: disable=unused-import
     VerticalCRS,
 )
 from pyproj.exceptions import CRSError  # noqa: F401  pylint: disable=unused-import
+
+__all__ = [
+    "is_proj",
+    "is_wkt",
+    "CRS",
+    "BoundCRS",
+    "CompoundCRS",
+    "CustomConstructorCRS",
+    "DerivedGeographicCRS",
+    "GeocentricCRS",
+    "GeographicCRS",
+    "ProjectedCRS",
+    "VerticalCRS",
+]
