@@ -5,6 +5,7 @@ Latest
 ------
 - DEP: Minimum PROJ version 9.4 (pull #1481)
 - DEP: Minimum supported Python version 3.11 (pull #1483)
+- ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
 
 3.7.1
 ------
