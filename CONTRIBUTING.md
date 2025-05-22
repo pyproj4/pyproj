@@ -167,10 +167,10 @@ There are plenty of more advanced testing concepts, like dealing with floating p
 comparisons, parameterizing tests, testing that exceptions are raised, and more. Have a look at the existing tests to get an idea of some of the common patterns.
 
 ## Code Style
-pyproj uses the Python code style outlined in [PEP8](https://pep8.org) and [black](https://github.com/python/black).
+pyproj uses the Python code style outlined in [PEP8](https://pep8.org) and by [the Ruff formatter](https://docs.astral.sh/ruff/formatter/).
 
 We enforce this style as code is added to keep everything clean and uniform. To this end, part of the automated testing for pyproj checks style. To check style
-locally within the source directory you can use the ``flake8`` and ``black`` tools. Running it from the root of the source directory is as easy as running ``pre-commit run --all`` in the base of the repository.
+locally within the source directory you can use the ``flake8`` and ``ruff format`` tools. Running it from the root of the source directory is as easy as running ``pre-commit run --all`` in the base of the repository.
 
 You can also just submit your PR and the kind robots will comment on all style violations as well. It can be a pain to make sure you have the right number of spaces around things, imports in order, and all of the other nits that the bots will find. It is very important though as this consistent style helps us keep pyproj readable, maintainable, and uniform.
 
@@ -192,7 +192,7 @@ Some things that will increase the chance that your pull request is accepted qui
 
 * Write tests.
 * Follow [PEP8](https://pep8.org) for style. (The `flake8` utility can help with this.)
-* Use [black](https://github.com/python/black)
+* Use [ruff format](https://docs.astral.sh/ruff/formatter/)
 * Write a [good commit message](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) and consider using commit [conventions](https://www.conventionalcommits.org/).
 
 Pull requests will automatically have tests run by Travis. This includes
