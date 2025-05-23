@@ -27,8 +27,6 @@ from pyproj.crs.crs import (
 from pyproj.exceptions import CRSError  # noqa: F401  pylint: disable=unused-import
 
 __all__ = [
-    "is_proj",
-    "is_wkt",
     "CRS",
     "BoundCRS",
     "CompoundCRS",
@@ -38,4 +36,6 @@ __all__ = [
     "GeographicCRS",
     "ProjectedCRS",
     "VerticalCRS",
+    "is_proj",
+    "is_wkt",
 ]

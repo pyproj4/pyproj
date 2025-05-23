@@ -62,12 +62,8 @@ include = ["pyproj", "pyproj.*"]
 [tool.setuptools.dynamic]
 version = {attr = "pyproj.__version__"}
 
-[tool.black]
-target_version = ["py310"]
-
 [tool.ruff]
 line-length = 88
-target-version = "py310"
 fix = true
 
 [tool.ruff.lint]
@@ -78,6 +74,8 @@ select = [
   "F",
   # pycodestyle
   "E", "W",
+  # isort
+  "I",
   # flake8-2020
   "YTT",
   # flake8-bugbear
@@ -101,7 +99,7 @@ select = [
   # implicit string concatenation
   "ISC",
   # type-checking imports
-  "TCH",
+  "TC",
   # comprehensions
   "C4",
   # pygrep-hooks
@@ -147,7 +145,7 @@ ignore = [
     # Rename unused
     "B007",
     # Move standard library import into a type-checking block
-    "TCH003",
+    "TC003",
     # Consider f-string instead of string join
     "FLY002",
     # Use a list comprehension to create a transformed list

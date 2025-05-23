@@ -10,10 +10,10 @@ latitudes and longitudes of an initial and terminus point.
 
 __all__ = [
     "Geod",
-    "pj_ellps",
-    "geodesic_version_str",
     "GeodIntermediateFlag",
     "GeodIntermediateReturn",
+    "geodesic_version_str",
+    "pj_ellps",
     "reverse_azimuth",
 ]
 

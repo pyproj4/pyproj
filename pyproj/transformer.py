@@ -3,11 +3,11 @@ The transformer module is for performing cartographic transformations.
 """
 
 __all__ = [
-    "transform",
-    "itransform",
+    "AreaOfInterest",
     "Transformer",
     "TransformerGroup",
-    "AreaOfInterest",
+    "itransform",
+    "transform",
 ]
 import threading
 import warnings
@@ -329,8 +329,7 @@ class Transformer:
         if not isinstance(transformer_maker, TransformerMaker):
             _clear_proj_error()
             raise ProjError(
-                "Transformer must be initialized using: "
-                "'from_crs' or 'from_pipeline'."
+                "Transformer must be initialized using: 'from_crs' or 'from_pipeline'."
             )
 
         self._local = TransformerLocal()

@@ -592,8 +592,7 @@ def test_transformer__operations__scope_remarks():
     assert transformer.scope is None
     assert [op.scope for op in transformer.operations] == [
         "Engineering survey, topographic mapping.",
-        "Transformation of GDA94 coordinates that have been derived "
-        "through GNSS CORS.",
+        "Transformation of GDA94 coordinates that have been derived through GNSS CORS.",
         "Engineering survey, topographic mapping.",
     ]
     assert [str(op.remarks)[:5].strip() for op in transformer.operations] == [

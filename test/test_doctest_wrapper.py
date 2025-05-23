@@ -33,9 +33,9 @@ def test_doctests():
         expected_failure_count = 6
 
     # if the below line fails, doctests have failed
-    assert (
-        failure_count == expected_failure_count
-    ), f"{failure_count} of the doctests failed"
+    assert failure_count == expected_failure_count, (
+        f"{failure_count} of the doctests failed"
+    )
 
 
 @pytest.mark.network
