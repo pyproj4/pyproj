@@ -11,7 +11,6 @@ Python interface to [PROJ](http://proj.org) (cartographic projections and coordi
 <a href="https://badge.fury.io/py/pyproj"><img alt="PyPI" src="https://badge.fury.io/py/pyproj.svg"></a>
 <a href="https://pepy.tech/project/pyproj"><img alt="Downloads" src="https://pepy.tech/badge/pyproj"></a>
 <a href="https://anaconda.org/conda-forge/pyproj"><img alt="Anaconda-Server Badge" src="https://anaconda.org/conda-forge/pyproj/badges/version.svg"></a>
-<a href="https://github.com/python/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://github.com/pre-commit/pre-commit"><img alt="pre-commit" src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white"></a>
 <a href="https://zenodo.org/badge/latestdoi/28607354"><img alt="DOI" src="https://zenodo.org/badge/28607354.svg"></a>
 </p>

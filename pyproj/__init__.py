@@ -73,19 +73,19 @@ from pyproj.transformer import (  # noqa: F401 pylint: disable=unused-import
 
 __version__ = "3.7.2.dev0"
 __all__ = [
-    "Proj",
-    "Geod",
     "CRS",
+    "Geod",
+    "Proj",
     "Transformer",
-    "transform",
-    "itransform",
-    "pj_ellps",
-    "pj_list",
     "get_ellps_map",
     "get_prime_meridians_map",
     "get_proj_operations_map",
     "get_units_map",
+    "itransform",
+    "pj_ellps",
+    "pj_list",
     "show_versions",
+    "transform",
 ]
 __proj_version__ = PROJ_VERSION_STR
 proj_version_str = PROJ_VERSION_STR  # pylint: disable=invalid-name
