@@ -278,11 +278,11 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;transform&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;itransform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AreaOfInterest&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Transformer&quot;</span><span class="p">,</span>
     <span class="s2">&quot;TransformerGroup&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AreaOfInterest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;itransform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;transform&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -615,8 +615,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformer_maker</span><span class="p">,</span> <span class="n">TransformerMaker</span><span class="p">):</span>
             <span class="n">_clear_proj_error</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
-                <span class="s2">&quot;Transformer must be initialized using: &quot;</span>
-                <span class="s2">&quot;&#39;from_crs&#39; or &#39;from_pipeline&#39;.&quot;</span>
+                <span class="s2">&quot;Transformer must be initialized using: &#39;from_crs&#39; or &#39;from_pipeline&#39;.&quot;</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_local</span> <span class="o">=</span> <span class="n">TransformerLocal</span><span class="p">()</span>
