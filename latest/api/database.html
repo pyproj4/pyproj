@@ -290,7 +290,7 @@
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.get_units_map">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_units_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">category=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_units_map" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_units_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">category=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_units_map" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.2.0.</span></p>
 </div>
@@ -371,7 +371,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.get_codes">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_codes" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_codes" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.4.0.</span></p>
 </div>
@@ -398,7 +398,7 @@ It might be 0 in some cases to indicate no known conversion factor.</p></li>
 <h2>pyproj.database.query_crs_info<a class="headerlink" href="#pyproj-database-query-crs-info" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.query_crs_info">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_types=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_crs_info" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_types=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">allow_deprecated=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_crs_info" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.0.0.</span></p>
 </div>
@@ -454,7 +454,7 @@ intersects the specified bounding box will be returned.</p></li>
 <h2>pyproj.database.query_utm_crs_info<a class="headerlink" href="#pyproj-database-query-utm-crs-info" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.query_utm_crs_info">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_utm_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">datum_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_utm_crs_info" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_utm_crs_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">datum_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_of_interest=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">contains=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_utm_crs_info" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.0.0.</span></p>
 </div>
@@ -485,7 +485,7 @@ intersects the specified bounding box will be returned.</p></li>
 <h2>pyproj.database.get_database_metadata<a class="headerlink" href="#pyproj-database-get-database-metadata" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyproj.database.get_database_metadata">
-<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_database_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_database_metadata" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">get_database_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.get_database_metadata" title="Link to this definition">¶</a></dt>
 <dd><p>Return metadata from the database.</p>
 <p>See: <a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_context_get_database_metadata" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_context_get_database_metadata()</span></code></a></p>
 <p>Available keys:</p>

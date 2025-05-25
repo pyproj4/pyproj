@@ -378,7 +378,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyproj.crs.CoordinateOperation.from_authority">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_authority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">use_proj_alternative_grid_names=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_authority" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_authority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool</span> <span class="pre">use_proj_alternative_grid_names=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_authority" title="Link to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from an authority code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -413,7 +413,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyproj.crs.CoordinateOperation.from_json">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">coordinate_operation_json_str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_json" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">coordinate_operation_json_str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_json" title="Link to this definition">¶</a></dt>
 <dd><p>Create CoordinateOperation from a JSON string.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.4.0.</span></p>
@@ -447,7 +447,7 @@ that is a very approximate one, due to lack of more accurate transformations.</p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyproj.crs.CoordinateOperation.from_name">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">coordinate_operation_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinate_operation_type=CoordinateOperationType.CONVERSION</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_name" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">coordinate_operation_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">auth_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinate_operation_type=CoordinateOperationType.CONVERSION</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_name" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.5.0.</span></p>
 </div>
@@ -474,7 +474,7 @@ If None, will search all authorities.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyproj.crs.CoordinateOperation.from_string">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unicode</span> <span class="pre">coordinate_operation_string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_string" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">coordinate_operation_string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.crs.CoordinateOperation.from_string" title="Link to this definition">¶</a></dt>
 <dd><p>Create a CoordinateOperation from a string.</p>
 <p class="rubric">Example</p>
 <ul class="simple">
