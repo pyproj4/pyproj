@@ -9,6 +9,7 @@ on:
     paths:
       - ".github/workflows/release.yaml"
       - "ci/proj-compile-wheels.sh"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
