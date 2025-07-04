@@ -84,6 +84,12 @@ jobs:
           triplet: "x86-windows"
           vcpkg_cache: "c:\\vcpkg\\installed"
           vcpkg_logs: "c:\\vcpkg\\buildtrees\\**\\*.log"
+        - os: "windows-11-arm"
+          arch: "ARM64"
+          triplet: "arm64-windows"
+          vcpkg_cache: "c:\\vcpkg\\installed"
+          vcpkg_logs: "c:\\vcpkg\\buildtrees\\**\\*.log"
+          msvc_arch: ARM64
 
     steps:
       - uses: actions/checkout@v4
@@ -95,6 +101,12 @@ jobs:
         uses: bus1/cabuild/action/msdevshell@e22aba57d6e74891d059d66501b6b5aed8123c4d  # v1
         with:
           architecture: 'x86'
+
+      - name: Activate MSVC
+        uses: ilammy/msvc-dev-cmd@v1.13.0
+        with:
+           arch: ${{ matrix.msvc_arch }}
+        if: ${{ matrix.msvc_arch }}
 
       - name: Cache vcpkg
         if: contains(matrix.os, 'windows')
@@ -125,7 +137,7 @@ jobs:
           cp "$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}/share/proj/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23
+        uses: pypa/cibuildwheel@v2.23.3
         env:
           CIBW_SKIP: "pp*-win* pp31*"
           CIBW_ARCHS: ${{ matrix.arch }}
@@ -180,32 +192,8 @@ jobs:
       - uses: actions/download-artifact@v4
         continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
         with:
-          name: wheels-ubuntu-22.04-x86_64
-          path: dist
-      - uses: actions/download-artifact@v4
-        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
-        with:
-          name: wheels-ubuntu-22.04-arm-aarch64
-          path: dist
-      - uses: actions/download-artifact@v4
-        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
-        with:
-          name: wheels-macos-13-x86_64
-          path: dist
-      - uses: actions/download-artifact@v4
-        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
-        with:
-          name: wheels-macos-14-arm64
-          path: dist
-      - uses: actions/download-artifact@v4
-        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
-        with:
-          name: wheels-windows-2022-auto64
-          path: dist
-      - uses: actions/download-artifact@v4
-        continue-on-error: ${{ github.event_name == 'push' && github.ref_type != 'tag' }}
-        with:
-          name: wheels-windows-2022-auto32
+          pattern: wheels-*
+          merge-multiple: true
           path: dist
 
       - name: Upload Wheels to PyPI
