@@ -564,3 +564,5 @@ cdef extern from "proj.h" nogil:
 
     int proj_is_deprecated(const PJ *obj)
     PJ_OBJ_LIST *proj_get_non_deprecated(PJ_CONTEXT *ctx, const PJ *obj)
+
+    PJ_OBJ_LIST *proj_query_geodetic_crs_from_datum(PJ_CONTEXT *ctx, const char *crs_auth_name, const char *datum_auth_name, const char *datum_code, const char *crs_type)
