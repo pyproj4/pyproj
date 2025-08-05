@@ -13,7 +13,8 @@ authors = [
 maintainers = [
     {name = "pyproj contributors"},
 ]
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE", "LICENSE_proj"]
 keywords = [
     "GIS",
     "map",
