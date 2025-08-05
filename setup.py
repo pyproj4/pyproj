@@ -142,6 +142,7 @@ def get_cythonize_options():
             "c_string_type": "str",
             "c_string_encoding": "utf-8",
             "embedsignature": True,
+            "freethreading_compatible": True,
         },
     }
     if os.environ.get("PYPROJ_FULL_COVERAGE"):
