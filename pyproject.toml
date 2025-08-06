@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0.0", "wheel", "cython>=3"]
+requires = ["setuptools>=61.0.0", "wheel", "cython>=3.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -13,7 +13,8 @@ authors = [
 maintainers = [
     {name = "pyproj contributors"},
 ]
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE", "LICENSE_proj"]
 keywords = [
     "GIS",
     "map",
@@ -26,7 +27,6 @@ keywords = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.11",
@@ -38,6 +38,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
+    "Programming Language :: Python :: Free Threading :: 2 - Beta",
 ]
 requires-python = ">=3.11"
 dependencies = [
