@@ -1,10 +1,14 @@
 Change Log
 ==========
 
-Latest
-------
+3.7.2
+-----
 - DEP: Minimum PROJ version 9.4 (pull #1481)
 - DEP: Minimum supported Python version 3.11 (pull #1483)
+- MNT: Add CRS imports to __all__
+- DEP: Add win_arm64 wheels
+- DEP: Add Python 3.13 free-threading wheels
+- DEP: Add Python 3.14 and 3.14 free-threading wheels
 
 3.7.1
 ------
