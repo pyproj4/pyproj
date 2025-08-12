@@ -10,8 +10,17 @@ of distribution for the next release.
 ### Add the rc postfix
 
 The first step in this phase is to update the version number `__version__` in `__init__.py`
-to the next release `<major>.<minor>.<patch>`. Then, add the `rc` style posfix following the[PEP-440](https://www.python.org/dev/peps/pep-0440/#pre-releases)
-conventions starting with `rc0` (ex. `3.7.2rc0`).
+to the next release `<major>.<minor>.<patch>`. Then, add the `rc` style
+postfix following the[PEP-440](https://www.python.org/dev/peps/pep-0440/#pre-releases)
+conventions starting with `rc0` (ex. `3.7.2rc0`). Make sure this is done on the `main` branch.
+
+Commit the changes:
+
+```bash
+git add pyproj/__init__.py
+git commit -m "MNT: Update version to 3.7.2rc0"
+git push
+```
 
 ### Review changes in the changelog
 
@@ -19,10 +28,16 @@ Review `docs/history.rst` and compare to list of merged pull requests since the 
 
 https://github.com/pyproj4/pyproj/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Amerged
 
+If changes are needed make sure to commit and push them to the `main` branch.
+
 ### Create a tag on the repository
 
-The next step is to create a tag with the same name as the version just added. This can be done using the git command line.
-Make sure you are on the `main` branch first. For example:
+The next step is to create a tag with the same name as the version just added.
+This can be done using the git command line or as part of creating a
+GitHub Release (see next section).
+
+If you'd like to do it from the command line then
+make sure you are on the `main` branch first. For example:
 
 ```bash
 git checkout main
@@ -41,21 +56,95 @@ git push --follow-tags
 
 1. Go to https://github.com/pyproj4/pyproj/releases.
 2. Click "Draft a new release".
-3. Select the release candidate tag you just pushed from the "Select tag" dropdown list.
+   a. Click "Select tag" and either:
+   b. Select the release candidate tag you pushed from the command line.
+3. Type the version tag you would like GitHub to create as part of this release (ex. `3.7.2rc0`).
 4. Enter "X.Y.Zrc0" as the Release title using the version number you created.
-5. In the description enter "MNT: Version X.Y.Zrc0"
+5. Leave the description blank.
 6. Check the box for "Set as a pre-release".
 7. Check the box for "Create a discussion for this release".
 8. Click "Publish release".
 
 ### Test the release builds
 
-1. Check the wheels built at https://github.com/pyproj4/pyproj using GitHub Actions.
-2. Verify wheel and sdist upload to PyPI at https://pypi.org/project/pyproj/.
-3. Create a draft PR at https://github.com/conda-forge/pyproj-feedstock and verify tests pass.
-4. Verify Debian builds were successful on the release discussion.
-5. Verify Fedora builds were successful on the release discussion.
-6. Verify the docs build successfully.
+1. Check the wheels built under GitHub Actions
+   [here](https://github.com/pyproj4/pyproj/actions/workflows/release.yaml).
+2. Verify wheel and sdist upload to PyPI at
+   https://pypi.org/project/pyproj/X.Y.Zrc0/#files modifying the X.Y.Z for your release.
+3. Update the release discussion (see below section)
+4. Create a draft PR at https://github.com/conda-forge/pyproj-feedstock and verify tests pass (see below section).
+5. Verify Debian builds were successful on the release discussion.
+6. Verify Fedora builds were successful on the release discussion.
+7. Verify the docs build successfully.
+
+### Update release discussion
+
+The GitHub release process above created a discussion at
+https://github.com/pyproj4/pyproj/discussions/. Find that discussion
+and update the post with information about what builds to check:
+
+```
+Release Candidate 0 Status:
+
+- [ ] Conda Forge
+- [ ] Debian: https://buildd.debian.org/status/package.php?p=python-pyproj&suite=experimental
+- [ ] Fedora
+
+Thanks for any testing that you can do.
+```
+
+See previous release candidate discussions for debian and fedora package
+maintainers to mention for help.
+
+### Create a draft conda-forge PR
+
+The instructions below assume you:
+
+1. Have an existing local conda environment with the `conda-smithy` package
+   installed and updated.
+2. You have a personal fork of the
+   https://github.com/conda-forge/pyproj-feedstock repository on GitHub.
+3. You have a local updated clone of the conda-forge feedstock repository and
+   a git remote for your fork.
+
+To create a feedstock pull request to test the release candidate:
+
+1. Create a new branch for the PR based on the main branch:
+
+   ```bash
+   git checkout main
+   git checkout -b dep-372
+   ```
+
+2. In a browser, go to
+   https://pypi.org/project/pyproj/3.7.2rc0/#pyproj-3.7.2rc0.tar.gz but
+   for the version you're releasing and copy the SHA256.
+3. Edit `recipe/meta.yaml` and update the version number and the SHA256.
+   Make sure to reset the build number to 0 and update any dependencies
+   if necessary.
+4. Add and commit these updates:
+
+   ```bash
+   git add recipe/meta.yaml
+   git commit -m "Update version to 3.7.2rc0"
+   ```
+
+5. Rerender the feedstock with conda-smithy:
+
+   ```bash
+   conda smithy regenerate -c auto
+   ```
+
+6. Push the changes to your fork's remote.
+
+   ```bash
+   git push -u <your_fork>
+   ```
+
+7. Go to https://github.com/conda-forge/pyproj-feedstock and create a **draft**
+   pull draft request with your new branch.
+
+8. Do **NOT** merge the pull request. It will be updated during the final release process.
 
 ## Phase 2: Make the release
 
@@ -67,7 +156,8 @@ Remove the `rc` postfix from the the version number `__version__` in `__init__.p
 
 ### Create a tag on the repository
 
-The next step is to create a tag with the name `<major>.<minor>.<patch>`. This can be done using the git command line. For example:
+The next step is to create a tag with the name `<major>.<minor>.<patch>`. This can be done using the git command line or
+as part of the GitHub release. For example:
 
 ```
 git tag -a 3.7.2 -m "Version 3.7.2"
@@ -83,14 +173,20 @@ git push --follow-tags
 
 ### Create a GitHub Release
 
+### Create a GitHub Release
+
 1. Go to https://github.com/pyproj4/pyproj/releases.
 2. Click "Draft a new release".
-3. Select the release candidate tag you just pushed from the "Select tag" dropdown list.
-4. Enter "X.Y.Z" as the Release title using the version number you created.
-5. In the description enter "MNT: Version X.Y.Z"
-6. Click "Publish release".
+3. Click "Select tag" and either:
+   a. Select the release candidate tag you pushed from the command line.
+   b. Type the version tag you would like GitHub to create as part of this release (ex. `3.7.2`).
+4. Enter "X.Y.Z Release" as the Release title using the version number you created.
+5. Click "Generate release notes".
+6. Check the box for "Set as the latest".
+7. Click "Publish release".
 
-Next, go through the history and add release notes (see: [automatically generated release notes](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes)). Make sure to acknowledge contributions made by others in the release.
+For more information on auto-generated release notes see
+[automatically generated release notes](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes)). Make sure to acknowledge contributions made by others in the release.
 
 ### The wheels
 

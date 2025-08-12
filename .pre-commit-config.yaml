@@ -28,6 +28,7 @@ repos:
         rev: v2.2.6
         hooks:
         -   id: codespell
+            args: [--uri-ignore-words-list, buildd]
     -   repo: https://github.com/astral-sh/ruff-pre-commit
         rev: v0.11.10
         hooks:
