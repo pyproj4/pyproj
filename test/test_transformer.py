@@ -1310,27 +1310,6 @@ def test_transform_bounds__beyond_global_bounds():
     )
 
 
-@pytest.mark.parametrize(
-    "input_crs,input_bounds,expected_bounds",
-    [
-        (
-            "ESRI:102036",
-            (-180.0, -90.0, 180.0, 1.3),
-            (0, -116576599, 0, 0),
-        ),
-        ("ESRI:54026", (-180.0, -90.0, 180.0, 90.0), (0, -179545824, 0, 179545824)),
-    ],
-)
-def test_transform_bounds__ignore_inf(input_crs, input_bounds, expected_bounds):
-    crs = CRS(input_crs)
-    transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True)
-    assert_almost_equal(
-        transformer.transform_bounds(*input_bounds),
-        expected_bounds,
-        decimal=0,
-    )
-
-
 def test_transform_bounds__ignore_inf_geographic():
     crs_wkt = (
         'PROJCS["Interrupted_Goode_Homolosine",'

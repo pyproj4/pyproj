@@ -9,6 +9,7 @@ Change Log
 - DEP: Add win_arm64 wheels
 - DEP: Add Python 3.13 free-threading wheels
 - DEP: Add Python 3.14 and 3.14 free-threading wheels
+- TST: Remove irrelevant test with modern PROJ versions
 
 3.7.1
 ------
