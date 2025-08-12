@@ -71,7 +71,7 @@ from pyproj.transformer import (  # noqa: F401 pylint: disable=unused-import
     transform,
 )
 
-__version__ = "3.7.2rc0"
+__version__ = "3.7.2rc1"
 __all__ = [
     "CRS",
     "Geod",
