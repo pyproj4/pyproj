@@ -200,3 +200,18 @@ Verify all is correct on the PR at https://github.com/conda-forge/pyproj-feedsto
 ### Update the docs
 
 On the `gh-pages` branch, update the stable symlink to point to the next version.
+
+## Preparing for the next release
+
+To put the repository in a state for the next release cycle:
+
+1. Edit `docs/history.rst`.
+2. Add a new "Latest" section header to the top of the version list.
+3. Edit `docs/past_versions.rst` and add the recent release. For example:
+
+   ```
+   - `3.7.0 <https://pyproj4.github.io/pyproj/3.7.0/>`_
+   ```
+
+4. Edit `__version__` in `pyproj/__init__.py` for the next release (ex. `3.7.0` -> `3.7.1.dev0`)
+5. Commit and push these changes to `main`.
