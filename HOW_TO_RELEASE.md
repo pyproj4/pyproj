@@ -199,6 +199,20 @@ Verify all is correct on the PR at https://github.com/conda-forge/pyproj-feedsto
 
 On the `gh-pages` branch, update the stable symlink to point to the next version.
 
+```bash
+git checkout gh-pages
+git pull
+ln -sfTv 3.7.2 stable
+git add stable
+git commit -n -m "stable -> 3.7.2"
+```
+
+The `T` flag in the `ln` command ensures that "stable" is treated as a file,
+and not as a directory to create the symbolic link inside of. The `-n` flag
+on `git commit` is needed if you had previously installed `pre-commit` as the
+`gh-pages` branch does not have a pre-commit config and pre-commit will fail.
+The `-n` flag skips pre-commit checks.
+
 ## Preparing for the next release
 
 To put the repository in a state for the next release cycle:
