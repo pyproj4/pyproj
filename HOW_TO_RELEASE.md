@@ -173,8 +173,6 @@ git push --follow-tags
 
 ### Create a GitHub Release
 
-### Create a GitHub Release
-
 1. Go to https://github.com/pyproj4/pyproj/releases.
 2. Click "Draft a new release".
 3. Click "Select tag" and either:
