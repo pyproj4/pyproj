@@ -7,7 +7,7 @@
         <link rel="prefetch" href="../_static/logo.png" as="image" />
 
     <link rel="shortcut icon" href="../_static/icon.png"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>Proj - pyproj 3.7.2rc1 documentation</title>
+        <title>Proj - pyproj 3.7.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=20074c1a" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -167,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">pyproj 3.7.2rc1 documentation</div></a>
+      <a href="../index.html"><div class="brand">pyproj 3.7.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
     <img class="sidebar-logo" src="../_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">pyproj 3.7.2rc1 documentation</span>
+  <span class="sidebar-brand-text">pyproj 3.7.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -338,7 +338,7 @@ sequences and scalars, but is fastest for array objects.</p>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a></p></li>
 <li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2025.7.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></p></li>
 <li><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></p></li>
 </ul>
 <dl class="field-list simple">
@@ -372,7 +372,7 @@ If False, <code class="docutils literal notranslate"><span class="pre">inf</span
 control parameter key/value pairs. The key/value pairs can
 either be passed in a dictionary, or as keyword arguments,
 or as a PROJ string (compatible with the proj command). See
-<span class="xref std std-ref">projections</span> for examples of
+<a class="reference external" href="https://proj.org/en/stable/operations/projections/index.html#projections" title="(in PROJ v9.6)"><span>Projections</span></a> for examples of
 key/value pairs defining different map projections.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -491,8 +491,8 @@ key/value pairs defining different map projections.</p>
 <dd><p>Make a Transformer from a <a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> or input used to create one.</p>
 <p>See:</p>
 <ul class="simple">
-<li><p><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_crs_to_crs()</span></code></p></li>
-<li><p><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_crs_to_crs_from_pj()</span></code></p></li>
+<li><p><a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_create_crs_to_crs" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_crs_to_crs()</span></code></a></p></li>
+<li><p><a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_create_crs_to_crs_from_pj" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_crs_to_crs_from_pj()</span></code></a></p></li>
 </ul>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.2.0: </span>always_xy</p>
@@ -536,11 +536,11 @@ Requires PROJ 9+.</p></li>
 transformation known to PROJ and usable by PROJ if all grids known and
 usable by PROJ were accessible, cannot be used. Best transformation should
 be understood as the transformation returned by
-<code class="xref c c-func docutils literal notranslate"><span class="pre">proj_get_suggested_operation()</span></code> if all known grids were
+<a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_get_suggested_operation" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_get_suggested_operation()</span></code></a> if all known grids were
 accessible (either locally or through network).
 Note that the default value for this option can be also set with the
 <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PROJ_ONLY_BEST_DEFAULT</span></code> environment variable, or with the
-<code class="docutils literal notranslate"><span class="pre">only_best_default</span></code> setting of <span class="xref std std-ref">proj-ini</span>.
+<code class="docutils literal notranslate"><span class="pre">only_best_default</span></code> setting of <a class="reference external" href="https://proj.org/en/stable/resource_files.html#proj-ini" title="(in PROJ v9.6)"><span>proj.ini</span></a>.
 The only_best kwarg overrides the default value if set.
 Requires PROJ 9.2+.</p></li>
 </ul>
@@ -555,11 +555,11 @@ Requires PROJ 9.2+.</p></li>
 <dt class="sig sig-object py" id="pyproj.Proj.from_pipeline">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a></span></span><a class="headerlink" href="#pyproj.Proj.from_pipeline" title="Link to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a PROJ pipeline string.</p>
-<p><span class="xref std std-ref">pipeline</span></p>
+<p><a class="reference external" href="https://proj.org/en/stable/operations/pipeline.html#pipeline" title="(in PROJ v9.6)"><span>The pipeline operator</span></a></p>
 <p>See:</p>
 <ul class="simple">
-<li><p><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create()</span></code></p></li>
-<li><p><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_from_database()</span></code></p></li>
+<li><p><a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_create" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create()</span></code></a></p></li>
+<li><p><a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_create_from_database" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_create_from_database()</span></code></a></p></li>
 </ul>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.1.0: </span>AUTH:CODE string support (e.g. EPSG:1671)</p>
@@ -641,7 +641,7 @@ coordinate.</p>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a></p></li>
 <li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2025.7.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></p></li>
 <li><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></p></li>
 </ul>
 <dl class="field-list simple">
@@ -671,7 +671,7 @@ If False, <code class="docutils literal notranslate"><span class="pre">inf</span
 <p class="admonition-title">Note</p>
 <p>Requires PROJ 9.1+</p>
 </div>
-<p>See: <code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_get_last_used_operation()</span></code></p>
+<p>See: <a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_trans_get_last_used_operation" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_get_last_used_operation()</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The operation used in the transform call.</p>
@@ -728,7 +728,7 @@ If it is not a Transformer, then it returns False.</p>
 <dt class="sig sig-object py" id="pyproj.Proj.itransform">
 <span class="sig-name descname"><span class="pre">itransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">switch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_3rd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="enums.html#pyproj.enums.TransformDirection" title="pyproj.enums.TransformDirection"><span class="pre">TransformDirection</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TransformDirection.FORWARD</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" title="(in Python v3.13)"><span class="pre">Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.13)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyproj.Proj.itransform" title="Link to this definition">¶</a></dt>
 <dd><p>Iterator/generator version of the function pyproj.Transformer.transform.</p>
-<p>See: <code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_generic()</span></code></p>
+<p>See: <a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_trans_generic" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_generic()</span></code></a></p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.1.1: </span>errcheck</p>
 </div>
@@ -1008,7 +1008,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <dt class="sig sig-object py" id="pyproj.Proj.transform">
 <span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errcheck</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TransformDirection.FORWARD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.Proj.transform" title="Link to this definition">¶</a></dt>
 <dd><p>Transform points between two coordinate systems.</p>
-<p>See: <code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_generic()</span></code></p>
+<p>See: <a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_trans_generic" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_generic()</span></code></a></p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.1.1: </span>errcheck</p>
 </div>
@@ -1028,7 +1028,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.WktVersio
 <li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a></p></li>
 <li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2025.7.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></p></li>
 <li><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></p></li>
 </ul>
 <dl class="field-list simple">
@@ -1101,7 +1101,7 @@ is not an array in C order with the double data type.</p></li>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.1.0.</span></p>
 </div>
-<p>See: <code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_bounds()</span></code></p>
+<p>See: <a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_trans_bounds" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_trans_bounds()</span></code></a></p>
 <p>Transform boundary densifying the edges to account for nonlinear
 transformations along these edges and extracting the outermost bounds.</p>
 <p>If the destination CRS is geographic and right &lt; left then the bounds
@@ -1164,7 +1164,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <p><span class="versionmodified added">Added in version 2.6.0.</span></p>
 </div>
 <p>These are the scaling and angular distortion factors.</p>
-<p>See PROJ <code class="xref c c-type docutils literal notranslate"><span class="pre">PJ_FACTORS</span></code> documentation.</p>
+<p>See PROJ <a class="reference external" href="https://proj.org/en/stable/development/reference/datatypes.html#c.PJ_FACTORS" title="(in PROJ v9.6)"><code class="xref c c-type docutils literal notranslate"><span class="pre">PJ_FACTORS</span></code></a> documentation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1383,7 +1383,7 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=c1fb0b02"></script>
+</div><script src="../_static/documentation_options.js?v=b11cb048"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
