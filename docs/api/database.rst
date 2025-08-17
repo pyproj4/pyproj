@@ -49,3 +49,9 @@ pyproj.database.get_database_metadata
 ---------------------------------------
 
 .. autofunction:: pyproj.database.get_database_metadata
+
+
+pyproj.database.query_geodetic_crs_from_datum
+---------------------------------------
+
+.. autofunction:: pyproj.database.query_geodetic_crs_from_datum
