@@ -94,7 +94,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
 
       - name: Setup MSVC (32-bit)
         if: ${{ matrix.triplet == 'x86-windows' }}
