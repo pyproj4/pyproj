@@ -3,7 +3,7 @@ Change Log
 
 Latest
 ------
-
+- ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
 
 3.7.2
 -----
