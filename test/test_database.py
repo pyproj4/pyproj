@@ -271,48 +271,70 @@ def test_get_database_metadata__invalid():
     assert get_database_metadata("doesnotexist") is None
 
 
-def test_query_geodetic_crs_from_datum():
-    crss = query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", "GEOCENTRIC_CRS")
-    assert len(crss) == 1
-    assert crss[0].to_authority()[1] == "6317"
-
-    crss = query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", PJType.GEOCENTRIC_CRS)
-    assert len(crss) == 1
-    assert crss[0].to_authority()[1] == "6317"
-
-    crss = query_geodetic_crs_from_datum(None, "EPSG", "1116")
-    assert len(crss) == 3
+@pytest.mark.parametrize(
+    "crs_auth_name, datum_auth_name, datum_code, pj_type, res",
+    [
+        ("EPSG", "EPSG", "1116", "GEOCENTRIC_CRS", ["6317"]),
+        ("EPSG", "EPSG", "1116", PJType.GEOCENTRIC_CRS, ["6317"]),
+        (None, "EPSG", "1116", None, ["6317", "6318", "6319"]),
+        ("EPSG", "EPSG", "6269", None, ["4269"]),
+        (None, "EPSG", "6269", None, ["4269", "104602", "CRS83"]),  # EPSG, ESRI, OGC
+    ],
+)
+def test_query_geodetic_crs_from_datum(
+    crs_auth_name, datum_auth_name, datum_code, pj_type, res
+):
+    crss = query_geodetic_crs_from_datum(
+        crs_auth_name, datum_auth_name, datum_code, pj_type
+    )
+    assert len(crss) == len(res)
     codes = [x.to_authority()[1] for x in crss]
-    assert "6317" in codes
-    assert "6318" in codes
-    assert "6319" in codes
+    for single_res in res:
+        assert single_res in codes
 
-    crss = query_geodetic_crs_from_datum("EPSG", "EPSG", "6269", None)
-    assert len(crss) == 1
-    assert crss[0].to_authority()[1] == "4269"
-
-    crss = query_geodetic_crs_from_datum(None, "EPSG", "6269")
-    assert len(crss) == 3  # EPSG, ESRI, OGC
+    if pj_type is None:
+        crss = query_geodetic_crs_from_datum(crs_auth_name, datum_auth_name, datum_code)
+        assert len(crss) == len(res)
 
 
-def test_query_geodetic_crs_from_datum_invalid():
-    crss = query_geodetic_crs_from_datum(None, "EPSG", "11")
+@pytest.mark.parametrize(
+    "crs_auth_name, datum_auth_name, datum_code, pj_type",
+    [
+        (None, "EPSG", "11", None),
+        (None, "EPSG", "32632", None),
+        ("foo-bar", "EPSG", "6269", None),
+    ],
+)
+def test_query_geodetic_crs_from_datum_invalid(
+    crs_auth_name, datum_auth_name, datum_code, pj_type
+):
+    crss = query_geodetic_crs_from_datum(
+        crs_auth_name, datum_auth_name, datum_code, pj_type
+    )
     assert len(crss) == 0
 
-    crss = query_geodetic_crs_from_datum(None, "EPSG", "32632")
-    assert len(crss) == 0
+    if pj_type is None:
+        crss = query_geodetic_crs_from_datum(crs_auth_name, datum_auth_name, datum_code)
+        assert len(crss) == 0
 
-    crss = query_geodetic_crs_from_datum("foo-bar", "EPSG", "6269", None)
-    assert len(crss) == 0
 
-    with pytest.raises(ValueError):
-        query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", PJType.PROJECTED_CRS)
+@pytest.mark.parametrize(
+    "crs_auth_name, datum_auth_name, datum_code, pj_type, exc",
+    [
+        ("EPSG", "EPSG", "1116", PJType.PROJECTED_CRS, ValueError),
+        ("EPSG", "EPSG", "1116", "invalid string", ValueError),
+        ("EPSG", "EPSG", None, None, TypeError),
+        ("EPSG", None, "1116", None, TypeError),
+    ],
+)
+def test_query_geodetic_crs_from_datum_raises(
+    crs_auth_name, datum_auth_name, datum_code, pj_type, exc
+):
+    with pytest.raises(exc):
+        query_geodetic_crs_from_datum(
+            crs_auth_name, datum_auth_name, datum_code, pj_type
+        )
 
-    with pytest.raises(ValueError):
-        query_geodetic_crs_from_datum("EPSG", "EPSG", "1116", "invalid string")
-
-    with pytest.raises(TypeError):
-        query_geodetic_crs_from_datum("EPSG", "EPSG", None)
-
-    with pytest.raises(TypeError):
-        query_geodetic_crs_from_datum("EPSG", None, "1116")
+    if pj_type is None:
+        with pytest.raises(exc):
+            query_geodetic_crs_from_datum(crs_auth_name, datum_auth_name, datum_code)
