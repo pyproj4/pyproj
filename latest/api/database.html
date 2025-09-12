@@ -519,6 +519,33 @@ intersects the specified bounding box will be returned.</p></li>
 </dd></dl>
 
 </section>
+<section id="pyproj-database-query-geodetic-crs-from-datum">
+<h2>pyproj.database.query_geodetic_crs_from_datum<a class="headerlink" href="#pyproj-database-query-geodetic-crs-from-datum" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyproj.database.query_geodetic_crs_from_datum">
+<span class="sig-prename descclassname"><span class="pre">pyproj.database.</span></span><span class="sig-name descname"><span class="pre">query_geodetic_crs_from_datum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">crs_auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">datum_auth_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str</span> <span class="pre">datum_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pj_type=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyproj.database.query_geodetic_crs_from_datum" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.8.0.</span></p>
+</div>
+<p>Return GeodeticCRS that use the specified datum</p>
+<p>See: <a class="reference external" href="https://proj.org/en/stable/development/reference/functions.html#c.proj_query_geodetic_crs_from_datum" title="(in PROJ v9.6)"><code class="xref c c-func docutils literal notranslate"><span class="pre">proj_query_geodetic_crs_from_datum()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crs_auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – The authority name to filter by (e.g. EPSG, ESRI). None is all.</p></li>
+<li><p><strong>datum_auth_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The authority of the datum</p></li>
+<li><p><strong>datum_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Datum code</p></li>
+<li><p><strong>pj_type</strong> (<a class="reference internal" href="enums.html#pyproj.enums.PJType" title="pyproj.enums.PJType"><em>pyproj.enums.PJType</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – The type of object to get the CRSs. Can be PJType.GEOCENTRIC_CRS,
+PJType.GEOGRAPHIC_3D_CRS, PJType.GEOGRAPHIC_2D_CRS or None for all.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS">CRS</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
         </article>
@@ -601,6 +628,10 @@ intersects the specified bounding box will be returned.</p></li>
 </li>
 <li><a class="reference internal" href="#pyproj-database-get-database-metadata">pyproj.database.get_database_metadata</a><ul>
 <li><a class="reference internal" href="#pyproj.database.get_database_metadata"><code class="docutils literal notranslate"><span class="pre">get_database_metadata()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyproj-database-query-geodetic-crs-from-datum">pyproj.database.query_geodetic_crs_from_datum</a><ul>
+<li><a class="reference internal" href="#pyproj.database.query_geodetic_crs_from_datum"><code class="docutils literal notranslate"><span class="pre">query_geodetic_crs_from_datum()</span></code></a></li>
 </ul>
 </li>
 </ul>
