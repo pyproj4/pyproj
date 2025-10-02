@@ -66,10 +66,6 @@ jobs:
           arch: x86_64
         - os: ubuntu-22.04-arm
           arch: aarch64
-        - os: macos-13
-          arch: x86_64
-          cmake_osx_architectures: x86_64
-          macos_deployment_target: "13.0"
         - os: macos-14
           arch: arm64
           cmake_osx_architectures: arm64
