@@ -1,15 +1,15 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="./">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Gotchas/FAQ" href="gotchas.html" /><link rel="prev" title="Getting Started" href="examples.html" />
-        <link rel="prefetch" href="_static/logo.png" as="image" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Gotchas/FAQ" href="gotchas.html"><link rel="prev" title="Getting Started" href="examples.html">
+        <link rel="prefetch" href="_static/logo.png" as="image">
 
-    <link rel="shortcut icon" href="_static/icon.png"/><!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+    <link rel="shortcut icon" href="_static/icon.png"><!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
         <title>Transformation Grids - pyproj 3.7.3.dev0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=20074c1a" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -23,14 +23,14 @@
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
       }
     }
@@ -145,14 +145,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -162,8 +158,7 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
@@ -171,8 +166,7 @@
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -180,8 +174,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -207,8 +200,8 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Transformation Grids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="api/crs/index.html">CRS module API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of CRS module API Documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Documentation</a><input aria-label="Toggle navigation of API Documentation" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/crs/index.html">CRS module API Documentation</a><input aria-label="Toggle navigation of CRS module API Documentation" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/crs/crs.html">CRS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/crs/coordinate_system.html">Coordinate Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/crs/coordinate_operation.html">Coordinate Operations</a></li>
@@ -265,8 +258,7 @@
   </a>
 </div>
 <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -274,8 +266,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -283,7 +274,7 @@
 <span id="id1"></span><h1>Transformation Grids<a class="headerlink" href="#transformation-grids" title="Link to this heading">¶</a></h1>
 <p>Transformation grids improve accuracy when you are performing datum transformations.</p>
 <p>More information about the data available is located under the PROJ
-<a class="reference external" href="https://proj.org/en/stable/resource_files.html#datumgrid" title="(in PROJ v9.6)"><span class="xref std std-ref">resource files</span></a> documentation.</p>
+<a class="reference external" href="https://proj.org/en/stable/resource_files.html#datumgrid" title="(in PROJ v9.7)"><span class="xref std std-ref">resource files</span></a> documentation.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><cite>pyproj</cite> API for managing the <a class="reference internal" href="api/datadir.html#data-directory"><span class="std std-ref">Data Directory</span></a> and <a class="reference internal" href="api/network.html#network-api"><span class="std std-ref">PROJ Network Settings</span></a>.</p>
@@ -297,7 +288,7 @@
 <section id="proj-7">
 <h3>PROJ 7+<a class="headerlink" href="#proj-7" title="Link to this heading">¶</a></h3>
 <p>PROJ 7.0 has introduced, per
-<a class="reference external" href="https://proj.org/en/stable/community/rfc/rfc-4.html#rfc4" title="(in PROJ v9.6)"><span class="xref std std-ref">PROJ RFC 4: Remote access to grids and GeoTIFF grids</span></a>,
+<a class="reference external" href="https://proj.org/en/stable/community/rfc/rfc-4.html#rfc4" title="(in PROJ v9.7)"><span class="xref std std-ref">PROJ RFC 4: Remote access to grids and GeoTIFF grids</span></a>,
 the capability to work with grid files that are not installed on the local machine where PROJ is executed.</p>
 <p>Available methods for download include:</p>
 <ul>
@@ -322,9 +313,9 @@ the capability to work with grid files that are not installed on the local machi
 </pre></div>
 </div>
 </li>
-<li><p>The <a class="reference external" href="https://proj.org/en/stable/apps/projsync.html#projsync" title="(in PROJ v9.6)"><span class="xref std std-ref">projsync</span></a> command line program.</p></li>
+<li><p>The <a class="reference external" href="https://proj.org/en/stable/apps/projsync.html#projsync" title="(in PROJ v9.7)"><span class="xref std std-ref">projsync</span></a> command line program.</p></li>
 <li><p><a class="reference external" href="cli.html#sync">pyproj sync</a> command line program (pyproj 3+; useful if you use pyproj wheels).</p></li>
-<li><p>Enabling <a class="reference external" href="https://proj.org/en/stable/usage/network.html#network" title="(in PROJ v9.6)"><span class="xref std std-ref">PROJ network</span></a> capabilities. See also <a class="reference internal" href="api/network.html#network-api"><span class="std std-ref">PROJ Network Settings</span></a>.</p></li>
+<li><p>Enabling <a class="reference external" href="https://proj.org/en/stable/usage/network.html#network" title="(in PROJ v9.7)"><span class="xref std std-ref">PROJ network</span></a> capabilities. See also <a class="reference internal" href="api/network.html#network-api"><span class="std std-ref">PROJ Network Settings</span></a>.</p></li>
 <li><p>Download stable from <a class="reference external" href="https://download.osgeo.org/proj">https://download.osgeo.org/proj</a> or latest from <a class="reference external" href="https://github.com/OSGeo/PROJ-data">https://github.com/OSGeo/PROJ-data</a></p></li>
 <li><p>Use <a class="reference external" href="https://conda.io/en/latest/">conda</a> with the <a class="reference external" href="https://conda-forge.org/">conda-forge</a> channel:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>proj-data
