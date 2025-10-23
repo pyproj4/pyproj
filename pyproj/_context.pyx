@@ -224,7 +224,6 @@ cdef PJ_CONTEXT* pyproj_context_create() except *:
         _CONTEXT_MANAGER_LOCAL.context_manager = ContextManager.create(pyproj_context, gil_state)
     else:
         pyproj_context = <PJ_CONTEXT*>thread_pyproj_context
-
     return pyproj_context
 
 
