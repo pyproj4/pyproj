@@ -6,6 +6,7 @@ Latest
 - WHL: Wheels contain PROJ 9.7.0 (pull #1529)
 - WHL: Remove MacOS 13 (X86_64) wheels (issue #1532)
 - ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
+- ENH: Restore support for global context (pull #1540)
 
 3.7.2
 -----
