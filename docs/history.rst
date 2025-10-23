@@ -6,6 +6,7 @@ Latest
 - WHL: Wheels contain PROJ 9.7.0 (pull #1529)
 - WHL: Remove MacOS 13 (X86_64) wheels (issue #1532)
 - ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
+- BUG: Fix segfault when pyproj is called from threads which were not created by Python (issue #1509)
 
 3.7.2
 -----
