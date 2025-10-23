@@ -4,6 +4,7 @@ import threading
 import warnings
 
 from cpython.pythread cimport PyThread_tss_create, PyThread_tss_get, PyThread_tss_set
+from cpython.pystate cimport PyGILState_STATE, PyGILState_Ensure, PyGILState_Release
 from libc.stdlib cimport free, malloc
 
 from pyproj._compat cimport cstrencode
@@ -167,10 +168,11 @@ cdef void pyproj_context_initialize(PJ_CONTEXT* context) except *:
 
 cdef class ContextManager:
     """
-    The only purpose of this class is
-    to ensure the context is cleaned up properly.
+    The only purpose of this class is to ensure that the context
+    and thread state are cleaned up properly.
     """
     cdef PJ_CONTEXT* context
+    cdef PyGILState_STATE gil_state
 
     def __cinit__(self):
         self.context = NULL
@@ -178,11 +180,13 @@ cdef class ContextManager:
     def __dealloc__(self):
         if self.context != NULL:
             proj_context_destroy(self.context)
+            PyGILState_Release(self.gil_state)
 
     @staticmethod
-    cdef create(PJ_CONTEXT* context):
+    cdef create(PJ_CONTEXT* context, PyGILState_STATE gil_state):
         cdef ContextManager context_manager = ContextManager()
         context_manager.context = context
+        context_manager.gil_state = gil_state
         return context_manager
 
 
@@ -205,7 +209,11 @@ cdef PJ_CONTEXT* pyproj_context_create() except *:
     """
     global _CONTEXT_MANAGER_LOCAL
 
+    cdef PyGILState_STATE gil_state
+    gil_state = PyGILState_Ensure()
+
     if PyThread_tss_create(&CONTEXT_THREAD_KEY) != 0:
+        PyGILState_Release(gil_state)
         raise MemoryError("Unable to create key for PROJ context in thread.")
     cdef const void *thread_pyproj_context = PyThread_tss_get(&CONTEXT_THREAD_KEY)
     cdef PJ_CONTEXT* pyproj_context = NULL
@@ -213,9 +221,10 @@ cdef PJ_CONTEXT* pyproj_context_create() except *:
         pyproj_context = proj_context_create()
         pyproj_context_initialize(pyproj_context)
         PyThread_tss_set(&CONTEXT_THREAD_KEY, pyproj_context)
-        _CONTEXT_MANAGER_LOCAL.context_manager = ContextManager.create(pyproj_context)
+        _CONTEXT_MANAGER_LOCAL.context_manager = ContextManager.create(pyproj_context, gil_state)
     else:
         pyproj_context = <PJ_CONTEXT*>thread_pyproj_context
+
     return pyproj_context
 
 
