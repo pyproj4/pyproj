@@ -28,8 +28,6 @@ cdef Py_tss_t CONTEXT_THREAD_KEY
 
 def set_use_global_context(active=None):
     """
-    .. deprecated:: 3.7.0 No longer necessary as there is only one context per thread now.
-
     .. versionadded:: 3.0.0
 
     Activates the usage of the global context. Using this
@@ -51,17 +49,11 @@ def set_use_global_context(active=None):
         the environment variable PYPROJ_GLOBAL_CONTEXT and defaults
         to False if it is not found.
     """
+    global _CONTEXT_MANAGER_GLOBAL
     if active is None:
         active = strtobool(os.environ.get("PYPROJ_GLOBAL_CONTEXT", "OFF"))
-    if active:
-        warnings.warn(
-            (
-                "PYPROJ_GLOBAL_CONTEXT is no longer necessary in pyproj 3.7+ "
-                "and does not do anything."
-            ),
-            FutureWarning,
-            stacklevel=2,
-        )
+    if bool(active):
+        _CONTEXT_MANAGER_GLOBAL = ContextManagerGlobal()
 
 
 def get_user_data_dir(create=False):
@@ -195,15 +187,34 @@ class ContextManagerLocal(threading.local):
         self.context_manager = None  # Initialises in each thread
         super().__init__()
 
-
 _CONTEXT_MANAGER_LOCAL = ContextManagerLocal()
+
+
+class ContextManagerGlobal:
+    """
+    Global instance for cython ContextManager class.
+    """
+
+    def __init__(self):
+        cdef PJ_CONTEXT* context = proj_context_create()
+        pyproj_context_initialize(context)
+        self.context_manager = ContextManager.create(context)
+
+cdef object _CONTEXT_MANAGER_GLOBAL = None
+
 
 cdef PJ_CONTEXT* pyproj_context_create() except *:
     """
     Create and initialize the context(s) for pyproj.
     This also manages whether the global context is used.
     """
+    global _CONTEXT_MANAGER_GLOBAL
     global _CONTEXT_MANAGER_LOCAL
+
+    cdef ContextManager context_manager
+    if _CONTEXT_MANAGER_GLOBAL:
+        context_manager = <ContextManager>_CONTEXT_MANAGER_GLOBAL.context_manager
+        return context_manager.context
 
     if PyThread_tss_create(&CONTEXT_THREAD_KEY) != 0:
         raise MemoryError("Unable to create key for PROJ context in thread.")
@@ -224,6 +235,10 @@ def get_context_manager():
     This returns the manager for the context
     responsible for cleanup
     """
+    global _CONTEXT_MANAGER_GLOBAL
+
+    if _CONTEXT_MANAGER_GLOBAL:
+        return _CONTEXT_MANAGER_GLOBAL.context_manager
     return _CONTEXT_MANAGER_LOCAL.context_manager
 
 
