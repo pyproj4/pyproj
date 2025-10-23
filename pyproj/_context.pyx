@@ -177,6 +177,7 @@ cdef class ContextManager:
 
     def __dealloc__(self):
         if self.context != NULL:
+            PyThread_tss_set(&CONTEXT_THREAD_KEY, NULL)
             proj_context_destroy(self.context)
 
     @staticmethod
