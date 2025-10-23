@@ -29,7 +29,7 @@ from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     _TransformerGroup,
 )
 from pyproj.datadir import get_user_data_dir
-from pyproj.enums import ProjVersion, TransformDirection, WktVersion
+from pyproj.enums import ProjVersion, TransformDirection, WktVersion, CRSExtentUse
 from pyproj.exceptions import ProjError
 from pyproj.sync import _download_resource_file
 from pyproj.utils import _convertback, _copytobuffer
@@ -163,8 +163,7 @@ class TransformerGroup(_TransformerGroup):
         accuracy: float | None = None,
         allow_ballpark: bool = True,
         allow_superseded: bool = False,
-        crs_extent_use: Literal["none", "both", "intersection", "smallest"]
-        | None = None,
+        crs_extent_use: CRSExtentUse | Literal["none", "both", "intersection", "smallest"] | None = None,
     ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
@@ -205,10 +204,11 @@ class TransformerGroup(_TransformerGroup):
             Set to True to allow the use of superseded (but not deprecated)
             transformations in the candidate coordinate operations. Default is
             to disallow.
-        crs_extent_use: {"none", "both", "intersection", "smallest"}, optional
-            Corresponds to the PROJ CLI --crs-extent-use flag controlling how
-            CRS areas of use are employed to filter candidate operations.
-            If not provided, PROJ's internal default is used.
+        crs_extent_use: CRSExtentUse or {"none", "both", "intersection", "smallest"}, optional
+            Corresponds to the PROJ CLI ``--crs-extent-use`` flag controlling how
+            CRS areas of use are employed to filter candidate operations. May be
+            provided as a :class:`pyproj.enums.CRSExtentUse` enum member or case-insensitive
+            string. If not provided, PROJ's internal default is used.
 
         """
         super().__init__(

@@ -205,9 +205,13 @@ cdef class _TransformerGroup:
                 PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
             )
             if crs_extent_use is not None:
-                # Accept enum-like strings similar to PROJ CLI: none|both|intersection|smallest
-                if isinstance(crs_extent_use, str):
-                    crs_extent_use_lower = crs_extent_use.lower()
+                # Accept CRSExtentUse enum or string matching CLI options
+                if hasattr(crs_extent_use, "value"):
+                    crs_extent_use_value = crs_extent_use.value
+                else:
+                    crs_extent_use_value = crs_extent_use
+                if isinstance(crs_extent_use_value, str):
+                    crs_extent_use_lower = crs_extent_use_value.lower()
                     if crs_extent_use_lower == "none":
                         _crs_extent_enum = PJ_CRS_EXTENT_NONE
                     elif crs_extent_use_lower == "both":
@@ -222,7 +226,7 @@ cdef class _TransformerGroup:
                         )
                 else:
                     raise ProjError(
-                        "crs_extent_use must be a string (one of 'none', 'both', 'intersection', 'smallest')."
+                        "crs_extent_use must be CRSExtentUse enum or string (one of 'none', 'both', 'intersection', 'smallest')."
                     )
                 proj_operation_factory_context_set_crs_extent_use(
                     self.context,
