@@ -1584,6 +1584,21 @@ def test_transformer_group_allow_superseded_filter():
     assert len(superseded_group.transformers) > len(default_group.transformers)
 
 
+def test_transformer_group_crs_extent_use_none():
+    group_default = TransformerGroup(4230, 32632)
+    group_no_extent = TransformerGroup(4230, 32632, crs_extent_use="none")
+    # lengths may differ depending on PROJ heuristic, but group_no_extent should
+    # be longer than group_default
+    assert len(group_default.transformers) >= 1
+    assert len(group_no_extent.transformers) >= 1
+    assert len(group_no_extent.transformers) >= len(group_default.transformers)
+
+
+def test_transformer_group_crs_extent_use_invalid():
+    with pytest.raises(ProjError):
+        TransformerGroup(4326, 3857, crs_extent_use="invalid-option")
+
+
 def test_transformer_group_authority_filter():
     group = TransformerGroup("EPSG:4326", "EPSG:4258", authority="PROJ")
     assert len(group.transformers) == 1

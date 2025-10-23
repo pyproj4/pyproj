@@ -480,6 +480,11 @@ cdef extern from "proj.h" nogil:
         PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
         PROJ_SPATIAL_CRITERION criterion
     )
+    void proj_operation_factory_context_set_crs_extent_use(
+        PJ_CONTEXT *ctx,
+        PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
+        PROJ_CRS_EXTENT_USE use
+    )
     void proj_operation_factory_context_set_area_of_interest(
         PJ_CONTEXT *ctx,
         PJ_OPERATION_FACTORY_CONTEXT *factory_ctx,
@@ -512,6 +517,12 @@ cdef extern from "proj.h" nogil:
         PROJ_GRID_AVAILABILITY_DISCARD_OPERATION_IF_MISSING_GRID
         PROJ_GRID_AVAILABILITY_IGNORED
         PROJ_GRID_AVAILABILITY_KNOWN_AVAILABLE
+
+    ctypedef enum PROJ_CRS_EXTENT_USE:
+        PJ_CRS_EXTENT_NONE
+        PJ_CRS_EXTENT_BOTH
+        PJ_CRS_EXTENT_INTERSECTION
+        PJ_CRS_EXTENT_SMALLEST
 
     ctypedef struct PJ_FACTORS:
         double meridional_scale

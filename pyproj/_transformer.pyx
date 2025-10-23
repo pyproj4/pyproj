@@ -126,6 +126,7 @@ cdef class _TransformerGroup:
         str authority,
         double accuracy,
         bint allow_superseded,
+        crs_extent_use=None,
     ):
         """
         From PROJ docs:
@@ -203,6 +204,31 @@ cdef class _TransformerGroup:
                 operation_factory_context,
                 PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
             )
+            if crs_extent_use is not None:
+                # Accept enum-like strings similar to PROJ CLI: none|both|intersection|smallest
+                if isinstance(crs_extent_use, str):
+                    crs_extent_use_lower = crs_extent_use.lower()
+                    if crs_extent_use_lower == "none":
+                        _crs_extent_enum = PJ_CRS_EXTENT_NONE
+                    elif crs_extent_use_lower == "both":
+                        _crs_extent_enum = PJ_CRS_EXTENT_BOTH
+                    elif crs_extent_use_lower == "intersection":
+                        _crs_extent_enum = PJ_CRS_EXTENT_INTERSECTION
+                    elif crs_extent_use_lower == "smallest":
+                        _crs_extent_enum = PJ_CRS_EXTENT_SMALLEST
+                    else:
+                        raise ProjError(
+                            "Invalid crs_extent_use value. Expected one of 'none', 'both', 'intersection', 'smallest'."
+                        )
+                else:
+                    raise ProjError(
+                        "crs_extent_use must be a string (one of 'none', 'both', 'intersection', 'smallest')."
+                    )
+                proj_operation_factory_context_set_crs_extent_use(
+                    self.context,
+                    operation_factory_context,
+                    _crs_extent_enum,
+                )
             pj_operations = proj_create_operations(
                 self.context,
                 crs_from.projobj,

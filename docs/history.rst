@@ -6,6 +6,7 @@ Latest
 - WHL: Wheels contain PROJ 9.7.0 (pull #1529)
 - WHL: Remove MacOS 13 (X86_64) wheels (issue #1532)
 - ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
+- ENH: Added crs_extent_use kwarg to :class:`pyproj.transformer.TransformerGroup` aligning with PROJ CLI --crs-extent-use
 
 3.7.2
 -----

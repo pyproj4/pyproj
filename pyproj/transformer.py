@@ -17,7 +17,7 @@ from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from itertools import chain, islice
 from pathlib import Path
-from typing import Any, overload
+from typing import Any, Literal, overload
 
 from pyproj import CRS
 from pyproj._compat import cstrencode
@@ -163,12 +163,15 @@ class TransformerGroup(_TransformerGroup):
         accuracy: float | None = None,
         allow_ballpark: bool = True,
         allow_superseded: bool = False,
+        crs_extent_use: Literal["none", "both", "intersection", "smallest"]
+        | None = None,
     ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
 
         .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.6.0 allow_superseded
+        .. versionadded:: 3.7.3 crs_extent_use
 
         Parameters
         ----------
@@ -202,6 +205,10 @@ class TransformerGroup(_TransformerGroup):
             Set to True to allow the use of superseded (but not deprecated)
             transformations in the candidate coordinate operations. Default is
             to disallow.
+        crs_extent_use: {"none", "both", "intersection", "smallest"}, optional
+            Corresponds to the PROJ CLI --crs-extent-use flag controlling how
+            CRS areas of use are employed to filter candidate operations.
+            If not provided, PROJ's internal default is used.
 
         """
         super().__init__(
@@ -213,6 +220,7 @@ class TransformerGroup(_TransformerGroup):
             accuracy=-1 if accuracy is None else accuracy,
             allow_ballpark=allow_ballpark,
             allow_superseded=allow_superseded,
+            crs_extent_use=crs_extent_use,
         )
         for iii, transformer in enumerate(self._transformers):
             # pylint: disable=unsupported-assignment-operation
