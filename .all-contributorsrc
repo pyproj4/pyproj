@@ -691,6 +691,15 @@
       "contributions": [
         "platform"
       ]
+    },
+    {
+      "login": "myl-dvl",
+      "name": "Mayeul DUVAL",
+      "avatar_url": "https://avatars.githubusercontent.com/u/208445693?v=4",
+      "profile": "https://github.com/myl-dvl",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
