@@ -719,6 +719,15 @@
       "contributions": [
         "platform"
       ]
+    },
+    {
+      "login": "dgburr",
+      "name": "𝖉𝖆𝖓𝖎𝖊𝖑 𝖇𝖚𝖗𝖗",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6092328?v=4",
+      "profile": "https://github.com/dgburr",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7
