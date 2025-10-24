@@ -5,7 +5,7 @@
 Python interface to [PROJ](http://proj.org) (cartographic projections and coordinate transformations library).
 
 <p align="center">
-<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-68-orange.svg?style=flat-square"></a>
+<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-69-orange.svg?style=flat-square"></a>
 <a href="https://github.com/pyproj4/pyproj/actions?query=workflow%3ATests"><img alt="GitHub Actions Build Status" src="https://github.com/pyproj4/pyproj/workflows/Tests/badge.svg"></a>
 <a href="https://codecov.io/gh/pyproj4/pyproj"><img alt="Codecov Status" src="https://codecov.io/gh/pyproj4/pyproj/branch/main/graph/badge.svg"></a>
 <a href="https://badge.fury.io/py/pyproj"><img alt="PyPI" src="https://badge.fury.io/py/pyproj.svg"></a>
@@ -123,6 +123,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/necabo"><img src="https://avatars.githubusercontent.com/u/23185845?v=4?s=100" width="100px;" alt="necabo"/><br /><sub><b>necabo</b></sub></a><br /><a href="#platform-necabo" title="Packaging/porting to new platform">📦</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/myl-dvl"><img src="https://avatars.githubusercontent.com/u/208445693?v=4?s=100" width="100px;" alt="Mayeul DUVAL"/><br /><sub><b>Mayeul DUVAL</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=myl-dvl" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/adamjstewart"><img src="https://avatars.githubusercontent.com/u/12021217?v=4?s=100" width="100px;" alt="Adam J. Stewart"/><br /><sub><b>Adam J. Stewart</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=adamjstewart" title="Code">💻</a> <a href="https://github.com/pyproj4/pyproj/commits?author=adamjstewart" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://khmyznikov.com/"><img src="https://avatars.githubusercontent.com/u/6115884?v=4?s=100" width="100px;" alt="Gleb Khmyznikov"/><br /><sub><b>Gleb Khmyznikov</b></sub></a><br /><a href="#platform-khmyznikov" title="Packaging/porting to new platform">📦</a></td>
     </tr>
   </tbody>
 </table>

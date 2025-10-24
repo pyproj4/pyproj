@@ -710,6 +710,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "khmyznikov",
+      "name": "Gleb Khmyznikov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6115884?v=4",
+      "profile": "https://khmyznikov.com/",
+      "contributions": [
+        "platform"
+      ]
     }
   ],
   "contributorsPerLine": 7
