@@ -22,7 +22,7 @@ from pyproj._crs cimport (
 
 from pyproj._context import _LOGGER, get_context_manager
 from pyproj.aoi import AreaOfInterest
-from pyproj.enums import ProjVersion, TransformDirection, WktVersion
+from pyproj.enums import ProjVersion, TransformDirection, WktVersion, CRSExtentUse
 from pyproj.exceptions import ProjError
 
 _AUTH_CODE_RE = re.compile(r"(?P<authority>\w+)\:(?P<code>\w+)")
@@ -205,29 +205,24 @@ cdef class _TransformerGroup:
                 PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
             )
             if crs_extent_use is not None:
-                # Accept CRSExtentUse enum or string matching CLI options
-                if hasattr(crs_extent_use, "value"):
-                    crs_extent_use_value = crs_extent_use.value
-                else:
-                    crs_extent_use_value = crs_extent_use
-                if isinstance(crs_extent_use_value, str):
-                    crs_extent_use_lower = crs_extent_use_value.lower()
-                    if crs_extent_use_lower == "none":
-                        _crs_extent_enum = PJ_CRS_EXTENT_NONE
-                    elif crs_extent_use_lower == "both":
-                        _crs_extent_enum = PJ_CRS_EXTENT_BOTH
-                    elif crs_extent_use_lower == "intersection":
-                        _crs_extent_enum = PJ_CRS_EXTENT_INTERSECTION
-                    elif crs_extent_use_lower == "smallest":
-                        _crs_extent_enum = PJ_CRS_EXTENT_SMALLEST
+                try:
+                    # Normalize to enum instance (case-insensitive if str)
+                    if isinstance(crs_extent_use, CRSExtentUse):
+                        enum_val = crs_extent_use
                     else:
-                        raise ProjError(
-                            "Invalid crs_extent_use value. Expected one of 'none', 'both', 'intersection', 'smallest'."
-                        )
-                else:
+                        enum_val = CRSExtentUse.create(crs_extent_use)
+                except Exception:
                     raise ProjError(
-                        "crs_extent_use must be CRSExtentUse enum or string (one of 'none', 'both', 'intersection', 'smallest')."
+                        "Invalid crs_extent_use value. Expected CRSExtentUse member or one of 'none','both','intersection','smallest'."
                     )
+                if enum_val is CRSExtentUse.NONE:
+                    _crs_extent_enum = PJ_CRS_EXTENT_NONE
+                elif enum_val is CRSExtentUse.BOTH:
+                    _crs_extent_enum = PJ_CRS_EXTENT_BOTH
+                elif enum_val is CRSExtentUse.INTERSECTION:
+                    _crs_extent_enum = PJ_CRS_EXTENT_INTERSECTION
+                elif enum_val is CRSExtentUse.SMALLEST:
+                    _crs_extent_enum = PJ_CRS_EXTENT_SMALLEST
                 proj_operation_factory_context_set_crs_extent_use(
                     self.context,
                     operation_factory_context,
