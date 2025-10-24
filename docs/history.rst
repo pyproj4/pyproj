@@ -8,6 +8,7 @@ Latest
 - ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
 - ENH: Added crs_extent_use kwarg to :class:`pyproj.transformer.TransformerGroup` aligning with PROJ CLI --crs-extent-use
 - ENH: Added :class:`pyproj.enums.CRSExtentUse` enum for TransformerGroup ``crs_extent_use`` kwarg
+- BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 
 3.7.2
 -----
