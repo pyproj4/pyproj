@@ -4,7 +4,7 @@ Change Log
 Latest
 ------
 - WHL: Wheels contain PROJ 9.7.0 (pull #1529)
-- WHL: Remove MacOS 13 (X86_64) wheels (issue #1532)
+- WHL: Upgrade from Macos13 to MacOS 15 (X86_64) wheels (issue #1532 & #1543)
 - ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 
