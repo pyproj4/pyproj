@@ -179,6 +179,7 @@ cdef class ContextManager:
         if self.context != NULL:
             PyThread_tss_set(&CONTEXT_THREAD_KEY, NULL)
             proj_context_destroy(self.context)
+            self.context = NULL
 
     @staticmethod
     cdef create(PJ_CONTEXT* context):
