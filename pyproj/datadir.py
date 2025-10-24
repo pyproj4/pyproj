@@ -14,8 +14,8 @@ from pyproj._context import (  # noqa: F401  pylint: disable=unused-import
 )
 from pyproj.exceptions import DataDirError
 
-_USER_PROJ_DATA = None
-_VALIDATED_PROJ_DATA = None
+_USER_PROJ_DATA = None  # pylint: disable=invalid-name
+_VALIDATED_PROJ_DATA = None  # pylint: disable=invalid-name
 
 
 def set_data_dir(proj_data_dir: str | Path) -> None:
