@@ -234,7 +234,7 @@ def _oblique_mercator(cf_params):
         latitude_projection_centre=cf_params["latitude_of_projection_origin"],
         longitude_projection_centre=cf_params["longitude_of_projection_origin"],
         azimuth_projection_centre=cf_params["azimuth_of_central_line"],
-        angle_from_rectified_to_skew_grid=0.0,
+        angle_from_rectified_to_skew_grid=90.0,
         scale_factor_projection_centre=cf_params.get(
             "scale_factor_at_projection_origin", 1.0
         ),
@@ -511,7 +511,7 @@ def _oblique_mercator__to_cf(conversion):
     http://cfconventions.org/cf-conventions/cf-conventions.html#_oblique_mercator
     """
     params = _to_dict(conversion)
-    if params["angle_from_rectified_to_skew_grid"] != 0:
+    if params["angle_from_rectified_to_skew_grid"] != 90:
         warnings.warn(
             "angle from rectified to skew grid parameter lost in conversion to CF"
         )
