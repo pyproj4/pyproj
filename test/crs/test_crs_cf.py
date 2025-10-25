@@ -697,7 +697,7 @@ def test_oblique_mercator():
             "lat_0": 10,
             "lonc": 15,
             "alpha": 0.35,
-            "gamma": 0,
+            "gamma": 90,
             "k": 1,
             "x_0": 0,
             "y_0": 0,
