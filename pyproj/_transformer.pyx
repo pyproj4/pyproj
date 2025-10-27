@@ -208,7 +208,7 @@ cdef class _TransformerGroup:
                if not isinstance(crs_extent_use, CRSExtentUse):
                     crs_extent_use = CRSExtentUse.create(crs_extent_use)
                 if crs_extent_use is CRSExtentUse.NONE:
-                    _crs_extent_enum = PJ_CRS_EXTENT_NONE
+                    pj_crs_extent_use = PJ_CRS_EXTENT_NONE
                 elif enum_val is CRSExtentUse.BOTH:
                     _crs_extent_enum = PJ_CRS_EXTENT_BOTH
                 elif enum_val is CRSExtentUse.INTERSECTION:
