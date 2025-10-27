@@ -205,16 +205,8 @@ cdef class _TransformerGroup:
                 PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
             )
             if crs_extent_use is not None:
-                try:
-                    # Normalize to enum instance (case-insensitive if str)
-                    if isinstance(crs_extent_use, CRSExtentUse):
-                        enum_val = crs_extent_use
-                    else:
-                        enum_val = CRSExtentUse.create(crs_extent_use)
-                except Exception:
-                    raise ProjError(
-                        "Invalid crs_extent_use value. Expected CRSExtentUse member or one of 'none','both','intersection','smallest'."
-                    )
+               if not isinstance(crs_extent_use, CRSExtentUse):
+                    crs_extent_use = CRSExtentUse.create(crs_extent_use)
                 if enum_val is CRSExtentUse.NONE:
                     _crs_extent_enum = PJ_CRS_EXTENT_NONE
                 elif enum_val is CRSExtentUse.BOTH:
