@@ -211,14 +211,14 @@ cdef class _TransformerGroup:
                     pj_crs_extent_use = PJ_CRS_EXTENT_NONE
                 elif crs_extent_use is CRSExtentUse.BOTH:
                     pj_crs_extent_use = PJ_CRS_EXTENT_BOTH
-                elif enum_val is CRSExtentUse.INTERSECTION:
-                    _crs_extent_enum = PJ_CRS_EXTENT_INTERSECTION
-                elif enum_val is CRSExtentUse.SMALLEST:
-                    _crs_extent_enum = PJ_CRS_EXTENT_SMALLEST
+                elif crs_extent_use is CRSExtentUse.INTERSECTION:
+                    pj_crs_extent_use = PJ_CRS_EXTENT_INTERSECTION
+                elif crs_extent_use is CRSExtentUse.SMALLEST:
+                    pj_crs_extent_use = PJ_CRS_EXTENT_SMALLEST
                 proj_operation_factory_context_set_crs_extent_use(
                     self.context,
                     operation_factory_context,
-                    _crs_extent_enum,
+                    pj_crs_extent_use,
                 )
             pj_operations = proj_create_operations(
                 self.context,

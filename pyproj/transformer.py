@@ -170,7 +170,7 @@ class TransformerGroup(_TransformerGroup):
 
         .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.6.0 allow_superseded
-        .. versionadded:: 3.7.3 crs_extent_use
+        .. versionadded:: 3.8.0 crs_extent_use
 
         Parameters
         ----------
@@ -204,7 +204,7 @@ class TransformerGroup(_TransformerGroup):
             Set to True to allow the use of superseded (but not deprecated)
             transformations in the candidate coordinate operations. Default is
             to disallow.
-        crs_extent_use: CRSExtentUse or {"none", "both", "intersection", "smallest"}, optional
+        crs_extent_use: pyproj.enums.CRSExtentUse | Literal["none", "both", "intersection", "smallest"], optional
             Corresponds to the PROJ CLI ``--crs-extent-use`` flag controlling how
             CRS areas of use are employed to filter candidate operations. May be
             provided as a :class:`pyproj.enums.CRSExtentUse` enum member or case-insensitive

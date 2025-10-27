@@ -175,7 +175,9 @@ class GeodIntermediateFlag(IntFlag):
 
 class CRSExtentUse(BaseEnum):
     """
-    .. versionadded:: 3.7.3
+    .. versionadded:: 3.8.0
+    
+     See: :c:enum:`PROJ_CRS_EXTENT_USE`
 
     Controls how CRS extents are used when building candidate coordinate
     operations in :class:`pyproj.transformer.TransformerGroup`.
