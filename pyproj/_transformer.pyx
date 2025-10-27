@@ -210,7 +210,7 @@ cdef class _TransformerGroup:
                 if crs_extent_use is CRSExtentUse.NONE:
                     pj_crs_extent_use = PJ_CRS_EXTENT_NONE
                 elif enum_val is CRSExtentUse.BOTH:
-                    _crs_extent_enum = PJ_CRS_EXTENT_BOTH
+                    pj_crs_extent_use = PJ_CRS_EXTENT_BOTH
                 elif enum_val is CRSExtentUse.INTERSECTION:
                     _crs_extent_enum = PJ_CRS_EXTENT_INTERSECTION
                 elif enum_val is CRSExtentUse.SMALLEST:
