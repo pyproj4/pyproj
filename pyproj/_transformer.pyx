@@ -143,6 +143,7 @@ cdef class _TransformerGroup:
             PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
             PJ_OBJ_LIST * pj_operations = NULL
             PJ* pj_transform = NULL
+            PROJ_CRS_EXTENT_USE pj_crs_extent_use
             const char* c_authority = NULL
             int num_operations = 0
             int is_instantiable = 0
