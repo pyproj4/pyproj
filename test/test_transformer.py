@@ -15,10 +15,9 @@ from numpy.testing import assert_almost_equal, assert_array_equal
 import pyproj
 from pyproj import CRS, Proj, Transformer, itransform, transform
 from pyproj.datadir import append_data_dir
-from pyproj.enums import TransformDirection
+from pyproj.enums import CRSExtentUse, TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from pyproj.enums import CRSExtentUse
 from test.conftest import grids_available, proj_env, proj_network_env
 
 
@@ -1601,12 +1600,16 @@ def test_transformer_group_crs_extent_use_invalid():
 
 
 def test_transformer_group_crs_extent_use_intersection_enum():
-    group_intersection = TransformerGroup(4230, 32632, crs_extent_use=CRSExtentUse.INTERSECTION)
+    group_intersection = TransformerGroup(
+        4230, 32632, crs_extent_use=CRSExtentUse.INTERSECTION
+    )
     assert len(group_intersection.transformers) >= 1
+
 
 def test_transformer_group_crs_extent_use_smallest_enum():
     group_smallest = TransformerGroup(4230, 32632, crs_extent_use=CRSExtentUse.SMALLEST)
     assert len(group_smallest.transformers) >= 1
+
 
 def test_transformer_group_crs_extent_use_both_enum():
     group_both = TransformerGroup(4230, 32632, crs_extent_use=CRSExtentUse.BOTH)
