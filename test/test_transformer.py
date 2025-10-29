@@ -1595,7 +1595,8 @@ def test_transformer_group_crs_extent_use_none():
 
 
 def test_transformer_group_crs_extent_use_invalid():
-    with pytest.raises(ProjError):
+    # invalid crs_extent_use should raise a ValueError via BaseEnum.create
+    with pytest.raises(ValueError):
         TransformerGroup(4326, 3857, crs_extent_use="invalid-option")
 
 
