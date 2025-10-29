@@ -206,7 +206,7 @@ cdef class _TransformerGroup:
                 PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
             )
             if crs_extent_use is not None:
-               if not isinstance(crs_extent_use, CRSExtentUse):
+                if not isinstance(crs_extent_use, CRSExtentUse):
                     crs_extent_use = CRSExtentUse.create(crs_extent_use)
                 if crs_extent_use is CRSExtentUse.NONE:
                     pj_crs_extent_use = PJ_CRS_EXTENT_NONE
