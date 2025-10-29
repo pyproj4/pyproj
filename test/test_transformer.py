@@ -15,7 +15,7 @@ from numpy.testing import assert_almost_equal, assert_array_equal
 import pyproj
 from pyproj import CRS, Proj, Transformer, itransform, transform
 from pyproj.datadir import append_data_dir
-from pyproj.enums import TransformDirection
+from pyproj.enums import CRSExtentUse, TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import grids_available, proj_env, proj_network_env
@@ -1582,6 +1582,39 @@ def test_transformer_group_allow_superseded_filter():
     default_group = TransformerGroup(4203, 4326)
     superseded_group = TransformerGroup(4203, 4326, allow_superseded=True)
     assert len(superseded_group.transformers) > len(default_group.transformers)
+
+
+def test_transformer_group_crs_extent_use_none():
+    group_default = TransformerGroup(4230, 32632)
+    group_no_extent = TransformerGroup(4230, 32632, crs_extent_use=CRSExtentUse.NONE)
+    # lengths may differ depending on PROJ heuristic, but group_no_extent should
+    # be longer than group_default
+    assert len(group_default.transformers) >= 1
+    assert len(group_no_extent.transformers) >= 1
+    assert len(group_no_extent.transformers) >= len(group_default.transformers)
+
+
+def test_transformer_group_crs_extent_use_invalid():
+    # invalid crs_extent_use should raise a ValueError via BaseEnum.create
+    with pytest.raises(ValueError):
+        TransformerGroup(4326, 3857, crs_extent_use="invalid-option")
+
+
+def test_transformer_group_crs_extent_use_intersection_enum():
+    group_intersection = TransformerGroup(
+        4230, 32632, crs_extent_use=CRSExtentUse.INTERSECTION
+    )
+    assert len(group_intersection.transformers) >= 1
+
+
+def test_transformer_group_crs_extent_use_smallest_enum():
+    group_smallest = TransformerGroup(4230, 32632, crs_extent_use=CRSExtentUse.SMALLEST)
+    assert len(group_smallest.transformers) >= 1
+
+
+def test_transformer_group_crs_extent_use_both_enum():
+    group_both = TransformerGroup(4230, 32632, crs_extent_use=CRSExtentUse.BOTH)
+    assert len(group_both.transformers) >= 1
 
 
 def test_transformer_group_authority_filter():

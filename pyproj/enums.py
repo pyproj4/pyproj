@@ -171,3 +171,32 @@ class GeodIntermediateFlag(IntFlag):
 
     AZIS_DISCARD = 0x000
     AZIS_KEEP = 0x100
+
+
+class CRSExtentUse(BaseEnum):
+    """
+    .. versionadded:: 3.8.0
+
+     See: :c:enum:`PROJ_CRS_EXTENT_USE`
+
+    Controls how CRS extents are used when building candidate coordinate
+    operations in :class:`pyproj.transformer.TransformerGroup`.
+
+    Mirrors the PROJ CLI option ``--crs-extent-use``.
+
+    Values
+    ------
+    NONE
+        Ignore CRS areas of use.
+    BOTH
+        Require both source & target CRS extents to intersect operation area.
+    INTERSECTION
+        Use intersection of source & target CRS extents.
+    SMALLEST
+        Use the smallest of source or target CRS extent.
+    """
+
+    NONE = "NONE"
+    BOTH = "BOTH"
+    INTERSECTION = "INTERSECTION"
+    SMALLEST = "SMALLEST"

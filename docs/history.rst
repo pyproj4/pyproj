@@ -6,6 +6,8 @@ Latest
 - WHL: Wheels contain PROJ 9.7.0 (pull #1529)
 - WHL: Upgrade from MacOS 13 to MacOS 15 (X86_64) wheels (issue #1532 & #1543)
 - ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
+- ENH: Added crs_extent_use kwarg to :class:`pyproj.transformer.TransformerGroup` aligning with PROJ CLI --crs-extent-use
+- ENH: Added :class:`pyproj.enums.CRSExtentUse` enum for TransformerGroup ``crs_extent_use`` kwarg
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
 

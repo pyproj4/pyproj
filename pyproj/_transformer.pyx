@@ -22,7 +22,7 @@ from pyproj._crs cimport (
 
 from pyproj._context import _LOGGER, get_context_manager
 from pyproj.aoi import AreaOfInterest
-from pyproj.enums import ProjVersion, TransformDirection, WktVersion
+from pyproj.enums import ProjVersion, TransformDirection, WktVersion, CRSExtentUse
 from pyproj.exceptions import ProjError
 
 _AUTH_CODE_RE = re.compile(r"(?P<authority>\w+)\:(?P<code>\w+)")
@@ -126,6 +126,7 @@ cdef class _TransformerGroup:
         str authority,
         double accuracy,
         bint allow_superseded,
+        crs_extent_use=None,
     ):
         """
         From PROJ docs:
@@ -142,6 +143,7 @@ cdef class _TransformerGroup:
             PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
             PJ_OBJ_LIST * pj_operations = NULL
             PJ* pj_transform = NULL
+            PROJ_CRS_EXTENT_USE pj_crs_extent_use
             const char* c_authority = NULL
             int num_operations = 0
             int is_instantiable = 0
@@ -203,6 +205,22 @@ cdef class _TransformerGroup:
                 operation_factory_context,
                 PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION
             )
+            if crs_extent_use is not None:
+                if not isinstance(crs_extent_use, CRSExtentUse):
+                    crs_extent_use = CRSExtentUse.create(crs_extent_use)
+                if crs_extent_use is CRSExtentUse.NONE:
+                    pj_crs_extent_use = PJ_CRS_EXTENT_NONE
+                elif crs_extent_use is CRSExtentUse.BOTH:
+                    pj_crs_extent_use = PJ_CRS_EXTENT_BOTH
+                elif crs_extent_use is CRSExtentUse.INTERSECTION:
+                    pj_crs_extent_use = PJ_CRS_EXTENT_INTERSECTION
+                elif crs_extent_use is CRSExtentUse.SMALLEST:
+                    pj_crs_extent_use = PJ_CRS_EXTENT_SMALLEST
+                proj_operation_factory_context_set_crs_extent_use(
+                    self.context,
+                    operation_factory_context,
+                    pj_crs_extent_use,
+                )
             pj_operations = proj_create_operations(
                 self.context,
                 crs_from.projobj,
