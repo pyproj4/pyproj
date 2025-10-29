@@ -452,6 +452,35 @@
     <span class="n">AZIS_DISCARD</span> <span class="o">=</span> <span class="mh">0x000</span>
     <span class="n">AZIS_KEEP</span> <span class="o">=</span> <span class="mh">0x100</span></div>
 
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CRSExtentUse</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 3.8.0</span>
+
+<span class="sd">     See: :c:enum:`PROJ_CRS_EXTENT_USE`</span>
+
+<span class="sd">    Controls how CRS extents are used when building candidate coordinate</span>
+<span class="sd">    operations in :class:`pyproj.transformer.TransformerGroup`.</span>
+
+<span class="sd">    Mirrors the PROJ CLI option ``--crs-extent-use``.</span>
+
+<span class="sd">    Values</span>
+<span class="sd">    ------</span>
+<span class="sd">    NONE</span>
+<span class="sd">        Ignore CRS areas of use.</span>
+<span class="sd">    BOTH</span>
+<span class="sd">        Require both source &amp; target CRS extents to intersect operation area.</span>
+<span class="sd">    INTERSECTION</span>
+<span class="sd">        Use intersection of source &amp; target CRS extents.</span>
+<span class="sd">    SMALLEST</span>
+<span class="sd">        Use the smallest of source or target CRS extent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">NONE</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
+    <span class="n">BOTH</span> <span class="o">=</span> <span class="s2">&quot;BOTH&quot;</span>
+    <span class="n">INTERSECTION</span> <span class="o">=</span> <span class="s2">&quot;INTERSECTION&quot;</span>
+    <span class="n">SMALLEST</span> <span class="o">=</span> <span class="s2">&quot;SMALLEST&quot;</span>
 </pre></div>
         </article>
       </div>
