@@ -20,7 +20,7 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
             python-version: '3.11'
@@ -50,7 +50,7 @@ jobs:
           - python-version: '3.11'
             proj-version: '9.4.1'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Update
         run: |
@@ -116,7 +116,7 @@ jobs:
           #   python-implementation: pypy
           #   proj-version: '*'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Setup Conda
         uses: mamba-org/setup-micromamba@v2
