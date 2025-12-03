@@ -3,7 +3,13 @@ from array import array
 from typing import Any, NamedTuple
 
 from pyproj._crs import _CRS, AreaOfUse, Base, CoordinateOperation
-from pyproj.enums import CRSExtentUse, ProjVersion, TransformDirection
+from pyproj.enums import (
+    CRSExtentUse,
+    GridAvailabilityUse,
+    IntermediateCRSUse,
+    ProjVersion,
+    TransformDirection,
+)
 
 class AreaOfInterest(NamedTuple):
     west_lon_degree: float
@@ -40,6 +46,9 @@ class _TransformerGroup:
         allow_ballpark: bool,
         allow_superseded: bool,
         crs_extent_use: CRSExtentUse | str | None = None,
+        pivot_crs_use: IntermediateCRSUse | str | None = None,
+        pivot_crs_list: tuple[str, ...] | None = None,
+        grid_check: GridAvailabilityUse | str | None = None,
     ) -> None: ...
 
 class _Transformer(Base):
