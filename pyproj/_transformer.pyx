@@ -239,13 +239,30 @@ cdef class _TransformerGroup:
                     pj_transform,
                 )
                 if is_instantiable:
-                    self._transformers.append(
-                        _Transformer._from_pj(
+                    try:
+                        self._transformers.append(
+                            _Transformer._from_pj(
+                                self.context,
+                                pj_transform,
+                                always_xy,
+                            )
+                        )
+                    except ProjError:
+                        # Transformation could not be normalized for visualization
+                        # (always_xy=True). The _Transformer._set_always_xy method
+                        # sets projobj to NULL before raising, so the original
+                        # pj_transform pointer is still valid and can be used.
+                        coordinate_operation = CoordinateOperation.create(
                             self.context,
                             pj_transform,
-                            always_xy,
                         )
-                    )
+                        self._unavailable_operations.append(coordinate_operation)
+                        if iii == 0:
+                            self._best_available = False
+                            warnings.warn(
+                                "Best transformation is not available due to it "
+                                "not being possible to normalize for visualization."
+                            )
                 else:
                     coordinate_operation = CoordinateOperation.create(
                         self.context,
@@ -641,6 +658,14 @@ cdef class _Transformer(Base):
             self.context,
             self.projobj,
         )
+        if always_xy_pj == NULL:
+            # Set projobj to NULL so the destructor doesn't destroy it.
+            # This allows the caller to still use the original pointer.
+            self.projobj = NULL
+            raise ProjError(
+                "Could not normalize transformation for visualization. "
+                "The transformation may not support the always_xy option."
+            )
         proj_destroy(self.projobj)
         self.projobj = always_xy_pj
 

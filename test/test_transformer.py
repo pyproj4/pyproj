@@ -1584,6 +1584,13 @@ def test_transformer_group_allow_superseded_filter():
     assert len(superseded_group.transformers) > len(default_group.transformers)
 
 
+def test_transformer_group_allow_superseded_always_xy():
+    """Test that TransformerGroup works with both allow_superseded and always_xy."""
+    # This combination used to fail with "Input is not a transformation" error
+    group = TransformerGroup(4230, 4326, allow_superseded=True, always_xy=True)
+    assert len(group.transformers) >= 1
+
+
 def test_transformer_group_crs_extent_use_none():
     group_default = TransformerGroup(4230, 32632)
     group_no_extent = TransformerGroup(4230, 32632, crs_extent_use=CRSExtentUse.NONE)
