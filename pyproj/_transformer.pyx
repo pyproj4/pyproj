@@ -248,9 +248,19 @@ cdef class _TransformerGroup:
                     pj_pivot_use,
                 )
             if pivot_crs_list:
+                # The C API expects alternating authority and code pairs:
+                # ["EPSG", "4326", "EPSG", "4258", NULL]
                 pivot_crs_bytes = []
                 for pivot_item in pivot_crs_list:
-                    pivot_crs_bytes.append(cstrencode(pivot_item))
+                    # Split "EPSG:4326" into ("EPSG", "4326")
+                    if ":" in pivot_item:
+                        auth, code = pivot_item.split(":", 1)
+                        pivot_crs_bytes.append(cstrencode(auth))
+                        pivot_crs_bytes.append(cstrencode(code))
+                    else:
+                        # If no authority, assume EPSG
+                        pivot_crs_bytes.append(cstrencode("EPSG"))
+                        pivot_crs_bytes.append(cstrencode(pivot_item))
                 pivot_len = len(pivot_crs_bytes)
                 c_pivot_list = <const char**>malloc(
                     (pivot_len + 1) * sizeof(const char*)

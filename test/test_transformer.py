@@ -1753,13 +1753,15 @@ def test_transformer_group_grid_check_discard_missing():
 
 
 def test_transformer_group_pivot_crs_filters_intermediate():
-    """Test that specifying a pivot CRS works with TransformerGroup.
+    """
+    Test that specifying a pivot CRS filters out operations
+    using other intermediates.
 
     OSGB36 (UK) to NTF (France): EPSG:4277 → EPSG:4275
-    This tests that pivot_crs parameter is properly passed through
-    and produces valid transformation results.
+    With pivot_crs='always', one operation uses ED50 as intermediate.
+    With pivot_crs='EPSG:4326', that ED50 operation should be filtered out.
     """
-    # With pivot_crs='always' - allows any intermediate CRS
+    # With pivot_crs='always' - allows any intermediate CRS (including ED50)
     tg_always = TransformerGroup(
         "EPSG:4277",
         "EPSG:4275",
@@ -1783,9 +1785,24 @@ def test_transformer_group_pivot_crs_filters_intermediate():
     assert len(tg_always.transformers) >= 1
     assert len(tg_wgs84.transformers) >= 1
 
-    # With discard_missing, no unavailable operations
-    assert len(tg_always.unavailable_operations) == 0
-    assert len(tg_wgs84.unavailable_operations) == 0
+    # The 'always' mode should include the ED50 operation
+    always_descs = {t.description for t in tg_always.transformers}
+    ed50_operation = "OSGB36 to ED50 (1) + Inverse of NTF to ED50 (1)"
+    assert ed50_operation in always_descs, (
+        f"Expected ED50 operation in 'always' mode, got: {always_descs}"
+    )
+
+    # The EPSG:4326 mode should NOT include the ED50 operation
+    wgs84_descs = {t.description for t in tg_wgs84.transformers}
+    assert ed50_operation not in wgs84_descs, (
+        "ED50 operation should be filtered out with pivot_crs='EPSG:4326'"
+    )
+
+    # WGS84 mode should have one fewer operation than 'always'
+    assert len(tg_wgs84.transformers) < len(tg_always.transformers), (
+        f"Expected fewer operations with specific pivot CRS: "
+        f"{len(tg_wgs84.transformers)} vs {len(tg_always.transformers)}"
+    )
 
 
 def test_transformer_group_grid_check_with_pivot_discard_missing():
