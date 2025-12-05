@@ -163,7 +163,12 @@ def _coerce_pivot_crs_entry(value: Any) -> str:
 def _normalize_pivot_crs_argument(
     pivot_crs: IntermediateCRSUse | str | CRS | Iterable[str | CRS] | None,
 ) -> tuple[IntermediateCRSUse | None, tuple[str, ...] | None]:
-    """Return (mode, list) tuple mirroring PROJ's ``--pivot-crs`` semantics."""
+    """Return (mode, list) tuple mirroring PROJ's ``--pivot-crs`` semantics.
+
+    When a CRS list is provided, the mode is set to ALWAYS to match
+    projinfo behavior where --pivot-crs EPSG:4326 implies always using
+    intermediate CRS transformations.
+    """
     if pivot_crs is None:
         return None, None
     if isinstance(pivot_crs, IntermediateCRSUse):
@@ -181,16 +186,19 @@ def _normalize_pivot_crs_argument(
                     "pivot_crs string must contain CRS codes or a keyword."
                 ) from err
             normalized = tuple(_coerce_pivot_crs_entry(entry) for entry in entries)
-            return None, normalized
+            # Set ALWAYS mode when a CRS list is provided (matches projinfo behavior)
+            return IntermediateCRSUse.ALWAYS, normalized
     if isinstance(pivot_crs, Iterable) and not isinstance(pivot_crs, (str, bytes)):
         normalized_list = tuple(_coerce_pivot_crs_entry(item) for item in pivot_crs)
         if not normalized_list:
             raise ProjError(
                 "pivot_crs iterable must include at least one CRS definition."
             )
-        return None, normalized_list
+        # Set ALWAYS mode when a CRS list is provided (matches projinfo behavior)
+        return IntermediateCRSUse.ALWAYS, normalized_list
     normalized_single = (_coerce_pivot_crs_entry(pivot_crs),)
-    return None, normalized_single
+    # Set ALWAYS mode when a CRS is provided (matches projinfo behavior)
+    return IntermediateCRSUse.ALWAYS, normalized_single
 
 
 class TransformerGroup(_TransformerGroup):
