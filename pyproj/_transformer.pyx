@@ -143,6 +143,7 @@ cdef class _TransformerGroup:
             PJ_OPERATION_FACTORY_CONTEXT* operation_factory_context = NULL
             PJ_OBJ_LIST * pj_operations = NULL
             PJ* pj_transform = NULL
+            PJ* pj_transform_normalized = NULL
             PROJ_CRS_EXTENT_USE pj_crs_extent_use
             const char* c_authority = NULL
             int num_operations = 0
@@ -239,30 +240,38 @@ cdef class _TransformerGroup:
                     pj_transform,
                 )
                 if is_instantiable:
-                    try:
-                        self._transformers.append(
-                            _Transformer._from_pj(
-                                self.context,
-                                pj_transform,
-                                always_xy,
-                            )
-                        )
-                    except ProjError:
-                        # Transformation could not be normalized for visualization
-                        # (always_xy=True). The _Transformer._set_always_xy method
-                        # sets projobj to NULL before raising, so the original
-                        # pj_transform pointer is still valid and can be used.
-                        coordinate_operation = CoordinateOperation.create(
+                    # Check if normalization for visualization is possible
+                    # before passing to _Transformer
+                    if always_xy:
+                        pj_transform_normalized = proj_normalize_for_visualization(
                             self.context,
                             pj_transform,
                         )
-                        self._unavailable_operations.append(coordinate_operation)
-                        if iii == 0:
-                            self._best_available = False
-                            warnings.warn(
-                                "Best transformation is not available due to it "
-                                "not being possible to normalize for visualization."
+                        if pj_transform_normalized == NULL:
+                            # Cannot normalize for visualization, add to unavailable
+                            coordinate_operation = CoordinateOperation.create(
+                                self.context,
+                                pj_transform,
                             )
+                            self._unavailable_operations.append(coordinate_operation)
+                            if iii == 0:
+                                self._best_available = False
+                                warnings.warn(
+                                    "Best transformation is not available due to it "
+                                    "not being possible to normalize for visualization."
+                                )
+                            continue
+                        # Destroy original and use normalized version
+                        proj_destroy(pj_transform)
+                        pj_transform = pj_transform_normalized
+
+                    self._transformers.append(
+                        _Transformer._from_pj(
+                            self.context,
+                            pj_transform,
+                            False,  # already normalized above if needed
+                        )
+                    )
                 else:
                     coordinate_operation = CoordinateOperation.create(
                         self.context,
@@ -659,9 +668,6 @@ cdef class _Transformer(Base):
             self.projobj,
         )
         if always_xy_pj == NULL:
-            # Set projobj to NULL so the destructor doesn't destroy it.
-            # This allows the caller to still use the original pointer.
-            self.projobj = NULL
             raise ProjError(
                 "Could not normalize transformation for visualization. "
                 "The transformation may not support the always_xy option."

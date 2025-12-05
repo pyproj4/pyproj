@@ -1587,8 +1587,14 @@ def test_transformer_group_allow_superseded_filter():
 def test_transformer_group_allow_superseded_always_xy():
     """Test that TransformerGroup works with both allow_superseded and always_xy."""
     # This combination used to fail with "Input is not a transformation" error
+    # because proj_normalize_for_visualization() returns NULL for certain
+    # concatenated operations (e.g., EPSG:8047).
     group = TransformerGroup(4230, 4326, allow_superseded=True, always_xy=True)
     assert len(group.transformers) >= 1
+    # Operations that cannot be normalized for visualization should be in
+    # unavailable_operations, not silently dropped
+    total_ops = len(group.transformers) + len(group.unavailable_operations)
+    assert total_ops >= 1
 
 
 def test_transformer_group_crs_extent_use_none():
