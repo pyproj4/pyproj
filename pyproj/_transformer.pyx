@@ -155,7 +155,7 @@ cdef class _TransformerGroup:
             PJ* pj_transform = NULL
             PJ* pj_transform_normalized = NULL
             PROJ_CRS_EXTENT_USE pj_crs_extent_use
-            PROJ_GRID_AVAILABILITY_USE pj_grid_availability
+            PROJ_GRID_AVAILABILITY_USE pj_grid_availability = PROJ_GRID_AVAILABILITY_IGNORED
             const char* c_authority = NULL
             PROJ_INTERMEDIATE_CRS_USE pj_pivot_use
             Py_ssize_t pivot_len = 0
