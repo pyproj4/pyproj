@@ -223,9 +223,6 @@ cdef class _TransformerGroup:
                     pj_grid_availability = PROJ_GRID_AVAILABILITY_IGNORED
                 elif grid_check is GridAvailabilityUse.KNOWN_AVAILABLE:
                     pj_grid_availability = PROJ_GRID_AVAILABILITY_KNOWN_AVAILABLE
-            else:
-                # Default: use IGNORED to maintain backward compatibility
-                pj_grid_availability = PROJ_GRID_AVAILABILITY_IGNORED
             proj_operation_factory_context_set_grid_availability_use(
                 self.context,
                 operation_factory_context,
