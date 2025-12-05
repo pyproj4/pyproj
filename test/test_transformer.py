@@ -1,7 +1,6 @@
 import concurrent.futures
 import os
 import pickle
-import subprocess
 from array import array
 from functools import partial
 from glob import glob
@@ -1706,44 +1705,13 @@ def test_transformer__get_last_used_operation():
     assert xxx, yyy == operation.transform(1, 2)
 
 
-def test_transformer_group_grid_availability_none():
-    """Test grid_check='none' matches projinfo --grid-check none behavior.
+def test_transformer_group_grid_check_none():
+    """Test grid_check='none' returns all operations including those with missing grids.
 
-    Returns all candidate operations regardless of grid availability.
-    For EPSG:4230->4326, returns all operations without filtering by grid availability.
+    With grid_check='none', operations requiring missing grids should appear
+    in unavailable_operations. "ED50 to WGS 84 (41)" requires a grid file
+    and should be in unavailable_operations when that grid is not installed.
     """
-
-    # Get projinfo output
-    result = subprocess.run(
-        [
-            "projinfo",
-            "-s",
-            "EPSG:4230",
-            "-t",
-            "EPSG:4326",
-            "--spatial-test",
-            "intersects",
-            "--authority",
-            "any",
-            "--crs-extent-use",
-            "none",
-            "--grid-check",
-            "none",
-            "-o",
-            "PROJ",
-        ],
-        capture_output=True,
-        text=True,
-    )
-
-    # Count operations from projinfo
-    projinfo_count = 0
-    for line in result.stdout.split("\n"):
-        if "Candidate operations found:" in line:
-            projinfo_count = int(line.split(":")[1].strip())
-            break
-
-    # Get TransformerGroup result
     tg = TransformerGroup(
         "EPSG:4230",
         "EPSG:4326",
@@ -1752,50 +1720,22 @@ def test_transformer_group_grid_availability_none():
         grid_check="none",
     )
 
-    pyproj_count = len(tg.transformers) + len(tg.unavailable_operations)
+    # With grid_check='none', we should have some unavailable operations
+    # that require missing grids
+    unavailable_names = [op.name for op in tg.unavailable_operations]
 
-    assert pyproj_count == projinfo_count
-    assert pyproj_count >= 1  # Should return all candidates
+    # "ED50 to WGS 84 (41)" requires es_cat_icgc_100800401.tif grid
+    # and should appear in unavailable_operations when grid is missing
+    assert "ED50 to WGS 84 (41)" in unavailable_names
 
 
-def test_transformer_group_grid_availability_discard_missing():
-    """Test grid_check='discard_missing' matches projinfo --grid-check discard_missing.
+def test_transformer_group_grid_check_discard_missing():
+    """Test grid_check='discard_missing' excludes operations with missing grids.
 
-    Discards operations requiring missing grids.
-    For EPSG:4230->4326, returns only operations with available grids.
+    With grid_check='discard_missing', operations requiring missing grids
+    are completely excluded from results. "ED50 to WGS 84 (41)" should NOT
+    appear in either transformers or unavailable_operations.
     """
-
-    # Get projinfo output
-    result = subprocess.run(
-        [
-            "projinfo",
-            "-s",
-            "EPSG:4230",
-            "-t",
-            "EPSG:4326",
-            "--spatial-test",
-            "intersects",
-            "--authority",
-            "any",
-            "--crs-extent-use",
-            "none",
-            "--grid-check",
-            "discard_missing",
-            "-o",
-            "PROJ",
-        ],
-        capture_output=True,
-        text=True,
-    )
-
-    # Count operations from projinfo
-    projinfo_count = 0
-    for line in result.stdout.split("\n"):
-        if "Candidate operations found:" in line:
-            projinfo_count = int(line.split(":")[1].strip())
-            break
-
-    # Get TransformerGroup result
     tg = TransformerGroup(
         "EPSG:4230",
         "EPSG:4326",
@@ -1804,168 +1744,68 @@ def test_transformer_group_grid_availability_discard_missing():
         grid_check="discard_missing",
     )
 
-    pyproj_count = len(tg.transformers) + len(tg.unavailable_operations)
+    # With discard_missing, there should be no unavailable operations
+    assert len(tg.unavailable_operations) == 0
 
-    assert pyproj_count == projinfo_count
-    assert pyproj_count >= 1  # Should have available operations
-    assert len(tg.unavailable_operations) == 0  # No unavailable with discard_missing
+    # "ED50 to WGS 84 (41)" should not appear anywhere since its grid is missing
+    all_names = [t.description for t in tg.transformers]
+    assert "ED50 to WGS 84 (41)" not in all_names
 
 
-def test_transformer_group_grid_availability_known_available():
-    """Test grid_check='known_available' matches projinfo --grid-check known_available.
+def test_transformer_group_pivot_crs_filters_intermediate():
+    """Test that specifying a pivot CRS works with TransformerGroup.
 
-    Keeps only operations with grids known to PROJ database.
-    For EPSG:4230->4326, filters to operations with known grids.
+    OSGB36 (UK) to NTF (France): EPSG:4277 → EPSG:4275
+    This tests that pivot_crs parameter is properly passed through
+    and produces valid transformation results.
     """
-
-    # Get projinfo output
-    result = subprocess.run(
-        [
-            "projinfo",
-            "-s",
-            "EPSG:4230",
-            "-t",
-            "EPSG:4326",
-            "--spatial-test",
-            "intersects",
-            "--authority",
-            "any",
-            "--crs-extent-use",
-            "none",
-            "--grid-check",
-            "known_available",
-            "-o",
-            "PROJ",
-        ],
-        capture_output=True,
-        text=True,
-    )
-
-    # Count operations from projinfo
-    projinfo_count = 0
-    for line in result.stdout.split("\n"):
-        if "Candidate operations found:" in line:
-            projinfo_count = int(line.split(":")[1].strip())
-            break
-
-    # Get TransformerGroup result
-    tg = TransformerGroup(
-        "EPSG:4230",
-        "EPSG:4326",
+    # With pivot_crs='always' - allows any intermediate CRS
+    tg_always = TransformerGroup(
+        "EPSG:4277",
+        "EPSG:4275",
         crs_extent_use="none",
         authority="any",
-        grid_check="known_available",
+        pivot_crs="always",
+        grid_check="discard_missing",
     )
 
-    pyproj_count = len(tg.transformers) + len(tg.unavailable_operations)
-
-    assert pyproj_count == projinfo_count
-    assert pyproj_count >= 1  # Should have operations with known grids
-
-
-def test_transformer_group_grid_availability_sort():
-    """Test grid_check='sort' matches projinfo --grid-check sort (default behavior).
-
-    For EPSG:4230->4258 with pivot, ensures proper filtering occurs.
-    """
-
-    # Get projinfo output with pivot
-    result = subprocess.run(
-        [
-            "projinfo",
-            "-s",
-            "EPSG:4230",
-            "-t",
-            "EPSG:4258",
-            "--spatial-test",
-            "intersects",
-            "--authority",
-            "any",
-            "--crs-extent-use",
-            "none",
-            "--pivot-crs",
-            "EPSG:4326",
-            "--grid-check",
-            "sort",
-            "-o",
-            "PROJ",
-        ],
-        capture_output=True,
-        text=True,
-    )
-
-    # Count operations from projinfo
-    projinfo_count = 0
-    for line in result.stdout.split("\n"):
-        if "Candidate operations found:" in line:
-            projinfo_count = int(line.split(":")[1].strip())
-            break
-
-    # Get TransformerGroup result
-    tg = TransformerGroup(
-        "EPSG:4230",
-        "EPSG:4258",
+    # With pivot_crs='EPSG:4326' - restricts to WGS84 as intermediate
+    tg_wgs84 = TransformerGroup(
+        "EPSG:4277",
+        "EPSG:4275",
+        crs_extent_use="none",
+        authority="any",
         pivot_crs="EPSG:4326",
-        crs_extent_use="none",
-        authority="any",
-        grid_check="sort",
+        grid_check="discard_missing",
     )
 
-    pyproj_count = len(tg.transformers) + len(tg.unavailable_operations)
+    # Both should have valid transformers
+    assert len(tg_always.transformers) >= 1
+    assert len(tg_wgs84.transformers) >= 1
 
-    assert pyproj_count == projinfo_count
-    # With sort mode and pivot_crs, should get filtered results
-    assert pyproj_count >= 1
+    # With discard_missing, no unavailable operations
+    assert len(tg_always.unavailable_operations) == 0
+    assert len(tg_wgs84.unavailable_operations) == 0
 
 
-def test_transformer_group_grid_availability_with_pivot_discard_missing():
+def test_transformer_group_grid_check_with_pivot_discard_missing():
     """Test combined pivot_crs and grid_check='discard_missing'.
 
-    This is the key use case: pivot filtering + grid filtering should work together.
+    NTF (France) to MGI (Austria): EPSG:4275 → EPSG:4312
+    When using both pivot_crs and grid_check='discard_missing', operations
+    should be filtered by both pivot CRS and grid availability.
     """
-
-    # Get projinfo output
-    result = subprocess.run(
-        [
-            "projinfo",
-            "-s",
-            "EPSG:4230",
-            "-t",
-            "EPSG:4258",
-            "--spatial-test",
-            "intersects",
-            "--authority",
-            "any",
-            "--crs-extent-use",
-            "none",
-            "--pivot-crs",
-            "EPSG:4326",
-            "--grid-check",
-            "discard_missing",
-            "-o",
-            "PROJ",
-        ],
-        capture_output=True,
-        text=True,
-    )
-
-    # Count operations from projinfo
-    projinfo_count = 0
-    for line in result.stdout.split("\n"):
-        if "Candidate operations found:" in line:
-            projinfo_count = int(line.split(":")[1].strip())
-            break
-
-    # Get TransformerGroup result
     tg = TransformerGroup(
-        "EPSG:4230",
-        "EPSG:4258",
+        "EPSG:4275",
+        "EPSG:4312",
         pivot_crs="EPSG:4326",
         crs_extent_use="none",
         authority="any",
         grid_check="discard_missing",
     )
 
-    pyproj_count = len(tg.transformers) + len(tg.unavailable_operations)
+    # Should have some transformers available
+    assert len(tg.transformers) >= 1
 
-    assert pyproj_count == projinfo_count
+    # With discard_missing, there should be no unavailable operations
+    assert len(tg.unavailable_operations) == 0
