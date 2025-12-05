@@ -1,7 +1,7 @@
 include "base.pxi"
 
 cimport cython
-from cpython.mem cimport PyMem_Free, PyMem_Malloc
+from libc.stdlib cimport free, malloc
 
 import copy
 import re
@@ -252,7 +252,7 @@ cdef class _TransformerGroup:
                 for pivot_item in pivot_crs_list:
                     pivot_crs_bytes.append(cstrencode(pivot_item))
                 pivot_len = len(pivot_crs_bytes)
-                c_pivot_list = <const char**>PyMem_Malloc(
+                c_pivot_list = <const char**>malloc(
                     (pivot_len + 1) * sizeof(const char*)
                 )
                 if c_pivot_list == NULL:
@@ -267,7 +267,7 @@ cdef class _TransformerGroup:
                         c_pivot_list,
                     )
                 finally:
-                    PyMem_Free(<void*>c_pivot_list)
+                    free(c_pivot_list)
             if crs_extent_use is not None:
                 if not isinstance(crs_extent_use, CRSExtentUse):
                     crs_extent_use = CRSExtentUse.create(crs_extent_use)
