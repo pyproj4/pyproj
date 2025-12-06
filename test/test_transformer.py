@@ -1722,11 +1722,12 @@ def test_transformer_group_grid_check_none():
 
     # With grid_check='none', we should have some unavailable operations
     # that require missing grids
-    unavailable_names = [op.name for op in tg.unavailable_operations]
+    if not grids_available():
+        unavailable_names = [op.name for op in tg.unavailable_operations]
 
-    # "ED50 to WGS 84 (41)" requires es_cat_icgc_100800401.tif grid
-    # and should appear in unavailable_operations when grid is missing
-    assert "ED50 to WGS 84 (41)" in unavailable_names
+        # "ED50 to WGS 84 (41)" requires es_cat_icgc_100800401.tif grid
+        # and should appear in unavailable_operations when grid is missing
+        assert "ED50 to WGS 84 (41)" in unavailable_names
 
 
 def test_transformer_group_grid_check_discard_missing():
@@ -1747,9 +1748,11 @@ def test_transformer_group_grid_check_discard_missing():
     # With discard_missing, there should be no unavailable operations
     assert len(tg.unavailable_operations) == 0
 
-    # "ED50 to WGS 84 (41)" should not appear anywhere since its grid is missing
-    all_names = [t.description for t in tg.transformers]
-    assert "ED50 to WGS 84 (41)" not in all_names
+    # "ED50 to WGS 84 (41)" should not appear in unavailable_operations
+    # When grids are available (network or local)
+    if not grids_available():
+        all_names = [t.description for t in tg.transformers]
+        assert "ED50 to WGS 84 (41)" not in all_names
 
 
 def test_transformer_group_pivot_crs_filters_intermediate():
