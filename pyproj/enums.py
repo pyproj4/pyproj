@@ -200,3 +200,58 @@ class CRSExtentUse(BaseEnum):
     BOTH = "BOTH"
     INTERSECTION = "INTERSECTION"
     SMALLEST = "SMALLEST"
+
+
+class IntermediateCRSUse(BaseEnum):
+    """
+    .. versionadded:: 3.8.0
+
+    Mirrors the ``--pivot-crs`` modes from the PROJ CLI and controls how
+    intermediate/pivot CRS candidates are considered when building
+    :class:`pyproj.transformer.TransformerGroup` operations.
+
+    Values
+    ------
+    ALWAYS
+        Always search via the provided pivot CRS list (or PROJ defaults).
+    IF_NO_DIRECT_TRANSFORMATION
+        Only fall back to pivots when no direct operation exists.
+    NEVER
+        Do not attempt to use pivot CRS.
+    """
+
+    ALWAYS = "ALWAYS"
+    IF_NO_DIRECT_TRANSFORMATION = "IF_NO_DIRECT_TRANSFORMATION"
+    NEVER = "NEVER"
+
+
+class GridAvailabilityUse(BaseEnum):
+    """
+    .. versionadded:: 3.8.0
+
+    Mirrors the ``--grid-check`` option from the PROJ CLI and controls how
+    grid availability affects the candidate coordinate operations in
+    :class:`pyproj.transformer.TransformerGroup`.
+
+    See: :c:enum:`PROJ_GRID_AVAILABILITY_USE`
+
+    Values
+    ------
+    SORT
+        Grid availability is used for sorting operations (prefer operations
+        with available grids). Equivalent to projinfo's ``--grid-check sort``.
+    DISCARD_MISSING
+        Discard operations that reference missing grids.
+        Equivalent to projinfo's ``--grid-check discard_missing``.
+    NONE
+        Ignore grid availability (include all operations).
+        Equivalent to projinfo's ``--grid-check none``.
+    KNOWN_AVAILABLE
+        Only consider operations where all required grids are known to be available.
+        Equivalent to projinfo's ``--grid-check known_available``.
+    """
+
+    SORT = "SORT"
+    DISCARD_MISSING = "DISCARD_MISSING"
+    NONE = "NONE"
+    KNOWN_AVAILABLE = "KNOWN_AVAILABLE"
