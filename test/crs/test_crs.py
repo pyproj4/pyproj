@@ -20,7 +20,7 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import PROJ_GTE_97, PROJ_GTE_941, assert_can_pickle, grids_available
+from test.conftest import PROJ_GTE_941, PROJ_GTE_971, assert_can_pickle, grids_available
 
 
 class CustomCRS:
@@ -418,11 +418,11 @@ def test_datum():
 
 def test_datum_horizontal():
     # EPSG:5972 is a Norwegian compound CRS
-    # In PROJ < 9.7.0, it uses the generic ETRS89 ensemble (same as EPSG:25832)
-    # In PROJ >= 9.7.0 (EPSG v12.022+), it uses the
+    # In PROJ < 9.7.1, it uses the generic ETRS89 ensemble (same as EPSG:25832)
+    # In PROJ >= 9.7.1 (EPSG v12.022+), it uses the
     # Norway-specific ETRS89-NOR realization
     crs_5972 = CRS.from_epsg(5972)
-    if PROJ_GTE_97:
+    if PROJ_GTE_971:
         # Test against ETRS89-NOR [EUREF89] / UTM zone 32N
         crs_11022 = CRS.from_epsg(11022)
         assert crs_5972.datum is not None
@@ -585,9 +585,9 @@ def test_sub_crs():
     sub_crs_list = crs.sub_crs_list
     assert len(sub_crs_list) == 2
     # First sub-CRS should be a projected CRS (UTM zone 32N)
-    # In PROJ < 9.7.0, it's EPSG:25832 (ETRS89 / UTM zone 32N)
-    # In PROJ >= 9.7.0 (EPSG v12.022+), it's EPSG:11022 (ETRS89-NOR / UTM zone 32N)
-    if PROJ_GTE_97:
+    # In PROJ < 9.7.1, it's EPSG:25832 (ETRS89 / UTM zone 32N)
+    # In PROJ >= 9.7.1 (EPSG v12.022+), it's EPSG:11022 (ETRS89-NOR / UTM zone 32N)
+    if PROJ_GTE_971:
         assert sub_crs_list[0].is_projected
         assert sub_crs_list[0] == CRS.from_epsg(11022)
     else:
