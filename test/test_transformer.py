@@ -18,7 +18,12 @@ from pyproj.datadir import append_data_dir
 from pyproj.enums import CRSExtentUse, IntermediateCRSUse, TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
-from test.conftest import grids_available, proj_env, proj_network_env
+from test.conftest import (
+    PROJ_GTE_971,
+    grids_available,
+    proj_env,
+    proj_network_env,
+)
 
 
 def test_tranform_wgs84_to_custom():
@@ -1138,12 +1143,18 @@ def test_transformer_authority_filter():
     ],
 )
 def test_transformer_from_pipeline__input_types(input_string):
-    # PROJ 9.7+ renamed this operation from "RGF93 v1 to WGS 84 (1)"
+    # PROJ 9.7.1+ renamed this operation from "RGF93 v1 to WGS 84 (1)"
     # to "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
-    assert Transformer.from_pipeline(input_string).description in (
-        "RGF93 v1 to WGS 84 (1)",
-        "ETRS89-FRA [RGF93 v1] to WGS 84 (1)",
-    )
+    if PROJ_GTE_971:
+        assert (
+            Transformer.from_pipeline(input_string).description
+            == "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
+        )
+    else:
+        assert (
+            Transformer.from_pipeline(input_string).description
+            == "RGF93 v1 to WGS 84 (1)"
+        )
 
 
 @pytest.mark.parametrize(
@@ -1154,17 +1165,18 @@ def test_transformer_from_pipeline__input_types(input_string):
     ],
 )
 def test_transformer_from_pipeline__wkt_json(method_name):
-    # PROJ 9.7+ renamed this operation from "RGF93 v1 to WGS 84 (1)"
+    # PROJ 9.7.1+ renamed this operation from "RGF93 v1 to WGS 84 (1)"
     # to "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
-    assert Transformer.from_pipeline(
+    description = Transformer.from_pipeline(
         getattr(
             Transformer.from_pipeline("urn:ogc:def:coordinateOperation:EPSG::1671"),
             method_name,
         )()
-    ).description in (
-        "RGF93 v1 to WGS 84 (1)",
-        "ETRS89-FRA [RGF93 v1] to WGS 84 (1)",
-    )
+    ).description
+    if PROJ_GTE_971:
+        assert description == "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
+    else:
+        assert description == "RGF93 v1 to WGS 84 (1)"
 
 
 @pytest.mark.parametrize(
