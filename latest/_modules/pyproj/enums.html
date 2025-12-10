@@ -481,6 +481,61 @@
     <span class="n">BOTH</span> <span class="o">=</span> <span class="s2">&quot;BOTH&quot;</span>
     <span class="n">INTERSECTION</span> <span class="o">=</span> <span class="s2">&quot;INTERSECTION&quot;</span>
     <span class="n">SMALLEST</span> <span class="o">=</span> <span class="s2">&quot;SMALLEST&quot;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">IntermediateCRSUse</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 3.8.0</span>
+
+<span class="sd">    Mirrors the ``--pivot-crs`` modes from the PROJ CLI and controls how</span>
+<span class="sd">    intermediate/pivot CRS candidates are considered when building</span>
+<span class="sd">    :class:`pyproj.transformer.TransformerGroup` operations.</span>
+
+<span class="sd">    Values</span>
+<span class="sd">    ------</span>
+<span class="sd">    ALWAYS</span>
+<span class="sd">        Always search via the provided pivot CRS list (or PROJ defaults).</span>
+<span class="sd">    IF_NO_DIRECT_TRANSFORMATION</span>
+<span class="sd">        Only fall back to pivots when no direct operation exists.</span>
+<span class="sd">    NEVER</span>
+<span class="sd">        Do not attempt to use pivot CRS.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ALWAYS</span> <span class="o">=</span> <span class="s2">&quot;ALWAYS&quot;</span>
+    <span class="n">IF_NO_DIRECT_TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;IF_NO_DIRECT_TRANSFORMATION&quot;</span>
+    <span class="n">NEVER</span> <span class="o">=</span> <span class="s2">&quot;NEVER&quot;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">GridAvailabilityUse</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. versionadded:: 3.8.0</span>
+
+<span class="sd">    Mirrors the ``--grid-check`` option from the PROJ CLI and controls how</span>
+<span class="sd">    grid availability affects the candidate coordinate operations in</span>
+<span class="sd">    :class:`pyproj.transformer.TransformerGroup`.</span>
+
+<span class="sd">    See: :c:enum:`PROJ_GRID_AVAILABILITY_USE`</span>
+
+<span class="sd">    Values</span>
+<span class="sd">    ------</span>
+<span class="sd">    SORT</span>
+<span class="sd">        Grid availability is used for sorting operations (prefer operations</span>
+<span class="sd">        with available grids). Equivalent to projinfo&#39;s ``--grid-check sort``.</span>
+<span class="sd">    DISCARD_MISSING</span>
+<span class="sd">        Discard operations that reference missing grids.</span>
+<span class="sd">        Equivalent to projinfo&#39;s ``--grid-check discard_missing``.</span>
+<span class="sd">    NONE</span>
+<span class="sd">        Ignore grid availability (include all operations).</span>
+<span class="sd">        Equivalent to projinfo&#39;s ``--grid-check none``.</span>
+<span class="sd">    KNOWN_AVAILABLE</span>
+<span class="sd">        Only consider operations where all required grids are known to be available.</span>
+<span class="sd">        Equivalent to projinfo&#39;s ``--grid-check known_available``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SORT</span> <span class="o">=</span> <span class="s2">&quot;SORT&quot;</span>
+    <span class="n">DISCARD_MISSING</span> <span class="o">=</span> <span class="s2">&quot;DISCARD_MISSING&quot;</span>
+    <span class="n">NONE</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
+    <span class="n">KNOWN_AVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;KNOWN_AVAILABLE&quot;</span>
 </pre></div>
         </article>
       </div>
