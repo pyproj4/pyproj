@@ -29,7 +29,13 @@ from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     _TransformerGroup,
 )
 from pyproj.datadir import get_user_data_dir
-from pyproj.enums import CRSExtentUse, ProjVersion, TransformDirection, WktVersion
+from pyproj.enums import (
+    CRSExtentUse,
+    IntermediateCRSUse,
+    ProjVersion,
+    TransformDirection,
+    WktVersion,
+)
 from pyproj.exceptions import ProjError
 from pyproj.sync import _download_resource_file
 from pyproj.utils import _convertback, _copytobuffer
@@ -134,6 +140,67 @@ class TransformerFromPipeline(TransformerMaker):
         return _Transformer.from_pipeline(self.proj_pipeline)
 
 
+def _coerce_pivot_crs_entry(value: Any) -> str:
+    """Convert user input for a pivot CRS into an ``AUTH:CODE`` string."""
+    if isinstance(value, str):
+        entry = value.strip()
+        if not entry:
+            raise ProjError(
+                "pivot_crs entries must be non-empty strings or CRS objects."
+            )
+        if ":" in entry and not entry.endswith(":"):
+            return entry
+        value = entry
+    crs = CRS.from_user_input(value)
+    authority = crs.to_authority()
+    if not authority or authority[0] is None or authority[1] is None:
+        raise ProjError(
+            "pivot_crs entries must resolve to an authority:code identifier."
+        )
+    return f"{authority[0]}:{authority[1]}"
+
+
+def _normalize_pivot_crs_argument(
+    pivot_crs: IntermediateCRSUse | str | CRS | Iterable[str | CRS] | None,
+) -> tuple[IntermediateCRSUse | None, tuple[str, ...] | None]:
+    """Return (mode, list) tuple mirroring PROJ's ``--pivot-crs`` semantics.
+
+    When a CRS list is provided, the mode is set to ALWAYS to match
+    projinfo behavior where --pivot-crs EPSG:4326 implies always using
+    intermediate CRS transformations.
+    """
+    if pivot_crs is None:
+        return None, None
+    if isinstance(pivot_crs, IntermediateCRSUse):
+        return pivot_crs, None
+    if isinstance(pivot_crs, str):
+        value = pivot_crs.strip()
+        if not value:
+            raise ProjError("pivot_crs string cannot be empty.")
+        try:
+            return IntermediateCRSUse.create(value), None
+        except ValueError as err:
+            entries = [item.strip() for item in value.split(",") if item.strip()]
+            if not entries:
+                raise ProjError(
+                    "pivot_crs string must contain CRS codes or a keyword."
+                ) from err
+            normalized = tuple(_coerce_pivot_crs_entry(entry) for entry in entries)
+            # Set ALWAYS mode when a CRS list is provided (matches projinfo behavior)
+            return IntermediateCRSUse.ALWAYS, normalized
+    if isinstance(pivot_crs, Iterable) and not isinstance(pivot_crs, (str, bytes)):
+        normalized_list = tuple(_coerce_pivot_crs_entry(item) for item in pivot_crs)
+        if not normalized_list:
+            raise ProjError(
+                "pivot_crs iterable must include at least one CRS definition."
+            )
+        # Set ALWAYS mode when a CRS list is provided (matches projinfo behavior)
+        return IntermediateCRSUse.ALWAYS, normalized_list
+    normalized_single = (_coerce_pivot_crs_entry(pivot_crs),)
+    # Set ALWAYS mode when a CRS is provided (matches projinfo behavior)
+    return IntermediateCRSUse.ALWAYS, normalized_single
+
+
 class TransformerGroup(_TransformerGroup):
     """
     The TransformerGroup is a set of possible transformers from one CRS to another.
@@ -166,13 +233,21 @@ class TransformerGroup(_TransformerGroup):
         crs_extent_use: CRSExtentUse
         | Literal["none", "both", "intersection", "smallest"]
         | None = None,
+        pivot_crs: IntermediateCRSUse | CRS | Iterable[str | CRS] | str | None = None,
+        grid_check: Literal[
+            "sort",
+            "discard_missing",
+            "none",
+            "known_available",
+        ]
+        | None = None,
     ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
 
         .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.6.0 allow_superseded
-        .. versionadded:: 3.8.0 crs_extent_use
+        .. versionadded:: 3.8.0 crs_extent_use, pivot_crs, grid_check
 
         Parameters
         ----------
@@ -213,8 +288,32 @@ class TransformerGroup(_TransformerGroup):
             provided as a :class:`pyproj.enums.CRSExtentUse` enum member
             or case-insensitive string. If not provided,
             PROJ's internal default is used.
+        pivot_crs: pyproj.enums.IntermediateCRSUse | str | pyproj.crs.CRS |
+            Iterable[str | pyproj.crs.CRS], optional
+            Mirrors the PROJ CLI ``--pivot-crs`` flag. Provide
+            ``"always"``, ``"if_no_direct_transformation"``, or ``"never"``
+            (case-insensitive) to control when PROJ may pivot through
+            intermediate CRS. Alternatively, pass one or more CRS definitions
+            (``"AUTH:CODE"`` strings, integers, or :class:`pyproj.crs.CRS`
+            objects) to force pivoting through the supplied list. When a list is
+            supplied, PROJ is instructed to prefer those pivots.
+        grid_check: Literal["sort",
+            "discard_missing", "none", "known_available"],
+            optional
+            Mirrors the PROJ CLI ``--grid-check`` flag. Controls how grid
+            availability affects candidate operations. Options:
 
+            - ``"sort"``: Grid availability used for sorting
+              (prefer operations with available grids).
+            - ``"discard_missing"``: Discard operations
+              that reference missing grids.
+            - ``"none"``: Ignore grid availability.
+            - ``"known_available"``: Only consider operations where all
+              required grids are known to be available.
+
+            If not specified, defaults to PROJ's behavior (ignores grid availability).
         """
+        pivot_crs_use, pivot_crs_list = _normalize_pivot_crs_argument(pivot_crs)
         super().__init__(
             CRS.from_user_input(crs_from)._crs,
             CRS.from_user_input(crs_to)._crs,
@@ -225,6 +324,9 @@ class TransformerGroup(_TransformerGroup):
             allow_ballpark=allow_ballpark,
             allow_superseded=allow_superseded,
             crs_extent_use=crs_extent_use,
+            pivot_crs_use=pivot_crs_use,
+            pivot_crs_list=pivot_crs_list,
+            grid_check=grid_check,
         )
         for iii, transformer in enumerate(self._transformers):
             # pylint: disable=unsupported-assignment-operation

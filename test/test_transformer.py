@@ -15,7 +15,7 @@ from numpy.testing import assert_almost_equal, assert_array_equal
 import pyproj
 from pyproj import CRS, Proj, Transformer, itransform, transform
 from pyproj.datadir import append_data_dir
-from pyproj.enums import CRSExtentUse, TransformDirection
+from pyproj.enums import CRSExtentUse, IntermediateCRSUse, TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import grids_available, proj_env, proj_network_env
@@ -1630,6 +1630,57 @@ def test_transformer_group_crs_extent_use_both_enum():
     assert len(group_both.transformers) >= 1
 
 
+def test_transformer_group_pivot_crs_mode_never():
+    group = TransformerGroup(4326, 3857, pivot_crs=IntermediateCRSUse.NEVER)
+    assert len(group.transformers) >= 1
+
+
+def test_transformer_group_pivot_crs_string_list():
+    group = TransformerGroup(4230, 4326, pivot_crs="EPSG:4326,EPSG:4979")
+    assert len(group.transformers) >= 1
+
+
+def test_transformer_group_pivot_crs_iterable_codes():
+    group = TransformerGroup(4326, 4979, pivot_crs=["EPSG:4978", 4326])
+    assert len(group.transformers) >= 1
+
+
+def test_transformer_group_pivot_crs_invalid_empty_string():
+    with pytest.raises(ProjError):
+        TransformerGroup(4326, 3857, pivot_crs="  ")
+
+
+def test_transformer_group_pivot_crs_unidentifiable_crs():
+    custom_crs = CRS.from_proj4("+proj=longlat +a=1 +b=1")
+    with pytest.raises(ProjError):
+        TransformerGroup(4326, 3857, pivot_crs=custom_crs)
+
+
+def test_transformer_group_pivot_crs_single_crs_object():
+    """Test pivot_crs with a single CRS object (not in a list)."""
+    crs = CRS.from_epsg(4326)
+    group = TransformerGroup(4230, 4326, pivot_crs=crs)
+    assert len(group.transformers) >= 1
+
+
+def test_transformer_group_pivot_crs_empty_iterable():
+    """Test pivot_crs with an empty iterable raises error."""
+    with pytest.raises(ProjError, match="at least one CRS"):
+        TransformerGroup(4326, 3857, pivot_crs=[])
+
+
+def test_transformer_group_pivot_crs_string_only_commas():
+    """Test pivot_crs string with only commas/whitespace raises error."""
+    with pytest.raises(ProjError):
+        TransformerGroup(4326, 3857, pivot_crs=",  , ,")
+
+
+def test_transformer_group_pivot_crs_integer_code():
+    """Test pivot_crs with an integer EPSG code."""
+    group = TransformerGroup(4230, 4326, pivot_crs=4326)
+    assert len(group.transformers) >= 1
+
+
 def test_transformer_group_authority_filter():
     group = TransformerGroup("EPSG:4326", "EPSG:4258", authority="PROJ")
     assert len(group.transformers) == 1
@@ -1677,3 +1728,141 @@ def test_transformer__get_last_used_operation():
     operation = transformer.get_last_used_operation()
     assert isinstance(operation, Transformer)
     assert xxx, yyy == operation.transform(1, 2)
+
+
+def test_transformer_group_grid_check_none():
+    """Test grid_check='none' includes operations even if grids are missing.
+
+    With grid_check='none', all operations are returned regardless of
+    grid availability. Operations requiring missing grids appear in
+    unavailable_operations.
+    """
+    tg = TransformerGroup(
+        "EPSG:4230",
+        "EPSG:4326",
+        crs_extent_use="none",
+        authority="any",
+        grid_check="none",
+    )
+
+    # Should have transformers available
+    assert len(tg.transformers) >= 1
+
+    # Total operations should be at least 1
+    total_ops = len(tg.transformers) + len(tg.unavailable_operations)
+    assert total_ops >= 1
+
+
+def test_transformer_group_grid_check_discard_missing():
+    """Test grid_check='discard_missing' excludes operations with missing grids.
+
+    With grid_check='discard_missing', operations requiring missing grids
+    are completely excluded from results.
+    """
+    tg_discard = TransformerGroup(
+        "EPSG:4230",
+        "EPSG:4326",
+        crs_extent_use="none",
+        authority="any",
+        grid_check="discard_missing",
+    )
+
+    # With discard_missing, there should be no unavailable operations
+    assert len(tg_discard.unavailable_operations) == 0
+
+    # Should still have some transformers available
+    assert len(tg_discard.transformers) >= 1
+
+    # Compare with grid_check='none' - discard_missing should have
+    # equal or fewer total operations (some may be discarded)
+    if not grids_available():
+        tg_none = TransformerGroup(
+            "EPSG:4230",
+            "EPSG:4326",
+            crs_extent_use="none",
+            authority="any",
+            grid_check="none",
+        )
+        # With discard_missing, we should have no more transformers than
+        # the total (transformers + unavailable) from grid_check='none'
+        total_none = len(tg_none.transformers) + len(tg_none.unavailable_operations)
+        assert len(tg_discard.transformers) <= total_none
+
+
+def test_transformer_group_pivot_crs_filters_intermediate():
+    """
+    Test that specifying a pivot CRS filters out operations
+    using other intermediates.
+
+    OSGB36 (UK) to NTF (France): EPSG:4277 → EPSG:4275
+    With pivot_crs='always', one operation uses ED50 as intermediate.
+    With pivot_crs='EPSG:4326', that ED50 operation should be filtered out.
+    """
+    # With pivot_crs='always' - allows any intermediate CRS (including ED50)
+    tg_always = TransformerGroup(
+        "EPSG:4277",
+        "EPSG:4275",
+        crs_extent_use="none",
+        authority="any",
+        pivot_crs="always",
+        grid_check="discard_missing",
+    )
+
+    # With pivot_crs='EPSG:4326' - restricts to WGS84 as intermediate
+    tg_wgs84 = TransformerGroup(
+        "EPSG:4277",
+        "EPSG:4275",
+        crs_extent_use="none",
+        authority="any",
+        pivot_crs="EPSG:4326",
+        grid_check="discard_missing",
+    )
+
+    # Both should have valid transformers
+    assert len(tg_always.transformers) >= 1
+    assert len(tg_wgs84.transformers) >= 1
+
+    # The ED50 operation filtering test only applies when grids are available
+    # (either via network or locally installed)
+    if grids_available():
+        # The 'always' mode should include the ED50 operation
+        always_descs = {t.description for t in tg_always.transformers}
+        ed50_operation = "OSGB36 to ED50 (1) + Inverse of NTF to ED50 (1)"
+        assert ed50_operation in always_descs, (
+            f"Expected ED50 operation in 'always' mode, got: {always_descs}"
+        )
+
+        # The EPSG:4326 mode should NOT include the ED50 operation
+        wgs84_descs = {t.description for t in tg_wgs84.transformers}
+        assert ed50_operation not in wgs84_descs, (
+            "ED50 operation should be filtered out with pivot_crs='EPSG:4326'"
+        )
+
+        # WGS84 mode should have one fewer operation than 'always'
+        assert len(tg_wgs84.transformers) < len(tg_always.transformers), (
+            f"Expected fewer operations with specific pivot CRS: "
+            f"{len(tg_wgs84.transformers)} vs {len(tg_always.transformers)}"
+        )
+
+
+def test_transformer_group_grid_check_with_pivot_discard_missing():
+    """Test combined pivot_crs and grid_check='discard_missing'.
+
+    NTF (France) to MGI (Austria): EPSG:4275 → EPSG:4312
+    When using both pivot_crs and grid_check='discard_missing', operations
+    should be filtered by both pivot CRS and grid availability.
+    """
+    tg = TransformerGroup(
+        "EPSG:4275",
+        "EPSG:4312",
+        pivot_crs="EPSG:4326",
+        crs_extent_use="none",
+        authority="any",
+        grid_check="discard_missing",
+    )
+
+    # Should have some transformers available
+    assert len(tg.transformers) >= 1
+
+    # With discard_missing, there should be no unavailable operations
+    assert len(tg.unavailable_operations) == 0
