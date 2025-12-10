@@ -1656,6 +1656,31 @@ def test_transformer_group_pivot_crs_unidentifiable_crs():
         TransformerGroup(4326, 3857, pivot_crs=custom_crs)
 
 
+def test_transformer_group_pivot_crs_single_crs_object():
+    """Test pivot_crs with a single CRS object (not in a list)."""
+    crs = CRS.from_epsg(4326)
+    group = TransformerGroup(4230, 4326, pivot_crs=crs)
+    assert len(group.transformers) >= 1
+
+
+def test_transformer_group_pivot_crs_empty_iterable():
+    """Test pivot_crs with an empty iterable raises error."""
+    with pytest.raises(ProjError, match="at least one CRS"):
+        TransformerGroup(4326, 3857, pivot_crs=[])
+
+
+def test_transformer_group_pivot_crs_string_only_commas():
+    """Test pivot_crs string with only commas/whitespace raises error."""
+    with pytest.raises(ProjError):
+        TransformerGroup(4326, 3857, pivot_crs=",  , ,")
+
+
+def test_transformer_group_pivot_crs_integer_code():
+    """Test pivot_crs with an integer EPSG code."""
+    group = TransformerGroup(4230, 4326, pivot_crs=4326)
+    assert len(group.transformers) >= 1
+
+
 def test_transformer_group_authority_filter():
     group = TransformerGroup("EPSG:4326", "EPSG:4258", authority="PROJ")
     assert len(group.transformers) == 1
