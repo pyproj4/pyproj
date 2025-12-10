@@ -295,7 +295,13 @@
     <span class="n">_TransformerGroup</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.datadir</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_user_data_dir</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRSExtentUse</span><span class="p">,</span> <span class="n">ProjVersion</span><span class="p">,</span> <span class="n">TransformDirection</span><span class="p">,</span> <span class="n">WktVersion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CRSExtentUse</span><span class="p">,</span>
+    <span class="n">IntermediateCRSUse</span><span class="p">,</span>
+    <span class="n">ProjVersion</span><span class="p">,</span>
+    <span class="n">TransformDirection</span><span class="p">,</span>
+    <span class="n">WktVersion</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">_download_resource_file</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_convertback</span><span class="p">,</span> <span class="n">_copytobuffer</span>
@@ -400,6 +406,67 @@
         <span class="k">return</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj_pipeline</span><span class="p">)</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_coerce_pivot_crs_entry</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert user input for a pivot CRS into an ``AUTH:CODE`` string.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">entry</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
+                <span class="s2">&quot;pivot_crs entries must be non-empty strings or CRS objects.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">entry</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">entry</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">entry</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">entry</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">authority</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">authority</span> <span class="ow">or</span> <span class="n">authority</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">authority</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
+            <span class="s2">&quot;pivot_crs entries must resolve to an authority:code identifier.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">authority</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">authority</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalize_pivot_crs_argument</span><span class="p">(</span>
+    <span class="n">pivot_crs</span><span class="p">:</span> <span class="n">IntermediateCRSUse</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">CRS</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">CRS</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">IntermediateCRSUse</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return (mode, list) tuple mirroring PROJ&#39;s ``--pivot-crs`` semantics.</span>
+
+<span class="sd">    When a CRS list is provided, the mode is set to ALWAYS to match</span>
+<span class="sd">    projinfo behavior where --pivot-crs EPSG:4326 implies always using</span>
+<span class="sd">    intermediate CRS transformations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pivot_crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">,</span> <span class="n">IntermediateCRSUse</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pivot_crs</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">pivot_crs</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span><span class="s2">&quot;pivot_crs string cannot be empty.&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IntermediateCRSUse</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">entries</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">entries</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
+                    <span class="s2">&quot;pivot_crs string must contain CRS codes or a keyword.&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+            <span class="n">normalized</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_coerce_pivot_crs_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">)</span>
+            <span class="c1"># Set ALWAYS mode when a CRS list is provided (matches projinfo behavior)</span>
+            <span class="k">return</span> <span class="n">IntermediateCRSUse</span><span class="o">.</span><span class="n">ALWAYS</span><span class="p">,</span> <span class="n">normalized</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)):</span>
+        <span class="n">normalized_list</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_coerce_pivot_crs_entry</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pivot_crs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">normalized_list</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
+                <span class="s2">&quot;pivot_crs iterable must include at least one CRS definition.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># Set ALWAYS mode when a CRS list is provided (matches projinfo behavior)</span>
+        <span class="k">return</span> <span class="n">IntermediateCRSUse</span><span class="o">.</span><span class="n">ALWAYS</span><span class="p">,</span> <span class="n">normalized_list</span>
+    <span class="n">normalized_single</span> <span class="o">=</span> <span class="p">(</span><span class="n">_coerce_pivot_crs_entry</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">),)</span>
+    <span class="c1"># Set ALWAYS mode when a CRS is provided (matches projinfo behavior)</span>
+    <span class="k">return</span> <span class="n">IntermediateCRSUse</span><span class="o">.</span><span class="n">ALWAYS</span><span class="p">,</span> <span class="n">normalized_single</span>
+
+
 <div class="viewcode-block" id="TransformerGroup">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformerGroup</span><span class="p">(</span><span class="n">_TransformerGroup</span><span class="p">):</span>
@@ -436,13 +503,21 @@
         <span class="n">crs_extent_use</span><span class="p">:</span> <span class="n">CRSExtentUse</span>
         <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="s2">&quot;intersection&quot;</span><span class="p">,</span> <span class="s2">&quot;smallest&quot;</span><span class="p">]</span>
         <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pivot_crs</span><span class="p">:</span> <span class="n">IntermediateCRSUse</span> <span class="o">|</span> <span class="n">CRS</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">CRS</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">grid_check</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span>
+            <span class="s2">&quot;sort&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;discard_missing&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;known_available&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all possible transformations from a :obj:`pyproj.crs.CRS`</span>
 <span class="sd">        or input used to create one.</span>
 
 <span class="sd">        .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark</span>
 <span class="sd">        .. versionadded:: 3.6.0 allow_superseded</span>
-<span class="sd">        .. versionadded:: 3.8.0 crs_extent_use</span>
+<span class="sd">        .. versionadded:: 3.8.0 crs_extent_use, pivot_crs, grid_check</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -483,8 +558,32 @@
 <span class="sd">            provided as a :class:`pyproj.enums.CRSExtentUse` enum member</span>
 <span class="sd">            or case-insensitive string. If not provided,</span>
 <span class="sd">            PROJ&#39;s internal default is used.</span>
+<span class="sd">        pivot_crs: pyproj.enums.IntermediateCRSUse | str | pyproj.crs.CRS |</span>
+<span class="sd">            Iterable[str | pyproj.crs.CRS], optional</span>
+<span class="sd">            Mirrors the PROJ CLI ``--pivot-crs`` flag. Provide</span>
+<span class="sd">            ``&quot;always&quot;``, ``&quot;if_no_direct_transformation&quot;``, or ``&quot;never&quot;``</span>
+<span class="sd">            (case-insensitive) to control when PROJ may pivot through</span>
+<span class="sd">            intermediate CRS. Alternatively, pass one or more CRS definitions</span>
+<span class="sd">            (``&quot;AUTH:CODE&quot;`` strings, integers, or :class:`pyproj.crs.CRS`</span>
+<span class="sd">            objects) to force pivoting through the supplied list. When a list is</span>
+<span class="sd">            supplied, PROJ is instructed to prefer those pivots.</span>
+<span class="sd">        grid_check: Literal[&quot;sort&quot;,</span>
+<span class="sd">            &quot;discard_missing&quot;, &quot;none&quot;, &quot;known_available&quot;],</span>
+<span class="sd">            optional</span>
+<span class="sd">            Mirrors the PROJ CLI ``--grid-check`` flag. Controls how grid</span>
+<span class="sd">            availability affects candidate operations. Options:</span>
 
+<span class="sd">            - ``&quot;sort&quot;``: Grid availability used for sorting</span>
+<span class="sd">              (prefer operations with available grids).</span>
+<span class="sd">            - ``&quot;discard_missing&quot;``: Discard operations</span>
+<span class="sd">              that reference missing grids.</span>
+<span class="sd">            - ``&quot;none&quot;``: Ignore grid availability.</span>
+<span class="sd">            - ``&quot;known_available&quot;``: Only consider operations where all</span>
+<span class="sd">              required grids are known to be available.</span>
+
+<span class="sd">            If not specified, defaults to PROJ&#39;s behavior (ignores grid availability).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pivot_crs_use</span><span class="p">,</span> <span class="n">pivot_crs_list</span> <span class="o">=</span> <span class="n">_normalize_pivot_crs_argument</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_to</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
@@ -495,6 +594,9 @@
             <span class="n">allow_ballpark</span><span class="o">=</span><span class="n">allow_ballpark</span><span class="p">,</span>
             <span class="n">allow_superseded</span><span class="o">=</span><span class="n">allow_superseded</span><span class="p">,</span>
             <span class="n">crs_extent_use</span><span class="o">=</span><span class="n">crs_extent_use</span><span class="p">,</span>
+            <span class="n">pivot_crs_use</span><span class="o">=</span><span class="n">pivot_crs_use</span><span class="p">,</span>
+            <span class="n">pivot_crs_list</span><span class="o">=</span><span class="n">pivot_crs_list</span><span class="p">,</span>
+            <span class="n">grid_check</span><span class="o">=</span><span class="n">grid_check</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">iii</span><span class="p">,</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span><span class="p">):</span>
             <span class="c1"># pylint: disable=unsupported-assignment-operation</span>
