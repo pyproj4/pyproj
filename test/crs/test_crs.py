@@ -20,7 +20,13 @@ from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
 from pyproj.exceptions import CRSError
 from pyproj.transformer import TransformerGroup
-from test.conftest import PROJ_GTE_941, PROJ_GTE_971, assert_can_pickle, grids_available
+from test.conftest import (
+    PROJ_GTE_941,
+    PROJ_GTE_971,
+    PROJ_GTE_980,
+    assert_can_pickle,
+    grids_available,
+)
 
 
 class CustomCRS:
@@ -727,7 +733,6 @@ def test_coordinate_operation__from_authority():
         "urn:ogc:def:coordinateOperation:EPSG::1671",
         CoordinateOperation.from_epsg(1671),
         CoordinateOperation.from_epsg(1671).to_json_dict(),
-        "RGF93 v1 to WGS 84 (1)",
     ],
 )
 def test_coordinate_operation__from_user_input(user_input):
@@ -1214,13 +1219,14 @@ def test_coordinate_operation_equals():
     assert co != "invalid"
 
 
-@pytest.mark.parametrize(
-    "input_str",
-    ["urn:ogc:def:coordinateOperation:EPSG::1671", "RGF93 v1 to WGS 84 (1)"],
-)
-def test_coordinate_operation__from_string(input_str):
-    co = CoordinateOperation.from_string(input_str)
-    assert co.name == "RGF93 v1 to WGS 84 (1)"
+def test_coordinate_operation__from_string():
+    co = CoordinateOperation.from_string("urn:ogc:def:coordinateOperation:EPSG::1671")
+    # PROJ 9.7.1+ renamed this operation from "RGF93 v1 to WGS 84 (1)"
+    # to "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
+    if PROJ_GTE_980:
+        assert co.name == "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
+    else:
+        assert co.name == "RGF93 v1 to WGS 84 (1)"
 
 
 def test_coordinate_operation__from_name():
