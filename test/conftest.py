@@ -15,6 +15,7 @@ PROJ_LOOSE_VERSION = version.parse(pyproj.__proj_version__)
 PROJ_GTE_941 = PROJ_LOOSE_VERSION >= version.parse("9.4.1")
 PROJ_GTE_95 = PROJ_LOOSE_VERSION >= version.parse("9.5.0")
 PROJ_GTE_971 = PROJ_LOOSE_VERSION >= version.parse("9.7.1")
+PROJ_GTE_980 = PROJ_LOOSE_VERSION >= version.parse("9.8.0")
 
 
 def unset_data_dir():

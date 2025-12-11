@@ -23,6 +23,7 @@ from pyproj.transformer import TransformerGroup
 from test.conftest import (
     PROJ_GTE_941,
     PROJ_GTE_971,
+    PROJ_GTE_980,
     assert_can_pickle,
     grids_available,
 )
@@ -1222,7 +1223,7 @@ def test_coordinate_operation__from_string():
     co = CoordinateOperation.from_string("urn:ogc:def:coordinateOperation:EPSG::1671")
     # PROJ 9.7.1+ renamed this operation from "RGF93 v1 to WGS 84 (1)"
     # to "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
-    if PROJ_GTE_971:
+    if PROJ_GTE_980:
         assert co.name == "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
     else:
         assert co.name == "RGF93 v1 to WGS 84 (1)"
