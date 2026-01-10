@@ -391,11 +391,13 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformerFromPipeline</span><span class="p">(</span><span class="n">TransformerMaker</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. versionadded:: 3.1.0</span>
+<span class="sd">    .. versionadded:: 3.8.0 always_xy</span>
 
 <span class="sd">    Generates a Cython _Transformer class from input pipeline data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">proj_pipeline</span><span class="p">:</span> <span class="nb">bytes</span>
+    <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Transformer</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -403,7 +405,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        _Transformer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj_pipeline</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj_pipeline</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">always_xy</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_coerce_pivot_crs_entry</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1038,7 +1040,10 @@
 <div class="viewcode-block" id="Transformer.from_pipeline">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.from_pipeline">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_pipeline</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_pipeline</span><span class="p">(</span>
+        <span class="n">proj_pipeline</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a Transformer from a PROJ pipeline string.</span>
 
 <span class="sd">        :ref:`pipeline`</span>
@@ -1049,6 +1054,7 @@
 <span class="sd">        - :c:func:`proj_create_from_database`</span>
 
 <span class="sd">        .. versionadded:: 3.1.0 AUTH:CODE string support (e.g. EPSG:1671)</span>
+<span class="sd">        .. versionadded:: 3.8.0 always_xy</span>
 
 <span class="sd">        Allowed input:</span>
 <span class="sd">          - a PROJ string</span>
@@ -1067,13 +1073,22 @@
 <span class="sd">        ----------</span>
 <span class="sd">        proj_pipeline: str</span>
 <span class="sd">            Projection pipeline string.</span>
+<span class="sd">        always_xy: bool, default=False</span>
+<span class="sd">            If true, the transform method will accept as input and return as output</span>
+<span class="sd">            coordinates using the traditional GIS order, that is longitude, latitude</span>
+<span class="sd">            for geographic CRS and easting, northing for most projected CRS.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Transformer</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">TransformerFromPipeline</span><span class="p">(</span><span class="n">cstrencode</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">)))</span></div>
+        <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
+            <span class="n">TransformerFromPipeline</span><span class="p">(</span>
+                <span class="n">cstrencode</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">),</span>
+                <span class="n">always_xy</span><span class="o">=</span><span class="n">always_xy</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
 
 
     <span class="nd">@overload</span>

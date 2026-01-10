@@ -416,7 +416,7 @@ Requires PROJ 9.2+.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyproj.transformer.Transformer.from_pipeline">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_pipeline" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><span class="pre">Transformer</span></a></span></span><a class="reference internal" href="../_modules/pyproj/transformer.html#Transformer.from_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyproj.transformer.Transformer.from_pipeline" title="Link to this definition">¶</a></dt>
 <dd><p>Make a Transformer from a PROJ pipeline string.</p>
 <p><a class="reference external" href="https://proj.org/en/stable/operations/pipeline.html#pipeline" title="(in PROJ v9.7)"><span>The pipeline operator</span></a></p>
 <p>See:</p>
@@ -426,6 +426,9 @@ Requires PROJ 9.2+.</p></li>
 </ul>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.1.0: </span>AUTH:CODE string support (e.g. EPSG:1671)</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.8.0: </span>always_xy</p>
 </div>
 <dl class="simple">
 <dt>Allowed input:</dt><dd><ul class="simple">
@@ -445,7 +448,12 @@ coordinateOperation:EPSG::1618”)</p></li>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>proj_pipeline</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Projection pipeline string.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>proj_pipeline</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Projection pipeline string.</p></li>
+<li><p><strong>always_xy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>default=False</em>) – If true, the transform method will accept as input and return as output
+coordinates using the traditional GIS order, that is longitude, latitude
+for geographic CRS and easting, northing for most projected CRS.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer">Transformer</a></p>
