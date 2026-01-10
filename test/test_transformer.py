@@ -450,9 +450,9 @@ def test_always_xy__from_pipeline_vs_transformer_group():
         allow_superseded=True,
     )
 
-    # Find the transformer with "ED50 to WGS 84 (15)" in its description
-    # This corresponds to EPSG:8047
-    target_description = "ED50 to WGS 84 (15)"
+    # Find the transformer with "ED50 to WGS 84 (1)" in its description
+    # This corresponds to EPSG:1133
+    target_description = "ED50 to WGS 84 (1)"
     group_transformer = None
     for transformer in trans_group.transformers:
         if target_description in transformer.description:
@@ -464,7 +464,7 @@ def test_always_xy__from_pipeline_vs_transformer_group():
     )
 
     # Create the same transformation using from_pipeline with always_xy
-    pipeline_transformer = Transformer.from_pipeline("EPSG:8047", always_xy=True)
+    pipeline_transformer = Transformer.from_pipeline("EPSG:1133", always_xy=True)
 
     # Test coordinates
     test_coords = [
@@ -491,14 +491,14 @@ def test_always_xy__from_pipeline_axis_order():
     Verifies that with always_xy=True, input/output is (lon, lat) order,
     and with always_xy=False, it follows the CRS native axis order.
     """
-    # EPSG:8047 is "ED50 to WGS 84 (15)" - transforms from ED50 to WGS84
+    # EPSG:1133 is "ED50 to WGS 84 (1)" - transforms from ED50 to WGS84
     # Both CRS have native axis order of (lat, lon)
 
-    transformer_xy = Transformer.from_pipeline("EPSG:8047", always_xy=True)
-    transformer_native = Transformer.from_pipeline("EPSG:8047", always_xy=False)
+    transformer_xy = Transformer.from_pipeline("EPSG:1133", always_xy=True)
+    transformer_native = Transformer.from_pipeline("EPSG:1133", always_xy=False)
 
-    # Test point in Spain
-    lon, lat = -3.7, 40.4
+    # Test point in Denmark (within EPSG:1133 area of use)
+    lon, lat = 10.0, 55.0
 
     # With always_xy=True: input (lon, lat) -> output (lon, lat)
     result_xy = transformer_xy.transform(lon, lat)
