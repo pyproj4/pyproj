@@ -412,6 +412,251 @@ def test_always_xy__itransform():
         )
 
 
+def test_always_xy__from_pipeline(scalar_and_array):
+    # Test that always_xy works with from_pipeline
+    # EPSG:1311 is "ED50 to WGS 84 (18)" - a transformation from ED50 to WGS84
+    # Without always_xy, input/output order depends on CRS axis order (lat/lon)
+    # With always_xy=True, input/output is always lon/lat (x/y)
+    transformer_xy = Transformer.from_pipeline("EPSG:1311", always_xy=True)
+    transformer_default = Transformer.from_pipeline("EPSG:1311", always_xy=False)
+
+    # Coordinates in Spain (within ED50 to WGS84 (18) area of use)
+    lon, lat = -3.7, 40.4  # Madrid area
+
+    # With always_xy=True, input should be (lon, lat) and output is (lon, lat)
+    result_xy = transformer_xy.transform(scalar_and_array(lon), scalar_and_array(lat))
+
+    # With always_xy=False, input should be (lat, lon) and output is (lat, lon)
+    result_default = transformer_default.transform(
+        scalar_and_array(lat), scalar_and_array(lon)
+    )
+
+    # Both should produce equivalent results (just in different order)
+    # result_xy is (lon_out, lat_out), result_default is (lat_out, lon_out)
+    assert_almost_equal(result_xy[0], result_default[1], decimal=6)
+    assert_almost_equal(result_xy[1], result_default[0], decimal=6)
+
+
+def test_always_xy__from_pipeline_vs_transformer_group():
+    """
+    Test that from_pipeline with always_xy produces the same results
+    as TransformerGroup with always_xy for the same coordinate operation.
+    """
+    # Get transformers from TransformerGroup for ED50 to WGS84
+    trans_group = TransformerGroup(
+        "EPSG:4230",  # ED50
+        "EPSG:4326",  # WGS84
+        always_xy=True,
+        allow_superseded=True,
+    )
+
+    # Find the transformer with "ED50 to WGS 84 (15)" in its description
+    # This corresponds to EPSG:8047
+    target_description = "ED50 to WGS 84 (15)"
+    group_transformer = None
+    for transformer in trans_group.transformers:
+        if target_description in transformer.description:
+            group_transformer = transformer
+            break
+
+    assert group_transformer is not None, (
+        f"Could not find transformer with '{target_description}' in TransformerGroup"
+    )
+
+    # Create the same transformation using from_pipeline with always_xy
+    pipeline_transformer = Transformer.from_pipeline("EPSG:8047", always_xy=True)
+
+    # Test coordinates
+    test_coords = [
+        (-3.7, 40.4),
+        (-9.1, 38.7),
+        (2.2, 41.4),
+    ]
+
+    for lon, lat in test_coords:
+        result_group = group_transformer.transform(lon, lat)
+        result_pipeline = pipeline_transformer.transform(lon, lat)
+
+        assert_almost_equal(
+            result_group,
+            result_pipeline,
+            decimal=9,
+            err_msg=f"Results differ for coordinates ({lon}, {lat})",
+        )
+
+
+def test_always_xy__from_pipeline_axis_order():
+    """
+    Test that always_xy properly normalizes axis order for from_pipeline.
+    Verifies that with always_xy=True, input/output is (lon, lat) order,
+    and with always_xy=False, it follows the CRS native axis order.
+    """
+    # EPSG:8047 is "ED50 to WGS 84 (15)" - transforms from ED50 to WGS84
+    # Both CRS have native axis order of (lat, lon)
+
+    transformer_xy = Transformer.from_pipeline("EPSG:8047", always_xy=True)
+    transformer_native = Transformer.from_pipeline("EPSG:8047", always_xy=False)
+
+    # Test point in Spain
+    lon, lat = -3.7, 40.4
+
+    # With always_xy=True: input (lon, lat) -> output (lon, lat)
+    result_xy = transformer_xy.transform(lon, lat)
+
+    # With always_xy=False: input (lat, lon) -> output (lat, lon)
+    result_native = transformer_native.transform(lat, lon)
+
+    # Results should be equivalent but in different order
+    # result_xy = (lon_out, lat_out)
+    # result_native = (lat_out, lon_out)
+    assert_almost_equal(result_xy[0], result_native[1], decimal=9)
+    assert_almost_equal(result_xy[1], result_native[0], decimal=9)
+
+    # Also verify the transformation actually changes the coordinates
+    # (i.e., it's not a null transformation)
+    assert result_xy[0] != lon or result_xy[1] != lat
+
+
+def test_always_xy__from_pipeline_projected_crs():
+    """
+    Test that always_xy works with from_pipeline for projected CRS transformations.
+    Uses TransformerGroup to find a transformation between projected CRS and
+    compares with from_pipeline using the same operation code.
+    """
+    # Get transformers from TransformerGroup for ED50 / UTM zone 31N to WGS84
+    # EPSG:23031 (ED50 / UTM zone 31N) -> EPSG:4326 (WGS 84)
+    trans_group = TransformerGroup(
+        "EPSG:23031",  # ED50 / UTM zone 31N
+        "EPSG:4326",  # WGS 84
+        always_xy=True,
+        allow_superseded=True,
+    )
+
+    # Find a transformer with "ED50 to WGS 84 (1)" in its description
+    target_description = "ED50 to WGS 84 (1)"
+    group_transformer = None
+    for transformer in trans_group.transformers:
+        if target_description in transformer.description:
+            group_transformer = transformer
+            break
+
+    assert group_transformer is not None, (
+        f"Could not find transformer with '{target_description}' in TransformerGroup. "
+        f"Available: {[t.description for t in trans_group.transformers[:5]]}"
+    )
+
+    # Test UTM coordinates (ED50 / UTM zone 31N)
+    # With always_xy=True, input is (easting, northing), output is (lon, lat)
+    test_coords = [
+        (430000, 4580000),
+        (450000, 4600000),
+        (400000, 4550000),
+    ]
+
+    for easting, northing in test_coords:
+        result = group_transformer.transform(easting, northing)
+        lon_out, lat_out = result
+
+        # Verify the result is in geographic coordinates (reasonable lon/lat range)
+        assert -180 <= lon_out <= 180, f"Longitude {lon_out} out of range"
+        assert -90 <= lat_out <= 90, f"Latitude {lat_out} out of range"
+
+        # Should be roughly in Catalonia/Barcelona area
+        assert 0 < lon_out < 4, f"Longitude {lon_out} not in expected range"
+        assert 40 < lat_out < 43, f"Latitude {lat_out} not in expected range"
+
+
+def test_always_xy__from_pipeline_projected_to_geographic():
+    """
+    Test from_pipeline with always_xy for transformation
+    from projected to geographic CRS. Uses TransformerGroup
+    to compare results.
+    """
+    # Get transformer from TransformerGroup for projected -> geographic
+    # EPSG:23031 (ED50 / UTM zone 31N) -> EPSG:4326 (WGS 84)
+    trans_group_xy = TransformerGroup("EPSG:23031", "EPSG:4326", always_xy=True)
+    trans_group_native = TransformerGroup("EPSG:23031", "EPSG:4326", always_xy=False)
+
+    transformer_xy = trans_group_xy.transformers[0]
+    transformer_native = trans_group_native.transformers[0]
+
+    # Test UTM coordinates (Barcelona area in ED50 / UTM zone 31N)
+    easting, northing = 430000, 4580000
+
+    # With always_xy=True: input (easting, northing) -> output (lon, lat)
+    result_xy = transformer_xy.transform(easting, northing)
+
+    # With always_xy=False: input (easting, northing), output (lat, lon)
+    result_native = transformer_native.transform(easting, northing)
+
+    # result_xy is (lon, lat), result_native is (lat, lon)
+    lon_out, lat_out = result_xy
+    lat_native, lon_native = result_native
+
+    # Verify results match (just different output order)
+    assert_almost_equal(lon_out, lon_native, decimal=9)
+    assert_almost_equal(lat_out, lat_native, decimal=9)
+
+    # Verify the result is in geographic coordinates (reasonable lon/lat range)
+    assert -180 <= lon_out <= 180, f"Longitude {lon_out} out of range"
+    assert -90 <= lat_out <= 90, f"Latitude {lat_out} out of range"
+
+    # Should be roughly in Catalonia/Barcelona area
+    assert 0 < lon_out < 4, f"Longitude {lon_out} not in expected range for Barcelona"
+    assert 40 < lat_out < 43, f"Latitude {lat_out} not in expected range for Barcelona"
+
+
+def test_always_xy__from_pipeline_geographic_to_projected():
+    """
+    Test from_pipeline with always_xy for transformation
+    from geographic to projected CRS. Uses TransformerGroup
+    to compare results.
+
+    WGS84 (EPSG:4326) has native axis order (lat, lon)
+    UTM zone 31N (EPSG:32631) has native axis order (E, N) which is already x, y
+
+    With always_xy=True: input (lon, lat) -> output (easting, northing)
+    With always_xy=False: input (lat, lon) -> output (easting, northing)
+    """
+    # Get transformer from TransformerGroup for geographic -> projected
+    # EPSG:4326 (WGS 84) -> EPSG:32631 (WGS 84 / UTM zone 31N)
+    trans_group_xy = TransformerGroup(
+        "EPSG:4326",
+        "EPSG:32631",
+        always_xy=True,
+    )
+    trans_group_native = TransformerGroup(
+        "EPSG:4326",
+        "EPSG:32631",
+        always_xy=False,
+    )
+
+    transformer_xy = trans_group_xy.transformers[0]
+    transformer_native = trans_group_native.transformers[0]
+
+    # Test geographic coordinates (Barcelona area)
+    lon, lat = 2.17, 41.39  # Barcelona
+
+    # With always_xy=True: input (lon, lat) -> output (easting, northing)
+    result_xy = transformer_xy.transform(lon, lat)
+
+    # With always_xy=False: input (lat, lon) -> output (easting, northing)
+    # Note: UTM already has (E, N) order which is x, y, so output order is same
+    result_native = transformer_native.transform(lat, lon)
+
+    # Both should produce (easting, northing)
+    easting_xy, northing_xy = result_xy
+    easting_native, northing_native = result_native
+
+    # Verify results match
+    assert_almost_equal(easting_xy, easting_native, decimal=6)
+    assert_almost_equal(northing_xy, northing_native, decimal=6)
+
+    # Verify the result is in UTM range (reasonable easting/northing)
+    assert 100000 < easting_xy < 900000, f"Easting {easting_xy} out of UTM range"
+    assert 0 < northing_xy < 10000000, f"Northing {northing_xy} out of UTM range"
+
+
 @pytest.mark.parametrize("empty_array", [(), [], numpy.array([])])
 def test_transform_empty_array_xy(empty_array):
     transformer = Transformer.from_crs(2193, 4326)

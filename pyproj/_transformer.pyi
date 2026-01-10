@@ -95,7 +95,10 @@ class _Transformer(Base):
         only_best: bool | None = None,
     ) -> _Transformer: ...
     @staticmethod
-    def from_pipeline(proj_pipeline: bytes) -> _Transformer: ...
+    def from_pipeline(
+        proj_pipeline: bytes,
+        always_xy: bool = False,
+    ) -> _Transformer: ...
     def _transform(
         self,
         inx: Any,

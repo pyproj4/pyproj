@@ -700,7 +700,7 @@ cdef class _Transformer(Base):
         return transformer
 
     @staticmethod
-    def from_pipeline(const char *proj_pipeline):
+    def from_pipeline(const char *proj_pipeline, bint always_xy=False):
         """
         Create Transformer from a PROJ pipeline string.
         """
@@ -728,6 +728,8 @@ cdef class _Transformer(Base):
             )
         if transformer.projobj is NULL:
             raise ProjError(f"Invalid projection {proj_pipeline}.")
+        if always_xy:
+            transformer._set_always_xy()
         transformer._initialize_from_projobj()
         return transformer
 

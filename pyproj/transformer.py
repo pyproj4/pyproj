@@ -125,11 +125,13 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
 class TransformerFromPipeline(TransformerMaker):
     """
     .. versionadded:: 3.1.0
+    .. versionadded:: 3.8.0 always_xy
 
     Generates a Cython _Transformer class from input pipeline data.
     """
 
     proj_pipeline: bytes
+    always_xy: bool = False
 
     def __call__(self) -> _Transformer:
         """
@@ -137,7 +139,7 @@ class TransformerFromPipeline(TransformerMaker):
         -------
         _Transformer
         """
-        return _Transformer.from_pipeline(self.proj_pipeline)
+        return _Transformer.from_pipeline(self.proj_pipeline, always_xy=self.always_xy)
 
 
 def _coerce_pivot_crs_entry(value: Any) -> str:
@@ -750,7 +752,10 @@ class Transformer:
         )
 
     @staticmethod
-    def from_pipeline(proj_pipeline: str) -> "Transformer":
+    def from_pipeline(
+        proj_pipeline: str,
+        always_xy: bool = False,
+    ) -> "Transformer":
         """Make a Transformer from a PROJ pipeline string.
 
         :ref:`pipeline`
@@ -761,6 +766,7 @@ class Transformer:
         - :c:func:`proj_create_from_database`
 
         .. versionadded:: 3.1.0 AUTH:CODE string support (e.g. EPSG:1671)
+        .. versionadded:: 3.8.0 always_xy
 
         Allowed input:
           - a PROJ string
@@ -779,13 +785,22 @@ class Transformer:
         ----------
         proj_pipeline: str
             Projection pipeline string.
+        always_xy: bool, default=False
+            If true, the transform method will accept as input and return as output
+            coordinates using the traditional GIS order, that is longitude, latitude
+            for geographic CRS and easting, northing for most projected CRS.
 
         Returns
         -------
         Transformer
 
         """
-        return Transformer(TransformerFromPipeline(cstrencode(proj_pipeline)))
+        return Transformer(
+            TransformerFromPipeline(
+                cstrencode(proj_pipeline),
+                always_xy=always_xy,
+            )
+        )
 
     @overload
     def transform(  # noqa: E704 pylint: disable=invalid-name
