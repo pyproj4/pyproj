@@ -978,6 +978,9 @@ def test_transformer_group__get_transform_crs():
         "nl_nsgi_nlgeo2018.tif", "nl_nsgi_rdtrans2018.tif", check_all=True
     ):
         assert len(tg.transformers) == 2
+    elif PROJ_GTE_980:
+        # Newer proj includes additional transformations
+        assert len(tg.transformers) == 3
     else:
         assert len(tg.transformers) == 1
 
