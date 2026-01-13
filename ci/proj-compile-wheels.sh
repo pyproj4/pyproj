@@ -298,6 +298,14 @@ function build_proj {
     suppress get_modern_cmake
     fetch_unpack https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz
     suppress build_curl_ssl
+    # Detect number of CPU cores (cross-platform)
+    if command -v nproc &> /dev/null; then
+        NPROC=$(nproc)
+    elif command -v sysctl &> /dev/null; then
+        NPROC=$(sysctl -n hw.ncpu)
+    else
+        NPROC=2
+    fi
     (cd proj-${PROJ_VERSION:0:5} \
         && cmake . \
         -DCMAKE_INSTALL_PREFIX=$PROJ_DIR \
@@ -308,7 +316,7 @@ function build_proj {
         -DBUILD_TESTING:BOOL=OFF \
         -DCMAKE_PREFIX_PATH=$BUILD_PREFIX \
         -DCMAKE_INSTALL_LIBDIR=lib \
-        && cmake --build . -j$(nproc) \
+        && cmake --build . -j${NPROC} \
         && cmake --install .)
     touch proj-stamp
 }
