@@ -41,7 +41,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ['3.11', '3.12', '3.13']
-        proj-version: ['9.7.0']
+        proj-version: ['9.7.1']
         include:
           - python-version: '3.11'
             proj-version: '9.6.0'
