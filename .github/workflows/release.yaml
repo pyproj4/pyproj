@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PROJ_VERSION: "9.7.0"
+  PROJ_VERSION: "9.7.1"
   DEBIAN_FRONTEND: noninteractive
 
 jobs:
@@ -172,7 +172,8 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: bash ./ci/proj-compile-wheels.sh
           CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
           CIBW_TEST_REQUIRES: cython pytest numpy --config-settings=setup-args="-Dallow-noblas=true"
-          CIBW_BEFORE_TEST: python -m pip install shapely pandas xarray || echo "Optional requirements install failed"
+          # Install numpy first so Shapely can find numpy headers during build
+          CIBW_BEFORE_TEST: python -m pip install numpy && python -m pip install shapely pandas xarray || echo "Optional requirements install failed"
           CIBW_TEST_COMMAND: >
             pyproj -v &&
             python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&

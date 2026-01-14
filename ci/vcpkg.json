@@ -4,8 +4,8 @@
     "dependencies": [
         {
             "name": "proj",
-            "version>=": "9.7.0"
+            "version>=": "9.7.1"
         }
     ],
-    "builtin-baseline": "5cec4ba35226bc17ba40b403a7defb0181a21dd4"
+    "builtin-baseline": "a763d6da0368f761f62a6badc2162a2f2de652c3"
 }
