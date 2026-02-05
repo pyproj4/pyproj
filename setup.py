@@ -199,6 +199,12 @@ def get_extension_modules():
         ),
         "libraries": get_libraries(library_dirs),
     }
+    if platform.python_implementation() == "CPython":
+        compat_mod = "pyproj/_compat_cpython.pyx"
+    else:
+        # https://github.com/pyproj4/pyproj/issues/854
+        compat_mod = "pyproj/_compat_other.pyx"
+
     # setup cythonized modules
     return cythonize(
         [
@@ -207,7 +213,7 @@ def get_extension_modules():
             Extension(
                 "pyproj._transformer", ["pyproj/_transformer.pyx"], **ext_options
             ),
-            Extension("pyproj._compat", ["pyproj/_compat.pyx"], **ext_options),
+            Extension("pyproj._compat", [compat_mod], **ext_options),
             Extension("pyproj.database", ["pyproj/database.pyx"], **ext_options),
             Extension("pyproj._context", ["pyproj/_context.pyx"], **ext_options),
             Extension("pyproj.list", ["pyproj/list.pyx"], **ext_options),
@@ -220,7 +226,6 @@ def get_extension_modules():
             "CTE_PROJ_VERSION_MAJOR": proj_version_major,
             "CTE_PROJ_VERSION_MINOR": proj_version_minor,
             "CTE_PROJ_VERSION_PATCH": proj_version_patch,
-            "CTE_PYTHON_IMPLEMENTATION": platform.python_implementation(),
         },
         **get_cythonize_options(),
     )
