@@ -15,6 +15,7 @@ Latest
 - ENH: Added always_xy kwarg to :meth:`pyproj.transformer.Transformer.from_pipeline`
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
+- BLD: update build-time dependencies
 
 3.7.2
 -----
