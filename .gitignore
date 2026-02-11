@@ -1,4 +1,5 @@
 pyproj/proj_dir/
+pyproj/_compat.p*
 pyproj/*.c
 pyproj/*/*.c
 pyproj/*/*.html

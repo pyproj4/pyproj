@@ -4,6 +4,7 @@ import re
 import shutil
 import subprocess
 import sys
+from importlib.util import find_spec
 from pathlib import Path
 
 from setuptools import Extension, setup
@@ -173,13 +174,11 @@ def get_extension_modules():
         return None
 
     # make sure cython is available
-    try:
-        from Cython.Build import cythonize
-    except ImportError as error:
-        raise SystemExit(
-            "ERROR: Cython.Build.cythonize not found. "
-            "Cython is required to build pyproj."
-        ) from error
+    if find_spec("Cython") is None:
+        raise SystemExit("ERROR: Cython not found. Cython is required to build pyproj.")
+
+    import Cython.Tempita as tempita
+    from Cython.Build import cythonize
 
     # By default we'll try to get options PROJ_DIR or the local version of proj
     proj_dir = get_proj_dir()
@@ -199,6 +198,23 @@ def get_extension_modules():
         ),
         "libraries": get_libraries(library_dirs),
     }
+    # apply substitutions
+    templated_sources = ["_compat.pxd", "_compat.pyx"]
+    templ_config = {
+        "IS_CPYTHON": platform.python_implementation() == "CPython",
+    }
+    for tsrc in templated_sources:
+        target = CURRENT_FILE_PATH / "pyproj" / tsrc
+        templ = target.with_suffix(f".templ{target.suffix}")
+        if target.is_file():
+            current_text = target.read_text()
+        else:
+            current_text = ""
+
+        new_text = tempita.sub(templ.read_text(), **templ_config)
+        if new_text != current_text:
+            target.write_text(new_text, "utf-8")
+
     # setup cythonized modules
     return cythonize(
         [
@@ -220,7 +236,6 @@ def get_extension_modules():
             "CTE_PROJ_VERSION_MAJOR": proj_version_major,
             "CTE_PROJ_VERSION_MINOR": proj_version_minor,
             "CTE_PROJ_VERSION_PATCH": proj_version_patch,
-            "CTE_PYTHON_IMPLEMENTATION": platform.python_implementation(),
         },
         **get_cythonize_options(),
     )
