@@ -232,11 +232,6 @@ def get_extension_modules():
             Extension("pyproj._version", ["pyproj/_version.pyx"], **ext_options),
         ],
         quiet=True,
-        compile_time_env={
-            "CTE_PROJ_VERSION_MAJOR": proj_version_major,
-            "CTE_PROJ_VERSION_MINOR": proj_version_minor,
-            "CTE_PROJ_VERSION_PATCH": proj_version_patch,
-        },
         **get_cythonize_options(),
     )
 
