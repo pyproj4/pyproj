@@ -737,6 +737,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "neutrinoceros",
+      "name": "Clément Robert",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14075922?v=4",
+      "profile": "https://github.com/neutrinoceros",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7

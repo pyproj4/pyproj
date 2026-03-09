@@ -5,7 +5,7 @@
 Python interface to [PROJ](http://proj.org) (cartographic projections and coordinate transformations library).
 
 <p align="center">
-<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-71-orange.svg?style=flat-square"></a>
+<a href="#contributors"><img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-72-orange.svg?style=flat-square"></a>
 <a href="https://github.com/pyproj4/pyproj/actions?query=workflow%3ATests"><img alt="GitHub Actions Build Status" src="https://github.com/pyproj4/pyproj/workflows/Tests/badge.svg"></a>
 <a href="https://codecov.io/gh/pyproj4/pyproj"><img alt="Codecov Status" src="https://codecov.io/gh/pyproj4/pyproj/branch/main/graph/badge.svg"></a>
 <a href="https://badge.fury.io/py/pyproj"><img alt="PyPI" src="https://badge.fury.io/py/pyproj.svg"></a>
@@ -128,6 +128,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://xylar.github.io/"><img src="https://avatars.githubusercontent.com/u/4179064?v=4?s=100" width="100px;" alt="Xylar Asay-Davis"/><br /><sub><b>Xylar Asay-Davis</b></sub></a><br /><a href="https://github.com/pyproj4/pyproj/commits?author=xylar" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/neutrinoceros"><img src="https://avatars.githubusercontent.com/u/14075922?v=4?s=100" width="100px;" alt="Clément Robert"/><br /><sub><b>Clément Robert</b></sub></a><br /><a href="#maintenance-neutrinoceros" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
