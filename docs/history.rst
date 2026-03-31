@@ -16,6 +16,7 @@ Latest
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
 - BLD: update build-time dependencies
+- BLD/RFC: use Cython templating instead of compile-time conditionals (issue #1142)
 
 3.7.2
 -----
