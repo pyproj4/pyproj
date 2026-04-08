@@ -526,7 +526,7 @@ class CRS:
 
         Parameters
         ----------
-        proj_dict : str
+        proj_dict : dict
             PROJ params in dict format.
 
         Returns
