@@ -215,7 +215,7 @@ def test_vertical_crs__chance_cs_axis(axis):
     assert vc.coordinate_system == VerticalCS(axis=axis)
 
 
-def test_compund_crs(tmp_path):
+def test_compound_crs(tmp_path):
     vertcrs = VerticalCRS(
         name="NAVD88 height",
         datum="North American Vertical Datum 1988",
@@ -245,7 +245,7 @@ def test_compund_crs(tmp_path):
     assert_can_pickle(compcrs, tmp_path)
 
 
-def test_compund_crs__from_methods():
+def test_compound_crs__from_methods():
     crs = CompoundCRS.from_string("EPSG:4326+5773")
     with pytest.raises(CRSError, match="Invalid type"):
         CompoundCRS.from_epsg(4326)
