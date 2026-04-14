@@ -326,7 +326,7 @@ Latest
 2.2.1
 ~~~~~
 * Added :meth:`pyproj.show_versions` (issue #334)
-* Added fix for whitepace around '=' in PROJ strings (issue #345)
+* Added fix for whitespace around '=' in PROJ strings (issue #345)
 * Update version check in `setup.py` (issue #323)
 * Add "stable" doc site pointing to latest release (issue #347, pull #348)
 * Deprecate `Proj.proj_version` (pull #337)

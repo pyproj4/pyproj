@@ -456,7 +456,7 @@ def get_database_metadata(str key not None):
     Returns
     -------
     str | None:
-        The metatada information if available.
+        The metadata information if available.
     """
     cdef const char* metadata = NULL
     metadata = proj_context_get_database_metadata(

@@ -152,7 +152,7 @@ After the candidate has proven itself, it will be promoted to a final release.
 
 ### Remove the rc postfix
 
-Remove the `rc` postfix from the the version number `__version__` in `__init__.py` (ex. `3.7.2rc0` -> `3.7.2`).
+Remove the `rc` postfix from the version number `__version__` in `__init__.py` (ex. `3.7.2rc0` -> `3.7.2`).
 
 ### Create a tag on the repository
 
