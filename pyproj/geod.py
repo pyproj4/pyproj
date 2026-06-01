@@ -430,7 +430,7 @@ class Geod(_Geod):
         radians: bool = False,
         initial_idx: int = 1,
         terminus_idx: int = 1,
-    ) -> list:
+    ) -> list[tuple[float, float]]:
         """
         .. versionadded:: 3.1.0 initial_idx, terminus_idx
 

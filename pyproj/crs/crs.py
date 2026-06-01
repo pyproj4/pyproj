@@ -64,7 +64,7 @@ class CRSLocal(threading.local):
         super().__init__()
 
 
-def _prepare_from_dict(projparams: dict, allow_json: bool = True) -> str:
+def _prepare_from_dict(projparams: dict[str, Any], allow_json: bool = True) -> str:
     if not isinstance(projparams, dict):
         raise CRSError("CRS input is not a dict")
     # check if it is a PROJ JSON dict
@@ -518,7 +518,7 @@ class CRS:
         )
 
     @classmethod
-    def from_dict(cls, proj_dict: dict) -> "CRS":
+    def from_dict(cls, proj_dict: dict[str, Any]) -> "CRS":
         """
         .. versionadded:: 2.2.0
 
