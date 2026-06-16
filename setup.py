@@ -4,6 +4,7 @@ import re
 import shutil
 import subprocess
 import sys
+import sysconfig
 from pathlib import Path
 
 from setuptools import Extension, setup
@@ -14,6 +15,20 @@ BASE_INTERNAL_PROJ_DIR = Path("proj_dir")
 INTERNAL_PROJ_DIR = CURRENT_FILE_PATH / "pyproj" / BASE_INTERNAL_PROJ_DIR
 PROJ_VERSION_SEARCH = re.compile(r".*Rel\.\s+(?P<version>\d+\.\d+\.\d+).*")
 VERSION_SEARCH = re.compile(r".*(?P<version>\d+\.\d+\.\d+).*")
+
+# restrict LIMITED_API usage:
+# - require an env var PYPROJ_LIMITED_API=1
+# - LIMITED_API is not compatible with free-threading (as of CPython 3.14)
+USE_PY_LIMITED_API = os.environ.get(
+    "PYPROJ_LIMITED_API"
+) == "1" and not sysconfig.get_config_var("Py_GIL_DISABLED")
+ABI3_TARGET_VERSION = "".join(str(_) for _ in sys.version_info[:2])
+ABI3_TARGET_HEX = hex(sys.hexversion & 0xFFFF00F0)
+
+
+define_macros = []
+if USE_PY_LIMITED_API:
+    define_macros.append(("Py_LIMITED_API", ABI3_TARGET_HEX))
 
 
 def _parse_version(version: str) -> tuple[int, int, int]:
@@ -198,6 +213,8 @@ def get_extension_modules():
             library_dirs if os.name != "nt" and sys.platform != "cygwin" else None
         ),
         "libraries": get_libraries(library_dirs),
+        "py_limited_api": USE_PY_LIMITED_API,
+        "define_macros": define_macros,
     }
     # setup cythonized modules
     return cythonize(
@@ -220,7 +237,9 @@ def get_extension_modules():
             "CTE_PROJ_VERSION_MAJOR": proj_version_major,
             "CTE_PROJ_VERSION_MINOR": proj_version_minor,
             "CTE_PROJ_VERSION_PATCH": proj_version_patch,
-            "CTE_PYTHON_IMPLEMENTATION": platform.python_implementation(),
+            "CTE_USE_CYTHON_ARRAY": (
+                platform.python_implementation() == "CPython" and not USE_PY_LIMITED_API
+            ),
         },
         **get_cythonize_options(),
     )
@@ -244,10 +263,16 @@ def get_package_data() -> dict[str, list[str]]:
     return package_data
 
 
+if USE_PY_LIMITED_API:
+    options = {"bdist_wheel": {"py_limited_api": f"cp{ABI3_TARGET_VERSION}"}}
+else:
+    options = {}
+
 # static items in pyproject.toml
 setup(
     ext_modules=get_extension_modules(),
     package_data=get_package_data(),
     # temptorary hack to add in metadata
     url="https://github.com/pyproj4/pyproj",
+    options=options,
 )
