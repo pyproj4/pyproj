@@ -17,7 +17,7 @@ cdef str cstrdecode(const char *instring):
     return None
 
 
-IF CTE_PYTHON_IMPLEMENTATION == "CPython":
+IF CTE_USE_CYTHON_ARRAY:
     from cpython cimport array
 
     cdef array.array _ARRAY_TEMPLATE = array.array("d", [])
