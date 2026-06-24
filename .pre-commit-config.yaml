@@ -3,18 +3,18 @@ default_language_version:
 
 repos:
     -   repo: https://github.com/pre-commit/pre-commit-hooks
-        rev: v4.5.0
+        rev: v6.0.0
         hooks:
         -   id: check-yaml
         -   id: end-of-file-fixer
         -   id: trailing-whitespace
     -   repo: https://github.com/asottile/blacken-docs
-        rev: 1.16.0
+        rev: 1.20.0
         hooks:
         -   id: blacken-docs
             args: [--skip-errors]
     -   repo: https://github.com/pycqa/flake8
-        rev: 7.0.0
+        rev: 7.3.0
         hooks:
         -   id: flake8
             additional_dependencies: [flake8-comprehensions>=3.1.0]
@@ -25,12 +25,12 @@ repos:
             - file
             args: [--append-config=flake8/cython.cfg]
     -   repo: https://github.com/codespell-project/codespell
-        rev: v2.2.6
+        rev: v2.4.2
         hooks:
         -   id: codespell
             args: [--uri-ignore-words-list, buildd]
     -   repo: https://github.com/astral-sh/ruff-pre-commit
-        rev: v0.11.10
+        rev: v0.15.19
         hooks:
         - id: ruff-check
         - id: ruff-format

@@ -140,6 +140,8 @@ ignore = [
     "B028",
     # Unused `noqa` directive # Only work if ruff is the solve linter/formatter
     "RUF100",
+    # Unpacked variable is never used
+    "RUF059",
     # `zip()` without an explicit `strict=` parameter
     "B905",
     # Only simple default values allowed for typed arguments
@@ -153,7 +155,9 @@ ignore = [
     # Consider f-string instead of string join
     "FLY002",
     # Use a list comprehension to create a transformed list
-    "PERF401"
+    "PERF401",
+    # Invalid rule code in `# noqa`; used by pylint
+    "RUF102",
 
 ]
 
