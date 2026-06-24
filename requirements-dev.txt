@@ -1,5 +1,0 @@
-cython>=0.28.4
-mypy
-pre-commit
-ruff
-types-certifi

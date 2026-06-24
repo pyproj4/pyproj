@@ -62,7 +62,7 @@ test-coverage:  ## run tests and generate coverage report
 	py.test --cov-report term-missing --cov=pyproj -v -s
 
 install-docs: ## Install requirements for building documentation
-	python -m pip install -r requirements-docs.txt
+	python -m pip install --group docs
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs clean
@@ -79,7 +79,6 @@ install: clean ## install the package to the active Python's site-packages
 	python -m pip install .
 
 install-dev: clean ## install development version to active Python's site-packages
-	python -m pip install -r requirements-dev.txt
+	python -m pip install --group dev
 	pre-commit install
-	python -m pip install -r requirements-test.txt
 	PYPROJ_FULL_COVERAGE=YES python -m pip install -e .

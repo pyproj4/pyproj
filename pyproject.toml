@@ -57,6 +57,38 @@ changelog = "https://pyproj4.github.io/pyproj/stable/history.html"
 [project.scripts]
 pyproj = "pyproj.__main__:main"
 
+[dependency-groups]
+dev = [
+    "cython>=0.28.4",
+    "pre-commit",
+    "setuptools",
+    {include-group = "lint"},
+    {include-group = "test"},
+    {include-group = "typing"},
+]
+docs = [
+    "furo>=2022.6",
+    "sphinx",
+    "sphinx-argparse",
+]
+lint = [
+    "pylint",
+    "ruff",
+]
+test = [
+    "numpy",
+    "packaging",
+    "pandas; python_version<'3.12' and implementation_name!='pypi'",
+    "pytest>3.6",
+    "pytest-cov",
+    "shapely; python_version<'3.12'",
+    "xarray; python_version<'3.12' and implementation_name!='pypi'",
+]
+typing = [
+    "mypy",
+    "types-certifi",
+]
+
 [tool.setuptools]
 zip-safe = false # https://mypy.readthedocs.io/en/stable/installed_packages.html
 

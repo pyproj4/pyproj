@@ -27,7 +27,7 @@ jobs:
       - uses: pre-commit/action@v3.0.1
       - name: Install mypy
         run: |
-          python -m pip install mypy types-certifi
+          python -m pip install --group typing
       - name: mypy
         run: |
           mypy pyproj
@@ -73,9 +73,7 @@ jobs:
           python${{ matrix.python-version }} -m venv testenv
           . testenv/bin/activate
           python -m pip install --upgrade pip
-          python -m pip install -r requirements-dev.txt
-          python -m pip install -e .
-          python -m pip install -r requirements-test.txt
+          python -m pip install -e . --group dev
 
       - name: Test
         shell: bash
@@ -137,12 +135,7 @@ jobs:
       - name: Install Env
         shell: bash
         run: |
-          if [ "${{ matrix.python-implementation }}" = "pypy" ]; then
-            sed -i.bak '/xarray/d' requirements-test.txt;
-            sed -i.bak '/pandas/d' requirements-test.txt;
-          fi;
-          micromamba run -n test python -m pip install -e .
-          micromamba run -n test python -m pip install -r requirements-test.txt
+          micromamba run -n test python -m pip install -e . --group test
 
       - name: Check and Log Environment
         shell: bash
@@ -155,7 +148,7 @@ jobs:
         shell: bash
         if: matrix.python-implementation == 'python'
         run: |
-          micromamba run -n test python -m pip install pylint
+          micromamba run -n test python -m pip install --group lint
 
       - name: pylint
         shell: bash
@@ -196,7 +189,7 @@ jobs:
         shell: bash
         if: contains(matrix.os, 'ubuntu') && matrix.python-implementation == 'python'
         run: |
-          micromamba run -n test python -m pip install -r requirements-docs.txt
+          micromamba run -n test python -m pip install --group docs
           micromamba run -n test sphinx-build -b html docs/ docs/_build/
           micromamba run -n test sphinx-build -b man docs/ docs/_build/
 
