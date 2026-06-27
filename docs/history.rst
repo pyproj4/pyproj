@@ -16,6 +16,7 @@ Latest
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
 - BLD: update build-time dependencies
+- DOC: Document late-binding behavior of :meth:`pyproj.transformer.Transformer.to_json` and :meth:`pyproj.transformer.Transformer.to_wkt` returning ``None`` (and :meth:`pyproj.transformer.Transformer.to_json_dict` raising ``TypeError``) for transformers built with :meth:`pyproj.transformer.Transformer.from_crs` (issue #1549)
 
 3.7.2
 -----
