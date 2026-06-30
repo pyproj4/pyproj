@@ -298,6 +298,7 @@ cdef extern from "proj.h" nogil:
     void proj_int_list_destroy(int* list)
     void proj_context_use_proj4_init_rules(PJ_CONTEXT *ctx, int enable)
     ctypedef enum PJ_GUESSED_WKT_DIALECT:
+        PJ_GUESSED_WKT2_2019
         PJ_GUESSED_WKT2_2018
         PJ_GUESSED_WKT2_2015
         PJ_GUESSED_WKT1_GDAL
