@@ -155,7 +155,6 @@ The PROJ string is quite lossy in this example, so it is not provided.
     from pyproj.crs.coordinate_system import Cartesian2DCS, VerticalCS
     from pyproj.crs.coordinate_operation import LambertConformalConic2SPConversion
 
-
     vertcrs = VerticalCRS(
         name="NAVD88 height",
         datum="North American Vertical Datum 1988",
