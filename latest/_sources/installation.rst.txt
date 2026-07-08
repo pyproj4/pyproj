@@ -55,7 +55,7 @@ for getting setup.
 
 3. Install nightly wheels from anaconda:
 
-.. code-block:: python
+.. code-block:: bash
 
     python -m pip install pyproj --pre --extra-index-url https://pypi.anaconda.org/scientific-python-nightly-wheels/simple
 
