@@ -8,6 +8,7 @@ import pytest
 from numpy.testing import assert_almost_equal, assert_array_equal
 
 from pyproj import Geod
+from pyproj.exceptions import GeodError
 from pyproj.geod import GeodIntermediateFlag, reverse_azimuth
 
 try:
@@ -953,3 +954,62 @@ def test_geod__reverse_azimuth(radians):
     xx = xy.T[0]
     yy = xy.T[1]
     assert_almost_equal(reverse_azimuth(xx * f, radians=radians), yy * f)
+
+
+# Spherification radii for +ellps=WGS84, read from PROJ's own resolved
+# ellipsoid (``PROJ_DEBUG=3 geod +ellps=WGS84 <flag>``, "pj_ellipsoid - final"),
+# which is the reference implementation pyproj is expected to agree with.
+# The +R_A value is corroborated by the published WGS84 authalic sphere radius
+# of 6371007.1809 m, which it matches to 0.2 mm.
+@pytest.mark.parametrize(
+    "spherification, expected_radius",
+    [
+        ("+R_A", 6371007.181),
+        ("+R_V", 6371000.790),
+        ("+R_a", 6367444.657),
+        ("+R_g", 6367435.680),
+        ("+R_h", 6367426.702),
+        ("+R_lat_a=45", 6378110.053),
+        ("+R_lat_g=45", 6378101.030),
+        ("+R_C", 6356752.314),
+    ],
+)
+def test_geod__spherification(spherification, expected_radius):
+    geod = Geod(f"+proj=lonlat +ellps=WGS84 {spherification}")
+    assert geod.a == pytest.approx(expected_radius, abs=0.001)
+    # PROJ collapses the ellipsoid to a sphere, clearing the other parameters.
+    assert geod.b == pytest.approx(expected_radius, abs=0.001)
+    assert geod.f == 0
+    assert geod.es == 0
+
+
+def test_geod__spherification__changes_result():
+    # https://github.com/pyproj4/pyproj/issues/1157
+    # +R_A used to be dropped silently, so these two agreed exactly.
+    ellipsoidal = Geod("+proj=lonlat +ellps=WGS84")
+    authalic = Geod("+proj=lonlat +ellps=WGS84 +R_A")
+    assert authalic.a != ellipsoidal.a
+    assert authalic.f == 0
+    assert authalic.fwd(-70, 40, 60, 10000) != ellipsoidal.fwd(-70, 40, 60, 10000)
+
+
+def test_geod__spherification__kwargs():
+    assert Geod(ellps="WGS84", R_A=True).a == pytest.approx(6371007.181, abs=0.001)
+
+
+def test_geod__spherification__is_mutually_exclusive():
+    # PROJ applies the first parameter in its own fixed order, not the order
+    # they appear in the string, and ignores the rest.
+    assert Geod("+ellps=WGS84 +R_g +R_A").a == pytest.approx(6371007.181, abs=0.001)
+    assert Geod("+ellps=WGS84 +R_A +R_g").a == pytest.approx(6371007.181, abs=0.001)
+
+
+@pytest.mark.parametrize("spherification", ["+R_lat_a=91", "+R_lat_g=-91"])
+def test_geod__spherification__invalid_latitude(spherification):
+    with pytest.raises(GeodError, match="should be <= 90"):
+        Geod(f"+ellps=WGS84 {spherification}")
+
+
+def test_geod__spherification__invalid_latitude_value():
+    with pytest.raises(GeodError, match="Only decimal degrees"):
+        Geod("+ellps=WGS84 +R_lat_a=45d30'")
