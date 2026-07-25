@@ -20,7 +20,7 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
             python-version: '3.11'
@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.11', '3.12', '3.13']
+        python-version: ['3.11', '3.12', '3.13', '3.14']
         proj-version: ['9.7.1']
         include:
           - python-version: '3.11'
@@ -50,7 +50,7 @@ jobs:
           - python-version: '3.11'
             proj-version: '9.4.1'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Update
         run: |
@@ -106,7 +106,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.11', '3.12', '3.13']
+        python-version: ['3.11', '3.12', '3.13', '3.14']
         python-implementation: [python]
         proj-version: ['*']
         # DISABLED UNTIL CONDA-FORGE PYPY SUPPORTS PYTHON 3.11+
@@ -116,7 +116,7 @@ jobs:
           #   python-implementation: pypy
           #   proj-version: '*'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Conda
         uses: mamba-org/setup-micromamba@v3
