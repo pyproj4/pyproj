@@ -112,17 +112,19 @@ fiona
 
 https://github.com/Toblerity/Fiona
 
-Converting from `fiona` CRS to `pyproj.crs.CRS`
+Converting from `fiona.crs.CRS` to `pyproj.crs.CRS`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Fiona currently stores the CRS as a PROJ string dictionary in the `crs`
-attribute. As such, it is best to use the `crs_wkt` attribute.
+If you have `fiona >= 1.9`, the CRS of a dataset is a `fiona.crs.CRS`
+that you can pass in directly::
 
-It is also useful to know that plans exist to add CRS class.
-Related GitHub issue `here <https://github.com/Toblerity/Fiona/issues/714>`__.
+    import fiona
+    from pyproj.crs import CRS
 
+    with fiona.open(...) as fds:
+        proj_crs = CRS.from_user_input(fds.crs)
 
-Example::
+Otherwise, you should use the `crs_wkt` attribute::
 
     import fiona
     from pyproj.crs import CRS
@@ -131,27 +133,37 @@ Example::
         proj_crs = CRS.from_wkt(fds.crs_wkt)
 
 
-Converting from `pyproj.crs.CRS` for `fiona`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Converting from `pyproj.crs.CRS` to `fiona.crs.CRS`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. warning:: WKT2 is only supported in GDAL 3+
+
+If you have `fiona >= 1.9` and GDAL 3+, then you can pass in the `pyproj.crs.CRS`
+directly::
+
+    import fiona.crs
+    from pyproj.crs import CRS
+
+    proj_crs = CRS.from_epsg(4326)
+    fio_crs = fiona.crs.CRS.from_user_input(proj_crs)
 
 If you want to be compatible across GDAL versions, you can do::
 
     from packaging import version
 
     import fiona
+    import fiona.crs
     from pyproj.crs import CRS
+    from pyproj.enums import WktVersion
 
     proj_crs = CRS.from_epsg(4326)
-
     if version.parse(fiona.__gdal_version__) < version.parse("3.0.0"):
-        fio_crs = proj_crs.to_wkt(WktVersion.WKT1_GDAL)
+        fio_crs = fiona.crs.CRS.from_wkt(proj_crs.to_wkt(WktVersion.WKT1_GDAL))
     else:
         # GDAL 3+ can use WKT2
-        fio_crs = dc_crs.to_wkt()
+        fio_crs = fiona.crs.CRS.from_wkt(proj_crs.to_wkt())
 
-    # with fiona.open(..., "w", crs_wkt=fio_crs) as fds:
+    # with fiona.open(..., "w", crs=fio_crs) as fds:
     #     ...
 
 
