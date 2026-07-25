@@ -239,7 +239,7 @@ def test_2d_with_time_itransform_original_crs_obs2():
 def test_itransform_time_3rd_invalid():
     with (
         pytest.warns(FutureWarning),
-        pytest.raises(ValueError, match="'time_3rd' is only valid for 3 coordinates."),
+        pytest.raises(ValueError, match=r"'time_3rd' is only valid for 3 coordinates."),
     ):
         list(
             itransform(
@@ -251,7 +251,7 @@ def test_itransform_time_3rd_invalid():
         )
     with (
         pytest.warns(FutureWarning),
-        pytest.raises(ValueError, match="'time_3rd' is only valid for 3 coordinates."),
+        pytest.raises(ValueError, match=r"'time_3rd' is only valid for 3 coordinates."),
     ):
         list(itransform(7789, 8401, [(3496737.2679, 743254.4507)], time_3rd=True))
 
@@ -858,7 +858,7 @@ def test_transformer__only_best():
     if not grids_available("ca_nrc_ntv2_0.tif"):
         with pytest.raises(
             ProjError,
-            match="Grid ca_nrc_ntv2_0.tif is not available.",
+            match=r"Grid ca_nrc_ntv2_0.tif is not available.",
         ):
             transformer.transform(60, -100, errcheck=True)
 

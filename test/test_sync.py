@@ -178,7 +178,7 @@ def test_download_resource_file__bad_sha256sum(urlretrieve_mock, tmp_path):
         local_path.touch()
 
     urlretrieve_mock.side_effect = dummy_urlretrieve
-    with pytest.raises(RuntimeError, match="SHA256 mismatch: test_file.txt"):
+    with pytest.raises(RuntimeError, match=r"SHA256 mismatch: test_file.txt"):
         _download_resource_file(
             file_url="test_url",
             short_name="test_file.txt",

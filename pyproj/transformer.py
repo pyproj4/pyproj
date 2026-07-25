@@ -428,7 +428,7 @@ class TransformerLocal(threading.local):
 
 class Transformer:
     """
-    The Transformer class is for facilitating re-using
+    The Transformer class is for facilitating reusing
     transforms without needing to re-create them. The goal
     is to make repeated transforms faster.
 

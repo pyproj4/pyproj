@@ -42,5 +42,5 @@ def test_not_intersects():
     ],
 )
 def test_null_input(aoi_class, input):
-    with pytest.raises(ValueError, match="NaN or None values are not allowed."):
+    with pytest.raises(ValueError, match=r"NaN or None values are not allowed."):
         aoi_class(*input)
