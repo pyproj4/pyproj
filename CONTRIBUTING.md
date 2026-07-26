@@ -86,7 +86,7 @@ environments. Our recommended setup for contributing is:
     ```
 * Activate our new development environment ``conda activate devel`` on Mac/Linux or
   ``activate devel`` on Windows.
-* Install development requirements ``python -m pip install -r requirements-dev.txt``
+* Install development requirements ``python -m pip install --group dev``
 * Make an editable install of pyproj by running ``python -m pip install -e .``
 * Setup pre-commit hooks ``pre-commit install``
 
@@ -126,7 +126,7 @@ change the code and stay confident that things have not broken. Running the test
 ``pytest``, which is easily available through ``conda`` or ``pip``. It was also installed if you made our default ``devel`` environment.
 
 ### Running Tests
-Running the tests can be done by running ``python -m pytest``. Make sure you install the test requirements before running the tests ``python -m pip install -r requirements-test.txt``.
+Running the tests can be done by running ``python -m pytest``. Make sure you install the test requirements before running the tests ``python -m pip install --group test``.
 
 Running the whole test suite isn't that slow, but can be a burden if you're working on just
 one module or a specific test. It is easy to run tests on a single directory:
