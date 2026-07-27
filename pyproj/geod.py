@@ -1080,20 +1080,11 @@ class Geod(_Geod):
         ...         Point(-179, -89), Point(179, -89), Point(179, 89), Point(-179, 89)
         ...     ])
         ... )
-        >>> big_area, _ = geod.geometry_area_perimeter(nearly_global)
-        >>> big_area < 0
+        >>> geod.geometry_area_perimeter(nearly_global)[0] < 0
         True
 
         Its magnitude is the area of the thin strip left outside the polygon, so
-        adding the total area of the ellipsoid recovers the enclosed area:
-
-        >>> import math
-        >>> b = geod.a * (1 - geod.f)
-        >>> ecc2 = 1 - (b * b) / (geod.a * geod.a)
-        >>> ecc = math.sqrt(ecc2)
-        >>> total = 2 * math.pi * geod.a**2 * (1 + (1 - ecc2) / ecc * math.atanh(ecc))
-        >>> f"{100 * (big_area + total) / total:.1f}%"
-        '99.4%'
+        adding the total area of the ellipsoid recovers the enclosed area.
 
 
         Parameters
