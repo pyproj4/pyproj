@@ -27,7 +27,7 @@ jobs:
       PROJ_DATA: ${{ github.workspace }}/proj_install/share/proj
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
             python-version: '3.11'
       - name: Install PROJ
