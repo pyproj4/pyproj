@@ -16,6 +16,7 @@ Latest
 - DOC: Update fiona CRS compatibility for fiona 1.9+ (issue #1360)
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
+- BUG: Honour the ``+R_A``, ``+R_V``, ``+R_a``, ``+R_g``, ``+R_h``, ``+R_lat_a``, ``+R_lat_g`` and ``+R_C`` spherification parameters in :class:`pyproj.Geod` (issue #1157)
 - BLD: update build-time dependencies
 
 3.7.2
