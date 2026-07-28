@@ -1031,15 +1031,24 @@ class Geod(_Geod):
 
         .. note:: lats should be in the range [-90 deg, 90 deg].
 
-        .. note:: | There are a few limitations :
-                  | - only works with areas up to half the size of the globe ;
-                  | - certain large polygons may return negative values.
+        .. note:: The area is reduced modulo the total area of the ellipsoid,
+                  into the range ``(-A/2, A/2]``, where ``A`` is that total area
+                  (about ``5.10e14`` m\\ :sup:`2` on WGS84, so ``A/2`` is about
+                  ``2.55e14`` m\\ :sup:`2`). A region covering more than half the
+                  ellipsoid is therefore reported as the negated area of its
+                  complement: a polygon enclosing 99% of the globe returns about
+                  -1% of the total area, not +99%. Size is the only reason a
+                  correctly oriented polygon comes back negative, and "large"
+                  means precisely "more than half the ellipsoid" -- shape,
+                  proximity to a pole and crossing the antimeridian do not
+                  matter on their own.
 
         .. warning:: The area returned is signed with counter-clockwise (CCW) traversal
                      being treated as positive. For polygons, holes should use the
                      opposite traversal to the exterior (if the exterior is CCW, the
                      holes/interiors should be CW). You can use `shapely.ops.orient` to
-                     modify the orientation.
+                     modify the orientation. This is the other reason a result can be
+                     negative, and unlike the size limit above it applies at any size.
 
         If it is a Polygon, it will return the area and exterior perimeter.
         It will subtract the area of the interior holes.
@@ -1062,6 +1071,20 @@ class Geod(_Geod):
         ... )
         >>> f"{poly_area:.0f} {poly_perimeter:.0f}"
         '944373881400 3979008'
+
+        A polygon enclosing more than half the ellipsoid wraps around to a
+        negative value, even though its vertices are ordered counter-clockwise:
+
+        >>> nearly_global = Polygon(
+        ...     LineString([
+        ...         Point(-179, -89), Point(179, -89), Point(179, 89), Point(-179, 89)
+        ...     ])
+        ... )
+        >>> geod.geometry_area_perimeter(nearly_global)[0] < 0
+        True
+
+        Its magnitude is the area of the thin strip left outside the polygon, so
+        adding the total area of the ellipsoid recovers the enclosed area.
 
 
         Parameters
