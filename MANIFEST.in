@@ -9,7 +9,12 @@ include pyproj/*.pyi
 include test/sample.out
 include test/*.py
 include test/*/*.py
+
+# exclude generated files
+exclude pyproj/_compat.pxd
+exclude pyproj/_compat.pyx
 exclude pyproj/*.c
+
 recursive-include docs *
 prune docs/_build
 prune pyproj/proj_dir
