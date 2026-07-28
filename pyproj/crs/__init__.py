@@ -10,6 +10,7 @@ from pyproj._crs import (  # noqa: F401  pylint: disable=unused-import
     Datum,
     Ellipsoid,
     PrimeMeridian,
+    guess_wkt_version,
     is_proj,
     is_wkt,
 )
@@ -36,6 +37,7 @@ __all__ = [
     "GeographicCRS",
     "ProjectedCRS",
     "VerticalCRS",
+    "guess_wkt_version",
     "is_proj",
     "is_wkt",
 ]

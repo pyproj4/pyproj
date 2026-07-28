@@ -49,6 +49,38 @@ def is_wkt(str proj_string not None):
     return proj_context_guess_wkt_dialect(NULL, b_proj_string) != PJ_GUESSED_NOT_WKT
 
 
+def guess_wkt_version(str proj_string not None):
+    """
+    .. versionadded:: 3.8.0
+
+    Guess the version of the Well-Known Text format of the input string.
+
+    Parameters
+    ----------
+    proj_string: str
+        The projection string.
+
+    Returns
+    -------
+    Optional[pyproj.enums.WktVersion]:
+        The WKT version of the string or None if it is not WKT.
+    """
+    cdef bytes b_proj_string = cstrencode(proj_string)
+    cdef PJ_GUESSED_WKT_DIALECT dialect = proj_context_guess_wkt_dialect(
+        NULL, b_proj_string
+    )
+    # PJ_GUESSED_WKT2_2018 is the legacy alias of PJ_GUESSED_WKT2_2019.
+    if dialect == PJ_GUESSED_WKT2_2019:
+        return WktVersion.WKT2_2019
+    if dialect == PJ_GUESSED_WKT2_2015:
+        return WktVersion.WKT2_2015
+    if dialect == PJ_GUESSED_WKT1_GDAL:
+        return WktVersion.WKT1_GDAL
+    if dialect == PJ_GUESSED_WKT1_ESRI:
+        return WktVersion.WKT1_ESRI
+    return None
+
+
 def is_proj(str proj_string not None):
     """
     .. versionadded:: 2.2.2
