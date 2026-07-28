@@ -1247,8 +1247,22 @@ class Transformer:
 
         Returns
         -------
-        str:
-            The WKT string.
+        str or None:
+            The WKT string, or ``None`` if the transformation has not been
+            selected yet (see Notes).
+
+        Notes
+        -----
+        A :class:`Transformer` built with :meth:`Transformer.from_crs` can be
+        "late-binding": PROJ defers selecting a concrete transformation until
+        :meth:`Transformer.transform` is called with coordinates. Until then there
+        is no operation to serialize and this method returns ``None``
+        (``transformer.description`` reports
+        ``"unavailable until proj_trans is called"``).
+        The same workarounds as :meth:`to_json` apply: call
+        :meth:`get_last_used_operation` after :meth:`transform`, or build a
+        :class:`TransformerGroup` and call ``to_wkt`` on one of its
+        ``.transformers``.
         """
         return self._transformer.to_wkt(version=version, pretty=pretty)
 
@@ -1267,8 +1281,34 @@ class Transformer:
 
         Returns
         -------
-        str:
-            The JSON string.
+        str or None:
+            The JSON string, or ``None`` if the transformation has not been
+            selected yet (see Notes).
+
+        Notes
+        -----
+        A :class:`Transformer` built with :meth:`Transformer.from_crs` can be
+        "late-binding": PROJ defers selecting a concrete transformation until
+        :meth:`Transformer.transform` is called with coordinates. Until then there
+        is no operation to serialize and this method returns ``None``
+        (``transformer.description`` reports
+        ``"unavailable until proj_trans is called"``).
+        To serialize the operation that was actually used, transform a coordinate
+        and then use :meth:`get_last_used_operation` (PROJ 9.1+)::
+
+            transformer = Transformer.from_crs(
+                "EPSG:4258", "EPSG:32633", always_xy=True
+            )
+            transformer.transform(15, 60)
+            transformer.get_last_used_operation().to_json()
+
+        Alternatively, use :class:`TransformerGroup` to obtain the candidate
+        operations up front and serialize one of them::
+
+            from pyproj.transformer import TransformerGroup
+
+            group = TransformerGroup("EPSG:4258", "EPSG:32633")
+            group.transformers[0].to_json()
         """
         return self._transformer.to_json(pretty=pretty, indentation=indentation)
 
@@ -1282,6 +1322,17 @@ class Transformer:
         -------
         dict:
             The JSON dictionary.
+
+        Notes
+        -----
+        A :class:`Transformer` built with :meth:`Transformer.from_crs` can be
+        "late-binding": PROJ defers selecting a concrete transformation until
+        :meth:`Transformer.transform` is called with coordinates. While the
+        transformation is unselected the underlying JSON is ``None``, so this
+        method raises ``TypeError`` ("the JSON object must be str, bytes or
+        bytearray, not NoneType"). Use the same workarounds as :meth:`to_json`
+        (call :meth:`get_last_used_operation` after :meth:`transform`, or use a
+        :class:`TransformerGroup`) and call ``to_json_dict`` on the operation.
         """
         return self._transformer.to_json_dict()
 
