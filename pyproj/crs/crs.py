@@ -8,6 +8,7 @@ import json
 import re
 import threading
 import warnings
+from collections import OrderedDict
 from collections.abc import Callable
 from typing import Any, Optional
 
@@ -62,6 +63,33 @@ class CRSLocal(threading.local):
     def __init__(self):
         self.crs = None  # Initialises in each thread
         super().__init__()
+
+
+_COMPARISON_CACHE_MAXSIZE = 256
+# Comparison results, keyed on (srs, srs, mode). PROJ's comparison recurses
+# through the datum, coordinate system and conversion of both objects and is
+# expensive, but the result only depends on the two input strings.
+_COMPARISON_CACHE: OrderedDict[tuple[str, str, str], bool] = OrderedDict()
+# Guards mutation of _COMPARISON_CACHE
+_COMPARISON_CACHE_LOCK = threading.Lock()
+
+
+def _cached_comparison(this: "CRS", other: "CRS", mode: str) -> bool:
+    key = (this.srs, other.srs, mode)
+    try:
+        return _COMPARISON_CACHE[key]
+    except KeyError:
+        pass
+    if mode == "exact":
+        result = this._crs.is_exact_same(other._crs)
+    else:
+        result = this._crs.equals(other._crs, ignore_axis_order=mode == "ignore_axis")
+    with _COMPARISON_CACHE_LOCK:
+        # bound the cache, evicting the oldest entries first
+        while len(_COMPARISON_CACHE) >= _COMPARISON_CACHE_MAXSIZE:
+            _COMPARISON_CACHE.popitem(last=False)
+        _COMPARISON_CACHE[key] = result
+    return result
 
 
 def _prepare_from_dict(projparams: dict[str, Any], allow_json: bool = True) -> str:
@@ -181,6 +209,9 @@ class CRS:
         The string form of the user input used to create the CRS.
 
     """  # noqa: E501
+
+    # cached by __hash__ on first use; None until then
+    _hash: int | None = None
 
     def __init__(self, projparams: Any | None = None, **kwargs) -> None:
         """
@@ -937,6 +968,22 @@ class CRS:
                 cf_axis_list.extend(sub_crs.cs_to_cf())
         return cf_axis_list
 
+    def _compare(self, other: Any, mode: str) -> bool:
+        """
+        Compare to another CRS, taking the cheapest path that gives the answer.
+        """
+        if self is other:
+            return True
+        if not isinstance(other, CRS):
+            try:
+                other = CRS.from_user_input(other)
+            except CRSError:
+                return False
+        # identical input always builds identical PROJ objects
+        if self.srs == other.srs:
+            return True
+        return _cached_comparison(self, other, mode)
+
     def is_exact_same(self, other: Any) -> bool:
         """
         Check if the CRS objects are the exact same.
@@ -952,11 +999,7 @@ class CRS:
         -------
         bool
         """
-        try:
-            other = CRS.from_user_input(other)
-        except CRSError:
-            return False
-        return self._crs.is_exact_same(other._crs)
+        return self._compare(other, "exact")
 
     def equals(self, other: Any, ignore_axis_order: bool = False) -> bool:
         """
@@ -978,11 +1021,9 @@ class CRS:
         -------
         bool
         """
-        try:
-            other = CRS.from_user_input(other)
-        except CRSError:
-            return False
-        return self._crs.equals(other._crs, ignore_axis_order=ignore_axis_order)
+        return self._compare(
+            other, "ignore_axis" if ignore_axis_order else "equivalent"
+        )
 
     @property
     def geodetic_crs(self) -> Optional["CRS"]:
@@ -1601,7 +1642,10 @@ class CRS:
         self._local = CRSLocal()
 
     def __hash__(self) -> int:
-        return hash(self.to_wkt())
+        # to_wkt() is expensive and a CRS never changes, so cache the hash.
+        if self._hash is None:
+            self._hash = hash(self.to_wkt())
+        return self._hash
 
     def __str__(self) -> str:
         return self.srs

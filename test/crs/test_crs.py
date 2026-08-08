@@ -1587,6 +1587,51 @@ def test_crs_equals__ignore_axis_order():
 
 
 @pytest.mark.parametrize(
+    "crs_input_a,crs_input_b",
+    [
+        ("EPSG:4326", "EPSG:4326"),
+        ("EPSG:26915+5717", "EPSG:26915+5717"),
+        ("EPSG:32610", "EPSG:32611"),
+        ("EPSG:32610", "+proj=utm +zone=10 +datum=WGS84 +units=m +no_defs"),
+        ("EPSG:4326", "OGC:CRS84"),
+    ],
+)
+def test_crs_equals__matches_proj(crs_input_a, crs_input_b):
+    """the fast paths and the cache agree with PROJ, cold and warm"""
+    crs = CRS(crs_input_a)
+    other = CRS(crs_input_b)
+    for _ in range(2):
+        assert crs.equals(other) is crs._crs.equals(other._crs)
+        assert crs.equals(other, ignore_axis_order=True) is crs._crs.equals(
+            other._crs, ignore_axis_order=True
+        )
+        assert crs.is_exact_same(other) is crs._crs.is_exact_same(other._crs)
+    assert crs.equals(crs) and crs.is_exact_same(crs)
+
+
+def test_crs_comparison_cache():
+    """repeats are served from the cache, which stays bounded and never stale"""
+    cache = pyproj.crs.crs._COMPARISON_CACHE
+    maxsize = pyproj.crs.crs._COMPARISON_CACHE_MAXSIZE
+    cache.clear()
+    crs = CRS("EPSG:32610")
+    other = CRS("EPSG:32611")
+    assert crs.equals(other) is False
+    assert crs.equals(other) is False
+    assert len(cache) == 1
+    for lon_0 in range(maxsize * 2):
+        CRS(f"+proj=eqc +lon_0={lon_0} +datum=WGS84 +units=m +no_defs").equals(crs)
+    assert len(cache) <= maxsize
+    assert crs.equals(other) is False
+
+
+def test_crs_hash__cached():
+    """repeated hashing returns a stable value"""
+    crs = CRS.from_epsg(3857)
+    assert hash(crs) == hash(crs) == hash(crs.to_wkt())
+
+
+@pytest.mark.parametrize(
     "crs_input",
     [
         "+proj=utm +zone=15",

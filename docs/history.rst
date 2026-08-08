@@ -13,6 +13,8 @@ Latest
 - ENH: Added grid_check kwarg to :class:`pyproj.transformer.TransformerGroup` mirroring PROJ CLI ``--grid-check``
 - ENH: Added :class:`pyproj.enums.GridAvailabilityUse` enum for TransformerGroup ``grid_check`` kwarg
 - ENH: Added always_xy kwarg to :meth:`pyproj.transformer.Transformer.from_pipeline`
+- PERF: Speed up CRS comparisons with short-circuit and caching of results
+- PERF: Cache the result of ``hash(CRS)``
 - DOC: Update fiona CRS compatibility for fiona 1.9+ (issue #1360)
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
