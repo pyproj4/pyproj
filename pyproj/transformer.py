@@ -371,7 +371,7 @@ class TransformerGroup(_TransformerGroup):
         Download missing grids that can be downloaded automatically.
 
         .. warning:: There are cases where the URL to download the grid is missing.
-                     In those cases, you can enable enable
+                     In those cases, you can enable
                      :ref:`debugging-internal-proj` and perform a
                      transformation. The logs will show the grids PROJ searches for.
 
