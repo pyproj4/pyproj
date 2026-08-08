@@ -1,4 +1,3 @@
-import numbers
 from array import array
 from typing import Any, NamedTuple
 
@@ -111,14 +110,14 @@ class _Transformer(Base):
     ) -> None: ...
     def _transform_point(
         self,
-        inx: numbers.Real,
-        iny: numbers.Real,
-        inz: numbers.Real,
-        intime: numbers.Real,
+        inx: Any,
+        iny: Any,
+        inz: Any,
+        intime: Any,
         direction: TransformDirection | str,
         radians: bool,
         errcheck: bool,
-    ) -> None: ...
+    ) -> tuple[float, ...] | None: ...
     def _transform_sequence(
         self,
         stride: int,

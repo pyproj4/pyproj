@@ -940,19 +940,18 @@ class Transformer:
         '33  98'
 
         """
-        try:
-            # function optimized for point data
-            return self._transformer._transform_point(
-                inx=xx,
-                iny=yy,
-                inz=zz,
-                intime=tt,
-                direction=direction,
-                radians=radians,
-                errcheck=errcheck,
-            )
-        except TypeError:
-            pass
+        # function optimized for point data; returns None for non-scalar input
+        point_data = self._transformer._transform_point(
+            inx=xx,
+            iny=yy,
+            inz=zz,
+            intime=tt,
+            direction=direction,
+            radians=radians,
+            errcheck=errcheck,
+        )
+        if point_data is not None:
+            return point_data
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(xx, inplace=inplace)
         iny, y_data_type = _copytobuffer(yy, inplace=inplace)

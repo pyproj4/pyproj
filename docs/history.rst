@@ -17,6 +17,7 @@ Latest
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
 - BLD: update build-time dependencies
+- PERF: Optimize single point transformations and remove typecast warning (issue #1309)
 
 3.7.2
 -----

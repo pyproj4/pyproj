@@ -8,7 +8,7 @@ import re
 import warnings
 from collections import namedtuple
 
-from pyproj._compat cimport cstrencode
+from pyproj._compat cimport _is_scalar, cstrencode
 from pyproj._context cimport _clear_proj_error, _get_proj_error, pyproj_context_create
 from pyproj._crs cimport (
     _CRS,
@@ -862,37 +862,31 @@ cdef class _Transformer(Base):
     ):
         """
         Optimized to transform a single point between two coordinate systems.
+
+        Returns None if the inputs are not scalars, so that the caller can
+        fall back to the buffer-based array path.
         """
+        # The type checks must come before the conversions below
+        if not _is_scalar(inx) or not _is_scalar(iny):
+            return None
+        if inz is not None and not _is_scalar(inz):
+            return None
+        if intime is not None and not _is_scalar(intime):
+            return None
+
         cdef:
             double coord_x = inx
             double coord_y = iny
-            double coord_z = 0
-            double coord_t = HUGE_VAL
-            tuple expected_numeric_types = (int, float)
-
-        # We do the type-checking internally here due to automatically
-        # casting length-1 arrays to float that we don't want to return scalar for.
-        # Ex: float(np.array([0])) works and we don't want to accept numpy arrays
-        if not isinstance(inx, expected_numeric_types):
-            raise TypeError("Scalar input expected for x")
-        if not isinstance(iny, expected_numeric_types):
-            raise TypeError("Scalar input expected for y")
-        if inz is not None:
-            if not isinstance(inz, expected_numeric_types):
-                raise TypeError("Scalar input expected for z")
-            coord_z = inz
-        if intime is not None:
-            if not isinstance(intime, expected_numeric_types):
-                raise TypeError("Scalar input expected for t")
-            coord_t = intime
+            double coord_z = 0 if inz is None else inz
+            double coord_t = HUGE_VAL if intime is None else intime
 
         cdef tuple return_data
         if self.id == "noop":
-            return_data = (inx, iny)
+            return_data = (coord_x, coord_y)
             if inz is not None:
-                return_data += (inz,)
+                return_data += (coord_z,)
             if intime is not None:
-                return_data += (intime,)
+                return_data += (coord_t,)
             return return_data
 
         cdef:
