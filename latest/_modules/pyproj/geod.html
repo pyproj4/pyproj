@@ -573,19 +573,18 @@
 <span class="sd">        scalar or array:</span>
 <span class="sd">            Back azimuth(s) or Forward azimuth(s)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Fast-path for scalar input, will raise if invalid types are input</span>
-            <span class="c1"># and we can fallback below</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fwd_point</span><span class="p">(</span>
-                <span class="n">lons</span><span class="p">,</span>
-                <span class="n">lats</span><span class="p">,</span>
-                <span class="n">az</span><span class="p">,</span>
-                <span class="n">dist</span><span class="p">,</span>
-                <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
-                <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="c1"># Fast-path for scalar input; returns None for non-scalar input</span>
+        <span class="c1"># and we fall back below</span>
+        <span class="n">point_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fwd_point</span><span class="p">(</span>
+            <span class="n">lons</span><span class="p">,</span>
+            <span class="n">lats</span><span class="p">,</span>
+            <span class="n">az</span><span class="p">,</span>
+            <span class="n">dist</span><span class="p">,</span>
+            <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+            <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">point_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">point_data</span>
 
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
@@ -668,19 +667,18 @@
 <span class="sd">            Distance(s) between initial and terminus point(s)</span>
 <span class="sd">            in meters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Fast-path for scalar input, will raise if invalid types are input</span>
-            <span class="c1"># and we can fallback below</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_point</span><span class="p">(</span>
-                <span class="n">lons1</span><span class="p">,</span>
-                <span class="n">lats1</span><span class="p">,</span>
-                <span class="n">lons2</span><span class="p">,</span>
-                <span class="n">lats2</span><span class="p">,</span>
-                <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
-                <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="c1"># Fast-path for scalar input; returns None for non-scalar input</span>
+        <span class="c1"># and we fall back below</span>
+        <span class="n">point_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_point</span><span class="p">(</span>
+            <span class="n">lons1</span><span class="p">,</span>
+            <span class="n">lats1</span><span class="p">,</span>
+            <span class="n">lons2</span><span class="p">,</span>
+            <span class="n">lats2</span><span class="p">,</span>
+            <span class="n">radians</span><span class="o">=</span><span class="n">radians</span><span class="p">,</span>
+            <span class="n">return_back_azimuth</span><span class="o">=</span><span class="n">return_back_azimuth</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">point_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">point_data</span>
 
         <span class="c1"># process inputs, making copies that support buffer API.</span>
         <span class="n">inx</span><span class="p">,</span> <span class="n">x_data_type</span> <span class="o">=</span> <span class="n">_copytobuffer</span><span class="p">(</span><span class="n">lons1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
