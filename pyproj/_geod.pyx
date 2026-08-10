@@ -3,7 +3,7 @@ include "base.pxi"
 cimport cython
 from libc.math cimport ceil, isnan, round
 
-from pyproj._compat cimport cstrencode, empty_array
+from pyproj._compat cimport _is_scalar, cstrencode, empty_array
 
 import math
 from collections import namedtuple
@@ -190,7 +190,19 @@ cdef class Geod:
         of a terminus point given an initial point longitude and latitude, plus
         forward azimuth and distance.
         if radians=True, lons/lats are radians instead of degrees.
+
+        Returns None if the inputs are not scalars, so that the caller can
+        fall back to the buffer-based array path.
         """
+        # The type checks must come before the conversions below
+        if (
+            not _is_scalar(lon1in)
+            or not _is_scalar(lat1in)
+            or not _is_scalar(az1in)
+            or not _is_scalar(s12in)
+        ):
+            return None
+
         cdef:
             double plon2
             double plat2
@@ -199,13 +211,6 @@ cdef class Geod:
             double lat1 = lat1in
             double az1 = az1in
             double s12 = s12in
-
-        # We do the type-checking internally here due to automatically
-        # casting length-1 arrays to float that we don't want to return scalar for.
-        # Ex: float(np.array([0])) works and we don't want to accept numpy arrays
-        for x_in in (lon1in, lat1in, az1in, s12in):
-            if not isinstance(x_in, (float, int)):
-                raise TypeError("Scalar input is required for point based functions")
 
         with nogil:
             if radians:
@@ -318,7 +323,19 @@ cdef class Geod:
         inverse transformation - return forward and back azimuth, plus distance
         between an initial and terminus lat/lon pair.
         if radians=True, lons/lats are radians instead of degree
+
+        Returns None if the inputs are not scalars, so that the caller can
+        fall back to the buffer-based array path.
         """
+        # The type checks must come before the conversions below
+        if (
+            not _is_scalar(lon1in)
+            or not _is_scalar(lat1in)
+            or not _is_scalar(lon2in)
+            or not _is_scalar(lat2in)
+        ):
+            return None
+
         cdef:
             double pazi1
             double pazi2
@@ -327,13 +344,6 @@ cdef class Geod:
             double lat1 = lat1in
             double lon2 = lon2in
             double lat2 = lat2in
-
-        # We do the type-checking internally here due to automatically
-        # casting length-1 arrays to float that we don't want to return scalar for.
-        # Ex: float(np.array([0])) works and we don't want to accept numpy arrays
-        for x_in in (lon1in, lat1in, lon2in, lat2in):
-            if not isinstance(x_in, (float, int)):
-                raise TypeError("Scalar input is required for point based functions")
 
         with nogil:
             if radians:

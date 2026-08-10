@@ -300,19 +300,18 @@ class Geod(_Geod):
         scalar or array:
             Back azimuth(s) or Forward azimuth(s)
         """
-        try:
-            # Fast-path for scalar input, will raise if invalid types are input
-            # and we can fallback below
-            return self._fwd_point(
-                lons,
-                lats,
-                az,
-                dist,
-                radians=radians,
-                return_back_azimuth=return_back_azimuth,
-            )
-        except TypeError:
-            pass
+        # Fast-path for scalar input; returns None for non-scalar input
+        # and we fall back below
+        point_data = self._fwd_point(
+            lons,
+            lats,
+            az,
+            dist,
+            radians=radians,
+            return_back_azimuth=return_back_azimuth,
+        )
+        if point_data is not None:
+            return point_data
 
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(lons, inplace=inplace)
@@ -392,19 +391,18 @@ class Geod(_Geod):
             Distance(s) between initial and terminus point(s)
             in meters
         """
-        try:
-            # Fast-path for scalar input, will raise if invalid types are input
-            # and we can fallback below
-            return self._inv_point(
-                lons1,
-                lats1,
-                lons2,
-                lats2,
-                radians=radians,
-                return_back_azimuth=return_back_azimuth,
-            )
-        except TypeError:
-            pass
+        # Fast-path for scalar input; returns None for non-scalar input
+        # and we fall back below
+        point_data = self._inv_point(
+            lons1,
+            lats1,
+            lons2,
+            lats2,
+            radians=radians,
+            return_back_azimuth=return_back_azimuth,
+        )
+        if point_data is not None:
+            return point_data
 
         # process inputs, making copies that support buffer API.
         inx, x_data_type = _copytobuffer(lons1, inplace=inplace)
