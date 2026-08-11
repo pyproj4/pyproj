@@ -1625,6 +1625,18 @@ def test_crs_comparison_cache():
     assert crs.equals(other) is False
 
 
+def test_crs_comparison_cache__order_independent():
+    """the reversed comparison is served by the entry the forward one wrote"""
+    cache = pyproj.crs.crs._COMPARISON_CACHE
+    cache.clear()
+    crs = CRS("EPSG:32610")
+    other = CRS("EPSG:3857")
+    assert crs.equals(other) is False
+    assert len(cache) == 1
+    assert other.equals(crs) is False
+    assert len(cache) == 1
+
+
 def test_crs_hash__cached():
     """repeated hashing returns a stable value"""
     crs = CRS.from_epsg(3857)

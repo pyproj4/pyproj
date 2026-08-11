@@ -75,7 +75,10 @@ _COMPARISON_CACHE_LOCK = threading.Lock()
 
 
 def _cached_comparison(this: "CRS", other: "CRS", mode: str) -> bool:
-    key = (this.srs, other.srs, mode)
+    # PROJ's comparisons are symmetric, so order the srs pair to let
+    # a-vs-b and b-vs-a share an entry.
+    srs1, srs2 = this.srs, other.srs
+    key = (srs1, srs2, mode) if srs1 <= srs2 else (srs2, srs1, mode)
     try:
         return _COMPARISON_CACHE[key]
     except KeyError:
@@ -85,7 +88,8 @@ def _cached_comparison(this: "CRS", other: "CRS", mode: str) -> bool:
     else:
         result = this._crs.equals(other._crs, ignore_axis_order=mode == "ignore_axis")
     with _COMPARISON_CACHE_LOCK:
-        # bound the cache, evicting the oldest entries first
+        # bound the cache, evicting in insertion order (FIFO, not LRU: hits
+        # are served without taking the lock)
         while len(_COMPARISON_CACHE) >= _COMPARISON_CACHE_MAXSIZE:
             _COMPARISON_CACHE.popitem(last=False)
         _COMPARISON_CACHE[key] = result
