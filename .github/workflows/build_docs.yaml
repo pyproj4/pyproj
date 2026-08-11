@@ -35,6 +35,9 @@ jobs:
         run: |
           micromamba run -n docs python -m pip install -e . --group docs
           micromamba run -n docs sphinx-build -b html docs/ docs/_build/
+          # Remove unnecessary doctrees which are large and unused in the deployment
+          # This slims down the repository's gh-pages branch size growth
+          rm -rf docs/_build/.doctrees
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
