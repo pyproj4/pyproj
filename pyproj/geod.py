@@ -56,6 +56,101 @@ def _params_from_ellps_map(ellps: str) -> tuple[float, float, float, float, bool
     return semi_major_axis, semi_minor_axis, flattening, eccentricity_squared, sphere
 
 
+# Spherification parameters, in the order PROJ resolves them. They are mutually
+# exclusive: PROJ applies the first one present in this order and ignores the
+# rest. See ellps_spherification in PROJ src/ell_set.cpp.
+_SPHERIFICATION_KEYS = ("R_A", "R_V", "R_a", "R_g", "R_h", "R_lat_a", "R_lat_g", "R_C")
+
+# Series coefficients for the equal-area and equal-volume spheres,
+# from PROJ src/ell_set.cpp.
+_SIXTH = 1 / 6.0
+_RA4 = 17 / 360.0
+_RA6 = 67 / 3024.0
+_RV4 = 5 / 72.0
+_RV6 = 55 / 1296.0
+
+
+def _sphere_radius_from_spherification(
+    requested: dict[str, str],
+    semi_major_axis: float,
+    semi_minor_axis: float,
+    eccentricity_squared: float,
+    lat_0: float,
+) -> float:
+    """
+    Radius of the sphere requested by a PROJ spherification parameter.
+
+    Parameter
+    ---------
+    requested: dict[str, str]
+        The spherification parameters found in the input, mapped to their
+        (possibly empty) values.
+    semi_major_axis: float
+        The semi-major axis of the ellipsoid to spherify.
+    semi_minor_axis: float
+        The semi-minor axis of the ellipsoid to spherify.
+    eccentricity_squared: float
+        The eccentricity squared of the ellipsoid to spherify.
+    lat_0: float
+        Latitude of origin in degrees, used only by ``+R_C``.
+
+    Returns
+    -------
+    float
+
+    """
+    key = next(key for key in _SPHERIFICATION_KEYS if key in requested)
+    if key == "R_A":
+        # sphere with the same surface area as the ellipsoid
+        return semi_major_axis * (
+            1.0
+            - eccentricity_squared
+            * (_SIXTH + eccentricity_squared * (_RA4 + eccentricity_squared * _RA6))
+        )
+    if key == "R_V":
+        # sphere with the same volume as the ellipsoid
+        return semi_major_axis * (
+            1.0
+            - eccentricity_squared
+            * (_SIXTH + eccentricity_squared * (_RV4 + eccentricity_squared * _RV6))
+        )
+    if key == "R_a":
+        return (semi_major_axis + semi_minor_axis) / 2
+    if key == "R_g":
+        return math.sqrt(semi_major_axis * semi_minor_axis)
+    if key == "R_h":
+        if semi_major_axis + semi_minor_axis == 0:
+            raise GeodError("Invalid ellipsoid for +R_h: a + b is zero.")
+        return (
+            2 * semi_major_axis * semi_minor_axis / (semi_major_axis + semi_minor_axis)
+        )
+    # The remaining variants are evaluated at a latitude. PROJ parses that
+    # latitude with proj_dmstor and so also accepts DMS strings; only decimal
+    # degrees are supported here.
+    raw_latitude = lat_0 if key == "R_C" else requested[key]
+    try:
+        latitude = float(raw_latitude)
+    except (TypeError, ValueError) as error:
+        raise GeodError(
+            f"Invalid latitude for +{key}: {raw_latitude!r}. "
+            "Only decimal degrees are supported."
+        ) from error
+    if math.fabs(latitude) > 90:
+        raise GeodError(f"Invalid latitude for +{key}: |{latitude}| should be <= 90.")
+    sin_latitude = math.sin(math.radians(latitude))
+    factor = 1 - eccentricity_squared * sin_latitude**2
+    if factor == 0:
+        raise GeodError(f"Invalid eccentricity for +{key}.")
+    if key == "R_lat_a":
+        # arithmetic mean of the ellipsoid radii at the given latitude
+        return semi_major_axis * (
+            (1.0 - eccentricity_squared + factor) / (2 * factor * math.sqrt(factor))
+        )
+    # geometric mean of the ellipsoid radii at the given latitude (+R_lat_g),
+    # or the radius of the conformal sphere at lat_0 (+R_C)
+    return semi_major_axis * math.sqrt(1 - eccentricity_squared) / factor
+
+
 def _params_from_kwargs(kwargs: dict) -> tuple[float, float, float, float]:
     """
     Build Geodesic parameters from input kwargs:
@@ -198,20 +293,30 @@ class Geod(_Geod):
         # if initparams is a proj-type init string,
         # convert to dict.
         ellpsd: dict[str, str | float] = {}
+        spherification: dict[str, str] = {}
         if initstring is not None:
             for kvpair in initstring.split():
+                key, _, val = kvpair.partition("=")
+                key = key.lstrip("+")
+                # The spherification parameters are the only ones that are
+                # meaningful without a value, so they have to be collected
+                # before valueless parameters are discarded.
+                if key in _SPHERIFICATION_KEYS:
+                    spherification[key] = val
+                    continue
                 # Actually only +a and +b are needed
                 # We can ignore safely any parameter that doesn't have a value
-                if kvpair.find("=") == -1:
+                if not val:
                     continue
-                key, val = kvpair.split("=")
-                key = key.lstrip("+")
                 if key in ["a", "b", "rf", "f", "es", "e"]:
                     ellpsd[key] = float(val)
                 else:
                     ellpsd[key] = val
         # merge this dict with kwargs dict.
         kwargs = dict(list(kwargs.items()) + list(ellpsd.items()))
+        for key in _SPHERIFICATION_KEYS:
+            if key in kwargs:
+                spherification.setdefault(key, kwargs.pop(key))
         sphere = False
         if "ellps" in kwargs:
             (
@@ -228,6 +333,20 @@ class Geod(_Geod):
                 flattening,
                 eccentricity_squared,
             ) = _params_from_kwargs(kwargs)
+
+        if spherification:
+            # PROJ collapses the ellipsoid to the requested sphere and clears
+            # the remaining ellipsoidal parameters.
+            semi_major_axis = _sphere_radius_from_spherification(
+                spherification,
+                semi_major_axis,
+                semi_minor_axis,
+                eccentricity_squared,
+                float(kwargs.get("lat_0", 0)),
+            )
+            semi_minor_axis = semi_major_axis
+            flattening = 0.0
+            eccentricity_squared = 0.0
 
         if math.fabs(flattening) < 1.0e-8:
             sphere = True
