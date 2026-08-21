@@ -35,16 +35,14 @@ import pyproj.network
 from pyproj._context import (  # noqa: F401 pylint: disable=unused-import
     set_use_global_context,
 )
-from pyproj._show_versions import (  # noqa: F401 pylint: disable=unused-import
-    show_versions,
-)
+from pyproj._show_versions import show_versions
 from pyproj._version import (  # noqa: F401 pylint: disable=unused-import
     PROJ_COMPILED_VERSION,
     PROJ_COMPILED_VERSION_STR,
     PROJ_VERSION,
     PROJ_VERSION_STR,
 )
-from pyproj.crs import CRS  # noqa: F401 pylint: disable=unused-import
+from pyproj.crs import CRS
 from pyproj.database import (  # noqa: F401 pylint: disable=unused-import
     get_authorities,
     get_codes,
@@ -59,17 +57,9 @@ from pyproj.geod import (  # noqa: F401 pylint: disable=unused-import
     geodesic_version_str,
     pj_ellps,
 )
-from pyproj.list import (  # noqa: F401 pylint: disable=unused-import
-    get_ellps_map,
-    get_prime_meridians_map,
-    get_proj_operations_map,
-)
-from pyproj.proj import Proj, pj_list  # noqa: F401 pylint: disable=unused-import
-from pyproj.transformer import (  # noqa: F401 pylint: disable=unused-import
-    Transformer,
-    itransform,
-    transform,
-)
+from pyproj.list import get_ellps_map, get_prime_meridians_map, get_proj_operations_map
+from pyproj.proj import Proj, pj_list
+from pyproj.transformer import Transformer, itransform, transform
 
 __version__ = "3.7.3.dev0"
 __all__ = [
@@ -80,7 +70,6 @@ __all__ = [
     "get_ellps_map",
     "get_prime_meridians_map",
     "get_proj_operations_map",
-    "get_units_map",
     "itransform",
     "pj_ellps",
     "pj_list",
