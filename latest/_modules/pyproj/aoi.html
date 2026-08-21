@@ -264,9 +264,9 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyproj.aoi</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">This module contains the structures related to areas of interest.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Union</span>
@@ -278,14 +278,14 @@
 <a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.AreaOfInterest">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AreaOfInterest</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.3.0</span>
 
 <span class="sd">    This is the area of interest for:</span>
 
 <span class="sd">    - Transformations</span>
 <span class="sd">    - Querying for CRS data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: The west bound in degrees of the area of interest.</span>
     <span class="n">west_lon_degree</span><span class="p">:</span> <span class="nb">float</span>
@@ -303,18 +303,18 @@
             <span class="ow">or</span> <span class="n">is_null</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">east_lon_degree</span><span class="p">)</span>
             <span class="ow">or</span> <span class="n">is_null</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">north_lat_degree</span><span class="p">)</span>
         <span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN or None values are not allowed.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"NaN or None values are not allowed."</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="AreaOfUse">
 <a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.AreaOfUse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AreaOfUse</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.0.0</span>
 
 <span class="sd">    Area of Use for CRS, CoordinateOperation, or a Transformer.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: West bound of area of use.</span>
     <span class="n">west</span><span class="p">:</span> <span class="nb">float</span>
@@ -329,18 +329,18 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The bounds of the area of use.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        tuple[float, float, float, float]</span>
 <span class="sd">            west, south, east, and north bounds.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">west</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">south</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">east</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">north</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;- name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">- bounds: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="si">}</span><span class="s2">&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"- name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">- bounds: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 
@@ -348,13 +348,13 @@
 <a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BBox</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Bounding box to check if data intersects/contains other</span>
 <span class="sd">    bounding boxes.</span>
 
 <span class="sd">    .. versionadded:: 3.0.0</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: West bound of bounding box.</span>
     <span class="n">west</span><span class="p">:</span> <span class="nb">float</span>
@@ -372,12 +372,12 @@
             <span class="ow">or</span> <span class="n">is_null</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">east</span><span class="p">)</span>
             <span class="ow">or</span> <span class="n">is_null</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">north</span><span class="p">)</span>
         <span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN or None values are not allowed.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"NaN or None values are not allowed."</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BBox.intersects">
 <a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox.intersects">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">intersects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;BBox&quot;</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">intersects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"BBox"</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        other: BBox</span>
@@ -387,7 +387,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        bool:</span>
 <span class="sd">            True if this BBox intersects the other bbox.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">west</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">east</span>
             <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">west</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">east</span>
@@ -398,18 +398,18 @@
 
 <div class="viewcode-block" id="BBox.contains">
 <a class="viewcode-back" href="../../api/aoi.html#pyproj.aoi.BBox.contains">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;BBox&quot;</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"BBox"</span><span class="p">,</span> <span class="n">AreaOfUse</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        other: Union[&quot;BBox&quot;, AreaOfUse]</span>
+<span class="sd">        other: Union["BBox", AreaOfUse]</span>
 <span class="sd">            The other BBox to use to check.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        bool:</span>
 <span class="sd">            True if this BBox contains the other bbox.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">other</span><span class="o">.</span><span class="n">west</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">west</span>
             <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">east</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">east</span>

@@ -264,9 +264,9 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyproj.network</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Module for managing the PROJ network settings.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
@@ -283,7 +283,7 @@
 <div class="viewcode-block" id="set_ca_bundle_path">
 <a class="viewcode-back" href="../../api/network.html#pyproj.network.set_ca_bundle_path">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.0.0</span>
 
 <span class="sd">    Sets the path to the CA Bundle used by the `curl`</span>
@@ -306,13 +306,13 @@
 <span class="sd">        to using the path provided, by the `certifi` package. If it is set to False</span>
 <span class="sd">        or an empty string then it will default to the system settings or environment</span>
 <span class="sd">        variables.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">env_var_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;PROJ_CURL_CA_BUNDLE&quot;</span><span class="p">,</span> <span class="s2">&quot;CURL_CA_BUNDLE&quot;</span><span class="p">,</span> <span class="s2">&quot;SSL_CERT_FILE&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">env_var_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"PROJ_CURL_CA_BUNDLE"</span><span class="p">,</span> <span class="s2">"CURL_CA_BUNDLE"</span><span class="p">,</span> <span class="s2">"SSL_CERT_FILE"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ca_bundle_path</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="c1"># need to reset CA Bundle path to use system settings</span>
         <span class="c1"># or environment variables because it</span>
         <span class="c1"># could have been changed by the user previously</span>
-        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
         <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">)</span>
     <span class="k">elif</span> <span class="p">(</span><span class="n">ca_bundle_path</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
@@ -322,7 +322,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># reset CA Bundle path to use system settings</span>
         <span class="c1"># or environment variables</span>
-        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">ca_bundle_path</span> <span class="o">=</span> <span class="s2">""</span>
 
     <span class="n">_set_context_ca_bundle_path</span><span class="p">(</span><span class="n">ca_bundle_path</span><span class="p">)</span></div>
 

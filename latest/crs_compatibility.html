@@ -292,7 +292,7 @@ with other Python Geospatial libraries.</p>
 <span class="k">if</span> <span class="n">osgeo</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
     <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">osr_crs</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">osr_crs</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">([</span><span class="s2">&quot;FORMAT=WKT2_2018&quot;</span><span class="p">]))</span>
+    <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">osr_crs</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">([</span><span class="s2">"FORMAT=WKT2_2018"</span><span class="p">]))</span>
 </pre></div>
 </div>
 </section>
@@ -329,7 +329,7 @@ directly:</p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">rasterio.crs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
-<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">&quot;WKT2_2018&quot;</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">"WKT2_2018"</span><span class="p">):</span>
     <span class="n">rio_crs</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
     <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">rio_crs</span><span class="p">)</span>
 </pre></div>
@@ -338,7 +338,7 @@ directly:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rasterio.crs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
-<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">&quot;WKT2_2018&quot;</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">"WKT2_2018"</span><span class="p">):</span>
     <span class="n">rio_crs</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
     <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">rio_crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span>
 </pre></div>
@@ -368,7 +368,7 @@ directly:</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">WktVersion</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">rasterio</span><span class="o">.</span><span class="n">__gdal_version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;3.0.0&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">rasterio</span><span class="o">.</span><span class="n">__gdal_version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"3.0.0"</span><span class="p">)</span>
     <span class="n">rio_crs</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT1_GDAL</span><span class="p">))</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">rio_crs</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">())</span>
@@ -394,7 +394,7 @@ that you can pass in directly:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">fiona</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
-<span class="k">with</span> <span class="n">fiona</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">&quot;WKT2_2018&quot;</span><span class="p">),</span> <span class="n">fiona</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="k">as</span> <span class="n">fds</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">fiona</span><span class="o">.</span><span class="n">Env</span><span class="p">(</span><span class="n">OSR_WKT_FORMAT</span><span class="o">=</span><span class="s2">"WKT2_2018"</span><span class="p">),</span> <span class="n">fiona</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="k">as</span> <span class="n">fds</span><span class="p">:</span>
     <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">fds</span><span class="o">.</span><span class="n">crs_wkt</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -423,13 +423,13 @@ directly:</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">WktVersion</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fiona</span><span class="o">.</span><span class="n">__gdal_version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;3.0.0&quot;</span><span class="p">):</span>
+<span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fiona</span><span class="o">.</span><span class="n">__gdal_version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"3.0.0"</span><span class="p">):</span>
     <span class="n">fio_crs</span> <span class="o">=</span> <span class="n">fiona</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT1_GDAL</span><span class="p">))</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="c1"># GDAL 3+ can use WKT2</span>
     <span class="n">fio_crs</span> <span class="o">=</span> <span class="n">fiona</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_wkt</span><span class="p">(</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">())</span>
 
-<span class="c1"># with fiona.open(..., &quot;w&quot;, crs=fio_crs) as fds:</span>
+<span class="c1"># with fiona.open(..., "w", crs=fio_crs) as fds:</span>
 <span class="c1">#     ...</span>
 </pre></div>
 </div>
@@ -448,12 +448,12 @@ directly:</p>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">geopandas</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;0.7.0&quot;</span><span class="p">):</span>
+<span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">geopandas</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"0.7.0"</span><span class="p">):</span>
     <span class="c1"># geopandas uses pyproj.crs.CRS</span>
     <span class="n">geo_crs</span> <span class="o">=</span> <span class="n">proj_crs</span>
-<span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">geopandas</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;0.6.0&quot;</span><span class="p">):</span>
+<span class="k">elif</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">geopandas</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"0.6.0"</span><span class="p">):</span>
     <span class="c1"># this version of geopandas uses always_xy=True so WKT version is safe</span>
-    <span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fiona</span><span class="o">.</span><span class="n">__gdal_version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;3.0.0&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fiona</span><span class="o">.</span><span class="n">__gdal_version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"3.0.0"</span><span class="p">):</span>
         <span class="n">geo_crs</span> <span class="o">=</span> <span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT1_GDAL</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># GDAL 3+ can use WKT2</span>
@@ -534,7 +534,7 @@ so it should behave like a <cite>pyproj.crs.CRS</cite>.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
-<span class="n">py_crs</span> <span class="o">=</span> <span class="n">pycrs</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">from_ogc_wkt</span><span class="p">(</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="s2">&quot;WKT1_GDAL&quot;</span><span class="p">))</span>
+<span class="n">py_crs</span> <span class="o">=</span> <span class="n">pycrs</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">from_ogc_wkt</span><span class="p">(</span><span class="n">proj_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="s2">"WKT1_GDAL"</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>

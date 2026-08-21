@@ -317,7 +317,7 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 
 <span class="n">cd</span> <span class="o">=</span> <span class="n">CustomDatum</span><span class="p">(</span>
     <span class="n">ellipsoid</span><span class="o">=</span><span class="n">Ellipsoid</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">7001</span><span class="p">),</span>
-    <span class="n">prime_meridian</span><span class="o">=</span><span class="n">PrimeMeridian</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s2">&quot;Lisbon&quot;</span><span class="p">),</span>
+    <span class="n">prime_meridian</span><span class="o">=</span><span class="n">PrimeMeridian</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s2">"Lisbon"</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">geog_crs</span> <span class="o">=</span> <span class="n">GeographicCRS</span><span class="p">(</span><span class="n">datum</span><span class="o">=</span><span class="n">cd</span><span class="p">)</span>
 <span class="n">geog_wkt</span> <span class="o">=</span> <span class="n">geog_crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
@@ -349,7 +349,7 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.datum</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomDatum</span><span class="p">,</span> <span class="n">CustomEllipsoid</span>
 
 <span class="n">ell</span> <span class="o">=</span> <span class="n">CustomEllipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mi">6378137</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mi">6356752</span><span class="p">)</span>
-<span class="n">cd</span> <span class="o">=</span> <span class="n">CustomDatum</span><span class="p">(</span><span class="n">ellipsoid</span><span class="o">=</span><span class="n">ell</span><span class="p">,</span> <span class="n">prime_meridian</span><span class="o">=</span><span class="s2">&quot;Lisbon&quot;</span><span class="p">)</span>
+<span class="n">cd</span> <span class="o">=</span> <span class="n">CustomDatum</span><span class="p">(</span><span class="n">ellipsoid</span><span class="o">=</span><span class="n">ell</span><span class="p">,</span> <span class="n">prime_meridian</span><span class="o">=</span><span class="s2">"Lisbon"</span><span class="p">)</span>
 <span class="n">proj_crs</span> <span class="o">=</span> <span class="n">ProjectedCRS</span><span class="p">(</span>
     <span class="n">conversion</span><span class="o">=</span><span class="n">UTMConversion</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">GeographicCRS</span><span class="p">(</span><span class="n">datum</span><span class="o">=</span><span class="n">cd</span><span class="p">)</span>
 <span class="p">)</span>
@@ -381,12 +381,12 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
         <span class="n">scale_factor_natural_origin</span><span class="o">=</span><span class="mf">0.9996</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">GeographicCRS</span><span class="p">(</span>
-        <span class="n">datum</span><span class="o">=</span><span class="n">CustomDatum</span><span class="p">(</span><span class="n">ellipsoid</span><span class="o">=</span><span class="s2">&quot;International 1924 (Hayford 1909, 1910)&quot;</span><span class="p">)</span>
+        <span class="n">datum</span><span class="o">=</span><span class="n">CustomDatum</span><span class="p">(</span><span class="n">ellipsoid</span><span class="o">=</span><span class="s2">"International 1924 (Hayford 1909, 1910)"</span><span class="p">)</span>
     <span class="p">),</span>
 <span class="p">)</span>
 <span class="n">bound_crs</span> <span class="o">=</span> <span class="n">BoundCRS</span><span class="p">(</span>
     <span class="n">source_crs</span><span class="o">=</span><span class="n">proj_crs</span><span class="p">,</span>
-    <span class="n">target_crs</span><span class="o">=</span><span class="s2">&quot;WGS 84&quot;</span><span class="p">,</span>
+    <span class="n">target_crs</span><span class="o">=</span><span class="s2">"WGS 84"</span><span class="p">,</span>
     <span class="n">transformation</span><span class="o">=</span><span class="n">ToWGS84Transformation</span><span class="p">(</span>
         <span class="n">proj_crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.74</span><span class="p">,</span> <span class="o">-</span><span class="mf">34.27</span><span class="p">,</span> <span class="o">-</span><span class="mf">22.83</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.884</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.03</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.62</span>
     <span class="p">),</span>
@@ -403,13 +403,13 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs.coordinate_operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">LambertConformalConic2SPConversion</span>
 
 <span class="n">vertcrs</span> <span class="o">=</span> <span class="n">VerticalCRS</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NAVD88 height&quot;</span><span class="p">,</span>
-    <span class="n">datum</span><span class="o">=</span><span class="s2">&quot;North American Vertical Datum 1988&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"NAVD88 height"</span><span class="p">,</span>
+    <span class="n">datum</span><span class="o">=</span><span class="s2">"North American Vertical Datum 1988"</span><span class="p">,</span>
     <span class="n">vertical_cs</span><span class="o">=</span><span class="n">VerticalCS</span><span class="p">(),</span>
-    <span class="n">geoid_model</span><span class="o">=</span><span class="s2">&quot;GEOID12B&quot;</span><span class="p">,</span>
+    <span class="n">geoid_model</span><span class="o">=</span><span class="s2">"GEOID12B"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">projcrs</span> <span class="o">=</span> <span class="n">ProjectedCRS</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NAD83 / Pennsylvania South&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"NAD83 / Pennsylvania South"</span><span class="p">,</span>
     <span class="n">conversion</span><span class="o">=</span><span class="n">LambertConformalConic2SPConversion</span><span class="p">(</span>
         <span class="n">latitude_false_origin</span><span class="o">=</span><span class="mf">39.3333333333333</span><span class="p">,</span>
         <span class="n">longitude_false_origin</span><span class="o">=-</span><span class="mf">77.75</span><span class="p">,</span>
@@ -418,11 +418,11 @@ It can be simplified to not use the Ellipsoid or PrimeMeridian objects.</p>
         <span class="n">easting_false_origin</span><span class="o">=</span><span class="mi">600000</span><span class="p">,</span>
         <span class="n">northing_false_origin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">GeographicCRS</span><span class="p">(</span><span class="n">datum</span><span class="o">=</span><span class="s2">&quot;North American Datum 1983&quot;</span><span class="p">),</span>
+    <span class="n">geodetic_crs</span><span class="o">=</span><span class="n">GeographicCRS</span><span class="p">(</span><span class="n">datum</span><span class="o">=</span><span class="s2">"North American Datum 1983"</span><span class="p">),</span>
     <span class="n">cartesian_cs</span><span class="o">=</span><span class="n">Cartesian2DCS</span><span class="p">(),</span>
 <span class="p">)</span>
 <span class="n">compcrs</span> <span class="o">=</span> <span class="n">CompoundCRS</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NAD83 / Pennsylvania South + NAVD88 height&quot;</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">projcrs</span><span class="p">,</span> <span class="n">vertcrs</span><span class="p">]</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"NAD83 / Pennsylvania South + NAVD88 height"</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">projcrs</span><span class="p">,</span> <span class="n">vertcrs</span><span class="p">]</span>
 <span class="p">)</span>
 <span class="n">crs_wkt</span> <span class="o">=</span> <span class="n">compcrs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">()</span>
 </pre></div>

@@ -264,25 +264,25 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyproj.enums</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">This module contains enumerations used in pyproj.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">IntFlag</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">BaseEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base enumeration class that handles</span>
 <span class="sd">    input as strings ignoring case.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Handles finding the enumeration</span>
 <span class="sd">        ignoring case if provided as a string.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
@@ -293,49 +293,49 @@
             <span class="k">if</span> <span class="n">member</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">member</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid value supplied &#39;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Only </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">cls</span><span class="p">)</span><span class="si">}</span><span class="s2"> are supported.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Invalid value supplied '</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">'. "</span>
+            <span class="sa">f</span><span class="s2">"Only </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">cls</span><span class="p">)</span><span class="si">}</span><span class="s2"> are supported."</span>
         <span class="p">)</span>
 
 
 <div class="viewcode-block" id="WktVersion">
 <a class="viewcode-back" href="../../api/enums.html#pyproj.enums.WktVersion">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WktVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">     .. versionadded:: 2.2.0</span>
 
 <span class="sd">    Supported CRS WKT string versions</span>
 
 <span class="sd">    See: :c:enum:`PJ_WKT_TYPE`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: WKT Version 2 from 2015</span>
-    <span class="n">WKT2_2015</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2015&quot;</span>
+    <span class="n">WKT2_2015</span> <span class="o">=</span> <span class="s2">"WKT2_2015"</span>
     <span class="c1">#: WKT Version 2 from 2015 Simplified</span>
-    <span class="n">WKT2_2015_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2015_SIMPLIFIED&quot;</span>
+    <span class="n">WKT2_2015_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">"WKT2_2015_SIMPLIFIED"</span>
     <span class="c1">#: Deprecated alias for WKT Version 2 from 2019</span>
-    <span class="n">WKT2_2018</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2018&quot;</span>
+    <span class="n">WKT2_2018</span> <span class="o">=</span> <span class="s2">"WKT2_2018"</span>
     <span class="c1">#: Deprecated alias for WKT Version 2 from 2019 Simplified</span>
-    <span class="n">WKT2_2018_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2018_SIMPLIFIED&quot;</span>
+    <span class="n">WKT2_2018_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">"WKT2_2018_SIMPLIFIED"</span>
     <span class="c1">#: WKT Version 2 from 2019</span>
-    <span class="n">WKT2_2019</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2019&quot;</span>
+    <span class="n">WKT2_2019</span> <span class="o">=</span> <span class="s2">"WKT2_2019"</span>
     <span class="c1">#: WKT Version 2 from 2019 Simplified</span>
-    <span class="n">WKT2_2019_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">&quot;WKT2_2019_SIMPLIFIED&quot;</span>
+    <span class="n">WKT2_2019_SIMPLIFIED</span> <span class="o">=</span> <span class="s2">"WKT2_2019_SIMPLIFIED"</span>
     <span class="c1">#: WKT Version 1 GDAL Style</span>
-    <span class="n">WKT1_GDAL</span> <span class="o">=</span> <span class="s2">&quot;WKT1_GDAL&quot;</span>
+    <span class="n">WKT1_GDAL</span> <span class="o">=</span> <span class="s2">"WKT1_GDAL"</span>
     <span class="c1">#: WKT Version 1 ESRI Style</span>
-    <span class="n">WKT1_ESRI</span> <span class="o">=</span> <span class="s2">&quot;WKT1_ESRI&quot;</span></div>
+    <span class="n">WKT1_ESRI</span> <span class="o">=</span> <span class="s2">"WKT1_ESRI"</span></div>
 
 
 
 <div class="viewcode-block" id="ProjVersion">
 <a class="viewcode-back" href="../../api/enums.html#pyproj.enums.ProjVersion">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ProjVersion</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.2.0</span>
 
 <span class="sd">    Supported CRS PROJ string versions</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: PROJ String version 4</span>
     <span class="n">PROJ_4</span> <span class="o">=</span> <span class="mi">4</span>
@@ -347,25 +347,25 @@
 <div class="viewcode-block" id="TransformDirection">
 <a class="viewcode-back" href="../../api/enums.html#pyproj.enums.TransformDirection">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformDirection</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.2.0</span>
 
 <span class="sd">    Supported transform directions</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: Forward direction</span>
-    <span class="n">FORWARD</span> <span class="o">=</span> <span class="s2">&quot;FORWARD&quot;</span>
+    <span class="n">FORWARD</span> <span class="o">=</span> <span class="s2">"FORWARD"</span>
     <span class="c1">#: Inverse direction</span>
-    <span class="n">INVERSE</span> <span class="o">=</span> <span class="s2">&quot;INVERSE&quot;</span>
+    <span class="n">INVERSE</span> <span class="o">=</span> <span class="s2">"INVERSE"</span>
     <span class="c1">#: Do nothing</span>
-    <span class="n">IDENT</span> <span class="o">=</span> <span class="s2">&quot;IDENT&quot;</span></div>
+    <span class="n">IDENT</span> <span class="o">=</span> <span class="s2">"IDENT"</span></div>
 
 
 
 <div class="viewcode-block" id="PJType">
 <a class="viewcode-back" href="../../api/enums.html#pyproj.enums.PJType">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PJType</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.4.0</span>
 
 <span class="sd">    PJ Types for listing codes with :func:`pyproj.get_codes`</span>
@@ -400,45 +400,45 @@
 <span class="sd">    CONCATENATED_OPERATION</span>
 <span class="sd">    OTHER_COORDINATE_OPERATION</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNKNOWN&quot;</span>
-    <span class="n">ELLIPSOID</span> <span class="o">=</span> <span class="s2">&quot;ELLIPSOID&quot;</span>
-    <span class="n">PRIME_MERIDIAN</span> <span class="o">=</span> <span class="s2">&quot;PRIME_MERIDIAN&quot;</span>
-    <span class="n">GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;GEODETIC_REFERENCE_FRAME&quot;</span>
-    <span class="n">DYNAMIC_GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_GEODETIC_REFERENCE_FRAME&quot;</span>
-    <span class="n">VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;VERTICAL_REFERENCE_FRAME&quot;</span>
-    <span class="n">DYNAMIC_VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_VERTICAL_REFERENCE_FRAME&quot;</span>
-    <span class="n">DATUM_ENSEMBLE</span> <span class="o">=</span> <span class="s2">&quot;DATUM_ENSEMBLE&quot;</span>
-    <span class="n">CRS</span> <span class="o">=</span> <span class="s2">&quot;CRS&quot;</span>
-    <span class="n">GEODETIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEODETIC_CRS&quot;</span>
-    <span class="n">GEOCENTRIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOCENTRIC_CRS&quot;</span>
-    <span class="n">GEOGRAPHIC_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_CRS&quot;</span>
-    <span class="n">GEOGRAPHIC_2D_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_2D_CRS&quot;</span>
-    <span class="n">GEOGRAPHIC_3D_CRS</span> <span class="o">=</span> <span class="s2">&quot;GEOGRAPHIC_3D_CRS&quot;</span>
-    <span class="n">VERTICAL_CRS</span> <span class="o">=</span> <span class="s2">&quot;VERTICAL_CRS&quot;</span>
-    <span class="n">PROJECTED_CRS</span> <span class="o">=</span> <span class="s2">&quot;PROJECTED_CRS&quot;</span>
-    <span class="n">DERIVED_PROJECTED_CRS</span> <span class="o">=</span> <span class="s2">&quot;DERIVED_PROJECTED_CRS&quot;</span>
-    <span class="n">COMPOUND_CRS</span> <span class="o">=</span> <span class="s2">&quot;COMPOUND_CRS&quot;</span>
-    <span class="n">TEMPORAL_CRS</span> <span class="o">=</span> <span class="s2">&quot;TEMPORAL_CRS&quot;</span>
-    <span class="n">ENGINEERING_CRS</span> <span class="o">=</span> <span class="s2">&quot;ENGINEERING_CRS&quot;</span>
-    <span class="n">BOUND_CRS</span> <span class="o">=</span> <span class="s2">&quot;BOUND_CRS&quot;</span>
-    <span class="n">OTHER_CRS</span> <span class="o">=</span> <span class="s2">&quot;OTHER_CRS&quot;</span>
-    <span class="n">CONVERSION</span> <span class="o">=</span> <span class="s2">&quot;CONVERSION&quot;</span>
-    <span class="n">TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;TRANSFORMATION&quot;</span>
-    <span class="n">CONCATENATED_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;CONCATENATED_OPERATION&quot;</span>
-    <span class="n">OTHER_COORDINATE_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;OTHER_COORDINATE_OPERATION&quot;</span></div>
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="s2">"UNKNOWN"</span>
+    <span class="n">ELLIPSOID</span> <span class="o">=</span> <span class="s2">"ELLIPSOID"</span>
+    <span class="n">PRIME_MERIDIAN</span> <span class="o">=</span> <span class="s2">"PRIME_MERIDIAN"</span>
+    <span class="n">GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">"GEODETIC_REFERENCE_FRAME"</span>
+    <span class="n">DYNAMIC_GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">"DYNAMIC_GEODETIC_REFERENCE_FRAME"</span>
+    <span class="n">VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">"VERTICAL_REFERENCE_FRAME"</span>
+    <span class="n">DYNAMIC_VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">"DYNAMIC_VERTICAL_REFERENCE_FRAME"</span>
+    <span class="n">DATUM_ENSEMBLE</span> <span class="o">=</span> <span class="s2">"DATUM_ENSEMBLE"</span>
+    <span class="n">CRS</span> <span class="o">=</span> <span class="s2">"CRS"</span>
+    <span class="n">GEODETIC_CRS</span> <span class="o">=</span> <span class="s2">"GEODETIC_CRS"</span>
+    <span class="n">GEOCENTRIC_CRS</span> <span class="o">=</span> <span class="s2">"GEOCENTRIC_CRS"</span>
+    <span class="n">GEOGRAPHIC_CRS</span> <span class="o">=</span> <span class="s2">"GEOGRAPHIC_CRS"</span>
+    <span class="n">GEOGRAPHIC_2D_CRS</span> <span class="o">=</span> <span class="s2">"GEOGRAPHIC_2D_CRS"</span>
+    <span class="n">GEOGRAPHIC_3D_CRS</span> <span class="o">=</span> <span class="s2">"GEOGRAPHIC_3D_CRS"</span>
+    <span class="n">VERTICAL_CRS</span> <span class="o">=</span> <span class="s2">"VERTICAL_CRS"</span>
+    <span class="n">PROJECTED_CRS</span> <span class="o">=</span> <span class="s2">"PROJECTED_CRS"</span>
+    <span class="n">DERIVED_PROJECTED_CRS</span> <span class="o">=</span> <span class="s2">"DERIVED_PROJECTED_CRS"</span>
+    <span class="n">COMPOUND_CRS</span> <span class="o">=</span> <span class="s2">"COMPOUND_CRS"</span>
+    <span class="n">TEMPORAL_CRS</span> <span class="o">=</span> <span class="s2">"TEMPORAL_CRS"</span>
+    <span class="n">ENGINEERING_CRS</span> <span class="o">=</span> <span class="s2">"ENGINEERING_CRS"</span>
+    <span class="n">BOUND_CRS</span> <span class="o">=</span> <span class="s2">"BOUND_CRS"</span>
+    <span class="n">OTHER_CRS</span> <span class="o">=</span> <span class="s2">"OTHER_CRS"</span>
+    <span class="n">CONVERSION</span> <span class="o">=</span> <span class="s2">"CONVERSION"</span>
+    <span class="n">TRANSFORMATION</span> <span class="o">=</span> <span class="s2">"TRANSFORMATION"</span>
+    <span class="n">CONCATENATED_OPERATION</span> <span class="o">=</span> <span class="s2">"CONCATENATED_OPERATION"</span>
+    <span class="n">OTHER_COORDINATE_OPERATION</span> <span class="o">=</span> <span class="s2">"OTHER_COORDINATE_OPERATION"</span></div>
 
 
 
 <div class="viewcode-block" id="GeodIntermediateFlag">
 <a class="viewcode-back" href="../../api/enums.html#pyproj.enums.GeodIntermediateFlag">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GeodIntermediateFlag</span><span class="p">(</span><span class="n">IntFlag</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    Flags to be used in Geod.[inv|fwd]_intermediate()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">DEFAULT</span> <span class="o">=</span> <span class="mh">0x0</span>
 
@@ -455,7 +455,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">CRSExtentUse</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.8.0</span>
 
 <span class="sd">     See: :c:enum:`PROJ_CRS_EXTENT_USE`</span>
@@ -475,16 +475,16 @@
 <span class="sd">        Use intersection of source &amp; target CRS extents.</span>
 <span class="sd">    SMALLEST</span>
 <span class="sd">        Use the smallest of source or target CRS extent.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">NONE</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
-    <span class="n">BOTH</span> <span class="o">=</span> <span class="s2">&quot;BOTH&quot;</span>
-    <span class="n">INTERSECTION</span> <span class="o">=</span> <span class="s2">&quot;INTERSECTION&quot;</span>
-    <span class="n">SMALLEST</span> <span class="o">=</span> <span class="s2">&quot;SMALLEST&quot;</span>
+    <span class="n">NONE</span> <span class="o">=</span> <span class="s2">"NONE"</span>
+    <span class="n">BOTH</span> <span class="o">=</span> <span class="s2">"BOTH"</span>
+    <span class="n">INTERSECTION</span> <span class="o">=</span> <span class="s2">"INTERSECTION"</span>
+    <span class="n">SMALLEST</span> <span class="o">=</span> <span class="s2">"SMALLEST"</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">IntermediateCRSUse</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.8.0</span>
 
 <span class="sd">    Mirrors the ``--pivot-crs`` modes from the PROJ CLI and controls how</span>
@@ -499,15 +499,15 @@
 <span class="sd">        Only fall back to pivots when no direct operation exists.</span>
 <span class="sd">    NEVER</span>
 <span class="sd">        Do not attempt to use pivot CRS.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">ALWAYS</span> <span class="o">=</span> <span class="s2">&quot;ALWAYS&quot;</span>
-    <span class="n">IF_NO_DIRECT_TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;IF_NO_DIRECT_TRANSFORMATION&quot;</span>
-    <span class="n">NEVER</span> <span class="o">=</span> <span class="s2">&quot;NEVER&quot;</span>
+    <span class="n">ALWAYS</span> <span class="o">=</span> <span class="s2">"ALWAYS"</span>
+    <span class="n">IF_NO_DIRECT_TRANSFORMATION</span> <span class="o">=</span> <span class="s2">"IF_NO_DIRECT_TRANSFORMATION"</span>
+    <span class="n">NEVER</span> <span class="o">=</span> <span class="s2">"NEVER"</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">GridAvailabilityUse</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.8.0</span>
 
 <span class="sd">    Mirrors the ``--grid-check`` option from the PROJ CLI and controls how</span>
@@ -520,22 +520,22 @@
 <span class="sd">    ------</span>
 <span class="sd">    SORT</span>
 <span class="sd">        Grid availability is used for sorting operations (prefer operations</span>
-<span class="sd">        with available grids). Equivalent to projinfo&#39;s ``--grid-check sort``.</span>
+<span class="sd">        with available grids). Equivalent to projinfo's ``--grid-check sort``.</span>
 <span class="sd">    DISCARD_MISSING</span>
 <span class="sd">        Discard operations that reference missing grids.</span>
-<span class="sd">        Equivalent to projinfo&#39;s ``--grid-check discard_missing``.</span>
+<span class="sd">        Equivalent to projinfo's ``--grid-check discard_missing``.</span>
 <span class="sd">    NONE</span>
 <span class="sd">        Ignore grid availability (include all operations).</span>
-<span class="sd">        Equivalent to projinfo&#39;s ``--grid-check none``.</span>
+<span class="sd">        Equivalent to projinfo's ``--grid-check none``.</span>
 <span class="sd">    KNOWN_AVAILABLE</span>
 <span class="sd">        Only consider operations where all required grids are known to be available.</span>
-<span class="sd">        Equivalent to projinfo&#39;s ``--grid-check known_available``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Equivalent to projinfo's ``--grid-check known_available``.</span>
+<span class="sd">    """</span>
 
-    <span class="n">SORT</span> <span class="o">=</span> <span class="s2">&quot;SORT&quot;</span>
-    <span class="n">DISCARD_MISSING</span> <span class="o">=</span> <span class="s2">&quot;DISCARD_MISSING&quot;</span>
-    <span class="n">NONE</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
-    <span class="n">KNOWN_AVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;KNOWN_AVAILABLE&quot;</span>
+    <span class="n">SORT</span> <span class="o">=</span> <span class="s2">"SORT"</span>
+    <span class="n">DISCARD_MISSING</span> <span class="o">=</span> <span class="s2">"DISCARD_MISSING"</span>
+    <span class="n">NONE</span> <span class="o">=</span> <span class="s2">"NONE"</span>
+    <span class="n">KNOWN_AVAILABLE</span> <span class="o">=</span> <span class="s2">"KNOWN_AVAILABLE"</span>
 </pre></div>
         </article>
       </div>

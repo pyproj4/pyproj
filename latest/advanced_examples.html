@@ -317,7 +317,7 @@ transformations as well as missing transformations.</p>
 <li><p>Helpful if you want to use an alternate transformation and have a good reason for it.</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.transformer</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformerGroup</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span><span class="s2">&quot;EPSG:2964&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span><span class="s2">"EPSG:2964"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trans_group</span>
 <span class="go">&lt;TransformerGroup: best_available=True&gt;</span>
 <span class="go">- transformers: 8</span>
@@ -337,19 +337,19 @@ transformations as well as missing transformations.</p>
 And if not, how to get the missing grid.</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.transformer</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformerGroup</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">TransformerGroup</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span> <span class="s2">"+proj=aea +lat_0=50 +lon_0=-154 +lat_1=55 +lat_2=65 +x_0=0 +y_0=0 +datum=NAD27 +no_defs +type=crs +units=m"</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">UserWarning: Best transformation is not available due to missing Grid(short_name=ntv2_0.gsb, full_name=, package_name=proj-datumgrid-north-america, url=https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip, direct_download=True, open_license=True, available=False)</span>
-<span class="go">f&quot;{operation.grids[0]!r}&quot;</span>
+<span class="go">f"{operation.grids[0]!r}"</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span>
 <span class="go">&lt;TransformerGroup: best_available=False&gt;</span>
 <span class="go">- transformers: 37</span>
 <span class="go">- unavailable_operations: 41</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">description</span>
-<span class="go">&#39;axis order change (2D) + Inverse of NAD27 to WGS 84 (3) + axis order change (2D) + unknown&#39;</span>
+<span class="go">'axis order change (2D) + Inverse of NAD27 to WGS 84 (3) + axis order change (2D) + unknown'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-<span class="go">&#39;Inverse of NAD27 to WGS 84 (33) + axis order change (2D) + unknown&#39;</span>
+<span class="go">'Inverse of NAD27 to WGS 84 (33) + axis order change (2D) + unknown'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">url</span>
-<span class="go">&#39;https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip&#39;</span>
+<span class="go">'https://download.osgeo.org/proj/proj-datumgrid-north-america-latest.zip'</span>
 </pre></div>
 </div>
 </section>
@@ -361,7 +361,7 @@ And if not, how to get the missing grid.</p></li>
 <p>Depending on the location of your transformation, using the area of interest may impact
 which transformation operation is selected in the transformation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.transformer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Transformer</span><span class="p">,</span> <span class="n">AreaOfInterest</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:2694&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span> <span class="s2">"EPSG:2694"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
 <span class="go">&lt;Concatenated Operation Transformer: pipeline&gt;</span>
 <span class="go">Description: Inverse of Pulkovo 1995 to WGS 84 (2) + 3-degree Gauss-Kruger zone 60</span>
@@ -369,8 +369,8 @@ which transformation operation is selected in the transformation.</p>
 <span class="go">- name: Russia</span>
 <span class="go">- bounds: (18.92, 39.87, -168.97, 85.2)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s2">&quot;EPSG:2694&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">"EPSG:4326"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">"EPSG:2694"</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">area_of_interest</span><span class="o">=</span><span class="n">AreaOfInterest</span><span class="p">(</span><span class="o">-</span><span class="mf">136.46</span><span class="p">,</span> <span class="mf">49.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">60.72</span><span class="p">,</span> <span class="mf">83.17</span><span class="p">),</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span>
@@ -390,12 +390,12 @@ which transformation operation is selected in the transformation.</p>
 <p>In PROJ 6+ you need to explicitly change your CRS to 3D if you have
 2D CRS and you want the ellipsoidal height taken into account.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Transformer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:2056&quot;</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span> <span class="s2">"EPSG:2056"</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">8.37909</span><span class="p">,</span> <span class="mf">47.01987</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="go">(2671499.8913080636, 1208075.1135782297, 1000.0)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(),</span>
-<span class="gp">... </span>    <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:2056&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">)</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:2056"</span><span class="p">)</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(),</span>
 <span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="go">...)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">8.37909</span><span class="p">,</span> <span class="mf">47.01987</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
@@ -412,8 +412,8 @@ which transformation operation is selected in the transformation.</p>
 for example to create another 3D CRS compound between a 2D CRS and a vertical CRS.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Transformer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.crs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompoundCRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">src_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4979&quot;</span><span class="p">)</span> <span class="c1"># Any 3D CRS, here the 3D WGS 84</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vert_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:5773&quot;</span><span class="p">)</span> <span class="c1"># Any vertical CRS, here the EGM96 geoid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">src_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:4979"</span><span class="p">)</span> <span class="c1"># Any 3D CRS, here the 3D WGS 84</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vert_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:5773"</span><span class="p">)</span> <span class="c1"># Any vertical CRS, here the EGM96 geoid</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dst_crs</span> <span class="o">=</span> <span class="n">CompoundCRS</span><span class="p">(</span><span class="n">src_crs</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="n">vert_crs</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="n">src_crs</span><span class="o">.</span><span class="n">to_2d</span><span class="p">(),</span> <span class="n">vert_crs</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">src_crs</span><span class="p">,</span> <span class="n">dst_crs</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer_3d</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">8.37909</span><span class="p">,</span> <span class="mf">47.01987</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
@@ -429,7 +429,7 @@ for example to create another 3D CRS compound between a 2D CRS and a vertical CR
 <p>The boundary of the CRS is given in geographic coordinates.
 This is the recommended method for calculating the projected bounds.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Transformer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:3857"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform_bounds</span><span class="p">(</span><span class="o">*</span><span class="n">crs</span><span class="o">.</span><span class="n">area_of_use</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
 <span class="go">(-20037508.342789244, -20048966.104014594, 20037508.342789244, 20048966.104014594)</span>
@@ -470,7 +470,7 @@ enabling the use of the global context can provide performance enhancements.</p>
 <p>Here is an example where enabling the global context can help:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyproj</span>
 
-<span class="n">codes</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">get_codes</span><span class="p">(</span><span class="s2">&quot;EPSG&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">PJType</span><span class="o">.</span><span class="n">PROJECTED_CRS</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">codes</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">get_codes</span><span class="p">(</span><span class="s2">"EPSG"</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">PJType</span><span class="o">.</span><span class="n">PROJECTED_CRS</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">crs_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyproj</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -496,18 +496,18 @@ of re-creating the objects.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">timeit</span><span class="w"> </span><span class="kn">import</span> <span class="n">timeit</span>
 
 <span class="n">timeit</span><span class="p">(</span>
-    <span class="s2">&quot;CachedTransformer(2263, 4326)&quot;</span><span class="p">,</span>
+    <span class="s2">"CachedTransformer(2263, 4326)"</span><span class="p">,</span>
     <span class="n">setup</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">&quot;from pyproj import Transformer; &quot;</span>
-        <span class="s2">&quot;from functools import lru_cache; &quot;</span>
-        <span class="s2">&quot;CachedTransformer = lru_cache(Transformer.from_crs)&quot;</span>
+        <span class="s2">"from pyproj import Transformer; "</span>
+        <span class="s2">"from functools import lru_cache; "</span>
+        <span class="s2">"CachedTransformer = lru_cache(Transformer.from_crs)"</span>
     <span class="p">),</span>
     <span class="n">number</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">timeit</span><span class="p">(</span>
-    <span class="s2">&quot;Transformer.from_crs(2263, 4326)&quot;</span><span class="p">,</span>
-    <span class="n">setup</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;from pyproj import Transformer&quot;</span><span class="p">),</span>
+    <span class="s2">"Transformer.from_crs(2263, 4326)"</span><span class="p">,</span>
+    <span class="n">setup</span><span class="o">=</span><span class="p">(</span><span class="s2">"from pyproj import Transformer"</span><span class="p">),</span>
     <span class="n">number</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -531,18 +531,18 @@ it takes 0.1 seconds to do 1 million iterations.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">timeit</span><span class="w"> </span><span class="kn">import</span> <span class="n">timeit</span>
 
 <span class="n">timeit</span><span class="p">(</span>
-    <span class="s2">&quot;CachedCRS(4326)&quot;</span><span class="p">,</span>
+    <span class="s2">"CachedCRS(4326)"</span><span class="p">,</span>
     <span class="n">setup</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">&quot;from pyproj import CRS; &quot;</span>
-        <span class="s2">&quot;from functools import lru_cache; &quot;</span>
-        <span class="s2">&quot;CachedCRS = lru_cache(CRS)&quot;</span>
+        <span class="s2">"from pyproj import CRS; "</span>
+        <span class="s2">"from functools import lru_cache; "</span>
+        <span class="s2">"CachedCRS = lru_cache(CRS)"</span>
     <span class="p">),</span>
     <span class="n">number</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">timeit</span><span class="p">(</span>
-    <span class="s2">&quot;CRS(4326)&quot;</span><span class="p">,</span>
-    <span class="n">setup</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;from pyproj import CRS&quot;</span><span class="p">),</span>
+    <span class="s2">"CRS(4326)"</span><span class="p">,</span>
+    <span class="n">setup</span><span class="o">=</span><span class="p">(</span><span class="s2">"from pyproj import CRS"</span><span class="p">),</span>
     <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -568,9 +568,9 @@ environment variable to the desired level.</p></li>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="n">console_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
-<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">"</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">console_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;pyproj&quot;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"pyproj"</span><span class="p">)</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">console_handler</span><span class="p">)</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 </pre></div>
@@ -578,7 +578,7 @@ environment variable to the desired level.</p></li>
 <p>Activate default logging config:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">"</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
