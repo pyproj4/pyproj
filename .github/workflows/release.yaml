@@ -32,6 +32,7 @@ jobs:
           environment-name: sdist_env
           create-args: >-
             python-build
+            python-gil
             twine>=1.12
             cython
             proj=${{ env.PROJ_VERSION }}
